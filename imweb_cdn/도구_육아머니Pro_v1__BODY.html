@@ -1,0 +1,533 @@
+<!-- [도구_육아머니Pro_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 14건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C; --blue:#4A7DE8;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:700px;margin-top:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+/* live chips */
+.livestrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip i{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px #E4EEEA;flex:none}
+.livechip b{color:var(--rose)}
+
+/* tool */
+.calc{margin-top:26px}
+.secttl{font-size:15.5px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;margin:6px 0 2px}
+.secttl .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:none;background:var(--pinkSoft)}
+.secttl small{font-size:12.5px;font-weight:700;color:var(--mut);margin-left:2px}
+.sectwrap{border:1px solid var(--border);border-radius:16px;padding:clamp(16px,2.2vw,22px);margin-top:14px;background:var(--bg)}
+.presetrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.preset{font-size:12.5px;font-weight:800;color:var(--ink2);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:100px;padding:7px 14px;cursor:pointer;transition:all .2s}
+.preset:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
+.preset.on{background:var(--rose);color:#fff;border-color:var(--rose)}
+.bandgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.bandcard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 15px 17px;box-shadow:var(--cardSh)}
+.bandcard h4{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px}
+.bandcard h4 .ag{font-size:11px;font-weight:800;color:#fff;background:var(--lav);border-radius:100px;padding:2px 8px}
+.bandcard h4 .ag.b{background:var(--sage)}.bandcard h4 .ag.c{background:var(--gold)}
+.bfield{margin-top:11px}
+.bfield .bl{font-size:11.5px;font-weight:800;color:var(--mut);display:flex;justify-content:space-between;align-items:baseline}
+.bfield .bl b{color:var(--ink2)}
+.browin{display:flex;align-items:center;gap:8px;margin-top:5px}
+.browin input[type=text]{border:1.5px solid var(--border);background:#fff;border-radius:10px;font-family:inherit;font-size:15px;font-weight:800;width:62px;text-align:right;color:var(--ink);padding:6px 8px}
+.browin input[type=text]:focus{outline:none;border-color:var(--rose)}
+.browin .u{font-size:12px;color:var(--mut);font-weight:700}
+.browin input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:60px}
+.browin input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 6px rgba(184,80,96,.3);cursor:pointer}
+.browin input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+@media(max-width:780px){.bandgrid{grid-template-columns:1fr}}
+.optline{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:18px;padding-top:16px;border-top:1px dashed var(--border)}
+.optblk{display:flex;flex-direction:column;gap:7px}
+.optblk .ol{font-size:12.5px;font-weight:800;color:var(--ink2)}
+.seg{display:inline-flex;background:#fff;border:1.5px solid var(--border);border-radius:100px;padding:3px;gap:2px}
+.seg button{font-family:inherit;font-size:12.5px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:100px;padding:7px 13px;cursor:pointer;transition:all .18s}
+.seg button.on{background:var(--rose);color:#fff;box-shadow:0 4px 12px rgba(184,80,96,.28)}
+.oncewrap{display:flex;align-items:center;gap:8px}
+.oncewrap input[type=text]{border:1.5px solid var(--border);background:#fff;border-radius:10px;font-family:inherit;font-size:15px;font-weight:800;width:74px;text-align:right;color:var(--ink);padding:6px 9px}
+.oncewrap input[type=text]:focus{outline:none;border-color:var(--rose)}
+.oncewrap .u{font-size:12px;color:var(--mut);font-weight:700}
+.supinfo{margin-top:16px;background:#F4F9F7;border:1px solid #D6E7E0;border-radius:13px;padding:13px 16px;font-size:12.5px;color:var(--ink2);font-weight:700;line-height:1.6}
+.supinfo b{color:var(--sage)}
+.supinfo .h{font-weight:800;color:#2F6B59;display:block;margin-bottom:3px;font-size:13px}
+
+/* result */
+.resultwrap{margin-top:22px;display:grid;grid-template-columns:1fr;gap:18px}
+.hero-out{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(24px,3.4vw,36px);text-align:center;position:relative;overflow:hidden}
+.hero-out .cap{font-size:13.5px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.hero-out .big{font-size:clamp(34px,7vw,60px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.hero-out .big small{font-size:.42em;font-weight:800;color:var(--mut);letter-spacing:-.02em}
+.hero-out .sub{font-size:14.5px;color:var(--ink2);font-weight:700;margin-top:6px}
+.hero-out .sub b{color:var(--rose)}
+.banner{display:inline-flex;align-items:center;gap:9px;margin-top:15px;padding:11px 18px;border-radius:100px;font-size:13.5px;font-weight:800;line-height:1.4;text-align:left}
+.banner.ok{background:#E4EEEA;color:#2F6B59}
+.banner.warn{background:var(--pinkSoft);color:var(--rose)}
+.banner .em{font-size:17px}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mini{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh)}
+.mini .mn{font-size:12.5px;font-weight:800;color:var(--mut)}
+.mini .mv{font-size:clamp(18px,2.3vw,23px);font-weight:800;letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums}
+.mini .mv.cost{color:var(--rose)}
+.mini .mv.help{color:var(--sage)}
+.mini .mvsub{font-size:12px;color:var(--mut);font-weight:700;margin-top:2px}
+@media(max-width:680px){.cards3{grid-template-columns:1fr}}
+.twostat{display:none;margin-top:2px;background:#EEF3FB;border:1px solid #CFDDF6;border-radius:13px;padding:13px 16px;font-size:13px;font-weight:800;color:#2A4FA0;align-items:center;gap:9px}
+.twostat.on{display:flex}
+.twostat .em{font-size:17px}
+.twostat b{color:var(--blue)}
+
+/* chart */
+.chartwrap{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:clamp(20px,2.6vw,26px)}
+.chartwrap h3{font-size:15px;font-weight:800;margin-bottom:3px}
+.chartwrap .cdesc{font-size:12.5px;color:var(--mut);font-weight:700;margin-bottom:6px}
+.chartwrap svg{width:100%;height:auto;display:block;margin-top:6px}
+#curvePaths path{transition:stroke-dashoffset 1.4s var(--ease)}
+.chlegend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.chlegend i{width:18px;height:3px;border-radius:2px;display:inline-block;margin-right:6px;vertical-align:3px}
+
+/* breakdown bands */
+.breakwrap{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:clamp(20px,2.6vw,26px)}
+.breakwrap h3{font-size:15px;font-weight:800;margin-bottom:4px}
+.breakwrap .bdesc{font-size:12.5px;color:var(--mut);font-weight:700;margin-bottom:14px}
+.bbrow{display:grid;grid-template-columns:120px 1fr 96px;align-items:center;gap:12px;padding:11px 0;border-top:1px dashed var(--border)}
+.bbrow:first-of-type{border-top:0}
+.bbrow .bn{font-size:13px;font-weight:800;display:flex;flex-direction:column;gap:2px}
+.bbrow .bn small{font-size:11px;font-weight:700;color:var(--mut)}
+.bbtrack{height:26px;background:var(--bg);border-radius:8px;overflow:hidden;display:flex;box-shadow:inset 0 1px 3px rgba(62,47,41,.08);position:relative}
+.bbtrack b{display:block;height:100%;width:0;transition:width .9s var(--ease)}
+.bbtrack .bc{background:linear-gradient(100deg,var(--rose),var(--pink))}
+.bbtrack .bh{background:linear-gradient(100deg,var(--sage),#7FB0A0)}
+.bbrow .bv{font-size:13.5px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.bbrow .bv small{display:block;font-size:11px;color:var(--mut);font-weight:700}
+.bblegend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;font-weight:700;color:var(--ink2)}
+.bblegend i{width:13px;height:13px;border-radius:4px;display:inline-block;margin-right:6px;vertical-align:-2px}
+@media(max-width:560px){.bbrow{grid-template-columns:96px 1fr 80px;gap:9px}.bbrow .bn{font-size:12px}.bbrow .bv{font-size:12px}}
+
+/* edu fund D-day */
+.eduwrap{background:linear-gradient(135deg,#fff,#FBF3EE);border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:clamp(20px,2.6vw,26px)}
+.eduwrap h3{font-size:15px;font-weight:800;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.eduwrap .edesc{font-size:12.5px;color:var(--mut);font-weight:700;margin-bottom:14px}
+.edugrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.edufield{background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:13px 14px}
+.edufield .el{font-size:12px;font-weight:800;color:var(--ink2)}
+.edufield .ein{display:flex;align-items:center;gap:7px;margin-top:7px}
+.edufield input[type=text]{border:1.5px solid var(--border);background:#fff;border-radius:10px;font-family:inherit;font-size:16px;font-weight:800;width:80px;text-align:right;color:var(--ink);padding:6px 9px}
+.edufield input[type=text]:focus{outline:none;border-color:var(--rose)}
+.edufield .u{font-size:12px;color:var(--mut);font-weight:700}
+.edufield input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:100px;background:var(--sand);outline:none;width:100%;margin-top:10px}
+.edufield input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 6px rgba(184,80,96,.3);cursor:pointer}
+.edufield input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.eduout{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:16px}
+.eduout .eo{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 17px;box-shadow:var(--cardSh)}
+.eduout .eo.hi{background:linear-gradient(135deg,var(--rose),#A03F4D);border:0}
+.eduout .eo .eon{font-size:12px;font-weight:800;color:var(--mut)}
+.eduout .eo.hi .eon{color:rgba(255,255,255,.85)}
+.eduout .eo .eov{font-size:clamp(19px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin-top:4px;font-variant-numeric:tabular-nums}
+.eduout .eo.hi .eov{color:#fff}
+.eduout .eo .eosub{font-size:11.5px;font-weight:700;color:var(--mut);margin-top:3px}
+.eduout .eo.hi .eosub{color:rgba(255,255,255,.82)}
+.edunote{font-size:12.5px;color:var(--ink2);font-weight:700;margin-top:14px;background:var(--bg);border-radius:11px;padding:12px 15px;line-height:1.6}
+.edunote b{color:var(--rose)}
+@media(max-width:680px){.edugrid{grid-template-columns:1fr}.eduout{grid-template-columns:1fr}}
+
+/* why cards */
+.whygrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.whyc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--cardSh);border-top:4px solid var(--sage)}
+.whyc.b{border-top-color:var(--rose)}
+.whyc .wt{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.whyc .wd{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.65;margin-top:8px}
+.whyc .wd b{color:var(--rose)}
+@media(max-width:680px){.whygrid{grid-template-columns:1fr}}
+
+/* teaser */
+.teaser{background:linear-gradient(135deg,var(--pinkSoft2),#fff);border:1px dashed var(--rose);border-radius:18px;padding:clamp(20px,2.6vw,26px);position:relative}
+.teaser .tlock{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--rose);text-transform:uppercase}
+.teaser h3{font-size:clamp(16px,2vw,19px);font-weight:800;margin:8px 0 6px;letter-spacing:-.02em}
+.teaser p{font-size:13.5px;color:var(--ink2);font-weight:600;line-height:1.6}
+.teaser .tlist{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.teaser .tpill{font-size:12.5px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px}
+.teaser .btn{margin-top:16px}
+
+.toolnote{font-size:12.5px;color:var(--mut);margin-top:18px;line-height:1.65;background:var(--pinkSoft2);border-radius:12px;padding:14px 17px}
+.toolnote b{color:var(--ink2)}
+.linkrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.linkkit{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--rose);font-size:14px;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:100px;padding:9px 16px;transition:all .2s}
+.linkkit:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
+.savebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.savebtn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13px;font-weight:800;color:var(--ink2);background:#fff;border:1.5px solid var(--border);border-radius:100px;padding:9px 16px;cursor:pointer;transition:all .2s}
+.savebtn:hover{border-color:var(--rose);color:var(--rose)}
+.savemsg{font-size:12.5px;font-weight:700;color:var(--sage)}
+.hidden{display:none!important}
+
+/* canonical nav */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog,#curvePaths path{transition:none}}
+:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div style="margin-left:auto;display:flex;align-items:center;gap:16px">
+<nav class="menu menu-sub" style="margin:0"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap">
+  <a class="backlink" href="/자료실_v1">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">🔒 PRO TOOL · 자료실</span>
+  <h1 class="tool-h1 reveal">아기 1년이 아니라, <span class="grad">0~7세 내내</span> 얼마가 들까?</h1>
+  <p class="lead reveal">출산 1년만 보면 정부지원이 비용을 거의 덮어줘요. 하지만 진짜 곡선은 그 뒤에 있어요. <b>해마다 드는 돈</b>과 <b>정부지원</b>이 어떻게 엇갈리는지 0세부터 7세까지 그려드릴게요. 둘째 터울 시나리오, 교육비 적립 D-day까지 — 두 사람이 같은 숫자를 보며 함께 설계하는 도구예요.</p>
+  <div class="livestrip reveal" id="liveStrip">
+    <span class="livechip"><i></i>2026 부모급여 <b>0세 100만 / 1세 50만</b></span>
+    <span class="livechip"><i></i>아동수당 <b>월 10만</b> (만 8세 미만)</span>
+    <span class="livechip"><i></i>영유아 보육료 지원단가 <b>42.6만~87.6만</b> (2026 인상)</span>
+    <span class="livechip"><i></i>초등 1인 사교육비 <b>월 44.2만</b> (통계청)</span>
+  </div>
+
+  <div class="panel calc reveal">
+
+    <!-- 입력 -->
+    <div class="secttl"><span class="ic">🍼</span>우리 아이 키우는 돈, 나이대별로 <small>월 비용 · 만원 단위 · 정부지원 빼고 실제 내는 돈만</small></div>
+    <div class="sectwrap">
+      <div class="presetrow" id="presetRow">
+        <button class="preset" data-p="thrifty" type="button">🌿 알뜰 가정양육형</button>
+        <button class="preset on" data-p="standard" type="button">⭐ 표준 어린이집형</button>
+        <button class="preset" data-p="active" type="button">🔥 사교육 적극형</button>
+      </div>
+
+      <div class="bandgrid">
+        <div class="bandcard">
+          <h4><span class="ag">영아</span>0~2세</h4>
+          <div class="bfield">
+            <div class="bl">직접 양육비 <b>월</b></div>
+            <div class="browin"><input id="dInf" type="text" inputmode="numeric" value="30"><span class="u">만원</span><input id="dInfR" type="range" min="0" max="80" step="1" value="30"></div>
+          </div>
+          <div class="bfield">
+            <div class="bl">보육·교육 본인부담 <b>월</b></div>
+            <div class="browin"><input id="eInf" type="text" inputmode="numeric" value="10"><span class="u">만원</span><input id="eInfR" type="range" min="0" max="80" step="1" value="10"></div>
+          </div>
+        </div>
+        <div class="bandcard">
+          <h4><span class="ag b">유아</span>3~5세 누리과정</h4>
+          <div class="bfield">
+            <div class="bl">직접 양육비 <b>월</b></div>
+            <div class="browin"><input id="dPre" type="text" inputmode="numeric" value="25"><span class="u">만원</span><input id="dPreR" type="range" min="0" max="80" step="1" value="25"></div>
+          </div>
+          <div class="bfield">
+            <div class="bl">보육·교육·사교육 <b>월</b></div>
+            <div class="browin"><input id="ePre" type="text" inputmode="numeric" value="30"><span class="u">만원</span><input id="ePreR" type="range" min="0" max="120" step="1" value="30"></div>
+          </div>
+        </div>
+        <div class="bandcard">
+          <h4><span class="ag c">학령초</span>6~7세</h4>
+          <div class="bfield">
+            <div class="bl">직접 양육비 <b>월</b></div>
+            <div class="browin"><input id="dSch" type="text" inputmode="numeric" value="28"><span class="u">만원</span><input id="dSchR" type="range" min="0" max="80" step="1" value="28"></div>
+          </div>
+          <div class="bfield">
+            <div class="bl">교육·사교육 <b>월</b></div>
+            <div class="browin"><input id="eSch" type="text" inputmode="numeric" value="40"><span class="u">만원</span><input id="eSchR" type="range" min="0" max="150" step="1" value="40"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="optline">
+        <div class="optblk">
+          <span class="ol">출산·산후조리 일시비용 (0세 첫해)</span>
+          <div class="oncewrap"><input id="once" type="text" inputmode="numeric" value="460"><span class="u">만원</span></div>
+        </div>
+        <div class="optblk">
+          <span class="ol">둘째 터울 시나리오</span>
+          <div class="seg" id="gapSeg">
+            <button type="button" data-gap="0" class="on">없음</button>
+            <button type="button" data-gap="2">2년</button>
+            <button type="button" data-gap="3">3년</button>
+            <button type="button" data-gap="4">4년</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="supinfo">
+        <span class="h">🎁 정부지원은 실제 제도 기준으로 자동 반영했어요</span>
+        <b>부모급여</b> 0세 월 100만 · 1세 월 50만(가정양육) · <b>아동수당</b> 0~7세 월 10만 · <b>첫만남이용권</b> 첫째 200만/둘째 이상 300만 · <b>진료비 바우처</b> 100만. 어린이집·유치원에 보내면 보육료·누리과정 지원(2026년 42.6만~87.6만)으로 본인부담이 크게 줄어요 — 그래서 위 '보육·교육'엔 <b>지원을 뺀 실제 내는 돈</b>만 넣으면 돼요.
+      </div>
+    </div>
+
+    <div class="resultwrap">
+      <div class="hero-out">
+        <div class="cap">첫째 0~7세(8년), 정부지원 빼고 우리가 메우는 돈</div>
+        <div class="big" id="bigNet">0<small>원</small></div>
+        <div class="sub" id="heroSub">8년 총비용 <b id="subCost">0원</b> · 정부지원 <b id="subHelp">0원</b></div>
+        <div class="banner ok" id="banner"><span class="em">🌱</span><span id="bannerTxt">계산 중…</span></div>
+      </div>
+
+      <div class="twostat" id="twoStat"><span class="em">👶👶</span><span id="twoTxt"></span></div>
+
+      <div class="cards3">
+        <div class="mini"><div class="mn">8년 총비용</div><div class="mv cost" id="mCost">0</div><div class="mvsub">직접 양육 + 보육·교육</div></div>
+        <div class="mini"><div class="mn">8년 정부지원</div><div class="mv help" id="mHelp">0</div><div class="mvsub">부모급여+아동수당+일시</div></div>
+        <div class="mini"><div class="mn">월평균 실부담</div><div class="mv" id="mAvg">0</div><div class="mvsub">순부담 ÷ 96개월</div></div>
+      </div>
+
+      <div class="chartwrap">
+        <h3>0~7세 비용 곡선 — 누적 순부담</h3>
+        <div class="cdesc">선이 <b>0 아래</b>면 정부지원이 비용을 앞선 상태, <b>0 위로</b> 올라가면 우리가 메워온 누적 실부담이에요. 어디서 위로 꺾이는지 보세요.</div>
+        <svg id="curveChart" viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="0~7세 누적 순부담 곡선">
+          <g id="curveGrid"></g>
+          <path id="curveArea" fill="var(--rose)" opacity="0.08" stroke="none"></path>
+          <g id="curvePaths"></g>
+          <g id="curveDots"></g>
+          <g id="curveAxis"></g>
+        </svg>
+        <div class="chlegend" id="curveLegend">
+          <span><i style="background:#B85060"></i>누적 순부담(합산)</span>
+          <span><i style="background:#D9A6A0;height:2px"></i>0원 기준선</span>
+        </div>
+      </div>
+
+      <div class="breakwrap">
+        <h3>나이대별로 뜯어보기 <span style="font-weight:700;color:var(--mut);font-size:12.5px">· 첫째 기준</span></h3>
+        <div class="bdesc">막대 = 그 시기 총비용 중 정부지원(초록)이 덮는 부분과 우리 몫(분홍). 막대가 길수록 그 시기 돈이 많이 들어요.</div>
+        <div id="bandRows"></div>
+        <div class="bblegend">
+          <span><i style="background:var(--sage)"></i>정부지원이 덮는 몫</span>
+          <span><i style="background:var(--rose)"></i>우리가 메우는 몫(순부담)</span>
+        </div>
+      </div>
+
+      <div class="eduwrap">
+        <h3>🎓 교육비 적립 D-day</h3>
+        <div class="edesc">먼 미래의 큰 교육비(예: 대학 등록금, 중·고 사교육 집중기)를 지금부터 나눠 모으면 매달 얼마면 될까요? 파킹·예금 이자까지 감안해 역산해드려요.</div>
+        <div class="edugrid">
+          <div class="edufield">
+            <div class="el">교육비 목표액</div>
+            <div class="ein"><input id="eduGoal" type="text" inputmode="numeric" value="4000"><span class="u">만원</span></div>
+            <input id="eduGoalR" type="range" min="500" max="12000" step="100" value="4000">
+          </div>
+          <div class="edufield">
+            <div class="el">모을 기간</div>
+            <div class="ein"><input id="eduYears" type="text" inputmode="numeric" value="10"><span class="u">년</span></div>
+            <input id="eduYearsR" type="range" min="1" max="18" step="1" value="10">
+          </div>
+          <div class="edufield">
+            <div class="el">이미 모은 시드</div>
+            <div class="ein"><input id="eduSeed" type="text" inputmode="numeric" value="0"><span class="u">만원</span></div>
+            <input id="eduSeedR" type="range" min="0" max="5000" step="50" value="0">
+          </div>
+        </div>
+        <div class="eduout">
+          <div class="eo hi"><div class="eon">필요한 월 적립</div><div class="eov" id="eduPmt">0원</div><div class="eosub" id="eduPmtSub">연 3.0% 예금 가정</div></div>
+          <div class="eo"><div class="eon">이자로 번 돈</div><div class="eov" id="eduInt">0원</div><div class="eosub">복리가 대신 모아준 몫</div></div>
+          <div class="eo"><div class="eon">목표 달성일</div><div class="eov" id="eduDday">–</div><div class="eosub" id="eduDdaySub">오늘부터 D-day</div></div>
+        </div>
+        <div class="edunote" id="eduNote">매달 <b>0원</b>씩 모으면 목표에 닿아요. 일찍 시작할수록 이자가 더 많은 몫을 대신 모아줘요.</div>
+      </div>
+
+      <div class="whygrid">
+        <div class="whyc">
+          <div class="wt">🌱 0~1세는 '지원이 더 큰 구간'</div>
+          <div class="wd">0세 부모급여만 1년 <b>1,200만원</b>, 1세도 600만원. 여기에 아동수당·첫만남·바우처까지 더하면 첫 1~2년은 정부지원이 직접 비용을 거의 덮어요. 곡선이 처음에 <b>0 아래</b>에 머무는 이유예요.</div>
+        </div>
+        <div class="whyc b">
+          <div class="wt">📈 곡선이 꺾이는 건 '사교육'이 시작될 때</div>
+          <div class="wd">부모급여가 끝나는 2세 이후 우리 몫이 늘고, 유아·초등 사교육이 붙으면 곡선이 가팔라져요. 유아 사교육 참여 시 월평균 <b>33만</b>, 초등은 <b>44만</b>(통계청). 그래서 지원이 클 때 <b>교육비를 미리 적립</b>해두는 설계가 힘이 돼요.</div>
+        </div>
+      </div>
+
+      <div class="savebar">
+        <button class="savebtn" id="saveBtn" type="button">💾 이 설정 저장</button>
+        <button class="savebtn" id="resetBtn" type="button">↺ 기본값으로</button>
+        <span class="savemsg hidden" id="saveMsg">이 기기에 저장했어요</span>
+      </div>
+
+      <div class="linkrow">
+        <a class="linkkit" href="/도구_출산육아1년비용_v1">출산·육아 1년 비용(기본판) →</a>
+        <a class="linkkit" href="/도구_5년머니로드맵_v1">5년 머니 로드맵 →</a>
+        <a class="linkkit" href="/도구_1억복리_v1">복리 계산기 →</a>
+      </div>
+
+      <div class="teaser" style="margin-top:18px">
+        <span class="tlock">🔒 구독자 전용 · 부부 공동 추적</span>
+        <h3>두 사람이 같은 화면에서, 자라는 내내</h3>
+        <p>입력값을 두 사람 폰에 동기화하고, 실제 지출을 매월 기록해 계획 곡선과 비교해요. 보육료 변경·교육비 적립 진척·둘째 합류까지, 아이가 자라는 동안 함께 업데이트하는 살아있는 육아 가계도예요.</p>
+        <div class="tlist">
+          <span class="tpill">부부 폰 실시간 동기화</span>
+          <span class="tpill">실제 지출 vs 계획 곡선</span>
+          <span class="tpill">교육비 적립 자동 추적</span>
+          <span class="tpill">둘째 합류 자동 반영</span>
+        </div>
+        <a class="btn btn-rose magnet" href="/home#subscribe">구독으로 공동 추적 열기 →</a>
+      </div>
+
+      <div class="toolnote">💡 <b>어떻게 계산했나요?</b> 나이대(영아 0~2세 · 유아 3~5세 · 학령초 6~7세)마다 입력한 '직접 양육비'와 '보육·교육 본인부담'을 12개월로 곱하고, 0세 첫해엔 출산·조리 일시비용을 더했어요. 정부지원은 실제 제도 기준으로 <b>자동</b> 반영해요: <b>부모급여</b> 0세 월 100만·1세 월 50만(가정양육), <b>아동수당</b> 0~7세 월 10만(만 8세 미만), <b>첫만남이용권</b> 첫째 200만·둘째 이상 300만, <b>임신·출산 진료비 바우처</b> 100만. 어린이집·유치원 이용 시 보육료·누리과정 지원(2026년 단가 42.6만~87.6만)은 '보육·교육 본인부담'을 지원 뺀 실부담으로 넣는 방식으로 반영했어요(가정양육이면 지원 구조가 달라요). 교육비 적립은 연 3.0% 월복리 예금을 가정한 <b>역산</b>이에요. 모든 값은 가정에 따라 크게 달라지는 <b>예시</b>라 우리 가족 숫자로 바꿔 쓰는 도구이고, <b>참고용</b>이며 투자·재무 권유가 아니에요. <span style="color:var(--mut)">출처: 보건복지부 2026 부모급여·아동수당, 영유아 보육료 지원단가 인상(고양신문 2026.1), 유아 사교육비 시험조사·초중고 사교육비 조사(통계청, 2026.5·2025.3 보도), 예금금리 시중·저축은행 2026.5.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk wrap" style="padding-top:0">
+  <div class="cta-band reveal">
+    <h3>아이가 자라는 속도에, 두 사람의 돈도 같이 자라게.</h3>
+    <p>매일 머니레터로 흐름을 읽고, 통장 구조는 자동으로. 부부연구소 구독으로 0세부터 입학까지 흔들리지 않게 준비해요.</p>
+    <a class="btn btn-rose magnet" href="/home#subscribe">구독하고 시작하기 →</a>
+  </div>
+</section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 정부지원은 2026년 기준이며 지자체·가구 상황(가정양육 여부, 어린이집 이용)에 따라 달라질 수 있어요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

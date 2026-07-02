@@ -1,0 +1,555 @@
+<!-- [콘텐츠_부동산_청약기초_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 15건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:880px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(44px,5.6vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}*{scroll-behavior:auto!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+h1.tit{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.74;max-width:680px;margin-top:16px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.chip.warn{color:#9A6A12;background:#FBF4E4;border-color:#EFE0BE}
+.datalabel{display:inline-flex;align-items:flex-start;gap:7px;flex-wrap:wrap;font-size:11.5px;font-weight:800;border-radius:14px;padding:8px 14px;margin-top:12px;border:1px solid;line-height:1.55}
+.dl-real{color:#3f7a6b;background:#e9f3ef;border-color:#cfe6dd}
+.dl-ex{color:#947217;background:#fbf3da;border-color:#f0e2b6}
+/* stage timeline */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:720px){.timeline{grid-template-columns:1fr}}
+.stage{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px 18px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c,var(--pink))}
+.stage .sn{font-size:11.5px;font-weight:800;letter-spacing:.08em;color:var(--mut)}
+.stage h3{font-size:17px;font-weight:800;margin:6px 0 4px;display:flex;align-items:center;gap:8px}
+.stage .em{font-size:20px}
+.stage .taxname{font-size:13.6px;font-weight:800;color:var(--c,var(--rose))}
+.stage p{font-size:12.8px;color:var(--ink2);line-height:1.6;margin-top:6px}
+/* article */
+.art{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(24px,4vw,46px);margin-top:22px}
+.dropcap::first-letter{float:left;font-size:62px;line-height:.84;font-weight:800;color:var(--rose);padding:6px 12px 0 0}
+.art p{font-size:15.6px;color:var(--ink2);margin:0 0 16px}
+.art p.big{font-size:16.4px;color:var(--ink)}
+.sec{margin-top:40px;scroll-margin-top:80px}
+.sec:first-of-type{margin-top:26px}
+.step{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--rose)}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--pinkSoft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:13px}
+.sec h2{font-size:clamp(20px,2.7vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25;margin:10px 0 6px}
+.sec h3{font-size:16.5px;font-weight:800;margin:24px 0 8px;color:var(--ink)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:32px 0}
+/* callouts */
+.note{border-radius:16px;padding:16px 18px;margin:16px 0;font-size:14.6px;line-height:1.7;border:1px solid var(--border)}
+.note .nt{font-weight:800;font-size:13.5px;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.note.tip{background:#EEF6F2;border-color:#CFE6DB}
+.note.tip .nt{color:#3C6E5E}
+.note.danger{background:#FBEAE8;border-color:#F2C9C4}
+.note.danger .nt{color:#B23B30}
+.note.info{background:var(--pinkSoft2);border-color:var(--border)}
+.note.info .nt{color:var(--rose)}
+.ic{width:18px;height:18px;flex-shrink:0;stroke-width:2.2;fill:none}
+/* compare table */
+.tblwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:13.8px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--pinkSoft2);color:var(--rose);font-weight:800;font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td b{color:var(--ink)}
+td.r,th.r{text-align:right;white-space:nowrap}
+td.c,th.c{text-align:center;white-space:nowrap}
+caption{caption-side:bottom;font-size:11.5px;color:var(--mut);padding:9px 6px 0;text-align:left;line-height:1.55}
+/* keypill */
+.keypill{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:100px;margin:2px 3px 2px 0}
+.keypill.rose{background:#FBE6E3;color:#B23B30}
+.keypill.sage{background:#E7F1EC;color:#3C6E5E}
+.keypill.gold{background:#FBF4E4;color:#9A6A12}
+.keypill.lav{background:#F1E9F4;color:#7B4E89}
+/* point badge */
+.pt{display:inline-block;font-size:12px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:8px;padding:2px 9px;white-space:nowrap}
+/* calc tool */
+.tool{background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardHi);padding:clamp(22px,3.4vw,34px);margin-top:8px}
+.toolhead{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.gaugewrap{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px 18px;box-shadow:var(--cardSh)}
+.gring{position:relative;width:104px;height:104px;flex-shrink:0}
+.gring svg{transform:rotate(-90deg)}
+.gring .gtrk{stroke:var(--pinkSoft);stroke-width:11;fill:none}
+.gring .garc{stroke:var(--rose);stroke-width:11;fill:none;stroke-linecap:round;transition:stroke-dashoffset 1s var(--ease),stroke 1s var(--ease)}
+.gring .gnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gring .gnum b{font-size:25px;font-weight:800;letter-spacing:-.02em}
+.gring .gnum s{font-size:11px;color:var(--mut);text-decoration:none;font-weight:700}
+.glabel{min-width:160px}
+.glabel .gv{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.glabel .gd{font-size:13px;color:var(--ink2);margin-top:3px;line-height:1.55}
+.calcgrid{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:680px){.calcgrid{grid-template-columns:1fr}}
+.cf{display:flex;flex-direction:column;gap:9px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--cardSh)}
+.cfl{font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cfl em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:6px;padding:2px 7px}
+.ptsel{font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);background-color:var(--bg);border:1.5px solid var(--sand);border-radius:10px;padding:10px 34px 10px 12px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23B85060' stroke-width='2' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color .2s}
+.ptsel:focus{outline:none;border-color:var(--rose)}
+.ptsel:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
+.toolfoot{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.toolfoot .fn{font-size:12px;color:var(--mut)}
+/* summary cards */
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:720px){.sumgrid{grid-template-columns:1fr}}
+.sumcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.sumcard .si{width:34px;height:34px;border-radius:10px;background:var(--pinkSoft);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.sumcard .si svg{width:19px;height:19px;stroke:var(--rose);fill:none;stroke-width:2.2}
+.sumcard h4{font-size:14.5px;font-weight:800;margin-bottom:5px}
+.sumcard p{font-size:13.2px;color:var(--ink2);line-height:1.6;margin:0}
+/* sources / disclaimer */
+.src{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:24px;font-size:12.6px;color:var(--ink2);line-height:1.72}
+.src b{color:var(--ink);font-size:13px}
+.src a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--sand)}
+.disc{font-size:12px;color:var(--mut);line-height:1.7;margin-top:18px;padding:16px 18px;border:1px dashed var(--border);border-radius:14px;background:#fff}
+/* ===relsec=== 관련 도구·칼럼 카드 */
+.relhead{font-size:18px;font-weight:800;color:var(--ink);margin:34px 0 4px;display:flex;align-items:center;gap:8px}
+.relsub{font-size:12.6px;color:var(--mut)}
+.related{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+@media(max-width:560px){.related{grid-template-columns:1fr}}
+.rcard{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:15px 17px;box-shadow:var(--cardSh);transition:transform .22s var(--ease),box-shadow .25s var(--ease),border-color .2s;color:var(--ink)}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px}
+.rcard .rk{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.04em}
+.rcard .rt{font-size:14.6px;font-weight:800;color:var(--ink)}
+.rcard .rd{font-size:12.4px;color:var(--ink2);line-height:1.6}
+footer{background:var(--ink);color:#E9DBD4;padding:38px 0 30px;margin-top:30px}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer .fl{font-weight:800;font-size:15px;color:#fff;display:flex;align-items:center;gap:8px}
+footer .fl .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+footer p{font-size:12px;color:#B6A49B;line-height:1.7}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:linear-gradient(100deg,var(--rose),var(--lav));color:#fff;font-weight:800;font-size:14px;padding:12px 22px;border-radius:100px;box-shadow:0 8px 22px rgba(184,80,96,.28);transition:transform .2s var(--ease),box-shadow .25s;align-self:flex-start}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(184,80,96,.36)}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===rehdr=== self-contained site GNB */
+#readbar{display:none!important}
+#hdr{position:sticky;top:0;z-index:1300;background:rgba(253,251,247,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border,#EAD7D3)}
+#hdr .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:16px}
+#hdr .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px;color:var(--ink,#3E2F29);text-decoration:none}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink,#D67A89);box-shadow:0 0 0 4px var(--pinkSoft,#F8E8EA)}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2,#5C4B43);margin:0;list-style:none}
+#hdr .menu a{position:relative;padding:4px 0;color:inherit;text-decoration:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink,#D67A89);border-radius:2px;transition:right .3s cubic-bezier(.16,1,.3,1)}
+#hdr .menu a:hover{color:var(--pink,#D67A89)}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink,#3E2F29)}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut,#8A7B72);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink,#D67A89)}#hdr .menu-sub a.cur{color:var(--ink,#3E2F29)}
+#hdr .cta{background:var(--rose,#B85060);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1400;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}#hdr .cta{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<!-- HERO -->
+<section class="blk" style="padding-top:clamp(30px,4vw,46px)">
+ <div class="wrap">
+  <span class="s-eyebrow reveal">주택청약 기초 · HOUSING SUBSCRIPTION 101</span>
+  <h1 class="tit reveal">청약, 용어부터 막히는<br><span class="grad">부부를 위한 첫 가이드</span></h1>
+  <p class="lead reveal">‘1순위’, ‘가점’, ‘특별공급’… 청약은 단어부터 외계어 같죠. 사실 청약은 <b>딱 세 단계</b>로 보면 단순해요. <b>입장권(청약통장)</b>을 만들고, <b>대기줄 앞자리(1순위)</b>를 잡고, <b>당첨 방식(가점·추첨·특별공급)</b> 중 나에게 맞는 길을 고르는 거예요. 숫자보다 <b>흐름</b>부터 잡아봅시다.</p>
+  <div class="metarow reveal">
+   <span class="chip">⏱ 읽는 시간 10분</span>
+   <span class="chip">🎓 교육용 기초 가이드</span>
+   <span class="chip warn">📅 2026년 기준 · 제도는 시점·지역 따라 변동</span>
+  </div>
+
+  <!-- 3-stage timeline -->
+  <div class="timeline reveal" aria-label="주택청약 3단계">
+   <div class="stage" style="--c:var(--rose)">
+    <div class="sn">STEP 1 · 입장권</div>
+    <h3><span class="em">🏦</span> 통장 만들기</h3>
+    <div class="taxname">주택청약종합저축</div>
+    <p>모든 청약의 출발점. <b>가입 기간과 납입</b>이 쌓일수록 자격과 점수가 올라가요.</p>
+   </div>
+   <div class="stage" style="--c:var(--lav)">
+    <div class="sn">STEP 2 · 앞자리</div>
+    <h3><span class="em">🎫</span> 1순위 되기</h3>
+    <div class="taxname">가입기간 · 무주택 · 세대주</div>
+    <p>같은 줄이라도 1순위가 먼저예요. <b>규제지역</b>일수록 조건이 까다로워집니다.</p>
+   </div>
+   <div class="stage" style="--c:var(--sage)">
+    <div class="sn">STEP 3 · 당첨</div>
+    <h3><span class="em">🎯</span> 내 길 고르기</h3>
+    <div class="taxname">가점 · 추첨 · 특별공급</div>
+    <p>점수가 높으면 <b>가점제</b>, 낮으면 <b>추첨</b>, 조건이 맞으면 <b>특별공급</b>이 지름길.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ARTICLE -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <article class="art reveal">
+   <p class="dropcap big">“청약통장은 만들었는데, 그다음에 뭘 해야 할지 모르겠어요.” 신혼부부 상담에서 정말 자주 듣는 말이에요. 청약은 제도가 복잡해 보이지만, 큰 그림은 <b>통장 → 1순위 → 당첨 방식</b> 세 박자로 정리됩니다. 이 글은 그 뼈대를 잡아주는 기초 가이드예요. 분양 단지마다, 그리고 그해 정책마다 세부 조건이 다르니, 실제 청약 전에는 반드시 <b>해당 단지의 ‘입주자 모집공고문’</b>과 마지막 면책 안내를 함께 확인해 주세요.</p>
+
+   <!-- SEC 1: 청약통장 -->
+   <div class="sec" id="pass">
+    <span class="step"><span class="num">1</span> 입장권 — 청약통장</span>
+    <h2>모든 청약의 출발점, 주택청약종합저축</h2>
+    <p>지금 새로 만드는 청약통장은 사실상 <b>주택청약종합저축</b> 하나로 통일됐어요. 과거의 청약저축·청약예금·청약부금은 신규 가입이 중단됐고, <b>국민주택과 민영주택 모두</b> 이 통장 하나로 청약할 수 있습니다. 나이·자격 제한 없이 누구나(미성년자 포함) 가입할 수 있어요.</p>
+
+    <h3>2024년 11월, 이렇게 바뀌었어요</h3>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>항목</th><th class="c">이전</th><th class="c">2024.11~ 변경</th></tr></thead>
+      <tbody>
+       <tr><td>월 <b>납입 인정액</b></td><td class="c">10만원</td><td class="c"><b>25만원</b></td></tr>
+       <tr><td>연 <b>소득공제 한도</b></td><td class="c">240만원</td><td class="c"><b>300만원</b></td></tr>
+       <tr><td>금리</td><td class="c">2.0~2.8%</td><td class="c"><b>2.3~3.1%</b></td></tr>
+       <tr><td>기존 통장 전환</td><td class="c">제한</td><td class="c">종합저축으로 <b>전환 허용</b><br><span style="color:var(--mut);font-weight:600;font-size:12px">(기존 납입 실적 인정)</span></td></tr>
+      </tbody>
+      <caption>※ 국토교통부 주택청약제도 개편(2024.11 시행) 기준. 소득공제는 무주택 세대주 등 요건 충족 시 납입액의 40% 공제. 금리·세부 요건은 시점 따라 변동.</caption>
+     </table>
+     <div class="datalabel dl-real">🟢 공식 발표값 · 출처 국토교통부 주택청약제도 개편(2024.11 시행)·정책브리핑 — 월 납입 인정액 10만→<b>25만원</b>(연 300만원) · 청약저축 소득공제 한도 연 <b>300만원</b>×40%(최대 120만원, 총급여 7천만원↓ 무주택 세대주) · 재확인 2026-06-08</div>
+    </div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 매달 얼마를 넣을까?</div>
+     공공분양(국민주택)은 <b>‘월 납입 인정액’의 누적</b>이 당락을 가르는 핵심이에요. 2024년 11월부터 인정 한도가 <b>월 25만원</b>으로 올랐으니, 공공분양을 노린다면 가능한 범위에서 <b>매달 꾸준히</b> 넣는 게 유리합니다. (민영주택은 매달 금액보다 ‘지역·면적별 예치금’ 충족 여부가 중요해요.)
+    </div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SEC 2: 1순위 -->
+   <div class="sec" id="prio">
+    <span class="step"><span class="num">2</span> 앞자리 — 1순위 조건</span>
+    <h2>같은 줄이라도, 1순위가 먼저입니다</h2>
+    <p>청약은 1순위 → 2순위 순으로 당첨자를 채워요. 인기 단지는 <b>1순위 안에서 마감</b>되는 경우가 대부분이라, 사실상 ‘1순위 자격’이 출발선입니다. 그런데 국민주택과 민영주택은 1순위를 따지는 방식이 달라요.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>구분</th><th>국민주택</th><th>민영주택</th></tr></thead>
+      <tbody>
+       <tr><td><b>공급 주체</b></td><td>국가·지자체·LH·지방공사 등</td><td>민간 건설사</td></tr>
+       <tr><td><b>대상</b></td><td>전용 85㎡ 이하<br><span style="color:var(--mut);font-size:12px">(수도권·도시 외 읍·면 100㎡)</span></td><td>규모 제한 없음</td></tr>
+       <tr><td><b>당첨 방식</b></td><td>순위순차제<br><span style="color:var(--mut);font-size:12px">(납입 횟수·총액 중심)</span></td><td>가점제 + 추첨제</td></tr>
+       <tr><td><b>핵심 조건</b></td><td>무주택 세대구성원</td><td>지역·면적별 <b>예치금</b> 충족</td></tr>
+      </tbody>
+      <caption>※ 큰 틀의 비교예요. 세부 자격·물량 배분은 단지별 입주자 모집공고로 확정됩니다.</caption>
+     </table>
+    </div>
+
+    <h3>규제지역은 1순위 문턱이 높아요</h3>
+    <p>투기과열지구·청약과열지역 같은 <b>규제지역</b>에서는 1순위 조건이 한층 까다로워집니다.</p>
+    <div class="note danger">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/></svg> 규제지역 1순위 핵심</div>
+     <span class="keypill rose">가입 24개월↑</span> <span class="keypill rose">무주택 세대주</span> <span class="keypill rose">5년 내 당첨 이력 없음</span> — 규제지역(투기과열·청약과열) 민영주택은 통상 <b>가입 후 24개월</b>이 지나야 하고, <b>무주택 세대주</b>만 1순위로 청약할 수 있어요. (비규제지역은 수도권 1년·비수도권 6개월 등으로 더 짧아요.)
+    </div>
+    <div class="note info">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg> ‘예치금’이 뭔가요?</div>
+     민영주택은 청약하려는 <b>지역·전용면적</b>에 따라 통장에 들어 있어야 하는 최소 금액(예치금)이 정해져 있어요. 모집공고일 <b>전날까지</b> 한 번에 채워 넣어도 인정되는 경우가 많으니, 정확한 기준 금액은 단지 공고문에서 확인하세요.
+    </div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SEC 3: 가점제 -->
+   <div class="sec" id="point">
+    <span class="step"><span class="num">3</span> 당첨 방식 ① — 가점제</span>
+    <h2>84점 만점, 세 가지로 갈립니다</h2>
+    <p>민영주택 1순위 안에서 경쟁이 붙으면, 점수가 높은 사람부터 당첨되는 <b>가점제</b>가 적용돼요(나머지는 추첨). 가점은 딱 <b>세 항목</b>, 총 <b>84점 만점</b>입니다.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>가점 항목</th><th class="c">만점</th><th>계산 방식</th></tr></thead>
+      <tbody>
+       <tr><td><b>무주택 기간</b></td><td class="c"><span class="pt">32점</span></td><td>1년당 2점. <b>만 30세</b>부터 산정(만 30세 이전 혼인 시 혼인신고일부터). 15년 이상이면 만점</td></tr>
+       <tr><td><b>부양가족 수</b></td><td class="c"><span class="pt">35점</span></td><td>0명 5점에서 시작, 1명당 5점씩. 세대원(배우자·직계존속·직계비속) 기준. 6명 이상이면 만점</td></tr>
+       <tr><td><b>통장 가입기간</b></td><td class="c"><span class="pt">17점</span></td><td>6개월 미만 1점 → 1년당 1점씩. 15년 이상이면 만점</td></tr>
+      </tbody>
+      <caption>※ 합계 32+35+17 = <b>84점 만점</b>. 가점은 입주자 모집공고일 기준으로 계산해요. 출처: 한국주택금융 청약가점제·HUG 주택청약도우미.</caption>
+     </table>
+     <div class="datalabel dl-real">🟢 공식 산식 · 출처 청약홈(한국부동산원) 청약가점제 — 무주택기간 <b>32</b> + 부양가족 <b>35</b> + 통장 가입기간 <b>17</b> = <b>84점</b> 만점 · 산정 기준일=입주자 모집공고일 · 재확인 2026-06-08</div>
+    </div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 의외로 큰 비중, ‘부양가족’</div>
+     세 항목 중 <b>부양가족 수(35점)</b>의 배점이 가장 커요. 부모님과 합가하거나 자녀가 늘면 점수가 빠르게 올라갑니다. 다만 부양가족 인정에는 <b>세대 분리·동일 세대 등록 기간</b> 같은 조건이 있으니, 공고문 기준을 꼭 확인하세요.
+    </div>
+    <div class="note info">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h6v6"/></svg> 커트라인은 어느 정도?</div>
+     절대적인 기준은 아니지만, <b>수도권 인기 지역</b>은 통상 <b>60~70점대</b>가 당첨선으로 이야기돼요. 점수가 낮다고 좌절할 필요는 없어요 — 추첨제 물량과 특별공급이라는 다른 길이 있으니까요.
+    </div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SEC 4: 특별공급 -->
+   <div class="sec" id="special">
+    <span class="step"><span class="num">4</span> 당첨 방식 ② — 특별공급</span>
+    <h2>가점이 낮아도, 나에게 맞는 ‘지름길’</h2>
+    <p>특별공급은 정책적으로 배려가 필요한 계층에게 <b>일반공급과 경쟁하지 않고</b> 별도 물량을 배정하는 제도예요. 신혼부부·생애최초처럼 부부에게 특히 유리한 유형이 많습니다. 단, 대부분 <b>무주택</b>이 기본이고 <b>세대 기준 평생 1회</b> 제한이 있어요.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>유형</th><th>핵심 대상</th></tr></thead>
+      <tbody>
+       <tr><td><b>신혼부부</b></td><td>혼인신고 <b>7년 이내</b>(또는 예비신혼·일정 자녀 요건), 부부 모두 무주택, 소득·자산 기준 충족</td></tr>
+       <tr><td><b>신생아</b> <span class="keypill rose">2024 신설</span></td><td>모집공고일 기준 <b>2년 이내 출생</b> 자녀가 있는 무주택 세대(주로 공공분양에서 우선 공급)</td></tr>
+       <tr><td><b>생애최초</b></td><td>세대 구성원 모두 <b>과거 주택 소유 이력 없음</b>, 일정 기간 소득세 납부 등</td></tr>
+       <tr><td><b>다자녀가구</b></td><td>미성년 자녀가 일정 수 이상인 무주택 세대(배점제로 선정)</td></tr>
+       <tr><td><b>노부모 부양</b></td><td>만 65세 이상 직계존속을 일정 기간 부양 중인 무주택 세대주</td></tr>
+       <tr><td><b>기관추천</b></td><td>국가유공자·장애인·중소기업 장기근속자 등(기관 추천 대상)</td></tr>
+      </tbody>
+      <caption>※ 유형별 소득·자산·자녀 요건과 물량 배분은 단지·정책에 따라 달라요. 정확한 자격은 청약홈·LH·모집공고로 확인하세요.</caption>
+     </table>
+    </div>
+    <div class="note info">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 21s-7-4.6-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.4-9.5 9-9.5 9z"/></svg> 출산 가구는 문이 더 넓어요</div>
+     최근 출산 가구를 위한 배려가 강화됐어요. 일정 시점(2023.3.28) 이후 출산한 자녀가 있으면 소득·자산 기준이 <b>자녀 1명 10%p, 2명 이상 20%p</b> 완화됩니다. <b>신생아 특별공급</b>(2024년 신설)도 공공분양에서 별도 물량을 우선 배정해요.
+     <div class="datalabel dl-real">🟢 공식 제도 · 출처 국토교통부 청약제도 개선·청약홈 — 신생아 특별·우선공급 <b>2024 신설</b>(공공분양 별도물량) · 출산가구 소득·자산요건 완화(자녀 1명 10%p·2명+ 20%p) · 정확 요건은 단지 모집공고 확인 · 재확인 2026-06-08</div>
+    </div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 부부라면 꼭 기억할 두 가지</div>
+     ① 특별공급은 <b>세대 기준 평생 1회</b>가 원칙이라, 부부가 각자 다른 유형으로 무작정 여러 번 넣을 수 없어요. ② 같은 세대에서 <b>2명 이상 중복 당첨</b>되면 부적격 처리될 수 있으니 청약 전 가족이 함께 전략을 맞춰야 해요.
+    </div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- CALC TOOL -->
+   <div class="sec" id="calc">
+    <span class="step"><span class="num">✓</span> 가점 셀프 계산</span>
+    <h2>내 청약 가점, 대략 몇 점일까?</h2>
+    <p>세 항목을 골라 <b>84점 만점</b> 기준 예상 점수를 가늠해 보세요. (교육용 어림값이에요. 실제 가점은 세대·부양가족 인정 요건에 따라 달라지며, 정확한 점수는 <b>청약홈</b>에서 확인하세요.)</p>
+
+    <div class="tool">
+     <div class="toolhead">
+      <div>
+       <div style="font-weight:800;font-size:16px">예상 청약 가점</div>
+       <div style="font-size:13px;color:var(--ink2);margin-top:3px">세 항목을 모두 고르면 점수가 채워져요</div>
+      </div>
+      <div class="gaugewrap">
+       <div class="gring">
+        <svg width="104" height="104" viewBox="0 0 104 104" aria-hidden="true">
+         <circle class="gtrk" cx="52" cy="52" r="46"/>
+         <circle class="garc" id="garc" cx="52" cy="52" r="46" stroke-dasharray="289.03" stroke-dashoffset="289.03"/>
+        </svg>
+        <div class="gnum"><b id="gpct">0</b><s>점 / 84</s></div>
+       </div>
+       <div class="glabel">
+        <div class="gv" id="gtitle" style="color:var(--mut)">시작해 볼까요</div>
+        <div class="gd" id="gdesc">세 항목을 선택하면 예상 점수가 나와요.</div>
+       </div>
+      </div>
+     </div>
+
+     <div class="calcgrid" id="calcgrid">
+      <label class="cf"><span class="cfl">무주택 기간 <em>최대 32점</em></span>
+       <select class="ptsel" aria-label="무주택 기간">
+        <option value="0">— 선택 —</option>
+        <option value="0">해당 없음(주택 보유 중)</option>
+        <option value="2">1년 미만</option>
+        <option value="8">1~4년</option>
+        <option value="16">5~9년</option>
+        <option value="26">10~14년</option>
+        <option value="32">15년 이상</option>
+       </select>
+      </label>
+      <label class="cf"><span class="cfl">부양가족 수 <em>최대 35점</em></span>
+       <select class="ptsel" aria-label="부양가족 수">
+        <option value="0">— 선택 —</option>
+        <option value="5">0명 (본인)</option>
+        <option value="10">1명</option>
+        <option value="15">2명</option>
+        <option value="20">3명</option>
+        <option value="25">4명</option>
+        <option value="30">5명</option>
+        <option value="35">6명 이상</option>
+       </select>
+      </label>
+      <label class="cf"><span class="cfl">통장 가입기간 <em>최대 17점</em></span>
+       <select class="ptsel" aria-label="청약통장 가입기간">
+        <option value="0">— 선택 —</option>
+        <option value="2">1년 미만</option>
+        <option value="4">1~2년</option>
+        <option value="7">3~5년</option>
+        <option value="11">6~9년</option>
+        <option value="15">10~14년</option>
+        <option value="17">15년 이상</option>
+       </select>
+      </label>
+     </div>
+
+     <div class="toolfoot">
+      <button class="btn btn-ghost" id="resetBtn" type="button">
+       <svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.7 3L3 8"/><path d="M3 3v5h5"/></svg> 다시 계산
+      </button>
+      <span class="fn">선택값은 저장·전송되지 않고 이 화면에서만 계산돼요. 구간은 어림값이며 실제 배점은 1년 단위입니다.</span>
+     </div>
+    </div>
+   </div>
+
+   <!-- 출처 -->
+   <div class="src">
+    <b>📚 참고한 공개 출처 (1차 자료 확인)</b><br>
+    · 청약홈(한국부동산원) — <a href="https://www.applyhome.co.kr/ar/ara/selectSubscrptIntroSpetialView.do" target="_blank" rel="noopener">APT청약안내 · 특별공급</a><br>
+    · 찾기쉬운 생활법령정보 — <a href="https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=1112&ccfNo=2&cciNo=2&cnpClsNo=1" target="_blank" rel="noopener">신혼부부 특별공급</a><br>
+    · HUG 주택도시보증공사 — <a href="https://www.khug.or.kr/khmb/m/hg/lg/hglg000020.jsp" target="_blank" rel="noopener">주택청약도우미 · 가점제</a><br>
+    · 국토교통부 — <a href="https://www.molit.go.kr/policy/stable/sta_a_01.jsp" target="_blank" rel="noopener">청약제도 개선(생애최초 확대)</a> · 주택청약제도 개편(월 납입 인정액 상향, 2024.11)<br>
+    · 대한민국 정책브리핑 — <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148930247" target="_blank" rel="noopener">청약통장 월납입 인정액 25만원 상향·소득공제</a> · 국가법령정보센터 <a href="https://www.law.go.kr/LSW/lsLawLinkInfo.do?lsId=001584" target="_blank" rel="noopener">조세특례제한법 §87(주택청약종합저축 소득공제)</a><br>
+    <span style="color:var(--mut)">제도·요건은 2026년 6월 기준으로 정리했으며(주요 수치 2026-06-08 재확인), 법령·정책 개정과 단지별 모집공고에 따라 달라질 수 있습니다.</span>
+   </div>
+
+   <!-- 면책 -->
+   <div class="disc">
+    <b style="color:var(--ink2)">⚠️ 안내 ·</b> 이 콘텐츠는 주택청약 제도의 큰 흐름을 이해하기 위한 <b>교육용 정보</b>이며, 특정 주택·분양 단지의 청약·매수를 권유하지 않습니다. 1순위 자격·가점·특별공급 요건과 소득·자산·예치금 기준은 <b>지역·시점·단지·개인 상황에 따라 수시로 바뀌므로</b>, 실제 청약 전에는 반드시 <b>청약홈, LH청약플러스, 해당 단지의 입주자 모집공고문</b>에서 최신 규정과 본인 자격을 꼭 확인하세요. 본 자료는 투자·법률 자문이 아니며, 가점 계산기는 이해를 돕기 위한 <b>어림값</b>입니다.
+   </div>
+  </article>
+
+  <!-- 한장 요약 -->
+  <div class="sumgrid">
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+    <h4>① 통장</h4>
+    <p>주택청약종합저축 하나로 통일. 2024.11부터 월 <b>25만원</b> 인정·소득공제 300만원. 꾸준한 납입이 자산.</p>
+   </div>
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M16 4h2a2 2 0 012 2v14l-6-3-6 3V6a2 2 0 012-2h2"/><path d="M9 4a3 3 0 016 0v2H9z"/></svg></div>
+    <h4>② 1순위</h4>
+    <p>인기 단지는 1순위에서 마감. <b>규제지역</b>은 가입 24개월·무주택 세대주 필수. 민영은 예치금 충족.</p>
+   </div>
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+    <h4>③ 당첨</h4>
+    <p>민영은 <b>가점(84점)</b>+추첨. 가점이 낮아도 신혼부부·신생아 <b>특별공급</b>이라는 지름길이 있어요.</p>
+   </div>
+  </div>
+
+  <!-- 관련 도구·칼럼 (relsec) -->
+  <div class="relhead reveal">🔗 같이 보면 좋아요</div>
+  <div class="relsub reveal">청약 공부 다음 단계 — 입주장 점검부터 자금·세금 준비까지 이어서 보세요.</div>
+  <div class="related">
+   <a class="rcard reveal" href="/도구_부동산_입주장캘린더_v1"><span class="rk">🏘️ 도구</span><span class="rt">입주장 캘린더</span><span class="rd">당첨 후 입주까지 — 월별 입주물량과 역전세 시그널을 미리 점검해요.</span></a>
+   <a class="rcard reveal" href="/도구_부동산_단지검색_실거래연동_v1"><span class="rk">🔍 도구</span><span class="rt">단지 검색 · 실거래 연동</span><span class="rd">관심 단지 시세를 국토부 공개 실거래 데이터 흐름으로 확인해요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_대출기초_v1"><span class="rk">🏦 칼럼</span><span class="rt">부동산 대출 기초</span><span class="rd">중도금·잔금 자금 계획의 뼈대 — LTV·DSR부터 차근차근.</span></a>
+   <a class="rcard reveal" href="/도구_부동산_취득세계산기_v1"><span class="rk">💰 도구</span><span class="rt">취득세 계산기</span><span class="rd">잔금 때 내는 취득세 미리 가늠 — 생애최초 감면(2028년까지 연장)도 함께.</span></a>
+   <a class="rcard reveal" href="/도구_부동산_평형변환_v1"><span class="rk">📐 도구</span><span class="rt">평형 ↔ ㎡ 변환</span><span class="rd">모집공고의 '전용 84㎡'가 몇 평인지 바로 환산해 보세요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_용어사전_v1"><span class="rk">🔤 칼럼</span><span class="rt">부동산 용어사전</span><span class="rd">가점제·추첨제·전매제한 등 헷갈리는 용어 60개 한 번에.</span></a>
+  </div>
+
+  <div style="text-align:center;margin-top:28px" class="reveal">
+   <a href="/머니레터_랜딩_v1" class="cta">💌 머니레터에서 더 받아보기</a>
+   <div style="font-size:12px;color:var(--mut);margin-top:10px">* 위 버튼은 미리보기용 더미 링크예요.</div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <div class="fl"><span class="dot"></span> 부부연구소 머니레터</div>
+  <p>돈 공부가 처음인 부부를 위한, 가장 쉬운 경제 이야기.</p>
+  <p style="margin-top:8px;color:#8E7A70">© 2026 부부연구소 · 본 콘텐츠는 교육·정보 제공 목적이며 투자·법률 자문이 아닙니다.</p>
+ </div>
+</footer>

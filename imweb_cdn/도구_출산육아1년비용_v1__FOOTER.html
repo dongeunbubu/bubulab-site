@@ -1,0 +1,216 @@
+<!-- [도구_출산육아1년비용_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtMan=function(n){return Math.round(n/10000).toLocaleString('ko-KR')+'만';};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+/* ===== state & fields (만원 단위 입력 → 원으로 환산) ===== */
+var $=function(id){return document.getElementById(id);};
+var LS='bubulab_baby1y_v1';
+// 일시 항목: prep,care,med,first,voucher / 매월 항목: formula,diaper,etc,gap,parent,child
+var COST_ONCE=['prep','care','med'], COST_MO=['formula','diaper','etc','gap'];
+var HELP_ONCE=['first','voucher'], HELP_MO=['parent','child'];
+var ALL=COST_ONCE.concat(COST_MO,HELP_ONCE,HELP_MO);
+var DEF={prep:120,care:300,med:40,formula:12,diaper:8,etc:10,gap:0,first:200,voucher:100,parent:100,child:10};
+
+function parseNum(el){return Math.max(0,+(String(el.value).replace(/[^0-9]/g,''))||0);}
+function clampR(r,v){return Math.min(Math.max(v,+r.min),+r.max);}
+function manToWon(m){return m*10000;}
+
+/* 값 읽기 (만원) */
+function vals(){var o={};ALL.forEach(function(k){o[k]=parseNum($(k));});return o;}
+
+function compute(animate){
+ var v=vals();
+ var gapOn=!$('gapBody').classList.contains('hidden');
+ var gapMo=gapOn?v.gap:0;
+ // 만원 단위 합산
+ var costOnce=v.prep+v.care+v.med;
+ var costMo=v.formula+v.diaper+v.etc+gapMo;
+ var costYr=costOnce+costMo*12;
+ var helpOnce=v.first+v.voucher;
+ var helpMo=v.parent+v.child;
+ var helpYr=helpOnce+helpMo*12;
+ var net=costYr-helpYr;                 // 만원 (양수=실부담, 음수=지원이 더 큼)
+ var avgMo=net/12;
+
+ // hero
+ $('heroCap').textContent= net>0?'우리 아기 1년, 실제 순부담':'우리 아기 1년, 정부지원이 더 커요';
+ var bg=$('bigNet'); var netWon=manToWon(Math.abs(net));
+ if(animate){bg.innerHTML='<span></span><small>원</small>';window.countUp(bg.firstChild,netWon,950);}
+ else{bg.innerHTML=window.fmtWon(netWon)+'<small>원</small>';}
+ $('subCost').textContent=window.fmtWon(manToWon(costYr))+'원';
+ $('subHelp').textContent=window.fmtWon(manToWon(helpYr))+'원';
+ $('heroSub').innerHTML='1년 총비용 <b>'+window.fmtWon(manToWon(costYr))+'원</b> · 2026 정부지원 <b>'+window.fmtWon(manToWon(helpYr))+'원</b>';
+
+ // banner
+ var bn=$('banner'),bt=$('bannerTxt'),em=bn.querySelector('.em');
+ if(net<=0){
+   bn.className='banner ok';em.textContent='🎉';
+   bt.innerHTML='2026 정부지원이 직접 비용보다 <b>'+window.fmtWon(manToWon(-net))+'원</b> 더 커요. 1년차 직접 양육비는 지원으로 거의 덮여요'+(gapMo>0?'.':' — 소득 공백을 넣어 현실 부담도 확인해보세요.');
+ }else{
+   bn.className='banner warn';em.textContent='⚠️';
+   bt.innerHTML='1년 실부담 약 <b>'+window.fmtWon(manToWon(net))+'원</b> · 월평균 <b>'+window.fmtWon(manToWon(avgMo))+'원</b>'+(gapMo>0?' (소득 공백 반영)':' — 미리 모아두면 든든해요')+'.';
+ }
+
+ // mini cards
+ if(animate){window.countUp($('mCost'),manToWon(costYr),900);window.countUp($('mHelp'),manToWon(helpYr),900);window.countUp($('mAvg'),manToWon(Math.abs(avgMo)),900);}
+ else{$('mCost').textContent=window.fmtWon(manToWon(costYr));$('mHelp').textContent=window.fmtWon(manToWon(helpYr));$('mAvg').textContent=window.fmtWon(manToWon(Math.abs(avgMo)));}
+
+ // compare bar
+ var mx=Math.max(costYr,helpYr,1);
+ $('barCost').style.width=(costYr/mx*100)+'%';
+ $('barHelp').style.width=(helpYr/mx*100)+'%';
+ $('cvCost').textContent=window.fmtMan(manToWon(costYr));
+ $('cvHelp').textContent=window.fmtMan(manToWon(helpYr));
+ var coverage=costYr>0?Math.round(helpYr/costYr*100):0;
+ $('cmpNote').innerHTML= costYr>0
+   ? (coverage>=100?'정부지원이 1년 비용을 <b>모두 덮고</b> '+(coverage-100)+'% 더 남아요.':'정부지원이 1년 비용의 <b>'+coverage+'%</b>를 덮어줘요. 나머지 '+(100-coverage)+'%가 우리 몫이에요.')
+   : '비용을 입력하면 정부지원이 얼마를 덮는지 보여드려요.';
+
+ // breakdown rows
+ var costItems=[['출산 준비물',v.prep,'var(--rose)'],['산후조리',v.care,'var(--pink)'],['출산 의료비',v.med,'var(--lav)'],['분유·이유식',v.formula*12,'#C9788A'],['기저귀·물티슈',v.diaper*12,'#D89AA4'],['의류·장난감·기타',v.etc*12,'#E0B0B6']];
+ if(gapMo>0)costItems.push(['소득 공백(연)',gapMo*12,'#A03F4D']);
+ var helpItems=[['부모급여(연)',v.parent*12,'var(--sage)'],['첫만남이용권',v.first,'#7FB0A0'],['아동수당(연)',v.child*12,'#6FA08F'],['진료비 바우처',v.voucher,'#A7C9BE']];
+ renderRows('costRows',costItems,animate);
+ renderRows('helpRows',helpItems,animate);
+ if(animate){window.countUp($('cTot'),manToWon(costYr),850);window.countUp($('hTot'),manToWon(helpYr),850);}
+ else{$('cTot').textContent=window.fmtWon(manToWon(costYr));$('hTot').textContent=window.fmtWon(manToWon(helpYr));}
+
+ // why card
+ $('why1').textContent=window.fmtWon(manToWon(helpYr))+'원';
+
+ // chart: 누적 순부담(원) over 0..12
+ var series=[];
+ for(var t=0;t<=12;t++){
+   var c=costOnce+costMo*t;
+   var hp=helpOnce+helpMo*t;
+   series.push(manToWon(c-hp));
+ }
+ renderChart(series,animate);
+}
+
+function renderRows(boxId,items,animate){
+ var max=1;items.forEach(function(it){max=Math.max(max,it[1]);});
+ var html='';
+ items.forEach(function(it){
+   html+='<div class="brow"><span class="bn"><i style="background:'+it[2]+'"></i>'+it[0]+'</span>'
+       +'<div class="btrack"><b style="background:'+it[2]+'" data-w="'+(it[1]/max*100)+'"></b></div>'
+       +'<span class="bv">'+window.fmtWon(manToWon(it[1]))+'</span></div>';
+ });
+ $(boxId).innerHTML=html;
+ requestAnimationFrame(function(){$(boxId).querySelectorAll('.btrack b').forEach(function(b){b.style.width=(animate?b.getAttribute('data-w'):b.getAttribute('data-w'))+'%';});});
+}
+
+function renderChart(series,animate){
+ var grid=$('cflowGrid'),paths=$('cflowPaths'),dots=$('cflowDots'),axis=$('cflowAxis'),area=$('cflowArea');
+ grid.innerHTML='';paths.innerHTML='';dots.innerHTML='';axis.innerHTML='';area.setAttribute('d','');
+ var N=12,X0=64,X1=694,Y0=22,Y1=250;
+ var lo=0,hi=0;series.forEach(function(v){lo=Math.min(lo,v);hi=Math.max(hi,v);});
+ if(hi===lo){hi+=1;lo-=1;}
+ var span=(hi-lo)||1;hi+=span*0.10;lo-=span*0.10;span=hi-lo;
+ function px(t){return X0+t/N*(X1-X0);}
+ function py(v){return Y1-((v-lo)/span)*(Y1-Y0);}
+ // grid + y labels (max, mid, 0, min) with 0 emphasis
+ var seen={};
+ [hi,(hi+lo)/2,0,lo].forEach(function(v){
+   var key=Math.round(v/100000);if(seen[key])return;seen[key]=1;
+   if(v>hi||v<lo)return;
+   var y=py(v),zero=Math.abs(v)<1;
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(zero?'#D9A6A0':'#EEE0DB')+'" stroke-width="'+(zero?'1.4':'1')+'" stroke-dasharray="'+(zero?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-9)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(zero?'0':window.fmtMan(v))+'</text>';
+ });
+ // x labels (0,3,6,9,12개월)
+ [0,3,6,9,12].forEach(function(xt){axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+22)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'개월</text>';});
+ // area between line and 0
+ var yb=py(0);
+ var areaD='M'+px(0).toFixed(1)+' '+py(series[0]).toFixed(1);
+ for(var i=1;i<=N;i++)areaD+=' L'+px(i).toFixed(1)+' '+py(series[i]).toFixed(1);
+ areaD+=' L'+px(N).toFixed(1)+' '+yb.toFixed(1)+' L'+px(0).toFixed(1)+' '+yb.toFixed(1)+' Z';
+ area.setAttribute('d',areaD);
+ // line
+ var dd=series.map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+ var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+ p.setAttribute('d',dd);p.setAttribute('fill','none');p.setAttribute('stroke','#B85060');p.setAttribute('stroke-width','2.8');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
+ paths.appendChild(p);
+ var len=p.getTotalLength?p.getTotalLength():1600;
+ if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}
+ else{p.style.strokeDasharray='none';p.style.strokeDashoffset=0;}
+ // crossover dot (first month where series<=0)
+ var cross=-1;for(var t=0;t<=N;t++){if(series[t]<=0){cross=t;break;}}
+ if(cross>0){var cx=px(cross),cy=py(series[cross]);
+   dots.innerHTML+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="5" fill="#fff" stroke="#5E8C7F" stroke-width="2.5"/>';
+   dots.innerHTML+='<text x="'+cx.toFixed(1)+'" y="'+(py(0)+(series[0]>0? -10:18)).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#5E8C7F">'+cross+'개월차 역전</text>';
+ }
+ // start & end labels
+ var ex=px(N),ey=py(series[N]);
+ dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4.5" fill="#B85060"/>';
+ dots.innerHTML+='<text x="'+(ex-6).toFixed(1)+'" y="'+(ey+(series[N]>(hi+lo)/2? 20: -10)).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="#B85060">12개월 '+(series[N]>0?'실부담 ':'여유 ')+window.fmtMan(Math.abs(series[N]))+'</text>';
+}
+
+/* ===== inputs ===== */
+function bindField(k){
+ var inp=$(k),rng=$(k+'R');
+ inp.addEventListener('input',function(){var v=parseNum(inp);inp.value=v?v.toLocaleString('ko-KR'):'';rng.value=clampR(rng,v);compute(false);});
+ inp.addEventListener('blur',function(){compute(true);});
+ rng.addEventListener('input',function(){inp.value=(+rng.value).toLocaleString('ko-KR');compute(false);});
+}
+ALL.forEach(bindField);
+
+/* chips */
+document.querySelectorAll('#firstChips .chip').forEach(function(c){c.addEventListener('click',function(){$('first').value=c.dataset.v;$('firstR').value=clampR($('firstR'),+c.dataset.v);compute(true);});});
+document.querySelectorAll('#vChips .chip').forEach(function(c){c.addEventListener('click',function(){$('voucher').value=c.dataset.v;$('voucherR').value=clampR($('voucherR'),+c.dataset.v);compute(true);});});
+
+/* 소득공백 토글 */
+$('gapToggle').addEventListener('click',function(){
+ var body=$('gapBody'),open=body.classList.contains('hidden');
+ body.classList.toggle('hidden');$('gapPm').textContent=open?'−':'+';
+ this.setAttribute('aria-expanded',String(open));
+ compute(true);
+});
+
+/* save / reset (localStorage, 기기에만) */
+function saveLS(){try{var o={};ALL.forEach(function(k){o[k]=parseNum($(k));});o._gap=!$('gapBody').classList.contains('hidden');localStorage.setItem(LS,JSON.stringify(o));var m=$('saveMsg');m.classList.remove('hidden');setTimeout(function(){m.classList.add('hidden');},2200);}catch(e){}}
+function loadLS(){try{var r=localStorage.getItem(LS);if(!r)return false;var o=JSON.parse(r);if(!o||typeof o!=='object')return false;
+ ALL.forEach(function(k){if(o[k]!=null){$(k).value=(+o[k]).toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),+o[k]);}});
+ if(o._gap){$('gapBody').classList.remove('hidden');$('gapPm').textContent='−';$('gapToggle').setAttribute('aria-expanded','true');}
+ return true;}catch(e){return false;}}
+function resetDef(){ALL.forEach(function(k){$(k).value=DEF[k].toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),DEF[k]);});$('gapBody').classList.add('hidden');$('gapPm').textContent='+';$('gapToggle').setAttribute('aria-expanded','false');try{localStorage.removeItem(LS);}catch(e){}compute(true);}
+$('saveBtn').addEventListener('click',saveLS);
+$('resetBtn').addEventListener('click',resetDef);
+
+loadLS();
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

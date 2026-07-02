@@ -1,0 +1,399 @@
+<!-- [콘텐츠_부동산_계약서특약체크리스트_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 11건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9912E;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:920px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(30px,5vw,50px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}#progFill{transition:none!important}*{scroll-behavior:auto!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+h1.tit{font-size:clamp(27px,5vw,44px);font-weight:800;letter-spacing:-.035em;line-height:1.13;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.74;max-width:720px;margin-top:16px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.chip.warn{color:#9A6A12;background:#FBF4E4;border-color:#EFE0BE}
+.chip.safe{color:#3C6E5E;background:#EEF6F2;border-color:#CFE6DB}
+/* article */
+.art{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(24px,4vw,44px);margin-top:22px}
+.dropcap::first-letter{float:left;font-size:60px;line-height:.84;font-weight:800;color:var(--rose);padding:6px 12px 0 0}
+.art p{font-size:15.6px;color:var(--ink2);margin:0 0 15px}
+.art p:last-child{margin-bottom:0}
+.sec h2{font-size:clamp(20px,2.7vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25;margin:10px 0 6px}
+.callout{background:var(--pinkSoft2);border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:14px;padding:14px 16px;margin:6px 0 4px;font-size:14.4px;color:var(--ink2);line-height:1.66}
+.callout b{color:var(--rose)}
+/* tool */
+.tool{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(20px,3.4vw,34px);margin-top:22px}
+.toolhd{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.toolhd h2{font-size:clamp(18px,2.4vw,23px);font-weight:800;letter-spacing:-.025em}
+.toolhd .sub{font-size:13px;color:var(--mut);margin-top:3px}
+.resetb{font:inherit;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:7px 14px;cursor:pointer;transition:background .2s,color .2s}
+.resetb:hover{background:var(--pinkSoft);color:var(--rose)}
+/* mode toggle */
+.modes{display:inline-flex;background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:4px;gap:4px;margin:16px 0 4px}
+.modeb{font:inherit;font-size:14px;font-weight:800;color:var(--ink2);background:transparent;border:0;border-radius:100px;padding:9px 22px;cursor:pointer;transition:color .2s;display:inline-flex;align-items:center;gap:7px}
+.modeb[aria-selected="true"]{background:#fff;color:var(--rose);box-shadow:var(--cardSh)}
+.modeb .me{font-size:15px}
+/* progress */
+.prog{display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:center;margin:16px 0 6px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:16px 18px}
+.ptrack{grid-column:1/-1;height:12px;background:#F0E2DD;border-radius:100px;overflow:hidden;order:3}
+.ptrack i{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--sage),var(--pink));transition:width .55s var(--ease)}
+.pnum{font-size:14px;font-weight:800;color:var(--ink)}
+.pnum b{color:var(--rose);font-size:22px;letter-spacing:-.03em}
+.pcrit{justify-self:end;font-size:12.5px;font-weight:800;color:#fff;background:var(--danger);border-radius:100px;padding:5px 12px}
+.pcrit.ok{background:var(--sage)}
+/* checklist */
+.stage{margin-top:18px}
+.stagehd{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.stagehd .n{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--rose);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center}
+.stagehd h3{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.stagehd .cnt{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--mut)}
+.clist{display:flex;flex-direction:column;gap:9px}
+.ci{display:flex;gap:13px;width:100%;text-align:left;background:var(--bg);border:1.5px solid var(--border);border-radius:15px;padding:13px 15px;cursor:pointer;font:inherit;transition:border-color .2s,background .2s,box-shadow .25s}
+.ci:hover{border-color:var(--pink);box-shadow:var(--cardSh)}
+.ci[aria-pressed="true"]{background:#fff;border-color:var(--sage);box-shadow:0 0 0 3px #E4F0EA}
+.cx{flex:0 0 auto;width:23px;height:23px;border-radius:7px;border:2px solid var(--sand);background:#fff;margin-top:2px;position:relative;transition:background .2s,border-color .2s}
+.ci[aria-pressed="true"] .cx{background:var(--sage);border-color:var(--sage)}
+.cx::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2.4px 2.4px 0;transform:rotate(45deg) scale(0);transition:transform .2s var(--ease)}
+.ci[aria-pressed="true"] .cx::after{transform:rotate(45deg) scale(1)}
+.cbody{flex:1}
+.chead{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:3px}
+.ctt{font-size:14.6px;font-weight:700;color:var(--ink);line-height:1.45}
+.ci[aria-pressed="true"] .ctt{color:var(--mut);text-decoration:line-through;text-decoration-color:var(--sand)}
+.must{font-size:10px;font-weight:800;color:#fff;background:var(--danger);border-radius:100px;padding:2px 8px;letter-spacing:.02em}
+.cd{font-size:12.8px;color:var(--ink2);line-height:1.58;display:block}
+.cd .src{color:var(--lav);font-weight:700}
+/* clause cards */
+.clausewrap{display:flex;flex-direction:column;gap:13px;margin-top:6px}
+.clause{border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:16px;background:#fff;box-shadow:var(--cardSh);overflow:hidden}
+.clause .ch{display:flex;align-items:center;gap:9px;padding:14px 16px 4px}
+.clause .cnum{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:8px;padding:3px 9px}
+.clause .cname{font-size:15px;font-weight:800;color:var(--ink)}
+.clause .why{font-size:12.6px;color:var(--ink2);line-height:1.6;padding:2px 16px 0}
+.clause .why b{color:var(--rose)}
+.clausebox{margin:12px 16px 14px;background:var(--bg);border:1px dashed var(--border);border-radius:12px;padding:13px 15px;position:relative}
+.clausebox p{font-size:13.6px;color:var(--ink);line-height:1.66;font-feature-settings:"tnum"}
+.clausebox .ph{color:var(--lav);font-weight:800;background:#F3ECF5;border-radius:5px;padding:0 4px}
+.copyb{font:inherit;font-size:12px;font-weight:800;color:#fff;background:var(--rose);border:0;border-radius:100px;padding:8px 16px;cursor:pointer;margin:0 16px 14px;display:inline-flex;align-items:center;gap:6px;transition:background .2s,transform .15s var(--ease)}
+.copyb:hover{background:#A3475A}
+.copyb:active{transform:scale(.96)}
+.copyb.done{background:var(--sage)}
+/* fact cards */
+.factgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin-top:18px}
+@media(max-width:680px){.factgrid{grid-template-columns:1fr}}
+.fcard{border:1px solid var(--border);border-left:4px solid var(--lav);border-radius:14px;padding:15px 16px;background:#fff;box-shadow:var(--cardSh)}
+.fcard .ft{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:5px}
+.fcard p{font-size:13px;color:var(--ink2);line-height:1.62}
+.fcard .src{display:inline-block;margin-top:8px;font-size:10.5px;font-weight:700;color:var(--lav);background:#F3ECF5;border-radius:100px;padding:3px 9px}
+.datalabel{font-size:11.5px;color:var(--mut);line-height:1.6;margin-top:16px;padding-top:12px;border-top:1px dashed var(--border)}
+.datalabel b{color:var(--ink2)}
+/* related */
+.relgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:760px){.relgrid{grid-template-columns:1fr}}
+.relcard{border:1px solid var(--border);border-radius:16px;background:#fff;box-shadow:var(--cardSh);padding:18px 18px 16px;transition:transform .25s var(--ease),box-shadow .25s}
+.relcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi)}
+.relcard .em{font-size:24px}
+.relcard h3{font-size:15.5px;font-weight:800;color:var(--ink);margin:9px 0 5px;letter-spacing:-.02em}
+.relcard p{font-size:12.8px;color:var(--ink2);line-height:1.6}
+.relcard .go{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:800;color:var(--rose)}
+/* sources & note */
+.srcbox{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:20px 22px}
+.srcbox h3{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.srcbox ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.srcbox li{font-size:12.6px;color:var(--ink2);line-height:1.58;padding-left:16px;position:relative}
+.srcbox li::before{content:"·";position:absolute;left:4px;color:var(--rose);font-weight:800}
+.note{border-radius:16px;padding:16px 18px;font-size:13px;line-height:1.66}
+.note.info{background:#F4EFEA;border:1px solid var(--border);color:var(--ink2)}
+.note .nt{font-weight:800;color:var(--ink);margin-bottom:5px;font-size:13.4px}
+.note b{color:var(--rose)}
+/* footer */
+footer{background:var(--ink);color:#E9DBD4;padding:38px 0 30px;margin-top:30px}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer .fl{font-weight:800;font-size:15px;color:#fff;display:flex;align-items:center;gap:8px}
+footer .fl .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+footer p{font-size:12px;color:#B6A49B;line-height:1.7}
+/* to-top */.live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===rehdr=== self-contained site GNB */
+#readbar{display:none!important}
+#hdr{position:sticky;top:0;z-index:1300;background:rgba(253,251,247,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border,#EAD7D3)}
+#hdr .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:16px}
+#hdr .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px;color:var(--ink,#3E2F29);text-decoration:none}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink,#D67A89);box-shadow:0 0 0 4px var(--pinkSoft,#F8E8EA)}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2,#5C4B43);margin:0;list-style:none}
+#hdr .menu a{position:relative;padding:4px 0;color:inherit;text-decoration:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink,#D67A89);border-radius:2px;transition:right .3s cubic-bezier(.16,1,.3,1)}
+#hdr .menu a:hover{color:var(--pink,#D67A89)}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink,#3E2F29)}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut,#8A7B72);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink,#D67A89)}#hdr .menu-sub a.cur{color:var(--ink,#3E2F29)}
+#hdr .cta{background:var(--rose,#B85060);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1400;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}#hdr .cta{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===cntfix=== 카운트업 숫자는 부모 통계 스타일 상속(작은-span 충돌 차단) */.cnt{font-size:inherit!important;font-weight:inherit!important;color:inherit!important;display:inline!important;letter-spacing:inherit!important;margin:0!important;line-height:inherit!important;vertical-align:baseline!important}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+<main>
+<!-- HERO -->
+<section class="blk">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">전세·계약 안전 · 특약 가이드</span>
+  <h1 class="tit">계약서 <span class="grad">'특약'</span>이<br>당신의 보증금을 지킵니다</h1>
+  <p class="lead">표준계약서의 인쇄된 조항보다 강한 건, 직접 적어 넣는 <b>특약사항</b>이에요. 민법의 많은 규정이 '특약이 있으면 그게 우선'인 <b>임의규정</b>이라서요. 전세·매매를 단계별로 체크하고, 권리를 지키는 <b>특약 문구를 그대로 복사</b>해 쓰세요.</p>
+  <div class="metarow">
+   <span class="chip warn">⚠ 교육용 예시 · 법적 효력 없음</span>
+   <span class="chip">2026년 6월 기준 · 공개 1차 출처</span>
+   <span class="chip safe">✓ 전세·매매 단계별</span>
+  </div>
+ </div>
+</section>
+
+<!-- INTRO -->
+<section class="blk" id="intro" style="padding-top:0">
+ <div class="wrap reveal">
+  <article class="art">
+   <p class="dropcap">계약이 틀어지는 사고의 상당수는 "말로는 그렇게 들었는데 계약서엔 없더라"에서 시작돼요. 부동산 계약서의 핵심 조항(매매대금·임대 기간 등)은 표준양식에 인쇄돼 있지만, <b>내 상황을 지켜 주는 건 빈칸의 특약사항</b>입니다. 잔금 전 근저당이 새로 잡히는 걸 막고, 선순위 대출이 잔금일에 말소되도록 묶고, 전입신고 사이의 '하루 빈틈'을 메우는 일은 모두 특약으로 합니다.</p>
+   <p>좋은 소식은, 특약의 힘이 법적으로도 인정된다는 점이에요. 예컨대 계약금을 받았을 때의 해제 규칙을 정한 <b>민법 제565조(해약금)는 임의규정</b>이라, 당사자가 다르게 약정하면 그 약정이 우선합니다. 근저당이 있는 집을 살 때 <b>매도인의 근저당 말소·소유권이전 의무와 매수인의 잔금 지급 의무는 '동시이행' 관계</b>라는 것도 대법원이 확인한 원칙이고요. 결국 특약은 '내가 어떤 순서로, 무엇을 조건으로 돈을 내겠다'를 글로 못 박는 일입니다.</p>
+   <div class="callout">아래 체크리스트와 문구집은 <b>가장 자주 쓰이는 예시</b>예요. 금액·기간·단지명 같은 <b>괄호 부분은 반드시 본인 계약에 맞게</b> 바꾸고, 실제 작성·해석은 공인중개사·법무사·변호사와 확인하세요. 이 페이지는 특정 계약의 안전을 보증하지 않습니다.</div>
+  </article>
+ </div>
+</section>
+
+<!-- CHECKLIST TOOL -->
+<section class="blk" id="check" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="tool">
+   <div class="toolhd">
+    <div>
+     <h2>① 단계별 안전 체크리스트</h2>
+     <div class="sub">전세 / 매매를 고르고, 끝낸 항목을 눌러 체크하세요. <b style="color:var(--danger)">필수</b> 항목은 보증금·소유권 직결.</div>
+    </div>
+    <button class="resetb" id="resetBtn" type="button">초기화</button>
+   </div>
+
+   <div class="modes" role="tablist" aria-label="계약 유형">
+    <button class="modeb" type="button" role="tab" data-mode="jeonse" aria-selected="true"><span class="me">🏠</span> 전세 계약</button>
+    <button class="modeb" type="button" role="tab" data-mode="maemae" aria-selected="false"><span class="me">🔑</span> 매매 계약</button>
+   </div>
+
+   <div class="prog">
+    <div class="pnum"><b id="progPct">0</b>% 완료 · <span id="progDone">0</span>/<span id="progTotal">0</span> 항목</div>
+    <div class="pcrit" id="progCrit">필수 0 남음</div>
+    <div class="ptrack"><i id="progFill"></i></div>
+   </div>
+
+   <div id="checklist"></div>
+
+   <div class="datalabel" id="ckLabel">
+    <b>데이터 라벨</b> · 항목은 공개 1차 출처(찾기쉬운 생활법령정보·주택도시보증공사·국토교통부 마이홈) 기반 <b>일반 예시</b>이며, 모든 거래에 동일하게 적용되지 않아요. 체크 결과는 기기에 저장되지 않습니다(새로고침 시 초기화).
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- CLAUSES TOOL -->
+<section class="blk" id="clauses" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="tool">
+   <div class="toolhd">
+    <div>
+     <h2>② 특약 문구집 (복사해서 쓰기)</h2>
+     <div class="sub">위에서 고른 유형의 핵심 특약 예시예요. <span class="ph" style="font-size:12px">괄호</span> 부분은 본인 계약에 맞게 바꾸세요.</div>
+    </div>
+   </div>
+   <div class="clausewrap" id="clauseWrap"></div>
+   <div class="datalabel">
+    <b>안내</b> · 위 문구는 <b>표준 예시</b>이며 법적 검토를 거친 정형 약관이 아니에요. 같은 취지라도 사안에 따라 표현·효력이 달라질 수 있어, <b>계약 전 공인중개사·법무사·변호사 확인</b>을 권합니다.
+   </div>
+  </div>
+  <div class="live" id="liveStatus" aria-live="polite"></div>
+ </div>
+</section>
+
+<!-- FACTS -->
+<section class="blk" id="facts" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="sec"><h2>특약을 뒷받침하는 검증된 사실</h2></div>
+  <div class="factgrid">
+   <div class="fcard">
+    <div class="ft">⚖️ 동시이행이 원칙</div>
+    <p>근저당이 있는 집을 살 때, <b>매도인의 근저당 말소·소유권이전 의무</b>와 <b>매수인의 잔금 지급 의무</b>는 동시이행 관계예요. 말소는 '빚을 갚았다'만으론 부족하고 <b>말소에 필요한 서류까지 준비</b>해야 이행으로 봅니다.</p>
+    <span class="src">대법원 91다23103 · 국가법령정보센터</span>
+   </div>
+   <div class="fcard">
+    <div class="ft">💸 계약금 = 해약금(추정)</div>
+    <p>계약금을 줬다면 민법 제565조로 <b>해약금으로 추정</b>돼요. 이행 착수 전까지 <b>매수인은 포기</b>, <b>매도인은 배액 상환</b>으로 해제 가능. 일부만 줬어도 기준은 '약정 계약금 전액'(판례). 임의규정이라 <b>특약이 우선</b>합니다.</p>
+    <span class="src">민법 제565조 · CaseNote</span>
+   </div>
+   <div class="fcard">
+    <div class="ft">⏰ 대항력엔 '하루 빈틈'</div>
+    <p>전입신고의 대항력은 <b>다음 날 0시</b>에 생기고, 확정일자는 <b>당일</b> 효력이에요. 잔금 낸 그날 임대인이 근저당을 잡으면 그 사이 권리가 앞설 수 있어, <b>'잔금일 다음 날까지 권리변동 금지' 특약</b>으로 메웁니다.</p>
+    <span class="src">찾기쉬운 생활법령정보 · 주택도시보증공사</span>
+   </div>
+   <div class="fcard">
+    <div class="ft">🔁 잔금 직전 등기 재확인</div>
+    <p>계약 후 잔금 전 사이에 <b>근저당·가압류가 끼어드는</b> 사고가 있어요. 잔금 지급 직전 <b>등기사항전부증명서를 다시 발급</b>해 계약 때와 같은지 확인하고, '변동 시 해제' 특약을 함께 넣으세요.</p>
+    <span class="src">국토교통부 마이홈 · 인터넷등기소</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- RELATED -->
+<section class="blk" id="rel" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="sec"><h2>이어서 보면 좋은 부동산 칼럼</h2></div>
+  <div class="relgrid">
+   <a class="relcard" href="/콘텐츠_부동산_등기부등본읽는법_v1">
+    <span class="em">📑</span><h3>등기부등본 읽는 법</h3>
+    <p>갑구·을구·근저당·말소순위까지. 특약을 쓰기 전 권리관계부터 읽어요.</p><span class="go">읽어보기 →</span>
+   </a>
+   <a class="relcard" href="/콘텐츠_부동산_전세사기위험체크_v1">
+    <span class="em">🚨</span><h3>전세사기 위험 신호 체크</h3>
+    <p>전세가율·신탁·미납국세… 위험 점수로 내 매물을 셀프 진단해요.</p><span class="go">체크하기 →</span>
+   </a>
+   <a class="relcard" href="/콘텐츠_부동산_임대차3법_v1">
+    <span class="em">📜</span><h3>임대차 3법 핵심</h3>
+    <p>계약갱신요구권·5% 상한·신고제. 세입자 권리를 한 번에.</p><span class="go">읽어보기 →</span>
+   </a>
+  </div>
+ </div>
+</section>
+
+<!-- SOURCES -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="srcbox">
+   <h3>출처 (공개 1차 — 2026-06-02 KST 확인)</h3>
+   <ul>
+    <li>민법 제565조(해약금) — 계약금의 해약금 추정·이행 착수 전 포기/배액 상환·임의규정 · 국가법령정보센터(law.go.kr) · CaseNote</li>
+    <li>대법원 91다23103 — 근저당권 말소·소유권이전 의무와 잔금 지급 의무의 동시이행, 말소 이행제공엔 서류 준비 필요 · 국가법령정보센터</li>
+    <li>대항력 및 우선변제권 — 인도+전입신고 다음 날 0시 / 확정일자 당일 · 찾기쉬운 생활법령정보(easylaw.go.kr)</li>
+    <li>전세 계약 단계별 유의사항·등기부등본/전입세대 확인 · 주택도시보증공사 전세사기예방센터(khug.or.kr/jeonse)</li>
+    <li>매매 계약 절차·잔금/등기·시설물 상태·정산 안내 · 국토교통부 마이홈(myhome.go.kr)</li>
+    <li>등기사항전부증명서 재확인·발급 · 인터넷등기소(iros.go.kr) · 정부24(gov.kr)</li>
+    <li>미납 국세·국세완납증명 — 홈택스(hometax.go.kr) / 안심전세 APP(주택도시보증공사)</li>
+   </ul>
+  </div>
+  <div class="note info" style="margin-top:16px">
+   <div class="nt">ℹ️ 이용 안내 · 면책</div>
+   이 페이지는 부부연구소 머니레터의 <b>교육용 체크리스트·특약 예시</b>이며 특정 매물·계약의 안전을 보증하지 않아요. 특약 문구·체크 항목은 학습을 돕기 위한 <b>일반 예시</b>로, 모든 거래에 그대로 적용되지 않고 <b>법적 효력을 보장하지 않습니다.</b> 본 콘텐츠는 <b>투자·매수 권유가 아니며</b>, 실제 계약은 등기부등본·실거래가·미납국세를 직접 확인하고 공인중개사·법무사·변호사의 검토를 받으세요. 제도와 요건(세율·기간·보증 한도 등)은 시점에 따라 달라질 수 있어요.
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <span class="fl"><span class="dot"></span> 부부연구소 머니레터</span>
+  <p>천천히, 그러나 단단하게 — 부부가 함께 짓는 돈 공부.</p>
+  <p style="margin-top:6px;color:#9C8B82">© 2026 부부연구소. 본 콘텐츠는 정보 제공·교육 목적이며 투자 권유가 아닙니다. 부동산 거래·세무·법률 판단은 반드시 전문가와 상담하세요.</p>
+ </div>
+</footer>

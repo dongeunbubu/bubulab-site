@@ -1,0 +1,389 @@
+<!-- [콘텐츠_경제공부_채권ABC_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 17건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:13px;color:var(--mut);margin-top:10px;text-align:center;line-height:1.6}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:600px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--cardSh);text-align:center;position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--rose),var(--lav));opacity:.85}
+.hstat .nm{font-size:12.5px;font-weight:800;color:var(--mut)}
+.hstat .big{font-size:clamp(24px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;color:var(--rose);margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.hstat .sub{font-size:11.5px;color:var(--mut);margin-top:6px;font-weight:600}
+.steps{margin-top:16px;display:grid;gap:11px}
+.step{background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px 14px;box-shadow:var(--cardSh)}
+.step .top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:800;color:var(--ink)}
+.step .top .amt{color:var(--rose);font-variant-numeric:tabular-nums}
+.step .bar{height:14px;border-radius:7px;background:var(--bg2);border:1px solid var(--border);margin-top:8px;overflow:hidden}
+.step .fill{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--rose),var(--lav));width:0;transition:width 1.1s var(--ease)}
+.step.hi .fill{background:linear-gradient(90deg,var(--up),#e8867d)}
+.step.mk .fill{background:linear-gradient(90deg,var(--gold),#dcc176)}
+.step.lo .fill{background:linear-gradient(90deg,var(--sage),#6fa392)}
+.step.dn .fill{background:linear-gradient(90deg,var(--down),#6f97ec)}
+.step .note{font-size:12px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.5}
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh);border-top:3px solid var(--border)}
+.face.flash{border-top-color:var(--up)}
+.face.calm{border-top-color:var(--sage)}
+.face .ft{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;display:inline-block;padding:3px 10px;border-radius:100px}
+.face.flash .ft{background:var(--up)}
+.face.calm .ft{background:var(--sage)}
+.face h4{font-size:15.5px;font-weight:800;color:var(--ink);margin-top:10px}
+.face p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.face .ex{font-size:12px;color:var(--mut);font-weight:700;margin-top:9px;border-top:1px dashed var(--border);padding-top:9px}
+.calc{margin-top:18px}
+.calc .calc-h{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.calc .calc-sub{font-size:13px;color:var(--mut);line-height:1.55;margin-bottom:14px}
+.calc-row{margin-top:16px}
+.calc-row .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.calc-row .lab output{font-size:16px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:7px;border-radius:6px;margin-top:9px;background:linear-gradient(90deg,var(--pinkSoft),var(--pink));outline:none}
+.calc-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:var(--cardSh);cursor:pointer;transition:transform .15s}
+.calc-row input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12)}
+.calc-row input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.calc-eq{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:20px;font-size:15px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.calc-eq b{color:var(--ink)}
+.calc-eq .big{font-size:clamp(22px,5vw,30px);font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.calc-rec{text-align:center;margin-top:12px;font-size:14.5px;font-weight:700;color:var(--ink2)}
+.calc-rec b{color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-verdict{margin-top:14px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:13px 16px;font-size:14px;color:var(--ink2);line-height:1.6;font-weight:600}
+.formula{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:22px 18px;margin-top:18px;box-shadow:var(--cardSh);font-variant-numeric:tabular-nums}
+.formula .res{font-size:clamp(15px,3.2vw,19px);font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.5;text-align:center}
+.formula .res .rt{color:var(--rose)}
+.formula .res .cross{color:var(--down)}
+.formula .res small{display:block;font-size:12px;color:var(--mut);font-weight:700;letter-spacing:0;margin-top:8px}
+.cmpwrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.cmp{width:100%;border-collapse:collapse;min-width:600px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--cardSh)}
+table.cmp th,table.cmp td{padding:13px 14px;text-align:right;font-size:13.5px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+table.cmp th{background:var(--pinkSoft2);color:var(--ink);font-weight:800;font-size:12.5px;text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp tr.hl td{background:var(--pinkSoft2)}
+table.cmp td.nm{font-weight:800;color:var(--ink)}
+table.cmp td.nm small{display:block;font-weight:600;color:var(--mut);font-size:11px}
+.tcap{font-size:12px;color:var(--mut);margin-top:9px;line-height:1.55}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/자료실_v1">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">경제공부 · 채권 ABC와 듀레이션</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">금리가 오르면 왜 <span class="grad">이미 산 채권이 손해일까</span></h1>
+  <div class="artmeta reveal"><span>⏱ 8분</span><span>난이도 ★★☆</span><span>경제공부 시리즈 #14</span></div>
+  <p class="artlead reveal">지난 「금리 시소」 편에서, 금리가 오르면 채권값이 빠진다는 걸 봤죠. 그런데 <b>왜</b> 그럴까요? 그리고 똑같이 금리가 1%p 올라도, 어떤 채권은 살짝 흔들리는데 어떤 채권은 −14%씩 무너지는 건 또 왜일까요? 오늘은 채권의 부품 세 개(표면금리·만기·듀레이션)를 뜯어, '금리 오르면 채권 손해'의 속을 미 국채 실데이터로 들여다볼게요.</p>
+
+  <div class="hstats stag reveal">
+    <div class="hstat"><div class="nm">미 10년물 국채금리</div><div class="big"><span class="cf" data-to="4.45" data-dec="2">0</span>%</div><div class="sub">오늘의 기준선(실데이터)</div></div>
+    <div class="hstat"><div class="nm">30년물, 금리 1%p 오르면</div><div class="big" style="color:var(--down)">−<span class="cf" data-to="14.6" data-dec="1">0</span>%</div><div class="sub">만기가 길수록 더 아파요</div></div>
+    <div class="hstat"><div class="nm">30년 vs 2년 민감도</div><div class="big" style="color:var(--lav)"><span class="cf" data-to="7.9" data-dec="1">0</span>배</div><div class="sub">같은 1%p인데 이만큼 차이</div></div>
+  </div>
+  <p class="minnote reveal">출처: PLAY UsStockInfo 국채금리(^IRX·^FVX·^TNX·^TYX) 조회 2026-06-03(미국 6/2 종가·15분 지연). 채권 가격 변화·듀레이션은 '표면금리=현재 10년물 4.45%·연 1회 쿠폰·액면 발행' 가정의 모델 계산이에요. 실제 값은 표면금리·잔존만기·신용도에 따라 달라져요.</p>
+
+  <p class="art dropcap reveal" style="margin-top:30px">채권을 어렵게 생각하지 말아요. 채권은 <b>'돈 빌려주고 받은 영수증'</b> 한 장이에요. 내가 정부나 회사에 돈을 빌려주면, 그쪽이 종이 한 장을 써줘요. 거기엔 딱 세 가지가 적혀 있어요. 만기에 돌려받을 원금(<b>액면가</b>), 그때까지 매년 받을 고정 이자율(<b>표면금리</b>), 그리고 원금을 돌려받는 날(<b>만기</b>). 이 세 개만 알면 채권의 90%는 이해한 거예요. 그리고 오늘의 모든 혼란은, 이 중 <b>표면금리가 '고정'</b>이라는 한 가지 사실에서 출발해요.</p>
+
+  <h2 class="reveal">① 채권은 '돈 빌려주고 받은 영수증'</h2>
+  <p class="art reveal">예를 들어 액면가 <b>$1,000</b>, 표면금리 <b>4%</b>, 만기 <b>10년</b>짜리 채권을 샀다고 해볼게요. 그럼 나는 앞으로 10년 동안 매년 <b>$40</b>(=$1,000×4%)씩 이자를 받고, 10년 뒤 원금 $1,000을 돌려받아요. 여기서 핵심은, 이 <b>$40이라는 이자가 처음부터 끝까지 고정</b>이라는 거예요. 세상 금리가 어떻게 변하든, 이 종이에 적힌 약속은 안 변해요.</p>
+  <div class="termgrid reveal stag">
+    <div class="term"><b>액면가(Face)</b><p>만기에 돌려받는 원금. 보통 $1,000(또는 10,000원). 이자는 여기에 표면금리를 곱해 정해져요.</p></div>
+    <div class="term"><b>표면금리(쿠폰)</b><p>매년 받을 고정 이자율. 4%면 액면 $1,000당 연 $40. 한 번 정해지면 만기까지 안 변해요.</p></div>
+    <div class="term"><b>만기(Maturity)</b><p>원금을 돌려받는 날. 2년·10년·30년처럼 길이가 다양하고, 이 길이가 오늘의 주인공이에요.</p></div>
+  </div>
+
+  <h2 class="reveal">② 왜 금리와 채권값은 반대로 갈까</h2>
+  <p class="art reveal">이제 내가 산 4% 채권을 들고 있는데, 세상 금리가 움직였다고 해봐요. 시장금리가 <b>6%로 뛰면</b> 어떻게 될까요? 이제 새로 나오는 채권은 매년 $60씩 줘요. 그런데 내 채권은 여전히 $40만 주죠. 누가 내 4%짜리를 $1,000 주고 사겠어요? 안 사요. 그래서 <b>내 채권 가격이 빠져요.</b> 새 채권과 수익률이 같아질 때까지, $1,000짜리가 약 <b>$853</b>까지 떨어져야 비로소 누군가 사가요. 반대로 시장금리가 <b>2%로 내리면</b>, 내 4%짜리는 시장의 두 배를 주는 귀한 몸이 돼서 <b>$1,180</b>까지 올라요.</p>
+  <div class="steps reveal">
+    <div class="step hi"><div class="top"><span>시장금리 2%로 하락 → 내 채권값</span><span class="amt">$1,180 (+18.0%)</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">내 4%짜리가 시장(2%)의 두 배 — 귀해져서 값이 올라요</div></div>
+    <div class="step mk"><div class="top"><span>시장금리 4% (발행 시점) → 액면 그대로</span><span class="amt">$1,000 (기준)</span></div><div class="bar"><div class="fill" data-w="84.7"></div></div><div class="note">표면금리=시장금리라 딱 액면가에 거래돼요</div></div>
+    <div class="step dn"><div class="top"><span>시장금리 6%로 상승 → 내 채권값</span><span class="amt">$853 (−14.7%)</span></div><div class="bar"><div class="fill" data-w="72.3"></div></div><div class="note">새 채권은 $60 주는데 내 건 $40 — 싸져야 팔려요</div></div>
+  </div>
+  <p class="tcap reveal">예시: 표면금리 4%·액면 $1,000·만기 10년·연 1회 이자 가정. 가격은 새 시장금리로 미래 현금흐름을 현재가치로 할인해 구한 값이에요. 값이 오르면 빨강, 빠지면 파랑(한국식 색).</p>
+  <div class="pull reveal">표면금리(쿠폰)는 고정이에요. 시장금리가 움직이면, 맞춰 움직일 수 있는 건 '가격'뿐이죠.</div>
+
+  <h2 class="reveal">③ 만기수익률(YTM) — 값이 빠지면 수익률은 오른다</h2>
+  <p class="art reveal">뉴스에서 "국채금리 급등"이라고 할 때, 그 '금리'는 표면금리가 아니라 <b>만기수익률(YTM)</b>이에요. 지금 가격에 사서 만기까지 들고 가면 연 몇 %로 굴러가나, 를 뜻하죠. 그런데 방금 봤듯이 가격이 빠지면(싸게 사면), 같은 $40 이자와 $1,000 원금을 <b>더 싼값에 받는 셈</b>이라 수익률은 거꾸로 올라가요. 그래서 '<b>채권값 하락 = 채권수익률 상승</b>'은 같은 동전의 양면이에요.</p>
+  <div class="formula reveal">
+    <div class="res">채권 <span class="cross">가격</span> ↓ &nbsp;⇄&nbsp; <span class="rt">만기수익률(YTM)</span> ↑<small>둘은 시소처럼 반대로 움직여요 — 뉴스의 '국채금리 급등'은 곧 '국채 가격 급락'</small></div>
+  </div>
+  <p class="art reveal">이게 「금리 시소」 편에서 본 '금리↑ → 채권가격↓'의 진짜 정체예요. 시장금리가 오르면 새 채권이 더 후한 이자를 주니까, 헌 채권(이미 발행된 채권)은 값을 깎아야 그 후한 새 채권과 어깨를 나란히 할 수 있는 거죠. 자, 그럼 마지막 질문 하나만 남아요. <b>'얼마나' 깎여야 할까요?</b></p>
+
+  <h2 class="reveal">④ 듀레이션 — 만기가 길수록 더 세게 흔들린다</h2>
+  <p class="art reveal">'얼마나' 빠질지를 한 숫자로 알려주는 게 <b>듀레이션(Duration)</b>이에요. 어림셈은 아주 단순해요. 가격이 몇 % 움직일지는, 듀레이션에 금리 변화를 곱한 만큼이에요.</p>
+  <div class="formula reveal">
+    <div class="res">가격 변화(%) ≈ <span class="cross">−듀레이션</span> × <span class="rt">금리 변화(%p)</span><small>듀레이션 8인 채권은 금리가 1%p 오르면 약 −8%, 1%p 내리면 약 +8%</small></div>
+  </div>
+  <p class="art reveal">듀레이션은 대략 <b>'원금을 돌려받기까지의 평균 햇수'</b>예요. 그래서 만기가 길수록 듀레이션이 커지고, 같은 금리 한 칸에도 가격이 훨씬 크게 출렁여요. 표면금리가 똑같이 4.45%인 채권을 놓고, <b>만기만 2년·5년·10년·30년으로 바꿔</b>가며 금리가 +1%p 올랐을 때를 보면 이래요.</p>
+  <div class="steps reveal">
+    <div class="step dn"><div class="top"><span>2년물 · 듀레이션 1.9</span><span class="amt">−1.85%</span></div><div class="bar"><div class="fill" data-w="12.6"></div></div><div class="note">짧아서 거의 안 흔들려요 — 곧 원금을 돌려받으니까</div></div>
+    <div class="step dn"><div class="top"><span>5년물 · 듀레이션 4.4</span><span class="amt">−4.28%</span></div><div class="bar"><div class="fill" data-w="29.3"></div></div><div class="note">중간 정도의 민감도</div></div>
+    <div class="step dn"><div class="top"><span>10년물 · 듀레이션 7.9</span><span class="amt">−7.56%</span></div><div class="bar"><div class="fill" data-w="51.7"></div></div><div class="note">가장 많이 거래되는 기준물 — 1%p에 약 −8%</div></div>
+    <div class="step dn"><div class="top"><span>30년물 · 듀레이션 16.4</span><span class="amt">−14.61%</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">같은 1%p인데 30년물은 −14.6% — 2년물의 약 8배</div></div>
+  </div>
+  <p class="tcap reveal">모델: 표면금리 4.45%(현재 미 10년물)·연 1회 쿠폰·액면 발행 가정. 금리 +1%p 상승 시 가격 변화를 현재가치로 계산. 막대는 30년물(−14.61%)을 100으로 둔 상대 크기. 실제 채권은 표면금리·이표주기에 따라 듀레이션이 조금씩 달라요.</p>
+  <div class="pull reveal">만기가 길수록 듀레이션이 커지고, 같은 금리 한 칸에 가격은 몇 배로 출렁여요 — 30년물은 2년물의 약 8배.</div>
+
+  <h2 class="reveal">⑤ 실데이터 — 지금 미국 국채 곡선</h2>
+  <p class="art reveal">그럼 지금 실제 미국 국채 금리는 만기별로 어떻게 생겼을까요? 짧은 것부터 긴 것까지 늘어놓으면 이렇게 <b>우상향</b>해요. 만기가 길수록 금리가 높은 건, 돈을 오래 묶어두는 대가(텀 프리미엄)를 더 얹어주기 때문이에요. 그리고 동시에, 만기가 긴 채권일수록 듀레이션이 커서 <b>금리 변동 위험을 더 많이 떠안죠.</b></p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>만기</th><th>현재 금리<small style="display:block;font-weight:600">실데이터·미 6/2</small></th><th>듀레이션<small style="display:block;font-weight:600">근사(par 가정)</small></th><th>금리 +1%p면<small style="display:block;font-weight:600">대략적인 가격</small></th></tr></thead>
+      <tbody>
+        <tr><td class="nm">3개월(T-Bill)</td><td>3.62%</td><td>약 0.2</td><td style="color:var(--mut)">거의 0</td></tr>
+        <tr><td class="nm">5년</td><td>4.17%</td><td>약 4.4</td><td style="color:var(--down)">약 −4%</td></tr>
+        <tr class="hl"><td class="nm">10년(기준물)</td><td>4.45%</td><td>약 7.9</td><td style="color:var(--down)">약 −8%</td></tr>
+        <tr><td class="nm">30년</td><td>4.97%</td><td>약 15</td><td style="color:var(--down);font-weight:800">약 −14%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">출처: PLAY UsStockInfo ^IRX(3개월)·^FVX(5년)·^TNX(10년)·^TYX(30년) 조회 2026-06-03(미국 6/2 종가·15분 지연). 듀레이션·가격 변화는 각 만기의 현재 금리를 표면금리로 둔 par 가정 모델 근사예요. 곡선의 모양(우상향·평탄·역전)은 날마다 바뀌고, 그 모양이 무엇을 뜻하는지는 「수익률 곡선」 편에서 다뤘어요.</p>
+  <p class="art reveal">그래서 "채권은 안전자산"이라는 말은 절반만 맞아요. <b>짧은 채권(3개월·2년)은</b> 정말로 가격이 거의 안 움직여 안전하지만, <b>긴 채권(10년·30년)은</b> 금리 방향에 따라 주식 못지않게 출렁여요. 2022년 금리 급등기에 미 장기 국채가 주식만큼 크게 빠진 게 바로 이 듀레이션 때문이었죠. '국채 = 언제나 안전'이 아니라, <b>'어떤 만기의 국채냐'</b>가 안전의 정도를 갈라요.</p>
+
+  <h2 class="reveal">⑥ 직접 움직여 보기 — 채권 가격 계산기</h2>
+  <div class="panel calc reveal">
+    <div class="calc-h">만기와 금리 변화를 넣으면, 채권 가격이 얼마나 움직이는지 바로 보여요</div>
+    <div class="calc-sub">표면금리 4.45%(현재 10년물)로 액면 발행된 채권이, 시장금리가 변할 때 어떻게 되는지 봐요. 액면 100을 기준으로, 새 가격과 변화율, 듀레이션이 함께 나와요. 처음 값은 10년물에 금리 +1%p예요.</div>
+    <div class="calc-row">
+      <div class="lab"><span>만기</span><output id="matOut">10년</output></div>
+      <input id="matIn" type="range" min="1" max="30" step="1" value="10" aria-label="만기(년)">
+    </div>
+    <div class="calc-row">
+      <div class="lab"><span>시장금리 변화</span><output id="dRateOut">+1.0%p</output></div>
+      <input id="dRateIn" type="range" min="-2" max="2" step="0.1" value="1" aria-label="시장금리 변화(%p)">
+    </div>
+    <div class="calc-eq">
+      <span>액면 100짜리 채권 →</span><span class="big" id="eqPrice">92.4</span><span>· 가격 변화 <b id="eqChg">−7.6%</b> · 듀레이션 약 <b id="eqDur">7.9</b></span>
+    </div>
+    <div class="calc-rec">짧을수록 둔감, <b id="eqHint">길수록 민감</b>해요</div>
+    <div class="calc-verdict" id="bondVerdict"></div>
+    <p class="minnote" style="margin-top:13px;text-align:left">※ 표면금리=현재 10년물 4.45%·연 1회 쿠폰의 단순 모델이에요. 실제 가격은 표면금리·잔존만기·신용등급·이표주기·세금에 따라 달라지고, 큰 금리 변화에선 어림셈(−듀레이션×변화)과 실제값이 조금 벌어져요(볼록성).</p>
+  </div>
+
+  <h2 class="reveal">⑦ 쓸 때 꼭 챙길 세 가지</h2>
+  <div class="checks reveal stag">
+    <div class="c"><i>1</i><span><b>만기까지 들면 액면가는 돌려받아요</b> — 가격이 중간에 빠져도, 부도만 안 나면 만기엔 약속된 원금($1,000)을 그대로 받아요. 손익이 확정되는 건 <b>중간에 파는 사람</b>뿐이에요. '평가손'과 '실현손'은 달라요.</span></div>
+    <div class="c"><i>2</i><span><b>볼록성(컨벡시티)을 기억하세요</b> — 같은 1%p라도 금리가 내릴 때 오르는 폭이, 오를 때 빠지는 폭보다 조금 커요(10년물: −1%p에 +8.3% vs +1%p에 −7.6%). 듀레이션 어림셈은 작은 변화에서만 정확해요.</span></div>
+    <div class="c"><i>3</i><span><b>채권형 펀드·ETF엔 만기가 없어요</b> — 만기까지 들면 원금을 회수하는 직접 보유와 달리, 펀드는 만기 없이 듀레이션만큼 금리에 계속 노출돼요. '채권 펀드는 안전'이 '가격이 안 변한다'는 뜻은 아니에요.</span></div>
+  </div>
+
+  <div class="tldr reveal"><div class="h">TL;DR</div><p>채권은 돈 빌려주고 받은 영수증 — 표면금리(쿠폰)는 고정이라, 시장금리가 오르면 내 채권은 새로 나온 더 후한 채권에 밀려 값이 빠져요(금리↔가격 시소, 값이 빠지면 만기수익률은 오름). 얼마나 빠지는지는 듀레이션이 정해요: 가격 변화 ≈ −듀레이션 × 금리 변화. 그래서 30년물은 +1%p에 −14.6%, 2년물은 −1.85%로 약 8배 차이가 나요. 지금 미 국채는 3개월 3.62%~30년 4.97%로 우상향. 단, 만기까지 들면 액면가는 돌려받고(부도만 없으면), 채권형 펀드는 만기가 없어 금리 노출이 계속돼요.</p></div>
+
+  <h2 class="reveal">용어 정리</h2>
+  <div class="termgrid reveal stag">
+    <div class="term"><b>표면금리(쿠폰)</b><p>채권에 인쇄된 고정 이자율. 액면가에 곱해 매년 받는 이자를 정해요. 시장금리가 변해도 이 숫자는 안 변해요.</p></div>
+    <div class="term"><b>액면가(Face Value)</b><p>만기에 돌려받는 원금(보통 $1,000 또는 10,000원). 쿠폰 이자는 여기에 표면금리를 곱한 값이에요.</p></div>
+    <div class="term"><b>만기수익률(YTM)</b><p>지금 가격에 사서 만기까지 들 때의 연환산 수익률. 가격이 빠지면 올라가요(반대로 움직임). 뉴스의 '채권금리'가 보통 이것.</p></div>
+    <div class="term"><b>듀레이션(Duration)</b><p>금리 1%p 변할 때 가격이 몇 % 움직이나(민감도). 대략 원금 회수까지의 평균 햇수라, 만기가 길수록 커져요.</p></div>
+  </div>
+
+  <div class="faces reveal" style="margin-top:24px"><div class="face" style="border-top-color:var(--pink)"><span class="ft" style="background:var(--pink)">먼저 읽으면 좋은 글</span><h4>금리가 오르면 내 돈은?</h4><p>오늘 글은 그 '금리 시소'의 채권 칸을 확대한 거예요. 같은 금리 인상이 대출·예금·채권·주식에 정반대로 작동하는 걸 본 <a href="/콘텐츠_딥칼럼_금리시소_2026-06" style="color:var(--rose);font-weight:800;text-decoration:underline">「금리 시소」</a> 편.</p></div><div class="face" style="border-top-color:var(--rose)"><span class="ft" style="background:var(--rose)">이어 읽기</span><h4>수익률 곡선 — 만기별 금리를 이으면</h4><p>오늘 본 우상향 곡선이 평탄해지거나 거꾸로 뒤집히면 무슨 뜻일까요? 만기별 금리의 모양으로 경기를 읽는 <a href="/콘텐츠_경제공부_수익률곡선_2026-06" style="color:var(--rose);font-weight:800;text-decoration:underline">「수익률 곡선」</a> 편.</p></div></div>
+
+  <p class="byline reveal">— 부부연구소 머니레터 · 경제공부 시리즈 #14</p>
+  <div class="discm reveal">본 콘텐츠는 채권의 기본 구조(표면금리·만기·만기수익률)와 듀레이션 개념을 쉽게 설명하기 위한 <b>교육용 자료</b>이며, 특정 채권·종목의 매수·매도를 권유하지 않습니다. 미국 국채금리(3개월·5년·10년·30년)는 PLAY UsStockInfo로 2026-06-03 조회한 값이며 미국 6/2 종가(15분 지연) 기준이라, 발행·열람 시점에 따라 달라질 수 있어요. 채권 가격 변화·듀레이션 수치는 '표면금리=현재 10년물 4.45%·연 1회 쿠폰·액면 발행'을 가정한 <b>단순 모델 계산</b>이라, 실제 채권 가격은 표면금리·잔존만기·신용등급·이표주기·세금·유동성에 따라 달라지고 어림셈과 오차가 생깁니다(볼록성). 금리의 방향은 누구도 단정할 수 없으니 '예측'이 아니라 '구조 이해'로 읽어주세요. 투자의 최종 판단과 책임은 본인에게 있어요.</div>
+</div></section>
+
+<section class="blk wrap reveal"><div class="art"><div class="cta-band">
+  <h3>채권 한 장의 영수증까지 같이 읽는 머니레터</h3>
+  <p>표면금리 한 줄, 듀레이션 한 칸까지. 부부연구소가 매주 한 편씩, 어려운 자(尺)를 같이 읽어드릴게요.</p>
+  <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="ftlogo"><span class="dot"></span>부부연구소</div>
+  <nav class="ft"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/자료실_v1">자료실</a><a href="/스토리_우리이야기_v1">스토리</a><a href="/정책_개인정보처리방침_v1">개인정보처리방침</a><a href="/정책_이용약관_v1">이용약관</a></nav>
+  <p class="ftnote">© 2026 부부연구소. 본 자료는 교육·정보 제공 목적이며 투자 권유가 아닙니다. 수치는 2026-06-03 조회 시점 기준이며 변동될 수 있습니다.</p>
+</div></footer>

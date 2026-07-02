@@ -1,0 +1,160 @@
+<!-- [도구_머니데이트카드_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.countUp=function(el,to,dur,suf){to=+to;dur=dur||700;suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var CATS={
+ spend:{name:'소비 가치관',emoji:'💸',color:'var(--rose)'},
+ goal:{name:'목표·미래',emoji:'🎯',color:'var(--lav)'},
+ daily:{name:'일상·살림',emoji:'🏠',color:'var(--sage)'},
+ risk:{name:'위기·리스크',emoji:'🛡️',color:'var(--gold)'},
+ dream:{name:'꿈·약속',emoji:'💞',color:'var(--pink)'}
+};
+var CARDS=[
+ {c:'spend',q:'이번 달에 가장 잘 썼다고 생각하는 돈은 뭐예요?',n:'잘 쓴 돈을 칭찬하는 대화는 의외로 사이를 좋게 해요. 서로의 "가치"가 어디 있는지 보이거든요:)'},
+ {c:'spend',q:'둘 중 누가 더 "아끼는 사람"이라고 생각해요? 이유도 같이요.',n:'정답을 찾기보다, 서로 다른 소비 온도를 인정하는 게 먼저예요,, 그 차이가 우리 집 균형이 되거든요.'},
+ {c:'spend',q:'한 달에 "나를 위한 돈"은 얼마가 적당할까요?',n:'각자의 용돈 한도를 같이 정해두면 죄책감도, 잔소리도 줄어요. 작게 시작해봐요.'},
+ {c:'spend',q:'최근에 "이건 좀 아까웠다" 싶은 지출이 있었어요?',n:'후회한 지출을 솔직하게 꺼내면 다음 달이 달라져요. 탓하지 말고 같이 웃으며 봐요:)'},
+ {c:'spend',q:'외식·배달, 우리 집 적정선은 어디쯤일까요?',n:'줄이자는 얘기보다 "우리에게 맞는 선"을 찾는 대화로 가면 좋아요. 행복도 예산의 일부니까요.'},
+ {c:'spend',q:'명품·여행처럼 큰돈 쓰는 기준, 둘이 같나요?',n:'큰 지출의 기준선을 미리 맞춰두면 "왜 그걸 샀어?" 같은 다툼이 확 줄어요.'},
+ {c:'goal',q:'1년 뒤, 통장에 얼마가 있으면 "잘했다" 싶을까요?',n:'막연한 목표를 숫자로 바꾸는 순간 계획이 시작돼요. 둘의 숫자를 맞춰봐요.'},
+ {c:'goal',q:'우리 부부의 "5년 안에 꼭" 목표 하나만 정한다면?',n:'딱 하나만 정해도 돼요. 같은 곳을 보는 것만으로 저축에 힘이 붙거든요:)'},
+ {c:'goal',q:'내 집 마련, 우리에게 얼마나 중요한 일이에요?',n:'집에 대한 생각이 다르면 돈 계획 전체가 흔들려요. 솔직한 온도부터 확인해봐요.'},
+ {c:'goal',q:'노후의 우리 모습, 어떻게 그리고 있어요?',n:'먼 얘기 같지만, 일찍 그려볼수록 오늘의 저축이 즐거워져요. 천천히 상상해봐요.'},
+ {c:'goal',q:'지금 가장 이루고 싶은 "돈 드는 꿈"은 뭐예요?',n:'꿈에 가격표를 붙여보면 막연함이 계획으로 바뀌어요. 같이 견적 내볼까요?'},
+ {c:'goal',q:'둘이 합쳐 "비상금"은 얼마나 있어야 안심될까요?',n:'안심의 기준은 사람마다 달라요. 우리 집 숫자를 같이 정하면 불안이 줄어들어요.'},
+ {c:'daily',q:'생활비 관리, 지금 방식에 둘 다 만족하나요?',n:'한 명만 떠안고 있으면 언젠가 지쳐요. 역할을 나누는 대화부터 시작해봐요.'},
+ {c:'daily',q:'공동 통장 vs 각자 통장, 우리에겐 뭐가 맞을까요?',n:'정답은 없어요. 우리 성향에 맞는 구조를 같이 찾는 게 핵심이에요.'},
+ {c:'daily',q:'가계부, 누가·어떻게 보면 좋을까요?',n:'완벽하게 쓰려 하지 말고, 둘이 가끔 같이 들여다보는 것부터요. 그게 더 오래가요:)'},
+ {c:'daily',q:'고정비(통신·구독·보험) 중 점검해보고 싶은 게 있어요?',n:'조용히 새는 돈은 둘이 같이 봐야 보여요. 이번 주말에 10분만 점검해봐요.'},
+ {c:'daily',q:'돈 때문에 최근에 살짝 서운했던 순간, 있었어요?',n:'작은 서운함을 빨리 꺼내면 큰 다툼이 안 돼요. 탓이 아니라 마음을 나누는 거예요,,'},
+ {c:'daily',q:'우리 집 "돈 회의"를 정기적으로 한다면 언제가 좋을까요?',n:'정해진 시간이 있으면 돈 얘기가 덜 무거워져요. 커피 한 잔 하면서요:)'},
+ {c:'risk',q:'갑자기 소득이 끊기면 우리는 몇 달 버틸 수 있을까요?',n:'상상만 해도 불안하죠? 그래서 미리 얘기해두면 오히려 든든해져요. 같이 점검해봐요.'},
+ {c:'risk',q:'투자에서 돈을 잃었을 때, 서로 어떻게 대하면 좋을까요?',n:'손실보다 무서운 건 그때의 다툼이에요. "이럴 땐 이렇게" 미리 약속해두면 좋아요.'},
+ {c:'risk',q:'빚(대출)에 대한 우리 둘의 생각, 같은 편인가요?',n:'빚을 보는 온도가 다르면 큰 결정에서 부딪혀요. 지금 맞춰두면 나중이 편해요.'},
+ {c:'risk',q:'큰 병·사고처럼 예상 못 한 일, 어떻게 대비하고 있어요?',n:'보험과 비상금은 "안 쓰면 좋은 돈"이에요. 부담 없이 점검만 해봐요.'},
+ {c:'risk',q:'한 사람이 큰돈을 잃어도 가정이 흔들리지 않으려면?',n:'최악을 미리 그려보는 건 비관이 아니라 사랑이에요. 안전선을 같이 정해봐요.'},
+ {c:'risk',q:'돈 문제로 가장 크게 다퉜던 기억, 솔직히 나눠볼래요?',n:'지난 다툼을 차분히 복기하면 같은 실수를 안 해요. 이번엔 웃으면서 얘기해봐요:)'},
+ {c:'dream',q:'돈 걱정이 하나도 없다면, 내일 뭘 하고 싶어요?',n:'이 대답 안에 우리가 진짜 원하는 삶이 들어 있어요. 그게 목표의 씨앗이에요.'},
+ {c:'dream',q:'함께 만든 돈으로 꼭 해보고 싶은 "버킷리스트"는?',n:'같이 적은 리스트는 저축의 가장 다정한 이유가 돼요. 하나씩 채워가요:)'},
+ {c:'dream',q:'10년 뒤, 우리는 어디서 어떻게 살고 있을까요?',n:'구체적으로 그릴수록 오늘의 선택이 또렷해져요. 영화 한 장면처럼 그려봐요.'},
+ {c:'dream',q:'서로에게 "돈에 대해 고마웠던 점" 하나씩 말해볼까요?',n:'돈 얘기가 늘 무거울 필요는 없어요. 고마움을 나누면 다음 대화가 쉬워져요.'},
+ {c:'dream',q:'부모님·가족 지원, 우리 둘의 원칙은 무엇으로 할까요?',n:'민감하지만 꼭 필요한 대화예요. 미리 원칙을 정해두면 서로 덜 상처받아요,,'},
+ {c:'dream',q:'아이 계획이 있다면(혹은 없다면), 돈 그림은 어떻게 달라질까요?',n:'큰 결정일수록 숫자를 같이 봐야 해요. 정답이 아니라 "우리 답"을 찾는 거예요.'},
+ {c:'dream',q:'지금 우리 재무 상태, 100점 중 몇 점쯤 줄까요?',n:'각자 매긴 점수가 다르면 그 차이가 대화 주제가 돼요. 점수보다 이유가 중요해요:)'},
+ {c:'dream',q:'오늘 이 대화 끝에, 같이 시작해볼 작은 약속 하나는?',n:'거창하지 않아도 돼요. 작은 약속 하나가 1년 뒤 큰 차이를 만들어요. 옆에서 같이 응원할게요!'}
+];
+
+var $=function(id){return document.getElementById(id);};
+var FKEY='bbl_moneydate_fav_v1', SKEY='bbl_moneydate_seen_v1';
+var cat='all',queue=[],cur=-1,drawn=0,favs=[],seen={};
+
+function loadFav(){try{var r=localStorage.getItem(FKEY);favs=r?JSON.parse(r):[];if(!Array.isArray(favs))favs=[];}catch(e){favs=[];}}
+function saveFav(){try{localStorage.setItem(FKEY,JSON.stringify(favs));}catch(e){}}
+
+function loadSeen(){try{var r=localStorage.getItem(SKEY);var a=r?JSON.parse(r):[];seen={};if(Array.isArray(a)){a.forEach(function(i){i=+i;if(i>=0&&i<CARDS.length)seen[i]=true;});}}catch(e){seen={};}}
+function saveSeen(){try{var a=[];for(var k in seen){if(seen[k])a.push(+k);}localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+function seenCount(){var n=0;for(var k in seen){if(seen[k])n++;}return n;}
+function markSeen(i){if(i>=0&&i<CARDS.length&&!seen[i]){seen[i]=true;saveSeen();}}
+function renderProg(){var T=CARDS.length,n=seenCount(),pct=T>0?Math.round(n/T*100):0;
+ $('seenN').textContent=n;$('seenT').textContent=T;
+ $('pgfill').style.width=pct+'%';$('pgbar').setAttribute('aria-valuenow',pct);
+ var box=$('deckprog'),msg=$('pgmsg'),done=(T>0&&n>=T);
+ box.classList.toggle('done',done);
+ if(done)msg.innerHTML='🎉 '+T+'장을 모두 펼쳤어요 — 우리 부부 머니 대화 <b>풀코스 완주</b>예요! 마음에 남은 질문은 ♡로 다시 꺼내봐요.';
+ else if(n===0)msg.textContent='카드를 한 장씩 펼치다 보면 여기가 채워져요. 한 번에 다 안 해도 괜찮아요 :)';
+ else msg.innerHTML='남은 <b>'+(T-n)+'장</b>도 천천히 — 한 주에 한두 장이면 충분해요.';
+}
+
+function pool(){var a=[];for(var i=0;i<CARDS.length;i++){if(cat==='all'||CARDS[i].c===cat)a.push(i);}return a;}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function refillQueue(){queue=shuffle(pool());if(queue.length>1&&queue[0]===cur){queue.push(queue.shift());}}
+
+function render(){
+ var card=CARDS[cur],m=CATS[card.c];
+ $('card').style.setProperty('--cc',m.color);
+ $('fEmo').textContent=m.emoji;$('bEmo').textContent=m.emoji;$('fCat').textContent=m.name;
+ $('fQ').textContent=card.q;$('bQ').textContent=card.q;$('bNote').textContent=card.n;
+ var on=favs.indexOf(cur)>-1;var ht=$('heart');
+ ht.classList.toggle('on',on);ht.setAttribute('aria-pressed',on?'true':'false');ht.textContent=on?'♥':'♡';
+}
+function deal(){var w=$('cardwrap');w.classList.remove('deal');void w.offsetWidth;w.classList.add('deal');}
+function draw(){
+ if(!queue.length)refillQueue();
+ cur=queue.shift();
+ $('card').classList.remove('flipped');
+ render();deal();
+ drawn++;window.countUp($('drawn'),drawn,500,'');
+ markSeen(cur);renderProg();
+}
+function flip(){$('card').classList.toggle('flipped');}
+
+function renderFav(){
+ var box=$('favlist'),empty=$('favempty');box.innerHTML='';
+ $('favn').textContent=favs.length;
+ if(!favs.length){empty.style.display='';return;}
+ empty.style.display='none';
+ favs.forEach(function(id){var c=CARDS[id],m=CATS[c.c];
+  var row=document.createElement('div');row.className='fav';row.style.setProperty('--cc',m.color);
+  row.innerHTML='<span class="fc">'+m.emoji+' '+m.name+'</span><span class="ft2">'+c.q+'</span>';
+  var rm=document.createElement('button');rm.className='rm';rm.type='button';rm.setAttribute('aria-label','담은 카드 빼기');rm.textContent='×';
+  rm.addEventListener('click',function(){var k=favs.indexOf(id);if(k>-1)favs.splice(k,1);saveFav();renderFav();if(id===cur)render();});
+  row.appendChild(rm);box.appendChild(row);});
+}
+function toggleFav(){var k=favs.indexOf(cur);if(k>-1)favs.splice(k,1);else favs.push(cur);saveFav();render();renderFav();}
+
+$('card').addEventListener('click',function(e){if(e.target.closest('.heart'))return;flip();});
+$('card').addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();flip();}});
+$('heart').addEventListener('click',function(e){e.stopPropagation();toggleFav();});
+$('next').addEventListener('click',draw);
+$('shuffle').addEventListener('click',function(){var dk=$('deck');dk.classList.remove('shake');void dk.offsetWidth;dk.classList.add('shake');refillQueue();draw();});
+$('copy').addEventListener('click',function(){var c=CARDS[cur];var txt='💬 머니 데이트 카드 ['+CATS[c.c].name+'] "'+c.q+'" — 부부연구소 자료실';if(navigator.clipboard)navigator.clipboard.writeText(txt);var b=$('copy');var o=b.textContent;b.textContent='복사됐어요!';setTimeout(function(){b.textContent=o;},1500);});
+$('clearfav').addEventListener('click',function(){if(!favs.length)return;favs=[];saveFav();renderFav();render();});
+Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(ch){ch.addEventListener('click',function(){
+ cat=ch.getAttribute('data-c');
+ document.querySelectorAll('.chip').forEach(function(x){var on=x===ch;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on?'true':'false');});
+ refillQueue();draw();
+});});
+
+$('total').textContent=CARDS.length;
+(function(){var rb=$('pgReset'),armed=false,tmr=null,orig=rb.textContent;
+ rb.addEventListener('click',function(){
+  if(!seenCount()){return;}
+  if(!armed){armed=true;rb.textContent='정말 초기화?';rb.style.color='var(--rose)';tmr=setTimeout(function(){armed=false;rb.textContent=orig;rb.style.color='';},3000);return;}
+  clearTimeout(tmr);armed=false;rb.textContent=orig;rb.style.color='';
+  seen={};saveSeen();renderProg();
+ });
+})();
+loadFav();loadSeen();renderFav();renderProg();refillQueue();draw();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

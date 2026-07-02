@@ -1,0 +1,224 @@
+<!-- [도구_연말정산절세체크_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countNum=function(el,to,dur,dec,suf){if(!el)return;to=+to;dur=dur||900;dec=dec||0;suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);var v=to*e;el.textContent=(dec?v.toFixed(dec):Math.round(v).toLocaleString('ko-KR'))+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+function num(el){return Math.max(0,+(String(el.value).replace(/[^0-9]/g,''))||0);}
+
+// 한도 상수 (원)
+var PEN_CAP=6000000, PEN_IRP_CAP=9000000, RENT_CAP=10000000, SUB_CAP=3000000;
+
+// 근로소득공제 (총급여 G, 원 단위) → 원
+function earnedDeduction(G){
+ if(G<=5000000)return G*0.7;
+ if(G<=15000000)return 3500000+(G-5000000)*0.4;
+ if(G<=45000000)return 7500000+(G-15000000)*0.15;
+ if(G<=100000000)return 12000000+(G-45000000)*0.05;
+ return Math.min(20000000,14750000+(G-100000000)*0.02);
+}
+// 한계세율(지방소득세 10% 포함) — 과표 추정 기준
+function marginalRate(G){
+ var taxable=Math.max(0, G-earnedDeduction(G)-15000000); // 인적·기타공제 단순 가정 1,500만
+ if(taxable<=14000000)return 0.066;
+ if(taxable<=50000000)return 0.165;
+ if(taxable<=88000000)return 0.264;
+ if(taxable<=150000000)return 0.385;
+ if(taxable<=300000000)return 0.418;
+ if(taxable<=500000000)return 0.44;
+ if(taxable<=1000000000)return 0.462;
+ return 0.495;
+}
+
+function compute(){
+ var G=num($('sal'));
+ var ho=$('ho').classList.contains('on');
+ var penRate=(G<=55000000)?0.165:0.132;
+ var rentRate=(G<=55000000)?0.17:((G<=80000000)?0.15:0);
+ var mRate=marginalRate(G);
+
+ var pen=num($('pen')), irp=num($('irp')), rent=num($('rent')), sub=num($('sub')), med=num($('med')), don=num($('don'));
+
+ // 연금계좌: 연금저축 600 한도 + 합산 900 한도
+ var penElig=Math.min(pen,PEN_CAP);
+ var irpRoom=Math.max(0,PEN_IRP_CAP-penElig);
+ var irpElig=Math.min(irp,irpRoom);
+ var penSave=penElig*penRate;
+ var irpSave=irpElig*penRate;
+
+ // 월세
+ var rentEligible=ho && rentRate>0;
+ var rentBase=rentEligible?Math.min(rent,RENT_CAP):0;
+ var rentSave=rentBase*rentRate;
+
+ // 주택청약 (소득공제 → 한계세율)
+ var subEligible=ho && G<=70000000;
+ var subDed=subEligible?Math.min(sub,SUB_CAP)*0.4:0;
+ var subSave=subDed*mRate;
+
+ // 의료비 (총급여 3% 초과분 15%)
+ var medBase=Math.max(0, med - G*0.03);
+ var medSave=medBase*0.15;
+
+ // 기부금 (15% / 1천만 초과분 30%)
+ var donSave=Math.min(don,10000000)*0.15 + Math.max(0,don-10000000)*0.30;
+
+ return {G:G,ho:ho,penRate:penRate,rentRate:rentRate,mRate:mRate,
+  items:[
+   {id:'pen',name:'연금저축',color:'var(--rose)',input:pen,save:penSave,rate:penRate,blocked:false,warn:''},
+   {id:'irp',name:'IRP',color:'var(--lav)',input:irp,save:irpSave,rate:penRate,blocked:(irp>0&&irpRoom<=0),warn:(irp>0&&irpRoom<=0)?'연금저축이 이미 합산 한도(900만원)를 채웠어요. IRP 추가분은 공제되지 않아요.':''},
+   {id:'rent',name:'월세',color:'var(--sage)',input:rent,save:rentSave,rate:rentRate,blocked:(rent>0&&!rentEligible),warn:(rent>0&&!ho)?'무주택 세대주만 월세 세액공제를 받을 수 있어요.':((rent>0&&rentRate===0)?'총급여 8,000만원을 넘으면 월세 세액공제 대상이 아니에요(현금영수증 소득공제는 가능).':'')},
+   {id:'sub',name:'주택청약',color:'var(--gold)',input:sub,save:subSave,rate:mRate,blocked:(sub>0&&!subEligible),warn:(sub>0&&!ho)?'무주택 세대주만 주택청약 소득공제를 받을 수 있어요.':((sub>0&&G>70000000)?'총급여 7,000만원을 넘으면 주택청약 소득공제 대상이 아니에요.':'')},
+   {id:'med',name:'의료비',color:'var(--pink)',input:med,save:medSave,rate:0.15,blocked:false,warn:(med>0&&medBase<=0)?'아직 총급여의 3%를 넘지 않아 공제 대상이 없어요(그만큼 안 아픈 게 이득!).':''},
+   {id:'don',name:'기부금',color:'#9C6BA8',input:don,save:donSave,rate:0.15,blocked:false,warn:''}
+  ]};
+}
+
+function render(animate){
+ var r=compute();
+ var total=0, cnt=0, maxSave=0, maxRate=0;
+ r.items.forEach(function(it){
+  var eff=it.blocked?0:it.save;
+  total+=eff; if(eff>0){cnt++; if(eff>maxSave)maxSave=eff; if(it.rate>maxRate)maxRate=it.rate;}
+  // per-item caption
+  var b=$(it.id+'-s'); if(b){b.textContent=window.fmtWon(eff)+'원'; b.parentNode.classList.toggle('off',eff<=0);}
+  var card=$('it-'+it.id);
+  if(card){card.classList.toggle('act',eff>0); card.classList.toggle('blocked',it.blocked);
+   var w=card.querySelector('.warn'); if(w)w.textContent=it.warn;}
+ });
+
+ // headline
+ if(animate)window.countNum($('total'),total,950,0);
+ else $('total').textContent=window.fmtWon(total);
+ var gr=$('grade');
+ if(total<=0){gr.textContent='항목을 입력해 보세요';}
+ else if(total<300000){gr.textContent='작은 시작도 환급이에요 👍';}
+ else if(total<1000000){gr.textContent='한 달 용돈만큼 돌려받아요 💰';}
+ else if(total<2000000){gr.textContent='13월의 월급, 제대로네요 🎉';}
+ else {gr.textContent='상위권 절세! 부부 둘 다면 2배 🔥';}
+
+ // 놓친 절세 — '지금 더 넣으면 줄어드는' 항목(연금계좌 합산 900만·주택청약 300만)의 남은 한도로 더 챙길 수 있는 금액
+ // (월세·의료비·기부금은 실제 지출 기반이라 임의로 못 늘리므로 '여력'에서 제외 — 정직 설계)
+ var penIn2=Math.min(num($('pen')),PEN_CAP);
+ var irpRoom2=Math.max(0,PEN_IRP_CAP-penIn2);
+ var irpIn2=Math.min(num($('irp')),irpRoom2);
+ var pensionUsed=penIn2+irpIn2;
+ var pensionRoomWon=Math.max(0,PEN_IRP_CAP-pensionUsed);
+ var pensionRoomSave=pensionRoomWon*r.penRate;
+ var subElig2=r.ho && r.G<=70000000;
+ var subUsed2=subElig2?Math.min(num($('sub')),SUB_CAP):0;
+ var subRoomWon=subElig2?Math.max(0,SUB_CAP-subUsed2):0;
+ var subRoomSave=subRoomWon*0.4*r.mRate;
+ var extra=pensionRoomSave+subRoomSave;
+ var lever=null;
+ if(pensionRoomSave>=subRoomSave){ if(pensionRoomSave>0)lever={n:'연금계좌',v:pensionRoomSave,won:pensionRoomWon}; }
+ else if(subRoomSave>0)lever={n:'주택청약',v:subRoomSave,won:subRoomWon};
+ var vEl=$('verd'),vIc=$('verdIc'),vT=$('verdT'),vP=$('verdPill'),vD=$('verdD');
+ vEl.classList.remove('done','slight','gold','rose');
+ var leverTxt=lever?('가장 큰 칸은 <b>'+lever.n+'</b> — 약 <b>'+window.fmtWon(lever.won)+'원</b> 더 넣으면 <b>+'+window.fmtWon(lever.v)+'원</b> 돌려받아요. '):'';
+ if(total<=0){
+  vIc.textContent='📋'; vT.textContent='아직 비어 있어요 — 채울수록 돌려받아요';
+  if(extra>=50000){vP.hidden=false; vP.textContent='최대 약 '+window.fmtWon(extra)+'원';
+   vD.innerHTML='연금·청약처럼 <b>지금 넣으면 줄어드는</b> 항목을 한도까지 채우면, 본인 기준 약 <b>'+window.fmtWon(extra)+'원</b>까지 돌려받을 수 있어요. 금액을 넣어 내 절세액을 확인해 보세요.';}
+  else{vP.hidden=true; vD.innerHTML='연금·청약처럼 <b>지금 더 넣으면 줄어드는</b> 항목의 남은 한도를 함께 찾아, 놓치고 있는 절세액을 알려드려요.';}
+ }else if(extra<50000){
+  vEl.classList.add('done'); vIc.textContent='🎉'; vT.textContent='절세 여력을 거의 다 채웠어요';
+  vP.hidden=false; vP.textContent='남은 절세 ≈ 0원';
+  vD.innerHTML='연금·청약 한도를 거의 다 쓰셨네요. 지금 구조를 <b>매년 그대로 유지</b>만 해도 13월의 월급이 따라와요. 부부가 함께면 효과는 약 2배예요.';
+ }else{
+  if(extra<300000){vEl.classList.add('slight'); vIc.textContent='🌱'; vT.textContent='조금만 더 채우면 돼요';}
+  else if(extra<1000000){vEl.classList.add('gold'); vIc.textContent='📈'; vT.textContent='놓친 절세가 꽤 남았어요';}
+  else{vEl.classList.add('rose'); vIc.textContent='🔥'; vT.textContent='큰 절세 여력이 남았어요';}
+  vP.hidden=false; vP.textContent='놓친 절세 +'+window.fmtWon(extra)+'원';
+  vD.innerHTML='지금까지 <b>'+window.fmtWon(total)+'원</b>을 챙겼고, 남은 한도를 끝까지 채우면 <b>+'+window.fmtWon(extra)+'원</b>을 더 돌려받을 수 있어요. '+leverTxt+'안 채운 만큼은 그대로 세금으로 나가요.';
+ }
+
+ var bh=$('bighint');
+ if(total<=0){bh.innerHTML='연금·월세·청약 같은 항목에 금액을 넣으면, 줄어드는 세금이 실시간으로 합산돼요.';}
+ else{bh.innerHTML='부부가 <b>각자</b> 정산하니, 두 사람이 함께 챙기면 가구 기준 약 <b>'+window.fmtWon(total*2)+'원</b>까지 가능해요.';}
+
+ // summ
+ $('sCnt').textContent=cnt;
+ $('sRate').textContent=maxRate>0?(maxRate*100).toFixed(1).replace(/\.0$/,'')+'%':'—';
+ if(animate)window.countNum($('sMonth'),total/12,950,0);
+ else $('sMonth').textContent=window.fmtWon(total/12);
+
+ // bars
+ var bl=$('barlist');
+ var act=r.items.filter(function(it){return !it.blocked && it.save>0;}).sort(function(a,b){return b.save-a.save;});
+ if(act.length===0){bl.innerHTML='<div class="barsEmpty">왼쪽에서 금액을 입력하면<br>어떤 항목이 가장 큰 절세를 만드는지 한눈에 보여드려요.</div>';}
+ else{
+  var mx=act[0].save;
+  bl.innerHTML=act.map(function(it){return '<div class="bar"><div class="bl"><span class="bn">'+it.name+'</span><span class="bv">'+window.fmtWon(it.save)+'원</span></div><div class="track"><div class="fill" style="background:'+it.color+'" data-w="'+(mx>0?(it.save/mx*100):0).toFixed(1)+'"></div></div></div>';}).join('');
+  var fills=bl.querySelectorAll('.fill');
+  if(animate){fills.forEach(function(f){f.style.width='0';}); requestAnimationFrame(function(){requestAnimationFrame(function(){fills.forEach(function(f){f.style.width=f.dataset.w+'%';});});});}
+  else fills.forEach(function(f){f.style.transition='none';f.style.width=f.dataset.w+'%';});
+ }
+
+ // bonus FV (ordinary annuity)
+ var rate=+$('rate').value/100, N=+$('yrs').value;
+ var fv=rate>0? total*((Math.pow(1+rate,N)-1)/rate) : total*N;
+ $('ratev').textContent='연 '+(+$('rate').value).toFixed(1)+'%';
+ $('yrsv').textContent=N+'년';
+ if(animate)window.countNum($('fv'),fv,950,0,' 원');
+ else $('fv').textContent=window.fmtWon(fv)+' 원';
+}
+
+// 입력 핸들러
+['sal','pen','irp','rent','sub','med','don'].forEach(function(id){
+ var el=$(id);
+ el.addEventListener('input',function(){var v=num(el);el.value=v?v.toLocaleString('ko-KR'):'';if(id==='sal')syncSal();render(false);});
+ el.addEventListener('change',function(){render(true);});
+});
+function syncSal(){var v=num($('sal'));document.querySelectorAll('#salchips button').forEach(function(b){b.classList.toggle('on',+b.dataset.v===v);});}
+document.querySelectorAll('#salchips button').forEach(function(b){b.addEventListener('click',function(){$('sal').value=(+b.dataset.v).toLocaleString('ko-KR');syncSal();render(true);});});
+
+// 한도 채우기 chips
+document.querySelectorAll('.minichip[data-fill]').forEach(function(b){b.addEventListener('click',function(){var t=$(b.dataset.fill);t.value=(+b.dataset.cap).toLocaleString('ko-KR');render(true);});});
+var irpFill=document.querySelector('.minichip[data-fillirp]');
+if(irpFill)irpFill.addEventListener('click',function(){var pen=Math.min(num($('pen')),PEN_CAP);var room=Math.max(0,PEN_IRP_CAP-pen);$('irp').value=room.toLocaleString('ko-KR');render(true);});
+
+// 무주택 토글
+var ho=$('ho');
+function toggleHo(){ho.classList.toggle('on');ho.setAttribute('aria-checked',ho.classList.contains('on')?'true':'false');render(true);}
+ho.addEventListener('click',toggleHo);
+ho.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggleHo();}});
+
+// 슬라이더
+$('rate').addEventListener('input',function(){render(false);});
+$('yrs').addEventListener('input',function(){render(false);});
+
+render(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

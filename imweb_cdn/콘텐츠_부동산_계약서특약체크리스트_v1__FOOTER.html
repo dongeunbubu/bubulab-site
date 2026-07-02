@@ -1,0 +1,262 @@
+<!-- [콘텐츠_부동산_계약서특약체크리스트_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+"use strict";
+/* ---------- DATA (공개 1차 출처 기반 일반 예시) ---------- */
+var DATA = {
+ jeonse: {
+  steps: [
+   { stage:"계약 전 — 권리·시세 확인", items:[
+     { t:"등기부등본 '을구' 근저당·전세권·신탁 확인", must:true, d:"선순위 보증금+근저당 합이 시세의 70~80%를 넘으면 위험. 신탁등기면 신탁원부까지 확인. <span class='src'>khug.or.kr·iros.go.kr</span>" },
+     { t:"건축물대장 — 위반건축물·주택 용도 확인", d:"근린생활시설을 주택처럼 쓰는 경우 보증·전입에 문제가 생길 수 있어요." },
+     { t:"임대인 본인 = 등기부 소유자 일치 확인", d:"대리인 계약이면 위임장·인감증명·신분증을 확인. 소유자 계좌로만 입금." },
+     { t:"시세·전세가율 파악(실거래가 기준)", d:"국토부 실거래가·공개 시세로 적정선을 가늠. 전세가율이 높을수록 보수적으로." },
+     { t:"임대인 미납 국세·지방세 열람(또는 안심전세앱)", must:true, d:"보증금 1,000만원 초과 시 임대인 동의 없이도 열람 가능. 체납은 보증금보다 앞설 수 있어요. <span class='src'>hometax·안심전세앱</span>" },
+   ]},
+   { stage:"계약 시 — 특약으로 못 박기", items:[
+     { t:"'잔금 다음 날까지 권리변동 금지' 특약", must:true, d:"근저당 설정 등 새 권리변동 금지+위반 시 해제·보증금 즉시 반환. 대항력 빈틈을 메우는 핵심." },
+     { t:"선순위 근저당 '잔금일 말소' 조건 특약", must:true, d:"대출 낀 집이면 잔금으로 갚고 말소 서류까지 준비하는 조건으로 잔금 지급." },
+     { t:"전입신고·확정일자 협조 보장 특약", d:"임대인이 전입을 제한하지 않도록 명시. 전입+확정일자는 보증금 보호의 출발점." },
+     { t:"전세보증금 반환보증 가입 가능 매물 확인", d:"가입 불가 사유(시세·근저당)면 계약 무효·반환 특약. HUG/HF/SGI 요건은 시점별로 달라요." },
+   ]},
+   { stage:"잔금·입주 — 마지막 빈틈 막기", items:[
+     { t:"잔금 당일 등기부 재발급 → 권리변동 재확인", must:true, d:"계약 후 잔금 전 끼어든 근저당·가압류가 없는지 확인하고 잔금 지급." },
+     { t:"잔금과 동시에 전입신고 + 확정일자", must:true, d:"대항력은 전입 다음 날 0시·확정일자는 당일. 미루지 말고 당일 처리. <span class='src'>easylaw.go.kr</span>" },
+     { t:"전입세대확인서 열람 — 다른 세대 전입 여부", d:"나 말고 먼저 전입된 세대가 있으면 보증금 회수 순위가 밀릴 수 있어요." },
+     { t:"관리비·공과금 정산, 시설·열쇠 인수 확인", d:"미납 관리비 정산 책임을 특약으로 정리하면 분쟁이 줄어요." },
+   ]},
+  ]
+ },
+ maemae: {
+  steps: [
+   { stage:"계약 전 — 권리·시세 확인", items:[
+     { t:"등기부 갑구(소유권·가압류·가처분)·을구(근저당) 전부 확인", must:true, d:"갑구의 가압류·가처분, 을구의 근저당 합계를 함께 점검. <span class='src'>iros.go.kr</span>" },
+     { t:"건축물대장·토지대장 — 면적·위반건축물 일치", d:"등기·대장·현황의 면적/용도가 어긋나면 대출·세금에서 문제가 생길 수 있어요." },
+     { t:"소유자 본인 확인(공동소유면 전원 동의)", d:"지분 매매·공유물이면 공유자 전원의 동의·서명을 확인." },
+     { t:"실거래가·대출 한도(LTV·DSR) 사전 점검", d:"잔금 계획의 핵심. 규제·금리로 한도가 달라질 수 있어 미리 확인." },
+     { t:"매도인 미납 국세·지방세·체납 여부", must:true, d:"잔금 후 압류로 이어질 수 있어요. 국세완납증명서 제시를 조건으로. <span class='src'>hometax.go.kr</span>" },
+   ]},
+   { stage:"계약 시 — 특약으로 못 박기", items:[
+     { t:"'잔금일까지 등기 현 상태 유지, 변동 시 해제' 특약", must:true, d:"계약 후 잔금 전 새 근저당·가압류를 막는 안전장치." },
+     { t:"'잔금과 동시 소유권이전 서류 교부 + 근저당 말소' 동시이행", must:true, d:"대법원이 인정한 동시이행 원칙을 문서화. 말소 서류 준비까지 조건." },
+     { t:"시설물 현 상태 기준 + 잔금 후 중대하자 매도인 부담", d:"누수·균열 등 중대하자 처리 범위·기간(예: 6개월)을 협의해 명시(관행)." },
+     { t:"잔금일 기준 공과금·관리비·세금 일할 정산", d:"정산 기준일을 잔금일로 통일하면 다툼이 줄어요." },
+     { t:"계약금 해약금 조항·가계약금 반환 조건 명문화", d:"민법 565조는 임의규정 → 해제 시 금액·조건을 특약으로 분명히. <span class='src'>민법 §565</span>" },
+   ]},
+   { stage:"잔금·등기 — 소유권 넘겨받기", items:[
+     { t:"잔금 직전 등기사항전부증명서 재발급 확인", must:true, d:"계약 때와 권리관계가 같은지 마지막으로 대조하고 잔금 지급." },
+     { t:"법무사 통해 잔금 동시 소유권이전등기 신청", must:true, d:"잔금 지급과 등기 신청·근저당 말소를 같은 자리에서 처리." },
+     { t:"국세·지방세 완납·관리비 정산 확인", d:"완납증명·관리비 영수로 잔금 후 분쟁 소지를 없애요." },
+     { t:"취득세 신고·납부(취득일 기준 기한 내)", d:"잔금/등기 후 기한 내 신고·납부. 세율·기한은 시점·요건별로 달라 확인 필요." },
+   ]},
+  ]
+ }
+};
+/* 전세 끼고 매매(갭)일 때만 보이는 보조 안내는 매매 문구집 M5로 제공 */
+
+var CLAUSES = {
+ jeonse: [
+  { name:"권리변동 금지·즉시 반환", why:"잔금~전입 사이의 <b>'하루 빈틈'</b>을 막는 가장 중요한 특약이에요.",
+    text:"임대인은 잔금 지급일 다음 날까지 본 주택에 근저당권 설정 등 새로운 권리변동을 하지 않는다. 이를 위반할 경우 임차인은 본 계약을 해제할 수 있고, 임대인은 받은 보증금 전액을 즉시 반환한다." },
+  { name:"선순위 근저당 잔금일 말소", why:"대출 낀 집이라면 <b>말소를 '조건'으로</b> 잔금을 지급하세요.",
+    text:"임대인은 잔금 지급일에 등기부상 선순위 근저당권〔채권최고액 (○○○원)〕을 말소하기로 하며, 임차인은 그 말소에 필요한 서류 준비를 확인한 후 잔금을 지급한다." },
+  { name:"전입신고·확정일자 협조", why:"임대인이 <b>전입을 제한하지 못하도록</b> 못 박습니다.",
+    text:"임대인은 임차인의 전입신고 및 확정일자 부여에 협조하며, 잔금일 다음 날까지 임차인의 대항력 취득을 방해하는 어떠한 행위도 하지 않는다." },
+  { name:"전세보증금 반환보증 전제", why:"보증가입이 <b>불가하면 계약을 되돌릴</b> 수 있게 합니다.",
+    text:"본 계약은 전세보증금반환보증 가입이 가능함을 전제로 한다. 임대인 측 사유(시세·선순위 채권 등)로 가입이 불가할 경우 본 계약은 무효로 하고, 임대인은 받은 금원을 즉시 반환한다." },
+  { name:"미납 세금 없음 확인", why:"체납은 보증금보다 <b>앞설 수 있어요.</b>",
+    text:"임대인은 계약일 현재 미납된 국세·지방세가 없음을 확인하며, 잔금일까지 국세·지방세 완납(미납내역) 증명을 임차인에게 제시한다." },
+ ],
+ maemae: [
+  { name:"잔금일까지 등기 현상 유지", why:"계약 후 잔금 전 <b>새 권리가 끼어드는</b> 사고를 막아요.",
+    text:"매도인은 잔금 지급일까지 현재 등기사항증명서상의 권리관계를 그대로 유지하며, 변동이 생길 경우 매수인은 본 계약을 해제할 수 있고 매도인은 계약금의 배액을 상환한다." },
+  { name:"동시이행 + 근저당 말소", why:"대법원이 인정한 <b>동시이행 원칙</b>을 문서로.",
+    text:"매도인의 소유권이전등기 서류 교부 및 근저당권 말소 의무와 매수인의 잔금 지급 의무는 동시이행으로 한다. 매도인은 잔금일에 근저당권 말소에 필요한 서류를 준비하여 교부한다." },
+  { name:"시설물 상태·중대하자", why:"잔금 후 <b>숨은 하자</b> 처리 범위를 미리 정합니다.",
+    text:"본 계약은 계약일 현재의 시설물 상태를 기준으로 한다. 다만 잔금일 이후 (○개월) 이내에 발견된 중대한 하자(누수·균열 등)는 매도인이 부담하여 수리한다." },
+  { name:"잔금일 기준 정산", why:"정산 기준일을 <b>잔금일로 통일.</b>",
+    text:"관리비·공과금 및 제세공과금은 잔금 지급일을 기준으로 일할 정산하며, 잔금일 이전 발생분은 매도인이, 이후 발생분은 매수인이 부담한다." },
+  { name:"임차인 승계(갭 매매)", why:"임대차를 낀 집이면 <b>승계·명도</b>를 명확히.",
+    text:"본 부동산에는 임대차계약〔보증금 (○○원), 만기 (○○○○-○○-○○)〕이 존재하며, 매수인은 임대인의 지위를 승계한다. 매도인은 임차인에게 임대인 변경 사실을 통지한다." },
+ ]
+};
+
+/* ---------- STATE ---------- */
+var mode = "jeonse";
+var checked = { jeonse:{}, maemae:{} };
+
+/* ---------- RENDER: checklist ---------- */
+function esc(s){return s;}
+function renderChecklist(){
+ var wrap = document.getElementById("checklist");
+ var steps = DATA[mode].steps;
+ var html = "";
+ for(var s=0;s<steps.length;s++){
+  var st = steps[s];
+  var total = st.items.length;
+  html += '<div class="stage">';
+  html += '<div class="stagehd"><span class="n">'+(s+1)+'</span><h3>'+st.stage+'</h3><span class="cnt" id="cnt-'+s+'">0/'+total+'</span></div>';
+  html += '<div class="clist">';
+  for(var i=0;i<st.items.length;i++){
+   var it = st.items[i];
+   var id = mode+"-"+s+"-"+i;
+   var on = checked[mode][id] ? "true":"false";
+   html += '<button class="ci" type="button" role="checkbox" aria-pressed="'+on+'" data-id="'+id+'" data-stage="'+s+'">';
+   html += '<span class="cx"></span><span class="cbody"><span class="chead"><span class="ctt">'+it.t+'</span>'+(it.must?'<span class="must">필수</span>':'')+'</span><span class="cd">'+it.d+'</span></span>';
+   html += '</button>';
+  }
+  html += '</div></div>';
+ }
+ wrap.innerHTML = html;
+ // bind
+ var btns = wrap.querySelectorAll(".ci");
+ for(var b=0;b<btns.length;b++){ btns[b].addEventListener("click", onToggle); }
+ updateProgress();
+}
+function onToggle(e){
+ var el = e.currentTarget;
+ var id = el.getAttribute("data-id");
+ var now = !checked[mode][id];
+ checked[mode][id] = now;
+ el.setAttribute("aria-pressed", now?"true":"false");
+ updateProgress();
+}
+function updateProgress(){
+ var steps = DATA[mode].steps;
+ var total=0, done=0, critTotal=0, critDone=0;
+ for(var s=0;s<steps.length;s++){
+  var stDone=0;
+  for(var i=0;i<steps[s].items.length;i++){
+   var it=steps[s].items[i];
+   var id=mode+"-"+s+"-"+i;
+   total++;
+   if(it.must) critTotal++;
+   if(checked[mode][id]){ done++; stDone++; if(it.must) critDone++; }
+  }
+  var cnt=document.getElementById("cnt-"+s);
+  if(cnt) cnt.textContent = stDone+"/"+steps[s].items.length;
+ }
+ var pct = total? Math.round(done/total*100):0;
+ document.getElementById("progPct").textContent = pct;
+ document.getElementById("progDone").textContent = done;
+ document.getElementById("progTotal").textContent = total;
+ document.getElementById("progFill").style.width = pct+"%";
+ var critLeft = critTotal-critDone;
+ var cb=document.getElementById("progCrit");
+ if(critLeft<=0){ cb.textContent="필수 항목 완료 ✓"; cb.classList.add("ok"); }
+ else { cb.textContent="필수 "+critLeft+" 남음"; cb.classList.remove("ok"); }
+}
+
+/* ---------- RENDER: clauses ---------- */
+function renderClauses(){
+ var wrap=document.getElementById("clauseWrap");
+ var list=CLAUSES[mode];
+ var html="";
+ for(var i=0;i<list.length;i++){
+  var c=list[i];
+  var safe = c.text.replace(/〔/g,'<span class="ph">').replace(/〕/g,'</span>').replace(/\(○[^)]*\)/g, function(m){return '<span class="ph">'+m+'</span>';});
+  html += '<div class="clause">';
+  html += '<div class="ch"><span class="cnum">'+(mode==="jeonse"?"J":"M")+(i+1)+'</span><span class="cname">'+c.name+'</span></div>';
+  html += '<div class="why">'+c.why+'</div>';
+  html += '<div class="clausebox"><p>'+safe+'</p></div>';
+  html += '<button class="copyb" type="button" data-idx="'+i+'"><span class="ico">📋</span> 문구 복사</button>';
+  html += '</div>';
+ }
+ wrap.innerHTML=html;
+ var cbs=wrap.querySelectorAll(".copyb");
+ for(var b=0;b<cbs.length;b++){ cbs[b].addEventListener("click", onCopy); }
+}
+function onCopy(e){
+ var btn=e.currentTarget;
+ var idx=parseInt(btn.getAttribute("data-idx"),10);
+ var raw=CLAUSES[mode][idx].text.replace(/〔/g,"[").replace(/〕/g,"]");
+ var done=function(){
+  btn.classList.add("done");
+  btn.innerHTML='<span class="ico">✓</span> 복사됨';
+  document.getElementById("liveStatus").textContent="특약 문구가 복사되었어요.";
+  setTimeout(function(){ btn.classList.remove("done"); btn.innerHTML='<span class="ico">📋</span> 문구 복사'; },1800);
+ };
+ if(navigator.clipboard && navigator.clipboard.writeText){
+  navigator.clipboard.writeText(raw).then(done, function(){ fallbackCopy(raw, done); });
+ } else { fallbackCopy(raw, done); }
+}
+function fallbackCopy(text, cb){
+ try{
+  var ta=document.createElement("textarea");
+  ta.value=text; ta.setAttribute("readonly","");
+  ta.style.position="absolute"; ta.style.left="-9999px";
+  document.body.appendChild(ta); ta.select();
+  document.execCommand("copy");
+  document.body.removeChild(ta);
+  cb();
+ }catch(err){ /* no-op */ }
+}
+
+/* ---------- MODE switch ---------- */
+function setMode(m){
+ mode=m;
+ var btns=document.querySelectorAll(".modeb");
+ for(var i=0;i<btns.length;i++){
+  var on=btns[i].getAttribute("data-mode")===m;
+  btns[i].setAttribute("aria-selected", on?"true":"false");
+ }
+ renderChecklist();
+ renderClauses();
+}
+var modeBtns=document.querySelectorAll(".modeb");
+for(var mi=0; mi<modeBtns.length; mi++){
+ modeBtns[mi].addEventListener("click", function(e){ setMode(e.currentTarget.getAttribute("data-mode")); });
+}
+document.getElementById("resetBtn").addEventListener("click", function(){
+ checked[mode]={};
+ renderChecklist();
+ document.getElementById("liveStatus").textContent="체크리스트를 초기화했어요.";
+});
+
+/* (개선38) 죽은 크롬 제거: 허브 rehdr 주입으로 자체 header/readbar/toTop 미사용 — 진행바·맨위로는 pagedynjs가 생성 */
+
+var io=new IntersectionObserver(function(es){
+ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+/* nav active */
+var navmap=["intro","check","clauses","facts","rel"];
+var navlinks=document.querySelectorAll(".menu a");
+var io2=new IntersectionObserver(function(es){
+ es.forEach(function(en){
+  if(en.isIntersecting){
+   var id=en.target.getAttribute("id");
+   navlinks.forEach(function(a){ a.classList.toggle("cur", a.getAttribute("href")==="#"+id); });
+  }
+ });
+},{rootMargin:"-45% 0px -50% 0px"});
+navmap.forEach(function(id){ var el=document.getElementById(id); if(el) io2.observe(el); });
+
+/* ---------- init ---------- */
+renderChecklist();
+renderClauses();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

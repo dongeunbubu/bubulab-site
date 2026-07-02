@@ -1,0 +1,187 @@
+<!-- [도구_부동산_종합부동산세_가늠기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>/*jongbucalc*/
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var rng=$('rng'),numEok=$('numEok'),numMan=$('numMan'),fmg=$('fmg'),fmgVal=$('fmgVal'),
+      selAge=$('selAge'),selHold=$('selHold'),segType=$('segType'),
+      creditWrap=$('creditWrap'),creditSum=$('creditSum'),typeNote=$('typeNote');
+  if(!rng||!segType)return;
+  /* 주택분 종부세 한계세율 7구간 (2주택 이하·1주택 포함 일반세율) — 과세표준 기준 */
+  var BR=[
+    {u:3e8, r:0.005,c:'--b1',l:'0.5%'},
+    {u:6e8, r:0.007,c:'--b2',l:'0.7%'},
+    {u:12e8,r:0.010,c:'--b3',l:'1.0%'},
+    {u:25e8,r:0.013,c:'--b4',l:'1.3%'},
+    {u:50e8,r:0.015,c:'--b5',l:'1.5%'},
+    {u:94e8,r:0.020,c:'--b6',l:'2.0%'},
+    {u:Infinity,r:0.027,c:'--b7',l:'2.7%'}
+  ];
+  var CY=[152,114,76,38,38,38,38]; /* 계단 그래프 y좌표(0.5/0.7/1.0/1.3% 라인) */
+  function pnum(v){v=parseFloat(v);return (isFinite(v)&&v>0)?v:0;}
+  function won(n){if(!isFinite(n))n=0;return Math.round(n).toLocaleString('ko-KR')+'원';}
+  function eok2(n){return (Math.round(n/1e6)/100).toLocaleString('ko-KR');}
+  function priceFmt(w){
+    var e=Math.floor(w/1e8),m=Math.round((w-e*1e8)/1e4);
+    if(m>=10000){e+=1;m-=10000;}
+    var ms=String(m).padStart(4,'0').replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    return e.toLocaleString('ko-KR')+'억 '+ms+'만원';
+  }
+  function progressive(base){
+    var tax=0,prev=0,segs=[];
+    for(var i=0;i<BR.length;i++){
+      var top=Math.min(base,BR[i].u);
+      if(top>prev){var amt=top-prev;tax+=amt*BR[i].r;segs.push({i:i,amt:amt});}
+      prev=BR[i].u; if(base<=BR[i].u)break;
+    }
+    return {tax:tax,segs:segs};
+  }
+  var priceWon=+rng.value||0;
+
+  function render(){
+    var onBtn=segType.querySelector('button.on')||segType.querySelector('button');
+    var isOne=onBtn?onBtn.getAttribute('data-t')==='one':true;
+    var ded=isOne?12e8:9e8;
+    var fmgR=Math.max(40,Math.min(100,pnum(fmg.value)||60));
+    fmgVal.textContent=fmgR+'%';
+    var base=Math.max(0,priceWon-ded)*(fmgR/100);
+    var pg=progressive(base),gross=pg.tax,segs=pg.segs;
+    var ageR=isOne?(parseFloat(selAge.value)||0):0;
+    var holdR=isOne?(parseFloat(selHold.value)||0):0;
+    var credR=Math.min(0.8,ageR+holdR);
+    var credit=isOne?gross*credR:0;
+    var net=gross-credit, nong=net*0.2, total=net+nong;
+    var curI=segs.length?segs[segs.length-1].i:0;
+
+    $('priceLabel').textContent=priceFmt(priceWon);
+    $('priceWon').textContent=priceWon.toLocaleString('ko-KR')+'원';
+
+    creditWrap.classList.toggle('off',!isOne);
+    selAge.disabled=!isOne; selHold.disabled=!isOne;
+    creditSum.innerHTML='합산 공제율 <b>'+Math.round(credR*100)+'%</b> (두 공제 합산 <b>최대 80%</b> 한도)';
+    typeNote.innerHTML=isOne
+      ? '1세대 1주택 단독명의는 공제 <b>12억</b> + 고령자·장기보유 세액공제(최대 80%)를 받아요.'
+      : '그 외(다주택·공동명의 등)는 공제 <b>9억</b>이고 세액공제는 적용되지 않아요. 이 가늠기는 <b>일반세율로 단순화</b>해 3주택 이상 중과는 반영하지 않아요.';
+
+    $('baseV').textContent= base>0? eok2(base)+'억원' : '0원';
+    $('totalV').textContent= won(total);
+    $('effLine').textContent='공시가격 대비 '+(priceWon>0?(total/priceWon*100).toFixed(2):'0.00')+'% · 산출세액 '+won(gross);
+
+    var stack=$('stack'),legend=$('legend');
+    if(base>0&&segs.length){
+      var sh='',lg='';
+      segs.forEach(function(s){
+        var pct=s.amt/base*100;
+        sh+='<span style="width:'+pct.toFixed(2)+'%;background:var('+BR[s.i].c+')" title="'+BR[s.i].l+' · '+won(s.amt)+'"></span>';
+        lg+='<span><i style="background:var('+BR[s.i].c+')"></i>'+BR[s.i].l+' · '+eok2(s.amt)+'억</span>';
+      });
+      stack.innerHTML=sh; legend.innerHTML=lg;
+    } else {
+      stack.innerHTML='<div class="seg-empty">공제 이하라 과세표준이 없어요 (종부세 비대상)</div>';
+      legend.innerHTML='';
+    }
+
+    $('rowPrice').textContent=won(priceWon);
+    $('dedTxt').textContent=isOne?'(1주택 12억)':'(그 외 9억)';
+    $('rowDed').textContent='−'+won(Math.min(ded,priceWon));
+    $('fmgTxt').textContent=fmgR+'%';
+    $('rowBase').textContent=won(base);
+    $('rowGross').textContent=won(gross);
+    var crTr=$('rowCreditTr');
+    if(isOne){crTr.style.display='';$('creditTxt').textContent='(합산 '+Math.round(credR*100)+'%)';$('rowCredit').textContent='−'+won(credit);}
+    else{crTr.style.display='none';}
+    $('rowNet').textContent=won(net);
+    $('rowNong').textContent=won(nong);
+    $('rowSum').textContent=won(total);
+
+    var eok=base/1e8;
+    var x=50+Math.min(eok/25,1)*570; x=Math.max(50,Math.min(620,x));
+    var cy=CY[curI];
+    var mk=$('mk'),mkTxt=$('mkTxt');
+    if(mk){mk.setAttribute('cx',x.toFixed(1));mk.setAttribute('cy',cy);}
+    if(mkTxt){mkTxt.setAttribute('x',Math.max(58,Math.min(606,x)).toFixed(1));mkTxt.setAttribute('y',cy+20);mkTxt.textContent=base>0?BR[curI].l:'비대상';}
+
+    var rows=document.querySelectorAll('#rateTbl tr[data-i]');
+    [].forEach.call(rows,function(r){
+      var cell=r.querySelector('.here'),i=+r.getAttribute('data-i');
+      if(base>0&&i===curI){cell.textContent='◀ 지금';r.style.background='var(--pink-soft)';cell.style.color='var(--pink-deep)';cell.style.fontWeight='800';}
+      else{cell.textContent='';r.style.background='';cell.style.fontWeight='';}
+    });
+
+    var nl=$('noteLine');
+    if(base<=0) nl.textContent='지금 입력한 공시가격은 공제('+(isOne?'12억':'9억')+') 이하라 종합부동산세 대상이 아니에요.';
+    else nl.innerHTML='지금은 과세표준 <b>'+eok2(base)+'억원</b>으로 한계세율 <b>'+BR[curI].l+'</b> 구간이에요. 결정세액 약 <b>'+won(net)+'</b>에 농어촌특별세 '+won(nong)+'을 더해 합계 약 <b>'+won(total)+'</b>예요.';
+
+    /* 공동명의 50:50 비교 (개선28) — 같은 입력을 재사용, 본 계산과 독립 */
+    var jtA=$('jtA');
+    if(jtA){
+      var fmgF=fmgR/100;
+      var perBase=Math.max(0,priceWon/2-9e8)*fmgF;            /* 인별: 지분 ½ − 9억 */
+      var perTot=progressive(perBase).tax*1.2;                /* 세액공제 없음 + 농특세 20% */
+      var aTot=perTot*2;
+      var oneBase=Math.max(0,priceWon-12e8)*fmgF;             /* 특례: 12억 공제 */
+      var credR2=Math.min(0.8,(parseFloat(selAge.value)||0)+(parseFloat(selHold.value)||0));
+      var bTot=progressive(oneBase).tax*(1-credR2)*1.2;       /* 세액공제 + 농특세 */
+      $('jtAbase').textContent= perBase>0? eok2(perBase)+'억원':'0원';
+      $('jtAper').textContent=won(perTot);
+      jtA.textContent=won(aTot);
+      $('jtCred').textContent='(합산 '+Math.round(credR2*100)+'%)';
+      $('jtB').textContent=won(bTot);
+      var jw=$('jtWin'),jn=$('jtNote');
+      if(aTot<=0&&bTot<=0){
+        jw.textContent='둘 다 0원 (비대상)';
+        jn.innerHTML='지금 공시가격은 어느 방식이든 공제 범위 안이라 <b>종부세 비대상</b>이에요. 인별 과세는 부부 합산 <b>18억 공제 효과</b>라 공시 18억까지 0원이에요.';
+      }else{
+        var df=Math.abs(aTot-bTot);
+        if(df<10000){ jw.textContent='두 방식 거의 동일'; jn.innerHTML='지금 입력에서는 두 방식 금액이 사실상 같아요. 연령·보유기간이 늘면 ② 특례가 유리해지는 쪽으로 움직여요.'; }
+        else if(aTot<bTot){ jw.textContent='① 인별 과세 — 약 '+won(bTot-aTot)+' 적음'; jn.innerHTML='지금 입력에서는 <b>① 인별 과세</b>가 약 <b>'+won(bTot-aTot)+'</b> 적어요. 공제 총액(18억&gt;12억)과 누진구간 분산 효과가 세액공제보다 큰 상태예요.'; }
+        else{ jw.textContent='② 특례 신청 — 약 '+won(aTot-bTot)+' 적음'; jn.innerHTML='지금 입력에서는 <b>② 특례 신청</b>이 약 <b>'+won(aTot-bTot)+'</b> 적어요. 고령·장기보유 세액공제(합산 '+Math.round(credR2*100)+'%)가 공제 차이(18억 대 12억)를 뒤집을 만큼 큰 상태예요.'; }
+      }
+    }
+  }
+
+  rng.addEventListener('input',function(){
+    priceWon=+rng.value||0;
+    var e=Math.floor(priceWon/1e8),m=Math.round((priceWon-e*1e8)/1e4);
+    numEok.value=e; numMan.value=m; render();
+  });
+  function fromNums(){
+    priceWon=Math.round(pnum(numEok.value)*1e8+pnum(numMan.value)*1e4);
+    rng.value=Math.min(priceWon,+rng.max||5e9); render();
+  }
+  numEok.addEventListener('input',fromNums);
+  numMan.addEventListener('input',fromNums);
+  segType.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    [].forEach.call(segType.querySelectorAll('button'),function(x){x.classList.remove('on');});
+    b.classList.add('on'); render();
+  });
+  fmg.addEventListener('input',render);
+  selAge.addEventListener('change',render);
+  selHold.addEventListener('change',render);
+  render();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

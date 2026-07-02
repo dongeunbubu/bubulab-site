@@ -1,0 +1,72 @@
+<!-- [도구_궁합테스트_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var Q=[{"q": "월급날, 두 분은 보통?", "o": [["저축부터 자동이체로 떼둬요", 3, 0, 1], ["카드값·고정비부터 내요", 1, 0, 0], ["일단 쓰고 남으면 저축해요", -2, 0, 0], ["그때그때 달라요", -1, 0, -1]]}, {"q": "비상금(소득 끊겨도 버틸 돈)은?", "o": [["6개월치 이상 있어요", 3, -1, 0], ["3개월치쯤 있어요", 1, 0, 0], ["1~2개월치 정도", -1, 0, 0], ["거의 없어요", -2, 1, 0]]}, {"q": "여윳돈 100만원이 생기면?", "o": [["예적금·파킹통장에", 2, -2, 0], ["인덱스·ETF 적립", 1, 1, 1], ["개별주식·코인 도전", -1, 3, 0], ["여행·쇼핑으로 보상", -2, 0, 0]]}, {"q": "둘이 돈 얘기, 얼마나 자주 해요?", "o": [["매주 정기적으로", 0, 0, 3], ["가끔 필요할 때", 0, 0, 1], ["거의 안 해요", 0, 0, -2], ["얘기하면 다퉈요", 0, 0, -3]]}, {"q": "큰 지출(가전·여행) 결정은?", "o": [["둘이 상의해서 함께", 0, 0, 3], ["각자 알아서", 0, 0, -1], ["주로 한 사람이", 0, 0, -1], ["충동적으로 질러요", -2, 1, 0]]}, {"q": "투자에서 -20% 손실이 나면?", "o": [["계획대로 버티거나 더 사요", 0, 2, 0], ["불안해서 일부 정리", 0, -1, 0], ["전부 팔고 쉬어요", 0, -2, 0], ["투자를 안 해서 몰라요", 1, -1, 0]]}, {"q": "가계부·지출 기록은?", "o": [["부부 공동으로 꾸준히", 2, 0, 2], ["가끔 점검해요", 1, 0, 0], ["거의 안 써요", -1, 0, 0], ["앱이 해주는 정도", 0, 0, 0]]}, {"q": "노후·연금 준비는?", "o": [["연금저축·IRP 굴리는 중", 2, 1, 0], ["청약·예적금 위주", 1, -1, 0], ["아직 시작 못 했어요", -1, 0, 0], ["생각 안 해봤어요", -2, 0, -1]]}, {"q": "돈에 대한 두 사람 성향은?", "o": [["둘 다 아끼는 편", 2, 0, 0], ["한 명은 아끼고 한 명은 쓰는 편", 0, 0, 1], ["둘 다 쓰는 편", -2, 0, 0], ["잘 모르겠어요", 0, 0, -1]]}, {"q": "5년 뒤 목표(내집·1억 등)는?", "o": [["금액·시점까지 합의됐어요", 1, 0, 3], ["대략 방향만 있어요", 0, 0, 1], ["자주 바뀌어요", -1, 0, 0], ["아직 없어요", -1, 0, -1]]}, {"q": "빚(대출)에 대한 생각은?", "o": [["최대한 빨리 갚자", 1, -1, 0], ["좋은 빚은 활용한다", 0, 2, 0], ["무서워서 안 만들어요", 0, -2, 0], ["잘 모르겠어요", 0, 0, -1]]}, {"q": "돈 공부는 어떻게?", "o": [["둘이 같이 배우고 적용해요", 1, 0, 2], ["한 명이 주로 해요", 0, 0, 0], ["가끔 영상·뉴스 정도", 0, 0, 0], ["거의 안 해요", -1, 0, -1]]}];
+var TYPES={"HL": {"emo": "🧱", "name": "안정 다지는 돌다리 부부", "tag": "아끼고 모으되, 위험은 신중하게. 차곡차곡 쌓는 힘이 강한 팀이에요.", "good": "높은 저축력과 안정 지향. 비상금·종잣돈을 단단히 만드는 데 최고예요.", "warn": "너무 안전만 추구하면 물가·기회비용에 자산이 천천히 자랄 수 있어요. 일부는 적립식 투자로.", "talk": ["우리 비상금은 충분하니, 매달 ○○만원은 인덱스에 적립식으로 시작해볼까?", "'잃지 않기'와 '불리기' 사이, 우리 비율을 한 번 정해보자."]}, "HH": {"emo": "🚀", "name": "공격적으로 불리는 야망 부부", "tag": "잘 모으고, 적극적으로 굴려요. 자산 증식 속도가 빠른 팀이에요.", "good": "저축력 + 투자 적극성을 동시에. 복리를 가장 잘 누릴 수 있는 조합이에요.", "warn": "수익률을 쫓다 한 곳에 쏠릴 위험. '잃어도 되는 돈'의 한도를 함께 정해두세요.", "talk": ["우리 자산에서 공격적 투자 비중 상한을 몇 %로 둘까?", "최고가 부근일수록 분할매수—이 원칙, 둘 다 지키기로 약속하자."]}, "LL": {"emo": "🌿", "name": "오늘을 즐기는 욜로 부부", "tag": "현재의 행복을 소중히. 무리한 위험은 피하는 편이에요.", "good": "삶의 만족도와 부부 사이의 여유. 돈 때문에 다툴 일이 적어요.", "warn": "저축·미래 준비가 약할 수 있어요. '먼저 떼두는' 자동저축 한 줄만 만들어도 크게 달라져요.", "talk": ["즐기는 건 유지하되, 월급의 10%만 '먼저 저축'으로 자동이체 걸어볼까?", "우리 1년 뒤 작은 목표 하나만 같이 정해보자."]}, "LH": {"emo": "🎲", "name": "한 방을 노리는 모험 부부", "tag": "위험을 즐기지만 저축 기반은 약한 편. 균형이 필요한 팀이에요.", "good": "기회를 빠르게 잡는 결단력과 도전 정신.", "warn": "기반(비상금·저축) 없이 위험을 키우면 한 번의 손실이 치명적일 수 있어요. 안전망부터.", "talk": ["투자 전에 비상금 3개월치부터 같이 채워두자.", "'한 방'보다 '꾸준한 적립'이 길게 이긴다—작게 시작해볼까?"]}};
+
+var $=function(id){return document.getElementById(id);};
+var i=0,acc={s:0,r:0,k:0};
+function show(id){['intro','quiz','result'].forEach(function(x){$(x).classList.toggle('on',x===id);});}
+function renderQ(){
+ var q=Q[i];$('qnum').textContent=(i+1);$('qfill').style.width=(i/Q.length*100)+'%';
+ $('qq').textContent=q.q;var op=$('opts');op.innerHTML='';
+ q.o.forEach(function(o,idx){var b=document.createElement('button');b.className='opt';b.innerHTML='<span class="ol">'+'ABCD'[idx]+'</span><span>'+o[0]+'</span>';
+   b.addEventListener('click',function(){acc.s+=o[1];acc.r+=o[2];acc.k+=o[3];next();});op.appendChild(b);});
+}
+function next(){var c=$('qcard');c.classList.add('out');
+ setTimeout(function(){i++;if(i>=Q.length){$('qfill').style.width='100%';finish();return;}renderQ();c.classList.remove('out');c.classList.add('inr');c.getBoundingClientRect();c.classList.remove('inr');},340);}
+function pct(v){return Math.max(2,Math.min(98,Math.round(50+v*2)));}
+function finish(){
+ var S=pct(acc.s),R=pct(acc.r),K=pct(acc.k);
+ var key=(S>=50?'H':'L')+(R>=50?'H':'L');var t=TYPES[key];
+ var match=Math.max(58,Math.min(98,Math.round(45+K*0.5)));
+ show('result');
+ $('rEmo').textContent=t.emo;$('rName').textContent=t.name;$('rTag').textContent=t.tag;
+ $('rGood').textContent=t.good;$('rWarn').textContent=t.warn;
+ $('rTalk').innerHTML=t.talk.map(function(x){return '<div class="qc">“'+x+'”</div>';}).join('');
+ var grade=match>=90?'환상의 팀이에요 🎉':match>=75?'호흡이 좋은 편이에요 👍':match>=62?'조금만 더 대화하면 좋아요 🌱':'대화가 가장 필요해요 🤝';
+ $('rGrade').textContent=grade;
+ setTimeout(function(){window.countUp($('rScore'),match,1100,'점');
+   var arc=$('ringArc');arc.style.transition='stroke-dashoffset 1.1s var(--ease)';arc.style.strokeDashoffset=(100-match);
+   $('axS').style.width=S+'%';$('axR').style.width=R+'%';$('axK').style.width=K+'%';
+   window.countUp($('axSv'),S,900);window.countUp($('axRv'),R,900);window.countUp($('axKv'),K,900);},120);
+ window._res={name:t.name,emo:t.emo,match:match};
+}
+$('start').addEventListener('click',function(){i=0;acc={s:0,r:0,k:0};show('quiz');renderQ();});
+$('again').addEventListener('click',function(){i=0;acc={s:0,r:0,k:0};show('intro');});
+$('copy').addEventListener('click',function(){var r=window._res;var txt='우리 부부 머니 궁합: '+r.emo+' '+r.name+' · 궁합 '+r.match+'점 (부부연구소 자료실)';navigator.clipboard&&navigator.clipboard.writeText(txt);var b=$('copy');var o=b.textContent;b.textContent='복사됐어요!';setTimeout(function(){b.textContent=o;},1500);});
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

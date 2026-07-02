@@ -1,0 +1,347 @@
+<!-- [도구_버킷전략의진실Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var fmtComma=function(n){return Math.round(n).toLocaleString("ko-KR");};
+
+// ===== 검증 엔진(38회차 node 11/11 + 본 회차 8/8 ASSERT) =====
+function osc(r,vol,N){var raw=[];for(var t=0;t<N;t++)raw.push(Math.sin(t*0.9+0.3)+0.6*Math.sin(t*2.3+1.1)+0.35*Math.sin(t*0.37));
+  var m=raw.reduce(function(a,b){return a+b;},0)/N;var pat=raw.map(function(x){return x-m;});
+  var sd=Math.sqrt(pat.reduce(function(a,b){return a+b*b;},0)/N)||1;pat=pat.map(function(x){return x/sd;});
+  return pat.map(function(x){return r+vol*x;});}
+function buildReturns(r,vol,N,order){var base=osc(r,vol,N);if(order==="calm"||N<=2)return base;
+  var nMove=Math.min(4,Math.max(1,Math.round(N*0.18)));var idx=base.map(function(v,i){return [v,i];});
+  if(order==="bad")idx.sort(function(a,b){return a[0]-b[0];});else idx.sort(function(a,b){return b[0]-a[0];});
+  var front=idx.slice(0,nMove).map(function(x){return x[1];}).sort(function(a,b){return a-b;});
+  var fs={};front.forEach(function(i){fs[i]=1;});
+  var fv=front.map(function(i){return base[i];});var rest=base.filter(function(_,i){return !fs[i];});return fv.concat(rest);}
+function simBucket(P0,W0,infl,cr,K,ret,thr){var cash=Math.min(P0,K*W0),eq=P0-cash,depl=null;
+  var totT=[P0],cashT=[cash],eqT=[eq],ev=[];var N=ret.length;
+  for(var t=0;t<N;t++){var W=W0*Math.pow(1+infl,t);var forced=false;
+    if(cash>=W)cash-=W;else{var need=W-cash;cash=0;eq-=need;forced=true;}if(eq<0)eq=0;
+    cash*=(1+cr);eq*=(1+ret[t]);if(eq<0)eq=0;
+    var tn=K*W0*Math.pow(1+infl,t+1);var rf=false;
+    if(ret[t]>=thr&&cash<tn){var nd=Math.min(tn-cash,eq);if(nd>0){eq-=nd;cash+=nd;rf=true;}}
+    ev.push(forced?"forced":(ret[t]<0?"protect":(rf?"refill":"hold")));
+    var tot=cash+eq;if(tot<=0&&depl===null)depl=t;
+    totT.push(Math.max(0,tot));cashT.push(Math.max(0,cash));eqT.push(Math.max(0,eq));}
+  return {totT:totT,cashT:cashT,eqT:eqT,end:cash+eq,depl:depl,ev:ev};}
+function simPropDrift(P0,W0,infl,cr,K,ret){var cash=Math.min(P0,K*W0),eq=P0-cash,depl=null;var N=ret.length;
+  for(var t=0;t<N;t++){var W=W0*Math.pow(1+infl,t);var tot=cash+eq;
+    if(tot<=W){cash=0;eq=0;if(depl===null)depl=t;continue;}
+    var wc=cash/tot;cash-=W*wc;eq-=W*(1-wc);if(cash<0)cash=0;if(eq<0)eq=0;
+    cash*=(1+cr);eq*=(1+ret[t]);if(eq<0)eq=0;}
+  return {end:cash+eq,depl:depl};}
+
+// ===== 상태 =====
+var ST={p0:5,month:180,ret:60,life:90,eq:7,cr:3.3,infl:2.5,vol:13,bucket:3,seq:"calm"};
+
+function fmtEok(x){ // 억/만 표기
+  if(x<1e8){return fmtComma(x/1e4)+"만원";}
+  var eok=Math.floor(x/1e8);var man=Math.round((x-eok*1e8)/1e4);
+  if(man<=0)return eok+"억원";
+  return eok+"억 "+fmtComma(man)+"만";
+}
+function ageOrSurvive(sim,retire){
+  if(sim.depl===null)return {survive:true,txt:"생존",end:sim.end};
+  return {survive:false,txt:(retire+sim.depl)+"세 소진",age:retire+sim.depl};
+}
+
+function compute(){
+  var P0=ST.p0*1e8;var W0=ST.month*1e4*12;var N=Math.max(1,ST.life-ST.ret);
+  var rEq=ST.eq/100, cr=ST.cr/100, infl=ST.infl/100, vol=ST.vol/100, K=ST.bucket;
+  var ret=buildReturns(rEq,vol,N,ST.seq);
+  var b=simBucket(P0,W0,infl,cr,K,ret,0);
+  var p=simPropDrift(P0,W0,infl,cr,K,ret);
+  // 추가 시나리오(맞바꿈 카드용): 잔잔 / 나쁜초반
+  var retCalm=buildReturns(rEq,vol,N,"calm"), retBad=buildReturns(rEq,vol,N,"bad");
+  var bCalm=simBucket(P0,W0,infl,cr,K,retCalm,0), pCalm=simPropDrift(P0,W0,infl,cr,K,retCalm);
+  var bBad=simBucket(P0,W0,infl,cr,K,retBad,0), pBad=simPropDrift(P0,W0,infl,cr,K,retBad);
+  return {P0:P0,W0:W0,N:N,K:K,ret:ret,b:b,p:p,bCalm:bCalm,pCalm:pCalm,bBad:bBad,pBad:pBad};
+}
+
+// ===== 카운트업 =====
+function countUp(el,to,suffix,dur){
+  suffix=suffix||"";dur=dur||900;var from=0,t0=null;
+  function step(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/dur);var e=1-Math.pow(1-k,3);
+    el.textContent=Math.round(from+(to-from)*e)+suffix;if(k<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+// ===== 결과 렌더 =====
+function render(){
+  var R=compute();var retire=ST.ret;
+  var bRes=ageOrSurvive(R.b,retire), pRes=ageOrSurvive(R.p,retire);
+
+  // 카드: 버킷
+  $("bkBig").textContent=bRes.survive?fmtEok(R.b.end):bRes.txt;
+  $("bkBl").textContent=bRes.survive?(ST.life+"세 잔액"):"굴린 돈이 0이 된 나이";
+  var bkBadge=$("bkBadge");
+  if(bRes.survive){bkBadge.className="sbadge ok";bkBadge.textContent="✓ "+ST.life+"세까지 버팀";}
+  else{bkBadge.className="sbadge no";bkBadge.textContent="✗ "+bRes.txt;}
+  var protectN=R.b.ev.filter(function(e){return e==="protect";}).length;
+  var forcedN=R.b.ev.filter(function(e){return e==="forced";}).length;
+  var refillN=R.b.ev.filter(function(e){return e==="refill";}).length;
+  $("bkProtect").textContent=protectN+"번";
+  $("bkForced").textContent=forcedN+"번";
+
+  // 카드: 비례
+  $("ppBig").textContent=pRes.survive?fmtEok(R.p.end):pRes.txt;
+  $("ppBl").textContent=pRes.survive?(ST.life+"세 잔액"):"굴린 돈이 0이 된 나이";
+  var ppBadge=$("ppBadge");
+  if(pRes.survive){ppBadge.className="sbadge ok";ppBadge.textContent="✓ "+ST.life+"세까지 버팀";}
+  else{ppBadge.className="sbadge no";ppBadge.textContent="✗ "+pRes.txt;}
+
+  // recoband: 정직한 승패
+  var reco=$("reco"),crown=$("recoCrown"),k=$("recoK"),g=$("recoG"),pp=$("recoP");
+  reco.className="recoband";
+  if(bRes.survive&&pRes.survive){
+    var diff=R.b.end-R.p.end; // +면 버킷 유리
+    var absd=Math.abs(diff);
+    if(absd<R.P0*0.01){ // 1% 미만 = 사실상 무승부
+      reco.className="recoband tie";crown.textContent="🤝";k.textContent="사실상 무승부예요";
+      g.textContent="버킷도 비례도 거의 똑같이 남겨요";
+      pp.innerHTML="둘 다 "+ST.life+"세까지 버티고, 끝 잔액 차이는 <b>"+fmtEok(absd)+"</b> 정도예요. 같은 배분이면 '파느냐 마느냐'만으론 결과가 크게 안 갈려요 — <b>버킷은 마법이 아니에요</b>.";
+    }else if(diff>0){
+      reco.className="recoband good";crown.textContent="🪣";k.textContent="이 조건에선 버킷이 살짝 앞서요";
+      g.textContent="버킷이 비례보다 "+fmtEok(absd)+" 더 남겨요";
+      pp.innerHTML="역설적이지만 버킷이 이기는 건 보통 <b>'좋은 초반'</b> 장이에요. 폭락을 막아줘서가 아니라, 오른 해 리필 타이밍이 우연히 맞은 거예요. <b>'나쁜 초반'으로 바꿔보면</b> 이 우위가 사라지곤 해요.";
+    }else{
+      reco.className="recoband";crown.textContent="⚖️";k.textContent="이 조건에선 비례가 살짝 앞서요";
+      g.textContent="버킷이 비례보다 "+fmtEok(absd)+" 적게 남겨요";
+      pp.innerHTML="현금이 시장(주식)보다 덜 굴러서 생긴 <b>현금 드래그</b> 때문이에요. 무난한 장일수록 이 손해가 또렷해져요 — 버킷의 비용이죠.";
+    }
+  }else if(bRes.survive&&!pRes.survive){
+    reco.className="recoband good";crown.textContent="🪣";k.textContent="이 조건에선 버킷이 더 버텨요";
+    g.textContent="버킷은 생존, 비례는 "+pRes.txt;
+    pp.innerHTML="이런 경우도 있어요 — 다만 시장 순서를 바꾸면 뒤집히기도 해요. 한 가정만 믿지 말고 <b>여러 순서로 굴려보세요</b>.";
+  }else if(!bRes.survive&&pRes.survive){
+    reco.className="recoband";crown.textContent="⚖️";k.textContent="이 조건에선 비례가 더 버텨요";
+    g.textContent="비례는 생존, 버킷은 "+bRes.txt;
+    pp.innerHTML="버킷이 막아준다는 바로 그 상황에서 오히려 먼저 바닥났어요. 오른 해 리필이 <b>회복 중인 주식을 도로 팔아버린</b> 탓이에요. 통념과 반대죠.";
+  }else{
+    var bd=bRes.age, pd=pRes.age;
+    reco.className="recoband";crown.textContent="🌧️";
+    if(bd<pd){k.textContent="둘 다 빠듯… 버킷이 더 일찍 바닥나요";
+      g.textContent="버킷 "+bd+"세 · 비례 "+pd+"세 소진";
+      pp.innerHTML="인출이 과해 둘 다 소진되는데, <b>버킷이 "+(pd-bd)+"년 더 일찍</b> 바닥나요. '버킷이 폭락을 막아준다'는 통념과 정반대예요. 생활비를 줄이거나 버킷·인출을 다시 맞춰보세요.";
+    }else if(bd>pd){k.textContent="둘 다 빠듯… 버킷이 조금 더 버텨요";
+      g.textContent="버킷 "+bd+"세 · 비례 "+pd+"세 소진";
+      pp.innerHTML="둘 다 소진되지만 버킷이 <b>"+(bd-pd)+"년</b> 더 버텨요. 그래도 인출이 과한 신호예요 — 생활비나 목돈을 다시 보세요.";
+    }else{k.textContent="둘 다 같은 나이에 바닥나요";
+      g.textContent="버킷·비례 모두 "+bd+"세 소진";
+      pp.innerHTML="같은 배분이라 결과도 같아요. 인출이 과하다는 신호니, 생활비·목돈·은퇴 시점을 다시 맞춰보세요.";
+    }
+  }
+
+  // protect 박스
+  countUp($("protectBig"),protectN,"",900);
+  $("forcedV").textContent=forcedN+"번";
+  $("refillV").textContent=refillN+"번";
+  if(protectN===0){
+    $("protectSub").innerHTML="이 조건에선 폭락한 해에 현금으로 버틴 적이 <b>거의 없었어요</b>. 버킷 크기를 키우거나 변동성을 올려보세요.";
+  }else{
+    $("protectSub").innerHTML="현금 버킷 덕분에 손해 난 주식을 <b>억지로 팔지 않아도</b> 됐던 해가 <b>"+protectN+"번</b> 있었어요. 마음이 편했던 횟수예요.";
+  }
+
+  // 맞바꿈 카드(잔잔 / 나쁜초반)
+  setTradeoff($("tCalm"),R.bCalm,R.pCalm,retire,"calm");
+  setTradeoff($("tBad"),R.bBad,R.pBad,retire,"bad");
+
+  // 흐름 차트
+  drawFlow(R,retire,protectN,forcedN,refillN);
+
+  // evstrip
+  $("evstrip").innerHTML=
+    '<span class="evpill protect">🛡️ 안 판 해 '+protectN+'번</span>'+
+    '<span class="evpill refill">↻ 리필 '+refillN+'번</span>'+
+    '<span class="evpill forced">⚠️ 강제 매도 '+forcedN+'번</span>';
+}
+
+function setTradeoff(el,b,p,retire,kind){
+  var bR=ageOrSurvive(b,retire), pR=ageOrSurvive(p,retire);
+  if(bR.survive&&pR.survive){
+    var d=b.end-p.end;var sign=d>=0?"+":"−";
+    el.textContent=sign+fmtEok(Math.abs(d));
+  }else if(!bR.survive&&!pR.survive){
+    var diff=bR.age-pR.age;
+    el.textContent=(diff>0?"+"+diff:diff)+"년";
+  }else{
+    el.textContent=bR.survive?"버킷 생존":"비례 생존";
+  }
+}
+
+// ===== 흐름 SVG =====
+function drawFlow(R,retire,protectN,forcedN,refillN){
+  var svg=$("flowChart");var W=720,H=320,padL=52,padR=16,padT=18,padB=34;
+  var b=R.b;var N=R.N;var tot=b.totT,cash=b.cashT,eq=b.eqT;
+  var maxV=Math.max.apply(null,tot);if(maxV<=0)maxV=R.P0;
+  var x=function(t){return padL+(t/N)*(W-padL-padR);};
+  var y=function(v){return H-padB-(v/maxV)*(H-padT-padB);};
+  var ns="http://www.w3.org/2000/svg";
+  while(svg.firstChild)svg.removeChild(svg.firstChild);
+
+  // y 그리드
+  var gy=[0,0.25,0.5,0.75,1];
+  gy.forEach(function(f){var v=maxV*f;var yy=y(v);
+    var ln=document.createElementNS(ns,"line");ln.setAttribute("x1",padL);ln.setAttribute("x2",W-padR);
+    ln.setAttribute("y1",yy);ln.setAttribute("y2",yy);ln.setAttribute("stroke","#EAD7D3");ln.setAttribute("stroke-width",f===0?1.4:1);svg.appendChild(ln);
+    var tx=document.createElementNS(ns,"text");tx.setAttribute("x",padL-7);tx.setAttribute("y",yy+3);tx.setAttribute("text-anchor","end");
+    tx.setAttribute("font-size","10");tx.setAttribute("fill","#8A7B72");tx.setAttribute("font-weight","700");
+    tx.textContent=(v/1e8).toFixed(v>=1e8?1:1)+"억";svg.appendChild(tx);});
+
+  // x축 나이 라벨
+  var labs=[0,Math.round(N*0.5),N];
+  labs.forEach(function(t){var tx=document.createElementNS(ns,"text");tx.setAttribute("x",x(t));tx.setAttribute("y",H-padB+18);
+    tx.setAttribute("text-anchor","middle");tx.setAttribute("font-size","10");tx.setAttribute("fill","#8A7B72");tx.setAttribute("font-weight","700");
+    tx.textContent=(retire+t)+"세";svg.appendChild(tx);});
+
+  // 면적 경로 만들기
+  function areaPath(arr){var d="M "+x(0)+" "+y(0);for(var t=0;t<arr.length;t++){d+=" L "+x(t)+" "+y(arr[t]);}
+    d+=" L "+x(arr.length-1)+" "+y(0)+" Z";return d;}
+  // 주식(전체 tot) area = lav, 그 위에 현금 area = sage (스택 효과: 아래가 현금)
+  var totArea=document.createElementNS(ns,"path");totArea.setAttribute("d",areaPath(tot));
+  totArea.setAttribute("fill","#9C6BA8");totArea.setAttribute("opacity","0.30");svg.appendChild(totArea);
+  var cashArea=document.createElementNS(ns,"path");cashArea.setAttribute("d",areaPath(cash));
+  cashArea.setAttribute("fill","#5E8C7F");cashArea.setAttribute("opacity","0.5");svg.appendChild(cashArea);
+
+  // total 라인(draw)
+  var dLine="M "+x(0)+" "+y(tot[0]);for(var t=1;t<tot.length;t++){dLine+=" L "+x(t)+" "+y(tot[t]);}
+  var line=document.createElementNS(ns,"path");line.setAttribute("id","flowLine");line.setAttribute("d",dLine);
+  line.setAttribute("fill","none");line.setAttribute("stroke","#7A4F86");line.setAttribute("stroke-width","2.4");
+  line.setAttribute("stroke-linejoin","round");svg.appendChild(line);
+  var len=line.getTotalLength();line.style.strokeDasharray=len;line.style.strokeDashoffset=len;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){line.style.strokeDashoffset=0;});});
+
+  // 이벤트 dot (해마다, ev[t-1])
+  b.ev.forEach(function(e,i){var t=i+1;var cx=x(t),cy=y(tot[t]);var col,rr;
+    if(e==="protect"){col="#5E8C7F";rr=4.2;}
+    else if(e==="forced"){col="#D8584E";rr=4.6;}
+    else if(e==="refill"){col="#9C6BA8";rr=3.6;}
+    else return; // hold은 dot 없음
+    var c=document.createElementNS(ns,"circle");c.setAttribute("cx",cx);c.setAttribute("cy",cy);c.setAttribute("r",rr);
+    c.setAttribute("fill",col);c.setAttribute("stroke","#fff");c.setAttribute("stroke-width","1.5");svg.appendChild(c);});
+
+  // 소진 표시
+  if(b.depl!==null){var dx=x(b.depl+1);
+    var zl=document.createElementNS(ns,"line");zl.setAttribute("x1",dx);zl.setAttribute("x2",dx);zl.setAttribute("y1",padT);zl.setAttribute("y2",H-padB);
+    zl.setAttribute("stroke","#D8584E");zl.setAttribute("stroke-width","1.4");zl.setAttribute("stroke-dasharray","4 3");svg.appendChild(zl);
+    var zt=document.createElementNS(ns,"text");zt.setAttribute("x",dx);zt.setAttribute("y",padT-4);zt.setAttribute("text-anchor","middle");
+    zt.setAttribute("font-size","10.5");zt.setAttribute("fill","#D8584E");zt.setAttribute("font-weight","800");
+    zt.textContent=(retire+b.depl)+"세 바닥";svg.appendChild(zt);}
+
+  var fn=$("flowNote");
+  fn.textContent="🛡️ 안 판 해 "+protectN+" · ↻ 리필 "+refillN+" · ⚠️ 강제 "+forcedN;
+}
+
+// ===== 입력 바인딩 =====
+function syncRateHint(){
+  var rate=(ST.month*1e4*12)/(ST.p0*1e8)*100;
+  $("rateHint").innerHTML="초기 인출률 <b>연 "+rate.toFixed(1)+"%</b> (목돈 대비)";
+}
+function bindChips(wrapId,inputId,key,isInt){
+  var wrap=$(wrapId);
+  wrap.querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
+    var v=parseFloat(c.dataset.v);ST[key]=v;if($(inputId))$(inputId).value=isInt?Math.round(v):v;
+    wrap.querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});c.classList.add("on");
+    afterChange();});});
+}
+function bindSeg(segId,key,numeric){
+  var seg=$(segId);
+  seg.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){
+    seg.querySelectorAll("button").forEach(function(x){x.classList.remove("on");});b.classList.add("on");
+    ST[key]=numeric?parseFloat(b.dataset.v):b.dataset.v;afterChange();});});
+}
+function syncChips(wrapId,val){
+  var wrap=$(wrapId);wrap.querySelectorAll(".chip").forEach(function(c){
+    c.classList.toggle("on",parseFloat(c.dataset.v)===val);});
+}
+function afterChange(){syncRateHint();render();}
+
+function initInputs(){
+  // p0
+  $("p0").addEventListener("input",function(){var v=parseFloat(this.value.replace(/[^0-9.]/g,""))||0;ST.p0=v;syncChips("p0chips",v);afterChange();});
+  bindChips("p0chips","p0","p0",false);
+  // month
+  $("month").addEventListener("input",function(){var v=parseFloat(this.value.replace(/[^0-9.]/g,""))||0;ST.month=v;syncChips("monthchips",v);afterChange();});
+  bindChips("monthchips","month","month",true);
+  // ret seg
+  bindSeg("retSeg","ret",true);
+  // life slider
+  $("life").addEventListener("input",function(){ST.life=parseInt(this.value,10);$("lifeV").textContent=ST.life+"세";
+    $("yrsTxt").textContent=Math.max(1,ST.life-ST.ret)+"년";afterChange();});
+  // eq, cr, infl, vol seg
+  bindSeg("eqSeg","eq",true);bindSeg("crSeg","cr",true);bindSeg("inflSeg","infl",true);bindSeg("volSeg","vol",true);
+  // bucket slider
+  $("bucket").addEventListener("input",function(){ST.bucket=parseInt(this.value,10);$("bucketV").textContent=ST.bucket+"년치";
+    syncChips("bucketchips",ST.bucket);afterChange();});
+  bindChips("bucketchips","bucket","bucket",true);
+  $("bucket").addEventListener("input",function(){syncChips("bucketchips",parseInt(this.value,10));});
+  // bucket chips는 slider도 갱신
+  $("bucketchips").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
+    $("bucket").value=parseInt(c.dataset.v,10);$("bucketV").textContent=parseInt(c.dataset.v,10)+"년치";});});
+  // seq seg
+  bindSeg("seqSeg","seq",false);
+  // ret seg도 yrsTxt 갱신
+  $("retSeg").querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){
+    $("yrsTxt").textContent=Math.max(1,ST.life-ST.ret)+"년";});});
+}
+
+// ===== 저장 =====
+var SKEY="bbBucketPro_v1";
+function loadSaves(){try{return JSON.parse(localStorage.getItem(SKEY)||"[]");}catch(e){return [];}}
+function renderSaves(){
+  var list=loadSaves();var el=$("saveList");el.innerHTML="";
+  if(!list.length){el.innerHTML='<div style="font-size:12.5px;color:var(--mut);font-weight:600;padding:4px 2px">저장한 시나리오가 여기 쌓여요.</div>';return;}
+  list.forEach(function(s,i){
+    var d=document.createElement("div");d.className="saveitem";
+    d.innerHTML='<span class="si-n">'+esc(s.name)+'</span><span class="si-m">'+esc(s.meta)+'</span><span class="si-x" data-i="'+i+'">✕</span>';
+    el.appendChild(d);});
+  el.querySelectorAll(".si-x").forEach(function(b){b.addEventListener("click",function(){
+    var arr=loadSaves();arr.splice(parseInt(b.dataset.i,10),1);localStorage.setItem(SKEY,JSON.stringify(arr));renderSaves();});});
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function saveScenario(){
+  var name=($("saveName").value||"").trim();if(!name)name="시나리오 "+(loadSaves().length+1);
+  var meta=ST.p0+"억·월"+ST.month+"만·버킷"+ST.bucket+"년·"+({bad:"폭락초반",calm:"잔잔",good:"좋은초반"}[ST.seq]);
+  var arr=loadSaves();arr.unshift({name:name,meta:meta});if(arr.length>8)arr=arr.slice(0,8);
+  localStorage.setItem(SKEY,JSON.stringify(arr));$("saveName").value="";renderSaves();
+}
+
+// ===== reveal & header =====
+function initReveal(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:0.12});
+  document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  window.addEventListener("scroll",function(){$("hdr").classList.toggle("scrolled",window.scrollY>10);});
+}
+
+// ===== init =====
+window.addEventListener("DOMContentLoaded",function(){
+  initInputs();initReveal();syncRateHint();renderSaves();render();
+  $("saveBtn").addEventListener("click",saveScenario);
+});
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

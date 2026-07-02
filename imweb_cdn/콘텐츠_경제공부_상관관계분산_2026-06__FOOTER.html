@@ -1,0 +1,67 @@
+<!-- [콘텐츠_경제공부_상관관계분산_2026-06] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+function runBars(root){(root||d).querySelectorAll('.step .fill').forEach(function(f){if(f.dataset.done)return;f.dataset.done=1;f.style.width=parseFloat(f.dataset.w)+'%';});}
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');var cs=e.target.querySelectorAll?e.target.querySelectorAll('.cf'):[];cs.forEach(runCF);if(e.target.classList.contains('cf'))runCF(e.target);if(e.target.querySelector&&e.target.querySelector('.step'))runBars(e.target);}});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});
+d.querySelectorAll('.cf').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});runBars(d);}
+
+function runCF(el){if(el.dataset.done)return;el.dataset.done=1;var to=parseFloat(el.dataset.to),dec=parseInt(el.dataset.dec||'0'),t0=null,dur=1100;
+function fmt(v){return dec>0?v.toFixed(dec):Math.round(v).toLocaleString('en-US');}
+function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(s);else el.textContent=fmt(to);}requestAnimationFrame(s);}
+
+// 분산 계산기
+(function(){var w=d.getElementById('wIn'),rho=d.getElementById('rhoIn');if(!w||!rho)return;
+var wOut=d.getElementById('wOut'),rhoOut=d.getElementById('rhoOut');
+var eqVol=d.getElementById('eqVol'),eqAvg=d.getElementById('eqAvg'),eqSaved=d.getElementById('eqSaved'),eqSavedTxt=d.getElementById('eqSavedTxt'),eqSharpe=d.getElementById('eqSharpe'),vd=d.getElementById('verdict');
+var S1=34.1,S2=15.9,R1=64.0,R2=12.5,RF=4.3;
+function fmtRho(x){var s=x.toFixed(2);return x<0?('−'+Math.abs(x).toFixed(2)):s;}
+function upd(){var wn=parseFloat(w.value)/100,r=parseFloat(rho.value)/100;
+var varp=Math.pow(wn*S1,2)+Math.pow((1-wn)*S2,2)+2*wn*(1-wn)*r*S1*S2;
+var volp=Math.sqrt(Math.max(varp,0));
+var wavg=wn*S1+(1-wn)*S2;
+var saved=wavg-volp;var savedpct=wavg>0?saved/wavg*100:0;
+var retp=wn*R1+(1-wn)*R2;var sharpe=volp>0?(retp-RF)/volp:0;
+wOut.textContent=Math.round(wn*100)+'% · '+Math.round((1-wn)*100)+'%';
+rhoOut.textContent=fmtRho(r);
+eqVol.textContent=volp.toFixed(1)+'%';
+eqAvg.textContent=wavg.toFixed(1);
+eqSaved.textContent=saved.toFixed(1);
+eqSavedTxt.textContent='(평균의 약 '+Math.round(savedpct)+'%)';
+eqSharpe.textContent=sharpe.toFixed(2);
+var msg;
+if(parseFloat(rho.value)>=70){msg='둘이 거의 같이 움직여요(상관계수 '+fmtRho(r)+'). 그러면 마지막 덩어리가 커져서, 섞어도 멀미가 거의 안 줄어요('+saved.toFixed(1)+'%p). 분산의 약발은 ‘안 닮은 정도’에서 나온다는 걸 보여주죠.';}
+else if(parseFloat(w.value)>=95||parseFloat(w.value)<=5){msg='거의 한 종목에만 담았어요. 분산 효과가 사라져서, 그 종목이 휘청이면 포트폴리오도 그대로 휘청여요. 합산 변동성('+volp.toFixed(1)+'%)이 그 종목 단독값에 붙죠.';}
+else if(volp<S2){msg='놀랍죠? 사나운 엔비디아를 '+Math.round(wn*100)+'%나 넣었는데, 합산 변동성('+volp.toFixed(1)+'%)이 잔잔한 코카콜라 단독(15.9%)보다도 낮아요. 안 닮은 둘이 서로의 출렁임을 시소처럼 깎아준 거예요.';}
+else{msg='안 닮은 둘이라(상관계수 '+fmtRho(r)+'), 단순 평균 '+wavg.toFixed(1)+'%보다 '+saved.toFixed(1)+'%p 낮은 '+volp.toFixed(1)+'%로 내려앉았어요. 수익은 평균을 받으면서 멀미만 깎인 ‘공짜 점심’이에요.';}
+vd.textContent=msg;}
+w.addEventListener('input',upd);rho.addEventListener('input',upd);upd();})();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var dr=document.createElement('div'); dr.className='navDrawer';
+ dr.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(dr);
+ function op(){dr.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){dr.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){dr.classList.contains('on')?cl():op();});
+ dr.addEventListener('click',function(e){var t=e.target;if(t===dr||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

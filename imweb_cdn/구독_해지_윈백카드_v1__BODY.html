@@ -1,0 +1,362 @@
+<!-- [구독_해지_윈백카드_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+/* ===== 라이트 토큰 (웰컴카드 v1 = 마감/가치/다크 데모 v1 계승 · bubulab 팔레트) ===== */
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --bg3:#F7EDE7; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#786A60;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --sand:#F0DED8;
+  --border:#EAD7D3; --hair:#F1E3DE;
+  --accentText:#B85060; --accentTextH:#A03F4D; --btnBg:#B85060; --btnBgH:#A03F4D; --onBtn:#FFFFFF;
+  --sage:#5E8C7F; --sageDeep:#3E6B5E;
+  --badgeText:#3E6B5E; --badgeBg:#EEF5F2; --badgeBorder:#BFD8CF;
+  --discBg:#FCEEF1; --okIcon:#3E6B5E;
+  --topbarBg:rgba(253,251,247,.72); --topbarBgSolid:rgba(253,251,247,.95);
+  --heroA:#B85060; --heroB:#A23E4C;
+  --sh-sm:0 1px 2px rgba(62,47,41,.04),0 3px 10px rgba(184,80,96,.055);
+  --sh:0 2px 5px rgba(62,47,41,.04),0 12px 30px rgba(184,80,96,.10);
+  --sh-lg:0 6px 14px rgba(184,80,96,.12),0 22px 50px rgba(184,80,96,.20);
+  --sheetSh:0 0 60px rgba(62,47,41,.10);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+/* ===== 다크 토큰 (따뜻한 코코아 · 데모 v1 검증본) ===== */
+:root[data-theme="dark"]{
+  --bg:#1B1613; --bg2:#221C18; --bg3:#2A231E; --card:#2C2520;
+  --ink:#F2E8E2; --ink2:#D7C8BF; --mut:#AC9E94;
+  --pink:#E89AA6; --pinkSoft:#34262A; --sand:#3A302B;
+  --border:#3C322C; --hair:#332A25;
+  --accentText:#EA9DA9; --accentTextH:#F4B6C0; --btnBg:#A6404F; --btnBgH:#B04A5A; --onBtn:#FFFFFF;
+  --sage:#8FD3BE; --sageDeep:#8FD3BE;
+  --badgeText:#8FD3BE; --badgeBg:#1E3A33; --badgeBorder:#2E5A4D;
+  --discBg:#2A2024; --okIcon:#8FD3BE;
+  --topbarBg:rgba(34,28,24,.72); --topbarBgSolid:rgba(34,28,24,.95);
+  --heroA:#7E3340; --heroB:#5A2630;
+  --sh-sm:0 1px 2px rgba(0,0,0,.35); --sh:0 4px 14px rgba(0,0,0,.42); --sh-lg:0 10px 34px rgba(0,0,0,.55);
+  --sheetSh:0 0 0 1px #2E2722, 0 18px 60px rgba(0,0,0,.55);
+}
+/* 자동(토글 미지정): 기기 다크 설정 따라가기 — 순수 CSS, JS 불필요 */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not([data-theme="dark"]){
+    --bg:#1B1613; --bg2:#221C18; --bg3:#2A231E; --card:#2C2520;
+    --ink:#F2E8E2; --ink2:#D7C8BF; --mut:#AC9E94;
+    --pink:#E89AA6; --pinkSoft:#34262A; --sand:#3A302B;
+    --border:#3C322C; --hair:#332A25;
+    --accentText:#EA9DA9; --accentTextH:#F4B6C0; --btnBg:#A6404F; --btnBgH:#B04A5A; --onBtn:#FFFFFF;
+    --sage:#8FD3BE; --sageDeep:#8FD3BE;
+    --badgeText:#8FD3BE; --badgeBg:#1E3A33; --badgeBorder:#2E5A4D;
+    --discBg:#2A2024; --okIcon:#8FD3BE;
+    --topbarBg:rgba(34,28,24,.72); --topbarBgSolid:rgba(34,28,24,.95);
+    --heroA:#7E3340; --heroB:#5A2630;
+    --sh-sm:0 1px 2px rgba(0,0,0,.35); --sh:0 4px 14px rgba(0,0,0,.42); --sh-lg:0 10px 34px rgba(0,0,0,.55);
+    --sheetSh:0 0 0 1px #2E2722, 0 18px 60px rgba(0,0,0,.55);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background-color .35s var(--ease),color .35s var(--ease)}
+.sheet{position:relative;max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:var(--sheetSh);padding:0 0 8px;transition:background-color .35s var(--ease)}
+a{color:inherit}
+img,svg{max-width:100%}
+.ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.f{fill:currentColor;stroke:none}
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1!important;transform:none!important}.seal::after{animation:none!important}}
+
+/* ── 데모 컨트롤 바(화면 바깥 · 테마 미리보기) ── */
+.democtl{position:sticky;top:0;z-index:80;background:var(--topbarBgSolid);border-bottom:1px solid var(--hair);color:var(--ink)}
+@supports ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
+  .democtl{background:var(--topbarBg);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3)}
+}
+.democtl .row{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;flex-wrap:wrap}
+.democtl .lab{font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--accentText);display:inline-flex;align-items:center;gap:6px}
+.democtl .lab .ic{width:14px;height:14px}
+.seg{display:inline-flex;background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--mut);font:inherit;font-size:11.5px;font-weight:800;letter-spacing:.01em;min-height:40px;padding:0 14px;border-radius:100px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background .2s var(--ease),color .2s var(--ease)}
+.seg button .ic{width:13px;height:13px}
+.seg button[aria-pressed="true"]{background:var(--btnBg);color:var(--onBtn);box-shadow:var(--sh-sm)}
+.seg button:focus-visible{outline:2px solid var(--accentText);outline-offset:2px}
+.democtl .hint{flex-basis:100%;font-size:10.5px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:1px}
+
+/* ── 해지 확인 히어로 ── */
+.welcome{position:relative;text-align:center;padding:34px 24px 26px;background:radial-gradient(120% 90% at 50% -10%,var(--pinkSoft),transparent 62%);overflow:hidden}
+.seal{position:relative;width:66px;height:66px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(145deg,var(--heroA),var(--heroB));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(184,80,96,.30)}
+.seal .ic{width:29px;height:29px;color:var(--onBtn);stroke-width:2}
+.seal::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--pink);opacity:.30;animation:ring 3.8s var(--ease) infinite}
+@keyframes ring{0%{transform:scale(.95);opacity:.32}70%{transform:scale(1.10);opacity:0}100%{opacity:0}}
+.welcome .kick{font-size:11.5px;font-weight:800;letter-spacing:.12em;color:var(--accentTextH)}
+.welcome h1{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.34;margin:8px 0 0;word-break:keep-all}
+.welcome .sub{margin:11px auto 0;max-width:31em;font-size:14px;color:var(--ink2);line-height:1.74;word-break:keep-all}
+.welcome .sub .ic{width:15px;height:15px;color:var(--accentText);vertical-align:-2px}
+.paid{display:inline-flex;align-items:center;gap:7px;margin:16px auto 0;padding:7px 14px;background:var(--badgeBg);border:1px solid var(--badgeBorder);border-radius:100px;font-size:12px;font-weight:800;color:var(--badgeText);word-break:keep-all}
+.paid .ic{width:14px;height:14px;flex:none}
+
+/* ── 공통 섹션 ── */
+.sec{padding:22px 22px 2px}
+.sec-hd{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--accentText);margin:0 0 11px}
+.sec-hd .ic{width:15px;height:15px;flex:none}
+.sec-hd .opt{color:var(--mut);font-weight:700;letter-spacing:0}
+
+/* ── 마무리 타임라인 ── */
+.sched{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--sh-sm);overflow:hidden}
+.sline{display:flex;align-items:flex-start;gap:13px;padding:14px 16px}
+.sline + .sline{border-top:1px solid var(--hair)}
+.sline .dial{width:38px;height:38px;flex:none;border-radius:11px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--accentText)}
+.sline .dial .ic{width:19px;height:19px}
+.sline .when{font-size:15px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3}
+.sline .what{font-size:12.5px;color:var(--ink2);line-height:1.55;margin-top:3px;word-break:keep-all}
+.schednote{display:flex;gap:8px;align-items:flex-start;margin:10px 2px 0;font-size:11.5px;color:var(--mut);font-weight:600;line-height:1.55;word-break:keep-all}
+.schednote .ic{flex:none;color:var(--sageDeep);margin-top:1px;width:14px;height:14px}
+
+/* ── 잠깐 쉬어가는 것(리스트) ── */
+.unlocked{background:linear-gradient(135deg,var(--bg2),var(--card) 60%);border:1px solid var(--border);border-radius:16px;padding:8px 16px;box-shadow:var(--sh-sm)}
+.uitem{display:flex;gap:11px;align-items:flex-start;padding:12px 0}
+.uitem + .uitem{border-top:1px solid var(--hair)}
+.uitem .pz{width:21px;height:21px;flex:none;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--mut);margin-top:1px}
+.uitem .pz .ic{width:11px;height:11px;stroke-width:2.2}
+.uitem .ut{font-size:13.6px;font-weight:800;color:var(--ink);line-height:1.4;display:flex;align-items:center;gap:7px;word-break:keep-all}
+.uitem .ut .ic{width:15px;height:15px;color:var(--mut);flex:none}
+.uitem .ud{font-size:12.4px;color:var(--ink2);line-height:1.55;margin-top:3px;word-break:keep-all}
+.reopen{display:flex;gap:8px;align-items:flex-start;margin:11px 2px 0;font-size:12.4px;color:var(--ink2);font-weight:600;line-height:1.6;word-break:keep-all}
+.reopen .ic{flex:none;color:var(--sageDeep);margin-top:2px;width:15px;height:15px}
+
+/* ── 무료 유지(중간 길) ── */
+.keepfree{background:linear-gradient(135deg,var(--badgeBg),var(--card) 72%);border:1px solid var(--badgeBorder);border-radius:16px;padding:16px;box-shadow:var(--sh-sm)}
+.keepfree .kf-t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);line-height:1.4;word-break:keep-all}
+.keepfree .kf-t .ic{width:16px;height:16px;color:var(--sageDeep);flex:none}
+.keepfree .kf-d{font-size:12.8px;color:var(--ink2);line-height:1.62;margin:7px 0 0;word-break:keep-all}
+.keepfree .kf-link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;font-weight:800;color:var(--accentTextH);text-decoration:none;min-height:40px}
+.keepfree .kf-link u{text-decoration:underline;text-underline-offset:3px}
+.keepfree .kf-link .ic{width:14px;height:14px;flex:none}
+.keepfree .kf-link:hover u{text-decoration-thickness:2px}
+.keepfree .kf-link:focus-visible{outline:2px solid var(--accentText);outline-offset:2px;border-radius:6px}
+
+/* ── 윈백 CTA ── */
+.cta{margin:24px 22px 2px;background:linear-gradient(135deg,var(--pinkSoft),var(--card) 55%,var(--sand));border:1px solid var(--border);border-radius:20px;padding:24px 22px 22px;text-align:center;box-shadow:var(--sh-lg)}
+.cta .em{font-size:13px;color:var(--ink2);line-height:1.66;word-break:keep-all}
+.cta .em .ic{width:15px;height:15px;color:var(--accentTextH);vertical-align:-2px}
+.cta h3{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.4;margin-top:8px;word-break:keep-all}
+.cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:52px;margin-top:17px;padding:0 26px;background:var(--btnBg);color:var(--onBtn);font-size:15px;font-weight:800;text-decoration:none;border-radius:100px;box-shadow:var(--sh);transition:background .2s var(--ease),transform .2s var(--ease)}
+.cta .btn:hover{background:var(--btnBgH);transform:translateY(-2px)}
+.cta .btn:focus-visible{outline:3px solid var(--accentText);outline-offset:3px}
+.cta .btn .ic{width:17px;height:17px}
+.cta .alt{display:block;margin-top:13px;font-size:13px;font-weight:700;color:var(--accentTextH);text-decoration:underline;text-underline-offset:3px}
+.cta .alt:hover{text-decoration-thickness:2px}
+.cta .alt:focus-visible{outline:2px solid var(--accentText);outline-offset:3px;border-radius:6px}
+.cta .keepnote{display:inline-flex;align-items:flex-start;gap:6px;margin-top:15px;padding-top:14px;border-top:1px dashed var(--border);font-size:12px;font-weight:700;color:var(--ink2);width:100%;justify-content:center;line-height:1.55;word-break:keep-all}
+.cta .keepnote u{color:var(--accentTextH);text-decoration:underline;text-underline-offset:3px}
+.cta .keepnote .ic{width:14px;height:14px;color:var(--accentTextH);flex:none;margin-top:2px}
+
+/* ── (선택) 떠나는 이유 ── */
+.fbintro{font-size:12.6px;color:var(--ink2);line-height:1.6;margin:-4px 0 11px;word-break:keep-all}
+.reasons{display:flex;flex-wrap:wrap;gap:8px}
+.rchip{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--ink2);font:inherit;font-size:12.5px;font-weight:700;min-height:40px;padding:0 15px;border-radius:100px;cursor:pointer;box-shadow:var(--sh-sm);transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+.rchip:hover{transform:translateY(-1px)}
+.rchip[aria-pressed="true"]{background:var(--btnBg);color:var(--onBtn);border-color:var(--btnBg)}
+.rchip:focus-visible{outline:2px solid var(--accentText);outline-offset:2px}
+.fbnote{margin-top:12px;font-size:12.6px;color:var(--ink2);line-height:1.6;display:none;align-items:flex-start;gap:8px;word-break:keep-all}
+.fbnote.show{display:flex}
+.fbnote .ic{flex:none;color:var(--sageDeep);margin-top:2px;width:15px;height:15px}
+
+/* ── 면책 ── */
+.disc{margin:18px 22px 0;background:var(--discBg);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.62;color:var(--ink2);display:flex;gap:8px;align-items:flex-start;word-break:keep-all}
+.disc .ic{flex:none;color:var(--accentText);margin-top:2px}
+
+footer{text-align:center;font-size:11.5px;color:var(--mut);padding:22px 22px 30px;line-height:1.7;word-break:keep-all}
+footer .fb{font-weight:800;color:var(--accentText);letter-spacing:.04em}
+
+/* ── AA 자가검증 패널(검토용 · 발송본엔 빼도 됨) ── */
+.aapanel{padding:6px 22px 14px}
+.aapanel details{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--sh-sm);overflow:hidden}
+.aapanel summary{cursor:pointer;list-style:none;padding:13px 15px;font-size:12px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.aapanel summary::-webkit-details-marker{display:none}
+.aapanel summary .ic{width:15px;height:15px;color:var(--sageDeep)}
+.aapanel .body{padding:0 15px 15px;font-size:11.5px;color:var(--ink2);line-height:1.62}
+.aatable{width:100%;border-collapse:collapse;margin-top:6px;font-size:11px}
+.aatable th,.aatable td{padding:6px 7px;border-bottom:1px solid var(--hair);text-align:left}
+.aatable th{color:var(--mut);font-weight:800;letter-spacing:.02em}
+.aatable td.r{text-align:right;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@media (max-width:430px){
+  .welcome{padding:30px 18px 24px}
+  .welcome h1{font-size:21px}
+  .cta{padding:22px 18px 20px}
+  .cta h3{font-size:18px}
+  .sec{padding-left:18px;padding-right:18px}
+}
+</style>
+<!-- SVG 스프라이트(아이콘) · JS 없이도 렌더 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-letter" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.4A3.9 3.9 0 0 1 12 7a3.9 3.9 0 0 1 7 3.2c0 5-7 9.4-7 9.4z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18M7 14.5h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16H9l-4 3.5V6.5A1.5 1.5 0 0 1 6.5 5z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 15l4.5-5 3.5 3 5-6"/><path d="M17 7h3v3"/></symbol>
+  <symbol id="i-why" viewBox="0 0 24 24"><path d="M9.5 18.5h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.8 10.65c.75.66 1.1 1.3 1.2 2.35h5.2c.1-1.05.45-1.69 1.2-2.35A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h9a3 3 0 0 1 3 3V20a2.5 2.5 0 0 0-2.5-2.5H5z"/><path d="M5 4.5V20"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.5"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9.5 7v10M14.5 7v10"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4.4h-4.4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 7 7 0 1 0 20 14.5z"/></symbol>
+  <symbol id="i-auto" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<!-- 데모 컨트롤(테마 미리보기) — 단독 페이지용. 실제 화면에 임베드 시 이 블록 삭제 -->
+<div class="democtl">
+  <div class="row">
+    <span class="lab"><svg class="ic"><use href="#i-refresh"/></svg> 해지·돌아오기 카드 미리보기</span>
+    <div class="seg" role="group" aria-label="테마 선택">
+      <button type="button" data-mode="auto" aria-pressed="true"><svg class="ic"><use href="#i-auto"/></svg>자동</button>
+      <button type="button" data-mode="light" aria-pressed="false"><svg class="ic"><use href="#i-sun"/></svg>밝게</button>
+      <button type="button" data-mode="dark" aria-pressed="false"><svg class="ic"><use href="#i-moon"/></svg>어둡게</button>
+    </div>
+    <p class="hint">‘해지하기’를 누른 ‘바로 다음 화면’이에요. 붙잡지 않고, 차분히 배웅하는 톤을 담았어요.</p>
+  </div>
+</div>
+
+<main class="sheet">
+
+  <!-- 해지 확인 히어로 -->
+  <header class="welcome">
+    <div class="seal" aria-hidden="true"><svg class="ic"><use href="#i-heart"/></svg></div>
+    <p class="kick">또 만나요</p>
+    <h1>해지 신청이 접수됐어요</h1>
+    <p class="sub"><svg class="ic"><use href="#i-heart"/></svg> 마음 편히 보내드릴게요. 그동안 함께 시장을 봐주셔서 고마웠어요. 떠나셔도 문은 늘 열어둘게요 — 생각나는 날, 언제든 편하게 다시 와요.</p>
+    <span class="paid"><svg class="ic"><use href="#i-check"/></svg> 해지가 정상적으로 접수됐어요</span>
+  </header>
+
+  <!-- 이렇게 마무리돼요(타임라인) -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-calendar"/></svg> 이렇게 마무리돼요</p>
+    <div class="sched">
+      <div class="sline">
+        <span class="dial"><svg class="ic"><use href="#i-clock"/></svg></span>
+        <span>
+          <span class="when">다음 결제일까지</span>
+          <span class="what">달라지는 건 하나도 없어요. 지금처럼 전체 레터 — 딥 분석·Why 칼럼·내일 체크포인트까지 그대로 보실 수 있어요.</span>
+        </span>
+      </div>
+      <div class="sline">
+        <span class="dial"><svg class="ic"><use href="#i-card"/></svg></span>
+        <span>
+          <span class="when">다음 결제일부터</span>
+          <span class="what">더 이상 결제되지 않아요. 무료 요약 레터는 그대로 곁에 남아, 매일의 짧은 시장 정리는 계속 받아보실 수 있어요.</span>
+        </span>
+      </div>
+    </div>
+    <p class="schednote"><svg class="ic"><use href="#i-info"/></svg> 정확한 결제일은 ‘구독·결제 정보’에서 확인하실 수 있어요. 남은 기간 동안엔 아무것도 달라지지 않으니 편히 보세요.</p>
+  </section>
+
+  <!-- 잠깐 쉬어가는 것 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-pause"/></svg> 다음 결제일부터, 이건 잠깐 쉬어가요</p>
+    <div class="unlocked">
+      <div class="uitem">
+        <span class="pz"><svg class="ic"><use href="#i-pause"/></svg></span>
+        <span>
+          <span class="ut"><svg class="ic"><use href="#i-trend"/></svg> 딥 분석</span>
+          <span class="ud">돈의 흐름·업종 쏠림까지 한 걸음 더 깊이 보던 그 분석이 잠깐 닫혀요.</span>
+        </span>
+      </div>
+      <div class="uitem">
+        <span class="pz"><svg class="ic"><use href="#i-pause"/></svg></span>
+        <span>
+          <span class="ut"><svg class="ic"><use href="#i-why"/></svg> Why 인사이트 칼럼</span>
+          <span class="ud">숫자 뒤에 숨은 맥락을 차분히 짚어주던 그날의 칼럼이 잠깐 쉬어가요.</span>
+        </span>
+      </div>
+      <div class="uitem">
+        <span class="pz"><svg class="ic"><use href="#i-pause"/></svg></span>
+        <span>
+          <span class="ut"><svg class="ic"><use href="#i-calendar"/></svg> 내일 체크포인트</span>
+          <span class="ud">내일 챙길 한 가지와 흔들릴 때 지킬 한 원칙을 미리 정리해주던 코너요.</span>
+        </span>
+      </div>
+      <div class="uitem">
+        <span class="pz"><svg class="ic"><use href="#i-pause"/></svg></span>
+        <span>
+          <span class="ut"><svg class="ic"><use href="#i-book"/></svg> 정보글 라이브러리(구독자 부분)</span>
+          <span class="ud">모으기·지키기·불리기 글의 구독자 전용 부분이 잠깐 닫혀요.</span>
+        </span>
+      </div>
+    </div>
+    <p class="reopen"><svg class="ic"><use href="#i-refresh"/></svg> 사라지는 건 하나도 없어요. 다시 오시면, 있던 그대로 그 자리에서 다시 열려요.</p>
+  </section>
+
+  <!-- 전부 그만두지 않아도 돼요(무료 유지) -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-letter"/></svg> 전부 그만두지 않으셔도 돼요</p>
+    <div class="keepfree">
+      <p class="kf-t"><svg class="ic"><use href="#i-letter"/></svg> 무료 요약 레터는 계속 곁에 둘 수 있어요</p>
+      <p class="kf-d">유료를 멈추셔도, 매일의 짧은 시장 정리(무료 요약)는 그대로 받아보실 수 있어요. 부담 없이, 시장 흐름만 가볍게 이어가는 방법이에요.</p>
+      <a class="kf-link" href="#keep-free"><span><u>무료 요약 레터는 계속 받기</u></span> <svg class="ic"><use href="#i-arrow"/></svg></a>
+    </div>
+  </section>
+
+  <!-- 윈백 CTA -->
+  <section class="cta reveal">
+    <p class="em"><svg class="ic"><use href="#i-heart"/></svg> 마음이 동하는 날, 언제든이요</p>
+    <h3>다시 구독하면, 그 자리에서 바로 다 열려요</h3>
+    <a class="btn" href="#resubscribe">다시 구독하기 <svg class="ic"><use href="#i-refresh"/></svg></a>
+    <a class="alt" href="#account">구독·결제 정보 보기</a>
+    <span class="keepnote"><svg class="ic"><use href="#i-user"/></svg> <span>계정과 레터 보관함은 그대로예요 — 새로 가입할 필요 없이 <u>로그인만</u> 하면 돼요.</span></span>
+  </section>
+
+  <!-- (선택) 떠나는 이유 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-chat"/></svg> 괜찮으시면, 한 가지만요 <span class="opt">(선택)</span></p>
+    <p class="fbintro">더 나은 레터를 만들고 싶어서요. 안 알려주셔도 전혀 괜찮아요.</p>
+    <div class="reasons" role="group" aria-label="해지 이유 (선택)">
+      <button type="button" class="rchip" aria-pressed="false">너무 자주 와요</button>
+      <button type="button" class="rchip" aria-pressed="false">가격이 부담돼요</button>
+      <button type="button" class="rchip" aria-pressed="false">내용이 잘 안 맞아요</button>
+      <button type="button" class="rchip" aria-pressed="false">잠깐 쉬어가요</button>
+      <button type="button" class="rchip" aria-pressed="false">다른 이유예요</button>
+    </div>
+    <p class="fbnote" role="status" aria-live="polite"><svg class="ic"><use href="#i-heart"/></svg> 고마워요. 잘 새겨두고, 더 나은 레터로 보답할게요.</p>
+  </section>
+
+  <!-- 면책 -->
+  <div class="disc reveal">
+    <svg class="ic"><use href="#i-info"/></svg>
+    <span>머니레터는 시장을 <b>이해하도록 돕는 정보·교육 콘텐츠</b>예요. 특정 종목을 사거나 팔라는 투자 권유가 아니에요. 최종 판단과 책임은 늘 본인에게 있어요.</span>
+  </div>
+
+  <footer>
+    <span class="fb">동은부부 머니레터</span><br>
+    그동안 함께해 주셔서 고마웠어요. 또 만나요, 천천히요. · 제공되는 모든 내용은 정보·교육 목적이며, 투자 권유가 아니에요.
+  </footer>
+
+  <!-- AA 자가검증(검토 참고용 · 실제 화면엔 빼도 됩니다) -->
+  <div class="aapanel reveal">
+    <details>
+      <summary><svg class="ic"><use href="#i-shield"/></svg> 디자인 자가검증 (대비·정직성·톤) 펼쳐보기</summary>
+      <div class="body">
+        <p>주요 텍스트·버튼 색의 명도대비(WCAG)와 정직성·톤 체크예요. 라이트 기준이며, 다크는 웰컴카드 v1의 검증 토큰을 그대로 계승했어요.</p>
+        <table class="aatable">
+          <thead><tr><th>요소</th><th>색 / 배경</th><th class="r">대비</th></tr></thead>
+          <tbody>
+            <tr><td>제목·항목</td><td>#3E2F29 / 흰색</td><td class="r">10.7:1</td></tr>
+            <tr><td>본문</td><td>#5C4B43 / 흰색</td><td class="r">8.3:1</td></tr>
+            <tr><td>약한 텍스트·캡션</td><td>#786A60 / 흰색</td><td class="r">5.2:1</td></tr>
+            <tr><td>섹션 헤더·포인트</td><td>#B85060 / 흰색</td><td class="r">4.8:1</td></tr>
+            <tr><td>버튼·선택칩 글자</td><td>흰색 / #B85060</td><td class="r">4.8:1</td></tr>
+            <tr><td>접수 배지(세이지)</td><td>#3E6B5E / #EEF5F2</td><td class="r">5.5:1</td></tr>
+            <tr><td>CTA·무료유지 포인트</td><td>#A03F4D / 그라데이션·민트틴트</td><td class="r">4.9:1 이상</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px">정직성·톤: ‘다음 결제일’은 특정 날짜로 단정하지 않았어요(계정마다 달라서 — 실제 화면엔 고객님 결제일이 들어가요). 무료 요약 레터 유지·재구독 시 복구는 설계 동선이에요. 특정 수치·종목·뉴스·링크 0(환각 0) · 투자 권유 0 · 면책 1곳 + 푸터 1곳 · <b>압박·죄책감·붙잡기 어휘 0</b>(차분한 배웅 톤) · 이모지 0(전부 SVG).</p>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<!-- ▼ 아임웹에서는 이 <script>를 FOOTER(닫는 body 직전)에 넣으세요. (차트 라이브러리 불필요) -->

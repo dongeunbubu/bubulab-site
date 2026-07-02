@@ -1,0 +1,391 @@
+<!-- [콘텐츠_경제공부_FCFvs순이익_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 18건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:13px;color:var(--mut);margin-top:10px;text-align:center;line-height:1.6}
+
+/* hero stat cards */
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:600px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--cardSh);text-align:center;position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--rose),var(--lav));opacity:.85}
+.hstat .nm{font-size:12.5px;font-weight:800;color:var(--mut)}
+.hstat .big{font-size:clamp(24px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;color:var(--rose);margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.hstat .sub{font-size:11.5px;color:var(--mut);margin-top:6px;font-weight:600}
+
+/* 흐름 카드 */
+.flow{margin-top:18px;display:grid;grid-template-columns:1fr;gap:14px}
+.flowrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:stretch}
+@media(max-width:640px){.flowrow{grid-template-columns:1fr}}
+.fcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 16px;box-shadow:var(--cardSh);position:relative}
+.fcard .tag{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--rose);display:inline-block;padding:3px 9px;border-radius:100px}
+.fcard.b1 .tag{background:var(--sage)}.fcard.b2 .tag{background:var(--lav)}.fcard.b3 .tag{background:var(--down)}
+.fcard h4{font-size:15px;font-weight:800;color:var(--ink);margin-top:9px}
+.fcard .q{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:3px}
+.fcard .v{font-size:22px;font-weight:800;margin-top:9px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fcard.b1 .v{color:var(--sage)}.fcard.b2 .v{color:var(--lav)}.fcard.b3 .v{color:var(--down)}
+.flowlink{background:var(--pinkSoft2);border:1px dashed var(--pink);border-radius:14px;padding:13px 16px;font-size:13.5px;color:var(--ink2);font-weight:600;line-height:1.55;display:flex;gap:9px;align-items:flex-start}
+.flowlink b{color:var(--rose);font-weight:800}
+.flowlink .arr{font-size:16px;color:var(--pink);flex-shrink:0;line-height:1.4}
+
+/* 단계 막대 */
+.steps{margin-top:16px;display:grid;gap:11px}
+.step{background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px 14px;box-shadow:var(--cardSh)}
+.step .top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:800;color:var(--ink)}
+.step .top .amt{color:var(--rose);font-variant-numeric:tabular-nums}
+.step .bar{height:14px;border-radius:7px;background:var(--bg2);border:1px solid var(--border);margin-top:8px;overflow:hidden}
+.step .fill{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--rose),var(--lav));width:0;transition:width 1.1s var(--ease)}
+.step.dep .fill{background:linear-gradient(90deg,var(--sage),#6fa392)}
+.step.cap .fill{background:linear-gradient(90deg,var(--down),#6f97ec)}
+.step .note{font-size:12px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.5}
+.step .pct{font-size:11.5px;font-weight:800;color:var(--lav)}
+
+/* 두 얼굴 */
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh);border-top:3px solid var(--border)}
+.face.good{border-top-color:var(--sage)}
+.face.bad{border-top-color:var(--down)}
+.face .ft{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;display:inline-block;padding:3px 10px;border-radius:100px}
+.face.good .ft{background:var(--sage)}
+.face.bad .ft{background:var(--down)}
+.face h4{font-size:15.5px;font-weight:800;color:var(--ink);margin-top:10px}
+.face p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.face .ex{font-size:12px;color:var(--mut);font-weight:700;margin-top:9px;border-top:1px dashed var(--border);padding-top:9px}
+
+/* 계산기 */
+.calc{margin-top:18px}
+.calc .calc-h{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.calc .calc-sub{font-size:13px;color:var(--mut);line-height:1.55;margin-bottom:14px}
+.calc-row{margin-top:16px}
+.calc-row .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.calc-row .lab output{font-size:16px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:7px;border-radius:6px;margin-top:9px;background:linear-gradient(90deg,var(--pinkSoft),var(--pink));outline:none}
+.calc-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:var(--cardSh);cursor:pointer;transition:transform .15s}
+.calc-row input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12)}
+.calc-row input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.calc-eq{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:20px;font-size:15px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.calc-eq b{color:var(--ink)}
+.calc-eq .big{font-size:clamp(22px,5vw,30px);font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.calc-verdict{margin-top:14px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:13px 16px;font-size:14px;color:var(--ink2);line-height:1.6;font-weight:600}
+
+/* 비교표 */
+.cmpwrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.cmp{width:100%;border-collapse:collapse;min-width:540px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--cardSh)}
+table.cmp th,table.cmp td{padding:13px 14px;text-align:right;font-size:13.5px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+table.cmp th{background:var(--pinkSoft2);color:var(--ink);font-weight:800;font-size:12.5px;text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp td.nm{font-weight:800;color:var(--ink)}
+table.cmp td.nm small{display:block;font-weight:600;color:var(--mut);font-size:11px}
+.tcap{font-size:12px;color:var(--mut);margin-top:9px;line-height:1.55}
+
+/* navfix canonical */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/자료실_v1">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">경제공부 · 현금흐름 입문</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">아마존은 흑자인데 <span class="grad">왜 현금은 마이너스</span>일까</h1>
+  <div class="artmeta reveal"><span>⏱ 8분</span><span>난이도 ★★☆</span><span>경제공부 시리즈 #7</span></div>
+  <p class="artlead reveal">아마존이 분기 사상 최대 순이익을 냈다는 뉴스가 나온 바로 그 분기에, 회사가 손에 쥔 <b>잉여현금(FCF)은 마이너스</b>였어요. 장부에 찍힌 이익과 통장에 남는 현금은 전혀 다른 숫자거든요. 그 둘이 어디서 갈라지는지, 아마존과 애플의 진짜 숫자로 따라가 볼게요.</p>
+
+  <div class="hstats stag reveal">
+    <div class="hstat"><div class="nm">2026년 1분기 · 순이익</div><div class="big" style="color:var(--sage)">+<span class="cf" data-to="303" data-dec="0">0</span>억$</div><div class="sub">분기 사상 최대 (장부상 이익)</div></div>
+    <div class="hstat"><div class="nm">같은 분기 · 잉여현금흐름</div><div class="big" style="color:var(--down)">−<span class="cf" data-to="182" data-dec="0">0</span>억$</div><div class="sub">실제로 손에 남은 현금 (FCF)</div></div>
+    <div class="hstat"><div class="nm">같은 분기 · 설비투자</div><div class="big"><span class="cf" data-to="442" data-dec="0">0</span>억$</div><div class="sub">데이터센터 등에 쓴 돈 (CapEx)</div></div>
+  </div>
+  <p class="minnote reveal">출처: 아마존 분기 현금흐름표(2026-01~03, UsStockInfo 조회 2026-06-02). 1억$ 단위 반올림.</p>
+
+  <p class="art dropcap reveal" style="margin-top:30px">같은 분기에 "사상 최대 이익"과 "현금 마이너스"가 동시에 적힌다는 게 이상하게 들릴 거예요. 그런데 이건 회계 오류도, 분식도 아니에요. <b>순이익</b>은 "이번 기간에 얼마를 벌었다고 장부에 적었나"이고, <b>잉여현금흐름(FCF)</b>은 "그래서 이번 기간에 진짜로 통장에 얼마가 남았나"예요. 두 숫자가 가장 크게 벌어지는 곳이 바로 지금의 아마존처럼 <b>미래를 위해 공장과 데이터센터를 한꺼번에 짓는 회사</b>예요.</p>
+
+  <h2 class="reveal">① 잉여현금흐름(FCF)이 뭔가요</h2>
+  <p class="art reveal">정의는 의외로 간단해요. 회사가 <b>본업으로 벌어들인 현금(영업현금흐름)</b>에서, <b>사업을 유지·확장하려고 쓴 설비투자(CapEx)</b>를 뺀 게 잉여현금흐름이에요. 말 그대로 "다 쓰고 남아서, 빚을 갚거나 배당·자사주에 쓸 수 있는 진짜 여윳돈"이죠.</p>
+  <div class="pull reveal">잉여현금흐름 = 영업으로 번 현금 − 사업에 다시 박은 돈(설비투자)</div>
+  <p class="art reveal">순이익이 "성적표에 적힌 점수"라면, FCF는 "시험 끝나고 지갑에 실제로 남은 돈"이에요. 점수가 높아도, 교재·문제집(설비투자)에 돈을 다 써버리면 지갑은 비어 있을 수 있어요. 회사를 살 때 워런 버핏 같은 투자자가 순이익보다 FCF를 더 챙겨 보는 이유가 여기에 있어요. <b>배당도, 빚 상환도, 자사주 매입도 결국 FCF에서 나오니까요.</b></p>
+
+  <h2 class="reveal">② 순이익에서 FCF까지, 세 칸을 따라가기</h2>
+  <p class="art reveal">아마존 2026년 1분기 숫자를 그대로 따라가 볼게요. 출발은 순이익, 도착은 잉여현금흐름이에요.</p>
+  <div class="flow reveal">
+    <div class="flowrow stag">
+      <div class="fcard b1"><span class="tag">출발 · 순이익</span><h4>장부상 이익</h4><div class="q">손익계산서가 말하는 이익</div><div class="v">+303억$</div></div>
+      <div class="fcard b2"><span class="tag">중간 · 영업현금</span><h4>본업이 만든 현금</h4><div class="q">감가상각 더하고 외상·재고 빼면</div><div class="v">+260억$</div></div>
+      <div class="fcard b3"><span class="tag">도착 · FCF</span><h4>손에 남은 현금</h4><div class="q">설비투자 442억$를 빼면</div><div class="v">−182억$</div></div>
+    </div>
+    <div class="flowlink"><span class="arr">↳</span><span><b>핵심 한 줄.</b> 장부 이익은 사상 최대(+303억$)인데, 미래에 쓸 데이터센터·물류망을 한 분기에만 442억$어치 짓느라, 정작 그 분기에 손에 남은 현금은 <b>−182억$</b>로 돌아섰어요. 이익이 가짜라서가 아니라, 번 돈보다 더 크게 미래에 투자했기 때문이에요.</span></div>
+  </div>
+  <p class="art reveal" style="margin-top:18px">중간 칸(순이익 → 영업현금)에서 무슨 일이 있었는지가 첫 번째 열쇠예요. 순이익에는 <b>감가상각</b>처럼 "장부에선 비용인데 실제로 현금이 나가진 않은" 항목이 빠져 있어요. 그래서 이걸 다시 더해주면 현금은 늘어나죠(이번 분기 +189억$). 반대로 외상매출·재고가 늘면 그만큼 현금이 묶여서 빠져나가요. 이 둘을 조정한 결과가 영업현금흐름 260억$예요.</p>
+
+  <h2 class="reveal">③ 그래서 어디서 갈리나 — 감가상각 vs 설비투자</h2>
+  <p class="art reveal">두 번째 열쇠이자 진짜 핵심은 <b>감가상각과 설비투자의 크기 차이</b>예요. 둘 다 "건물·서버 같은 자산"에 관한 숫자인데, 시점이 달라요. <b>감가상각</b>은 <b>예전에 사둔</b> 설비를 여러 해에 걸쳐 조금씩 비용으로 나눠 다는 거예요. <b>설비투자(CapEx)</b>는 <b>올해 실제로 새로 지은</b> 설비에 나간 현금이고요.</p>
+  <p class="art reveal">순이익에는 "예전 투자의 감가상각"만 비용으로 반영돼요. 하지만 FCF는 "올해 새로 쓴 설비투자 전액"을 한 번에 빼요. 그래서 <b>올해 짓는 규모가 예전 것의 감가상각보다 훨씬 크면</b>, 순이익은 멀쩡한데 FCF만 푹 꺼지는 거예요. 지금 아마존이 딱 그래요. 최근 1년 기준으로 보면:</p>
+  <div class="steps reveal">
+    <div class="step dep"><div class="top"><span>감가상각 (올해 비용으로 단 금액)</span><span class="amt">704억$</span></div><div class="bar"><div class="fill" data-w="46.6"></div></div><div class="note">예전에 지어둔 설비가 닳는 만큼만 비용 처리 — 현금은 안 나감</div></div>
+    <div class="step cap"><div class="top"><span>설비투자 (올해 실제로 나간 현금)</span><span class="amt">1,510억$</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">데이터센터·AI 서버·물류망에 새로 박은 현금 — 감가상각의 <b>2.1배</b></div></div>
+  </div>
+  <div class="pull reveal">올해 짓는 돈(설비투자)이 예전 것 닳는 비용(감가상각)의 두 배가 넘으면, 흑자여도 잉여현금은 마이너스가 될 수 있어요.</div>
+  <p class="art reveal">최근 1년 동안 아마존의 순이익은 <b>+908억$</b>로 탄탄했지만, 영업으로 번 현금 1,485억$를 설비투자 1,510억$가 거의 다 삼켜서, 잉여현금흐름은 <b>−25억$</b>로 살짝 마이너스가 됐어요. 번 현금의 102%를 다시 투자에 박은 셈이죠.</p>
+
+  <h2 class="reveal">④ 직접 움직여 보기 — FCF 계산기</h2>
+  <div class="panel calc reveal">
+    <div class="calc-h">순이익·감가상각·설비투자를 바꿔 보세요</div>
+    <div class="calc-sub">영업현금흐름을 「순이익 + 감가상각」으로 단순화한 모델이에요(외상·재고 등 운전자본 변화는 0으로 가정). 실제 기업은 여기에 운전자본까지 출렁여서 분기 FCF가 더 크게 흔들려요.</div>
+    <div class="calc-row">
+      <div class="lab"><span>순이익</span><output id="niOut">20억$</output></div>
+      <input id="niIn" type="range" min="0" max="60" step="1" value="20" aria-label="순이익">
+    </div>
+    <div class="calc-row">
+      <div class="lab"><span>감가상각 (현금 안 나가는 비용)</span><output id="daOut">15억$</output></div>
+      <input id="daIn" type="range" min="0" max="40" step="1" value="15" aria-label="감가상각">
+    </div>
+    <div class="calc-row">
+      <div class="lab"><span>설비투자 CapEx (올해 새로 쓴 현금)</span><output id="cxOut">50억$</output></div>
+      <input id="cxIn" type="range" min="0" max="80" step="1" value="50" aria-label="설비투자">
+    </div>
+    <div class="calc-eq">
+      <span>영업현금 <b id="eqOcf">35</b>억$</span><span>−</span><span>설비투자 <b id="eqCx">50</b>억$</span><span>=</span><span class="big" id="eqFcf">−15억$</span>
+    </div>
+    <div class="calc-verdict" id="verdict"></div>
+  </div>
+
+  <h2 class="reveal">⑤ 그럼 FCF 마이너스는 나쁜 신호인가요</h2>
+  <p class="art reveal">꼭 그렇진 않아요. 같은 "FCF 마이너스"라도 두 얼굴이 있어요. <b>미래를 위해 일부러 크게 짓는 중</b>이라 마이너스인 경우와, <b>본업이 현금을 못 벌어서</b> 마이너스인 경우는 전혀 다른 이야기예요. 구별하는 기준은 "본업(순이익·영업현금)이 튼튼하냐, 그리고 그 투자가 나중에 돈을 벌어다 줄 것이냐"예요.</p>
+  <div class="faces reveal">
+    <div class="face good"><span class="ft">투자형 마이너스</span><h4>미래를 위해 짓는 중</h4><p>순이익·영업현금은 플러스인데, 그보다 더 크게 설비에 투자해서 FCF가 마이너스. AWS·AI 데이터센터를 짓는 지금의 아마존이 여기예요.</p><div class="ex">읽는 법 · 그 투자가 매출·이익으로 돌아오는지를 다음 분기들에서 확인</div></div>
+    <div class="face bad"><span class="ft">위기형 마이너스</span><h4>본업이 현금을 못 버는 중</h4><p>순이익도 적자, 영업현금도 마이너스라 FCF가 마이너스. 투자를 줄여도 현금이 새는 구조라 빚이나 증자로 버티게 돼요.</p><div class="ex">읽는 법 · 영업현금흐름 자체가 플러스인지부터 확인</div></div>
+  </div>
+  <p class="art reveal" style="margin-top:18px">대조군으로 <b>애플</b>을 보면 차이가 또렷해요. 애플은 성숙한 회사라 새로 짓는 설비투자(127억$)가 감가상각(117억$)과 거의 같아요. 미래에 박는 돈과 예전 게 닳는 비용이 비슷하니, 순이익(1,120억$)의 대부분이 잉여현금(988억$)으로 그대로 남죠. 순이익의 <b>88%</b>가 현금으로 남는 셈이에요. 아마존과 정반대 그림이에요.</p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>항목 (최근 1년)</th><th>아마존<small style="display:block;font-weight:600">투자기</small></th><th>애플<small style="display:block;font-weight:600">성숙기</small></th></tr></thead>
+      <tbody>
+        <tr><td class="nm">순이익</td><td>+908억$</td><td>+1,120억$</td></tr>
+        <tr><td class="nm">영업현금흐름</td><td>+1,485억$</td><td>+1,115억$</td></tr>
+        <tr><td class="nm">설비투자(CapEx)</td><td>1,510억$</td><td>127억$</td></tr>
+        <tr><td class="nm">잉여현금흐름(FCF)</td><td style="color:var(--down);font-weight:800">−25억$</td><td style="color:var(--sage);font-weight:800">+988억$</td></tr>
+        <tr><td class="nm">FCF ÷ 순이익</td><td style="color:var(--down)">−3%</td><td style="color:var(--sage)">88%</td></tr>
+        <tr><td class="nm">설비투자 ÷ 감가상각</td><td>2.1배</td><td>1.1배</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">아마존 = 최근 4개 분기(2025.4~2026.3) 합산 · 애플 = 2025 회계연도(2025-09 종료). 출처: 각 사 현금흐름표(UsStockInfo 조회 2026-06-02). FCF = 영업현금흐름 − 설비투자. 1억$ 단위 반올림.</p>
+
+  <h2 class="reveal">⑥ 한 회사를 볼 때 이렇게 읽어요</h2>
+  <div class="checks reveal stag">
+    <div class="c"><i>1</i><span>순이익만 보지 말고 <b>영업현금흐름</b>을 같이 보기 — 이익은 흑자인데 영업현금이 계속 마이너스면 이익의 질을 의심해야 해요.</span></div>
+    <div class="c"><i>2</i><span>FCF가 마이너스면 <b>"왜?"</b>를 묻기 — 설비투자가 커서인지(투자형), 본업이 못 벌어서인지(위기형)로 완전히 갈려요.</span></div>
+    <div class="c"><i>3</i><span>투자형이면 <b>그 투자가 매출·이익으로 돌아오는지</b>를 다음 분기들에서 확인 — 돈만 쓰고 성과가 없으면 그땐 경고 신호예요.</span></div>
+  </div>
+
+  <div class="tldr reveal"><div class="h">TL;DR</div><p>순이익은 "장부에 적은 이익", 잉여현금흐름(FCF)은 "영업으로 번 현금 − 설비투자 = 진짜 남은 돈". 아마존은 순이익이 사상 최대여도 미래를 위해 번 현금보다 더 크게 짓고 있어서 FCF가 마이너스예요. 같은 마이너스라도 본업이 튼튼한 '투자형'과 본업이 새는 '위기형'은 전혀 다르니, FCF는 항상 "왜 그런가"와 함께 읽어야 해요.</p></div>
+
+  <h2 class="reveal">용어 정리</h2>
+  <div class="termgrid reveal stag">
+    <div class="term"><b>잉여현금흐름(FCF)</b><p>영업으로 번 현금에서 설비투자를 뺀, 회사가 자유롭게 쓸 수 있는 진짜 여윳돈. 배당·자사주·빚 상환의 재원.</p></div>
+    <div class="term"><b>영업현금흐름</b><p>본업으로 실제 통장에 들어온 현금. 순이익에 감가상각을 더하고 외상·재고 변화를 조정해 구해요.</p></div>
+    <div class="term"><b>설비투자(CapEx)</b><p>공장·서버·데이터센터 등 오래 쓰는 자산에 올해 실제로 나간 현금. 미래 매출을 위한 선투자.</p></div>
+    <div class="term"><b>감가상각</b><p>예전에 사둔 설비를 여러 해에 걸쳐 조금씩 비용으로 나눠 다는 것. 장부상 비용이지만 현금은 나가지 않아요.</p></div>
+  </div>
+
+  <div class="flowlink reveal" style="margin-top:24px"><span class="arr">↳</span><span><b>이어 읽기.</b> 아마존·구글·MS의 설비투자 경쟁과 클라우드 수익을 실재무로 비교한 <a href="/구독레포트_빅테크클라우드3사_2026-06" style="color:var(--rose);font-weight:800;text-decoration:underline">「빅테크 클라우드 3사 파헤치기」</a>, 손익·재무상태·현금흐름 세 장이 어떻게 연결되는지 본 <a href="/콘텐츠_경제공부_재무제표3장_2026-06" style="color:var(--rose);font-weight:800;text-decoration:underline">「재무제표 3장 30분 입문」</a>, 그리고 순이익과 영업현금이 어긋날 때 '이익의 질'을 읽는 <a href="/콘텐츠_딥칼럼_이익의질_2026-06" style="color:var(--rose);font-weight:800;text-decoration:underline">「흑자인데 망하고, 적자인데 버틴다」</a>와 같이 보면 더 또렷해져요.</span></div>
+
+  <p class="byline reveal">— 부부연구소 머니레터 · 경제공부 시리즈 #7</p>
+
+  <style>/* ===devextras=== 출처 박스 */
+  .srcbox{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:22px;box-shadow:var(--cardSh)}
+  .srcbox .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+  .srcbox ul{list-style:none;margin-top:8px;display:grid;gap:5px}
+  .srcbox li{font-size:12.5px;color:var(--ink2);line-height:1.55;padding-left:14px;position:relative}
+  .srcbox li::before{content:"·";position:absolute;left:2px;color:var(--rose);font-weight:800}
+  </style>
+  <div class="srcbox reveal"><div class="h">데이터 · 출처</div><ul>
+    <li>아마존 실제 수치 — Amazon.com, Inc. 분기 현금흐름표 최근 4개 분기(2025.4~2026.3) 합산 · 분기 사상 최대 순이익 +303억$인데 같은 분기 FCF는 −182억$</li>
+    <li>지표 출처 — PLAY UsStockInfo 분기 현금흐름표(2026-06-02 조회, 2026-06-04 재확인 — 영업현금흐름 1,485억$·설비투자 1,510억$·FCF −25억$ 변동 없음)</li>
+    <li>애플 비교치 — Apple Inc. FY2025(2025년 9월 마감) 연간 기준(순이익 1,120억$·FCF 988억$) · FCF = 영업현금흐름 − 설비투자, 1억$ 단위 반올림</li>
+  </ul></div>
+  <div class="discm reveal">본 콘텐츠는 재무 개념을 쉽게 설명하기 위한 <b>교육용 자료</b>이며, 특정 종목의 매수·매도를 권유하지 않습니다. 언급된 기업(아마존·애플)은 개념을 설명하기 위한 <b>예시</b>일 뿐 투자 추천이 아닙니다. 모든 수치는 2026-06-02 조회 시점의 공개 재무데이터(UsStockInfo) 기준이며, 발표 정정·환율·집계 방식에 따라 달라질 수 있습니다. 투자의 최종 판단과 책임은 본인에게 있습니다.</div>
+</div></section>
+
+<section class="blk wrap reveal"><div class="art"><div class="cta-band">
+  <h3>이런 '진짜 숫자로 읽는 법', 매주 받아보실래요?</h3>
+  <p>뉴스가 떠드는 헤드라인 말고, 재무제표 한 줄을 같이 뜯어보는 머니레터. 부부연구소가 매주 한 편씩 보내드려요.</p>
+  <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="ftlogo"><span class="dot"></span>부부연구소</div>
+  <nav class="ft"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/자료실_v1">자료실</a><a href="/스토리_우리이야기_v1">스토리</a><a href="/정책_개인정보처리방침_v1">개인정보처리방침</a><a href="/정책_이용약관_v1">이용약관</a></nav>
+  <p class="ftnote">© 2026 부부연구소. 본 자료는 교육·정보 제공 목적이며 투자 권유가 아닙니다. 수치는 2026-06-02 조회 시점 기준이며 변동될 수 있습니다.</p>
+</div></footer>

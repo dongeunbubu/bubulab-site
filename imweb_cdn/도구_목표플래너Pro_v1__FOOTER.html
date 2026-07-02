@@ -1,0 +1,96 @@
+<!-- [도구_목표플래너Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+
+var $=function(i){return document.getElementById(i);},pro=false;
+function num(i){return Math.max(0,+($(i).value.replace(/[^0-9]/g,''))||0);}
+function sim(seed,pmt0,years,annual,g){var rm=annual/100/12,bal=seed,pmt=pmt0,prin=seed,yb=[seed];
+ for(var m=1;m<=years*12;m++){bal=bal*(1+rm)+pmt;prin+=pmt;if(m%12===0){yb.push(bal);pmt*=(1+g/100);}}
+ return {final:bal,prin:prin,yb:yb};}
+function solve(seed,target,years,annual,g){var lo=0,hi=target;for(var k=0;k<60;k++){var mid=(lo+hi)/2;if(sim(seed,mid,years,annual,g).final<target)lo=mid;else hi=mid;}return (lo+hi)/2;}
+function buildPath(arr,maxV,N){var x0=46,x1=606,y0=22,y1=232;return arr.map(function(v,i){return (i?'L':'M')+(x0+(x1-x0)*i/N).toFixed(1)+','+(y1-(y1-y0)*v/maxV).toFixed(1);}).join(' ');}
+function setMode(p){pro=!!p;$('mBasic').classList.toggle('on',!pro);$('mPro').classList.toggle('on',pro);$('pro').classList.toggle('hide',!pro);$('deltaBox').classList.toggle('hide',!pro);$('bigLab').textContent=pro?'필요한 월 저축액 (물가·세금 반영)':'필요한 월 저축액';calc(true);}
+function calc(animate){
+ var target=num('target'),seed=num('cur'),years=+$('yrs').value,rate=+$('rate').value;
+ ['target','cur','midAmt'].forEach(function(i){if($(i)){var v=num(i);$(i).value=v?v.toLocaleString('ko-KR'):'';}});
+ $('yrsv').textContent=years+'년';$('ratev').textContent=rate.toFixed(1)+'%';
+ var infl=pro?+$('infl').value:0, g=pro?+$('grow').value:0, tax=pro&&$('tax').checked;
+ if(pro){$('inflv').textContent=infl.toFixed(1)+'%';$('growv').textContent=g+'%';}
+ var effRet= tax? rate*(1-0.154): rate;
+ var effTarget= target*Math.pow(1+infl/100,years);
+ var basic=solve(seed,target,years,rate,0);
+ var pmt=pro?solve(seed,effTarget,years,effRet,g):basic;
+ if(animate)window.countUp($('pmt'),pmt,800);else $('pmt').textContent=window.fmtWon(pmt);
+ $('hint').textContent= pro? ('연 '+rate.toFixed(1)+'% · 세후 '+effRet.toFixed(1)+'% · 물가 '+infl+'% 반영 · '+years+'년'):('연 '+rate.toFixed(1)+'% 가정 · '+years+'년');
+ if(pro){var ext=pmt-basic;$('deltaTxt').innerHTML='<b>'+years+'년 뒤</b> '+window.fmtWon(target)+'원의 <b>실제 구매력</b>을 지키려면 목표는 사실상 <b>'+window.fmtWon(effTarget)+'원</b>이에요. 물가·세금까지 넣으면 기본보다 매달 <b style="color:var(--rose)">'+(ext>=0?'+':'')+window.fmtWon(ext)+'원</b> '+(ext>=0?'더':'덜')+' 모아야 해요.';}
+ // 오늘 가치(실질) verdict 밴드 — 명목 목표만 모았을 때의 구매력 잠식 4단계
+ var rv=$('realVerd');
+ if(pro&&infl>0&&target>0){
+   var defl=Math.pow(1+infl/100,years);   // 물가 누적 배수
+   var realVal=target/defl;                // 명목 target의 '오늘' 구매력
+   var erosion=(1-1/defl)*100;             // 구매력 잠식률 % (=(effTarget-target)/effTarget)
+   var band,blab,emo;
+   if(erosion<15){band='g1';emo='🟢';blab='물가 영향 적음';}
+   else if(erosion<33){band='g2';emo='🟡';blab='무시 못 할 잠식';}
+   else if(erosion<50){band='g3';emo='🟠';blab='큰 잠식';}
+   else{band='g4';emo='🔴';blab='구매력 절반 이상 증발';}
+   rv.className='verband '+band;
+   $('realVh').textContent=emo+' 오늘 가치로 보면 · '+blab;
+   $('realVb').textContent='구매력 −'+erosion.toFixed(0)+'%';
+   $('realVtxt').innerHTML='지금 목표 <b>'+window.fmtWon(target)+'원</b>의 구매력을 그대로 지키려면 '+years+'년 뒤엔 <b>'+window.fmtWon(effTarget)+'원</b>이 있어야 해요. 바꿔 말하면, 명목 '+window.fmtWon(target)+'원만 모으면 그땐 <b>오늘 기준 '+window.fmtWon(realVal)+'원</b>어치 — 물가가 '+years+'년간 구매력을 약 <b style="color:var(--rose)">'+erosion.toFixed(0)+'%</b> 갉아먹은 셈이에요.';
+ } else { rv.className='verband hide'; }
+ var s=sim(seed,pmt,years,effRet,g);var maxV=Math.max(pro?effTarget:target,s.final)*1.06;var N=years;
+ $('vpath').setAttribute('d',buildPath(s.yb,maxV,N));
+ var prinArr=[]; var pp=seed,pm=pmt; for(var y=0;y<=N;y++){prinArr.push(pp); for(var mm=0;mm<12;mm++){pp+=pm;} pm*=(1+g/100);} 
+ $('ppath').setAttribute('d',buildPath(prinArr.slice(0,N+1),maxV,N));
+ $('area').setAttribute('d',buildPath(s.yb,maxV,N)+' L606,232 L46,232 Z');
+ var gr=$('grid');gr.innerHTML='';for(var k=0;k<=4;k++){var yy=22+(232-22)*k/4;gr.innerHTML+='<line x1="46" y1="'+yy+'" x2="606" y2="'+yy+'" stroke="#EAD7D3" stroke-width="1"/>';}
+ var P=s.prin,V=s.final;$('sumP').textContent=window.fmtWon(P);$('sumI').textContent='+'+window.fmtWon(V-P);$('sumV').textContent=window.fmtWon(V);
+ var chSvg=$('chart'); if(chSvg){chSvg.setAttribute('aria-label','연 '+rate.toFixed(1)+'%'+(tax?'(세후 '+effRet.toFixed(1)+'%)':'')+' 가정, '+years+'년 동안 '+(g>0?'첫해 매달 ':'매달 ')+window.fmtWon(pmt)+'원씩'+(g>0?'(매년 +'+g+'% 증액)':'')+' 모으는 곡선 차트예요. 총 납입 원금 '+window.fmtWon(P)+'원, 굴린 수익 +'+window.fmtWon(V-P)+'원, 만기 평가액 약 '+window.fmtWon(V)+'원.');}
+ // mid goal
+ var midAmt=pro?num('midAmt'):0, midYr=pro?Math.min(years,Math.max(1,+($('midYr').value)||1)):0;
+ if(pro&&midAmt>0){var bal=s.yb[midYr]||0;var ok=bal>=midAmt;
+   $('midline').classList.remove('hide');var x=46+560*midYr/N;$('midline').setAttribute('d','M'+x.toFixed(0)+',22 L'+x.toFixed(0)+',232');
+   $('midOut').classList.remove('hide');$('midOut').innerHTML='🎯 <b>'+midYr+'년 뒤</b> 예상 잔액 <b>'+window.fmtWon(bal)+'원</b> — 중간 목표 '+window.fmtWon(midAmt)+'원 '+(ok?'<b style="color:var(--sage)">달성 ✓</b>':'<b style="color:var(--up)">'+window.fmtWon(midAmt-bal)+'원 부족</b>')+'.';
+ } else {$('midline').classList.add('hide');$('midOut').classList.add('hide');}
+ if(animate){var vp=$('vpath');vp.style.transition='none';vp.style.strokeDasharray='1';vp.style.strokeDashoffset='1';vp.getBoundingClientRect();vp.style.transition='stroke-dashoffset 1.1s var(--ease)';vp.style.strokeDashoffset='0';}
+}
+['target','cur','midAmt','midYr'].forEach(function(i){var el=$(i);if(el){el.addEventListener('input',function(){calc(false);});el.addEventListener('change',function(){calc(true);});}});
+['yrs','rate','infl','grow'].forEach(function(i){var el=$(i);if(el){el.addEventListener('input',function(){calc(false);});el.addEventListener('change',function(){calc(true);});}});
+$('tax').addEventListener('change',function(){calc(true);});
+calc(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

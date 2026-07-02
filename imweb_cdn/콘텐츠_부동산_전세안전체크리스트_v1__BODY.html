@@ -1,0 +1,509 @@
+<!-- [콘텐츠_부동산_전세안전체크리스트_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 15건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:880px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(44px,5.6vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+h1.tit{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.74;max-width:660px;margin-top:16px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.chip.warn{color:#9A6A12;background:#FBF4E4;border-color:#EFE0BE}
+.datalabel{display:inline-flex;align-items:flex-start;gap:7px;flex-wrap:wrap;font-size:11.5px;font-weight:800;border-radius:14px;padding:8px 14px;margin-top:12px;border:1px solid;line-height:1.55}
+.dl-real{color:#3f7a6b;background:#e9f3ef;border-color:#cfe6dd}
+.dl-ex{color:#947217;background:#fbf3da;border-color:#f0e2b6}
+/* article */
+.art{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(24px,4vw,46px);margin-top:8px}
+.dropcap::first-letter{float:left;font-size:62px;line-height:.84;font-weight:800;color:var(--rose);padding:6px 12px 0 0}
+.art p{font-size:15.6px;color:var(--ink2);margin:0 0 16px}
+.art p.big{font-size:16.4px;color:var(--ink)}
+.sec{margin-top:38px;scroll-margin-top:80px}
+.sec:first-of-type{margin-top:26px}
+.step{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--rose)}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--pinkSoft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:13px}
+.sec h2{font-size:clamp(20px,2.7vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25;margin:10px 0 6px}
+.sec h3{font-size:16.5px;font-weight:800;margin:22px 0 8px;color:var(--ink)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:30px 0}
+/* callouts */
+.note{border-radius:16px;padding:16px 18px;margin:16px 0;font-size:14.6px;line-height:1.7;border:1px solid var(--border)}
+.note .nt{font-weight:800;font-size:13.5px;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.note.tip{background:#EEF6F2;border-color:#CFE6DB}
+.note.tip .nt{color:#3C6E5E}
+.note.danger{background:#FBEAE8;border-color:#F2C9C4}
+.note.danger .nt{color:#B23B30}
+.note.info{background:var(--pinkSoft2);border-color:var(--border)}
+.note.info .nt{color:var(--rose)}
+.ic{width:18px;height:18px;flex-shrink:0;stroke-width:2.2;fill:none}
+/* registry diagram */
+.regbox{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:18px 0;box-shadow:var(--cardSh)}
+.regrow{display:grid;grid-template-columns:96px 1fr;border-top:1px solid var(--border)}
+.regrow:first-child{border-top:none}
+.regrow .rk{background:var(--bg);padding:14px 12px;font-weight:800;font-size:13.5px;color:var(--rose);display:flex;flex-direction:column;justify-content:center;gap:3px;border-right:1px solid var(--border)}
+.regrow .rk small{font-weight:600;color:var(--mut);font-size:11px;letter-spacing:.02em}
+.regrow .rv{padding:14px 16px;font-size:14px;color:var(--ink2)}
+.regrow .rv b{color:var(--ink)}
+.tag{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:100px;margin:3px 4px 0 0}
+.tag.bad{background:#FBE6E3;color:#B23B30}
+.tag.ok{background:#E7F1EC;color:#3C6E5E}
+/* compare table */
+.tblwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.8px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--pinkSoft2);color:var(--rose);font-weight:800;font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td b{color:var(--ink)}
+caption{caption-side:bottom;font-size:11.5px;color:var(--mut);padding:9px 6px 0;text-align:left;line-height:1.55}
+/* checklist tool */
+.tool{background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardHi);padding:clamp(22px,3.4vw,34px);margin-top:8px}
+.toolhead{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.gaugewrap{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px 18px;box-shadow:var(--cardSh)}
+.gring{position:relative;width:104px;height:104px;flex-shrink:0}
+.gring svg{transform:rotate(-90deg)}
+.gring .gtrk{stroke:var(--pinkSoft);stroke-width:11;fill:none}
+.gring .garc{stroke:var(--rose);stroke-width:11;fill:none;stroke-linecap:round;transition:stroke-dashoffset 1s var(--ease),stroke 1s var(--ease)}
+.gring .gnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gring .gnum b{font-size:27px;font-weight:800;letter-spacing:-.02em}
+.gring .gnum s{font-size:11px;color:var(--mut);text-decoration:none;font-weight:700}
+.glabel{min-width:150px}
+.glabel .gv{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.glabel .gd{font-size:13px;color:var(--ink2);margin-top:3px;line-height:1.55}
+.cklist{margin-top:22px;display:grid;gap:10px}
+.ck{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .2s,box-shadow .2s,background .2s}
+.ck:hover{border-color:var(--pink);box-shadow:var(--cardSh)}
+.ck input{appearance:none;-webkit-appearance:none;width:23px;height:23px;border:2px solid var(--sand);border-radius:7px;flex-shrink:0;margin-top:1px;cursor:pointer;position:relative;transition:background .2s,border-color .2s}
+.ck input:checked{background:var(--rose);border-color:var(--rose)}
+.ck input:checked::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.ck input:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
+.ck .ctxt{font-size:14.4px;color:var(--ink);line-height:1.55}
+.ck .ctxt em{font-style:normal;color:var(--mut);font-size:12.5px;font-weight:600;display:block;margin-top:2px}
+.ck.on{background:#FFF8F4;border-color:var(--pink)}
+.toolfoot{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.toolfoot .fn{font-size:12px;color:var(--mut)}
+/* summary cards */
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:720px){.sumgrid{grid-template-columns:1fr}}
+.sumcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.sumcard .si{width:34px;height:34px;border-radius:10px;background:var(--pinkSoft);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.sumcard .si svg{width:19px;height:19px;stroke:var(--rose);fill:none;stroke-width:2.2}
+.sumcard h4{font-size:14.5px;font-weight:800;margin-bottom:5px}
+.sumcard p{font-size:13.2px;color:var(--ink2);line-height:1.6;margin:0}
+/* sources / disclaimer */
+.src{font-size:12.4px;color:var(--mut);line-height:1.75;margin-top:8px}
+.src a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--border)}
+.disc{background:var(--bg);border:1px dashed var(--sand);border-radius:14px;padding:16px 18px;font-size:12.6px;color:var(--mut);line-height:1.72;margin-top:18px}
+.disc b{color:var(--ink2)}
+/* cta band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(28px,4vw,42px);text-align:center;box-shadow:var(--cardSh);margin-top:34px}
+.cta-band h3{font-size:clamp(19px,2.6vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26);margin-top:18px}
+.cta-band .btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* 관련 도구·칼럼 (개선16) */
+.relhead{font-size:18px;font-weight:800;color:var(--ink);margin:34px 0 4px;display:flex;align-items:center;gap:8px}
+.relsub{font-size:12.6px;color:var(--mut)}
+.related{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+@media(max-width:560px){.related{grid-template-columns:1fr}}
+.rcard{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:15px 17px;box-shadow:var(--cardSh);transition:transform .22s var(--ease),box-shadow .25s var(--ease),border-color .2s;color:var(--ink);text-decoration:none}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px}
+.rcard .rk{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.04em}
+.rcard .rt{font-size:14.6px;font-weight:800;color:var(--ink)}
+.rcard .rd{font-size:12.4px;color:var(--ink2);line-height:1.6}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===rehdr=== self-contained site GNB */
+#readbar{display:none!important}
+#hdr{position:sticky;top:0;z-index:1300;background:rgba(253,251,247,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border,#EAD7D3)}
+#hdr .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:16px}
+#hdr .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px;color:var(--ink,#3E2F29);text-decoration:none}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink,#D67A89);box-shadow:0 0 0 4px var(--pinkSoft,#F8E8EA)}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2,#5C4B43);margin:0;list-style:none}
+#hdr .menu a{position:relative;padding:4px 0;color:inherit;text-decoration:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink,#D67A89);border-radius:2px;transition:right .3s cubic-bezier(.16,1,.3,1)}
+#hdr .menu a:hover{color:var(--pink,#D67A89)}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink,#3E2F29)}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut,#8A7B72);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink,#D67A89)}#hdr .menu-sub a.cur{color:var(--ink,#3E2F29)}
+#hdr .cta{background:var(--rose,#B85060);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1400;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}#hdr .cta{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<main class="wrap">
+
+ <!-- HERO -->
+ <section class="blk reveal">
+  <span class="s-eyebrow">부동산 안전 가이드 · 교육용</span>
+  <h1 class="tit">전세 보증금, <span class="grad">떼이지 않으려면</span><br>이 5단계만 기억하세요</h1>
+  <p class="lead">평생 모은 목돈이 한 번에 묶이는 게 전세예요. 화려한 인테리어보다 먼저 봐야 할 건 <b>등기부등본 한 장</b>과 <b>전입신고 타이밍</b>입니다. 계약 전부터 이사 당일까지, 보증금을 지키는 순서를 정리했어요.</p>
+  <div class="metarow">
+   <span class="chip">⏱ 읽는 데 7분</span>
+   <span class="chip">🗓 기준 2026년 6월</span>
+   <span class="chip warn">정보 제공·교육용 / 법률·투자 자문 아님</span>
+  </div>
+ </section>
+
+ <article class="art reveal">
+  <p class="big dropcap">전세 사기 뉴스가 끊이질 않지만, 사실 대부분의 사고는 <b>몇 가지 기본 절차</b>만 지켰어도 막을 수 있었던 경우가 많아요. 핵심은 단순합니다. ① 그 집에 빚이 얼마나 끼어 있는지 등기부로 확인하고, ② 시세 대비 전세금이 너무 높지 않은지 보고, ③ 이사 당일 '대항력'과 '우선변제권'을 빠짐없이 챙기고, ④ 마지막으로 반환보증이라는 안전판까지 깔아두는 것. 지금부터 단계별로 하나씩 짚어볼게요.</p>
+
+  <!-- STEP 1 -->
+  <section class="sec" id="s1">
+   <span class="step"><span class="num">1</span>계약 전</span>
+   <h2>등기부등본 3분 읽기 — '빚'부터 본다</h2>
+   <p>등기부등본(등기사항전부증명서)은 그 집의 신분증이에요. 인터넷등기소에서 누구나 열람할 수 있고, 수수료는 열람 700원·발급 1,000원 수준입니다. 구조는 크게 세 칸으로 나뉘어요.</p>
+
+   <div class="regbox">
+    <div class="regrow">
+     <div class="rk">표제부<small>表題部</small></div>
+     <div class="rv">부동산의 <b>주소·면적·구조</b>가 적혀 있어요. 내가 계약하려는 호수·면적과 정확히 일치하는지 먼저 대조합니다.</div>
+    </div>
+    <div class="regrow">
+     <div class="rk">갑구<small>甲區</small></div>
+     <div class="rv"><b>소유권</b> 관련. 진짜 주인이 누구인지, 그리고 <b>가압류·압류·가처분·경매개시</b> 같은 위험 기입이 없는지 확인해요.
+      <div><span class="tag bad">가압류</span><span class="tag bad">압류</span><span class="tag bad">경매개시결정</span> 보이면 ⛔ 멈춤</div></div>
+    </div>
+    <div class="regrow">
+     <div class="rk">을구<small>乙區</small></div>
+     <div class="rv">소유권 <b>이외의 권리</b>. 보통 <b>근저당권</b>(집을 담보로 받은 대출)이 여기 적혀요. '채권최고액'은 실제 대출액의 약 110~120%로 잡히는 게 일반적입니다.</div>
+    </div>
+   </div>
+
+   <div class="note danger">
+    <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>이런 신호는 한 번 더 의심</div>
+    선순위 근저당이 시세 대비 큰 집, 갑구에 압류·가압류가 있는 집, <b>계약 직전에 소유자가 갑자기 바뀐 집</b>, 신탁등기가 걸려 '소유자=신탁회사'인 집은 권리관계가 복잡합니다. 등기부는 <b>계약할 때</b>와 <b>잔금 치르는 날</b> 최소 두 번 떼서, 그 사이 새 근저당이 끼지 않았는지 꼭 다시 확인하세요.
+   </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STEP 2 -->
+  <section class="sec" id="s2">
+   <span class="step"><span class="num">2</span>가격 판단</span>
+   <h2>전세가율 · 깡통전세 자가 진단</h2>
+   <p>'깡통전세'는 집을 팔거나 경매로 넘겨도 보증금을 온전히 돌려받기 어려운 상태를 말해요. 판단의 출발점은 두 가지 숫자입니다.</p>
+
+   <h3>① 전세가율 = 전세보증금 ÷ 매매 시세</h3>
+   <p>이 비율이 높을수록 집값이 조금만 떨어져도 보증금이 위태로워져요. 통상 <b>80%를 넘으면 주의 구간</b>으로 봅니다. 매매 시세는 국토교통부 실거래가 공개시스템 등 <b>공신력 있는 공개 데이터</b>로 교차 확인하는 게 좋아요.</p>
+
+   <h3>② '선순위 빚 + 내 보증금'이 시세에서 차지하는 비중</h3>
+   <p>나보다 먼저 변제받는 근저당(선순위 채권최고액)과 내 전세금을 더한 금액이 매매 시세의 <b>약 70~80% 이내</b>여야 경매로 넘어가도 회수 여지가 생겨요. 참고로 반환보증 심사에서도 비슷한 개념의 '부채비율 = (선순위 채권금액 + 전세보증금) ÷ 주택가액'을 봅니다.</p>
+   <div class="datalabel dl-real">🟢 공식 기준값 · 출처 HUG 전세보증금반환보증 상품개요 — 가입 한도선 <b>전세보증금 + 선순위채권 ≤ 주택가격 × 90%</b>(담보인정비율) · 비(非)아파트는 주택가격을 공시가격 <b>140%</b>로 산정 → 전세금이 공시가의 <b>126% 이내</b>('126% 룰') · 선순위채권이 주택가액 <b>60% 초과</b>면 가입 제한 · 재확인 2026-06-08</div>
+
+   <div class="note tip">
+    <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>간단 가늠법</div>
+    예) 매매 시세 5억 집에 선순위 근저당 채권최고액 1억이 잡혀 있다면, 내 전세금은 대략 <b>2.5억~3억(시세의 70~80%에서 선순위 1억을 뺀 값)</b> 안쪽이어야 상대적으로 안전권이에요. 숫자는 단지·시점마다 달라지니 <b>예시</b>로만 봐 주세요.
+   </div>
+   <div class="datalabel dl-ex">🟡 경험칙·예시 — 전세가율 <b>80% 주의선</b>과 '선순위+보증금 <b>70~80% 이내</b>'는 법정 수치가 아니라 통상 쓰는 가늠 기준이에요. 실제 안전선은 단지·시점·시세에 따라 달라지니, 시세는 국토부 실거래가로 교차 확인하세요.</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STEP 3 -->
+  <section class="sec" id="s3">
+   <span class="step"><span class="num">3</span>계약할 때</span>
+   <h2>계약서에 '안전 장치'를 글로 남긴다</h2>
+   <p>말로 한 약속은 증거가 안 돼요. 계약 현장에서 챙길 것들:</p>
+   <div class="regbox">
+    <div class="regrow"><div class="rk">본인 확인</div><div class="rv">계약 상대가 <b>등기부상 소유자 본인</b>인지 신분증으로 대조. 대리인이라면 <b>위임장·인감증명서</b>를 확인하고, 보증금은 반드시 <b>소유자 본인 계좌</b>로 입금해요.</div></div>
+    <div class="regrow"><div class="rk">중개사</div><div class="rv">공인중개사 <b>등록증·자격증</b>과 <b>중개대상물 확인·설명서</b>, 공제증서를 받아 둡니다.</div></div>
+    <div class="regrow"><div class="rk">특약</div><div class="rv"><b>"잔금일 다음 날까지 근저당 등 새로운 권리 설정을 하지 않는다"</b>, "위반 시 계약 해제·보증금 반환" 같은 특약을 명문화하면 '효력 공백' 리스크를 줄일 수 있어요.</div></div>
+   </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STEP 4 -->
+  <section class="sec" id="s4">
+   <span class="step"><span class="num">4</span>이사 당일</span>
+   <h2>대항력 + 우선변제권 — 타이밍이 전부</h2>
+   <p>이 단계가 전세 안전의 심장이에요. 용어 두 개만 잡으면 됩니다.</p>
+   <div class="regbox">
+    <div class="regrow"><div class="rk">대항력</div><div class="rv"><b>이사(주택 인도) + 전입신고</b>를 마치면, 집주인이 바뀌어도 "나 여기 세입자요"라고 주장할 수 있는 힘. 단, 효력은 신고한 <b>다음 날 0시</b>부터 생겨요.</div></div>
+    <div class="regrow"><div class="rk">우선변제권</div><div class="rv">위 대항요건에 <b>확정일자</b>까지 더하면, 경매·공매 시 후순위 채권자보다 <b>먼저</b> 보증금을 배당받을 권리. 전입신고 당일(또는 그 전)에 확정일자를 받았다면 역시 <b>다음 날 0시</b>부터 효력이 발생합니다.</div></div>
+   </div>
+
+   <div class="note danger">
+    <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'다음 날 0시'가 만든 위험한 틈</div>
+    효력이 <b>다음 날 0시</b>부터라, 잔금 치른 그날 집주인이 곧바로 근저당을 설정하면 그 대출이 나보다 <b>앞 순위</b>가 될 수 있어요. 그래서 ⓐ 잔금·이사·전입신고·확정일자를 <b>같은 날 한 번에</b> 처리하고, ⓑ 위 3단계의 '잔금일 근저당 금지' 특약으로 이 틈을 막는 게 핵심입니다.
+   </div>
+   <div class="note tip">
+    <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>실전 순서</div>
+    잔금 입금 → 같은 날 주민센터 또는 정부24에서 <b>전입신고</b> → 같은 날 <b>확정일자</b>(주민센터·인터넷등기소·정부24 가능). 요즘은 전입신고와 확정일자를 온라인에서 함께 처리할 수 있어요.
+   </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STEP 5 -->
+  <section class="sec" id="s5">
+   <span class="step"><span class="num">5</span>안전판</span>
+   <h2>전세보증금 반환보증 — 마지막 우산</h2>
+   <p>위 절차를 다 지켰어도, 집주인이 만기에 보증금을 못 돌려주는 상황은 생길 수 있어요. 이때 보증기관이 대신 보증금을 내어주고 집주인에게 구상하는 게 <b>전세보증금 반환보증</b>입니다. 국내 3대 기관을 비교했어요.</p>
+
+   <div class="tblwrap">
+    <table>
+     <caption>※ 보증료율·한도는 2026년 6월 공개정보 기준의 개략값이며 상품·시점·조건에 따라 달라집니다. 가입 전 각 기관 공식 안내로 최신 조건을 반드시 확인하세요.</caption>
+     <thead><tr><th>구분</th><th>HUG<br>주택도시보증공사</th><th>HF<br>한국주택금융공사</th><th>SGI<br>서울보증보험</th></tr></thead>
+     <tbody>
+      <tr><td><b>성격</b></td><td>공공 · 이용자 가장 많음</td><td>공공 · 보증료 저렴</td><td>민간 · 고액 전세 대응</td></tr>
+      <tr><td><b>보증금 한도</b></td><td>수도권 7억 / 그 외 5억 이하</td><td>수도권 7억 / 그 외 5억 이하</td><td>한도 상대적으로 높음(고가 전세)</td></tr>
+      <tr><td><b>보증료율(연, 개략)</b></td><td>약 0.111~0.211%</td><td>약 0.04~0.18% (최저)</td><td>약 0.183~0.208%</td></tr>
+      <tr><td><b>특징</b></td><td>신혼·다자녀 등 할인, 안심전세App</td><td>요율 최저, 대출보증과 별도 가입</td><td>가입 조건 비교적 유연</td></tr>
+     </tbody>
+    </table>
+   </div>
+
+   <div class="note info">
+    <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4m0-4h.01"/></svg>가입 기본 조건 & 또 하나의 안전장치</div>
+    반환보증은 보통 <b>전세금의 5% 이상을 낸 만 19세 이상 임차인</b>이 신청할 수 있고, 앞서 본 부채비율 등 심사를 통과해야 해요. 한편 보증에 못 들어도, 보증금이 적은 <b>소액임차인</b>이라면 일정액을 최우선으로 돌려받는 제도가 있습니다. 2026년 기준 <b>서울은 보증금 1억 6,500만 원 이하면 최대 5,500만 원</b>, 과밀억제권역·세종·용인·화성·김포는 4,800만 원이 한도예요(기준일은 그 집에 '최초로 담보물권이 설정된 날'의 법령을 따릅니다).
+    <div class="datalabel dl-real">🟢 공식 법령값 · 출처 주택임대차보호법 시행령 §10·§11(법제처·HF) — 최우선변제: 서울 보증금 <b>1.65억↓→5,500만</b> / 과밀억제권역·세종·용인·화성·김포 <b>1.45억↓→4,800만</b> / 광역시·안산·광주·파주·이천·평택 <b>8,500만↓→2,800만</b> / 그 밖 <b>7,500만↓→2,500만</b> · 단, 최우선변제 총액은 <b>주택가액의 1/2</b> 한도 · 적용 법령은 '최초 담보물권 설정일' 기준 · 재확인 2026-06-08</div>
+   </div>
+  </section>
+ </article>
+
+ <!-- INTERACTIVE TOOL -->
+ <section class="blk reveal" id="tool">
+  <span class="s-eyebrow">자가 진단</span>
+  <h2 style="font-size:clamp(20px,2.7vw,27px);font-weight:800;letter-spacing:-.025em;margin:10px 0 4px">내 전세, 지금 몇 점일까?</h2>
+  <p class="lead" style="margin-top:8px">해당하는 항목에 체크하면 점수가 올라가요. <b>점수가 높아도 안전을 보장하진 않습니다</b> — 빠진 항목이 가장 위험한 약점일 수 있으니, 못 채운 칸을 우선 챙기세요.</p>
+
+  <div class="tool" style="margin-top:18px">
+   <div class="toolhead">
+    <div>
+     <div style="font-size:13px;font-weight:800;color:var(--rose)">전세 안전 체크리스트</div>
+     <div style="font-size:13px;color:var(--ink2);margin-top:4px">10개 항목 · 합계 100점</div>
+    </div>
+    <div class="gaugewrap">
+     <div class="gring" role="img" aria-label="안전 점수 게이지">
+      <svg width="104" height="104" viewBox="0 0 104 104">
+       <circle class="gtrk" cx="52" cy="52" r="46"></circle>
+       <circle class="garc" id="garc" cx="52" cy="52" r="46" stroke-dasharray="289.03" stroke-dashoffset="289.03"></circle>
+      </svg>
+      <div class="gnum"><b id="gscore">0</b><s>/ 100점</s></div>
+     </div>
+     <div class="glabel">
+      <div class="gv" id="glv" style="color:var(--mut)">시작 전</div>
+      <div class="gd" id="gld">항목을 체크해 주세요</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="cklist" id="cklist">
+    <label class="ck"><input type="checkbox" data-w="12"><span class="ctxt">등기부등본을 <b>계약 직전·잔금 직전</b> 2번 확인했다<em>그 사이 새 근저당이 끼지 않았는지까지</em></span></label>
+    <label class="ck"><input type="checkbox" data-w="12"><span class="ctxt">갑구에 <b>가압류·압류·경매개시</b> 기입이 없다</span></label>
+    <label class="ck"><input type="checkbox" data-w="14"><span class="ctxt">을구 <b>근저당 채권최고액 + 내 전세금</b>이 매매 시세의 70~80% 이내다</span></label>
+    <label class="ck"><input type="checkbox" data-w="10"><span class="ctxt">전세가율(전세금 ÷ 매매가)이 <b>80% 미만</b>이다</span></label>
+    <label class="ck"><input type="checkbox" data-w="12"><span class="ctxt">계약 상대가 등기부상 <b>소유자 본인</b>임을 신분증으로 확인했다<em>대리인이면 위임장·인감증명, 보증금은 소유자 계좌로</em></span></label>
+    <label class="ck"><input type="checkbox" data-w="8"><span class="ctxt">공인중개사 <b>등록증·중개대상물 확인설명서</b>를 받았다</span></label>
+    <label class="ck"><input type="checkbox" data-w="10"><span class="ctxt">계약서에 <b>'잔금일 근저당 설정 금지'</b> 특약을 넣었다</span></label>
+    <label class="ck"><input type="checkbox" data-w="12"><span class="ctxt">잔금·이사 당일 <b>전입신고와 확정일자</b>를 모두 처리(예정)했다</span></label>
+    <label class="ck"><input type="checkbox" data-w="6"><span class="ctxt"><b>반환보증(HUG/HF/SGI)</b> 가입 가능 여부를 확인했다</span></label>
+    <label class="ck"><input type="checkbox" data-w="4"><span class="ctxt"><b>소액임차인 최우선변제</b> 한도에 내 보증금이 해당하는지 알고 있다</span></label>
+   </div>
+
+   <div class="toolfoot">
+    <button class="btn btn-ghost" id="resetBtn" type="button">다시 체크</button>
+    <span class="fn">※ 입력값은 어디에도 저장·전송되지 않아요(브라우저 안에서만 계산).</span>
+   </div>
+  </div>
+ </section>
+
+ <!-- SUMMARY -->
+ <section class="blk reveal">
+  <span class="s-eyebrow">한 장 요약</span>
+  <h2 style="font-size:clamp(20px,2.7vw,27px);font-weight:800;letter-spacing:-.025em;margin:10px 0 8px">기억할 3가지</h2>
+  <div class="sumgrid">
+   <div class="sumcard">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <h4>빚부터 본다</h4>
+    <p>등기부 갑구(소유·압류)·을구(근저당)를 계약 때와 잔금 때 두 번 확인. 위험 기입이 보이면 멈춤.</p>
+   </div>
+   <div class="sumcard">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+    <h4>가격을 의심한다</h4>
+    <p>전세가율 80% 미만, '선순위 빚+내 보증금'은 시세의 70~80% 이내. 시세는 공개 실거래가로 교차 확인.</p>
+   </div>
+   <div class="sumcard">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <h4>당일에 못 박는다</h4>
+    <p>잔금·전입신고·확정일자를 같은 날 한 번에. 효력은 다음 날 0시 → 잔금일 근저당 금지 특약 + 반환보증으로 보완.</p>
+   </div>
+  </div>
+ </section>
+
+ <!-- RELATED (개선16) -->
+ <section class="blk" id="rel">
+  <div class="relhead reveal">🔗 같이 보면 좋아요</div>
+  <div class="relsub reveal">전세 안전 클러스터 — 5단계 점검을 마쳤다면, 진단·보증·등기·특약으로 한 겹 더 단단하게.</div>
+  <div class="related">
+   <a class="rcard reveal" href="/콘텐츠_부동산_전세사기위험체크_v1"><span class="rk">🚨 자가진단</span><span class="rt">전세사기 위험 신호 체크</span><span class="rd">12가지 위험 신호를 점수로 — 깡통전세·신탁등기·이중계약을 계약 전에 걸러내요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_전세보증금반환보증3사_v1"><span class="rk">🛡️ 비교</span><span class="rt">전세보증금 반환보증 3사</span><span class="rd">HUG·HF·SGI 가입 조건과 보증료 비교 — 체크리스트 마지막 안전장치예요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_등기부등본읽는법_v1"><span class="rk">📄 칼럼</span><span class="rt">등기부등본 읽는 법</span><span class="rd">표제부·갑구·을구 — STEP 1 '빚부터 본다'를 서류로 직접 확인하는 법.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_계약서특약체크리스트_v1"><span class="rk">✍️ 체크리스트</span><span class="rt">계약서 특약 체크리스트</span><span class="rd">'잔금일 근저당 금지' 같은 한 줄 — 계약서에 안전장치를 못 박아요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_임대차3법_v1"><span class="rk">⚖️ 칼럼</span><span class="rt">임대차 3법 핵심 요약</span><span class="rd">갱신요구권·5% 상한·신고제 — 계약 후 보증금을 지켜주는 권리도 챙겨요.</span></a>
+   <a class="rcard reveal" href="/콘텐츠_부동산_용어사전_v1"><span class="rk">📚 사전</span><span class="rt">부동산 용어사전</span><span class="rd">대항력·우선변제권·확정일자 — 체크리스트 용어가 헷갈릴 때 바로 찾기.</span></a>
+  </div>
+ </section>
+
+ <!-- SOURCES + DISCLAIMER -->
+ <section class="blk reveal" style="padding-top:8px">
+  <div class="art" style="margin-top:0">
+   <h3 style="font-size:15px;font-weight:800;margin:0 0 6px">참고한 공개 출처</h3>
+   <p class="src">
+    · 법제처 <b>찾기쉬운 생활법령정보</b> — 대항력·우선변제권, 소액보증금 최우선변제 (<a href="https://easylaw.go.kr" target="_blank" rel="noopener">easylaw.go.kr</a>) · <b>주택임대차보호법 시행령</b> §8·§10·§11 1차 원문 (<a href="https://www.law.go.kr" target="_blank" rel="noopener">law.go.kr</a>)<br>
+    · <b>주택도시보증공사(HUG)</b> — 전세보증금반환보증 상품개요, 전세사기예방센터 (<a href="https://www.khug.or.kr" target="_blank" rel="noopener">khug.or.kr</a>)<br>
+    · <b>한국주택금융공사(HF)</b> — 일반전세지킴보증, 소액임차보증금 안내 (<a href="https://www.hf.go.kr" target="_blank" rel="noopener">hf.go.kr</a>)<br>
+    · 시세·실거래가 교차확인 권장: 국토교통부 <b>실거래가 공개시스템</b> (rt.molit.go.kr) · 인터넷등기소 (iros.go.kr)<br>
+    · <b>주요 수치 2026-06-08 재확인</b> — 소액임차인 최우선변제(시행령 §10·§11)·HUG 담보인정비율 90%(상품개요) 교차검증.
+   </p>
+   <div class="disc">
+    <b>· 정보 제공·교육용 안내입니다.</b> 본 콘텐츠는 일반적인 전세 계약 절차를 쉽게 설명한 자료로, 특정 매물·거래에 대한 법률·세무·투자 자문이나 매수·매도 권유가 아닙니다.<br>
+    <b>· 수치·제도는 변동됩니다.</b> 보증료율·한도·최우선변제 금액·요건 등은 법령·고시 개정과 시점·지역·상품에 따라 달라지므로, 실제 계약 전 각 기관 공식 안내와 등기부·현장 확인, 필요 시 공인중개사·법률 전문가의 검토를 받으시기 바랍니다.<br>
+    <b>· '예시' 수치는 이해를 돕기 위한 가상의 값</b>이며 실제 시세가 아닙니다. 표·게이지는 데모 목적의 목업이에요.
+   </div>
+  </div>
+ </section>
+
+ <!-- CTA -->
+ <section class="blk reveal" style="padding-top:0">
+  <div class="cta-band">
+   <h3>전세·청약·세금, 헷갈릴 땐 부부연구소</h3>
+   <p>매주 한 통, 부부가 함께 읽는 돈 공부 머니레터로 어려운 부동산·경제를 쉽게 풀어드려요.</p>
+   <a class="btn btn-rose" href="/머니레터_랜딩_v1">머니레터 구경하기 →</a>
+  </div>
+ </section>
+
+</main>
+
+<footer>
+ <div class="wrap">
+  <span class="ftlogo"><span class="dot"></span>부부연구소 머니레터</span>
+  <div class="ft"><span>부동산 안전 가이드</span><span>·</span><span>교육용 콘텐츠</span><span>·</span><span>2026</span></div>
+  <p class="ftnote">본 페이지는 검토용 샘플(목업)입니다. 게재된 정보는 작성 시점의 공개자료를 바탕으로 하며, 투자·법률 자문이 아닙니다. 실제 의사결정은 공식 출처와 전문가 확인을 거쳐 주세요.</p>
+ </div>
+</footer>

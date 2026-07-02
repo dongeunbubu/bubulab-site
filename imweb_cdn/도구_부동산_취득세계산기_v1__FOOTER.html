@@ -1,0 +1,179 @@
+<!-- [도구_부동산_취득세계산기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+  "use strict";
+  var CAT = {
+    p1:  {mode:"prog"},
+    p2n: {mode:"prog"},
+    h2j: {mode:"flat", acq:8,  edu:0.4, nong85:0.6},
+    h3n: {mode:"flat", acq:8,  edu:0.4, nong85:0.6},
+    h3j: {mode:"flat", acq:12, edu:0.4, nong85:1.0},
+    corp:{mode:"flat", acq:12, edu:0.4, nong85:1.0}
+  };
+  var EOK = 100000000;
+
+  function $(id){ return document.getElementById(id); }
+  function won(n){ return Math.round(n).toLocaleString("ko-KR") + "원"; }
+  function pct(r){ return (Math.round(r*100)/100) + "%"; }
+
+  // 1주택 유상취득 누진 세율(%)
+  function progRate(price){
+    var eok = price / EOK;
+    if(eok <= 6) return 1.0;
+    if(eok <= 9) return Math.min(3, Math.max(1, eok*2/3 - 3));
+    return 3.0;
+  }
+
+  function eokManLabel(price){
+    var eok = Math.floor(price / EOK);
+    var man = Math.round((price - eok*EOK) / 10000);
+    var manStr = man.toLocaleString("ko-KR");
+    if(eok > 0 && man > 0) return eok + "억 " + manStr + "만원";
+    if(eok > 0) return eok + "억원";
+    return manStr + "만원";
+  }
+
+  // state
+  var price = 600000000;
+  var over85 = 0;
+  var catKey = "p1";
+
+  function compute(){
+    var c = CAT[catKey], acqR, eduR, nongR;
+    if(c.mode === "prog"){
+      acqR = progRate(price);
+      eduR = acqR * 0.1;          // 지방교육세 = 과세표준 × 취득세율 × 0.1
+      nongR = over85 ? 0.2 : 0;   // 농특세 85㎡ 초과만
+    } else {
+      acqR = c.acq; eduR = c.edu; nongR = over85 ? c.nong85 : 0;
+    }
+    var acq = Math.round(price * acqR/100),
+        edu = Math.round(price * eduR/100),
+        nong= Math.round(price * nongR/100);
+    var total = acq + edu + nong;
+    var eff = price > 0 ? total/price*100 : 0;
+    return {acqR:acqR, eduR:eduR, nongR:nongR, acq:acq, edu:edu, nong:nong, total:total, eff:eff, mode:c.mode};
+  }
+
+  function render(){
+    // price labels
+    $("priceLabel").textContent = eokManLabel(price);
+    $("priceWon").textContent = price.toLocaleString("ko-KR") + "원";
+
+    var r = compute();
+    $("totalV").textContent = won(r.total);
+    $("effLine").textContent = "실효세율 " + (Math.round(r.eff*100)/100).toFixed(2) + "% · 적용 취득세율 " + pct(r.acqR);
+
+    $("acqV").textContent = won(r.acq);
+    $("eduV").textContent = won(r.edu);
+    $("nongV").textContent = won(r.nong);
+    $("sumV").textContent = won(r.total);
+    $("acqRateTxt").textContent = "(" + pct(r.acqR) + ")";
+    $("eduRateTxt").textContent = "(" + pct(r.eduR) + ")";
+    $("nongRateTxt").textContent = over85 ? "(" + pct(r.nongR) + ")" : "(85㎡ 이하 비과세)";
+
+    // stacked bar
+    var t = r.total || 1;
+    $("bAcq").style.width  = (r.acq/t*100) + "%";
+    $("bEdu").style.width  = (r.edu/t*100) + "%";
+    $("bNong").style.width = (r.nong/t*100) + "%";
+
+    // note
+    if(r.mode === "prog"){
+      $("noteLine").innerHTML = "일반세율(누진) 적용 구간이에요. 6~9억 구간은 가액이 오를수록 세율이 1%→3%로 올라가요.";
+    } else {
+      $("noteLine").innerHTML = "<b>다주택·법인 중과</b> 정률 적용이에요. 조정대상지역 지정 여부에 따라 달라지며, 일시적 2주택·생애최초 등은 <b>중과 배제</b>될 수 있어요.";
+    }
+
+    // curve marker
+    var eokV = Math.max(0, Math.min(20, price/EOK));
+    var mx = 50 + (eokV/20)*570;
+    var my;
+    if(eokV <= 6) my = 134;
+    else if(eokV <= 9) my = 185 - ((eokV*2/3 - 3)/3)*155;
+    else my = 24;
+    var mk = $("mk"), mkTxt = $("mkTxt");
+    mk.setAttribute("cx", mx.toFixed(1));
+    mk.setAttribute("cy", my.toFixed(1));
+    mkTxt.setAttribute("x", mx.toFixed(1));
+    mkTxt.setAttribute("y", (my - 12).toFixed(1));
+    if(r.mode === "prog"){
+      mk.setAttribute("stroke", "#b95f70"); mk.setAttribute("fill", "#fff");
+      mkTxt.setAttribute("fill", "#b95f70");
+      mkTxt.textContent = pct(progRate(price));
+    } else {
+      mk.setAttribute("stroke", "#b9aeb3"); mk.setAttribute("fill", "#f0eaec");
+      mkTxt.setAttribute("fill", "#b9aeb3");
+      mkTxt.textContent = "정률 " + r.acqR + "%";
+    }
+
+    // highlight ref table row
+    var rows = document.querySelectorAll("#rateTbl tbody tr");
+    for(var i=0;i<rows.length;i++){
+      rows[i].className = (rows[i].getAttribute("data-k") === catKey) ? "hl" : "";
+    }
+  }
+
+  // sync helpers
+  function setPrice(p){
+    price = Math.max(0, Math.min(2000000000, Math.round(p/1000000)*1000000));
+    $("rng").value = price;
+    var eok = Math.floor(price/EOK);
+    var man = Math.round((price - eok*EOK)/10000);
+    $("numEok").value = eok;
+    $("numMan").value = man;
+    // slider fill
+    var pctFill = price/2000000000*100;
+    $("rng").style.background = "linear-gradient(90deg,var(--pink) 0%,var(--pink) "+pctFill+"%,#f0dde1 "+pctFill+"%)";
+    render();
+  }
+
+  // events
+  $("rng").addEventListener("input", function(){ setPrice(parseFloat(this.value)||0); });
+  function fromNum(){
+    var e = parseFloat($("numEok").value)||0;
+    var m = parseFloat($("numMan").value)||0;
+    setPrice(e*EOK + m*10000);
+  }
+  $("numEok").addEventListener("input", fromNum);
+  $("numMan").addEventListener("input", fromNum);
+
+  var segBtns = document.querySelectorAll("#segArea button");
+  for(var i=0;i<segBtns.length;i++){
+    segBtns[i].addEventListener("click", function(){
+      for(var j=0;j<segBtns.length;j++) segBtns[j].className = "";
+      this.className = "on";
+      over85 = parseInt(this.getAttribute("data-over"),10);
+      render();
+    });
+  }
+  $("cat").addEventListener("change", function(){ catKey = this.value; render(); });
+
+  // init
+  setPrice(600000000);
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

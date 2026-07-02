@@ -1,0 +1,59 @@
+<!-- [콘텐츠_경제공부_FCFvs순이익_2026-06] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+function runBars(root){(root||d).querySelectorAll('.step .fill').forEach(function(f){if(f.dataset.done)return;f.dataset.done=1;f.style.width=parseFloat(f.dataset.w)+'%';});}
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');var cs=e.target.querySelectorAll?e.target.querySelectorAll('.cf'):[];cs.forEach(runCF);if(e.target.classList.contains('cf'))runCF(e.target);if(e.target.querySelector&&e.target.querySelector('.step'))runBars(e.target);}});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});
+d.querySelectorAll('.cf').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});runBars(d);}
+
+// count-up (commas for integers)
+function runCF(el){if(el.dataset.done)return;el.dataset.done=1;var to=parseFloat(el.dataset.to),dec=parseInt(el.dataset.dec||'0'),t0=null,dur=1100;
+function fmt(v){return dec>0?v.toFixed(dec):Math.round(v).toLocaleString('en-US');}
+function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(s);else el.textContent=fmt(to);}requestAnimationFrame(s);}
+
+// FCF calculator
+(function(){var ni=d.getElementById('niIn'),da=d.getElementById('daIn'),cx=d.getElementById('cxIn');if(!ni||!da||!cx)return;
+var niOut=d.getElementById('niOut'),daOut=d.getElementById('daOut'),cxOut=d.getElementById('cxOut');
+var eqOcf=d.getElementById('eqOcf'),eqCx=d.getElementById('eqCx'),eqFcf=d.getElementById('eqFcf'),vd=d.getElementById('verdict');
+function fcf(v){return v<0?'−'+Math.abs(v)+'억$':v+'억$';}
+function upd(){var n=parseFloat(ni.value),dd=parseFloat(da.value),c=parseFloat(cx.value);var ocf=n+dd;var f=ocf-c;
+niOut.textContent=n+'억$';daOut.textContent=dd+'억$';cxOut.textContent=c+'억$';
+eqOcf.textContent=ocf;eqCx.textContent=c;
+eqFcf.textContent=fcf(f);eqFcf.style.color=f<0?'var(--down)':'var(--sage)';
+var msg;
+if(f<0&&n>0){msg='장부는 흑자('+n+'억$)인데 잉여현금은 마이너스예요. 미래를 위한 설비투자('+c+'억$)가 본업이 번 현금('+ocf+'억$)보다 커서 생기는 「투자형 마이너스」 — 지금의 아마존이 딱 이 모습이에요. 좋은 적자인지 나쁜 적자인지는 그 투자가 나중에 돈을 버느냐로 갈려요.';}
+else if(f<0&&n<=0){msg='이익도 0 이하, 잉여현금도 마이너스예요. 본업이 현금을 못 버는 「위기형」 신호라, 미래를 위해 짓는 투자형 마이너스와는 전혀 다른 이야기예요.';}
+else if(f>=0&&n>0&&f>=n){msg='벌어들인 순이익('+n+'억$)보다 더 많은 현금('+f+'억$)이 남아요. 감가상각은 큰데 새 투자는 적은, 현금을 짜내는 성숙기 회사의 전형이에요(애플처럼).';}
+else if(f>=0&&n>0&&f<n*0.5){msg='흑자에 잉여현금도 플러스지만 이익의 절반도 안 남아요. 설비투자를 늘리는 성장기 회사에서 흔한 모습이라, 투자 성과를 같이 봐야 해요.';}
+else{msg='순이익도 잉여현금도 플러스인 건강한 구간이에요. 번 이익이 대체로 현금으로 잘 남고 있어요.';}
+vd.textContent=msg;}
+ni.addEventListener('input',upd);da.addEventListener('input',upd);cx.addEventListener('input',upd);upd();})();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

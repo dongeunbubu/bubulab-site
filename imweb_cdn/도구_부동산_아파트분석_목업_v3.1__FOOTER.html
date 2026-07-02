@@ -1,0 +1,141 @@
+<!-- [도구_부동산_아파트분석_목업_v3.1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 5개) -->
+<script>/*aptcalc31*/
+(function(){
+ "use strict";
+ var $=function(id){return document.getElementById(id);};
+ function pnum(v){v=parseFloat(v);return (isFinite(v)&&v>0)?v:0;}
+ function eok1(man){return (man/10000).toFixed(1)+'억';}
+ function eok2(man){return (man/10000).toFixed(2)+'억';}
+ function manFmt(won){if(!isFinite(won))won=0;return '약 '+Math.round(won).toLocaleString('ko-KR')+'만';}
+
+ /* header scrolled */
+ var hdr=$('hdr');
+ var onScroll=function(){if(hdr){hdr.classList.toggle('scrolled',window.scrollY>10);}};
+ window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+ /* fill data-w bars (mixbar 등) — revealfix는 .in만 달고 width는 안 채움 */
+ [].forEach.call(document.querySelectorAll('[data-w]'),function(el){
+  var w=parseFloat(el.getAttribute('data-w'));if(!isFinite(w))w=0;
+  el.style.width=Math.max(0,Math.min(100,w))+'%';
+ });
+
+ /* ── Section 5: 전세가율·갭 (수동 + 연동 시뮬) ── */
+ var mae=$('mae'),ratio=$('ratio'),ratioV=$('ratioV'),jeonInput=$('jeonInput');
+ var mManual=$('mManual'),mAuto=$('mAuto'),fManual=$('fManual'),fAuto=$('fAuto');
+ var oJeon=$('oJeon'),oGap=$('oGap'),oRatio=$('oRatio'),gmask=$('gmask');
+ var verdict=$('verdict'),vIcon=$('vIcon'),vText=$('vText');
+ var mode='manual';
+ function calc5(){
+  var m=pnum(mae&&mae.value),r,jeon;
+  if(mode==='auto'){jeon=pnum(jeonInput&&jeonInput.value);r=m>0?(jeon/m*100):0;}
+  else{r=pnum(ratio&&ratio.value);jeon=m*r/100;}
+  var gap=m-jeon,rR=Math.round(r);
+  if(ratioV)ratioV.textContent=rR;
+  if(oJeon)oJeon.textContent=eok1(jeon);
+  if(oGap)oGap.textContent=eok1(gap);
+  if(oRatio)oRatio.textContent=rR+'%';
+  if(gmask)gmask.style.width=Math.max(0,Math.min(100,100-r))+'%';
+  if(verdict&&vIcon&&vText){
+   verdict.classList.remove('safe','warn','danger');
+   if(r>=80){verdict.classList.add('danger');vIcon.textContent='🚨';vText.textContent='전세가율 '+rR+'% — 매매가에 바짝 붙은 구간이에요. 집값이 조금만 내려도 보증금 회수가 어려운 깡통전세 위험 신호(예시 기준). 선순위 권리 점검 필수.';}
+   else if(r>=60){verdict.classList.add('warn');vIcon.textContent='⚠️';vText.textContent='전세가율 '+rR+'% — 주의 구간이에요. 근저당·신탁 등 선순위 권리와 보증보험 가입 가능 여부를 함께 확인하세요(예시 기준).';}
+   else{verdict.classList.add('safe');vIcon.textContent='✅';vText.textContent='전세가율 '+rR+'% — 매매가 대비 전세가가 낮아 보증금 회수 여력이 비교적 큰 구간이에요(예시 기준).';}
+  }
+ }
+ function setMode(m){
+  mode=m;
+  if(mManual){mManual.classList.toggle('on',m==='manual');mManual.setAttribute('aria-selected',m==='manual');}
+  if(mAuto){mAuto.classList.toggle('on',m==='auto');mAuto.setAttribute('aria-selected',m==='auto');}
+  if(fManual)fManual.hidden=(m!=='manual');
+  if(fAuto)fAuto.hidden=(m!=='auto');
+  calc5();
+ }
+ if(mManual)mManual.addEventListener('click',function(){setMode('manual');});
+ if(mAuto)mAuto.addEventListener('click',function(){setMode('auto');});
+ if(mae)mae.addEventListener('input',calc5);
+ if(ratio)ratio.addEventListener('input',calc5);
+ if(jeonInput)jeonInput.addEventListener('input',calc5);
+ calc5();
+
+ /* ── Section 6: 보유비용 가늠 (재산세 누진 · 교육용 가늠값) ── */
+ var gongsi=$('gongsi'),mgmt=$('mgmt'),hOne=$('hOne'),hMulti=$('hMulti');
+ var oBase=$('oBase'),oTax=$('oTax'),oMonth=$('oMonth'),jongbuFlag=$('jongbuFlag');
+ var house='one';
+ function fairRatio(g,isOne){if(!isOne)return 0.60;if(g<=30000)return 0.43;if(g<=60000)return 0.44;return 0.45;}
+ function propStd(b){ /* 표준 0.1~0.4% 누진 */
+  if(b<=6000)return b*0.001;
+  if(b<=15000)return 6+(b-6000)*0.0015;
+  if(b<=30000)return 19.5+(b-15000)*0.0025;
+  return 57+(b-30000)*0.004;
+ }
+ function propSpecial(b){ /* 1주택 공시 9억↓ 특례 0.05~0.35% 누진 */
+  if(b<=6000)return b*0.0005;
+  if(b<=15000)return 3+(b-6000)*0.001;
+  if(b<=30000)return 12+(b-15000)*0.002;
+  return 42+(b-30000)*0.0035;
+ }
+ function calc6(){
+  var g=pnum(gongsi&&gongsi.value),mg=pnum(mgmt&&mgmt.value),isOne=(house==='one');
+  var base=g*fairRatio(g,isOne);
+  var bon=(isOne&&g<=90000)?propSpecial(base):propStd(base);
+  var bundle=bon*1.2,month=bundle/12+mg;
+  if(oBase)oBase.textContent=eok2(base);
+  if(oTax)oTax.textContent=manFmt(bundle);
+  if(oMonth)oMonth.textContent=manFmt(month);
+  if(jongbuFlag)jongbuFlag.classList.toggle('on',g>(isOne?120000:90000));
+ }
+ function setHouse(h){
+  house=h;
+  if(hOne){hOne.classList.toggle('on',h==='one');hOne.setAttribute('aria-pressed',h==='one');}
+  if(hMulti){hMulti.classList.toggle('on',h==='multi');hMulti.setAttribute('aria-pressed',h==='multi');}
+  calc6();
+ }
+ if(hOne)hOne.addEventListener('click',function(){setHouse('one');});
+ if(hMulti)hMulti.addEventListener('click',function(){setHouse('multi');});
+ if(gongsi)gongsi.addEventListener('input',calc6);
+ if(mgmt)mgmt.addEventListener('input',calc6);
+ calc6();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*revealfix*/
+(function(){var rev=[].slice.call(document.querySelectorAll('.reveal'));if(!rev.length)return;
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.10,rootMargin:'0px 0px -6% 0px'});rev.forEach(function(el){io.observe(el);});}else{rev.forEach(function(el){el.classList.add('in');});}})();
+</script>
+<script>/*dev31a11y — 게이지 동적 aria-label (계산 엔진 무접촉 · 추가 레이어)*/
+(function(){
+ "use strict";
+ var g=document.getElementById('gtrack');if(!g)return;
+ var oR=document.getElementById('oRatio'),oJ=document.getElementById('oJeon'),oG=document.getElementById('oGap');
+ function lab(){
+  var r=oR?oR.textContent:'',j=oJ?oJ.textContent:'',gp=oG?oG.textContent:'';
+  g.setAttribute('aria-label','전세가율 게이지예요. 현재 전세가율 '+r+', 추정 전세가 '+j+', 갭 '+gp+'. 왼쪽으로 갈수록 여유, 오른쪽으로 갈수록 깡통 위험 구간이에요(예시 기준).');
+ }
+ ['mae','ratio','jeonInput'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){setTimeout(lab,0);});});
+ ['mManual','mAuto'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('click',function(){setTimeout(lab,0);});});
+ lab();
+})();
+</script>

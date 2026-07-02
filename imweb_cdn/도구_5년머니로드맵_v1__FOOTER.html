@@ -1,0 +1,280 @@
+<!-- [도구_5년머니로드맵_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtEok=function(n){var neg=n<0;n=Math.abs(Math.round(n));var eok=Math.floor(n/100000000),man=Math.round((n%100000000)/10000);var s='';if(eok>0)s+=eok+'억';if(man>0)s+=(eok>0?' ':'')+man.toLocaleString('ko-KR')+'만';if(!s)s='0';return (neg?'-':'')+s+'원';};
+window.countUp=function(el,to,fmt,dur){to=+to;dur=dur||1000;var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+var LS='bbl_roadmap_v1';
+var PRESETS=[
+ {emoji:'💍',name:'결혼식·혼수',amt:40000000},
+ {emoji:'🏠',name:'신혼집 자기자본',amt:80000000},
+ {emoji:'👶',name:'출산·육아 첫해',amt:8000000},
+ {emoji:'🚗',name:'자동차',amt:30000000},
+ {emoji:'🏡',name:'내 집 마련 보탬',amt:100000000},
+ {emoji:'✈️',name:'목돈·여행',amt:5000000}
+];
+var EMOJIS=['💍','🏠','👶','🚗','🏡','✈️','🎓','💼','🐣','🛋️','💰','📌'];
+var DEFAULT_EVENTS=[
+ {emoji:'💍',name:'결혼식·혼수',year:1,amt:30000000},
+ {emoji:'🚗',name:'자동차',year:2,amt:20000000},
+ {emoji:'👶',name:'출산·육아 첫해',year:3,amt:8000000}
+];
+var state={save:1500000,seed:20000000,r:3.0,H:5,events:[]};
+var _uid=1;function uid(){return _uid++;}
+
+// ── 저장/복원 (기기에만) ──
+function saveLS(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+function loadLS(){try{var r=localStorage.getItem(LS);if(!r)return false;var o=JSON.parse(r);if(!o||typeof o!=='object')return false;
+ ['save','seed','r','H'].forEach(function(k){if(typeof o[k]==='number'&&isFinite(o[k]))state[k]=o[k];});
+ if(Array.isArray(o.events)){state.events=o.events.filter(function(e){return e&&typeof e==='object';}).map(function(e){
+   return {id:uid(),emoji:(typeof e.emoji==='string'&&e.emoji)||'📌',name:(typeof e.name==='string'?e.name:'').slice(0,24),year:Math.min(state.H,Math.max(1,parseInt(e.year,10)||1)),amt:Math.max(0,parseInt(e.amt,10)||0)};
+ });}
+ return true;}catch(e){return false;}}
+
+// ── 시뮬레이션 ──
+function needArr(H){var a=[];for(var i=0;i<=H;i++)a.push(0);state.events.forEach(function(e){if(e.year>=1&&e.year<=H)a[e.year]+=e.amt;});return a;}
+function simWith(monthly){
+ var r=state.r/100,aS=monthly*12,H=state.H,nd=needArr(H);
+ var bal=[state.seed],cap=[state.seed];
+ for(var y=1;y<=H;y++){bal[y]=bal[y-1]*(1+r)+aS-nd[y];cap[y]=cap[y-1]*(1+r)+aS;}
+ return {bal:bal,cap:cap,need:nd};
+}
+function minBal(b){var m=Infinity;for(var y=1;y<state.H+1;y++)if(b[y]<m)m=b[y];return state.H>=1?m:state.seed;}
+function requiredMonthly(){
+ var base=simWith(state.save);
+ if(minBal(base.bal)>=0)return state.save<=0?0:null; // null = 이미 여유(추가 불필요)
+ var lo=0,hi=Math.max(1,state.save);
+ var guard=0;while(minBal(simWith(hi).bal)<0&&hi<1e12&&guard<80){hi*=2;guard++;}
+ for(var i=0;i<60;i++){var mid=(lo+hi)/2;if(minBal(simWith(mid).bal)>=0)hi=mid;else lo=mid;}
+ return Math.ceil(hi/10000)*10000;
+}
+
+// ── 이벤트 목록 렌더 (구조 변경 시에만) ──
+function yearOpts(sel){var s='';for(var y=1;y<=state.H;y++){s+='<option value="'+y+'"'+(y===sel?' selected':'')+'>'+y+'년차</option>';}return s;}
+function renderEvents(){
+ var box=$('evList');box.innerHTML='';
+ if(!state.events.length){box.innerHTML='<div class="evempty">아직 이벤트가 없어요. 위 칩(💍 결혼식·🏠 신혼집…)을 눌러 우리 계획을 올려보세요 :)</div>';return;}
+ state.events.forEach(function(ev){
+   var row=document.createElement('div');row.className='evrow';
+   row.innerHTML='<div class="emo" title="이모지 바꾸기" role="button" tabindex="0">'+ev.emoji+'</div>'+
+     '<input class="nm" type="text" maxlength="24" value="'+ev.name.replace(/"/g,'&quot;')+'" aria-label="이벤트 이름">'+
+     '<select class="yr" aria-label="목표 연차">'+yearOpts(ev.year)+'</select>'+
+     '<input class="amt" type="text" inputmode="numeric" value="'+ev.amt.toLocaleString('ko-KR')+'" aria-label="필요 금액(원)">'+
+     '<button class="del" type="button" aria-label="삭제">×</button>';
+   var emo=row.querySelector('.emo'),nm=row.querySelector('.nm'),yr=row.querySelector('.yr'),amt=row.querySelector('.amt'),del=row.querySelector('.del');
+   function cycleEmoji(){var i=EMOJIS.indexOf(ev.emoji);ev.emoji=EMOJIS[(i+1)%EMOJIS.length];emo.textContent=ev.emoji;compute(false);saveLS();}
+   emo.addEventListener('click',cycleEmoji);
+   emo.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();cycleEmoji();}});
+   nm.addEventListener('input',function(){ev.name=nm.value.slice(0,24);compute(false);saveLS();});
+   yr.addEventListener('change',function(){ev.year=Math.min(state.H,Math.max(1,parseInt(yr.value,10)||1));compute(true);saveLS();});
+   amt.addEventListener('input',function(){var v=Math.max(0,+(amt.value.replace(/[^0-9]/g,''))||0);ev.amt=v;amt.value=v?v.toLocaleString('ko-KR'):'';compute(false);saveLS();});
+   amt.addEventListener('blur',function(){compute(true);});
+   del.addEventListener('click',function(){state.events=state.events.filter(function(x){return x!==ev;});renderEvents();compute(true);saveLS();});
+   box.appendChild(row);
+ });
+}
+function addEvent(p){
+ var nd=needArr(state.H),yr=1;for(var y=1;y<=state.H;y++){if(nd[y]===0){yr=y;break;}else if(y===state.H)yr=state.H;}
+ state.events.push({id:uid(),emoji:p?p.emoji:'📌',name:p?p.name:'새 목표',year:yr,amt:p?p.amt:10000000});
+ renderEvents();compute(true);saveLS();
+}
+
+// ── 진단 배너 ──
+function renderReco(sim,req){
+ var b=sim.bal,end=b[state.H],mn=minBal(b),total=state.events.reduce(function(s,e){return s+e.amt;},0);
+ var band=$('recoband');
+ if(!state.events.length){
+   $('recoCrown').textContent='🧭';band.classList.remove('warn');
+   $('recoK').textContent='먼저 이벤트를 올려보세요';
+   $('recoG').textContent='우리 부부의 큰 계획부터 적어볼까요?';
+   $('recoP').innerHTML='위에서 결혼·신혼집·출산 같은 목표를 추가하면, 지금 페이스로 감당할 수 있는지 바로 그려드릴게요.';
+   return;
+ }
+ if(mn>=0){
+   $('recoCrown').textContent='🎉';band.classList.remove('warn');
+   $('recoK').textContent=state.H+'년 로드맵 · 진단 결과';
+   $('recoG').innerHTML='지금 페이스로 <span style="color:var(--sage)">모든 목표를 감당할 수 있어요</span>';
+   $('recoP').innerHTML='매달 <b>'+window.fmtWon(state.save)+'원</b>씩 모으면 가장 빠듯한 순간에도 잔고가 마이너스가 안 돼요. '+state.H+'년 뒤엔 <b>'+window.fmtEok(end)+'</b>이 남아요. 더 빨리 가고 싶다면 저축액을 조금 올려보세요.';
+ }else{
+   var firstNeg=-1;for(var y=1;y<=state.H;y++){if(b[y]<0){firstNeg=y;break;}}
+   var names=state.events.filter(function(e){return e.year===firstNeg;}).map(function(e){return e.emoji+' '+(e.name||'목표');}).join(', ')||(firstNeg+'년차');
+   $('recoCrown').textContent='⚠️';band.classList.add('warn');
+   $('recoK').textContent=state.H+'년 로드맵 · 진단 결과';
+   $('recoG').innerHTML='<span style="color:var(--rose)">'+firstNeg+'년차</span>가 가장 빠듯해요';
+   var reqTxt=(req!=null)?('매달 <b>'+window.fmtWon(req)+'원</b>(지금보다 +'+window.fmtWon(Math.max(0,req-state.save))+'원)을 모으면 모든 목표를 마이너스 없이 소화할 수 있어요.'):'저축액을 조금 더 올리거나, 목표 금액·시기를 나눠보면 한결 가벼워져요.';
+   $('recoP').innerHTML=firstNeg+'년차의 <b>'+names+'</b> 즈음 잔고가 약 <b>'+window.fmtEok(Math.abs(mn))+'</b> 부족할 수 있어요. '+reqTxt+' 너무 걱정 마요, 시기를 한 해 미루는 것만으로도 많이 달라져요 :)';
+ }
+}
+
+// ── 요약 카드 ──
+function renderSummary(sim,req,animate){
+ var total=state.events.reduce(function(s,e){return s+e.amt;},0);
+ var end=sim.bal[state.H];
+ if(animate){window.countUp($('sumNeed'),total,window.fmtEok);}else{$('sumNeed').textContent=window.fmtEok(total);}
+ var es=$('sumEnd');es.textContent=window.fmtEok(end);es.style.color=end<0?'var(--rose)':'var(--sage)';
+ $('sumEndS').textContent=end<0?'지금 페이스로는 모자랄 수 있어요.':'목표를 다 치르고 남는 돈이에요.';
+ var rq=$('sumReq');
+ if(req===null){rq.textContent='여유 있어요';rq.style.color='var(--sage)';$('sumReqS').textContent='지금 저축액으로 충분해요. 더 모으면 그만큼 빨라져요.';}
+ else if(req===0){rq.textContent='–';rq.style.color='';$('sumReqS').textContent='이벤트를 올리면 계산해 드려요.';}
+ else{rq.textContent=window.fmtWon(req)+'원';rq.style.color=req>state.save?'var(--rose)':'var(--sage)';$('sumReqS').textContent=req>state.save?('지금보다 매달 '+window.fmtWon(req-state.save)+'원 더 필요해요.'):'지금 저축액이면 충분한 선이에요.';}
+}
+
+// ── 타임라인 ──
+function renderTimeline(sim){
+ var tl=$('tl');tl.innerHTML='';var nd=sim.need,b=sim.bal;
+ for(var y=1;y<=state.H;y++){
+   var evs=state.events.filter(function(e){return e.year===y;});
+   var neg=b[y]<0;
+   var c=document.createElement('div');c.className='tlc'+(neg?' neg':'');
+   var inner='<div class="yr">'+y+'년차</div>';
+   if(evs.length){inner+='<div class="evs">'+evs.map(function(e){return '<div class="ev"><span class="e">'+e.emoji+'</span>'+escapeHtml(e.name||'목표')+'<span class="a">'+window.fmtEok(e.amt)+'</span></div>';}).join('')+'</div>';}
+   else{inner+='<div class="none">이 해는 큰 지출 없이 모으기만 해요</div>';}
+   inner+='<div class="balrow"><div class="balk">예상 잔고</div><div class="balv" style="color:'+(neg?'var(--rose)':'var(--ink)')+'">'+window.fmtEok(b[y])+' <span class="pill '+(neg?'no':'ok')+'">'+(neg?'빠듯':'OK')+'</span></div></div>';
+   c.innerHTML=inner;tl.appendChild(c);
+ }
+ $('tlSpan').textContent='1~'+state.H+'년차';
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+
+// ── 잔고 곡선 ──
+function renderChart(sim,animate){
+ var N=state.H,grid=$('balGrid'),paths=$('balPaths'),dots=$('balDots'),axis=$('balAxis'),area=$('balArea');
+ grid.innerHTML='';paths.innerHTML='';dots.innerHTML='';axis.innerHTML='';area.setAttribute('d','');
+ var X0=58,X1=694,Y0=20,Y1=274;
+ var bal=sim.bal,cap=sim.cap;
+ var lo=0,hi=1;for(var t=0;t<=N;t++){lo=Math.min(lo,bal[t],cap[t]);hi=Math.max(hi,bal[t],cap[t]);}
+ var span=(hi-lo)||1;hi+=span*0.06;lo-=span*0.05;span=hi-lo;
+ function px(t){return X0+(N<=0?0:t/N)*(X1-X0);}
+ function py(v){return Y1-((v-lo)/span)*(Y1-Y0);}
+ // grid + y labels (0, max, min)
+ var seen={};
+ [hi,(hi+lo)/2,lo,0].forEach(function(v){
+   var key=Math.round(v/1000);if(seen[key])return;seen[key]=1;
+   if(v>hi||v<lo)return;
+   var y=py(v),zero=Math.abs(v)<1;
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(zero?'#D9A6A0':'#EEE0DB')+'" stroke-width="'+(zero?'1.4':'1')+'" stroke-dasharray="'+(zero?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-8)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(zero?'0':window.fmtEok(v))+'</text>';
+ });
+ // x labels
+ for(var xt=0;xt<=N;xt++){axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'년</text>';}
+ // area under balance to zero baseline
+ var yb=py(0);
+ var areaD='M'+px(0).toFixed(1)+' '+py(bal[0]).toFixed(1);
+ for(var i=1;i<=N;i++)areaD+=' L'+px(i).toFixed(1)+' '+py(bal[i]).toFixed(1);
+ areaD+=' L'+px(N).toFixed(1)+' '+yb.toFixed(1)+' L'+px(0).toFixed(1)+' '+yb.toFixed(1)+' Z';
+ area.setAttribute('d',areaD);
+ // capacity (dashed lav) + balance (solid rose)
+ function line(arr,color,dash){
+   var dd=arr.map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+   var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+   p.setAttribute('d',dd);p.setAttribute('stroke',color);p.setAttribute('opacity','.95');
+   if(dash){p.setAttribute('stroke-dasharray','5 6');p.setAttribute('stroke-width','2.4');p.setAttribute('opacity','.7');}
+   paths.appendChild(p);
+   if(!dash){var len=p.getTotalLength?p.getTotalLength():1400;if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}else{p.style.strokeDasharray='none';p.style.strokeDashoffset=0;}}
+   return p;
+ }
+ line(cap,'#9C6BA8',true);
+ line(bal,'#B85060',false);
+ // event dots on balance line
+ for(var d=1;d<=N;d++){if(sim.need[d]>0){var ex=px(d),ey=py(bal[d]),neg=bal[d]<0;
+   dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="5" fill="#fff" stroke="'+(neg?'#B85060':'#5E8C7F')+'" stroke-width="2.5"/>';}}
+ // end label
+ var exN=px(N),eyN=py(bal[N]);
+ dots.innerHTML+='<text x="'+(exN-6).toFixed(1)+'" y="'+(eyN-9).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="#B85060">잔고 '+window.fmtEok(bal[N])+'</text>';
+ $('chSpan').textContent='0~'+N+'년';
+}
+
+// ── 이벤트별 점검 ──
+function renderBreakdown(sim){
+ var box=$('bd');box.innerHTML='';
+ var evs=state.events.slice().sort(function(a,b){return a.year-b.year||b.amt-a.amt;});
+ evs.forEach(function(e){
+   var balY=sim.bal[e.year],ok=balY>=0;
+   var c=document.createElement('div');c.className='bdc '+(ok?'ok':'no');
+   c.innerHTML='<div class="be">'+e.emoji+'</div>'+
+     '<div class="bt"><b>'+escapeHtml(e.name||'목표')+'</b><span>'+e.year+'년차 · 필요 '+window.fmtEok(e.amt)+'</span></div>'+
+     '<div class="br"><div class="amt" style="color:'+(ok?'var(--ink)':'var(--rose)')+'">잔고 '+window.fmtEok(balY)+'</div><div class="st '+(ok?'ok':'no')+'">'+(ok?'✓ 감당 가능':'부족 '+window.fmtEok(Math.abs(balY)))+'</div></div>';
+   box.appendChild(c);
+ });
+}
+
+// ── 통합 렌더 ──
+function compute(animate){
+ var sim=simWith(state.save);
+ var req=requiredMonthly();
+ renderReco(sim,req);
+ renderSummary(sim,req,animate);
+ renderTimeline(sim);
+ renderChart(sim,animate);
+ renderBreakdown(sim);
+}
+
+// ── 입력 배선 ──
+function syncChips(box,val){document.querySelectorAll('#'+box+' .chip').forEach(function(ch){ch.classList.toggle('on',+ch.dataset.v===val);});}
+function bindMoney(id,key,chipsBox){
+ var f=$(id);
+ f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);state[key]=v;f.value=v?v.toLocaleString('ko-KR'):'';if(chipsBox)syncChips(chipsBox,v);compute(false);saveLS();});
+ f.addEventListener('blur',function(){compute(true);});
+}
+bindMoney('mSave','save','saveChips');
+bindMoney('seedInp','seed','seedChips');
+document.querySelectorAll('#saveChips .chip').forEach(function(ch){ch.addEventListener('click',function(){state.save=+ch.dataset.v;$('mSave').value=state.save.toLocaleString('ko-KR');syncChips('saveChips',state.save);compute(true);saveLS();});});
+document.querySelectorAll('#seedChips .chip').forEach(function(ch){ch.addEventListener('click',function(){state.seed=+ch.dataset.v;$('seedInp').value=state.seed.toLocaleString('ko-KR');syncChips('seedChips',state.seed);compute(true);saveLS();});});
+$('rR').addEventListener('input',function(){state.r=+this.value;$('rV').textContent=state.r.toFixed(1);syncChips('rChips',state.r);compute(false);saveLS();});
+$('rR').addEventListener('change',function(){compute(true);});
+document.querySelectorAll('#rChips .chip').forEach(function(ch){ch.addEventListener('click',function(){state.r=+ch.dataset.v;$('rR').value=state.r;$('rV').textContent=state.r.toFixed(1);syncChips('rChips',state.r);compute(true);saveLS();});});
+$('hR').addEventListener('input',function(){state.H=+this.value;$('hV').textContent=state.H;
+ state.events.forEach(function(e){if(e.year>state.H)e.year=state.H;});
+ renderEvents();compute(false);saveLS();});
+$('hR').addEventListener('change',function(){compute(true);});
+// 프리셋 칩
+(function(){var box=$('presetChips');PRESETS.forEach(function(p){var b=document.createElement('button');b.className='chip add';b.type='button';b.textContent=p.emoji+' '+p.name;b.addEventListener('click',function(){addEvent(p);});box.appendChild(b);});})();
+$('addBtn').addEventListener('click',function(){addEvent(null);});
+$('clearBtn').addEventListener('click',function(){if(!state.events.length||confirm('이벤트를 모두 지울까요?')){state.events=[];renderEvents();compute(true);saveLS();}});
+
+// ── 초기화 ──
+function syncInputsFromState(){
+ $('mSave').value=state.save.toLocaleString('ko-KR');
+ $('seedInp').value=state.seed.toLocaleString('ko-KR');
+ $('rR').value=state.r;$('rV').textContent=state.r.toFixed(1);
+ $('hR').value=state.H;$('hV').textContent=state.H;
+ syncChips('saveChips',state.save);syncChips('seedChips',state.seed);syncChips('rChips',state.r);
+}
+if(!loadLS()){state.events=DEFAULT_EVENTS.map(function(e){return {id:uid(),emoji:e.emoji,name:e.name,year:e.year,amt:e.amt};});}
+syncInputsFromState();
+renderEvents();
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
