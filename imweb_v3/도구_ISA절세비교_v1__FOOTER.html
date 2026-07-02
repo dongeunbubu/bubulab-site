@@ -1,0 +1,176 @@
+<!-- [도구_ISA절세비교_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+var sp=d.getElementById('sp'),tt=d.getElementById('toTop');
+addEventListener('scroll',function(){var st=d.documentElement.scrollTop||d.body.scrollTop;var dh=(d.documentElement.scrollHeight-d.documentElement.clientHeight)||1;if(sp)sp.style.width=(st/dh*100)+'%';if(tt)tt.classList.toggle('on',st>520);},{passive:true});
+if(tt)tt.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'});});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');}});},{threshold:.12});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtMan=function(n){var m=n/10000;if(Math.abs(m)>=10000){return (m/10000).toFixed(m%10000===0?0:2).replace(/\.00$/,'')+'억';}return Math.round(m).toLocaleString('ko-KR')+'만';};
+window.countUp=function(el,to,dur,suf){to=+to;dur=dur||850;suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+var RATE_GEN=0.154, RATE_ISA=0.099, KEY='bbIsaTaxSaver_v1';
+
+function num(el){return Math.max(0,+(el.value.replace(/[^0-9]/g,''))||0);}
+// 적립식 월복리 미래가치 (연도별 0..years)
+function fvSeries(pmt,annual,years){var rm=annual/100/12,gross=[],prin=[];for(var y=0;y<=years;y++){var m=y*12;var g=(rm===0)?pmt*m:pmt*((Math.pow(1+rm,m)-1)/rm);gross.push(g);prin.push(pmt*m);}return{gross:gross,prin:prin};}
+function taxGeneral(taxable){return Math.max(0,taxable)*RATE_GEN;}
+// ISA 세금: 순이익을 계좌 수로 나눠 각자 비과세 한도 적용 후 초과분만 9.9%
+function isaParts(taxable,limit,accounts){taxable=Math.max(0,taxable);var per=taxable/accounts;var exemptPer=Math.min(per,limit);var overPer=Math.max(0,per-limit);var exemptTot=exemptPer*accounts;var overTot=overPer*accounts;return{exempt:exemptTot,over:overTot,tax:overTot*RATE_ISA};}
+
+var state={pmt:500000,yrs:5,rate:6,pass:100,limit:2000000,acct:2};
+
+function readSeg(id){var on=$(id).querySelector('.on');return on?+on.getAttribute('data-v'):0;}
+
+function calc(){
+  state.pmt=num($('pmt'));
+  state.yrs=+$('yrs').value;
+  state.rate=readSeg('rateSeg');
+  state.pass=+$('pass').value;
+  state.limit=readSeg('typeSeg');
+  state.acct=readSeg('acctSeg');
+  $('yrsv').textContent=state.yrs+'년';
+  $('passv').textContent=state.pass+'%';
+
+  var s=fvSeries(state.pmt,state.rate,state.yrs);
+  var grossEnd=s.gross[state.yrs], prinEnd=s.prin[state.yrs];
+  var profitEnd=Math.max(0,grossEnd-prinEnd);
+  var taxable=profitEnd*state.pass/100;
+  var genTax=taxGeneral(taxable);
+  var parts=isaParts(taxable,state.limit,state.acct);
+  var isaTax=parts.tax;
+  var save=genTax-isaTax;
+  var pct=genTax>0?(save/genTax*100):0;
+
+  window.countUp($('save'),save,820);
+  $('saveHint').textContent='일반계좌라면 '+window.fmtWon(genTax)+'원, ISA면 '+window.fmtWon(isaTax)+'원';
+  $('kGen').textContent=window.fmtWon(genTax);
+  $('kIsa').textContent=window.fmtWon(isaTax);
+  $('kPct').textContent=Math.round(pct)+'%';
+
+  // reco band
+  var reco;
+  if(state.pass===0){reco='지금은 수익을 <b>전부 국내주식 매매차익</b>으로 봤어요. 이건 일반계좌도 원래 비과세라 ISA 절세 효과가 거의 없어요. 이자·배당·해외/펀드 비중을 올려 보세요.';}
+  else if(taxable<=state.limit*state.acct){reco='우리 조건이면 순이익이 <b>비과세 한도 안</b>이라, ISA에선 세금이 <b>0원</b>! 일반계좌라면 낼 '+window.fmtWon(genTax)+'원을 통째로 아껴요.';}
+  else if(save>=1000000){reco='꽤 큰 차이예요. 같은 투자인데 ISA로 <b>'+window.fmtWon(save)+'원</b>을 아껴요. 계좌 선택만으로 만드는 ‘확실한 수익’이에요.';}
+  else{reco='ISA로 약 <b>'+window.fmtWon(save)+'원</b>을 아껴요. 수익이 커지거나 기간이 길어질수록 9.9% 분리과세의 힘이 더 커져요.';}
+  $('reco').innerHTML=reco;
+
+  // compare bars
+  var mx=Math.max(genTax,isaTax,1);
+  $('bGenAmt').textContent=window.fmtWon(genTax)+'원';
+  $('bIsaAmt').textContent=window.fmtWon(isaTax)+'원';
+  requestAnimationFrame(function(){$('bGen').style.width=(genTax/mx*100)+'%';$('bIsa').style.width=(isaTax/mx*100)+'%';});
+  $('saveBadge').innerHTML='세금을 약 <b>'+window.fmtWon(save)+'원</b> 아껴요 (절감률 '+Math.round(pct)+'%)';
+
+  // education numbers
+  $('eLimit').textContent=window.fmtMan(state.limit)+(state.acct===2?' × 2 = '+window.fmtMan(state.limit*state.acct):'')+' 원';
+  $('eb1').textContent='비과세로 아낀 세금 '+window.fmtWon(parts.exempt*RATE_GEN)+'원';
+  $('eb2').textContent='분리과세로 아낀 세금 '+window.fmtWon(parts.over*(RATE_GEN-RATE_ISA))+'원';
+  $('eb3').textContent='과세 대상 순이익 '+window.fmtWon(taxable)+'원';
+  if(state.acct===2){$('coupleIns').innerHTML='👫 부부 2계좌라 비과세 한도가 <b>'+window.fmtMan(state.limit*state.acct)+'원</b>이에요. 같은 순이익이라도 둘로 나눠 각자 한도를 쓰니, 개인 1계좌보다 세금을 더 아껴요.';}
+  else{var twoParts=isaParts(taxable,state.limit,2);var twoSave=genTax-twoParts.tax;$('coupleIns').innerHTML='👫 부부가 <b>각자</b> ISA를 만들면 비과세 한도가 2배(<b>'+window.fmtMan(state.limit*2)+'원</b>)가 돼요. 같은 조건에서 절세액이 '+window.fmtWon(save)+'원 → <b>'+window.fmtWon(twoSave)+'원</b>으로 늘어요.';}
+
+  // 납입한도 경고
+  var yearlyPay=state.pmt*12, cap=20000000*state.acct;
+  if(yearlyPay>cap){$('limWarn').classList.add('on');$('limWarn').innerHTML='⚠️ 연 납입액 '+window.fmtMan(yearlyPay)+'원이 ISA 한도(연 '+window.fmtMan(cap)+'원'+(state.acct===2?' · 부부 2계좌':'')+')를 넘어요. 초과분은 일반계좌로 가정해 보세요.';}
+  else{$('limWarn').classList.remove('on');}
+
+  drawChart(s,profitEnd);
+  $('sGross').textContent=window.fmtMan(grossEnd)+'원';
+  $('sGenNet').textContent=window.fmtMan(grossEnd-genTax)+'원';
+  $('sIsaNet').textContent=window.fmtMan(grossEnd-isaTax)+'원';
+}
+
+function px(arr,maxV,N){var x0=46,x1=606,y0=24,y1=236,pts=[];for(var i=0;i<arr.length;i++){var x=x0+(x1-x0)*(N===0?0:i/N);var y=y1-(y1-y0)*(maxV===0?0:arr[i]/maxV);pts.push([x,y]);}return pts;}
+function toD(pts){return pts.map(function(p,i){return(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');}
+function drawChart(s,profitEnd){
+  var N=state.yrs, gen=[], isa=[];
+  for(var y=0;y<=N;y++){
+    var prof=Math.max(0,s.gross[y]-s.prin[y])*state.pass/100;
+    var gTax=taxGeneral(prof), iTax=isaParts(prof,state.limit,state.acct).tax;
+    gen.push(s.gross[y]-gTax); isa.push(s.gross[y]-iTax);
+  }
+  var maxV=Math.max(isa[N],s.gross[N])*1.06||1;
+  var ip=px(isa,maxV,N), gp=px(gen,maxV,N), pp=px(s.prin,maxV,N);
+  $('isaline').setAttribute('d',toD(ip));
+  $('genline').setAttribute('d',toD(gp));
+  $('pline').setAttribute('d',toD(pp));
+  $('gap').setAttribute('d',toD(ip)+' '+gp.slice().reverse().map(function(p){return 'L'+p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+' Z');
+  var lI=ip[N],lG=gp[N];
+  $('dotI').setAttribute('cx',lI[0]);$('dotI').setAttribute('cy',lI[1]);
+  $('dotG').setAttribute('cx',lG[0]);$('dotG').setAttribute('cy',lG[1]);
+  var g=$('grid');g.innerHTML='';for(var k=0;k<=4;k++){var yy=24+(236-24)*k/4;g.innerHTML+='<line x1="46" y1="'+yy.toFixed(1)+'" x2="606" y2="'+yy.toFixed(1)+'" stroke="#EAD7D3" stroke-width="1"/>';}
+  // re-trigger stroke draw
+  ['isaline','genline'].forEach(function(id){var el=$(id);el.style.transition='none';el.style.strokeDasharray='1';el.style.strokeDashoffset='1';void el.getBoundingClientRect();el.style.transition='stroke-dashoffset 1.1s '+'cubic-bezier(.16,1,.3,1)';el.style.strokeDashoffset='0';});
+}
+
+// ---- save / load (localStorage) ----
+function loadSaves(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function renderSaves(){
+  var arr=loadSaves(),box=$('saveList');box.innerHTML='';
+  if(!arr.length){box.innerHTML='<div class="emptysave">아직 저장한 시나리오가 없어요.</div>';return;}
+  arr.forEach(function(it,i){
+    var div=document.createElement('div');div.className='saveitem';
+    div.innerHTML='<div class="si"><b>'+(it.name||'시나리오').replace(/</g,'&lt;')+'</b><br><span>월 '+window.fmtMan(it.pmt)+'원 · '+it.yrs+'년 · 연'+it.rate+'% · '+(it.acct===2?'부부':'개인')+' · 절감 '+window.fmtWon(it.save)+'원</span></div>';
+    var load=document.createElement('button');load.textContent='불러오기';load.onclick=function(){applyState(it);};
+    var del=document.createElement('button');del.textContent='✕';del.setAttribute('aria-label','삭제');del.onclick=function(){var a=loadSaves();a.splice(i,1);localStorage.setItem(KEY,JSON.stringify(a));renderSaves();};
+    div.appendChild(load);div.appendChild(del);box.appendChild(div);
+  });
+}
+function applyState(it){
+  $('pmt').value=(+it.pmt).toLocaleString('ko-KR');
+  $('yrs').value=it.yrs;$('pass').value=it.pass;
+  setSeg('rateSeg',it.rate);setSeg('typeSeg',it.limit);setSeg('acctSeg',it.acct);
+  setChip('pmtChips',it.pmt);
+  calc();
+}
+function setSeg(id,v){$(id).querySelectorAll('button').forEach(function(b){b.classList.toggle('on',+b.getAttribute('data-v')===+v);});}
+function setChip(id,v){$(id).querySelectorAll('button').forEach(function(b){b.classList.toggle('on',+b.getAttribute('data-v')===+v);});}
+
+function bindSeg(id){$(id).querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){$(id).querySelectorAll('button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');calc();});});}
+
+(function init(){
+  // pmt chips
+  $('pmtChips').querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){$('pmt').value=(+b.getAttribute('data-v')).toLocaleString('ko-KR');setChip('pmtChips',+b.getAttribute('data-v'));calc();});});
+  $('pmt').addEventListener('input',function(){var v=num($('pmt'));$('pmt').value=v.toLocaleString('ko-KR');setChip('pmtChips',v);calc();});
+  ['yrs','pass'].forEach(function(id){$(id).addEventListener('input',calc);});
+  bindSeg('rateSeg');bindSeg('typeSeg');bindSeg('acctSeg');
+  $('saveBtn').addEventListener('click',function(){
+    var arr=loadSaves();
+    arr.unshift({name:($('scName').value||'시나리오').slice(0,40),pmt:state.pmt,yrs:state.yrs,rate:state.rate,pass:state.pass,limit:state.limit,acct:state.acct,save:(taxGeneral(Math.max(0,fvSeries(state.pmt,state.rate,state.yrs).gross[state.yrs]-state.pmt*12*state.yrs)*state.pass/100)-isaParts(Math.max(0,fvSeries(state.pmt,state.rate,state.yrs).gross[state.yrs]-state.pmt*12*state.yrs)*state.pass/100,state.limit,state.acct).tax)});
+    if(arr.length>8)arr=arr.slice(0,8);
+    localStorage.setItem(KEY,JSON.stringify(arr));$('scName').value='';renderSaves();
+  });
+  calc();renderSaves();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

@@ -1,0 +1,239 @@
+<!-- [도구_부동산_단지검색_실거래연동_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 5개) -->
+<script>
+/* ===== 실데이터 데이터셋 (국토부 OpenAPI · AptInfo MCP 경유, 조회 2026-06-02) ===== */
+var APTS = {
+ "개포자이프레지던스":{
+  full:true, region:"서울 강남구 개포동", lawd:"11680", lawdName:"강남구", kapt:"A10023348",
+  households:3375, builder:"GS건설", completion:"2023.02 준공", parkingUg:5881, parkingPerHh:"1.74",
+  elevator:135, cctv:2333, score:6, grade:"양호",
+  area:{u60:1068, m6085:1848, m85135:457, o135:2},
+  tags:["🏢 3,375세대","🗓️ 2023.02 준공","🏗️ GS건설","🚇 수인분당선 5~10분"],
+  note:"지하주차 5,881대(세대당 1.74) — 공공데이터상 ‘주차 충분’. 배정학교 표기는 개포초·경기여고(공공데이터 기준, 학구도 별도 확인). 노선·역 표기는 발행 전 1회 교차 확인 권장.",
+  deals:[
+   {ym:"2026.04", priceMan:550000, area:132.8195, pyeong:40.2, floor:12, date:"4월 29일"},
+   {ym:"2026.05", priceMan:360000, area:84.5978, pyeong:25.6, floor:5, date:"5월 8일"},
+   {ym:"2026.05", priceMan:508000, area:132.8195, pyeong:40.2, floor:2, date:"5월 29일"}
+  ],
+  dealNote:"84㎡·132㎡ 3건 포착. 59㎡ 등 다른 평형은 이번 표본(04·05)에 안 잡혔어요 — 추측해 채우지 않습니다."
+ },
+ "헬리오시티":{
+  full:true, region:"서울 송파구 가락동", lawd:"11710", lawdName:"송파구", kapt:"A10025850",
+  households:9510, builder:"현대건설·삼성물산·HDC", completion:"2018.12 준공", parkingUg:12096, parkingPerHh:"1.27",
+  elevator:384, cctv:2685, score:9, grade:"우수",
+  area:{u60:2854, m6085:5132, m85135:1500, o135:24},
+  tags:["🏢 9,510세대","🗓️ 2018.12 준공","🏗️ 현대·삼성·HDC","🚇 송파역 도보 5분"],
+  note:"지하주차 12,096대(세대당 1.27) — ‘주차 충분’. 9,510세대 초대형 단지로 거래 표본에 자주 포착됩니다.",
+  deals:[
+   {ym:"2026.03", priceMan:270000, area:84.98, pyeong:25.7, floor:20, date:"3월 28일"},
+   {ym:"2026.04", priceMan:282000, area:84.99, pyeong:25.7, floor:33, date:"4월 28일"}
+  ],
+  dealNote:"84㎡ 2건 포착(20층·33층). 59·114㎡ 등은 이번 표본에 안 잡혔어요 — 데이터 없음이 정직한 표기."
+ },
+ "개포래미안포레스트":{
+  full:false, region:"서울 강남구 개포동", lawd:"11680", lawdName:"강남구", kapt:"A10024564",
+  deals:[
+   {ym:"2026.04", priceMan:355500, area:96.93, pyeong:29.3, floor:10, date:"4월 28일"},
+   {ym:"2026.04", priceMan:287000, area:74.66, pyeong:22.6, floor:3, date:"4월 26일"}
+  ],
+  liteNote:"단지코드 A10024564까지 해소됨. 기본정보(세대수·주차·면적)는 get_apt_info 1콜이면 위 두 단지처럼 100% 채워집니다."
+ },
+ "래미안블레스티지":{
+  full:false, region:"서울 강남구 개포동", lawd:"11680", lawdName:"강남구", kapt:"A10025675",
+  deals:[
+   {ym:"2026.05", priceMan:332500, area:99.919, pyeong:30.2, floor:2, date:"5월 22일"}
+  ],
+  liteNote:"단지코드 A10025675까지 해소됨. 기본정보는 get_apt_info 1콜로 보강 가능."
+ },
+ "래미안대치팰리스":{
+  full:false, region:"서울 강남구 대치동", lawd:"11680", lawdName:"강남구", kapt:"(get_apt_list 대치동 페이지에서 해소)",
+  deals:[
+   {ym:"2026.05", priceMan:439000, area:84.98, pyeong:25.7, floor:11, date:"5월 6일"}
+  ],
+  liteNote:"단지코드는 get_apt_list 대치동 페이지에서 해소됩니다(데모에선 미해소). 실거래는 표본에서 그대로 포착."
+ },
+ "도곡렉슬":{
+  full:false, region:"서울 강남구 도곡동", lawd:"11680", lawdName:"강남구", kapt:"(get_apt_list 도곡동 페이지에서 해소)",
+  deals:[
+   {ym:"2026.04", priceMan:395000, area:120.8233, pyeong:36.5, floor:18, date:"4월 30일"}
+  ],
+  liteNote:"단지코드는 get_apt_list 도곡동 페이지에서 해소됩니다(데모에선 미해소). 실거래는 표본에서 그대로 포착."
+ }
+};
+var ORDER = ["개포자이프레지던스","헬리오시티","개포래미안포레스트","래미안블레스티지","래미안대치팰리스","도곡렉슬"];
+
+/* ===== 유틸 ===== */
+function eok(man){ return (man/10000); }                 // 만원 → 억
+function fmtEok(man){ var v=eok(man); return (Math.round(v*10)/10).toFixed(1); }
+function perPyeong(man,pyeong){ return (eok(man)/pyeong); } // 억/평
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ===== 카드 렌더 ===== */
+function renderCard(key){
+ var d = APTS[key]; if(!d) return;
+ var host = document.getElementById('cardHost');
+ document.getElementById('cardTitle').textContent = key + ' · 단지 카드';
+
+ var html = '<div class="aptcard reveal in">';
+ // top
+ html += '<div class="apttop"><div><h2>'+esc(key)+'</h2><div class="sub">'+esc(d.region)+' · LAWD '+esc(d.lawd)+(d.kapt?(' · 단지코드 '+esc(d.kapt)):'')+'</div>';
+ if(d.full && d.tags){ html += '<div class="apttags">'+d.tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join('')+'</div>'; }
+ html += '</div>';
+ if(d.full){ html += '<div class="scorepill" title="공공데이터 기반 생활편의성 종합점수"><div class="n">'+d.score+'<small>/10</small></div><div class="l">생활편의 ‘'+esc(d.grade)+'’</div></div>'; }
+ html += '</div>';
+
+ if(d.full){
+  // key metrics
+  html += '<div class="kgrid">'
+    + '<div class="kbox"><div class="lab">총 세대수</div><b>'+d.households.toLocaleString()+'<small> 세대</small></b></div>'
+    + '<div class="kbox"><div class="lab">세대당 주차</div><b>'+d.parkingPerHh+'<small> 대</small></b></div>'
+    + '<div class="kbox"><div class="lab">승강기</div><b>'+d.elevator.toLocaleString()+'<small> 대</small></b></div>'
+    + '<div class="kbox"><div class="lab">CCTV</div><b>'+d.cctv.toLocaleString()+'<small> 대</small></b></div>'
+    + '</div>';
+  // area bars
+  var a=d.area, tot=a.u60+a.m6085+a.m85135+a.o135;
+  var mx=Math.max(a.u60,a.m6085,a.m85135,a.o135);
+  function row(lab,sub,n){
+   var pctTot = tot? (n/tot*100):0;
+   var rel = mx? (n/mx*100):0; if(n>0 && rel<0.6) rel=0.6;
+   var pctTxt = pctTot<0.1 && n>0 ? '<0.1' : (Math.round(pctTot*10)/10);
+   return '<div class="comprow"><div class="nm">'+lab+'<small>'+sub+'</small></div><div class="track"><i class="fill" data-w="'+rel.toFixed(1)+'"></i></div><div class="vv">'+n.toLocaleString()+'<small> · '+pctTxt+'%</small></div></div>';
+  }
+  html += '<div class="subh">전용면적별 세대 구성 <span class="tag">합계 '+tot.toLocaleString()+'세대 · 검증 일치</span></div>';
+  html += '<div class="compbars">'
+    + row('60㎡ 이하','소형',a.u60)
+    + row('60~85㎡','중소형',a.m6085)
+    + row('85~135㎡','중대형',a.m85135)
+    + row('135㎡ 초과','대형',a.o135)
+    + '</div>';
+  html += '<p class="disc" style="margin-top:12px">막대 길이는 가장 많은 구간을 100%로 둔 <b>상대 비율</b>이에요(괄호는 전체 대비 %). '+esc(d.note)+'</p>';
+ } else {
+  html += '<div class="litebox">📋 <b>이 단지는 ‘실거래 표본’만 포착된 상태예요.</b> '+esc(d.liteNote)+'</div>';
+ }
+
+ // deals
+ html += '<div class="subh" style="margin-top:22px">실거래 표본 ('+d.deals.length+'건 포착) <span class="tag">국토부 실거래가</span></div>';
+ html += '<div class="dealgrid">';
+ d.deals.forEach(function(x){
+  var pp = perPyeong(x.priceMan,x.pyeong);
+  html += '<div class="dealcard"><div class="dm">'+esc(x.ym)+' 계약</div>'
+    + '<div class="price">'+fmtEok(x.priceMan)+'<small>억원</small></div>'
+    + '<div class="dealrows">'
+    + '<div><span>전용면적</span><b>'+x.area+'㎡<small style="font-weight:700;color:var(--mut)"> ('+x.pyeong+'평)</small></b></div>'
+    + '<div><span>층</span><b>'+x.floor+'층</b></div>'
+    + '<div><span>전용 평단가</span><b>약 '+(Math.round(pp*100)/100).toFixed(2)+'<small style="font-weight:700;color:var(--mut)">억/평</small></b></div>'
+    + '<div><span>계약일</span><b>'+esc(x.date)+'</b></div>'
+    + '</div></div>';
+ });
+ html += '</div>';
+ if(d.full && d.dealNote){ html += '<div class="nodata">📭 '+esc(d.dealNote)+'</div>'; }
+ html += '<div class="warnline info"><svg viewBox="0 0 24 24" fill="none" stroke="#B85060" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>각 카드는 <b>추세가 아니라 개별 실거래 점(point)</b>입니다. 평단가는 <b>전용면적 기준</b>(공급면적 아님). 층·향·동에 따라 같은 평형도 가격이 크게 다릅니다.</span></div>';
+ html += '</div>';
+
+ host.innerHTML = html;
+ // animate bars
+ setTimeout(function(){ host.querySelectorAll('.fill').forEach(function(el){ var w=el.getAttribute('data-w'); if(w!=null) el.style.width=w+'%'; }); }, 60);
+}
+
+/* ===== 트레이스 갱신 ===== */
+function renderTrace(key){
+ var d=APTS[key]; if(!d) return;
+ document.getElementById('tr1').innerHTML = esc(key);
+ document.getElementById('tr2').innerHTML = esc(d.lawdName)+' <small>· '+esc(d.lawd)+'</small>';
+ document.getElementById('tr3').innerHTML = esc(d.kapt);
+ document.getElementById('tr4').innerHTML = (d.full?'기본정보 ✓':'기본정보 (보강 가능)')+' <small>· 실거래 '+d.deals.length+'건</small>';
+ var steps=document.querySelectorAll('#trace .tstep');
+ steps.forEach(function(s,i){ s.classList.remove('lit'); setTimeout(function(){ s.classList.add('lit'); }, 90*i); });
+}
+
+/* ===== 검색/선택 ===== */
+function select(key, fromChip){
+ if(!APTS[key]) return;
+ renderTrace(key); renderCard(key);
+ var chips=document.querySelectorAll('#sugg button');
+ chips.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-k')===key); });
+ if(!fromChip){ document.getElementById('q').value=key; }
+}
+function buildChips(filter){
+ var host=document.getElementById('sugg'); host.innerHTML='';
+ var f=(filter||'').trim().toLowerCase();
+ var shown=0;
+ ORDER.forEach(function(key){
+  if(f && key.toLowerCase().indexOf(f)<0) return;
+  var d=APTS[key]; shown++;
+  var b=document.createElement('button'); b.type='button'; b.setAttribute('data-k',key);
+  b.innerHTML=esc(key)+'<span class="dn">'+esc(d.lawdName)+'</span>';
+  b.addEventListener('click',function(){ select(key,true); document.getElementById('q').value=key; });
+  host.appendChild(b);
+ });
+ if(shown===0){ host.innerHTML='<div class="noresult">검색 결과가 없어요. 데모 단지: '+ORDER.join(' · ')+'</div>'; }
+ var cur=document.getElementById('q').value;
+ var active=document.querySelector('.aptcard h2');
+ host.querySelectorAll('button').forEach(function(b){ if(active && b.getAttribute('data-k')===active.textContent) b.classList.add('on'); });
+}
+function runSearch(){
+ var v=document.getElementById('q').value.trim();
+ if(APTS[v]){ select(v,false); return; }
+ // 부분일치 첫 후보
+ var hit=ORDER.filter(function(k){ return k.toLowerCase().indexOf(v.toLowerCase())>=0; });
+ if(v && hit.length){ select(hit[0],false); document.getElementById('q').value=hit[0]; }
+}
+
+/* ===== init ===== */
+(function(){
+ buildChips('');
+ select("개포자이프레지던스", true);
+ var q=document.getElementById('q');
+ q.addEventListener('input', function(){ buildChips(q.value); });
+ q.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); runSearch(); } });
+ document.getElementById('goBtn').addEventListener('click', runSearch);
+})();
+</script>
+<script>
+/* reveal on scroll */
+(function(){
+ var hdr=document.getElementById('hdr');
+ var onScroll=function(){ if(hdr){ hdr.classList.toggle('scrolled', window.scrollY>8); } };
+ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+ var els=document.querySelectorAll('.reveal');
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(ents){
+   ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);
+    e.target.querySelectorAll&&e.target.querySelectorAll('.fill').forEach(function(el){var w=el.getAttribute('data-w');if(w!=null)el.style.width=w+'%';}); } });
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){ io.observe(el); });
+ } else { els.forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
+<script>
+/* scroll progress + to-top */
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

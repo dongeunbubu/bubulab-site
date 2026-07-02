@@ -1,0 +1,345 @@
+<!-- [도구_복리스노우볼Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 5개) -->
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*revealfix*/
+(function(){var d=document;d.documentElement.classList.add('js');
+var els=[].slice.call(d.querySelectorAll('.reveal,.scene,.stag'));if(!els.length)return;
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
+els.forEach(function(e){io.observe(e);});
+setTimeout(function(){els.forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight*1.1&&r.bottom>-50)e.classList.add('in');});},1000);}
+else els.forEach(function(e){e.classList.add('in');});})();
+</script>
+<script>
+(function(){
+ "use strict";
+ var INFL=0.026; // 통계청 물가 가정 2.6%
+ var $=function(id){return document.getElementById(id);};
+ var state={seed:500,mon:50,rate:7,yr:20,real:0,delay:10};
+
+ function won(man){ // 입력은 만원 단위 정수/실수 -> 보기 좋은 한글 금액
+  man=Math.round(man);
+  if(man>=10000){
+   var eok=Math.floor(man/10000), rem=man%10000;
+   return eok+"억"+(rem>0?" "+rem.toLocaleString()+"만":"");
+  }
+  return man.toLocaleString()+"만";
+ }
+ function fmtMan(man){return Math.round(man).toLocaleString();} // 만원 숫자만
+
+ // 월복리 적립 시뮬: seed(만), monthly(만), annualRate(%), years -> 월별 자산/원금 배열
+ function simulate(seedMan, monMan, ratePct, years){
+  var rm=(ratePct/100)/12;
+  var months=Math.round(years*12);
+  var bal=seedMan; // 만원
+  var balArr=[seedMan], priArr=[seedMan];
+  for(var m=1;m<=months;m++){
+   bal=bal*(1+rm)+monMan;
+   balArr.push(bal);
+   priArr.push(seedMan+monMan*m);
+  }
+  return {bal:balArr, pri:priArr, months:months};
+ }
+ // 실질 변환(오늘 가치): 명목 / (1+infl)^(t년)
+ function deflate(val, monthIdx){ if(!state.real) return val; return val/Math.pow(1+INFL, monthIdx/12); }
+
+ var animId=0;
+ function countTo(el, target, suffix){
+  var start=parseFloat(el.getAttribute("data-cur"))||0;
+  var t0=null, dur=900, id=++animId;
+  function step(ts){
+   if(id!==animId && el.getAttribute("data-shared")!=="1"){} // simple guard
+   if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e=1-Math.pow(1-p,3);
+   var v=start+(target-start)*e;
+   el.textContent=fmtMan(v)+(suffix||"");
+   if(p<1) requestAnimationFrame(step); else {el.textContent=fmtMan(target)+(suffix||"");}
+  }
+  el.setAttribute("data-cur",target);
+  requestAnimationFrame(step);
+ }
+
+ function setSlider(el){ var min=+el.min,max=+el.max; var p=((+el.value-min)/(max-min))*100; el.style.setProperty("--p",p+"%"); }
+
+ function compute(){
+  var sim=simulate(state.seed,state.mon,state.rate,state.yr);
+  var n=sim.months;
+  var finalBal=sim.bal[n], finalPri=sim.pri[n];
+  var dispBal=deflate(finalBal,n), dispPri=deflate(finalPri,n);
+  var seedDisp=deflate(state.seed,n);
+  var putDisp=dispPri-seedDisp; // 적립 원금(종잣돈 제외)
+  var growDisp=dispBal-dispPri; if(growDisp<0)growDisp=0;
+
+  // main + sub
+  $("resCap").textContent=state.yr+"년 뒤, 우리 눈덩이는";
+  countTo($("big"),dispBal,"");
+  $("growShare").textContent=won(growDisp)+" 원";
+  countTo($("kSeed"),seedDisp,"");
+  countTo($("kPut"),putDisp<0?0:putDisp,"");
+  countTo($("kGrow"),growDisp,"");
+
+  // split bar (원금 전체 vs 수익)
+  var totPri=dispPri, totGrow=growDisp, sum=totPri+totGrow; if(sum<=0)sum=1;
+  var priPct=totPri/sum*100, growPct=100-priPct;
+  $("spPut").style.width=priPct.toFixed(1)+"%";
+  $("spGrow").style.width=growPct.toFixed(1)+"%";
+  $("legPut").textContent=Math.round(priPct)+"%";
+  $("legGrow").textContent=Math.round(growPct)+"%";
+
+  // golden cross: 첫 월 where 수익 >= 원금(누적 적립)
+  var gIdx=-1;
+  for(var m=1;m<=n;m++){ if((sim.bal[m]-sim.pri[m])>=sim.pri[m]){gIdx=m;break;} }
+  if(gIdx>0){
+   var gy=Math.floor(gIdx/12), gm=gIdx%12;
+   var label=(gy>0?gy+"년 ":"")+(gm>0?gm+"개월":"")||"0개월";
+   $("crossBox").innerHTML="🪙 <b>"+label.trim()+"</b>째 되는 달, 불어난 복리수익이 내가 넣은 돈을 <b>추월</b>해요. 이때부터는 눈덩이가 스스로 더 빨리 굴러요.";
+  } else {
+   $("crossBox").innerHTML="이 기간 안에는 복리수익이 아직 원금을 넘진 못해요. <b>기간을 늘리거나 수익률을 높이면</b> 추월 시점이 나타나요.";
+  }
+
+  // rule of 72
+  var r72=(state.rate>0)?(72/state.rate):0;
+  $("r72num").textContent=(state.rate>0)?r72.toFixed(1):"—";
+  $("r72rate").textContent=state.rate;
+
+  drawSnow(sim);
+  computeEarlyLate();
+ }
+
+ // ---- snowball SVG ----
+ function drawSnow(sim){
+  var svg=$("snowSvg"); var W=820,H=360, padL=58,padR=20,padT=18,padB=34;
+  var n=sim.months;
+  var balD=[], priD=[];
+  for(var i=0;i<=n;i++){ balD.push(deflate(sim.bal[i],i)); priD.push(deflate(sim.pri[i],i)); }
+  var maxV=balD[n]; if(maxV<=0)maxV=1;
+  var plotW=W-padL-padR, plotH=H-padT-padB;
+  function X(i){return padL + (i/n)*plotW;}
+  function Y(v){return padT + plotH - (v/maxV)*plotH;}
+  function path(arr){var d="";for(var i=0;i<arr.length;i++){d+=(i===0?"M":"L")+X(i).toFixed(1)+" "+Y(arr[i]).toFixed(1);}return d;}
+  var balPath=path(balD), priPath=path(priD);
+  // area between (bal top, pri bottom)
+  var area="M"+X(0).toFixed(1)+" "+Y(balD[0]).toFixed(1);
+  for(var i=1;i<=n;i++){area+="L"+X(i).toFixed(1)+" "+Y(balD[i]).toFixed(1);}
+  for(var j=n;j>=0;j--){area+="L"+X(j).toFixed(1)+" "+Y(priD[j]).toFixed(1);}
+  area+="Z";
+  // gridlines (4)
+  var grid="",lab="";
+  for(var g=0;g<=4;g++){
+   var gv=maxV*g/4, gy=Y(gv);
+   grid+='<line class="gline" x1="'+padL+'" y1="'+gy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+gy.toFixed(1)+'"/>';
+   lab+='<text class="axlab" x="'+(padL-8)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end">'+fmtMan(gv)+'</text>';
+  }
+  // x labels (start, mid, end years)
+  var yrs=state.yr;
+  var xl='<text class="axlab" x="'+X(0)+'" y="'+(H-12)+'" text-anchor="start">0년</text>';
+  xl+='<text class="axlab" x="'+X(n/2)+'" y="'+(H-12)+'" text-anchor="middle">'+Math.round(yrs/2)+'년</text>';
+  xl+='<text class="axlab" x="'+X(n)+'" y="'+(H-12)+'" text-anchor="end">'+yrs+'년</text>';
+  // golden dot
+  var gIdx=-1; for(var m=1;m<=n;m++){ if((sim.bal[m]-sim.pri[m])>=sim.pri[m]){gIdx=m;break;} }
+  var dot="";
+  if(gIdx>0){ var dx=X(gIdx),dy=Y(balD[gIdx]); dot='<circle class="gl-dot" cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="6" fill="#C9A84C" stroke="#fff" stroke-width="2"/>'; }
+  var balLen=estLen(balD,X,Y), priLen=estLen(priD,X,Y);
+
+  svg.innerHTML=grid+lab+
+   '<path class="snow-area" d="'+area+'" fill="#F0C7CE" opacity="0"/>'+
+   '<line class="zaxis" x1="'+padL+'" y1="'+(padT+plotH)+'" x2="'+(W-padR)+'" y2="'+(padT+plotH)+'"/>'+
+   '<path class="snow-line" d="'+priPath+'" stroke="#5E8C7F" style="--len:'+priLen+'"/>'+
+   '<path class="snow-line" d="'+balPath+'" stroke="#B85060" style="--len:'+balLen+'"/>'+
+   dot+xl;
+  // retrigger draw if already visible
+  if(svg.classList.contains("in")){ svg.classList.remove("in"); void svg.getBoundingClientRect(); requestAnimationFrame(function(){svg.classList.add("in");}); }
+ }
+ function estLen(arr,X,Y){var L=0;for(var i=1;i<arr.length;i++){var dx=X(i)-X(i-1),dy=Y(arr[i])-Y(arr[i-1]);L+=Math.sqrt(dx*dx+dy*dy);}return Math.ceil(L)+4;}
+
+ // ---- early vs late ----
+ function computeEarlyLate(){
+  var d=state.delay; if(d>=state.yr)d=state.yr-1; if(d<1)d=1;
+  var simNow=simulate(state.seed,state.mon,state.rate,state.yr);
+  // late: 종잣돈은 처음부터 거치, 적립은 (yr-d)년만
+  var nNow=simNow.months, valNow=deflate(simNow.bal[nNow],nNow);
+  // late sim: seed grows for full yr, contributions only last (yr-d) years
+  var rm=(state.rate/100)/12, months=Math.round(state.yr*12), startContrib=Math.round(d*12);
+  var bal=state.seed;
+  for(var m=1;m<=months;m++){ bal=bal*(1+rm)+((m>startContrib)?state.mon:0); }
+  var valLate=deflate(bal,months);
+  var gap=valNow-valLate; if(gap<0)gap=0;
+  var maxB=Math.max(valNow,valLate,1);
+  $("barNow").style.height=(valNow/maxB*120).toFixed(0)+"px";
+  $("barLate").style.height=(valLate/maxB*120).toFixed(0)+"px";
+  countTo($("amtNow"),valNow,"");
+  countTo($("amtLate"),valLate,"");
+  $("yrsNow").textContent=state.yr+"년 납입";
+  $("yrsLate").textContent=(state.yr-d)+"년 납입";
+  $("evLateCap").textContent=d+"년";
+  $("delayY").textContent=d; $("delayV").textContent=d+"년";
+  $("gapAmt").textContent=won(gap)+" 원";
+ }
+
+ // ---- bindings ----
+ function syncLabels(){
+  $("seedV").textContent=won(state.seed)+" 원";
+  $("monV").textContent=state.mon.toLocaleString()+"만 원";
+  $("rateV").textContent=state.rate.toFixed(1)+"%";
+  $("yrV").textContent=state.yr+"년";
+ }
+ function bindRange(id,key,after){
+  var el=$(id); setSlider(el);
+  el.addEventListener("input",function(){ state[key]=parseFloat(el.value); setSlider(el); syncLabels(); if(after)after(); compute(); });
+ }
+ bindRange("seed","seed"); bindRange("mon","mon"); bindRange("rate","rate"); bindRange("yr","yr");
+ var delayEl=$("delay"); setSlider(delayEl);
+ delayEl.addEventListener("input",function(){ state.delay=parseInt(delayEl.value,10); setSlider(delayEl); computeEarlyLate(); });
+
+ // chips
+ function chipGroup(wrapId,attr,key,sliderId){
+  var wrap=$(wrapId);
+  wrap.addEventListener("click",function(e){
+   var b=e.target.closest(".chip"); if(!b)return;
+   var val=parseFloat(b.getAttribute(attr));
+   state[key]=val; var sl=$(sliderId); sl.value=val; setSlider(sl);
+   [].forEach.call(wrap.querySelectorAll(".chip"),function(c){c.classList.remove("on");});
+   b.classList.add("on");
+   syncLabels(); compute();
+  });
+ }
+ chipGroup("seedChips","data-seed","seed","seed");
+ chipGroup("monChips","data-mon","mon","mon");
+ chipGroup("rateChips","data-rate","rate","rate");
+
+ // real toggle
+ $("realTog").addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b)return;
+  state.real=parseInt(b.getAttribute("data-real"),10);
+  [].forEach.call(this.querySelectorAll("button"),function(x){x.classList.remove("on");});
+  b.classList.add("on"); compute();
+ });
+
+ // presets
+ var PRE={
+  newlywed:{seed:3000,mon:80,rate:7,yr:15},
+  zero:{seed:0,mon:50,rate:7,yr:20},
+  lump:{seed:5000,mon:0,rate:6,yr:20},
+  long:{seed:1000,mon:50,rate:8,yr:30}
+ };
+ $("presets").addEventListener("click",function(e){
+  var b=e.target.closest(".preset"); if(!b)return;
+  var p=PRE[b.getAttribute("data-p")]; if(!p)return;
+  state.seed=p.seed; state.mon=p.mon; state.rate=p.rate; state.yr=p.yr;
+  $("seed").value=p.seed; $("mon").value=p.mon; $("rate").value=p.rate; $("yr").value=p.yr;
+  [$("seed"),$("mon"),$("rate"),$("yr")].forEach(setSlider);
+  // sync chip highlight
+  syncChip("rateChips","data-rate",p.rate);
+  syncChip("seedChips","data-seed",p.seed);
+  syncChip("monChips","data-mon",p.mon);
+  syncLabels(); compute();
+ });
+ function syncChip(wrapId,attr,val){
+  var w=$(wrapId); [].forEach.call(w.querySelectorAll(".chip"),function(c){
+   c.classList.toggle("on", parseFloat(c.getAttribute(attr))===val);
+  });
+ }
+
+ // reveal observer
+ var io=new IntersectionObserver(function(es){
+  es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); if(en.target.id==="snowSvg")en.target.classList.add("in"); io.unobserve(en.target);} });
+ },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+ [].forEach.call(document.querySelectorAll(".reveal,.scene,.stag,#snowSvg"),function(el){io.observe(el);});
+
+ // header shadow
+ var hd=$("hd");
+ window.addEventListener("scroll",function(){ hd.classList.toggle("scrolled", window.scrollY>8); },{passive:true});
+
+ // init
+ syncLabels(); compute();
+ // ensure snow draws on first paint
+ requestAnimationFrame(function(){ var s=$("snowSvg"); if(s){ s.classList.add("in"); } });
+})();
+</script>
+<script>/*fxkrw*//*fxkrw-v2*/
+(function(){
+  if(document.documentElement.getAttribute('data-fxk'))return;
+  document.documentElement.setAttribute('data-fxk','1');
+  var FALLBACK=1525, rate=FALLBACK, live=false;
+  try{var _c=JSON.parse(sessionStorage.getItem('bblfx')||'0');if(_c&&_c.r&&(Date.now()-_c.t)<43200000){rate=_c.r;live=true;}}catch(e){}
+  function f(x){return x>=100?Math.round(x).toLocaleString('ko-KR'):(Math.round(x*10)/10).toLocaleString('ko-KR');}
+  function fmt(won){
+    if(won>=1e12)return f(won/1e12)+'조원';
+    if(won>=1e8)return f(won/1e8)+'억원';
+    if(won>=1e4)return f(won/1e4)+'만원';
+    return Math.round(won).toLocaleString('ko-KR')+'원';
+  }
+  var MU={'십억':1e9,'백만':1e6,'조':1e12,'억':1e8,'만':1e4,'bn':1e9,'mn':1e6,'B':1e9,'M':1e6,'T':1e12};
+  var RE=/\$([0-9][0-9,]*(?:\.[0-9]+)?)(십억|백만|조|억|만|bn|mn|B|M|T)?/;
+  function mag(str,suf){var n=parseFloat(str.replace(/,/g,''));return n*(suf&&MU[suf]?MU[suf]:1);}
+  function wrap(){
+    var sk={SCRIPT:1,STYLE:1,NOSCRIPT:1,TEXTAREA:1};
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(node){
+      if(!node.nodeValue||node.nodeValue.indexOf('$')<0)return 2;
+      var p=node.parentNode;
+      while(p&&p!==document.body){
+        if(sk[p.nodeName])return 2;
+        var c=p.className?(''+p.className):'';
+        if(c.indexOf('fxk')>=0||c.indexOf('fxbadge')>=0)return 2;
+        p=p.parentNode;
+      }
+      return RE.test(node.nodeValue)?1:2;
+    }});
+    var nodes=[],n;while(n=w.nextNode())nodes.push(n);
+    var G=new RegExp(RE.source,'g');
+    nodes.forEach(function(node){
+      var txt=node.nodeValue, frag=document.createDocumentFragment(), last=0, m; G.lastIndex=0;
+      while(m=G.exec(txt)){
+        frag.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));
+        var usd=mag(m[1],m[2]);
+        var sp=document.createElement('span'); sp.className='fxk'; sp.setAttribute('data-usd',usd);
+        sp.textContent='(약 '+fmt(usd*rate)+')';
+        frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    });
+  }
+  function apply(){
+    var els=document.querySelectorAll('.fxk[data-usd]');
+    for(var i=0;i<els.length;i++){var u=parseFloat(els[i].getAttribute('data-usd'));els[i].textContent='(약 '+fmt(u*rate)+')';}
+    var b=document.getElementById('fxbadge');
+    if(b){b.querySelector('.rt').textContent='$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원';
+          b.querySelector('.lb').textContent=live?'실시간':'기준';}
+  }
+  function badge(){
+    var d=document.createElement('div'); d.id='fxbadge'; d.className='fxbadge';
+    d.innerHTML='<span class="dot"></span><span class="rt">$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원</span><span class="lb">기준</span>';
+    document.body.appendChild(d);
+  }
+  function start(){
+    wrap(); badge();
+    try{fetch('https://api.frankfurter.dev/v1/latest?from=USD&to=KRW')
+      .then(function(r){return r.json();})
+      .then(function(j){if(j&&j.rates&&j.rates.KRW){rate=j.rates.KRW;live=true;apply();try{sessionStorage.setItem('bblfx',JSON.stringify({r:rate,t:Date.now()}))}catch(e){}}})
+      .catch(function(){});}catch(e){}
+  }
+  if(document.readyState!=='loading')start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>

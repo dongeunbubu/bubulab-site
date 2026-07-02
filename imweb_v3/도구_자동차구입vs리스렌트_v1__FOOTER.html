@@ -1,0 +1,219 @@
+<!-- [도구_자동차구입vs리스렌트_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtEok=function(n){var neg=n<0;n=Math.abs(Math.round(n));var eok=Math.floor(n/100000000),man=Math.round((n%100000000)/10000);var s='';if(eok>0)s+=eok+'억';if(man>0)s+=(eok>0?' ':'')+man.toLocaleString('ko-KR')+'만';if(!s)s='0';return (neg?'-':'')+s+'원';};
+window.countNum=function(el,to,suf,dec,dur){if(!el)return;to=+to;dur=dur||900;suf=suf||'';dec=dec||0;var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=(to*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(s);else el.textContent=to.toFixed(dec)+suf;}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,+($(id).value.replace(/[^0-9]/g,''))||0);}
+function rate(id){return Math.max(0,+($(id).value.replace(/[^0-9.]/g,''))||0);}
+var R={pr:35000000,yrs:4,op:4.0,ac:7.0,mt:2000000,rs:53,ls:700000,lu:0,li:900000,rt:750000,ru:0};
+var TYP={1:80,2:70,3:60,4:53,5:45,6:38,7:32}; // 국산차 잔존율 근사(%) by 연차
+
+function oppCost(amount,t){return amount*(Math.pow(1+R.op/100,t)-1);}
+
+// t년 시점 잔존가치(직선 감가, resid(0)=차값, resid(N)=차값*rs%)
+function residAt(t){var f=R.rs/100;return R.pr*(1-(1-f)*(R.yrs>0?t/R.yrs:0));}
+
+function buyCum(t){return R.pr*(1+R.ac/100)+R.mt*t+oppCost(R.pr*(1+R.ac/100),t)-residAt(t);}
+function leaseCum(t){return R.lu+R.ls*12*t+R.li*t+oppCost(R.lu,t);}
+function rentCum(t){return R.ru+R.rt*12*t+oppCost(R.ru,t);}
+
+function totals(){return {buy:buyCum(R.yrs),lease:leaseCum(R.yrs),rent:rentCum(R.yrs)};}
+
+var META={buy:['🚗','구입','var(--rose)'],lease:['📄','리스','var(--lav)'],rent:['🔑','장기렌트','var(--sage)']};
+
+function decide(){
+ var T=totals();
+ var arr=[['buy',T.buy],['lease',T.lease],['rent',T.rent]].sort(function(a,b){return a[1]-b[1];});
+ var gap=arr[1][1]-arr[0][1];
+ return {T:T,order:arr,win:arr[0][0],winV:arr[0][1],gap:gap,close:gap< R.pr*0.04+200000};
+}
+
+function renderReco(D){
+ var c=$('recoCrown'),k=$('recoK'),g=$('recoG'),p=$('recoP');
+ var w=D.win, m=META[w];
+ k.textContent=R.yrs+'년 총비용 기준 · 가장 적게 드는 선택';
+ c.textContent=m[0];
+ var second=META[D.order[1][0]];
+ if(D.close){
+   g.innerHTML='<span style="color:'+m[2]+'">'+m[1]+'</span>가 약간 앞서요 — 사실상 비슷해요';
+   p.innerHTML=m[1]+'와 '+second[1]+'의 차이가 <b>'+window.fmtEok(D.gap)+'</b>로 근소해요. 이 정도면 숫자보다 <b>생활 방식</b>으로 골라도 좋아요 — 오래 한 차를 아껴 탈 거면 구입, 3~5년마다 새 차로 바꾸고 신경 끄고 싶으면 리스·렌트가 편해요 :)';
+ }else{
+   g.innerHTML='<span style="color:'+m[2]+'">'+m[1]+'</span>가 '+R.yrs+'년 기준 가장 유리해요';
+   if(w==='buy'){
+     p.innerHTML='오래 탈수록 구입이 강해요. 되팔 때 <b>'+window.fmtEok(residAt(R.yrs))+'</b>를 회수하고, 매달 새는 렌트·리스료가 없어서예요. 다음으로 가까운 건 '+second[1]+'('+window.fmtEok(D.gap)+' 차이)예요. 단, 차값만큼 <b>목돈이 묶이는</b> 점은 감안하세요.';
+   }else if(w==='rent'){
+     p.innerHTML='보험·정비·세금까지 다 포함된 렌트가, 목돈을 안 묶고 신경 쓸 일도 적어 이 조건에선 가장 저렴해요. 구입보다 <b>'+window.fmtEok(D.T.buy-D.winV)+'</b> 덜 들어요. 자주 차를 바꾸거나, 그 목돈을 더 굴릴 자신이 있다면 좋은 선택이에요.';
+   }else{
+     p.innerHTML='리스가 이 조건에선 가장 유리해요. 사업자라면 <b>비용 처리(절세)</b> 효과까지 더해질 수 있어요. 다음으로 가까운 건 '+second[1]+'('+window.fmtEok(D.gap)+' 차이)예요. 보험은 별도라는 점만 견적에서 꼭 확인하세요.';
+   }
+ }
+}
+
+function renderBars(D,animate){
+ var box=$('optbars');box.innerHTML='';
+ var mx=Math.max(D.T.buy,D.T.lease,D.T.rent,1)*1.1;
+ [['buy',D.T.buy],['lease',D.T.lease],['rent',D.T.rent]].forEach(function(it){
+   var m=META[it[0]],isWin=(D.win===it[0]);
+   var row=document.createElement('div');row.className='optrow'+(isWin?' win':'');
+   row.innerHTML='<div class="ol"><span class="pin" style="background:'+m[2]+'"></span>'+(isWin?'👑 ':'')+m[1]+'</div>'+
+     '<div class="optbar"><i></i></div>'+
+     '<div class="ov" style="color:'+m[2]+'">'+window.fmtEok(it[1])+'</div>';
+   box.appendChild(row);
+   var bar=row.querySelector('.optbar i');bar.style.background=m[2];
+   var wpct=Math.max(4,it[1]/mx*100);
+   (function(b,pc){if(animate){requestAnimationFrame(function(){b.style.width=pc+'%';});}else{b.style.width=pc+'%';}})(bar,wpct);
+ });
+}
+
+function renderKpis(D,animate){
+ var box=$('kpis');
+ var hi=D.order[2][1]; // 가장 비싼
+ var save=hi-D.winV;   // 최저 vs 최고 격차
+ var winMonthly=D.winV/(R.yrs*12); // 최저 옵션 월 환산
+ box.innerHTML=
+  '<div class="kpi"><div class="kl">가장 비싼 선택보다 아끼는 돈</div><div class="kv" id="k1" style="color:var(--sage)">·</div></div>'+
+  '<div class="kpi"><div class="kl">구입 시 '+R.yrs+'년 뒤 회수(잔존)</div><div class="kv" id="k2" style="color:var(--rose)">·</div></div>'+
+  '<div class="kpi"><div class="kl">'+META[D.win][1]+' 월 환산 부담</div><div class="kv" id="k3" style="color:var(--lav)">·</div></div>';
+ $('k1').textContent=window.fmtEok(save);
+ $('k2').textContent=window.fmtEok(residAt(R.yrs));
+ $('k3').textContent=window.fmtWon(winMonthly)+'원';
+}
+
+function renderChart(D,animate){
+ var N=R.yrs,grid=$('fvGrid'),paths=$('fvPaths'),dots=$('fvDots'),axis=$('fvAxis');
+ grid.innerHTML='';paths.innerHTML='';dots.innerHTML='';axis.innerHTML='';
+ var X0=58,X1=688,Y0=18,Y1=274;
+ var sB=[],sL=[],sR=[],hi=1,lo=0;
+ for(var t=0;t<=N;t++){var a=buyCum(t),b=leaseCum(t),c=rentCum(t);
+   sB.push(a);sL.push(b);sR.push(c);hi=Math.max(hi,a,b,c);lo=Math.min(lo,a,b,c);}
+ hi*=1.06; if(lo>0)lo=0; lo*=1.06;
+ function px(t){return X0+(N<=0?0:t/N)*(X1-X0);}
+ function py(v){return Y1-((v-lo)/(hi-lo))*(Y1-Y0);}
+ [hi,(hi+lo)/2,lo].forEach(function(v){var y=py(v);
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(Math.abs(v)<1?'#D9C7C1':'#EEE0DB')+'" stroke-width="1" stroke-dasharray="'+(Math.abs(v)<1?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-8)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(Math.abs(v)<1?'0':window.fmtEok(v))+'</text>';
+ });
+ var step=N<=5?1:2;
+ for(var xt=0;xt<=N;xt+=step){axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'년</text>';}
+ if((N%step)!==0){axis.innerHTML+='<text x="'+px(N).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+N+'년</text>';}
+ var defs=[['buy',sB,'#B85060'],['lease',sL,'#9C6BA8'],['rent',sR,'#5E8C7F']];
+ defs.forEach(function(s){
+   var dd=s[1].map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+   var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+   p.setAttribute('d',dd);p.setAttribute('stroke',s[2]);p.setAttribute('opacity','.96');
+   paths.appendChild(p);
+   var len=p.getTotalLength?p.getTotalLength():1400;
+   if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}
+   else{p.style.strokeDasharray='none';p.style.strokeDashoffset=0;}
+ });
+ [['구입','#B85060',sB[N]],['리스','#9C6BA8',sL[N]],['렌트','#5E8C7F',sR[N]]].forEach(function(e){
+   var ex=px(N),ey=py(e[2]);
+   dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4" fill="'+e[1]+'"/>'+
+     '<text x="'+(ex-8).toFixed(1)+'" y="'+(ey-8).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="'+e[1]+'">'+e[0]+'</text>';
+ });
+ // 크로스오버: 구입이 더 싼 빌리기 옵션보다 싸지는 첫 해
+ var rentCheaper=(sR[N]<=sL[N]); var rivalArr=rentCheaper?sR:sL, rivalName=rentCheaper?'장기렌트':'리스';
+ var cross=-1;
+ for(var i=1;i<=N;i++){if(sB[i-1]>rivalArr[i-1]&&sB[i]<=rivalArr[i]){cross=i;break;}}
+ var cl=$('crossLab');
+ if(R.pr<=0){cl.innerHTML='먼저 위에 <b>차량 가격</b>을 넣어 주세요.';}
+ else if(sB[N]<=sL[N]&&sB[N]<=sR[N]){
+   if(cross>0)cl.innerHTML='구입은 처음엔 목돈이 들어 비싸 보이지만, <b>'+cross+'년차부터 '+rivalName+'보다 싸져요.</b> '+N+'년을 채우면 구입이 가장 적게 들어요.';
+   else cl.innerHTML='이 조건에선 <b>처음부터 끝까지 구입이 가장 적게</b> 들어요. 오래 탈수록 그 격차는 더 벌어져요.';
+ }else{
+   cl.innerHTML='이 조건에선 '+N+'년 내내 <b>빌리는 쪽('+(rentCheaper?'장기렌트':'리스')+')이 더 적게</b> 들어요. 기간을 늘리거나 잔존가치를 높이면 구입이 역전할 수 있으니 슬라이더를 움직여 보세요.';
+ }
+ $('chSpan').textContent='0~'+N+'년';
+}
+
+function renderWhy(D){
+ var box=$('bd');box.innerHTML='';
+ var opp=oppCost(R.pr*(1+R.ac/100),R.yrs);
+ var resid=residAt(R.yrs);
+ var cheaperRent=Math.min(D.T.lease,D.T.rent);
+ box.innerHTML=
+  '<div class="bdc t-buy"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--rose);display:inline-block"></span>구입 — 자산이 되지만 목돈이 묶여요</h5>'+
+    '<div class="big" style="color:var(--rose)">'+window.fmtEok(D.T.buy)+'</div>'+
+    '<p>차값 + 취득세('+R.ac.toFixed(0)+'%)에 '+R.yrs+'년 유지비를 더하고, 되팔 때 <b>'+window.fmtEok(resid)+'</b>를 돌려받아요. 다만 그 목돈을 굴렸다면 벌었을 <b>기회비용 '+window.fmtEok(opp)+'</b>가 숨어 있어요. <b>오래 탈수록</b> 유리해지는 구조예요.</p></div>'+
+  '<div class="bdc t-rent"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--sage);display:inline-block"></span>리스·렌트 — 편하지만 매달 빠져나가요</h5>'+
+    '<div class="big" style="color:var(--sage)">'+window.fmtEok(cheaperRent)+'<span style="font-size:13px;color:var(--mut)"> (둘 중 싼 쪽)</span></div>'+
+    '<p>목돈이 안 묶이고 보험·정비까지 맡길 수 있어 <b>신경 쓸 일이 적어요</b>. 대신 차는 내 것이 안 되고, 매달 정액이 빠져나가요. <b>3~5년마다 새 차로 바꾸거나</b>, 묶일 목돈을 더 잘 굴릴 자신이 있을 때 빛나요.</p></div>';
+}
+
+function syncTyp(){
+ var typ=TYP[R.yrs]||50;
+ $('rsHint').innerHTML='국산차 평균 근사치는 <b>'+R.yrs+'년 ≈ '+typ+'%</b>예요. 인기 차종은 더 높고, 수입·전기차는 더 낮아요.';
+}
+
+function compute(animate){
+ R.pr=num('prF');R.mt=num('mtF');R.ls=num('lsF');R.lu=num('luF');R.li=num('liF');R.rt=num('rtF');R.ru=num('ruF');
+ R.op=rate('opR');R.ac=rate('acF');R.rs=Math.round(+$('rsR').value);
+ var D=decide();
+ renderReco(D);
+ renderBars(D,animate);
+ renderKpis(D,animate);
+ renderChart(D,animate);
+ renderWhy(D);
+}
+
+// ── 이벤트 배선 ──
+$('yrsR').addEventListener('input',function(){R.yrs=+this.value;$('yrsV').textContent=R.yrs;$('rsLbl').textContent=R.yrs;syncTyp();compute(false);});
+$('yrsR').addEventListener('change',function(){compute(true);});
+$('opR').addEventListener('input',function(){R.op=+this.value;$('opV').textContent=R.op.toFixed(1);syncChips('opChips',R.op);compute(false);});
+$('opR').addEventListener('change',function(){compute(true);});
+$('rsR').addEventListener('input',function(){R.rs=+this.value;$('rsV').textContent=R.rs+'%';compute(false);});
+$('rsR').addEventListener('change',function(){compute(true);});
+function syncChips(box,val){document.querySelectorAll('#'+box+' .chip').forEach(function(ch){ch.classList.toggle('on',+ch.dataset.v===val);});}
+// 차량가격 칩
+document.querySelectorAll('#prChips .chip').forEach(function(ch){ch.addEventListener('click',function(){var v=+ch.dataset.v;$('prF').value=v.toLocaleString('ko-KR');syncChips('prChips',v);compute(true);});});
+// 기회수익 칩
+document.querySelectorAll('#opChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.op=+ch.dataset.v;$('opR').value=R.op;$('opV').textContent=R.op.toFixed(1);syncChips('opChips',R.op);compute(true);});});
+// 취득세 칩
+document.querySelectorAll('#acChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.ac=+ch.dataset.v;$('acF').value=R.ac.toFixed(1);syncChips('acChips',R.ac);compute(true);});});
+// 연유지비 칩
+document.querySelectorAll('#mtChips .chip').forEach(function(ch){ch.addEventListener('click',function(){var v=+ch.dataset.v;$('mtF').value=v.toLocaleString('ko-KR');syncChips('mtChips',v);compute(true);});});
+// 금액 입력 (콤마 자동)
+[['prF','prChips'],['mtF','mtChips'],['lsF',''],['luF',''],['liF',''],['rtF',''],['ruF','']].forEach(function(pair){var id=pair[0],f=$(id);
+  f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);f.value=v?v.toLocaleString('ko-KR'):'';if(pair[1])syncChips(pair[1],v);compute(false);});
+  f.addEventListener('blur',function(){compute(true);});
+});
+// 취득세 입력 (소수 허용)
+$('acF').addEventListener('input',function(){syncChips('acChips',rate('acF'));compute(false);});
+$('acF').addEventListener('blur',function(){$('acF').value=rate('acF').toFixed(1);compute(true);});
+syncTyp();
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

@@ -1,0 +1,254 @@
+<!-- [도구_대출상환vs투자_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 4개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtEok=function(n){var neg=n<0;n=Math.abs(Math.round(n));var eok=Math.floor(n/100000000),man=Math.round((n%100000000)/10000);var s='';if(eok>0)s+=eok+'억';if(man>0)s+=(eok>0?' ':'')+man.toLocaleString('ko-KR')+'만';if(!s)s='0';return (neg?'-':'')+s+'원';};
+window.countNum=function(el,to,suf,dec,dur){if(!el)return;to=+to;dur=dur||900;suf=suf||'';dec=dec||0;var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=(to*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(s);else el.textContent=to.toFixed(dec)+suf;}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,+($(id).value.replace(/[^0-9]/g,''))||0);}
+function rate(id){return Math.max(0,+($(id).value.replace(/[^0-9.]/g,''))||0);}
+var R={sur:500000,yrs:10,bal:50000000,rl:4.3,ri:6,tax:15.4,fee:0};
+
+function netLoan(){return Math.max(0,R.rl-(R.fee>0?R.fee/3:0));} // 대출이자 비과세 · 중도상환수수료는 3년 분할 연율화(단순가정)로 차감
+function netInv(){return R.ri*(1-R.tax/100);} // 투자수익은 세후
+
+function fv(monthly,annualPct,years){
+ var i=annualPct/100/12, n=Math.round(12*years);
+ if(i<=0) return monthly*n;
+ return monthly*((Math.pow(1+i,n)-1)/i);
+}
+
+// 결정 로직
+function decide(){
+ var rln=netLoan(), rin=netInv(), diff=rln-rin; // +면 상환 유리
+ var key,strong=false;
+ if(R.rl>=7){key='pay';strong=true;}
+ else if(diff>=0.5)key='pay';
+ else if(diff<=-0.5)key='invest';
+ else key='split';
+ return {key:key,rln:rln,rin:rin,diff:diff,strong:strong};
+}
+
+function renderReco(D){
+ var rln=D.rln,rin=D.rin,ad=Math.abs(D.diff);
+ var c=$('recoCrown'),k=$('recoK'),g=$('recoG'),p=$('recoP');
+ k.textContent='세후 기준 · 우리 집에 더 유리한 쪽';
+ if(D.key==='pay'){
+   c.textContent='🏦';
+   g.innerHTML='<span style="color:var(--rose)">대출 먼저 갚기</span>가 유리해요';
+   if(D.strong){
+     p.innerHTML='연 <b>'+rln.toFixed(1)+'%</b>짜리 대출은 갚는 순간 <b>세금 없는 '+rln.toFixed(1)+'% 확정 수익</b>이에요. 이 정도 고금리는 어지간한 투자수익(세후 '+rin.toFixed(1)+'%)으로는 못 이기니, <b>최우선으로 갚는 걸</b> 권해요.';
+   }else{
+     p.innerHTML='대출을 갚으면 세금 없는 <b>확정 '+rln.toFixed(1)+'%</b>, 투자는 세후 기대 <b>'+rin.toFixed(1)+'%</b>예요. 갚는 쪽이 <b>'+ad.toFixed(1)+'%p</b> 높고, 무엇보다 결과가 <b>확정</b>이라 마음도 편해요 :)';
+   }
+ }else if(D.key==='invest'){
+   c.textContent='📈';
+   g.innerHTML='<span style="color:var(--lav)">투자 쪽 기대값</span>이 더 높아요';
+   p.innerHTML='세후 기대수익 <b>'+rin.toFixed(1)+'%</b>가 대출금리 <b>'+rln.toFixed(1)+'%</b>보다 <b>'+ad.toFixed(1)+'%p</b> 높아요. 다만 투자는 <b>출렁여서 보장은 없어요</b>. 손실을 견디기 어렵다면, 갚아서 얻는 확정 '+rln.toFixed(1)+'%도 충분히 좋은 선택이에요.';
+ }else{
+   c.textContent='⚖️';
+   g.innerHTML='<span style="color:var(--gold)">비슷해요</span> — 반반 나눠도 좋아요';
+   p.innerHTML='둘 차이가 <b>'+ad.toFixed(1)+'%p</b>로 근소해요. 이럴 땐 정답이 하나가 아니에요. <b>고금리 대출부터 갚고</b> 나머지는 투자로 나누는 ‘반반’이, 숫자도 마음도 가장 편한 길일 수 있어요.';
+ }
+}
+
+function renderBars(D,animate){
+ var box=$('optbars');box.innerHTML='';
+ var data=[['pay','대출 상환(확정)','var(--rose)',D.rln],['invest','투자(세후 기대)','var(--lav)',D.rin]];
+ var mx=Math.max(D.rln,D.rin,1)*1.12;
+ data.forEach(function(it){
+   var win=(D.key===it[0])||(D.key==='split');
+   var row=document.createElement('div');row.className='optrow'+((D.key===it[0])?' win':'');
+   row.innerHTML='<div class="ol"><span class="pin" style="background:'+it[2]+'"></span>'+((D.key===it[0])?'👑 ':'')+it[1]+'</div>'+
+     '<div class="optbar"><i></i></div>'+
+     '<div class="ov" style="color:'+it[2]+'">연 '+it[3].toFixed(1)+'%</div>';
+   box.appendChild(row);
+   var bar=row.querySelector('.optbar i');bar.style.background=it[2];
+   var wpct=Math.max(3,it[3]/mx*100);
+   (function(b,pc){if(animate){requestAnimationFrame(function(){b.style.width=pc+'%';});}else{b.style.width=pc+'%';}})(bar,wpct);
+ });
+}
+
+function renderKpis(D,animate){
+ var box=$('kpis');
+ var gap=fv(R.sur,D.rin,R.yrs)-fv(R.sur,D.rln,R.yrs); // +면 투자 기대 우위
+ box.innerHTML=
+  '<div class="kpi"><div class="kl">대출 상환 = 확정 수익</div><div class="kv" style="color:var(--rose)"><span id="k1">0.0</span></div></div>'+
+  '<div class="kpi"><div class="kl">투자 = 세후 기대수익</div><div class="kv" style="color:var(--lav)"><span id="k2">0.0</span></div></div>'+
+  '<div class="kpi"><div class="kl">'+R.yrs+'년 뒤 기대 격차</div><div class="kv" id="k3" style="color:'+(gap>=0?'var(--lav)':'var(--rose)')+'">·</div></div>';
+ if(animate){countNum($('k1'),D.rln,'%',1);countNum($('k2'),D.rin,'%',1);}
+ else{$('k1').textContent=D.rln.toFixed(1)+'%';$('k2').textContent=D.rin.toFixed(1)+'%';}
+ var sign=gap>=0?'투자 +':'상환 +';
+ $('k3').textContent=sign+window.fmtEok(Math.abs(gap));
+}
+
+function renderChart(D,animate){
+ var N=R.yrs,grid=$('fvGrid'),paths=$('fvPaths'),area=$('fvArea'),dots=$('fvDots'),axis=$('fvAxis');
+ grid.innerHTML='';paths.innerHTML='';area.innerHTML='';dots.innerHTML='';axis.innerHTML='';
+ var X0=54,X1=694,Y0=18,Y1=274;
+ var sP=[],sI=[],sPr=[]; var hi=1;
+ for(var t=0;t<=N;t++){var a=fv(R.sur,D.rln,t),b=fv(R.sur,D.rin,t),pr=R.sur*12*t;
+   sP.push(a);sI.push(b);sPr.push(pr);hi=Math.max(hi,a,b,pr);}
+ hi*=1.06;
+ function px(t){return X0+(N<=0?0:t/N)*(X1-X0);}
+ function py(v){return Y1-(v/hi)*(Y1-Y0);}
+ // grid + y labels
+ [hi,hi*0.5,0].forEach(function(v){var y=py(v);
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(v<1?'#D9C7C1':'#EEE0DB')+'" stroke-width="1" stroke-dasharray="'+(v<1?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-8)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(v<1?'0':window.fmtEok(v))+'</text>';
+ });
+ var step=N<=8?1:(N<=16?2:5);
+ for(var xt=0;xt<=N;xt+=step){axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'년</text>';}
+ if((N%step)!==0){axis.innerHTML+='<text x="'+px(N).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+N+'년</text>';}
+ // 두 곡선 사이 영역(기대 격차)
+ var hiSer=(sI[N]>=sP[N])?sI:sP, loSer=(sI[N]>=sP[N])?sP:sI, fillCol=(sI[N]>=sP[N])?'rgba(156,107,168,.13)':'rgba(184,80,96,.12)';
+ var ad='M'+px(0).toFixed(1)+' '+py(hiSer[0]).toFixed(1);
+ for(var i=1;i<=N;i++){ad+=' L'+px(i).toFixed(1)+' '+py(hiSer[i]).toFixed(1);}
+ for(var j=N;j>=0;j--){ad+=' L'+px(j).toFixed(1)+' '+py(loSer[j]).toFixed(1);}
+ ad+=' Z';area.innerHTML='<path d="'+ad+'" fill="'+fillCol+'" stroke="none"/>';
+ // 곡선 3종: 원금(점선)·상환·투자
+ var defs=[['pr',sPr,'#C9B8B0','3 5'],['pay',sP,'#B85060','none'],['inv',sI,'#9C6BA8','none']];
+ defs.forEach(function(s){
+   var dd=s[1].map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+   var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+   p.setAttribute('d',dd);p.setAttribute('stroke',s[2]);
+   if(s[3]!=='none'){p.setAttribute('stroke-dasharray',s[3]);p.setAttribute('opacity','.8');p.setAttribute('stroke-width','2');}
+   else{p.setAttribute('opacity','.96');}
+   paths.appendChild(p);
+   if(s[3]==='none'){
+     var len=p.getTotalLength?p.getTotalLength():1200;
+     if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}
+     else{p.style.strokeDasharray='none';p.style.strokeDashoffset=0;}
+   }
+ });
+ // 종점 라벨
+ [['상환','#B85060',sP[N]],['투자','#9C6BA8',sI[N]]].forEach(function(e){
+   var ex=px(N),ey=py(e[2]);
+   dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4" fill="'+e[1]+'"/>'+
+     '<text x="'+(ex-8).toFixed(1)+'" y="'+(ey-8).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="'+e[1]+'">'+e[0]+'</text>';
+ });
+ var gap=sI[N]-sP[N];
+ var cl=$('crossLab');
+ if(R.sur<=0){cl.innerHTML='먼저 위에 <b>매달 굴릴 여유자금</b>을 넣어 주세요.';}
+ else if(Math.abs(gap)<R.sur*0.6){cl.innerHTML='지금 조건이면 '+N+'년을 굴려도 <b>두 곡선이 거의 겹쳐요.</b> 차이가 작으니 마음 편한 쪽을 골라도 괜찮아요.';}
+ else if(gap>0){cl.innerHTML='이 조건(평균이 그대로 실현될 때)에선 '+N+'년 뒤 <b>투자 쪽이 약 '+window.fmtEok(gap)+' 더</b> 쌓여요. 단, 그만큼 <b>출렁임(위험)</b>을 견뎌야 얻는 ‘기대값’이에요.';}
+ else{cl.innerHTML='이 조건에선 '+N+'년 뒤 <b>대출을 갚는 쪽이 약 '+window.fmtEok(-gap)+' 더</b> 남아요. 게다가 이건 <b>위험 없이 확정</b>되는 차이예요.';}
+ $('chSpan').textContent='0~'+N+'년';
+}
+
+function renderWhy(D){
+ var box=$('bd');box.innerHTML='';
+ var clr=R.sur>0?R.bal/R.sur:Infinity; var clrY=clr/12;
+ var balTxt;
+ if(R.bal<=0){balTxt='대출이 없으면 고민 끝! 여유자금은 투자에 집중하면 돼요 :)';}
+ else if(R.sur<=0){balTxt='여유자금을 넣으면 대출을 다 갚는 데 걸리는 기간을 알려드려요.';}
+ else{balTxt='월 '+window.fmtWon(R.sur)+'원으로 갚으면 <b>원금 기준 약 '+clrY.toFixed(1)+'년</b>이면 대출('+window.fmtEok(R.bal)+')을 다 갚아요. 그 뒤엔 여유자금을 자연스럽게 <b>투자로</b> 돌리면 돼요.';}
+ box.innerHTML=
+  '<div class="bdc t-loan"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--rose);display:inline-block"></span>왜 상환이 \'확정\'일까</h5>'+
+    '<div class="big" style="color:var(--rose)">연 '+D.rln.toFixed(1)+'% · 무위험</div>'+
+    '<p>4%대 대출을 갚으면, 매년 그 4%만큼 이자가 <b>반드시</b> 줄어요. 시장이 어떻든 결과가 정해져 있고 <b>세금도 없어요</b>. '+balTxt+'</p></div>'+
+  '<div class="bdc t-inv"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--lav);display:inline-block"></span>왜 투자는 \'기대\'일까</h5>'+
+    '<div class="big" style="color:var(--lav)">연 '+D.rin.toFixed(1)+'% · 세후 기대</div>'+
+    '<p>기대수익 '+R.ri.toFixed(1)+'%는 <b>평균일 뿐</b> 어떤 해는 +20%, 어떤 해는 -15%처럼 출렁여요. 보통 수익의 '+R.tax.toFixed(1)+'%는 세금으로 빠져 <b>세후 '+D.rin.toFixed(1)+'%</b>로 비교해야 공평해요.</p></div>';
+}
+
+function compute(animate){
+ R.sur=num('surF');R.bal=num('balF');R.rl=rate('rlF');R.ri=rate('riF');
+ var D=decide();
+ renderReco(D);
+ renderBars(D,animate);
+ renderKpis(D,animate);
+ renderChart(D,animate);
+ renderWhy(D);
+ renderBk(D);
+}
+
+// ── 이벤트 배선 ──
+$('yrsR').addEventListener('input',function(){R.yrs=+this.value;$('yrsV').textContent=R.yrs;compute(false);});
+$('yrsR').addEventListener('change',function(){compute(true);});
+function syncChips(box,val){document.querySelectorAll('#'+box+' .chip').forEach(function(ch){ch.classList.toggle('on',+ch.dataset.v===val);});}
+// 여유자금 칩
+document.querySelectorAll('#surChips .chip').forEach(function(ch){ch.addEventListener('click',function(){var v=+ch.dataset.v;$('surF').value=v.toLocaleString('ko-KR');syncChips('surChips',v);compute(true);});});
+// 대출금리 칩
+document.querySelectorAll('#rlChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.rl=+ch.dataset.v;$('rlF').value=R.rl.toFixed(1);syncChips('rlChips',R.rl);compute(true);});});
+// 기대수익 칩
+document.querySelectorAll('#riChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.ri=+ch.dataset.v;$('riF').value=R.ri.toFixed(1);syncChips('riChips',R.ri);compute(true);});});
+// 세금 칩
+document.querySelectorAll('#taxChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.tax=+ch.dataset.v;syncChips('taxChips',R.tax);compute(true);});});
+// 금액 입력 (콤마 자동)
+['surF','balF'].forEach(function(id){var f=$(id);
+  f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);f.value=v?v.toLocaleString('ko-KR'):'';syncChips(id==='surF'?'surChips':'',v);compute(false);});
+  f.addEventListener('blur',function(){compute(true);});
+});
+// 금리 입력 (소수 허용)
+['rlF','riF'].forEach(function(id){var f=$(id);
+  f.addEventListener('input',function(){if(id==='rlF')syncChips('rlChips',rate('rlF'));else syncChips('riChips',rate('riF'));compute(false);});
+  f.addEventListener('blur',function(){f.value=rate(id).toFixed(1);compute(true);});
+});
+
+// ── 손익분기 한 줄 ──
+function renderBk(D){
+ var el=$('bkline'); if(!el) return;
+ if(R.rl<=0){el.innerHTML='대출 금리를 넣으면 <b>손익분기 수익률</b>을 알려드려요.';return;}
+ var t=1-R.tax/100, bk=t>0?netLoan()/t:Infinity, ok=R.ri>=bk;
+ var html='💡 이 조건에서 투자가 이기려면 <b>세전 연 '+bk.toFixed(1)+'% 이상</b> 내야 해요 (대출 '+netLoan().toFixed(1)+'% ÷ (1−세금 '+R.tax.toFixed(1)+'%)). 입력한 기대수익은 <b style="color:'+(ok?'var(--lav)':'var(--rose)')+'">'+R.ri.toFixed(1)+'%'+(ok?' — 넘어요':' — 못 미쳐요')+'</b>.';
+ if(R.fee>0){html+='<span class="fee">✂️ 중도상환수수료 '+R.fee.toFixed(1)+'% 반영: 상환 메리트를 연 −'+(R.fee/3).toFixed(2)+'%p 깎아 계산했어요(3년 분할 단순가정). 보통 3년 뒤 면제되니, 내 대출의 면제 시점을 꼭 확인하세요.</span>';}
+ el.innerHTML=html;
+}
+// ── 첫해 -15% 스트레스 ──
+function stressFV(firstYearPct){
+ var n=Math.round(R.yrs*12), prin=R.sur*n, v=0;
+ for(var m=0;m<n;m++){var r=((Math.floor(m/12)===0)?firstYearPct:R.ri)/100/12; v=(v+R.sur)*(1+r);}
+ var g=v-prin; return g>0? prin+g*(1-R.tax/100) : v;
+}
+$('stressBtn').addEventListener('click',function(){
+ var o=$('stressOut');
+ if(!o.hidden){o.hidden=true;this.classList.remove('on');return;}
+ if(R.sur<=0){o.innerHTML='먼저 위에 <b>매달 굴릴 여유자금</b>을 넣어 주세요.';o.hidden=false;return;}
+ var base=stressFV(R.ri), bad=stressFV(-15), dgap=base-bad;
+ o.innerHTML='첫해에 <b>−15%</b>를 맞으면 '+R.yrs+'년 뒤 투자 경로는 <b>'+window.fmtEok(bad)+'</b> — 내내 평탄했을 때(<b>'+window.fmtEok(base)+'</b>)보다 <b style="color:var(--rose)">'+window.fmtEok(dgap)+' 적어요</b> (이후 매년 '+R.ri.toFixed(1)+'%로 회복 가정·세후). 같은 해에도 <b>대출 상환의 확정 수익은 흔들리지 않아요</b> — 이 출렁임을 견디는 값이 곧 기대수익이에요.';
+ o.hidden=false;this.classList.add('on');
+});
+// 수수료 칩
+document.querySelectorAll('#feeChips .chip').forEach(function(ch){ch.addEventListener('click',function(){R.fee=+ch.dataset.v;syncChips('feeChips',R.fee);compute(true);});});
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*lvtilt*/
+(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ [].slice.call(document.querySelectorAll('.kpi,.relcard,.bdc')).forEach(function(c){
+  c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;
+   c.style.transform='perspective(700px) rotateY('+(px*4).toFixed(2)+'deg) rotateX('+(-py*4).toFixed(2)+'deg) translateY(-2px)';},{passive:true});
+  c.addEventListener('mouseleave',function(){c.style.transform='';});});})();
+</script>

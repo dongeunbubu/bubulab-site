@@ -1,0 +1,373 @@
+<!-- [도구_자산배분Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 4개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+/* ===== 부부 자산배분 Pro ===== */
+var $=function(id){return document.getElementById(id);};
+/* tag: 'h'=기간(horizon), 'r'=위험(risk) · 보기 weight 0~3 — v1 채점 100% 계승 */
+var Q=[
+ {"tag":"h","q":"이 돈, 언제쯤 쓸 계획이에요?","o":[["3년 안에 쓸 것 같아요",0],["3~7년 뒤에요",1],["7~12년 뒤에요",2],["12년 넘게 묶어둘 수 있어요",3]]},
+ {"tag":"r","q":"투자, 얼마나 해보셨어요?","o":[["거의 안 해봤어요",0],["예·적금 위주였어요",1],["펀드·ETF는 해봤어요",2],["개별 주식까지 적극적으로요",3]]},
+ {"tag":"r","q":"모은 돈이 1년 만에 20% 줄면, 어떻게 할 것 같아요?","o":[["불안해서 다 정리할 것 같아요",0],["일부는 줄일 것 같아요",1],["계획대로 그냥 둬요",2],["오히려 더 담을 기회로 봐요",3]]},
+ {"tag":"h","q":"중간에 이 돈을 꺼내 쓸 가능성은?","o":[["자주 꺼내 쓸 것 같아요",0],["가끔 필요할 수 있어요",1],["거의 안 건드릴 거예요",2],["완전히 묶어둘 수 있어요",3]]},
+ {"tag":"r","q":"더 중요한 건 어느 쪽이에요?","o":[["원금은 꼭 지키고 싶어요",0],["조금의 손실은 견딜 수 있어요",1],["수익을 위해 변동은 감수해요",2],["크게 불리는 게 1순위예요",3]]},
+ {"tag":"r","q":"지금 소득·생활의 안정감은 어때요?","o":[["불안정한 편이라 조심스러워요",0],["보통이에요",1],["안정적이에요",2],["안정적이고 여윳돈도 충분해요",3]]}
+];
+/* 교과서식 예시 매트릭스 [주식형, 채권형, 현금성, 분산] · 각 칸 합=100 (v1과 동일) */
+var MATRIX={
+ stable:{short:[10,35,50,5],mid:[20,45,25,10],long:[30,45,15,10]},
+ balanced:{short:[25,35,35,5],mid:[45,35,10,10],long:[55,28,5,12]},
+ bold:{short:[40,25,30,5],mid:[60,20,8,12],long:[70,15,3,12]}
+};
+var RISK_LABEL={stable:"안정형",balanced:"균형형",bold:"도전형"};
+var HOR_LABEL={short:"단기",mid:"중기",long:"장기"};
+var HOR_VIEW={short:"단기 관점",mid:"중기 관점",long:"장기 관점"};
+var HOR_RANGE={short:"~3년",mid:"3~10년",long:"10년+"};
+var ASSET=[
+ {k:"주식형",sub:"성장 · 주식",c:"var(--rose)",d:"길게 보고 불리는 자리예요. 기대가 큰 만큼 흔들림도 커요."},
+ {k:"채권형",sub:"안정 · 이자",c:"var(--sage)",d:"비교적 잔잔하게 이자를 받아요. 주식이 흔들릴 때 완충해줘요."},
+ {k:"현금성",sub:"예금 · 파킹",c:"var(--gold)",d:"언제든 쓸 수 있는 자리예요. 비상금과 기회를 위한 여유예요."},
+ {k:"분산",sub:"리츠 · 해외 등",c:"var(--lav)",d:"한쪽에 쏠리지 않게 더 넓게 나눠 담는 자리예요."}
+];
+var ASSET_SHORT=["주","채","현","분"];
+
+var names=["첫 번째 분","두 번째 분"];
+var stepPerson=0, i=0, acc={h:0,r:0};
+var prof=[null,null];          /* 각 {h,r,ri,hi,alloc,riL,hiL} */
+var mid=null;                  /* {ri,hi,alloc,riL,hiL} */
+var curAlloc=[20,45,25,10];    /* 메인 도넛에 현재 표시 중 */
+var similar=0, hotIdx=0, coolIdx=0;
+var SAVE_KEY='bbAssetAllocPro_v1';
+
+function show(id){['intro','quiz','handoff','result'].forEach(function(x){$(x).classList.toggle('on',x===id);});}
+function classify(h,r){
+ var hi=h<=1?'short':(h<=4?'mid':'long');
+ var ri=r<=4?'stable':(r<=8?'balanced':'bold');
+ return {hi:hi,ri:ri};
+}
+function allocOf(h,r){var k=classify(h,r);var a=MATRIX[k.ri][k.hi].slice();return {ri:k.ri,hi:k.hi,alloc:a,riL:RISK_LABEL[k.ri],hiL:HOR_LABEL[k.hi]};}
+
+function renderQ(){
+ var q=Q[i];$('qnum').textContent=(i+1);$('qfill').style.width=(i/Q.length*100)+'%';
+ $('qwho').textContent=names[stepPerson];
+ var tg=$('qtag');tg.textContent=(q.tag==='h'?'투자 기간':'위험 성향');tg.className='qtag'+(q.tag==='h'?' h':'');
+ $('qq').textContent=q.q;var op=$('opts');op.innerHTML='';
+ q.o.forEach(function(o,idx){var b=document.createElement('button');b.className='opt';
+   b.innerHTML='<span class="ol">'+'ABCD'[idx]+'</span><span></span>';
+   b.lastChild.textContent=o[0];
+   b.addEventListener('click',function(){if(q.tag==='h')acc.h+=o[1];else acc.r+=o[1];next();});op.appendChild(b);});
+}
+function next(){var c=$('qcard');c.classList.add('out');
+ setTimeout(function(){i++;if(i>=Q.length){$('qfill').style.width='100%';finishPerson();return;}renderQ();c.classList.remove('out');c.classList.add('inr');c.getBoundingClientRect();c.classList.remove('inr');},340);}
+
+function finishPerson(){
+ prof[stepPerson]=allocOf(acc.h,acc.r);
+ prof[stepPerson].h=acc.h;prof[stepPerson].r=acc.r;
+ if(stepPerson===0){
+   $('hoTitle').textContent=names[0]+', 끝났어요!';
+   $('hoNext').textContent=names[1];
+   $('hoChip').textContent=names[0]+' · '+prof[0].riL+' '+prof[0].hiL;
+   show('handoff');window.scrollTo({top:0,behavior:'smooth'});
+ }else{
+   computeCombined();show('result');renderResult();window.scrollTo({top:0,behavior:'smooth'});
+ }
+}
+function computeCombined(){
+ var A=prof[0],B=prof[1];
+ var avgH=Math.round((A.h+B.h)/2),avgR=Math.round((A.r+B.r)/2);
+ mid=allocOf(avgH,avgR);
+ var dist=0;for(var k=0;k<4;k++){dist+=Math.abs(A.alloc[k]-B.alloc[k]);}
+ dist=Math.round(dist/2);similar=Math.max(0,Math.min(100,100-dist));
+ /* 최대/최소 격차 자산 */
+ hotIdx=0;coolIdx=0;var hi=-1,lo=999;
+ for(var j=0;j<4;j++){var g=Math.abs(A.alloc[j]-B.alloc[j]);if(g>hi){hi=g;hotIdx=j;}if(g<lo){lo=g;coolIdx=j;}}
+}
+function fmtWon(n){return Math.round(n).toLocaleString('ko-KR');}
+
+/* 프로필 카드(두 사람) */
+function renderProfiles(){
+ var box=$('profiles');box.innerHTML='';
+ [0,1].forEach(function(p){
+   var P=prof[p];var card=document.createElement('div');card.className='pcard'+(p===1?' b':'');
+   var bar='';P.alloc.forEach(function(v,idx){bar+='<i data-w="'+v+'" style="background:'+ASSET[idx].c+'"></i>';});
+   var leg='';ASSET.forEach(function(a,idx){leg+='<span><i style="background:'+a.c+'"></i>'+a.k+' '+P.alloc[idx]+'%</span>';});
+   card.innerHTML='<div class="pname"><span class="ic">'+(p===0?'1':'2')+'</span><span>'+names[p]+'</span></div>'+
+     '<div class="ptype">성향 <b>'+P.riL+'</b> · 기간 <b>'+P.hiL+'</b> ('+HOR_RANGE[P.hi]+')</div>'+
+     '<div class="pcbar">'+bar+'</div><div class="pclegend">'+leg+'</div>';
+   box.appendChild(card);
+ });
+ /* 프로필 한 줄 요약 */
+ var A=prof[0],B=prof[1];var same=(A.riL===B.riL&&A.hiL===B.hiL);
+ var msg;
+ if(same){msg='두 분 다 <b>'+A.hiL+'·'+A.riL+'</b>으로 결이 똑 닮았어요. 합의가 쉬운 편이에요 :)';}
+ else{msg=names[0]+'은 <b>'+A.hiL+'·'+A.riL+'</b>, '+names[1]+'은 <b>'+B.hiL+'·'+B.riL+'</b>이에요. 아래 <b>가운데값</b>이 두 분이 만나는 한 출발점이에요.';}
+ $('profSum').innerHTML=msg;
+ /* 바 애니메이션 */
+ setTimeout(function(){box.querySelectorAll('.pcbar i').forEach(function(el){el.style.width=el.getAttribute('data-w')+'%';});},120);
+}
+
+/* 메인 도넛 + 범례 (curAlloc 기준) */
+function buildLegend(){
+ var lg=$('legend');lg.innerHTML='';
+ ASSET.forEach(function(a){
+  var row=document.createElement('div');row.className='lg';
+  row.innerHTML='<span class="dotc" style="background:'+a.c+'"></span>'+
+    '<div><div class="nm">'+a.k+'<small>'+a.sub+'</small></div><div class="desc"></div><div class="track"><i style="background:'+a.c+'"></i></div></div>'+
+    '<div class="pc"><b>0%</b><span></span></div>';
+  row.querySelector('.desc').textContent=a.d;
+  lg.appendChild(row);
+ });
+}
+function updateAmounts(){
+ var raw=($('amt').value||'').replace(/[^0-9]/g,'');
+ var rows=$('legend').querySelectorAll('.lg');
+ if(!raw){rows.forEach(function(r){r.querySelector('.pc span').textContent='';});return;}
+ var amt=+raw;
+ rows.forEach(function(r,idx){r.querySelector('.pc span').textContent='약 '+fmtWon(amt*curAlloc[idx]/100)+'원';});
+}
+function drawDonut(alloc,riL,hiKey){
+ curAlloc=alloc.slice();
+ $('cRisk').textContent=riL;$('cHor').textContent=HOR_LABEL[hiKey]+' ('+HOR_RANGE[hiKey]+')';
+ $('dCtr').textContent=riL;$('dCtr2').textContent=HOR_VIEW[hiKey];
+ $('donut').setAttribute('aria-label','가운데값 자산배분 예시: '+riL+' '+HOR_LABEL[hiKey]+' · 주식형 '+alloc[0]+'%, 채권형 '+alloc[1]+'%, 현금성 '+alloc[2]+'%, 분산 '+alloc[3]+'%');
+ buildLegend();
+ var rows=$('legend').querySelectorAll('.lg');
+ var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var cum=0,offs=[];alloc.forEach(function(v){offs.push(cum);cum+=v;});
+ for(var s=0;s<4;s++){var seg=$('s'+s);seg.setAttribute('stroke-dashoffset',(-offs[s]));seg.setAttribute('stroke-dasharray','0 100');}
+ setTimeout(function(){
+  $('donut').classList.add('in');
+  for(var s=0;s<4;s++){(function(s){var seg=$('s'+s);
+    if(reduce){seg.setAttribute('stroke-dasharray',alloc[s]+' 100');}
+    else{requestAnimationFrame(function(){seg.setAttribute('stroke-dasharray',(alloc[s]>0?alloc[s]-0.6:0)+' 100');});}
+  })(s);}
+  rows.forEach(function(r,idx){
+    var pcb=r.querySelector('.pc b');
+    if(reduce){pcb.textContent=alloc[idx]+'%';}else{window.countUp(pcb,alloc[idx],950,'%');}
+    setTimeout(function(){r.querySelector('.track i').style.width=alloc[idx]+'%';},60);
+  });
+  updateAmounts();
+ },140);
+}
+
+/* 차이 뜯어보기 */
+function renderGaps(){
+ var A=prof[0],B=prof[1];var box=$('gaps');box.innerHTML='';
+ ASSET.forEach(function(a,idx){
+  var row=document.createElement('div');row.className='gaprow'+(idx===hotIdx?' hot':'');
+  row.innerHTML='<div class="gh"><span class="dotc" style="background:'+a.c+'"></span><span>'+a.k+'</span><span class="mid">함께 '+mid.alloc[idx]+'%</span></div>'+
+   '<div class="gbars">'+
+     '<span class="who" style="color:var(--pA)">'+names[0]+'</span><div class="gtrack"><i data-w="'+A.alloc[idx]+'" style="background:var(--pA)"></i></div><span class="gval">'+A.alloc[idx]+'%</span>'+
+     '<span class="who" style="color:var(--pB)">'+names[1]+'</span><div class="gtrack"><i data-w="'+B.alloc[idx]+'" style="background:var(--pB)"></i></div><span class="gval">'+B.alloc[idx]+'%</span>'+
+   '</div>';
+  box.appendChild(row);
+ });
+ setTimeout(function(){box.querySelectorAll('.gtrack i').forEach(function(el){el.style.width=el.getAttribute('data-w')+'%';});},150);
+ /* 대화 처방 */
+ var A2=prof[0],B2=prof[1];var hi=ASSET[hotIdx].k;
+ var vA=A2.alloc[hotIdx],vB=B2.alloc[hotIdx],vM=mid.alloc[hotIdx];
+ var hiName=(vA>=vB?names[0]:names[1]),loName=(vA>=vB?names[1]:names[0]);
+ var diff=Math.abs(vA-vB);
+ if(diff===0){
+   $('rxTalkT').innerHTML='놀랍게도 <b>모든 자산</b>에서 두 분 생각이 똑같았어요. 가운데값이 곧 두 분의 합의예요 — 이대로 시작해도 좋아요 :)';
+ }else{
+   $('rxTalkT').innerHTML='<b>'+hi+'</b>에서 두 분 생각이 가장 달라요. '+hiName+'은 '+Math.max(vA,vB)+'%, '+loName+'은 '+Math.min(vA,vB)+'%를 원해요(차이 '+diff+'%p). 누가 맞고 틀린 게 아니라 <b>편안함의 기준</b>이 다른 거예요. 우선 가운데값 <b>'+vM+'%</b>로 3개월 살아보고, 둘 다 편한 쪽으로 조금씩 옮겨보는 건 어때요?';
+ }
+ /* 잘 맞는 곳 */
+ var cg=Math.abs(A2.alloc[coolIdx]-B2.alloc[coolIdx]);
+ $('rxAgreeT').innerHTML='<b>'+ASSET[coolIdx].k+'</b>은 두 분 생각이 거의 같아요(차이 '+cg+'%p). 여기선 다툴 일이 없으니, 합의된 비중부터 먼저 채워가도 좋아요.';
+}
+
+/* 리밸런싱 D-day */
+var rbFreq='q';
+function pad2(n){return (n<10?'0':'')+n;}
+function nextCP(freq){
+ var now=new Date();var ends;
+ if(freq==='q')ends=[[2,31],[5,30],[8,30],[11,31]];
+ else if(freq==='h')ends=[[5,30],[11,31]];
+ else ends=[[11,31]];
+ var y=now.getFullYear();var cands=[];
+ [y,y+1].forEach(function(yy){ends.forEach(function(e){cands.push(new Date(yy,e[0],e[1]));});});
+ cands.sort(function(a,b){return a-b;});
+ for(var k=0;k<cands.length;k++){if(cands[k]>now)return cands[k];}
+ return cands[cands.length-1];
+}
+function renderRebal(){
+ var t=nextCP(rbFreq);var now=new Date();
+ var dd=Math.ceil((t-now)/(1000*60*60*24));if(dd<0)dd=0;
+ $('ddDate').textContent=t.getFullYear()+'.'+pad2(t.getMonth()+1)+'.'+pad2(t.getDate());
+ var el=$('ddNum');var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(reduce){el.textContent='D-'+dd;}else{var t0=null;(function(){function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/700,1);var e=1-Math.pow(1-p,3);el.textContent='D-'+Math.round(dd*e);if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);})();}
+ var word=rbFreq==='q'?'분기마다(3개월)':rbFreq==='h'?'반기마다(6개월)':'1년마다';
+ $('ddSub').textContent='정해진 날, 비율이 5%p 넘게 틀어졌으면 가운데값으로 살짝 되돌려요. '+word+' 한 번이면 충분해요.';
+}
+
+/* 목표별 저장 (localStorage) */
+function loadSaves(){try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'[]');}catch(e){return [];}}
+function writeSaves(a){try{localStorage.setItem(SAVE_KEY,JSON.stringify(a));}catch(e){}}
+function renderSaves(){
+ var arr=loadSaves();var box=$('saves');box.innerHTML='';
+ if(!arr.length){$('svempty').style.display='block';return;}
+ $('svempty').style.display='none';
+ arr.forEach(function(it,idx){
+  var row=document.createElement('div');row.className='sv';
+  var amix=it.a.map(function(v,k){return ASSET_SHORT[k]+v;}).join('·');
+  row.innerHTML='<div class="svg-l"><div class="svn">'+esc(it.g)+' <span class="gd">'+(it.d||'')+'</span></div><div class="sva">'+amix+' · 비슷 '+(it.s!=null?it.s+'%':'-')+'</div></div>'+
+    '<div class="svbtns"><button class="ld" data-i="'+idx+'">불러오기</button><button class="dl" data-i="'+idx+'">삭제</button></div>';
+  box.appendChild(row);
+ });
+ box.querySelectorAll('.ld').forEach(function(b){b.addEventListener('click',function(){loadSaved(+this.getAttribute('data-i'));});});
+ box.querySelectorAll('.dl').forEach(function(b){b.addEventListener('click',function(){var a=loadSaves();a.splice(+this.getAttribute('data-i'),1);writeSaves(a);renderSaves();});});
+}
+function esc(s){return (s||'').replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
+function loadSaved(idx){
+ var arr=loadSaves();var it=arr[idx];if(!it)return;
+ drawDonut(it.a.slice(),it.rl||'저장됨',it.hk||mid.hi);
+ var f=$('loadflag');f.classList.add('on');$('loadtxt').innerHTML='📂 저장된 <b>'+esc(it.g)+'</b> 배분을 불러왔어요';
+ $('donut').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function backToMid(){drawDonut(mid.alloc.slice(),mid.riL,mid.hi);$('loadflag').classList.remove('on');}
+
+function renderResult(){
+ /* 비슷함 헤드라인 */
+ var sb=$('simBig');var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(reduce){sb.textContent=similar+'%';}else{window.countUp(sb,similar,1100,'%');}
+ $('simCap').textContent=similar>=80?'두 분의 배분 결이 꽤 비슷해요':similar>=55?'두 분의 배분, 비슷하면서도 조금 달라요':'두 분의 배분 결이 제법 달라요 — 그래서 가운데값이 유용해요';
+ renderProfiles();
+ drawDonut(mid.alloc.slice(),mid.riL,mid.hi);
+ /* 한 줄 요약 */
+ var sorted=mid.alloc.map(function(v,idx){return {n:ASSET[idx].k,v:v};}).sort(function(a,b){return b.v-a.v;});
+ renderGaps();
+ renderRebal();
+ renderSaves();
+ window._res={similar:similar,a:prof[0],b:prof[1],mid:mid,names:names.slice()};
+}
+
+/* 이벤트 */
+$('start').addEventListener('click',function(){
+ var na=($('nameA').value||'').trim(),nb=($('nameB').value||'').trim();
+ names[0]=na||'첫 번째 분';names[1]=nb||'두 번째 분';
+ stepPerson=0;i=0;acc={h:0,r:0};show('quiz');renderQ();
+});
+$('cont').addEventListener('click',function(){stepPerson=1;i=0;acc={h:0,r:0};show('quiz');renderQ();window.scrollTo({top:0,behavior:'smooth'});});
+$('again').addEventListener('click',function(){prof=[null,null];mid=null;$('amt').value='';$('loadflag').classList.remove('on');show('intro');window.scrollTo({top:0,behavior:'smooth'});});
+$('amt').addEventListener('input',function(){var v=this.value.replace(/[^0-9]/g,'');this.value=v?(+v).toLocaleString('ko-KR'):'';updateAmounts();});
+$('loadclear').addEventListener('click',backToMid);
+/* 리밸런싱 주기 */
+$('result').querySelectorAll('.segbtns button').forEach(function(b){b.addEventListener('click',function(){
+ $('result').querySelectorAll('.segbtns button').forEach(function(x){x.classList.remove('on');});this.classList.add('on');rbFreq=this.getAttribute('data-f');renderRebal();});});
+/* 목표 칩 */
+$('goalchips').querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){
+ $('goalchips').querySelectorAll('button').forEach(function(x){x.classList.remove('on');});this.classList.add('on');$('goalName').value=this.getAttribute('data-g');});});
+/* 저장 */
+$('goalSave').addEventListener('click',function(){
+ if(!mid)return;var g=($('goalName').value||'').trim()||'내 배분';
+ var arr=loadSaves();var now=new Date();var ds=now.getFullYear()+'.'+pad2(now.getMonth()+1)+'.'+pad2(now.getDate());
+ arr.unshift({g:g,a:curAlloc.slice(),s:similar,d:ds,rl:$('cRisk').textContent,hk:mid.hi});
+ if(arr.length>8)arr=arr.slice(0,8);writeSaves(arr);renderSaves();
+ var b=this;var o=b.textContent;b.textContent='저장됐어요!';setTimeout(function(){b.textContent=o;},1400);
+});
+/* 복사 */
+$('copy').addEventListener('click',function(){var r=window._res;if(!r)return;
+ var txt='우리 부부 자산배분(가운데값): 주식형 '+r.mid.alloc[0]+'% · 채권형 '+r.mid.alloc[1]+'% · 현금성 '+r.mid.alloc[2]+'% · 분산 '+r.mid.alloc[3]+'% / 배분 비슷함 '+r.similar+'% ('+r.names[0]+' '+r.a.riL+'·'+r.b.riL+' '+r.names[1]+') — 부부연구소 자료실 · 교육용 예시';
+ navigator.clipboard&&navigator.clipboard.writeText(txt);var b=$('copy');var o=b.textContent;b.textContent='복사됐어요!';setTimeout(function(){b.textContent=o;},1500);});
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*fxkrw*//*fxkrw-v2*/
+(function(){
+  if(document.documentElement.getAttribute('data-fxk'))return;
+  document.documentElement.setAttribute('data-fxk','1');
+  var FALLBACK=1525, rate=FALLBACK, live=false;
+  try{var _c=JSON.parse(sessionStorage.getItem('bblfx')||'0');if(_c&&_c.r&&(Date.now()-_c.t)<43200000){rate=_c.r;live=true;}}catch(e){}
+  function f(x){return x>=100?Math.round(x).toLocaleString('ko-KR'):(Math.round(x*10)/10).toLocaleString('ko-KR');}
+  function fmt(won){
+    if(won>=1e12)return f(won/1e12)+'조원';
+    if(won>=1e8)return f(won/1e8)+'억원';
+    if(won>=1e4)return f(won/1e4)+'만원';
+    return Math.round(won).toLocaleString('ko-KR')+'원';
+  }
+  var MU={'십억':1e9,'백만':1e6,'조':1e12,'억':1e8,'만':1e4,'bn':1e9,'mn':1e6,'B':1e9,'M':1e6,'T':1e12};
+  var RE=/\$([0-9][0-9,]*(?:\.[0-9]+)?)(십억|백만|조|억|만|bn|mn|B|M|T)?/;
+  function mag(str,suf){var n=parseFloat(str.replace(/,/g,''));return n*(suf&&MU[suf]?MU[suf]:1);}
+  function wrap(){
+    var sk={SCRIPT:1,STYLE:1,NOSCRIPT:1,TEXTAREA:1};
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(node){
+      if(!node.nodeValue||node.nodeValue.indexOf('$')<0)return 2;
+      var p=node.parentNode;
+      while(p&&p!==document.body){
+        if(sk[p.nodeName])return 2;
+        var c=p.className?(''+p.className):'';
+        if(c.indexOf('fxk')>=0||c.indexOf('fxbadge')>=0)return 2;
+        p=p.parentNode;
+      }
+      return RE.test(node.nodeValue)?1:2;
+    }});
+    var nodes=[],n;while(n=w.nextNode())nodes.push(n);
+    var G=new RegExp(RE.source,'g');
+    nodes.forEach(function(node){
+      var txt=node.nodeValue, frag=document.createDocumentFragment(), last=0, m; G.lastIndex=0;
+      while(m=G.exec(txt)){
+        frag.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));
+        var usd=mag(m[1],m[2]);
+        var sp=document.createElement('span'); sp.className='fxk'; sp.setAttribute('data-usd',usd);
+        sp.textContent='(약 '+fmt(usd*rate)+')';
+        frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    });
+  }
+  function apply(){
+    var els=document.querySelectorAll('.fxk[data-usd]');
+    for(var i=0;i<els.length;i++){var u=parseFloat(els[i].getAttribute('data-usd'));els[i].textContent='(약 '+fmt(u*rate)+')';}
+    var b=document.getElementById('fxbadge');
+    if(b){b.querySelector('.rt').textContent='$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원';
+          b.querySelector('.lb').textContent=live?'실시간':'기준';}
+  }
+  function badge(){
+    var d=document.createElement('div'); d.id='fxbadge'; d.className='fxbadge';
+    d.innerHTML='<span class="dot"></span><span class="rt">$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원</span><span class="lb">기준</span>';
+    document.body.appendChild(d);
+  }
+  function start(){
+    wrap(); badge();
+    try{fetch('https://api.frankfurter.dev/v1/latest?from=USD&to=KRW')
+      .then(function(r){return r.json();})
+      .then(function(j){if(j&&j.rates&&j.rates.KRW){rate=j.rates.KRW;live=true;apply();try{sessionStorage.setItem('bblfx',JSON.stringify({r:rate,t:Date.now()}))}catch(e){}}})
+      .catch(function(){});}catch(e){}
+  }
+  if(document.readyState!=='loading')start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>

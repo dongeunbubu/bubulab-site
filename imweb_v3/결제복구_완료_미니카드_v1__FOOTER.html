@@ -1,0 +1,20 @@
+<!-- [결제복구_완료_미니카드_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 2개) -->
+<script>document.documentElement.className+=' js';</script>
+<script>
+(function(){
+  var root = document.documentElement;
+  if(!root.classList.contains('js')) root.classList.add('js');
+  /* 반복형 스크롤 리빌 (내려도 올려도 매번 재생 · unobserve 안 함) */
+  var revs = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        en.target.classList.toggle('in', en.isIntersecting);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    for(var i=0;i<revs.length;i++){ io.observe(revs[i]); }
+  } else {
+    for(var j=0;j<revs.length;j++){ revs[j].classList.add('in'); }
+  }
+})();
+</script>

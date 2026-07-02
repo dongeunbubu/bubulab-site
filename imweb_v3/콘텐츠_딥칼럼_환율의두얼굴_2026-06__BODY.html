@@ -1,0 +1,315 @@
+<!-- [콘텐츠_딥칼럼_환율의두얼굴_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 14건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}.spark{stroke-dashoffset:0!important;transition:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:38px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+
+/* === column extras === */
+.statstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.statstrip .st{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 14px;box-shadow:var(--cardSh);text-align:center}
+.statstrip .st .v{font-size:clamp(22px,3.4vw,30px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.statstrip .st .v.up{color:var(--up)}.statstrip .st .v.dn{color:var(--down)}.statstrip .st .v.nu{color:var(--ink)}
+.statstrip .st .k{font-size:12px;font-weight:700;color:var(--mut);margin-top:7px}
+.statstrip .st .sub{font-size:11px;color:var(--mut);margin-top:3px}
+@media(max-width:600px){.statstrip{grid-template-columns:1fr}}
+.minnote{font-size:11.5px;color:var(--mut);margin-top:10px;line-height:1.5}
+.chartcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px 12px;box-shadow:var(--cardSh);margin-top:18px}
+.chartcard .ct{font-size:13px;font-weight:800;margin-bottom:6px}.chartcard .ct small{color:var(--mut);font-weight:600}
+.chartcard svg{display:block;width:100%;height:auto}
+.spark{fill:none;stroke:var(--rose);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1300;stroke-dashoffset:1300;transition:stroke-dashoffset 1.9s var(--ease)}
+.draw.in .spark{stroke-dashoffset:0}
+.gl{stroke:var(--border);stroke-width:1;stroke-dasharray:3 4}
+.glab{fill:var(--mut);font-size:11px;font-weight:600}
+.xlab{fill:var(--mut);font-size:11px;font-weight:700}
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh);border:1px solid var(--border)}
+.face.good{background:linear-gradient(160deg,#fff,#EFF5F1);border-color:#D6E5DD}
+.face.bad{background:linear-gradient(160deg,#fff,var(--pinkSoft2))}
+.face .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.04em;padding:4px 10px;border-radius:100px}
+.face.good .tag{background:#E0EDE6;color:var(--sage)}
+.face.bad .tag{background:var(--pinkSoft);color:var(--rose)}
+.face h4{font-size:15.5px;font-weight:800;color:var(--ink);margin-top:10px;letter-spacing:-.02em}
+.face p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.note{background:#fff;border:1px solid var(--border);border-left:4px solid var(--lav);border-radius:0 14px 14px 0;padding:16px 18px;margin-top:18px;box-shadow:var(--cardSh)}
+.note b{color:var(--lav);font-weight:800}.note p{font-size:13.5px;color:var(--ink2);line-height:1.7;margin-top:6px}
+.srcs{margin-top:24px;border-top:1px dashed var(--border);padding-top:16px}
+.srcs .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+.srcs ul{list-style:none;margin-top:9px;display:grid;gap:6px}
+.srcs li{font-size:12px;color:var(--mut);line-height:1.55;padding-left:14px;position:relative}
+.srcs li::before{content:"·";position:absolute;left:2px;color:var(--rose);font-weight:800}
+.srcs a{color:var(--down);font-weight:600;border-bottom:1px solid transparent}
+.srcs a:hover{border-color:var(--down)}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===devextras=== 용어(termgrid) + 이어읽기(relcards) */
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.relcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:700px){.relcards{grid-template-columns:1fr}}
+.relcard{display:block;background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 16px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .25s,border-color .2s}
+.relcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi);border-color:var(--rose)}
+.relcard b{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+.relcard span{display:block;font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:5px}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/자료실_v1">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">Why 인사이트 칼럼 · 구독자 샘플</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">환율은 오르는데, <span class="grad">내 주식은 왜 빠질까?</span></h1>
+  <div class="artmeta reveal"><span>⏱ 7분</span><span>딥 인사이트</span><span>2026.6.2 · 6.8 업데이트</span></div>
+  <p class="artlead reveal">"환율이 오르면 수출 기업이 웃는다"고들 하죠. 그런데 정작 환율이 뛰는 날, 내 계좌는 더 파랗게 질리는 경험… 한 번쯤 있으실 거예요. 같은 '원화 약세' 안에는 서로 정반대인 <b>두 얼굴</b>이 숨어 있거든요.</p>
+
+  <div class="statstrip reveal">
+    <div class="st"><div class="v up" data-count="8788">0</div><div class="k">코스피 (6/1 종가)</div><div class="sub">사상 최고</div></div>
+    <div class="st"><div class="v dn" data-count="17" data-suf="일">0</div><div class="k">외국인 연속 순매도</div><div class="sub">6/1 약 2조9천억 매도</div></div>
+    <div class="st"><div class="v nu" data-count="1504" data-suf="원">0</div><div class="k">원/달러 (6/1 종가)</div><div class="sub">장중 1,518원까지</div></div>
+  </div>
+  <p class="minnote reveal">※ 위 수치는 2026.6.1 마감·6.2 새벽 조회 기준이며, 특정 종목·시점의 투자 권유가 아니에요.</p>
+
+  <div class="note reveal"><b>6/3 업데이트 — 그림이 더 또렷해졌어요</b><p>6/1 이후 흐름이 본문 '얼굴②'로 더 기울었어요. 외국인 순매도는 6/2 기준 <b style="color:var(--lav)">18거래일 연속</b>으로 늘었고(하루 6조~8조원대 매도), 원/달러는 6/2 1,516원(약 두 달 만 최고)을 거쳐 6/3 장중 <b style="color:var(--lav)">1,530원대</b>(52주 최고 1,537원 턱밑)까지 올랐어요. 반면 달러인덱스(DXY)는 <b style="color:var(--lav)">99.3</b>으로 거의 그대로였죠 — '달러가 세진' 게 아니라 '원화만 더 약해진' 신호에 가까워요. 외환당국도 1,520~1,530원 구간을 방어 중인 것으로 전해져요.</p></div>
+
+  <div class="note reveal"><b>6/8 업데이트 — 결국 52주 최고를 '뚫었어요'</b><p>6/3 노트에서 "1,537원 턱밑"이라 적었는데, 결국 그 선이 깨졌어요. 원/달러는 6/5 장중 <b style="color:var(--lav)">1,556원</b>까지 닿은 뒤 주말 야간거래에서 <b style="color:var(--lav)">1,560원</b> 선마저 잠깐 넘겼고, 6/8 조회 기준 <b style="color:var(--lav)">약 1,559원</b>으로 <b>새 52주 최고</b>에 올라섰어요 — 글로벌 금융위기 이후 보기 드문 레벨이죠. 외국인 순매도도 6/5 기준 <b style="color:var(--lav)">20거래일 연속</b>(그날만 코스피 약 3조5천억원 매도)으로 더 길어졌고요. 그런데 같은 기간 달러인덱스(DXY)는 <b style="color:var(--lav)">100 안팎</b>으로 거의 그대로예요. 실제로 지난 1년 달러인덱스는 <b style="color:var(--lav)">+0.8%</b>(거의 제자리)인데 원/달러는 <b style="color:var(--lav)">+11.4%</b> 올랐어요 — 달러가 아니라 원화가 약해졌다는 가장 단순한 증거죠. '달러가 세진' 게 아니라 '원화만' 더 약해졌다는 본문 얼굴②의 그림이, 한 달 새 더 또렷해진 셈이에요. 외환당국이 이틀 연속 구두개입에 달러 매도(스무딩)까지 동원했지만, 외국인 매도가 부른 <b>역송금 수요</b>를 당장 꺾진 못했어요.</p></div>
+
+  <p class="reveal dropcap">"환율이 오른다"는 건 원화 가치가 싸진다는 뜻이에요(원/달러 환율 ↑ = 1달러를 사는 데 더 많은 원이 든다는 얘기). 교과서는 친절하게 알려주죠. 원화가 싸지면 우리 수출품이 해외에서 더 싸 보이고, 달러로 번 돈을 원화로 바꿀 때 더 많은 원이 들어오니 <b>삼성·현대 같은 수출 기업엔 호재</b>라고요. 절반은 맞아요. 그런데 시장에는 같은 원화 약세를 정반대로 읽는 <b>또 하나의 얼굴</b>이 있어요.</p>
+
+  <h2 class="reveal">얼굴 ① — 수출주가 웃는, 익숙한 그 얼굴</h2>
+  <p class="reveal">원화가 약해지면 달러로 매출을 올리는 기업의 셈법이 좋아져요. 미국에서 100달러에 판 물건이, 환율이 1,400원일 때는 14만원이지만 1,500원이 되면 같은 물건이 15만원으로 잡히거든요. <b>가격은 그대로인데 원화 이익이 늘어나는</b> 거죠. 그래서 "환율 오르면 수출주 좋다"가 오랜 통념이 됐어요. 실제로 지금 코스피를 사상 최고(6/1, <b>8,788</b>)로 끌어올린 주인공도 반도체를 비롯한 수출주예요. 여기까지만 보면 원화 약세는 분명 반가운 소식이에요.</p>
+
+  <h2 class="reveal">얼굴 ② — 외국인이 '빠져나가는' 얼굴</h2>
+  <p class="reveal">그런데 환율은 무역만으로 정해지지 않아요. 오히려 <b>자본의 이동</b>이 더 셀 때가 많죠. 외국인이 한국 주식을 팔면 어떻게 될까요? 받은 원화를 <b>달러로 바꿔</b> 본국으로 가져가요. 그러면 시장엔 원화가 쏟아지고 달러 수요가 늘면서 환율이 올라요. 즉 환율 상승이 <b>'외국인 자금 유출'의 그림자</b>일 수 있다는 거예요. 이때는 환율을 밀어올리는 바로 그 힘이, 동시에 주가를 누르는 힘이에요.</p>
+  <p class="reveal">숫자로 보면 더 또렷해요. 6월 1일 외국인은 코스피에서 약 <b>2조9천억원</b>을 순매도했는데, 이건 5월 초부터 이어진 <b>17거래일 연속</b> '팔자'였어요. 같은 날 환율은 장중 <b>1,518원</b>까지 치솟았고요. 게다가 외국인 입장에선 <b>환차손</b>이 무서워요. 원화로 들고 있는 한국 주식은 주가가 그대로여도 원화가 약해지면 달러로 환산한 평가액이 줄거든요. 그래서 "더 약해지기 전에 팔자"가 또 다른 매도를 부르는 <b>악순환</b>이 생기기도 해요.</p>
+  <div class="pull reveal">수출엔 약이 되는 원화 약세가, 수급엔 독이 될 수 있어요. 문제는 늘 '왜 약해졌나'예요.</div>
+
+  <div class="chartcard draw reveal">
+    <div class="ct">원/달러 환율, 최근 3개월 <small>· 3월 초 1,438원 → 최근 1,500원 안팎 (약 5% 원화 약세)</small></div>
+    <svg viewBox="0 0 700 270" role="img" aria-label="원달러 환율 3개월 추이 선그래프, 3월 초 1438원에서 최근 1500원대로 상승">
+      <line class="gl" x1="60" y1="90" x2="688" y2="90"></line>
+      <line class="gl" x1="60" y1="190" x2="688" y2="190"></line>
+      <text class="glab" x="6" y="94">1,500</text>
+      <text class="glab" x="6" y="194">1,450</text>
+      <polyline class="spark" points="60,213 110.8,122 161.7,86 212.5,82 263.3,58 314.2,74 365,136 415.8,151 466.7,144 517.5,141 568.3,105 619.2,60 670,82"></polyline>
+      <circle cx="670" cy="82" r="4.5" fill="#B85060"></circle>
+      <text class="xlab" x="60" y="258">3월</text>
+      <text class="xlab" x="300" y="258">4월</text>
+      <text class="xlab" x="520" y="258">5월</text>
+      <text class="xlab" x="648" y="258">현재</text>
+    </svg>
+  </div>
+
+  <h2 class="reveal">지금 시장은 두 얼굴을 '동시에' 보여줘요</h2>
+  <p class="reveal">흥미로운 건 바로 지금이에요. 코스피는 사상 최고인데, 외국인은 17일째 팔고, 원화는 약세. 어떻게 이런 일이 한꺼번에 일어날까요? 외국인이 비운 자리를 <b>개인과 연기금</b>이 메우면서(반도체 슈퍼사이클 기대) 지수는 올랐고, 동시에 외국인이 '팔고 나간 그 달러'가 환율을 밀어올리고 있는 거예요. <b>통념(수출 호재)과 함정(자금 유출)이 한 화면에 같이 떠 있는</b> 셈이죠. 그래서 "지수는 최고인데 왜 내 종목·내 환율은 불안하지?"라는 느낌이 동시에 드는 거예요.</p>
+
+  <div class="note reveal"><b>한 가지 더 — 달러가 세서가 아니에요</b><p>지금 원화 약세는 '달러가 세계적으로 강해서' 생긴 게 아니에요. 달러의 종합 체력을 보는 <b style="color:var(--lav)">달러인덱스(DXY)</b>는 6월 초 <b style="color:var(--lav)">99 안팎</b>으로 오히려 낮은 편이거든요. 달러는 그대로인데 원화'만' 약하다면, 그건 글로벌 달러 강세가 아니라 한국 고유의 수급·자금 흐름 신호일 가능성이 커요. 같은 1,500원이라도 '달러가 강해서'와 '원화만 약해서'는 완전히 다른 이야기예요.</p></div>
+
+  <div class="faces reveal">
+    <div class="face good"><span class="tag">좋은 얼굴</span><h4>무역이 만든 원화 약세</h4><p>경기·수출이 튼튼한데 원화가 싸지면 수출주 이익이 늘어요. 외국인 수급도 안정적이면 '약이 되는' 약세에 가까워요.</p></div>
+    <div class="face bad"><span class="tag">나쁜 얼굴</span><h4>자금이 만든 원화 약세</h4><p>외국인이 주식·채권을 팔고 달러로 나가며 약해진 거라면, 환율 상승과 주가 하락이 같이 와요. '경고등'으로 봐야 할 약세예요.</p></div>
+  </div>
+
+  <h2 class="reveal">그래서, 환율을 어떻게 읽을까</h2>
+  <p class="reveal">핵심은 예측이 아니라 <b>구분</b>이에요. 같은 환율 상승도 원인이 무엇이냐에 따라 약이 되기도, 경고가 되기도 하니까요. 환율 숫자 하나만 보고 "수출주 사야지" 혹은 "다 팔아야지"로 직진하기 전에, 세 가지만 같이 봐요.</p>
+  <div class="checks">
+    <div class="c reveal"><i>1</i><span><b>원인부터 구분</b> — 달러가 전반적으로 강한가(DXY ↑)? 아니면 원화'만' 약한가(외국인 순매도·자금 유출)? 둘은 정반대 신호예요.</span></div>
+    <div class="c reveal"><i>2</i><span><b>환율과 수급을 함께</b> — 환율 상승 + 외국인 순매도가 겹치면 '나쁜 얼굴'일 확률이 높아요. 환율만 보지 말고 수급을 같이 봐요.</span></div>
+    <div class="c reveal"><i>3</i><span><b>한 방향에 다 걸지 않기</b> — 수출주 비중과 환노출을 점검하고, 분할·분산으로 두 시나리오 모두에서 버틸 구조를 만들어요.</span></div>
+  </div>
+
+  <p class="reveal">"환율 오르면 수출주 좋다"도, "환율 오르면 주가 빠진다"도 둘 다 반쪽짜리예요. 진짜 질문은 언제나 같아요 — <b>왜 올랐을까.</b> 그 한 번의 질문이, 같은 뉴스를 보고도 다른 결정을 내리게 해줘요. 모두가 환율 숫자에만 눈을 둘 때, 그 숫자의 '이유'를 같이 보는 습관. 그게 길게 살아남는 투자자의 작은 차이예요.</p>
+
+  <div class="tldr reveal"><div class="h">핵심 요약</div><p>원화 약세는 '수출 호재(얼굴①)'와 '외국인 자금 유출 신호(얼굴②)'라는 두 얼굴을 가져요. 핵심은 환율의 '원인'을 구분하는 것 — 달러 강세인지(DXY), 원화만 약한지(외인 수급). 환율과 수급을 함께 보고, 한 방향에 몰지 않기.</p></div>
+  <p class="byline reveal">— 동은부부 드림</p>
+
+  <h2 class="reveal">꼭 알아둘 용어 4가지</h2>
+  <div class="termgrid reveal">
+    <div class="term"><b>원/달러 환율</b><p>1달러를 사는 데 드는 원화. 숫자가 <b>오르면(↑) 원화가 싸진 것</b>(원화 약세)이고, 내리면 원화가 비싸진 거예요.</p></div>
+    <div class="term"><b>달러인덱스(DXY)</b><p>유로·엔 등 주요 6개 통화 대비 달러의 종합 체력. 달러가 <b>'전반적으로'</b> 센지 보는 잣대예요. 이게 그대로인데 원화만 약하면 한국 고유의 신호죠.</p></div>
+    <div class="term"><b>외국인 순매도</b><p>외국인이 산 것보다 판 게 많은 상태. 받은 원화를 <b>달러로 바꿔</b> 나가면 달러 수요가 늘어 환율을 밀어올려요.</p></div>
+    <div class="term"><b>환차손</b><p>원화로 들고 있는 자산을, 원화가 약해진 탓에 달러로 환산하면 평가액이 줄어드는 손실. 외국인의 '더 빠지기 전에 팔자'를 부추겨요.</p></div>
+  </div>
+
+  <h2 class="reveal">이어 읽으면 좋아요</h2>
+  <div class="relcards reveal">
+    <a class="relcard" href="/콘텐츠_경제공부_환헤지vs언헤지_2026-06"><b>환헤지 vs 언헤지</b><span>환율 변동을 덮을까, 안고 갈까 — 환노출을 다루는 정석</span></a>
+    <a class="relcard" href="/콘텐츠_딥칼럼_금리시소_2026-06"><b>금리와 자산의 시소</b><span>금리·환율·자산이 어떻게 맞물려 움직이는지</span></a>
+    <a class="relcard" href="/콘텐츠_딥칼럼_현금의착각_인플레이션_2026-06"><b>현금의 착각</b><span>화폐 가치가 흔들릴 때 '현금=안전'이 아닌 이유</span></a>
+  </div>
+
+  <div class="srcs reveal"><div class="h">출처 · 2026.6.1 마감 / 6.2 새벽 조회 · 6.3 업데이트 · 6.8 업데이트</div>
+    <ul>
+      <li>6.8 업데이트(원/달러 약 1,559원 새 52주 최고[전일 종가 1,532.96·+1.7%]·6/5 장중 1,556원·DXY 약 100 보합·외국인 6/5 코스피 약 3.5조 순매도 20거래일 연속·당국 구두개입+스무딩에도 야간 1,560원 터치): PLAY(UsStockInfo, KRW=X·DX-Y.NYB) 2026.6.8 조회, <a href="https://www.fnnews.com/news/202606070615265409" target="_blank" rel="noopener">파이낸셜뉴스</a></li>
+      <li>6.3 업데이트(외국인 18거래일 연속 순매도·원/달러 1,516원[6.2 종가]→6.3 장중 1,530원대·DXY 99.3 보합·당국 1,520~1,530원 방어): <a href="https://www.sedaily.com/article/20051150" target="_blank" rel="noopener">서울경제</a>, Yahoo Finance(KRW=X·DX-Y.NYB) 지연시세 2026.6.3 조회</li>
+      <li>코스피 8,788.38 사상 최고·외국인 약 2.9조 순매도(17거래일 연속): <a href="https://www.idaegu.co.kr/news/articleView.html?idxno=549888" target="_blank" rel="noopener">대구일보</a>, <a href="https://news.einfomax.co.kr/news/articleView.html?idxno=4417829" target="_blank" rel="noopener">연합인포맥스</a></li>
+      <li>원/달러 1,504.3원 종가·장중 1,518원·5개월 만 최대 변동폭(18.2원): <a href="https://www.tokenpost.kr/news/economy/365148" target="_blank" rel="noopener">토큰포스트</a>, <a href="https://www.betanews.net/article/view/beta202606010088" target="_blank" rel="noopener">베타뉴스</a></li>
+      <li>원/달러 3개월 추이: Yahoo Finance (KRW=X) 일별 종가, 2026.6.2 조회</li>
+      <li>달러인덱스(DXY) 약 99: <a href="https://kr.investing.com/indices/usdollar" target="_blank" rel="noopener">Investing.com</a>, 2026.6.1 기준</li>
+    </ul>
+  </div>
+  <div class="discm reveal">※ 이 글은 특정 종목·시점의 매수·매도를 권유하는 것이 아니라, 시장을 읽는 관점을 함께 나누기 위한 칼럼이에요. 환율·수급 수치는 조회 시점에 따라 달라질 수 있고, 최종 판단과 책임은 본인에게 있습니다.</div>
+</div></section>
+
+<section class="blk wrap" style="padding-top:0"><div class="cta-band reveal"><h3>숫자 너머의 '왜'를, 매주 한 편.</h3><p>오늘 같은 딥 인사이트 칼럼을 구독자에게 매주 보내드려요. 매일의 머니레터와 함께요.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px"><a class="btn btn-rose magnet" href="/home#subscribe">구독하고 칼럼 받기 →</a><a class="btn btn-ghost" href="/머니레터_랜딩_v1">머니레터 보기</a></div></div></section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 콘텐츠는 일반적인 경제·시장 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 인용한 수치는 보도·공개 데이터를 조회 시점 기준으로 정리한 것으로 실제와 차이가 있을 수 있어요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

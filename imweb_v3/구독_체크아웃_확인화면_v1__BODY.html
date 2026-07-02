@@ -1,0 +1,387 @@
+<!-- [구독_체크아웃_확인화면_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+/* ===== 라이트 토큰 (웰컴카드 v1 = 마감/가치카드 v1 = 다크 데모 v1 계승 · bubulab 팔레트) ===== */
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --bg3:#F7EDE7; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#786A60;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --sand:#F0DED8;
+  --border:#EAD7D3; --hair:#F1E3DE;
+  --accentText:#B85060; --accentTextH:#A03F4D; --btnBg:#B85060; --btnBgH:#A03F4D; --onBtn:#FFFFFF;
+  --sage:#5E8C7F; --sageDeep:#3E6B5E;
+  --badgeText:#3E6B5E; --badgeBg:#EEF5F2; --badgeBorder:#BFD8CF;
+  --discBg:#FCEEF1; --okIcon:#3E6B5E;
+  --topbarBg:rgba(253,251,247,.72); --topbarBgSolid:rgba(253,251,247,.95);
+  --heroA:#B85060; --heroB:#A23E4C;
+  --axisSave:#5E8C7F; --axisGuard:#6B5249; --axisGrow:#C56476;
+  --sh-sm:0 1px 2px rgba(62,47,41,.04),0 3px 10px rgba(184,80,96,.055);
+  --sh:0 2px 5px rgba(62,47,41,.04),0 12px 30px rgba(184,80,96,.10);
+  --sh-lg:0 6px 14px rgba(184,80,96,.12),0 22px 50px rgba(184,80,96,.20);
+  --sheetSh:0 0 60px rgba(62,47,41,.10);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+/* ===== 다크 토큰 (따뜻한 코코아 · 데모 v1 검증본) ===== */
+:root[data-theme="dark"]{
+  --bg:#1B1613; --bg2:#221C18; --bg3:#2A231E; --card:#2C2520;
+  --ink:#F2E8E2; --ink2:#D7C8BF; --mut:#AC9E94;
+  --pink:#E89AA6; --pinkSoft:#34262A; --sand:#3A302B;
+  --border:#3C322C; --hair:#332A25;
+  --accentText:#EA9DA9; --accentTextH:#F4B6C0; --btnBg:#A6404F; --btnBgH:#B04A5A; --onBtn:#FFFFFF;
+  --sage:#8FD3BE; --sageDeep:#8FD3BE;
+  --badgeText:#8FD3BE; --badgeBg:#1E3A33; --badgeBorder:#2E5A4D;
+  --discBg:#2A2024; --okIcon:#8FD3BE;
+  --topbarBg:rgba(34,28,24,.72); --topbarBgSolid:rgba(34,28,24,.95);
+  --heroA:#7E3340; --heroB:#5A2630;
+  --axisSave:#8FD3BE; --axisGuard:#D7C8BF; --axisGrow:#E89AA6;
+  --sh-sm:0 1px 2px rgba(0,0,0,.35); --sh:0 4px 14px rgba(0,0,0,.42); --sh-lg:0 10px 34px rgba(0,0,0,.55);
+  --sheetSh:0 0 0 1px #2E2722, 0 18px 60px rgba(0,0,0,.55);
+}
+/* 자동(토글 미지정): 기기 다크 설정 따라가기 — 순수 CSS, JS 불필요 */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not([data-theme="dark"]){
+    --bg:#1B1613; --bg2:#221C18; --bg3:#2A231E; --card:#2C2520;
+    --ink:#F2E8E2; --ink2:#D7C8BF; --mut:#AC9E94;
+    --pink:#E89AA6; --pinkSoft:#34262A; --sand:#3A302B;
+    --border:#3C322C; --hair:#332A25;
+    --accentText:#EA9DA9; --accentTextH:#F4B6C0; --btnBg:#A6404F; --btnBgH:#B04A5A; --onBtn:#FFFFFF;
+    --sage:#8FD3BE; --sageDeep:#8FD3BE;
+    --badgeText:#8FD3BE; --badgeBg:#1E3A33; --badgeBorder:#2E5A4D;
+    --discBg:#2A2024; --okIcon:#8FD3BE;
+    --topbarBg:rgba(34,28,24,.72); --topbarBgSolid:rgba(34,28,24,.95);
+    --heroA:#7E3340; --heroB:#5A2630;
+    --axisSave:#8FD3BE; --axisGuard:#D7C8BF; --axisGrow:#E89AA6;
+    --sh-sm:0 1px 2px rgba(0,0,0,.35); --sh:0 4px 14px rgba(0,0,0,.42); --sh-lg:0 10px 34px rgba(0,0,0,.55);
+    --sheetSh:0 0 0 1px #2E2722, 0 18px 60px rgba(0,0,0,.55);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background-color .35s var(--ease),color .35s var(--ease)}
+.sheet{position:relative;max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:var(--sheetSh);padding:0 0 8px;transition:background-color .35s var(--ease)}
+a{color:inherit}
+img,svg{max-width:100%}
+.ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.f{fill:currentColor;stroke:none}
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1!important;transform:none!important}}
+
+/* -- 데모 컨트롤 바(화면 바깥 · 테마 미리보기) -- */
+.democtl{position:sticky;top:0;z-index:80;background:var(--topbarBgSolid);border-bottom:1px solid var(--hair);color:var(--ink)}
+@supports ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
+  .democtl{background:var(--topbarBg);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3)}
+}
+.democtl .row{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;flex-wrap:wrap}
+.democtl .lab{font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--accentText);display:inline-flex;align-items:center;gap:6px}
+.democtl .lab .ic{width:14px;height:14px}
+.seg{display:inline-flex;background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--mut);font:inherit;font-size:11.5px;font-weight:800;letter-spacing:.01em;min-height:40px;padding:0 14px;border-radius:100px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background .2s var(--ease),color .2s var(--ease)}
+.seg button .ic{width:13px;height:13px}
+.seg button[aria-pressed="true"]{background:var(--btnBg);color:var(--onBtn);box-shadow:var(--sh-sm)}
+.seg button:focus-visible{outline:2px solid var(--accentText);outline-offset:2px}
+.democtl .hint{flex-basis:100%;font-size:10.5px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:1px}
+
+/* -- 진행 단계(체크아웃 스텝퍼) -- */
+.stepper{padding:18px 22px 2px}
+.stepper ol{list-style:none;display:flex;align-items:flex-start;justify-content:space-between}
+.stepper li{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;text-align:center}
+.stepper li::before{content:"";position:absolute;top:14px;right:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.stepper li:first-child::before{display:none}
+.stepper li.done::before,.stepper li.cur::before{background:var(--btnBg)}
+.stepper .dot{position:relative;z-index:1;width:29px;height:29px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--mut);font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.stepper li.done .dot{background:var(--badgeBg);border-color:var(--badgeBorder);color:var(--okIcon)}
+.stepper li.done .dot .ic{width:14px;height:14px;stroke-width:2.6}
+.stepper li.cur .dot{background:var(--btnBg);border-color:var(--btnBg);color:var(--onBtn);box-shadow:var(--sh-sm)}
+.stepper .slab{font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.02em}
+.stepper li.cur .slab{color:var(--accentText);font-weight:800}
+.stepper li.done .slab{color:var(--ink2)}
+
+/* -- 확인 히어로(차분·신뢰) -- */
+.cohero{position:relative;text-align:center;padding:26px 24px 22px;background:radial-gradient(120% 90% at 50% -10%,var(--pinkSoft),transparent 62%);overflow:hidden}
+.seal{position:relative;width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(145deg,var(--heroA),var(--heroB));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(184,80,96,.30)}
+.seal::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--pink);opacity:.32}
+.seal .ic{width:27px;height:27px;color:var(--onBtn);stroke-width:2.2}
+.cohero .kick{font-size:11.5px;font-weight:800;letter-spacing:.12em;color:var(--accentTextH);text-transform:uppercase}
+.cohero h1{font-size:23px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.36;margin:8px 0 0;word-break:keep-all}
+.cohero .sub{margin:11px auto 0;max-width:31em;font-size:13.5px;color:var(--ink2);line-height:1.74;word-break:keep-all}
+.cohero .sub .ic{width:15px;height:15px;color:var(--accentText);vertical-align:-2px}
+.cohero .sub b{color:var(--ink);font-weight:800}
+
+/* -- 공통 섹션 -- */
+.sec{padding:20px 22px 2px}
+.sec-hd{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--accentText);margin:0 0 11px}
+.sec-hd .ic{width:15px;height:15px;flex:none}
+
+/* -- 주문 요약 -- */
+.order{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh);padding:20px 18px 17px;text-align:center;position:relative;overflow:hidden}
+.order::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--accentText))}
+.order .oname{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--ink2);word-break:keep-all}
+.order .oname .ic{width:15px;height:15px;color:var(--accentText)}
+.order .oprice{margin-top:9px;display:flex;align-items:baseline;justify-content:center;gap:2px}
+.order .amt{font-size:38px;font-weight:800;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.order .cur{font-size:18px;font-weight:800;color:var(--ink)}
+.order .per{font-size:14px;font-weight:700;color:var(--mut);margin-left:3px}
+.order .onote{margin-top:9px;font-size:12px;color:var(--ink2);font-weight:600;word-break:keep-all}
+.order .operday{display:inline-block;margin-top:12px;padding:5px 13px;background:var(--badgeBg);border:1px solid var(--badgeBorder);border-radius:100px;font-size:11.5px;font-weight:800;color:var(--badgeText);font-variant-numeric:tabular-nums}
+
+/* -- 청구 안내(자동결제 흐름) -- */
+.bill{background:var(--bg2);border:1px solid var(--hair);border-radius:16px;padding:4px 16px}
+.brow{display:flex;gap:12px;align-items:flex-start;padding:13px 0}
+.brow + .brow{border-top:1px solid var(--hair)}
+.brow .bic{width:35px;height:35px;flex:none;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accentText)}
+.brow .bic .ic{width:18px;height:18px}
+.brow .bt{font-size:13px;color:var(--ink2);line-height:1.6;word-break:keep-all}
+.brow .bt b{color:var(--ink);font-weight:800}
+.brow .bt .num{color:var(--accentTextH);font-weight:800;font-variant-numeric:tabular-nums}
+
+/* -- 결제하면 열리는 것(요약 칩) -- */
+.recap{display:flex;flex-wrap:wrap;gap:8px}
+.rchip{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:800;color:var(--ink);box-shadow:var(--sh-sm)}
+.rchip .ic{width:15px;height:15px;color:var(--accentText);flex:none}
+.recapnote{margin:11px 2px 0;font-size:12px;color:var(--mut);font-weight:600;line-height:1.55;display:flex;gap:7px;align-items:flex-start;word-break:keep-all}
+.recapnote .ic{flex:none;color:var(--sageDeep);width:14px;height:14px;margin-top:2px}
+
+/* -- 결제 진행 방법(카카오 · 안전) -- */
+.pay{background:var(--badgeBg);border:1px solid var(--badgeBorder);border-radius:16px;padding:4px 16px}
+.prow{display:flex;gap:11px;align-items:flex-start;padding:13px 0}
+.prow + .prow{border-top:1px solid var(--badgeBorder)}
+.prow .ic{width:18px;height:18px;flex:none;color:var(--sageDeep);margin-top:2px}
+.prow .pt{font-size:12.8px;color:var(--ink2);line-height:1.62;word-break:keep-all}
+.prow .pt b{color:var(--ink);font-weight:800}
+
+/* -- 안심(해지·열람·문의) -- */
+.reassure{background:var(--bg2);border:1px solid var(--hair);border-radius:16px;padding:4px 16px}
+.ritem{display:flex;gap:11px;align-items:flex-start;padding:12px 0}
+.ritem + .ritem{border-top:1px solid var(--hair)}
+.ritem .ic{width:17px;height:17px;flex:none;color:var(--sageDeep);margin-top:2px}
+.ritem .rt{font-size:12.8px;color:var(--ink2);line-height:1.6;word-break:keep-all}
+.ritem .rt b{color:var(--ink);font-weight:800}
+
+/* -- CTA(결제 진행) -- */
+.cta{margin:24px 22px 2px;background:linear-gradient(135deg,var(--pinkSoft),var(--card) 55%,var(--sand));border:1px solid var(--border);border-radius:20px;padding:23px 22px 22px;text-align:center;box-shadow:var(--sh-lg)}
+.cta .em{font-size:13px;color:var(--ink2);line-height:1.66;word-break:keep-all}
+.cta .em .ic{width:15px;height:15px;color:var(--accentTextH);vertical-align:-2px}
+.cta h3{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.4;margin-top:7px;word-break:keep-all}
+.cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;margin-top:16px;padding:0 26px;background:var(--btnBg);color:var(--onBtn);font-size:15px;font-weight:800;text-decoration:none;border-radius:100px;box-shadow:var(--sh);transition:background .2s var(--ease),transform .2s var(--ease)}
+.cta .btn:hover{background:var(--btnBgH);transform:translateY(-2px)}
+.cta .btn:focus-visible{outline:3px solid var(--accentText);outline-offset:3px}
+.cta .btn .ic{width:17px;height:17px}
+.cta .compare{display:inline-flex;align-items:center;gap:6px;margin-top:15px;padding-top:14px;border-top:1px dashed var(--border);font-size:12px;font-weight:700;color:var(--ink2);text-decoration:none;width:100%;justify-content:center;line-height:1.5}
+.cta .compare u{color:var(--accentTextH);text-decoration:underline;text-underline-offset:3px}
+.cta .compare:focus-visible{outline:2px solid var(--accentText);outline-offset:3px;border-radius:6px}
+.cta .compare .ic{width:14px;height:14px;color:var(--accentTextH);flex:none}
+
+/* -- 약관 동의 안내 줄 -- */
+.terms{margin:13px 24px 0;font-size:11px;color:var(--mut);line-height:1.62;text-align:center;word-break:keep-all}
+.terms a{color:var(--accentTextH);text-decoration:underline;text-underline-offset:2px;font-weight:700}
+.terms a:focus-visible{outline:2px solid var(--accentText);outline-offset:2px;border-radius:4px}
+
+/* -- 면책 -- */
+.disc{margin:18px 22px 0;background:var(--discBg);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.62;color:var(--ink2);display:flex;gap:8px;align-items:flex-start;word-break:keep-all}
+.disc .ic{flex:none;color:var(--accentText);margin-top:2px}
+
+footer{text-align:center;font-size:11.5px;color:var(--mut);padding:22px 22px 30px;line-height:1.7;word-break:keep-all}
+footer .fb{font-weight:800;color:var(--accentText);letter-spacing:.04em}
+
+/* -- AA 자가검증 패널(검토용 · 발송본엔 빼도 됨) -- */
+.aapanel{padding:6px 22px 14px}
+.aapanel details{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--sh-sm);overflow:hidden}
+.aapanel summary{cursor:pointer;list-style:none;padding:13px 15px;font-size:12px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.aapanel summary::-webkit-details-marker{display:none}
+.aapanel summary .ic{width:15px;height:15px;color:var(--sageDeep)}
+.aapanel .body{padding:0 15px 15px;font-size:11.5px;color:var(--ink2);line-height:1.62}
+.aatable{width:100%;border-collapse:collapse;margin-top:6px;font-size:11px}
+.aatable th,.aatable td{padding:6px 7px;border-bottom:1px solid var(--hair);text-align:left}
+.aatable th{color:var(--mut);font-weight:800;letter-spacing:.02em}
+.aatable td.r{text-align:right;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@media (max-width:430px){
+  .cohero{padding:24px 18px 20px}
+  .cohero h1{font-size:20px}
+  .stepper{padding-left:14px;padding-right:14px}
+  .cta{padding:21px 18px 20px}
+  .cta h3{font-size:18px}
+  .sec{padding-left:18px;padding-right:18px}
+  .order .amt{font-size:34px}
+}
+</style>
+<!-- SVG 스프라이트(아이콘) · JS 없이도 렌더 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-letter" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18M7 14.5h4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M4 11.5A8 8 0 0 1 17.7 6.3L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12.5A8 8 0 0 1 6.3 17.7L4 15.5"/><path d="M4 20v-4.5h4.5"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><circle cx="12" cy="15" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16H9l-4 3.5V6.5A1.5 1.5 0 0 1 6.5 5z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 15l4.5-5 3.5 3 5-6"/><path d="M17 7h3v3"/></symbol>
+  <symbol id="i-why" viewBox="0 0 24 24"><path d="M9.5 18.5h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.8 10.65c.75.66 1.1 1.3 1.2 2.35h5.2c.1-1.05.45-1.69 1.2-2.35A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4"/><path d="M6 4.5h11l-2.2 3.4L17 11.3H6z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h9a3 3 0 0 1 3 3V20a2.5 2.5 0 0 0-2.5-2.5H5z"/><path d="M5 4.5V20"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M7 8h10"/><path d="M7 8l-3 6a3 3 0 0 0 6 0zM17 8l-3 6a3 3 0 0 0 6 0z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 7 7 0 1 0 20 14.5z"/></symbol>
+  <symbol id="i-auto" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<!-- 데모 컨트롤(테마 미리보기) — 단독 페이지용. 실제 화면에 임베드 시 이 블록 삭제 -->
+<div class="democtl">
+  <div class="row">
+    <span class="lab"><svg class="ic"><use href="#i-card"/></svg> 체크아웃 확인화면 미리보기</span>
+    <div class="seg" role="group" aria-label="테마 선택">
+      <button type="button" data-mode="auto" aria-pressed="true"><svg class="ic"><use href="#i-auto"/></svg>자동</button>
+      <button type="button" data-mode="light" aria-pressed="false"><svg class="ic"><use href="#i-sun"/></svg>밝게</button>
+      <button type="button" data-mode="dark" aria-pressed="false"><svg class="ic"><use href="#i-moon"/></svg>어둡게</button>
+    </div>
+    <p class="hint">구독 버튼과 결제 사이의 화면이에요. 카드 정보를 넣기 ‘전에’ 무엇을 결제하는지 차분히 확인시켜요.</p>
+  </div>
+</div>
+
+<main class="sheet">
+
+  <!-- 진행 단계 -->
+  <nav class="stepper" aria-label="구독 진행 단계">
+    <ol>
+      <li class="done"><span class="dot"><svg class="ic"><use href="#i-check"/></svg></span><span class="slab">비교</span></li>
+      <li class="cur" aria-current="step"><span class="dot">2</span><span class="slab">확인</span></li>
+      <li><span class="dot">3</span><span class="slab">결제</span></li>
+      <li><span class="dot">4</span><span class="slab">시작</span></li>
+    </ol>
+  </nav>
+
+  <!-- 확인 히어로 -->
+  <header class="cohero">
+    <div class="seal" aria-hidden="true"><svg class="ic"><use href="#i-shield"/></svg></div>
+    <p class="kick">결제 확인</p>
+    <h1>결제 전, 마지막으로 확인할게요</h1>
+    <p class="sub"><svg class="ic"><use href="#i-lock"/></svg> 무엇을, 얼마에, 어떻게 결제하는지 먼저 보여드려요. 카드 정보는 <b>다음 안전 결제 화면</b>에서 입력해요 — 마음 바뀌면 언제든 뒤로 가셔도 돼요.</p>
+  </header>
+
+  <!-- 주문 요약 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-card"/></svg> 무엇을 구독하나요</p>
+    <div class="order">
+      <span class="oname"><svg class="ic"><use href="#i-letter"/></svg> 동은부부 머니레터 · 월간 구독</span>
+      <div class="oprice"><span class="amt">9,900</span><span class="cur">원</span><span class="per">/ 월</span></div>
+      <p class="onote">매월 자동결제 · 약정 없음 · 언제든 해지</p>
+      <span class="operday">하루로 치면 약 330원</span>
+    </div>
+  </section>
+
+  <!-- 청구 안내 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-refresh"/></svg> 결제는 이렇게 진행돼요</p>
+    <div class="bill">
+      <div class="brow">
+        <span class="bic"><svg class="ic"><use href="#i-card"/></svg></span>
+        <span class="bt">결제를 진행하면 <b>오늘 첫 결제</b>로 <span class="num">9,900원</span>이 결제돼요.</span>
+      </div>
+      <div class="brow">
+        <span class="bic"><svg class="ic"><use href="#i-refresh"/></svg></span>
+        <span class="bt">그 다음부터는 <b>한 달마다</b> 같은 금액이 자동으로 갱신돼요. <b>해지하기 전까지</b>요.</span>
+      </div>
+      <div class="brow">
+        <span class="bic"><svg class="ic"><use href="#i-calendar"/></svg></span>
+        <span class="bt">마음이 바뀌면 언제든 해지할 수 있고, 해지하셔도 <b>다음 결제일 전까지는 계속</b> 보실 수 있어요.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 결제하면 열리는 것 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-letter"/></svg> 결제하면 이런 게 곧바로 열려요</p>
+    <div class="recap">
+      <span class="rchip"><svg class="ic"><use href="#i-trend"/></svg> 딥 분석</span>
+      <span class="rchip"><svg class="ic"><use href="#i-why"/></svg> Why 인사이트 칼럼</span>
+      <span class="rchip"><svg class="ic"><use href="#i-flag"/></svg> 내일 체크포인트</span>
+      <span class="rchip"><svg class="ic"><use href="#i-book"/></svg> 정보글 라이브러리 전체</span>
+    </div>
+    <p class="recapnote"><svg class="ic"><use href="#i-check"/></svg> 결제가 끝나면 ‘재테크 구독자’ 권한이 바로 켜지고, 잠겨 있던 콘텐츠가 열려요. 평일 17시·07시 무료 요약도 그대로 받아보세요.</p>
+  </section>
+
+  <!-- 결제 진행 방법(안전) -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-lock"/></svg> 안전하게 결제돼요</p>
+    <div class="pay">
+      <div class="prow">
+        <svg class="ic"><use href="#i-user"/></svg>
+        <span class="pt"><b>카카오 계정으로 진행해요.</b> 강의 들으실 때 쓰던 그 계정 그대로라, 따로 가입할 필요가 없어요.</span>
+      </div>
+      <div class="prow">
+        <svg class="ic"><use href="#i-lock"/></svg>
+        <span class="pt">카드 정보는 <b>결제사의 안전한 화면</b>에서만 입력해요. 부부연구소는 <b>카드번호를 저장하지 않아요.</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 안심 -->
+  <section class="sec reveal">
+    <p class="sec-hd"><svg class="ic"><use href="#i-shield"/></svg> 부담 없이 결정하세요</p>
+    <div class="reassure">
+      <div class="ritem">
+        <svg class="ic"><use href="#i-check"/></svg>
+        <span class="rt"><b>약정도, 위약금도 없어요.</b> 한 달만 보고 그만두셔도 괜찮아요.</span>
+      </div>
+      <div class="ritem">
+        <svg class="ic"><use href="#i-calendar"/></svg>
+        <span class="rt">해지는 <b>마이페이지에서 직접</b> 하실 수 있어요. 붙잡지 않아요.</span>
+      </div>
+      <div class="ritem">
+        <svg class="ic"><use href="#i-chat"/></svg>
+        <span class="rt">결제가 헷갈리거나 막히면 <b>언제든 문의</b> 주세요. 사람이 직접 답해드려요.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA(결제 진행) -->
+  <section class="cta reveal">
+    <p class="em"><svg class="ic"><use href="#i-shield"/></svg> 위 내용을 확인하셨다면,</p>
+    <h3>네, 구독을 시작할게요</h3>
+    <a class="btn" href="#pay">카카오로 결제 진행하기 <svg class="ic"><use href="#i-arrow"/></svg></a>
+    <a class="compare" href="#compare"><svg class="ic"><use href="#i-scale"/></svg> <span>아직 고민되면 <u>무료·구독 다시 비교하기</u></span></a>
+  </section>
+
+  <!-- 약관 동의 안내 -->
+  <p class="terms reveal">결제를 진행하면 <a href="#terms">정기결제 이용약관</a>과 <a href="#privacy">개인정보 처리방침</a>에 동의하는 것으로 봐요. 카드 정보 입력과 결제 완료는 다음 안전 결제 화면에서 이뤄져요.</p>
+
+  <!-- 면책 -->
+  <div class="disc reveal">
+    <svg class="ic"><use href="#i-info"/></svg>
+    <span>머니레터는 시장을 <b>이해하도록 돕는 정보·교육 콘텐츠</b>예요. 특정 종목을 사거나 팔라는 투자 권유가 아니에요. 최종 판단과 책임은 늘 본인에게 있어요.</span>
+  </div>
+
+  <footer>
+    <span class="fb">동은부부 머니레터</span><br>
+    제공되는 모든 내용은 정보·교육 목적이며, 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요.
+  </footer>
+
+  <!-- AA 자가검증(검토 참고용 · 실제 화면엔 빼도 됩니다) -->
+  <div class="aapanel reveal">
+    <details>
+      <summary><svg class="ic"><use href="#i-shield"/></svg> 디자인 자가검증 (대비·정직성) 펼쳐보기</summary>
+      <div class="body">
+        <p>주요 텍스트·버튼 색의 명도대비(WCAG)와 정직성 체크예요. 라이트 기준이며, 다크는 데모 v1의 검증 토큰을 그대로 계승했어요.</p>
+        <table class="aatable">
+          <thead><tr><th>요소</th><th>색 / 배경</th><th class="r">대비</th></tr></thead>
+          <tbody>
+            <tr><td>제목·금액</td><td>#3E2F29 / 흰색</td><td class="r">10.7:1</td></tr>
+            <tr><td>본문</td><td>#5C4B43 / 흰색</td><td class="r">8.3:1</td></tr>
+            <tr><td>약한 텍스트·캡션</td><td>#786A60 / 흰색</td><td class="r">5.2:1</td></tr>
+            <tr><td>섹션 헤더·포인트</td><td>#B85060 / 흰색</td><td class="r">4.8:1</td></tr>
+            <tr><td>버튼 글자</td><td>흰색 / #B85060</td><td class="r">4.8:1</td></tr>
+            <tr><td>청구 금액 강조</td><td>#A03F4D / #FBF3EE</td><td class="r">5.6:1</td></tr>
+            <tr><td>안심 배지(세이지)</td><td>#3E6B5E / #EEF5F2</td><td class="r">5.5:1</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px">정직성: 월 9,900원·월 단위 자동결제·카카오 로그인·결제 후 구독자 권한 자동 지정·평일 17/07시 발행은 전체설계서 v2 확정값이에요. 카드 입력 화면은 만들지 않았고(결제사 담당) ‘확인+넘기기’까지만 담았어요. ‘오늘 첫 결제’는 ‘결제를 진행하면’이라는 조건부로만 안내했어요. 특정 날짜·수치·종목·링크 0(환각 0) · 투자 권유 0 · 면책 1곳 + 푸터 1곳 · 과장/압박 어휘 0 · 이모지 0(전부 SVG).</p>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<!-- v 아임웹에서는 이 script를 FOOTER(닫는 body 직전)에 넣으세요. (차트 라이브러리 불필요) -->

@@ -1,0 +1,134 @@
+<!-- [도구_비상금계산기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+window.countF=function(el,to,dur,dec,suf){to=+to;dur=dur||900;dec=dec||0;suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=(to*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var STAB={dual:{m:3,t:'안정 맞벌이'},single:{m:5,t:'한 명 소득'},vary:{m:6,t:'변동 소득'}};
+var state={stab:'dual'};
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,+($(id).value.replace(/[^0-9]/g,''))||0);}
+
+function buildBattery(months,runway,color,animate){
+ var box=$('barc');box.innerHTML='';
+ for(var i=0;i<months;i++){
+   var fill=Math.max(0,Math.min(1,runway-i))*100;
+   var cell=document.createElement('div');cell.className='cell';
+   var bar=document.createElement('i');bar.style.background=color;
+   var lab=document.createElement('em');lab.textContent=(i+1);
+   cell.appendChild(bar);cell.appendChild(lab);box.appendChild(cell);
+   (function(b,f){ if(animate){requestAnimationFrame(function(){b.style.height=f+'%';});} else {b.style.height=f+'%';} })(bar,fill);
+ }
+}
+
+function compute(animate){
+ var ess=num('ess'); var cur=num('cur');
+ // 입력검증: 월 필수 생활비가 없으면 계산 보류(0원이면 '비상금 얇음'으로 오해될 수 있어요)
+ if(ess<=0){
+   var arc0=$('gArc'); arc0.setAttribute('stroke','var(--gold)'); arc0.style.strokeDashoffset=100;
+   $('gPct').textContent='—';
+   $('gGrade').textContent='월 필수 생활비를 먼저 넣어 주세요'; $('gGrade').style.color='var(--rose)';
+   $('gMsg').textContent='한 달에 꼭 나가는 돈(월세·관리비·식비·교통·통신 등)을 넣으면, 우리 집에 맞는 권장 비상금과 충족률·버틸 수 있는 개월수를 바로 계산해 드려요.';
+   $('mRec').textContent='—'; $('mRecS').textContent='월 필수비를 먼저 입력';
+   $('mRun').innerHTML='—'; $('mGap').textContent='—';
+   $('mGapL').textContent='아직 부족한 금액'; $('mGapS').textContent='월 필수비 입력 후 계산돼요'; $('mGapCard').style.borderTopColor='var(--gold)';
+   $('batSub').textContent='월 필수비를 넣으면 배터리가 채워져요'; $('barc').innerHTML='';
+   $('plan').innerHTML='👀 먼저 <b>월 필수 생활비</b>부터 넣어 주세요. 그 금액을 기준으로 우리 집 권장 비상금을 계산해요.';
+   return;
+ }
+ var months=STAB[state.stab].m;
+ var rec=ess*months;
+ var runway=ess>0?cur/ess:0;
+ var rawPct=rec>0?cur/rec*100:0;
+ var fillPct=Math.min(100,rawPct);
+ var shortfall=Math.max(0,rec-cur);
+ var surplus=Math.max(0,cur-rec);
+
+ var st;
+ if(rawPct>=100){st={c:'var(--sage)',g:'비상금은 든든해요 👏',m:'권장액을 채웠어요. 어떤 일이 생겨도 한동안은 흔들리지 않아요. 초과분은 투자·목표 통장으로 옮겨도 좋아요.'};}
+ else if(rawPct>=50){st={c:'var(--gold)',g:'절반은 넘었어요, 거의 다 왔어요',m:'기본은 갖췄어요. 조금만 더 채우면 갑작스러운 일에도 카드빚 없이 버틸 수 있어요.'};}
+ else{st={c:'var(--up)',g:'지금은 비상금이 얇아요',m:'예상 못 한 일에 빚으로 막게 될 수 있어요. 투자보다 먼저, 저축 통장에서 비상금부터 채우는 걸 권해요.'};}
+
+ // gauge
+ var arc=$('gArc'); arc.setAttribute('stroke',st.c);
+ if(animate){window.countUp($('gPct'),Math.round(rawPct),1000,'');arc.style.strokeDashoffset=(100-fillPct);}
+ else{$('gPct').textContent=Math.round(rawPct);arc.style.strokeDashoffset=(100-fillPct);}
+ $('gGrade').textContent=st.g; $('gGrade').style.color=st.c; $('gMsg').textContent=st.m;
+
+ // cards
+ $('mRecS').textContent='월 필수비 × '+months+'개월';
+ var gapCard=$('mGapCard');
+ if(shortfall>0){$('mGapL').textContent='아직 부족한 금액';$('mGapS').textContent='권장액까지 더 모으면 좋아요';gapCard.style.borderTopColor='var(--up)';}
+ else{$('mGapL').textContent='권장액 초과분';$('mGapS').textContent='이만큼은 투자·목표로 굴려도 OK';gapCard.style.borderTopColor='var(--sage)';}
+ var MSUF='<span style="font-size:15px;font-weight:800"> 개월</span>';
+ if(animate){
+   window.countUp($('mRec'),rec,900);
+   window.countUp($('mGap'),shortfall>0?shortfall:surplus,900);
+   (function(rn,target){var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1);var e=1-Math.pow(1-p,3);rn.innerHTML=(target*e).toFixed(1)+MSUF;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);})($('mRun'),runway);
+ }else{
+   $('mRec').textContent=window.fmtWon(rec);
+   $('mGap').textContent=window.fmtWon(shortfall>0?shortfall:surplus);
+   $('mRun').innerHTML=runway.toFixed(1)+MSUF;
+ }
+
+ // battery
+ $('batSub').textContent='한 칸 = 1개월 · 권장 '+months+'개월 기준';
+ buildBattery(months,runway,st.c,animate);
+
+ // plan
+ var plan=$('plan');
+ if(shortfall>0){
+   var m12=Math.ceil(shortfall/12),m24=Math.ceil(shortfall/24);
+   plan.innerHTML='🎯 권장 비상금까지 <b>'+window.fmtWon(shortfall)+'원</b> 남았어요.<br>1년 안에 채우려면 매달 <b>'+window.fmtWon(m12)+'원</b>, 2년이면 매달 <b>'+window.fmtWon(m24)+'원</b>씩. 월급날 자동이체로 \'먼저\' 떼두면 어느새 채워져 있어요.';
+ }else{
+   plan.innerHTML='🎉 권장 비상금을 모두 채웠어요! 비상금은 \'쉽게 안 꺼내되 필요하면 바로 꺼낼 수 있는\' 파킹통장·CMA에 두고, 초과분 <b>'+window.fmtWon(surplus)+'원</b>은 투자·내집마련 같은 다음 목표로 옮겨보세요.';
+ }
+}
+
+// events
+['ess','cur'].forEach(function(id){
+  var f=$(id),r=$(id+'R');
+  f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);f.value=v?v.toLocaleString('ko-KR'):'';if(v>=+r.min&&v<=+r.max)r.value=v;compute(false);});
+  f.addEventListener('blur',function(){compute(true);});
+  r.addEventListener('input',function(){f.value=(+r.value).toLocaleString('ko-KR');compute(false);});
+});
+document.querySelectorAll('#stab .seg-b').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('#stab .seg-b').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});
+    b.classList.add('on');b.setAttribute('aria-pressed','true');state.stab=b.dataset.k;compute(true);
+  });
+});
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

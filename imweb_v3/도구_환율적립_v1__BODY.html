@@ -1,0 +1,467 @@
+<!-- [도구_환율적립_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 12건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(40px,5.5vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px;align-items:center}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.menu .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.menu .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:760px){.menu a:not(.cta){display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.optbar i,#fxPaths path,.barseg i{transition:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(29px,5vw,48px);font-weight:800;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17px);line-height:1.72;max-width:680px;margin-top:15px}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:16px}
+.backlink:hover{color:var(--rose)}
+.livechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip b{color:var(--rose);font-variant-numeric:tabular-nums}
+.livechip .ld{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(94,140,127,.18)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--rose);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.panelhd{font-size:clamp(18px,2.3vw,22px);font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.panelsub{font-size:13.5px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.6}
+/* calc fields */
+.calc{margin-top:24px}
+.field{margin-bottom:20px}
+.field>label{font-size:14px;font-weight:800;display:block;margin-bottom:9px}
+.incrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.incfield{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.incfield input{border:0;background:transparent;font-family:inherit;font-size:19px;font-weight:800;width:130px;text-align:right;color:var(--ink)}
+.incfield.sm input{width:84px}
+.incfield span{font-size:13.5px;color:var(--mut);font-weight:700}
+.incfield:focus-within{border-color:var(--rose)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:150px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.bigv{font-size:18px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums;min-width:78px;text-align:right}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.55}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{border-color:var(--rose);background:var(--pinkSoft2);color:var(--rose)}
+.seg{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px;flex-wrap:wrap}
+.seg button{flex:1;min-width:96px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:9px;padding:9px 8px;cursor:pointer;transition:background .2s,color .2s;line-height:1.3}
+.seg button small{display:block;font-size:10.5px;font-weight:600;color:var(--mut);margin-top:2px}
+.seg button.on{background:#fff;color:var(--rose);box-shadow:var(--cardSh)}
+.seg button.on small{color:var(--rose)}
+/* reco band */
+.recoband{margin-top:6px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:22px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.recoband .crown{font-size:34px;line-height:1}
+.recoband .rt{flex:1;min-width:220px}
+.recoband .rt .k{font-size:12.5px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.recoband .rt .g{font-size:clamp(18px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.28}
+.recoband .rt p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;max-width:600px}
+/* kpi strip */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;text-align:center;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.kpi.k1{border-top-color:var(--mut)} .kpi.k2{border-top-color:var(--rose)} .kpi.k3{border-top-color:var(--lav)}
+.kpi .kl{font-size:12px;font-weight:700;color:var(--mut)}
+.kpi .kv{font-size:clamp(18px,2.4vw,24px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;letter-spacing:-.01em}
+.kpi .ks{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:3px}
+/* contribution split */
+.split{margin-top:26px;padding-top:22px;border-top:1px dashed var(--border)}
+.split .ch{font-size:14px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+.split .chs{font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:16px;line-height:1.55}
+.barseg{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:13px;margin-bottom:12px}
+@media(max-width:560px){.barseg{grid-template-columns:96px 1fr;}.barseg .bv{grid-column:2;justify-self:end}}
+.barseg .bl{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
+.barseg .bl .pin{width:11px;height:11px;border-radius:4px;flex-shrink:0}
+.barbox{height:30px;border-radius:9px;background:var(--bg);border:1px solid var(--border);position:relative;overflow:hidden}
+.barseg i{position:absolute;left:0;top:0;height:100%;width:0;border-radius:9px;transition:width 1s var(--ease);opacity:.92}
+.barseg .bv{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.eqline{font-size:13px;color:var(--ink2);font-weight:700;margin-top:6px;background:var(--pinkSoft2);border-radius:12px;padding:12px 15px;line-height:1.6}
+.eqline b{color:var(--rose)}
+/* secondary stats */
+.stats2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:680px){.stats2{grid-template-columns:1fr}}
+.stc{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.stc .sl{font-size:12px;font-weight:700;color:var(--mut)}
+.stc .sv{font-size:clamp(16px,2.1vw,20px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}
+.stc .sc{font-size:12px;color:var(--ink2);font-weight:600;margin-top:5px;line-height:1.5}
+.stc .sc em{font-style:normal;color:var(--rose);font-weight:800}
+/* chart */
+.chartwrap{margin-top:28px;padding-top:22px;border-top:1px dashed var(--border)}
+.chartwrap .ch{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chartwrap .ch b{font-size:14px;font-weight:800}
+.chartwrap .ch span{font-size:12.5px;color:var(--mut);font-weight:700}
+.chartbox{position:relative;width:100%}
+#fxChart{width:100%;height:auto;display:block;overflow:visible}
+#fxPaths path{transition:stroke-dashoffset 1.3s var(--ease)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--ink2);font-weight:700}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.leg .sw{width:14px;height:3px;border-radius:2px;display:inline-block}
+.leg .sw.d{height:0;border-top:2.5px dashed var(--mut)}
+/* why cards */
+.bd{margin-top:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:680px){.bd{grid-template-columns:1fr}}
+.bdc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:19px;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.bdc.t-fx{border-top-color:var(--sage)} .bdc.t-dca{border-top-color:var(--lav)}
+.bdc h5{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.bdc p{font-size:13px;color:var(--ink2);line-height:1.68}
+.bdc p b{color:var(--ink)}
+/* save box */
+.savebox{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px}
+.savebox .sh{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.savebox .ss{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px;line-height:1.5}
+.saverow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saverow input{flex:1;min-width:160px;border:1.5px solid var(--border);background:#fff;border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink)}
+.saverow input:focus{outline:none;border-color:var(--rose)}
+.saverow .btn{padding:11px 18px;font-size:13.5px}
+.savelist{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.saveitem{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 14px}
+.saveitem .si-n{font-weight:800;font-size:13.5px}
+.saveitem .si-d{font-size:12px;color:var(--mut);font-weight:600;margin-left:auto;font-variant-numeric:tabular-nums}
+.saveitem button{font-family:inherit;font-size:12px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);border-radius:9px;padding:6px 11px;cursor:pointer;color:var(--ink2);transition:border-color .2s,color .2s}
+.saveitem .si-load:hover{border-color:var(--rose);color:var(--rose)}
+.saveitem .si-del:hover{border-color:var(--up);color:var(--up)}
+.saveempty{font-size:12.5px;color:var(--mut);font-weight:600;text-align:center;padding:8px}
+/* lock box */
+.lockbox{margin-top:22px;position:relative;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px dashed var(--pink);border-radius:18px;padding:clamp(22px,3vw,30px);overflow:hidden}
+.lockbox .lk{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:#fff;background:var(--rose);border-radius:100px;padding:5px 13px;letter-spacing:.02em}
+.lockbox h4{font-size:clamp(17px,2.3vw,21px);font-weight:800;letter-spacing:-.02em;margin-top:12px}
+.lockbox p.lksub{font-size:13.5px;color:var(--ink2);margin-top:7px;max-width:560px;line-height:1.6}
+.lockgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:18px}
+@media(max-width:600px){.lockgrid{grid-template-columns:1fr}}
+.lockf{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:13px;padding:14px 15px}
+.lockf .ic{font-size:20px;line-height:1}
+.lockf b{font-size:13.5px;font-weight:800;display:block}
+.lockf span{font-size:12px;color:var(--ink2);font-weight:600;line-height:1.5}
+.lockcta{margin-top:18px;display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.lockcta .note{font-size:12px;color:var(--mut);font-weight:600}
+/* disclaim */
+.toolnote{font-size:12.5px;color:var(--mut);margin-top:18px;line-height:1.65;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.toolnote b{color:var(--ink2)}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:540px}
+.cta-band .btn{margin-top:20px}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/머니레터_랜딩_v1">머니레터</a><a href="/키트_카테고리_v1">키트</a><a href="/굿즈_카테고리_v1">굿즈</a><a href="/강의_카테고리_v1">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/스토리_우리이야기_v1">스토리</a><a href="/자료실_v1" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<main>
+<!-- HERO -->
+<section class="blk" style="padding-bottom:clamp(20px,3vw,30px)">
+ <div class="wrap">
+  <p class="s-eyebrow reveal">자료실 · 투자 학습 도구</p>
+  <h1 class="tool-h1 reveal">달러로 적립하면,<br><span class="grad">수익은 '지수'와 '환율'</span>로 갈려요</h1>
+  <p class="lead reveal">매달 원화로 미국 ETF(S&amp;P500)를 <b>달러로 분할매수</b>하면, 우리 집 평가액은 두 갈래의 영향을 받아요 — <b>지수가 올랐는지</b>, 그리고 <b>그새 달러가 비싸졌는지</b>. 적립액·기간만 넣으면 <b>환율이 수익에 얼마나 끼어들었는지</b> 또박또박 분해해 드릴게요. 종목 추천이 아니라 <b>'구조'를 눈으로 보는</b> 도구예요.</p>
+  <div class="livechips reveal">
+   <span class="livechip"><span class="ld"></span>원/달러 <b id="liveFx">1,534.8</b>원</span>
+   <span class="livechip"><span class="ld"></span>S&amp;P500(SPY) <b id="liveSpy">$754.70</b></span>
+   <span class="livechip">최근 5년 연 <b id="liveRet">+14.1%</b></span>
+   <span class="livechip" style="color:var(--mut)">2026-06-04 실데이터 기준</span>
+  </div>
+  <a class="backlink reveal" href="/자료실_v1">← 자료실의 다른 도구 보기</a>
+ </div>
+</section>
+
+<!-- CALC -->
+<section class="blk" style="padding-top:clamp(8px,2vw,16px)">
+ <div class="wrap">
+  <div class="panel reveal">
+   <div class="panelhd">🧮 우리 집 달러 적립 가정</div>
+   <p class="panelsub">실제 환율·주가는 매일 출렁여요. 여기선 <b>가정한 흐름으로 매끄럽게</b> 그려, 환율이 끼어드는 '구조'만 또렷이 보여드려요.</p>
+
+   <div class="calc">
+    <div class="field">
+     <label>매달 적립액 (원화)</label>
+     <div class="incrow">
+      <div class="incfield"><input id="inMonthly" inputmode="numeric" value="50"><span>만원</span></div>
+      <div class="chips" id="chMonthly">
+       <button class="chip" data-v="30">30만</button>
+       <button class="chip on" data-v="50">50만</button>
+       <button class="chip" data-v="100">100만</button>
+       <button class="chip" data-v="200">200만</button>
+      </div>
+     </div>
+    </div>
+
+    <div class="field">
+     <label>적립 기간</label>
+     <div class="incrow">
+      <input type="range" id="inMonths" min="6" max="120" step="6" value="36">
+      <span class="bigv"><span id="vMonths">36</span>개월</span>
+     </div>
+     <div class="chips" id="chMonths">
+      <button class="chip" data-v="12">1년</button>
+      <button class="chip on" data-v="36">3년</button>
+      <button class="chip" data-v="60">5년</button>
+      <button class="chip" data-v="120">10년</button>
+     </div>
+    </div>
+
+    <div class="field">
+     <label>지수 연 수익률 가정 <span style="font-weight:600;color:var(--mut);font-size:12px">(달러 기준)</span></label>
+     <div class="seg" id="segRet">
+      <button data-v="5" data-name="보수">보수<small>연 +5%</small></button>
+      <button data-v="8" class="on" data-name="기본">기본<small>연 +8%</small></button>
+      <button data-v="10.8" data-name="공격">공격<small>연 +10.8%</small></button>
+     </div>
+     <p class="hint">📌 참고용 실데이터: SPY 최근 5년 연 <b>+14.1%</b>, 1993년 이후 장기 연평균 ≈ <b>+10.8%</b>. 미래는 아무도 보장 못 해요 — 보수적으로 보는 습관이 좋아요.</p>
+    </div>
+
+    <div class="field">
+     <label>환율 시나리오 <span style="font-weight:600;color:var(--mut);font-size:12px">(적립 기간 동안)</span></label>
+     <div class="seg" id="segFx">
+      <button data-v="strong" data-name="원화 강세">원화 강세<small>달러 싸짐 −4%/년</small></button>
+      <button data-v="flat" class="on" data-name="횡보">횡보<small>지금 수준 유지</small></button>
+      <button data-v="weak" data-name="원화 약세">원화 약세<small>달러 비싸짐 +4%/년</small></button>
+     </div>
+     <div class="incrow" style="margin-top:12px">
+      <div class="incfield sm"><span>시작 환율</span><input id="inFx" inputmode="numeric" value="1535"><span>원/$</span></div>
+      <span class="hint" style="margin-top:0">2026-06-04 실시세 1,534.8원(52주 최고 부근)에 맞춰 뒀어요.</span>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- RESULT -->
+  <div style="margin-top:24px">
+   <div class="recoband reveal">
+    <div class="crown" id="recoCrown">💱</div>
+    <div class="rt">
+     <div class="k">달러 적립 N년 뒤 · 환율이 끼어든 결과</div>
+     <div class="g" id="recoG">결과를 계산하고 있어요…</div>
+     <p id="recoP"></p>
+    </div>
+   </div>
+
+   <div class="kpis reveal">
+    <div class="kpi k1"><div class="kl">총 투자원금</div><div class="kv" id="kpPrin">0원</div><div class="ks" id="kpPrinS">매달 모은 원화</div></div>
+    <div class="kpi k2"><div class="kl">최종 평가액</div><div class="kv" id="kpVal">0원</div><div class="ks" id="kpValS">원화로 환산</div></div>
+    <div class="kpi k3"><div class="kl">총수익률</div><div class="kv" id="kpRoi">0%</div><div class="ks" id="kpRoiS">원금 대비</div></div>
+   </div>
+
+   <!-- contribution split -->
+   <div class="panel reveal" style="margin-top:18px">
+    <div class="split" style="margin-top:0;padding-top:0;border-top:0">
+     <div class="ch">🧩 수익을 두 갈래로 뜯어보면</div>
+     <p class="chs">최종 평가액에서 원금을 빼면 <b id="splitProfit">0원</b>이 남아요. 그 수익이 <b style="color:var(--lav)">지수가 올라 번 몫</b>과 <b style="color:var(--sage)">환율이 움직여 생긴 몫</b>으로 어떻게 갈리는지 보여드려요.</p>
+     <div id="splitBars"></div>
+     <p class="eqline" id="eqLine"></p>
+    </div>
+
+    <!-- secondary stats -->
+    <div class="stats2">
+     <div class="stc">
+      <div class="sl">평균 매입환율</div>
+      <div class="sv" id="stAvgFx">0원</div>
+      <div class="sc" id="stAvgFxC"></div>
+     </div>
+     <div class="stc">
+      <div class="sl">평균 매입단가 (지수)</div>
+      <div class="sv" id="stAvgPx">$0</div>
+      <div class="sc" id="stAvgPxC"></div>
+     </div>
+     <div class="stc">
+      <div class="sl">모은 달러 · 보유 수량</div>
+      <div class="sv" id="stUsd">$0</div>
+      <div class="sc" id="stUsdC"></div>
+     </div>
+    </div>
+
+    <!-- chart -->
+    <div class="chartwrap">
+     <div class="ch"><b>📈 월별 누적: 원금 vs 원화 평가액</b><span id="chTail"></span></div>
+     <div class="chartbox">
+      <svg id="fxChart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="누적 원금과 원화 평가액 곡선">
+       <g id="fxGrid"></g>
+       <g id="fxArea"></g>
+       <g id="fxPaths"></g>
+       <g id="fxDots"></g>
+       <g id="fxLabs"></g>
+      </svg>
+     </div>
+     <div class="leg">
+      <span><span class="sw" style="background:var(--lav)"></span>원화 평가액</span>
+      <span><span class="sw d"></span>누적 원금</span>
+      <span style="color:var(--mut)">x축 = 적립 개월 · 부드럽게 가정한 흐름</span>
+     </div>
+    </div>
+   </div>
+
+   <!-- why cards -->
+   <div class="bd reveal">
+    <div class="bdc t-fx">
+     <h5>⚖️ 환율은 '양날의 검'이에요</h5>
+     <p id="whyFx">달러가 비싸지면 살 때는 손해 같지만(같은 50만원으로 더 적은 달러를 사니까요), 이미 <b>가지고 있던 달러의 평가액은 올라가요</b>. 반대로 달러가 싸지면 더 많이 사서 좋지만, 보유분 평가액은 줄죠. 그래서 환율은 한 방향으로만 좋지도, 나쁘지도 않아요.</p>
+    </div>
+    <div class="bdc t-dca">
+     <h5>🧊 적립식은 출렁임을 '눕혀요'</h5>
+     <p id="whyDca">한 번에 사면 그날의 환율·가격에 운명이 걸려요. 매달 나눠 사면 <b>비쌀 땐 적게, 쌀 땐 많이</b> 사게 돼서 평균 매입환율과 단가가 자연스레 가운데로 모여요. 이게 분할매수(DCA)가 마음을 편하게 해주는 이유예요.</p>
+    </div>
+   </div>
+
+   <!-- save -->
+   <div class="savebox reveal">
+    <div class="sh">💾 이 가정 저장하기</div>
+    <p class="ss">목표 이름을 붙여 지금 입력값을 저장해요. <b>이 기기(브라우저)에만 저장</b>되고 서버로 보내지 않아요. 최대 8개.</p>
+    <div class="saverow">
+     <input id="saveName" maxlength="22" placeholder="예: 부부 달러적금 3년">
+     <button class="btn btn-rose" id="saveBtn">저장</button>
+    </div>
+    <div class="savelist" id="saveList"></div>
+   </div>
+
+   <!-- lock box -->
+   <div class="lockbox reveal" id="sub">
+    <span class="lk">🔒 구독자 전용 · 달러 적립 Pro</span>
+    <h4>실제 환율·지수를 자동으로 물려서, 매달 추적해 드려요</h4>
+    <p class="lksub">위 도구는 '가정한 흐름'이에요. 구독하면 실시간 시세를 물려 <b>진짜 우리 집 적립</b>으로 굴러가요.</p>
+    <div class="lockgrid">
+     <div class="lockf"><span class="ic">🔄</span><div><b>실시간 환율·지수 자동연동</b><span>가정 대신 오늘의 원/달러·SPY로 바로 갱신</span></div></div>
+     <div class="lockf"><span class="ic">🛡️</span><div><b>환헤지 vs 언헤지 비교</b><span>달러 노출을 가져갈지 덮을지, 두 길을 나란히</span></div></div>
+     <div class="lockf"><span class="ic">🗓️</span><div><b>월별 매수 시뮬레이션</b><span>매달 몇 달러·몇 주 샀는지 내역으로 추적</span></div></div>
+     <div class="lockf"><span class="ic">💞</span><div><b>부부 공동 달러적립</b><span>둘이 모은 달러를 한 통장으로 합산·진척 관리</span></div></div>
+    </div>
+    <div class="lockcta">
+     <a class="btn btn-rose" href="/home#subscribe">구독하고 전부 열기</a>
+     <a class="btn btn-ghost" href="/머니레터_랜딩_v1">무료 머니레터 먼저 받기</a>
+     <span class="note">먼저 무료로 맛보고 결정해도 좋아요 :)</span>
+    </div>
+   </div>
+
+   <p class="toolnote reveal"><b>잠깐, 꼭 읽어주세요.</b> 이 도구는 <b>투자 권유나 종목 추천이 아니에요.</b> S&amp;P500(SPY)은 '미국 대표지수'를 보여주는 교육용 예시이고, 입력한 수익률·환율은 <b>가정</b>이에요. 실제 환율과 주가는 예측할 수 없게 출렁이고, 환전 수수료·세금·배당은 단순화를 위해 뺐어요. 결과는 '구조를 이해하는 용도'로만 봐주세요. 입력값은 <b>이 기기에만</b> 저장되고 서버로 전송되지 않아요. · 실데이터: 원/달러·SPY = PLAY 실시세(2026-06-04).</p>
+  </div>
+ </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="blk">
+ <div class="wrap">
+  <div class="cta-band reveal">
+   <h3>숫자를 '구조'로 보면, 흔들림이 줄어요</h3>
+   <p>매주 부부연구소 머니레터가 환율·금리·지수 흐름을 부부의 언어로 풀어드려요. 우리 집 돈 이야기를 같이 나눠봐요.</p>
+   <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="ftlogo"><span class="dot"></span>부부연구소</div>
+  <div class="ft"><span>자료실 · 달러 적립(환율) 시뮬레이터</span><span>교육용 · 투자 권유 아님</span><span>문의 dongeunbubu</span></div>
+  <p class="ftnote">본 도구의 계산은 입력한 가정에 따른 단순 시뮬레이션이며, 특정 상품·종목의 매수/매도를 권유하지 않습니다. 실제 투자 결과는 환율·시장 변동, 수수료·세금 등에 따라 달라질 수 있습니다. 입력값은 사용자 기기(브라우저 localStorage)에만 저장됩니다.</p>
+ </div>
+</footer>

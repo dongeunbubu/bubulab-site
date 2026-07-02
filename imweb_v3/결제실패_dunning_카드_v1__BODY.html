@@ -1,0 +1,290 @@
+<!-- [결제실패_dunning_카드_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+/* ===== 라이트 토큰 (가치카드 v2 · 0원웰컴 v2 · 마감카드 v2 계승 · bubulab 팔레트) ===== */
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --bg3:#F7EDE7; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#766962;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8;
+  --border:#EAD7D3; --hair:#F1E3DE;
+  --rose:#B85060; --roseText:#A03F4D; --roseDeep:#8E3344;
+  --sage:#5E8C7F; --sageDeep:#3F6B5E; --sageSoft:#EAF1EE; --sageBd:#D4E6DF;
+  --honey:#C98A3C; --honeyText:#8A5A18; --honeySoft:#FBF0DF; --honeyBd:#EAD6B6;
+  --off:#8A7E76;
+  --sheetSh:0 0 60px rgba(62,47,41,.10);
+  --sh-sm:0 1px 2px rgba(62,47,41,.04),0 3px 10px rgba(184,80,96,.055);
+  --sh:0 2px 5px rgba(62,47,41,.04),0 12px 30px rgba(184,80,96,.10);
+  --sh-lg:0 6px 14px rgba(184,80,96,.12),0 22px 50px rgba(184,80,96,.20);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+.sheet{position:relative;max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:var(--sheetSh)}
+a{color:inherit}
+img,svg{max-width:100%}
+.ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.f{fill:currentColor;stroke:none}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* 반복형 리빌(toggle) · no-JS면 그대로 보임 */
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1!important;transform:none!important}}
+
+/* ── 히어로 (밝고 차분한 톤 · 알람/축하 아님) ── */
+.top{position:relative;background:linear-gradient(165deg,var(--bg2),var(--sand));color:var(--ink);text-align:center;padding:30px 22px 28px;border-bottom:1px solid var(--border);overflow:hidden}
+.top::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 50% -20%,rgba(255,255,255,.55),rgba(255,255,255,0) 60%);pointer-events:none}
+.top>*{position:relative;z-index:1}
+.top .brand{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:11px;letter-spacing:.16em;color:var(--roseText);background:var(--card);border:1px solid var(--border);border-radius:100px;padding:5px 13px;box-shadow:var(--sh-sm)}
+.top .brand .ic{width:13px;height:13px}
+.top .seal{width:60px;height:60px;border-radius:50%;margin:16px auto 0;background:var(--pinkSoft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--roseText);box-shadow:var(--sh-sm)}
+.top .seal .ic{width:30px;height:30px}
+.top h1{font-size:23px;font-weight:800;line-height:1.36;margin-top:14px;letter-spacing:-.01em;word-break:keep-all;color:var(--ink)}
+.top .sub{font-size:13.5px;font-weight:600;color:var(--ink2);margin-top:11px;line-height:1.64;word-break:keep-all}
+.top .sub b{color:var(--roseText);font-weight:800}
+
+/* ── 인트로 + 면책 ── */
+.intro{padding:22px 22px 2px;font-size:14.5px;color:var(--ink2);line-height:1.78;word-break:keep-all}
+.intro b{color:var(--ink);font-weight:800}
+.disc{background:var(--pinkSoft2);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.64;color:var(--ink2);margin:14px 0 0;display:flex;gap:8px;align-items:flex-start}
+.disc .ic{flex:none;color:var(--roseText);margin-top:2px}
+.disc b{color:var(--ink);font-weight:800}
+
+/* ── 섹션 공통 ── */
+.sec{padding:8px 22px 4px}
+.divider{display:flex;align-items:center;gap:11px;color:var(--mut);font-size:11px;font-weight:800;letter-spacing:.14em;margin:30px 22px 4px}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--border))}
+.divider::before{background:linear-gradient(90deg,var(--border),transparent)}
+.sec h2{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.4;margin:6px 0 3px;word-break:keep-all}
+.sec .lead{font-size:13px;color:var(--mut);font-weight:600;line-height:1.6;word-break:keep-all}
+
+/* ── 이유 리스트(무슨 일) ── */
+.reasons{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.reasons .r{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 14px;box-shadow:var(--sh-sm)}
+.reasons .r .ico{flex:none;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--honeySoft);color:var(--honeyText);border:1px solid var(--honeyBd)}
+.reasons .r .ico .ic{width:19px;height:19px}
+.reasons .r .tx{font-size:13px;color:var(--ink2);line-height:1.6;word-break:keep-all}
+.reasons .r .tx b{color:var(--ink);font-weight:800}
+.reasons .r .tx .tag{font-size:11px;font-weight:800;color:var(--honeyText);background:var(--honeySoft);border:1px solid var(--honeyBd);border-radius:100px;padding:1px 8px;margin-left:5px;white-space:nowrap}
+.softnote{margin-top:12px;font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.6;display:flex;gap:8px;align-items:flex-start;word-break:keep-all}
+.softnote .ic{flex:none;color:var(--sageDeep);margin-top:2px}
+
+/* ── 상태 흐름(카운트다운 아님 · 회복 경로) ── */
+.flow{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--sh-sm)}
+.flow ol{list-style:none;display:flex;flex-direction:column;gap:0}
+.flow li{display:flex;gap:13px;align-items:flex-start;position:relative;padding-bottom:16px}
+.flow li:last-child{padding-bottom:0}
+.flow li::before{content:"";position:absolute;left:15px;top:32px;bottom:2px;width:2px;background:var(--border)}
+.flow li:last-child::before{display:none}
+.flow .num{flex:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;z-index:1}
+.flow li.now .num{background:var(--pinkSoft);color:var(--roseText);border:1px solid var(--border)}
+.flow li.do .num{background:var(--card);color:var(--roseText);border:2px solid var(--roseText)}
+.flow li.done .num{background:var(--sageSoft);color:var(--sageDeep);border:1px solid var(--sageBd)}
+.flow .ftx{padding-top:4px}
+.flow .ftx .h{font-size:14px;font-weight:800;color:var(--ink);line-height:1.4;word-break:keep-all}
+.flow .ftx .h .when{font-size:11px;font-weight:800;color:var(--mut);margin-left:6px}
+.flow .ftx .d{font-size:12.5px;color:var(--ink2);line-height:1.58;margin-top:3px;word-break:keep-all}
+.calmbox{margin-top:12px;background:var(--sageSoft);border:1px solid var(--sageBd);border-radius:13px;padding:13px 14px;font-size:12.8px;color:var(--ink2);line-height:1.64;display:flex;gap:9px;align-items:flex-start;word-break:keep-all}
+.calmbox .ic{flex:none;color:var(--sageDeep);margin-top:2px}
+.calmbox b{color:var(--sageDeep);font-weight:800}
+
+/* ── CTA ── */
+.cta{margin:18px 22px 2px;background:linear-gradient(135deg,var(--pinkSoft),var(--card) 55%,var(--sand));border:1px solid var(--border);border-radius:20px;padding:24px 22px;text-align:center;box-shadow:var(--sh-lg)}
+.cta h3{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.4;word-break:keep-all}
+.cta p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;word-break:keep-all}
+.cta .mins{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;font-weight:800;color:var(--sageDeep);background:var(--sageSoft);border:1px solid var(--sageBd);border-radius:100px;padding:4px 12px}
+.cta .mins .ic{width:14px;height:14px}
+.cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:54px;margin-top:14px;padding:0 28px;background:linear-gradient(135deg,var(--roseText),var(--roseDeep));color:#fff;font-size:15px;font-weight:800;text-decoration:none;border-radius:100px;box-shadow:var(--sh);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.cta .btn:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.cta .btn:focus-visible{outline:3px solid var(--roseText);outline-offset:3px}
+.cta .btn .ic{width:17px;height:17px}
+.cta .alt{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;margin-top:6px;font-size:13px;font-weight:700;color:var(--roseText);text-decoration:underline;text-underline-offset:3px}
+.cta .alt:hover{color:var(--roseDeep)}
+.cta .alt:focus-visible{outline:2px solid var(--roseText);outline-offset:3px;border-radius:6px}
+.cta .alt .ic{width:15px;height:15px}
+
+/* ── 안심 카드 ── */
+.calm{margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.calm .c{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 11px;text-align:center;box-shadow:var(--sh-sm)}
+.calm .c .ico{width:36px;height:36px;border-radius:50%;background:var(--sageSoft);color:var(--sageDeep);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;border:1px solid var(--sageBd)}
+.calm .c .ico .ic{width:18px;height:18px}
+.calm .c .h{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.35;word-break:keep-all}
+.calm .c .d{font-size:11px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:4px;word-break:keep-all}
+
+footer{text-align:center;font-size:11.5px;color:var(--mut);padding:24px 22px 30px;line-height:1.7;word-break:keep-all}
+footer .fb{font-weight:800;color:var(--roseText);letter-spacing:.04em}
+
+/* ── AA 자가검증 패널(검토용 · 발송본엔 빼도 됨) ── */
+.aapanel{padding:6px 22px 8px}
+.aapanel details{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--sh-sm);overflow:hidden}
+.aapanel summary{cursor:pointer;list-style:none;padding:13px 15px;font-size:12px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px;min-height:44px}
+.aapanel summary::-webkit-details-marker{display:none}
+.aapanel summary .ic{width:15px;height:15px;color:var(--sageDeep)}
+.aapanel .body{padding:0 15px 15px;font-size:11.5px;color:var(--ink2);line-height:1.62}
+.aatable{width:100%;border-collapse:collapse;margin-top:6px;font-size:11px}
+.aatable th,.aatable td{padding:6px 7px;border-bottom:1px solid var(--hair);text-align:left}
+.aatable th{color:var(--mut);font-weight:800;letter-spacing:.02em}
+.aatable td.r{text-align:right;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@media (max-width:430px){
+  .top h1{font-size:21px}
+  .calm{gap:8px}
+  .calm .c{padding:12px 8px}
+  .calm .c .d{font-size:10.5px}
+  .reasons .r .tx .tag{display:inline-block;margin-left:0;margin-top:4px}
+}
+</style>
+<!-- SVG 스프라이트(아이콘) · 자바스크립트 없이도 렌더 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-letter" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 9.5h18M6.5 14.5h4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3.5 8.5A2.5 2.5 0 0 1 6 6h11.5a1 1 0 0 1 1 1v1.5"/><rect x="3.5" y="8.5" width="17" height="11" rx="2.5"/><circle cx="16" cy="14" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M4 9.5l8-5 8 5"/><path d="M5 9.5h14M6.5 9.5V18M11 9.5V18M13 9.5V18M17.5 9.5V18"/><path d="M4 18h16"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3L20 9"/><path d="M20 4.5V9h-4.5"/><path d="M19.5 12a7.5 7.5 0 0 1-12.8 5.3L4 15"/><path d="M4 19.5V15h4.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.4A3.9 3.9 0 0 1 12 7a3.9 3.9 0 0 1 7 3.2c0 5-7 9.4-7 9.4z"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4" rx="1"/><path d="M5.5 9v9a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V9"/><path d="M10 13h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5.5h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H9.5L5.5 20V6.5a1 1 0 0 1 1-1z"/><path d="M8.5 10h7M8.5 12.8h4.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.5"/></symbol>
+</svg>
+
+<main class="sheet">
+
+  <!-- 히어로 -->
+  <header class="top">
+    <span class="brand"><svg class="ic"><use href="#i-letter"/></svg> 동은부부 머니레터</span>
+    <span class="seal" aria-hidden="true"><svg class="ic"><use href="#i-card"/></svg></span>
+    <h1>이번 결제가 한 번 안 됐어요,,<br>그런데 걱정하지 않으셔도 돼요</h1>
+    <p class="sub">무언가 잘못하신 게 아니에요. <b>카드만 한 번 확인</b>하면 평소대로 이어져요:)</p>
+  </header>
+
+  <!-- 인트로 + 면책 -->
+  <section class="intro reveal">
+    <p>구독료 자동결제가 이번에 한 번 처리되지 않았어요. 정말 흔한 일이라, 놀라지 않으셔도 돼요. 어떻게 된 건지랑 어떻게 하면 되는지, <b>차근차근</b> 같이 볼게요.</p>
+    <div class="disc">
+      <svg class="ic"><use href="#i-info"/></svg>
+      <span>이건 <b>결제 안내</b>일 뿐, 시장이나 투자에 대한 권유가 아니에요. 머니레터는 늘 정보·교육 콘텐츠이고, 판단과 책임은 본인에게 있어요.</span>
+    </div>
+  </section>
+
+  <!-- 무슨 일이 있었나요 -->
+  <div class="divider">왜 이런 일이 생겼을까요</div>
+  <section class="sec reveal">
+    <h2>대부분 이 셋 중 하나예요</h2>
+    <p class="lead">어느 쪽이든 카드만 한 번 손보면 돼요. 정말요.</p>
+    <div class="reasons">
+      <div class="r reveal">
+        <span class="ico"><svg class="ic"><use href="#i-calendar"/></svg></span>
+        <span class="tx"><b>카드 유효기간이 지났어요</b><span class="tag">가장 흔해요</span><br>새 카드를 받으셨거나 기간이 만료되면 자동으로 멈춰요.</span>
+      </div>
+      <div class="r reveal">
+        <span class="ico"><svg class="ic"><use href="#i-wallet"/></svg></span>
+        <span class="tx"><b>한도나 잔액이 잠깐 부족했어요</b><br>그날 결제 타이밍에 한도가 찼거나 잔액이 모자랐을 수 있어요.</span>
+      </div>
+      <div class="r reveal">
+        <span class="ico"><svg class="ic"><use href="#i-bank"/></svg></span>
+        <span class="tx"><b>카드사에서 자동결제를 한 번 막았어요</b><br>해외·정기결제를 보안 차원에서 잠깐 보류하는 경우가 가끔 있어요.</span>
+      </div>
+    </div>
+    <p class="softnote"><svg class="ic"><use href="#i-check"/></svg> 셋 다 우리가 자주 보는 일이에요. 누구 탓도 아니고, 큰일도 아니에요:)</p>
+  </section>
+
+  <!-- 지금은 어떻게 되나요 (상태 흐름) -->
+  <div class="divider">지금은 어떻게 되나요</div>
+  <section class="sec reveal">
+    <h2>지금 바로 끊기는 건 아니에요</h2>
+    <p class="lead">카운트다운 같은 건 없어요. 회복되는 길만 보여드릴게요.</p>
+    <div class="flow reveal">
+      <ol>
+        <li class="now">
+          <span class="num tnum">1</span>
+          <span class="ftx">
+            <span class="h">이번 결제가 한 번 멈췄어요<span class="when">지금</span></span>
+            <span class="d">자동결제가 한 차례 처리되지 않은 상태예요. 그뿐이에요.</span>
+          </span>
+        </li>
+        <li class="do">
+          <span class="num"><svg class="ic"><use href="#i-card"/></svg></span>
+          <span class="ftx">
+            <span class="h">카드 정보를 한 번 업데이트해요<span class="when">1분</span></span>
+            <span class="d">새 카드로 바꾸거나, 같은 카드를 다시 등록하면 끝이에요.</span>
+          </span>
+        </li>
+        <li class="done">
+          <span class="num"><svg class="ic"><use href="#i-refresh"/></svg></span>
+          <span class="ftx">
+            <span class="h">다음부터 평소대로 이어져요</span>
+            <span class="d">월 9,900원 구독이 다시 매끄럽게 돌아가요. 더 신경 쓰실 일 없어요.</span>
+          </span>
+        </li>
+      </ol>
+    </div>
+    <p class="calmbox"><svg class="ic"><use href="#i-heart"/></svg> <span>그 사이에도 받아보시던 레터가 <b>곧바로 사라지지는 않아요.</b> 결제는 결제사 안내에 따라 며칠에 걸쳐 다시 시도되니, 급하게 서두르지 않으셔도 괜찮아요. 편하실 때 카드만 한 번 봐주세요.</span></p>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <h3>카드 정보만 한 번 업데이트하면 돼요</h3>
+    <p>딱 1분이면 충분해요. 다 하고 나면 다음부터는 따로 신경 안 쓰셔도 돼요:)</p>
+    <span class="mins"><svg class="ic"><use href="#i-refresh"/></svg> 1분이면 끝나요</span><br>
+    <a class="btn" href="#account">카드 정보 업데이트하기 <svg class="ic"><use href="#i-arrow"/></svg></a>
+    <a class="alt" href="#help"><svg class="ic"><use href="#i-chat"/></svg> 잘 안 되거나 헷갈리면, 문의 주세요</a>
+  </section>
+
+  <!-- 안심 -->
+  <div class="divider">이건 약속드릴게요</div>
+  <section class="sec reveal">
+    <div class="calm">
+      <div class="c">
+        <span class="ico"><svg class="ic"><use href="#i-heart"/></svg></span>
+        <div class="h">압박하지 않아요</div>
+        <div class="d">카운트다운도, “지금 안 하면” 같은 말도 없어요</div>
+      </div>
+      <div class="c">
+        <span class="ico"><svg class="ic"><use href="#i-archive"/></svg></span>
+        <div class="h">기록은 안 사라져요</div>
+        <div class="d">그동안 받아보신 레터는 그대로 남아 있어요</div>
+      </div>
+      <div class="c">
+        <span class="ico"><svg class="ic"><use href="#i-user"/></svg></span>
+        <div class="h">혼자 두지 않아요</div>
+        <div class="d">막히는 데가 있으면 같이 봐드릴게요</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="fb">동은부부 머니레터</span><br>
+    제공되는 모든 내용은 정보·교육 목적이며, 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요.
+  </footer>
+
+  <!-- AA 자가검증(검토 참고용 · 실제 발송본엔 빼도 됩니다) -->
+  <div class="aapanel reveal">
+    <details>
+      <summary><svg class="ic"><use href="#i-shield"/></svg> 디자인 자가검증 (대비·다크패턴 0·정직성) 펼쳐보기</summary>
+      <div class="body">
+        <p>결제 실패 화면은 다크패턴이 가장 많이 숨는 자리라, 일부러 더 까다롭게 봤어요. 6/1 결정대로 <b>라이트 단독</b>이고, 히어로도 알람 빨강이나 축하 톤이 아니라 <b>차분한 크림 톤</b>(진한 잉크 글자)으로 했어요.</p>
+        <table class="aatable">
+          <thead><tr><th>요소</th><th>색 / 배경</th><th class="r">대비</th></tr></thead>
+          <tbody>
+            <tr><td>본문</td><td>#5C4B43 / 흰색</td><td class="r">7.7:1</td></tr>
+            <tr><td>약한 텍스트</td><td>#766962 / 흰색</td><td class="r">5.0:1</td></tr>
+            <tr><td>히어로 제목</td><td>#3E2F29 / 크림(#F0DED8)</td><td class="r">9.0:1+</td></tr>
+            <tr><td>포인트(카드 강조)</td><td>#A03F4D / 흰색</td><td class="r">6.0:1</td></tr>
+            <tr><td>이유 태그·아이콘</td><td>#8A5A18 / 허니(#FBF0DF)</td><td class="r">5.2:1</td></tr>
+            <tr><td>CTA 버튼 글자</td><td>흰색 / #A03F4D~#8E3344</td><td class="r">6.0:1+</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px">다크패턴 점검: 카운트다운 0 · “지금 안 하면/마지막 기회” 0 · 죄책·질책 어휘 0 · 한정·협박 0 · 재결제 외길 강요 0(카드 업데이트와 문의를 같은 무게로 둬요). 정직성: 구독료(월 9,900원)는 설계서 확정값이고, <b>재시도 일정·유예 일수는 결제사 안내를 따르므로 특정 일수를 단정하지 않았어요</b>(환각 0). 이모지 0(전부 인라인 SVG) · 면책 1곳 · 투자 권유 0. <code>#account</code>(카드·결제 설정)·<code>#help</code>(문의)는 붙일 때 실제 주소로 연결하는 자리표시자예요. 아임웹 ‘정기결제’ 기본 결제실패 안내가 있으면 이 카드는 톤·브랜드 보완재예요.</p>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<!-- 아임웹에서는 이 스크립트를 FOOTER(닫는 body 직전)에 넣으세요. (차트 라이브러리 불필요) -->

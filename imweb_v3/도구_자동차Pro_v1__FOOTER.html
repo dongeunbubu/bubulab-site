@@ -1,0 +1,316 @@
+<!-- [도구_자동차Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.12});
+d.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtEok=function(n){var neg=n<0;n=Math.abs(Math.round(n));var eok=Math.floor(n/100000000),man=Math.round((n%100000000)/10000);var s='';if(eok>0)s+=eok+'억';if(man>0)s+=(eok>0?' ':'')+man.toLocaleString('ko-KR')+'만';if(!s)s='0';return (neg?'-':'')+s+'원';};
+window.countNum=function(el,to,suf,dec,dur){if(!el)return;to=+to;dur=dur||900;suf=suf||'';dec=dec||0;var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=(to*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(s);else el.textContent=(+to).toFixed(dec)+suf;}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,+($(id).value.replace(/[^0-9]/g,''))||0);}
+function rate(id){return Math.max(0,+($(id).value.replace(/[^0-9.]/g,''))||0);}
+
+var LSKEY='bbCarTcoPro_v1';
+var R={km:15000,yrs:5,op:4.0,pay:'cash',down:30,lm:36,lr:4.5,
+ A:{pr:35000000,ac:7.0,ef:12.0,mt:2000000,rs:40,unit:2010},
+ B:{pr:48000000,ac:3.9,ef:5.0,mt:1200000,rs:35,unit:320},
+ gas:2010,ev:320};
+
+// 색맹안전: 색 + 텍스트 라벨 병기
+var SEG=[['dep','차값 감가','#B85060'],['tax','취득세','#C9A84C'],['int','할부이자','#D8584E'],['mt','유지비','#9C6BA8'],['fuel','연료/충전','#3E8E8E'],['opp','기회비용','#8A7B72']];
+
+function acqCost(c){return c.pr*(1+c.ac/100);}
+function fuelYear(c){return c.ef>0?(R.km/c.ef)*c.unit:0;}
+function oppCost(a,t){return a*(Math.pow(1+R.op/100,t)-1);}
+function residAt(c,t){return c.pr*(1-(1-c.rs/100)*(R.yrs>0?t/R.yrs:0));}
+function annuity(P,rm,n){if(n<=0)return 0;return rm<=0?P/n:P*rm/(1-Math.pow(1+rm,-n));}
+// 결제 정보(pay 인자로 현금/할부 강제 가능)
+function loanInfo(c,pay){pay=pay||R.pay;var acq=acqCost(c);
+ if(pay!=='loan')return {acq:acq,down:acq,fin:0,m:0,interest:0,lock:acq,LM:0};
+ var down=acq*R.down/100,fin=acq-down,rm=R.lr/100/12,m=annuity(fin,rm,R.lm),interest=m*R.lm-fin;
+ return {acq:acq,down:down,fin:fin,m:m,interest:Math.max(0,interest),lock:down,LM:R.lm};}
+// t년 시점 누적 TCO
+function tcoAt(c,t,pay){pay=pay||R.pay;var li=loanInfo(c,pay);
+ var upfront=(pay==='loan')?li.down:li.acq;
+ var paid=(pay==='loan')?li.m*Math.min(li.LM,t*12):0;
+ // 보수적: 차에 묶인 자본(취득가)의 기회비용은 결제방식과 무관하게 동일 → 할부는 그 위에 이자만큼 더(현금≤할부). 굴림 이득은 아래 '현금 vs 할부'에서 현재가치로 정밀 비교.
+ return upfront+paid+c.mt*t+fuelYear(c)*t+oppCost(li.acq,t)-residAt(c,t);}
+function tco(c,pay){return tcoAt(c,R.yrs,pay);}
+// N년 분해(스택) — LM<=N*12일 때 정확
+function stack(c,pay){pay=pay||R.pay;var li=loanInfo(c,pay),N=R.yrs;
+ return {dep:c.pr-residAt(c,N),tax:c.pr*c.ac/100,int:(pay==='loan'?li.interest:0),mt:c.mt*N,fuel:fuelYear(c)*N,opp:oppCost(li.acq,N)};}
+// 비연료 고정부(손익분기 주행거리용)
+function nonFuelTco(c,pay){pay=pay||R.pay;return tco(c,pay)-fuelYear(c)*R.yrs;}
+function fuelPerKm(c){return c.ef>0?c.unit/c.ef:0;}
+function breakevenKm(){var dN=(nonFuelTco(R.B)-nonFuelTco(R.A)),dF=(fuelPerKm(R.A)-fuelPerKm(R.B))*R.yrs;
+ if(Math.abs(dF)<1e-9)return null;return dN/dF;}
+
+function decide(){var a=tco(R.A),b=tco(R.B);var win=a<=b?'A':'B';var gap=Math.abs(a-b);
+ return {a:a,b:b,win:win,winV:Math.min(a,b),gap:gap,close:gap<Math.max(a,b)*0.025};}
+
+var META={A:['🚗','휘발유','var(--rose)','#B85060'],B:['⚡','전기','var(--teal)','#3E8E8E']};
+
+function renderReco(D){var c=$('recoCrown'),k=$('recoK'),g=$('recoG'),p=$('recoP');
+ var w=D.win,m=META[w],be=breakevenKm();
+ k.textContent=R.yrs+'년 총소유비용 기준 · '+(R.pay==='loan'?'할부':'현금')+' 결제';
+ c.textContent=m[0];
+ if(D.close){
+   g.innerHTML='<span style="color:'+m[2]+'">'+m[1]+'차</span>가 약간 앞서요 — 사실상 비슷해요';
+   p.innerHTML='둘의 '+R.yrs+'년 총비용 차이가 <b>'+window.fmtEok(D.gap)+'</b>로 근소해요. 이 정도면 숫자보다 <b>충전 환경·취향</b>으로 골라도 좋아요. '+(be&&be>0?'다만 한 해 <b>'+window.fmtWon(be)+'km</b>를 넘겨 달리면 전기차가 더 유리해져요.':'');
+ }else{
+   g.innerHTML='<span style="color:'+m[2]+'">'+m[1]+'차</span>가 '+R.yrs+'년 기준 <b>'+window.fmtEok(D.gap)+'</b> 덜 들어요';
+   if(w==='B'){p.innerHTML='충전비가 기름값보다 훨씬 싸서, 초기 차값이 비싸도 '+R.yrs+'년을 채우면 전기차가 앞서요. '+(be&&be>0?'지금처럼 한 해 '+window.fmtWon(R.km)+'km 달리면 손익분기(<b>'+window.fmtWon(be)+'km</b>)를 넘겨요.':'기름값이 오를수록 격차는 더 벌어져요.');}
+   else{p.innerHTML='이 주행거리에선 기름값보다 전기차의 <b>높은 차값·낮은 잔존가치</b>가 더 무거워요. '+(be&&be>0?'한 해 <b>'+window.fmtWon(be)+'km</b> 넘게 달릴 계획이면 전기차가 역전하니, 주행거리 슬라이더를 올려 보세요.':'더 오래·많이 탈수록 전기차가 따라붙어요.');}
+ }
+}
+
+function renderBigout(D,animate){var box=$('bigout');
+ box.innerHTML=
+  '<div class="bocard t-a'+(D.win==='A'?' win':'')+'"><div class="bl">'+(D.win==='A'?'👑 ':'')+'🚗 휘발유</div><div class="bv" id="boA">·</div><div class="bs">'+R.yrs+'년 총소유비용</div></div>'+
+  '<div class="vs">vs</div>'+
+  '<div class="bocard t-b'+(D.win==='B'?' win':'')+'"><div class="bl">'+(D.win==='B'?'👑 ':'')+'⚡ 전기</div><div class="bv" id="boB">·</div><div class="bs">'+R.yrs+'년 총소유비용</div></div>';
+ $('boA').textContent=window.fmtEok(D.a);$('boB').textContent=window.fmtEok(D.b);
+ var be=breakevenKm(),bl=$('beLine');
+ if(be===null){bl.innerHTML='두 차의 연비가 같아 손익분기 주행거리를 계산할 수 없어요. 전비/연비를 다르게 넣어 보세요.';}
+ else if(be<=0){bl.innerHTML='⚡ 전기차가 차값까지 더 싸서, <b>주행거리와 상관없이</b> 전기차가 유리해요.';}
+ else{bl.innerHTML='⚖️ <b>손익분기 주행거리</b> — 한 해 <b style="font-size:15px">'+window.fmtWon(be)+'km</b>보다 많이 달리면 전기차, 적게 달리면 휘발유차가 이득이에요. (지금 입력: 연 '+window.fmtWon(R.km)+'km)';}
+}
+
+function renderStack(D,animate){
+ [['A','stackA','stkATot'],['B','stackB','stkBTot']].forEach(function(it){
+   var c=R[it[0]],st=stack(c),sum=st.dep+st.tax+st.int+st.mt+st.fuel+st.opp;sum=Math.max(sum,1);
+   var box=$(it[1]);box.innerHTML='';
+   SEG.forEach(function(s){var v=st[s[0]];if(v<=0)return;
+     var seg=document.createElement('div');seg.className='stkseg';seg.style.background=s[2];
+     seg.title=s[1]+' '+window.fmtEok(v);seg.setAttribute('aria-label',s[1]+' '+window.fmtEok(v));
+     box.appendChild(seg);var pc=v/sum*100;
+     (function(el,p){if(animate){requestAnimationFrame(function(){el.style.width=p+'%';});}else{el.style.width=p+'%';}})(seg,pc);
+   });
+   $(it[2]).textContent=window.fmtEok(tco(c));
+ });
+ var lg=$('stkLegend');lg.innerHTML='';
+ SEG.forEach(function(s){lg.innerHTML+='<span><i class="sw" style="background:'+s[2]+'"></i>'+s[1]+'</span>';});
+ $('stkYr').textContent=R.yrs;
+}
+
+function renderKpis(D){var box=$('kpis');var be=breakevenKm();
+ var fuelSave=(fuelYear(R.A)-fuelYear(R.B))*R.yrs; // 전기차가 연료로 아끼는 총액(양수면 절감)
+ var winMonthly=D.winV/(R.yrs*12);
+ box.innerHTML=
+  '<div class="kpi"><div class="kl">전기차가 '+R.yrs+'년 연료로 아끼는 돈</div><div class="kv" id="k1" style="color:var(--teal)">·</div></div>'+
+  '<div class="kpi"><div class="kl">손익분기 주행거리 (연)</div><div class="kv" id="k2" style="color:var(--gold)">·</div></div>'+
+  '<div class="kpi"><div class="kl">'+META[D.win][1]+'차 월 환산 부담</div><div class="kv" id="k3" style="color:var(--rose)">·</div></div>';
+ $('k1').textContent=window.fmtEok(fuelSave);
+ $('k2').textContent=(be&&be>0)?window.fmtWon(be)+'km':'—';
+ $('k3').textContent=window.fmtWon(winMonthly)+'원';
+}
+
+function renderChart(D,animate){
+ var N=R.yrs,grid=$('fvGrid'),paths=$('fvPaths'),dots=$('fvDots'),axis=$('fvAxis');
+ grid.innerHTML='';paths.innerHTML='';dots.innerHTML='';axis.innerHTML='';
+ var X0=58,X1=688,Y0=18,Y1=274;
+ var sA=[],sB=[],hi=1,lo=0;
+ for(var t=0;t<=N;t++){var a=tcoAt(R.A,t),b=tcoAt(R.B,t);sA.push(a);sB.push(b);hi=Math.max(hi,a,b);lo=Math.min(lo,a,b);}
+ hi*=1.06;if(lo>0)lo=0;lo*=1.06;
+ function px(t){return X0+(N<=0?0:t/N)*(X1-X0);}
+ function py(v){return Y1-((v-lo)/((hi-lo)||1))*(Y1-Y0);}
+ [hi,(hi+lo)/2,lo].forEach(function(v){var y=py(v);
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(Math.abs(v)<1?'#D9C7C1':'#EEE0DB')+'" stroke-width="1" stroke-dasharray="'+(Math.abs(v)<1?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-8)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(Math.abs(v)<1?'0':window.fmtEok(v))+'</text>';
+ });
+ var step=N<=5?1:2;
+ for(var xt=0;xt<=N;xt+=step){axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'년</text>';}
+ if((N%step)!==0){axis.innerHTML+='<text x="'+px(N).toFixed(1)+'" y="'+(Y1+20)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+N+'년</text>';}
+ var defs=[['A',sA,'#B85060'],['B',sB,'#3E8E8E']];
+ defs.forEach(function(s){
+   var dd=s[1].map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+   var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+   p.setAttribute('d',dd);p.setAttribute('stroke',s[2]);p.setAttribute('opacity','.96');
+   if(s[0]==='B')p.setAttribute('stroke-dasharray','1 0');
+   paths.appendChild(p);
+   var len=p.getTotalLength?p.getTotalLength():1400;
+   if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}
+   else{p.style.strokeDashoffset=0;}
+ });
+ [['휘발유','#B85060',sA[N]],['전기','#3E8E8E',sB[N]]].forEach(function(e){
+   var ex=px(N),ey=py(e[2]);
+   dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4" fill="'+e[1]+'"/>'+
+     '<text x="'+(ex-8).toFixed(1)+'" y="'+(ey-8).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="'+e[1]+'">'+e[0]+'</text>';
+ });
+ // 크로스오버: 전기차가 휘발유차보다 싸지는 첫 해
+ var cross=-1;for(var i=1;i<=N;i++){if(sA[i-1]<sB[i-1]&&sA[i]>=sB[i]){cross=i;break;}}
+ var cl=$('crossLab');
+ if(sB[N]<=sA[N]){
+   if(cross>0)cl.innerHTML='전기차는 처음엔 차값 때문에 비싸 보이지만, <b>'+cross+'년차부터 휘발유차보다 싸져요.</b> '+N+'년을 채우면 전기차가 더 적게 들어요.';
+   else cl.innerHTML='이 조건에선 <b>처음부터 끝까지 전기차가 더 적게</b> 들어요. 많이 달릴수록 격차가 벌어져요.';
+ }else{
+   cl.innerHTML='이 조건에선 '+N+'년 내내 <b>휘발유차가 더 적게</b> 들어요. 더 오래 타거나(기간↑) 더 많이 달리면(주행거리↑) 전기차가 역전할 수 있어요.';
+ }
+ $('chSpan').textContent='0~'+N+'년';
+}
+
+function renderFinance(){
+ // 승자 차 기준 현금 vs 할부를 '현재가치'로 정밀 비교(결제 토글과 무관)
+ var D=decide();var c=R[D.win];
+ var li=loanInfo(c,'loan');
+ var opm=R.op/100/12;
+ var pvPay=(opm<=0)?li.m*li.LM:li.m*(1-Math.pow(1+opm,-li.LM))/opm; // 할부금의 현재가치(기회수익률로 할인)
+ var net=pvPay-li.fin;          // 할부−현금(현재가치): >0 현금유리, <0 할부유리, =0(op==lr)
+ var timeEffect=li.fin-pvPay;   // 분할 납부의 시간가치 효과(=−net)
+ $('finInt').textContent=window.fmtEok(li.interest);
+ $('finOpp').textContent=(timeEffect>=0?'+':'-')+window.fmtEok(Math.abs(timeEffect));
+ $('finNet').textContent=(net<0?'-':'+')+window.fmtEok(Math.abs(net));
+ var v=$('finVerdict');
+ if(Math.abs(net)<150000){v.innerHTML='<span style="color:var(--mut)">거의 같아요</span> — 기회수익률과 할부금리가 비슷해요';}
+ else if(net<0){v.innerHTML='<span style="color:var(--teal)">🧾 할부가 '+window.fmtEok(-net)+' 이득</span>';}
+ else{v.innerHTML='<span style="color:var(--rose)">💵 현금이 '+window.fmtEok(net)+' 이득</span>';}
+ $('finP').innerHTML=(net<0
+   ? '기회수익률('+R.op.toFixed(1)+'%)이 할부금리('+R.lr.toFixed(1)+'%)보다 높아, <b>나눠 내고 그 목돈을 굴리면 이자보다 더 벌어요</b>. 단, 그 돈을 실제로 꾸준히 굴린다는 전제예요.'
+   : '할부금리('+R.lr.toFixed(1)+'%)가 기회수익률('+R.op.toFixed(1)+'%)보다 높아, <b>이자가 굴려 버는 것보다 커요</b>. 여윳돈이 있다면 현금이 깔끔해요.')
+   +' (기준 차: '+META[D.win][1]+'차 · 현재가치 비교)';
+}
+
+function renderCut(){
+ var D=decide();var c=R[D.win],k=Math.min(+$('exR').value,R.yrs);
+ $('exYrLbl').textContent=k;$('exCar').textContent=META[D.win][1]+'차';
+ var resid=residAt(c,k);
+ var li=loanInfo(c,'loan'),bal=0;
+ if(R.pay==='loan'){var rm=R.lr/100/12,mk=Math.min(k*12,li.LM);
+   bal=(rm<=0)?Math.max(0,li.fin-li.m*mk):li.fin*Math.pow(1+rm,mk)-li.m*(Math.pow(1+rm,mk)-1)/rm;
+   bal=Math.max(0,bal);}
+ $('cutResid').textContent='+'+window.fmtEok(resid);
+ $('cutBal').textContent=(R.pay==='loan')?window.fmtEok(bal):'할부 아님';
+ var fee=bal*0.012;
+ $('cutP').innerHTML=(R.pay==='loan'
+   ? '구입은 <b>위약금이 없어요</b> — '+k+'년차에 팔면 잔존가치 <b>'+window.fmtEok(resid)+'</b>를 회수하고 남은 할부 <b>'+window.fmtEok(bal)+'</b>를 갚으면 끝(중도상환수수료 약 '+window.fmtEok(fee)+', 보통 1~2%·면제 구간 있음). '
+   : '현금 구입은 '+k+'년차에 팔면 잔존가치 <b>'+window.fmtEok(resid)+'</b>를 그대로 회수해요. ')
+   +'반면 <b>리스·장기렌트</b>는 중도해지 시 보통 <b>잔여 회차의 30~50%를 위약금</b>으로 물어요. ‘묶이지 않는 자유’가 필요하면 구입이 유리한 지점이에요.';
+}
+
+function renderWhy(D){var box=$('bd');box.innerHTML='';
+ var fuelGap=(fuelYear(R.A)-fuelYear(R.B));
+ box.innerHTML=
+  '<div class="bdc t-1"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--rose);display:inline-block"></span>휘발유차 — 싸게 사고 비싸게 굴려요</h5>'+
+    '<div class="big" style="color:var(--rose)">'+window.fmtEok(tco(R.A))+'</div>'+
+    '<p>차값·취득세가 낮아 시작은 가볍지만, 한 해 기름값이 <b>'+window.fmtEok(fuelYear(R.A))+'</b>예요. 많이 달릴수록 이 연료비가 쌓여 전기차에 따라잡혀요. 잔존가치가 잘 버티는 인기 차종이면 더 유리해요.</p></div>'+
+  '<div class="bdc t-2"><h5><span class="pin" style="width:11px;height:11px;border-radius:4px;background:var(--teal);display:inline-block"></span>전기차 — 비싸게 사고 싸게 굴려요</h5>'+
+    '<div class="big" style="color:var(--teal)">'+window.fmtEok(tco(R.B))+'</div>'+
+    '<p>차값이 높아 출발은 무겁지만, 충전비가 한 해 <b>'+window.fmtEok(fuelYear(R.B))+'</b>로 휘발유보다 <b>'+window.fmtEok(fuelGap)+'</b> 저렴해요. <b>많이·오래 달릴수록</b> 이 차이가 초기 프리미엄을 메워요. 잔존가치는 보수적으로 보는 게 안전해요.</p></div>';
+}
+
+function syncYr(){$('aYr').textContent=R.yrs;$('bYr').textContent=R.yrs;$('exR').max=R.yrs;if(+$('exR').value>R.yrs)$('exR').value=R.yrs;}
+
+function compute(animate){
+ R.km=Math.round(+$('kmR').value);R.yrs=+$('yrsR').value;R.op=+$('opR').value;
+ R.down=+$('downR').value;R.lm=+$('lmR').value;R.lr=rate('lrF');
+ R.gas=num('gasF');R.ev=num('evF');
+ R.A.pr=num('aPr');R.A.ac=rate('aAc');R.A.ef=Math.max(0,rate('aEf'));R.A.mt=num('aMt');R.A.rs=Math.round(+$('aRs').value);R.A.unit=R.gas;
+ R.B.pr=num('bPr');R.B.ac=rate('bAc');R.B.ef=Math.max(0,rate('bEf'));R.B.mt=num('bMt');R.B.rs=Math.round(+$('bRs').value);R.B.unit=R.ev;
+ syncYr();
+ var D=decide();
+ renderReco(D);renderBigout(D,animate);renderStack(D,animate);renderKpis(D);renderChart(D,animate);
+ renderFinance();renderCut();renderWhy(D);
+}
+
+// ── 저장(localStorage) ──
+function loadSaves(){try{return JSON.parse(localStorage.getItem(LSKEY)||'[]');}catch(e){return [];}}
+function writeSaves(a){try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){}}
+function renderSaves(){var a=loadSaves(),box=$('savedList'),emp=$('saveEmpty');box.innerHTML='';
+ if(!a.length){emp.style.display='block';return;}emp.style.display='none';
+ a.forEach(function(s,i){var el=document.createElement('div');el.className='saveit';
+   el.innerHTML='<span class="si-n">'+(s.name||('비교 '+(i+1)))+'</span><span class="si-d">'+s.summary+'</span>'+
+     '<button type="button" data-i="'+i+'" data-act="load">불러오기</button><button type="button" data-i="'+i+'" data-act="del">삭제</button>';
+   box.appendChild(el);});
+ box.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){
+   var i=+b.dataset.i,act=b.dataset.act,arr=loadSaves();
+   if(act==='del'){arr.splice(i,1);writeSaves(arr);renderSaves();}
+   else{applySnapshot(arr[i]);}
+ });});
+}
+function snapshot(){var D=decide();
+ return {name:(R.A.pr>R.B.pr?'전기우세':'')+ '연'+window.fmtWon(R.km)+'km·'+R.yrs+'년',
+  summary:'🚗'+window.fmtEok(D.a)+' vs ⚡'+window.fmtEok(D.b)+' · '+(R.pay==='loan'?'할부':'현금'),
+  km:R.km,yrs:R.yrs,op:R.op,pay:R.pay,down:R.down,lm:R.lm,lr:R.lr,gas:R.gas,ev:R.ev,
+  A:Object.assign({},R.A),B:Object.assign({},R.B)};
+}
+function applySnapshot(s){if(!s)return;
+ $('kmR').value=s.km;$('kmV').textContent=window.fmtWon(s.km);
+ $('yrsR').value=s.yrs;$('yrsV').textContent=s.yrs;
+ $('opR').value=s.op;$('opV').textContent=(+s.op).toFixed(1);
+ setPay(s.pay);$('downR').value=s.down;$('downV').textContent=s.down+'%';
+ $('lmR').value=s.lm;$('lmV').textContent=s.lm+'개월';$('lrF').value=(+s.lr).toFixed(1);
+ $('gasF').value=window.fmtWon(s.gas);$('evF').value=window.fmtWon(s.ev);
+ $('aPr').value=window.fmtWon(s.A.pr);$('aAc').value=(+s.A.ac).toFixed(1);$('aEf').value=(+s.A.ef).toFixed(1);$('aMt').value=window.fmtWon(s.A.mt);$('aRs').value=s.A.rs;$('aRsV').textContent=s.A.rs+'%';
+ $('bPr').value=window.fmtWon(s.B.pr);$('bAc').value=(+s.B.ac).toFixed(1);$('bEf').value=(+s.B.ef).toFixed(1);$('bMt').value=window.fmtWon(s.B.mt);$('bRs').value=s.B.rs;$('bRsV').textContent=s.B.rs+'%';
+ syncChips('kmChips',s.km);syncChips('lrChips',+s.lr);
+ compute(true);
+ try{$('savedList').scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+
+// ── 이벤트 ──
+function syncChips(box,val){document.querySelectorAll('#'+box+' .chip').forEach(function(ch){ch.classList.toggle('on',+ch.dataset.v===val);});}
+function setPay(p){R.pay=p;document.querySelectorAll('#paySeg button').forEach(function(b){b.classList.toggle('on',b.dataset.v===p);});$('loanBox').classList.toggle('on',p==='loan');}
+
+$('kmR').addEventListener('input',function(){R.km=+this.value;$('kmV').textContent=window.fmtWon(R.km);syncChips('kmChips',R.km);compute(false);});
+$('kmR').addEventListener('change',function(){compute(true);});
+$('yrsR').addEventListener('input',function(){R.yrs=+this.value;$('yrsV').textContent=R.yrs;syncYr();compute(false);});
+$('yrsR').addEventListener('change',function(){compute(true);});
+$('opR').addEventListener('input',function(){R.op=+this.value;$('opV').textContent=R.op.toFixed(1);compute(false);});
+$('opR').addEventListener('change',function(){compute(true);});
+$('downR').addEventListener('input',function(){R.down=+this.value;$('downV').textContent=R.down+'%';compute(false);});
+$('downR').addEventListener('change',function(){compute(true);});
+$('lmR').addEventListener('input',function(){R.lm=+this.value;$('lmV').textContent=R.lm+'개월';compute(false);});
+$('lmR').addEventListener('change',function(){compute(true);});
+$('aRs').addEventListener('input',function(){R.A.rs=+this.value;$('aRsV').textContent=R.A.rs+'%';compute(false);});
+$('aRs').addEventListener('change',function(){compute(true);});
+$('bRs').addEventListener('input',function(){R.B.rs=+this.value;$('bRsV').textContent=R.B.rs+'%';compute(false);});
+$('bRs').addEventListener('change',function(){compute(true);});
+$('exR').addEventListener('input',function(){renderCut();});
+document.querySelectorAll('#paySeg button').forEach(function(b){b.addEventListener('click',function(){setPay(b.dataset.v);compute(true);});});
+document.querySelectorAll('#kmChips .chip').forEach(function(ch){ch.addEventListener('click',function(){var v=+ch.dataset.v;$('kmR').value=v;R.km=v;$('kmV').textContent=window.fmtWon(v);syncChips('kmChips',v);compute(true);});});
+document.querySelectorAll('#lrChips .chip').forEach(function(ch){ch.addEventListener('click',function(){var v=+ch.dataset.v;$('lrF').value=v.toFixed(1);R.lr=v;syncChips('lrChips',v);compute(true);});});
+// 금액/소수 입력
+[['aPr'],['aMt'],['bPr'],['bMt'],['gasF'],['evF']].forEach(function(pp){var f=$(pp[0]);
+ f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);f.value=v?v.toLocaleString('ko-KR'):'';compute(false);});
+ f.addEventListener('blur',function(){compute(true);});
+});
+[['aAc'],['aEf'],['bAc'],['bEf'],['lrF']].forEach(function(pp){var f=$(pp[0]);
+ f.addEventListener('input',function(){if(pp[0]==='lrF')syncChips('lrChips',rate('lrF'));compute(false);});
+ f.addEventListener('blur',function(){f.value=rate(pp[0]).toFixed(1);compute(true);});
+});
+$('saveBtn').addEventListener('click',function(){var a=loadSaves();a.unshift(snapshot());writeSaves(a);renderSaves();});
+
+// init
+(function(){try{var t=new Date();$('lcDate').textContent=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');}catch(e){}})();
+setPay('cash');syncYr();renderSaves();compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

@@ -1,0 +1,241 @@
+<!-- [도구_부부영끌한도DSR_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+
+/* ---------- state ---------- */
+var S={income:8000, exist:0, rate:0.043, term:30, stress:0.015, dsr:0.40, wish:4e8, wishTouched:false};
+var LSKEY="bbDsrLimitPro_v1";
+
+/* ---------- helpers ---------- */
+function fmtEokMan(won){
+ won=Math.round(won);
+ if(won<=0) return "0원";
+ var eok=Math.floor(won/1e8);
+ var man=Math.round((won-eok*1e8)/1e4);
+ if(eok>0){ return eok+"억"+(man>0?(" "+man.toLocaleString()+"만"):""); }
+ return man.toLocaleString()+"만원";
+}
+function fmtMan(won){ return Math.round(won/1e4).toLocaleString()+"만원"; }
+function fmtMon(won){ var m=Math.round(won/1e4*10)/10; return m.toLocaleString()+"만원"; }
+
+/* ---------- core loan math (monthly amortization) ---------- */
+function monthPay(P,iA,n){ if(P<=0) return 0; if(iA<=0) return P/n; var g=Math.pow(1+iA,n); return P*iA*g/(g-1); }
+function maxPrincipal(M,iA,n){ if(M<=0) return 0; if(iA<=0) return M*n; var g=Math.pow(1+iA,n); return M*(g-1)/(iA*g); }
+
+/* compute everything for given inputs; returns derived object */
+function calc(o){
+ var incWon=o.income*1e4;
+ var n=o.term*12;
+ var iReal=o.rate/12;
+ var iStr=(o.rate+o.stress)/12;
+ var existMon=o.exist*1e4;
+ var capMon=(incWon*o.dsr)/12 - existMon;       // monthly room for new mortgage
+ if(capMon<0) capMon=0;
+ var maxStr=maxPrincipal(capMon, iStr, n);       // limit WITH stress
+ var maxPlain=maxPrincipal(capMon, iReal, n);    // limit WITHOUT stress
+ var cut=maxPlain-maxStr; if(cut<0) cut=0;
+ var firstPay=monthPay(maxStr, iReal, n);        // actual payment at the (stress) limit, real rate
+ return {incWon:incWon,n:n,iReal:iReal,iStr:iStr,existMon:existMon,capMon:capMon,maxStr:maxStr,maxPlain:maxPlain,cut:cut,firstPay:firstPay};
+}
+
+/* DSR for a desired loan amount */
+function dsrFor(P,iA,n,existMon,incWon){ var m=monthPay(P,iA,n); return (m*12 + existMon*12)/incWon; }
+
+/* ---------- countUp ---------- */
+function countUp(el,target,fmt,dur){
+ if(!el) return;
+ var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var from=el._cv||0, start=null; dur=reduce?0:(dur||850);
+ if(el._raf) cancelAnimationFrame(el._raf);
+ function step(ts){ if(start===null) start=ts; var p=dur?Math.min((ts-start)/dur,1):1; var e=1-Math.pow(1-p,3);
+  var cur=from+(target-from)*e; el.textContent=fmt(cur); if(p<1){el._raf=requestAnimationFrame(step);}else{el._cv=target;el.textContent=fmt(target);} }
+ el._raf=requestAnimationFrame(step);
+}
+
+/* ---------- gauge geometry ---------- */
+var GMAX=0.60; // gauge scale 0~60%
+var ARC=389.6; // approx semicircle length r=124 -> pi*124
+function arcPoint(frac){
+ var ang=Math.PI*(1-frac); // 180deg -> 0deg
+ return {x:160+124*Math.cos(ang), y:168-124*Math.sin(ang)};
+}
+function setGauge(dsrStress, limit){
+ var arc=$("gArc");
+ var f=Math.max(0,Math.min(1,dsrStress/GMAX));
+ var col=(dsrStress<=limit+1e-9)?"#5E8C7F":"#B85060";
+ arc.setAttribute("stroke",col);
+ arc.style.strokeDasharray=ARC;
+ arc.style.strokeDashoffset=ARC*(1-f);
+ // limit tick
+ var fl=Math.max(0,Math.min(1,limit/GMAX));
+ var pIn=function(r){ var ang=Math.PI*(1-fl); return {x:160+r*Math.cos(ang), y:168-r*Math.sin(ang)}; };
+ var a=pIn(108), b=pIn(140);
+ var tk=$("gTick"); tk.setAttribute("x1",a.x.toFixed(1)); tk.setAttribute("y1",a.y.toFixed(1)); tk.setAttribute("x2",b.x.toFixed(1)); tk.setAttribute("y2",b.y.toFixed(1));
+ var t=pIn(154); var tt=$("gTickT"); tt.setAttribute("x",t.x.toFixed(1)); tt.setAttribute("y",(t.y-4).toFixed(1));
+}
+
+/* ---------- main compute ---------- */
+function compute(){
+ var d=calc(S);
+ // default wish = stress limit (until user touches)
+ if(!S.wishTouched){ S.wish=d.maxStr; var ev=Math.max(0,Math.min(12, d.maxStr/1e8)); $("wish").value=(Math.round(ev*10)/10); $("wishV").textContent=fmtEokMan(S.wish); }
+
+ // hero
+ countUp($("maxLoan"), d.maxStr, fmtEokMan);
+ countUp($("rbG"), d.maxStr, fmtEokMan);
+ countUp($("kCap"), d.capMon, fmtMon);
+ countUp($("kPay"), d.firstPay, fmtMon);
+ countUp($("kCut"), d.cut, fmtEokMan);
+
+ var rb=$("recoBand"); rb.classList.remove("good","warn");
+ if(d.maxStr<=0){
+  rb.classList.add("warn"); $("rbCrown").textContent="⚠️";
+  $("rbK").textContent="추가 대출 여력이 없어요";
+  $("rbP").textContent="기존 대출의 월 상환액이 이미 DSR 한도를 다 쓰고 있어요. 기존 빚을 줄이거나 소득이 늘어야 주택담보대출 여력이 생겨요.";
+ } else {
+  var mult=d.maxStr/d.incWon;
+  $("rbCrown").textContent="🏦";
+  $("rbK").textContent="최대 대출 가능액 (추정)";
+  var payRatio=d.firstPay*12/d.incWon;
+  var tone = payRatio>0.33 ? "warn" : (payRatio<0.22 ? "good" : "");
+  if(tone) rb.classList.add(tone);
+  $("rbP").innerHTML="부부 합산 연소득 <b>"+fmtMan(d.incWon)+"</b>에 스트레스 가산 <b>"+(S.stress*100).toFixed(2).replace(/\.?0+$/,"")+"%p</b>를 반영하면 최대 약 <b>"+fmtEokMan(d.maxStr)+"</b>까지 빌릴 수 있어요(연소득의 약 "+ (Math.round(mult*10)/10) +"배). 실제 첫 달 상환은 <b>"+fmtMon(d.firstPay)+"</b> — "+(payRatio>0.33?"소득 대비 부담이 큰 편이라 한도보다 보수적으로 잡는 걸 권해요.":(payRatio<0.22?"비교적 여유 있는 수준이에요.":"무리한 수준은 아니지만 생활비·비상금을 함께 보세요."))+" 한도가 곧 '적정 대출'은 아니에요.";
+ }
+
+ // stress bars
+ var base=Math.max(d.maxPlain, 1);
+ $("barOff").style.width="100%"; $("barOffV").textContent=fmtEokMan(d.maxPlain);
+ $("barOn").style.width=(Math.max(6,(d.maxStr/base*100)))+"%"; $("barOnV").textContent=fmtEokMan(d.maxStr);
+ $("cutV").textContent=fmtEokMan(d.cut);
+ if(S.stress<=0){
+  $("cutNote").innerHTML="지금은 가산금리 0%p(순수 고정·주기형 가정)라 스트레스로 깎이는 한도가 <b>없어요</b>. 변동금리(⑤를 1.5%p로)로 바꾸면 한도가 어떻게 줄어드는지 비교해 보세요.";
+ } else {
+  var pct=d.maxPlain>0?Math.round(d.cut/d.maxPlain*100):0;
+  $("cutNote").innerHTML="스트레스 가산 <b>"+(S.stress*100).toFixed(2).replace(/\.?0+$/,"")+"%p</b> 하나로 한도가 <b>"+fmtEokMan(d.cut)+"</b>("+pct+"%) 줄었어요. \"1억 연봉인데 주담대 수천만 원이 뚝\"이라는 뉴스가 바로 이 효과예요 — 금리가 올라도 갚을 수 있는 선까지만 빌려주려는 거죠.";
+ }
+
+ // gauge
+ var lim=S.dsr;
+ var dStress=dsrFor(S.wish, d.iStr, d.n, d.existMon, d.incWon);
+ var dReal=dsrFor(S.wish, d.iReal, d.n, d.existMon, d.incWon);
+ setGauge(dStress, lim);
+ countUp($("dsrPct"), dStress*100, function(v){return v.toFixed(1)+"%";});
+ $("dsrStressV").textContent=(dStress*100).toFixed(1)+"%";
+ $("dsrRealV").textContent=(dReal*100).toFixed(1)+"%";
+ $("limLbl").textContent=Math.round(lim*100)+"%";
+ var ok=dStress<=lim+1e-9;
+ var gv=$("gVerdict"); gv.className="gverdict "+(ok?"ok":"no");
+ gv.textContent=ok? "✓ 승인 가능 범위" : "✗ 한도 초과";
+ var wishM=monthPay(S.wish, d.iReal, d.n);
+ if(S.wish<=0){
+  $("dsrNote").innerHTML="대출액을 0으로 두면 DSR도 0이에요. 슬라이더나 칩으로 받고 싶은 금액을 올려 보세요.";
+ } else if(ok){
+  $("dsrNote").innerHTML="이 금액(<b>"+fmtEokMan(S.wish)+"</b>)이면 규제 판정 DSR <b>"+(dStress*100).toFixed(1)+"%</b>로 한도 "+Math.round(lim*100)+"% 안에 들어와요. 실제로 내는 첫 달 상환은 <b>"+fmtMon(wishM)+"</b>(체감 DSR "+(dReal*100).toFixed(1)+"%)예요.";
+ } else {
+  $("dsrNote").innerHTML="이 금액(<b>"+fmtEokMan(S.wish)+"</b>)은 규제 판정 DSR <b>"+(dStress*100).toFixed(1)+"%</b>로 한도 "+Math.round(lim*100)+"%를 넘어 <b>그대로는 승인이 어려워요</b>. 만기를 늘리거나(④), 기존 빚을 줄이거나, 금액을 낮춰 보세요.";
+ }
+
+ // term sensitivity (한도 with stress, at each term) + total interest at that term/limit (real rate)
+ var terms=[20,30,40];
+ var res=terms.map(function(tm){
+  var nn=tm*12; var P=maxPrincipal(d.capMon, d.iStr, nn);
+  var pay=monthPay(P, d.iReal, nn); var tot=pay*nn; var interest=tot-P;
+  return {tm:tm,P:P,interest:interest};
+ });
+ var mx=Math.max(res[0].P,res[1].P,res[2].P,1);
+ var ids=["t20","t30","t40"];
+ res.forEach(function(r,k){
+  $(ids[k]+"bar").style.width=(Math.max(6,r.P/mx*100))+"%";
+  $(ids[k]+"v").innerHTML=fmtEokMan(r.P)+"<small>총이자 "+fmtEokMan(r.interest)+"</small>";
+ });
+ var gap=res[2].P-res[0].P, gapI=res[2].interest-res[0].interest;
+ $("termNote").innerHTML="20년 → 40년으로 늘리면 한도는 <b>"+fmtEokMan(gap)+"</b> 커지지만, 갚는 총이자는 <b>"+fmtEokMan(gapI)+"</b> 더 늘어요. 한도가 급하면 만기를 늘리되, '이자를 두 배로 내고 산 집'이 되지 않게 여력이 생기면 중도상환도 같이 생각해 보세요.";
+}
+
+/* ---------- input wiring ---------- */
+function parseNum(el,fallback){ var v=parseFloat((el.value||"").toString().replace(/[, ]/g,"")); return isNaN(v)?fallback:v; }
+function setSeg(id,val){ Array.prototype.forEach.call($(id).children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-val)<1e-9); }); }
+
+$("income").addEventListener("input",function(){ S.income=Math.max(0,parseNum(this,0)); Array.prototype.forEach.call($("chInc").children,function(b){ b.classList.toggle("on", parseFloat(b.getAttribute("data-v"))===S.income); }); S.wishTouched=false; compute(); });
+Array.prototype.forEach.call($("chInc").children,function(b){ b.addEventListener("click",function(){ S.income=parseFloat(b.getAttribute("data-v")); $("income").value=S.income; Array.prototype.forEach.call($("chInc").children,function(x){x.classList.toggle("on",x===b);}); S.wishTouched=false; compute(); }); });
+
+$("exist").addEventListener("input",function(){ S.exist=Math.max(0,parseNum(this,0)); Array.prototype.forEach.call($("chExist").children,function(b){ b.classList.toggle("on", parseFloat(b.getAttribute("data-v"))===S.exist); }); S.wishTouched=false; compute(); });
+Array.prototype.forEach.call($("chExist").children,function(b){ b.addEventListener("click",function(){ S.exist=parseFloat(b.getAttribute("data-v")); $("exist").value=S.exist; Array.prototype.forEach.call($("chExist").children,function(x){x.classList.toggle("on",x===b);}); S.wishTouched=false; compute(); }); });
+
+$("rate").addEventListener("input",function(){ S.rate=parseFloat(this.value)/100; $("rateV").textContent=(S.rate*100).toFixed(1)+"%"; Array.prototype.forEach.call($("chRate").children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-S.rate*100)<0.01); }); S.wishTouched=false; compute(); });
+Array.prototype.forEach.call($("chRate").children,function(b){ b.addEventListener("click",function(){ S.rate=parseFloat(b.getAttribute("data-v"))/100; $("rate").value=(S.rate*100); $("rateV").textContent=(S.rate*100).toFixed(1)+"%"; Array.prototype.forEach.call($("chRate").children,function(x){x.classList.toggle("on",x===b);}); S.wishTouched=false; compute(); }); });
+
+Array.prototype.forEach.call($("segTerm").children,function(b){ b.addEventListener("click",function(){ S.term=parseInt(b.getAttribute("data-v"),10); setSeg("segTerm",S.term); S.wishTouched=false; compute(); }); });
+Array.prototype.forEach.call($("segStress").children,function(b){ b.addEventListener("click",function(){ S.stress=parseFloat(b.getAttribute("data-v"))/100; setSeg("segStress",S.stress*100); S.wishTouched=false; compute(); }); });
+Array.prototype.forEach.call($("segDsr").children,function(b){ b.addEventListener("click",function(){ S.dsr=parseFloat(b.getAttribute("data-v"))/100; setSeg("segDsr",S.dsr*100); S.wishTouched=false; compute(); }); });
+
+$("wish").addEventListener("input",function(){ S.wishTouched=true; S.wish=parseFloat(this.value)*1e8; $("wishV").textContent=fmtEokMan(S.wish); Array.prototype.forEach.call($("chWish").children,function(x){x.classList.remove("on");}); compute(); });
+Array.prototype.forEach.call($("chWish").children,function(b){ b.addEventListener("click",function(){ var v=b.getAttribute("data-v");
+ if(v==="fit"){ S.wishTouched=false; } else { S.wishTouched=true; S.wish=parseFloat(v)*1e8; $("wish").value=parseFloat(v); $("wishV").textContent=fmtEokMan(S.wish); }
+ Array.prototype.forEach.call($("chWish").children,function(x){x.classList.toggle("on",x===b);}); compute(); }); });
+
+/* ---------- localStorage ---------- */
+function loadStore(){ try{var r=localStorage.getItem(LSKEY); return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveStore(a){ try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){} }
+function renderSaves(){
+ var box=$("saveList"); var arr=loadStore(); box.innerHTML="";
+ arr.forEach(function(it,i){
+  var d=document.createElement("div"); d.className="saveitem";
+  d.innerHTML='<span class="si-n">'+(it.name||"시나리오").replace(/</g,"&lt;")+'</span><span class="si-m">'+it.meta+'</span><span class="si-x" data-i="'+i+'">✕</span>';
+  d.addEventListener("click",function(e){ if(e.target.classList.contains("si-x")) return;
+   S.income=it.income;S.exist=it.exist;S.rate=it.rate;S.term=it.term;S.stress=it.stress;S.dsr=it.dsr;
+   $("income").value=S.income; $("exist").value=S.exist; $("rate").value=S.rate*100; $("rateV").textContent=(S.rate*100).toFixed(1)+"%";
+   setSeg("segTerm",S.term); setSeg("segStress",S.stress*100); setSeg("segDsr",S.dsr*100);
+   Array.prototype.forEach.call($("chInc").children,function(b){ b.classList.toggle("on", parseFloat(b.getAttribute("data-v"))===S.income); });
+   Array.prototype.forEach.call($("chExist").children,function(b){ b.classList.toggle("on", parseFloat(b.getAttribute("data-v"))===S.exist); });
+   Array.prototype.forEach.call($("chRate").children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-S.rate*100)<0.01); });
+   S.wishTouched=false; compute(); window.scrollTo({top:0,behavior:"smooth"});
+  });
+  box.appendChild(d);
+ });
+ Array.prototype.forEach.call(box.querySelectorAll(".si-x"),function(x){ x.addEventListener("click",function(){ var arr2=loadStore(); arr2.splice(parseInt(this.getAttribute("data-i"),10),1); saveStore(arr2); renderSaves(); }); });
+}
+$("saveBtn").addEventListener("click",function(){
+ var d=calc(S);
+ var nm=($("saveName").value||"").trim() || (fmtMan(d.incWon)+"·"+fmtEokMan(d.maxStr)+"·"+S.term+"년");
+ var meta="한도 "+fmtEokMan(d.maxStr)+" · 월 "+fmtMon(d.firstPay)+" · 가산 "+(S.stress*100).toFixed(2).replace(/\.?0+$/,"")+"%p";
+ var arr=loadStore(); arr.unshift({name:nm,meta:meta,income:S.income,exist:S.exist,rate:S.rate,term:S.term,stress:S.stress,dsr:S.dsr});
+ saveStore(arr); $("saveName").value=""; renderSaves();
+});
+
+/* ---------- reveal + header ---------- */
+var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); },{threshold:.12});
+Array.prototype.forEach.call(document.querySelectorAll(".reveal"),function(el){ io.observe(el); });
+window.addEventListener("scroll",function(){ $("hdr").classList.toggle("scrolled",window.scrollY>10); });
+
+/* ---------- init ---------- */
+renderSaves();
+compute();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

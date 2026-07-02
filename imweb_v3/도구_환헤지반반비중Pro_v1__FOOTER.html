@@ -1,0 +1,345 @@
+<!-- [도구_환헤지반반비중Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+var tt=d.getElementById('toTop');if(tt){addEventListener('scroll',function(){tt.classList.toggle('show',scrollY>520);},{passive:true});tt.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'});});}
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
+d.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+})();
+
+var $=function(id){return document.getElementById(id);};
+function fmtWon(n){return Math.round(n).toLocaleString('ko-KR');}
+function fmtEok(n){var neg=n<0;n=Math.abs(Math.round(n));var eok=Math.floor(n/100000000),man=Math.round((n%100000000)/10000);var s='';if(eok>0)s+=eok+'억';if(man>0)s+=(eok>0?' ':'')+man.toLocaleString('ko-KR')+'만';if(!s)s='0';return (neg?'-':'')+s+'원';}
+function countWon(el,to,dur){if(!el)return;to=+to;dur=dur||850;var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=fmtWon(to*e)+'원';if(p<1)requestAnimationFrame(s);else el.textContent=fmtWon(to)+'원';}requestAnimationFrame(s);}
+function countTxt(el,to,suf,dur){if(!el)return;to=+to;dur=dur||750;suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e)+suf;if(p<1)requestAnimationFrame(s);else el.textContent=to+suf;}requestAnimationFrame(s);}
+function fmtPct(x){var r=Math.round(x*100)/100;return (r%1===0?r.toFixed(0):r.toFixed(2).replace(/0$/,''))+'%';}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+
+/* ===== constants (real data, 2026-06-04) ===== */
+var SPY=754.70;     // SPY reference price (USD), prev close 759.57
+var FX_LIVE=1534.79;   // USD/KRW live (1,534.79)
+var SCEN=5;         // scenario band +/- %/yr used for volatility + fan
+
+/* ===== state ===== */
+var R={prin:1000, years:5, ret:7, v:0, hc:1.25, e0:1535, w:50};
+
+/* ===== core compute ===== */
+function compute(){
+ var P=R.prin*10000, y=R.years;
+ var rA=R.ret/100, hc=R.hc/100, v=R.v/100, w=R.w/100;
+ var fA=Math.pow(1+rA,y);
+ var fH=Math.pow(1-hc,y);
+ var fV=Math.pow(1+v,y);
+ var hedged=P*fA*fH;          // w=100%
+ var unhedged=P*fA*fV;        // w=0%
+ var blended=w*hedged+(1-w)*unhedged;  // exact linear blend
+ var assetProfit=P*(fA-1);            // common
+ var fxProfitFull=P*fA*(fV-1);        // unhedged-only (full)
+ var hedgeDragFull=P*fA*(fH-1);       // hedged-only (full, <=0)
+ var fxProfit=(1-w)*fxProfitFull;     // blended FX contribution
+ var hedgeDrag=w*hedgeDragFull;       // blended hedge cost
+ var diffUH=unhedged-hedged;          // 0% vs 100%
+ var beV=-hc;                         // breakeven annual FX (decimal)
+ /* scenario helpers */
+ function unhAt(spct){return P*fA*Math.pow(1+spct/100,y);}
+ function blendAt(spct,ww){return ww*hedged+(1-ww)*unhAt(spct);}
+ var bandWeak=blendAt(SCEN,w), bandStrong=blendAt(-SCEN,w);
+ var bandWidth=Math.abs(bandWeak-bandStrong);            // ∝ (1-w)
+ var bandWidthFull=Math.abs(unhAt(SCEN)-unhAt(-SCEN));   // at w=0
+ var expRatio=1-w, expAmtNow=(1-w)*P, expAmtFV=(1-w)*P*fA;
+ /* regrets at current w */
+ var regExp=Math.max(0, hedged-blendAt(-SCEN,w));  // vs 100% when 원화 강세
+ var regHed=Math.max(0, unhedged*Math.pow(1,0) , 0); // placeholder, set below
+ regHed=Math.max(0, unhAt(SCEN)-blendAt(SCEN,w));   // vs 0% when 원화 약세
+ return {P:P,y:y,rA:rA,hc:hc,v:v,w:w,fA:fA,fH:fH,fV:fV,
+  hedged:hedged,unhedged:unhedged,blended:blended,
+  assetProfit:assetProfit,fxProfit:fxProfit,hedgeDrag:hedgeDrag,
+  fxProfitFull:fxProfitFull,hedgeDragFull:hedgeDragFull,
+  diffUH:diffUH,beV:beV,bandWeak:bandWeak,bandStrong:bandStrong,bandWidth:bandWidth,bandWidthFull:bandWidthFull,
+  expRatio:expRatio,expAmtNow:expAmtNow,expAmtFV:expAmtFV,regExp:regExp,regHed:regHed,
+  unhAt:unhAt,blendAt:blendAt,
+  roiB:P>0?(blended-P)/P*100:0};
+}
+
+/* ===== render ===== */
+function render(animate){
+ var D=compute();
+ var yT=D.y+'년';
+
+ /* hero big */
+ $('hbW').textContent=R.w;$('hbY').textContent=D.y;
+ if(animate)countWon($('hbV'),D.blended);else $('hbV').textContent=fmtWon(D.blended)+'원';
+ $('hbS').innerHTML='수익률 '+(D.roiB>=0?'+':'')+D.roiB.toFixed(1)+'% · 환노출 '+Math.round(D.expRatio*100)+'% 남김 · 변동성 폭 ±'+fmtEok(D.bandWidth/2);
+
+ /* reco */
+ var crown=$('recoCrown'), g=$('recoG'), p=$('recoP');
+ var wPct=R.w;
+ var leanHedge=D.diffUH<0;  // hedged beats unhedged at scenario v
+ var tie=D.P>0 && Math.abs(D.diffUH)/D.P<0.006;
+ var beShown=(D.hc>=0)?('원화 매년 '+fmtPct(D.hc*100)+'보다 강세'):('원화 매년 '+fmtPct(-D.hc*100)+'보다 약세');
+ if(wPct===50){
+  crown.textContent='🤝';
+  g.innerHTML='<span style="color:var(--rose)">반반(50%)</span> — 두 후회를 절반씩 나눠 가져요';
+  p.innerHTML=yT+' 뒤 평가액 <b>'+fmtEok(D.blended)+'</b>. 환노출은 절반만 남고, 헤지비용도 절반만 내요. 환율이 어디로 갈지 확신이 없을 때 <b>가장 무던한 선택</b>이에요. 강한 가정이 있다면 슬라이더를 그쪽으로 조금 기울여 보세요.';
+ }else if(wPct===0){
+  crown.textContent='🌊';
+  g.innerHTML='<span style="color:var(--sage)">0% · 전부 노출(언헤지)</span> — 비용 0, 출렁임 전부';
+  p.innerHTML=yT+' 뒤 평가액 <b>'+fmtEok(D.blended)+'</b>. 헤지비용을 한 푼도 안 내는 대신 환율 위험을 통째로 떠안아요. 원화 약세에 베팅하거나, 달러를 '+'위기 방어막'+'으로 보는 가정이에요.';
+ }else if(wPct===100){
+  crown.textContent='🛡️';
+  g.innerHTML='<span style="color:var(--rose)">100% · 전부 덮기</span> — 환율 영향 0(확정)';
+  p.innerHTML=yT+' 뒤 평가액 <b>'+fmtEok(D.blended)+'</b>로 환율이 어디로 가든 같아요(확정). 대신 매년 헤지비용 '+fmtPct(D.hc*100)+'을 꼬박 내요. 변동성을 0으로 만드는 가장 비싼 보험이에요.';
+ }else if(wPct<50){
+  crown.textContent='🌊';
+  g.innerHTML='<span style="color:var(--sage)">'+wPct+'% · 노출 쪽으로</span> 기운 부분 헤지';
+  p.innerHTML=yT+' 뒤 평가액 <b>'+fmtEok(D.blended)+'</b>. 환노출을 <b>'+Math.round(D.expRatio*100)+'%</b> 남겨 비용을 아꼈어요. 원화 약세를 더 기대하는 가정이라면 어울려요. 다만 원화가 강세로 가면 100% 대비 <b>'+fmtEok(D.regExp)+'</b>까지 덜 받을 수 있어요.';
+ }else{
+  crown.textContent='🛡️';
+  g.innerHTML='<span style="color:var(--rose)">'+wPct+'% · 헤지 쪽으로</span> 기운 부분 헤지';
+  p.innerHTML=yT+' 뒤 평가액 <b>'+fmtEok(D.blended)+'</b>. 환율 출렁임을 많이 눌렀어요(노출 '+Math.round(D.expRatio*100)+'%만 남김). 원화 강세가 걱정되는 가정이라면 어울려요. 다만 원화가 약세로 가면 0% 대비 <b>'+fmtEok(D.regHed)+'</b>까지 덜 받을 수 있어요.';
+ }
+
+ /* kpi */
+ if(animate){countWon($('kpV'),D.blended);}
+ else{$('kpV').textContent=fmtWon(D.blended)+'원';}
+ $('kpVs').textContent='수익률 '+(D.roiB>=0?'+':'')+D.roiB.toFixed(1)+'% · '+R.w+'% 덮음';
+ if(animate)countTxt($('kpExp'),Math.round(D.expRatio*100),'%');else $('kpExp').textContent=Math.round(D.expRatio*100)+'%';
+ $('kpExps').innerHTML='약 '+fmtEok(D.expAmtFV)+' 어치가 환율에 열림';
+ $('kpBand').textContent='±'+fmtEok(D.bandWidth/2);
+ $('kpBands').innerHTML=(D.w>=0.999?'환율과 무관 · 확정':'100%면 0 · 0%면 ±'+fmtEok(D.bandWidthFull/2));
+
+ /* split */
+ $('splitExpPct').textContent=Math.round(D.expRatio*100);
+ $('splitHedPct').textContent=R.w;
+ renderSplit(D,animate);
+ var fxTxt=D.fxProfit>=0?('<b style="color:var(--sage)">+'+fmtEok(D.fxProfit)+'</b>'):('<b style="color:var(--up)">−'+fmtEok(Math.abs(D.fxProfit))+'</b>');
+ $('eqB').innerHTML='이 비중 평가액 <b>'+fmtEok(D.blended)+'</b> = 원금 '+fmtEok(D.P)+' + 자산손익 <b style="color:var(--lav)">+'+fmtEok(D.assetProfit)+'</b> + 환율손익×'+Math.round(D.expRatio*100)+'% '+fxTxt+' − 헤지비용×'+R.w+'% <b style="color:var(--up)">'+fmtEok(Math.abs(D.hedgeDrag))+'</b>.';
+
+ /* ratio fan + scenario + zone */
+ drawFan(D,animate);
+ $('rfTail').textContent=yT+' 뒤 · 지금 '+R.w+'% → '+fmtEok(D.blended);
+ var rdLean = leanHedge?('이 환율 가정에선 <b>더 덮을수록</b> 평가액이 올라가요(우상향). 단 변동성도 함께 줄죠.')
+   :(Math.abs(D.diffUH)/D.P<0.006?'이 환율 가정은 손익분기 부근이라, 비중을 바꿔도 <b>기대 평가액은 거의 그대로</b>예요. 그렇다면 변동성을 줄이는 쪽(높은 비중)이 '+'덤'+'이에요.':'이 환율 가정에선 <b>덜 덮을수록</b> 기대 평가액이 올라가요(우하향). 대신 출렁임 폭(부채꼴)도 커져요.');
+ $('rfRead').innerHTML='📐 세 선은 비중에 따라 <b>곧게</b> 움직여요. 오른쪽 끝(100%)에서 셋이 한 점(확정값)으로 모이는 게 핵심 — <b>덮을수록 부채꼴(출렁임)이 닫혀요</b>. '+rdLean;
+
+ renderScen(D);
+ renderZone(D);
+}
+
+function renderSplit(D,animate){
+ var box=$('splitBars');box.innerHTML='';
+ var rows=[
+  ['원금','var(--mut)',D.P,''],
+  ['자산손익(공통)','var(--lav)',D.assetProfit,'비중과 무관'],
+  ['+ 환율손익 × 노출','var(--sage)',D.fxProfit,'노출 비중만큼만'],
+  ['− 헤지비용 × 덮음','var(--up)',D.hedgeDrag,'덮은 비중만큼만']
+ ];
+ var mx=Math.max(D.P,Math.abs(D.assetProfit),Math.abs(D.fxProfit),Math.abs(D.hedgeDrag),1)*1.1;
+ rows.forEach(function(it){
+  var row=document.createElement('div');row.className='barseg';
+  var sign=it[2]<0?'−':(it[0]==='원금'?'':'+');
+  row.innerHTML='<div class="bl"><span class="pin" style="background:'+it[1]+'"></span>'+it[0]+'</div>'+
+   '<div class="barbox"><i></i></div>'+
+   '<div class="bv" style="color:'+it[1]+'">'+sign+fmtEok(Math.abs(it[2]))+'</div>';
+  box.appendChild(row);
+  var bar=row.querySelector('i');bar.style.background=it[1];
+  var w=Math.max(2,Math.abs(it[2])/mx*100);
+  (function(b,pc){if(animate){requestAnimationFrame(function(){b.style.width=pc+'%';});}else{b.style.width=pc+'%';}})(bar,w);
+ });
+}
+
+/* ===== ratio fan chart ===== */
+function drawFan(D,animate){
+ var W=760,H=320,pl=60,pr=18,pt=18,pb=34;
+ var iw=W-pl-pr, ih=H-pt-pb;
+ var N=21; // w = 0,5,...,100
+ var weak=[],base=[],strong=[];
+ for(var i=0;i<N;i++){var ww=i/(N-1);weak.push(D.blendAt(SCEN,ww));base.push(D.blendAt(0,ww));strong.push(D.blendAt(-SCEN,ww));}
+ var allv=weak.concat(base).concat(strong).concat([D.P]);
+ var maxY=Math.max.apply(null,allv), minY=Math.min.apply(null,allv);
+ var baseY=Math.min(D.P*0.85,minY*0.94); if(baseY<0)baseY=0;
+ var top=maxY*1.02;
+ var grid=$('rfGrid'),fan=$('rfFan'),paths=$('rfpaths'),now=$('rfNow'),dots=$('rfDots'),labs=$('rfLabs');
+ grid.innerHTML='';fan.innerHTML='';paths.innerHTML='';now.innerHTML='';dots.innerHTML='';labs.innerHTML='';
+ function X(i){return pl+iw*(i/(N-1));}
+ function Y(v){return pt+ih*(1-(v-baseY)/(top-baseY));}
+ var steps=4;
+ for(var s=0;s<=steps;s++){
+  var gv=baseY+(top-baseY)*s/steps, gy=Y(gv);
+  grid.innerHTML+='<line x1="'+pl+'" y1="'+gy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+gy.toFixed(1)+'" stroke="var(--border)" stroke-width="1" stroke-dasharray="'+(s===0?'0':'3 5')+'"/>';
+  labs.innerHTML+='<text x="'+(pl-8)+'" y="'+(gy+4).toFixed(1)+'" text-anchor="end" font-size="11" font-weight="700" fill="var(--mut)">'+kShort(gv)+'</text>';
+ }
+ var xt=[0,25,50,75,100];
+ xt.forEach(function(xp){var i=xp/100*(N-1),x=X(i);
+  labs.innerHTML+='<text x="'+x.toFixed(1)+'" y="'+(H-10)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--mut)">'+xp+'%</text>';});
+ labs.innerHTML+='<text x="'+((pl+W-pr)/2).toFixed(1)+'" y="'+(H+0)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--mut)" opacity="0">.</text>';
+ function path(arr){var s='';for(var i=0;i<N;i++){s+=(i===0?'M':'L')+X(i).toFixed(1)+' '+Y(arr[i]).toFixed(1);}return s;}
+ /* fan area between weak(top) and strong(bottom) */
+ var area='M'+X(0).toFixed(1)+' '+Y(weak[0]).toFixed(1);
+ for(var i=1;i<N;i++)area+='L'+X(i).toFixed(1)+' '+Y(weak[i]).toFixed(1);
+ for(var j=N-1;j>=0;j--)area+='L'+X(j).toFixed(1)+' '+Y(strong[j]).toFixed(1);
+ area+='Z';
+ fan.innerHTML='<path d="'+area+'" fill="var(--lav)" opacity="0.13"/>';
+ /* lines */
+ paths.innerHTML='<path id="rfW" d="'+path(weak)+'" fill="none" stroke="var(--up)" stroke-width="2.6" stroke-linecap="round"/>'+
+  '<path id="rfB" d="'+path(base)+'" fill="none" stroke="var(--mut)" stroke-width="2.2" stroke-dasharray="1 0" opacity=".8"/>'+
+  '<path id="rfS" d="'+path(strong)+'" fill="none" stroke="var(--down)" stroke-width="2.6" stroke-linecap="round"/>';
+ if(animate){['rfW','rfB','rfS'].forEach(function(id){var vp=$(id);var len=vp.getTotalLength();vp.style.strokeDasharray=len;vp.style.strokeDashoffset=len;requestAnimationFrame(function(){vp.style.strokeDashoffset=0;});});}
+ /* current w marker */
+ var iw0=R.w/100*(N-1), xc=X(iw0);
+ now.innerHTML='<line x1="'+xc.toFixed(1)+'" y1="'+pt+'" x2="'+xc.toFixed(1)+'" y2="'+(pt+ih)+'" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="4 4" opacity=".55"/>'+
+  '<text x="'+xc.toFixed(1)+'" y="'+(pt-4)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">지금 '+R.w+'%</text>';
+ dots.innerHTML='<circle cx="'+xc.toFixed(1)+'" cy="'+Y(D.blendAt(SCEN,R.w/100)).toFixed(1)+'" r="4.5" fill="var(--up)" stroke="#fff" stroke-width="2"/>'+
+  '<circle cx="'+xc.toFixed(1)+'" cy="'+Y(D.blendAt(0,R.w/100)).toFixed(1)+'" r="4.5" fill="var(--mut)" stroke="#fff" stroke-width="2"/>'+
+  '<circle cx="'+xc.toFixed(1)+'" cy="'+Y(D.blendAt(-SCEN,R.w/100)).toFixed(1)+'" r="4.5" fill="var(--down)" stroke="#fff" stroke-width="2"/>';
+}
+function kShort(v){if(v>=100000000)return (v/100000000).toFixed(v>=1000000000?0:1)+'억';if(v>=10000)return Math.round(v/10000)+'만';return Math.round(v);}
+
+/* ===== scenario table ===== */
+function renderScen(D){
+ var box=$('scenTbl');box.innerHTML='';
+ var cols=[{v:-SCEN,t:'원화 강세',e:'📉',s:'−'+SCEN+'%/년'},{v:0,t:'환율 보합',e:'➡️',s:'0%'},{v:SCEN,t:'원화 약세',e:'📈',s:'+'+SCEN+'%/년'}];
+ var topcol=['var(--down)','var(--mut)','var(--up)'];
+ cols.forEach(function(c,idx){
+  var bl=D.blendAt(c.v,R.w/100);
+  var u0=D.unhAt(c.v);
+  var el=document.createElement('div');el.className='scc';el.style.borderTopColor=topcol[idx];
+  el.innerHTML='<div class="sct">'+c.e+' '+c.t+'</div><div class="scsub">'+c.s+'</div>'+
+   '<div class="scrow hi"><span>지금 '+R.w+'% 비중</span><span class="v">'+fmtEok(bl)+'</span></div>'+
+   '<div class="scrow"><span>참고 · 0% 노출</span><span class="v" style="color:var(--mut)">'+fmtEok(u0)+'</span></div>'+
+   '<div class="scrow"><span>참고 · 100% 덮기</span><span class="v" style="color:var(--mut)">'+fmtEok(D.hedged)+'</span></div>'+
+   '<div class="scnote">100% 칸은 어느 시나리오든 같아요(확정)</div>';
+  box.appendChild(el);
+ });
+}
+
+/* ===== recommended zone ===== */
+function renderZone(D){
+ /* neutral 50, tilt by how far view (v) is from breakeven */
+ var gap=R.v-(D.beV*100);            // %/yr above breakeven → favor exposure (lower w)
+ var center=clamp(50-gap*6.25,0,100);
+ var half=15;
+ var lo=clamp(center-half,0,100), hi=clamp(center+half,0,100);
+ var band=$('zoneBand');
+ band.style.left=lo+'%';band.style.width=(hi-lo)+'%';
+ $('zoneCur').style.left=R.w+'%';
+ var centerR=Math.round(center/5)*5;
+ var read;
+ var inZone=(R.w>=lo-0.001 && R.w<=hi+0.001);
+ if(Math.abs(gap)<1.2){
+  read='지금 환율 가정은 손익분기 부근이라 <b>뚜렷한 한쪽이 없어요</b>. 그럴 땐 <em>50% 반반</em>이 후회를 가장 고르게 나눠요. 변동성이 부담되면 조금 더 덮어도 좋아요.';
+ }else if(gap>0){
+  read='원화 <b>약세</b>를 더 기대하는 가정이에요(손익분기보다 +'+fmtPct(gap)+'). 그렇다면 노출을 좀 더 남기는 <em>'+centerR+'% 부근</em>이 어울려요. 다만 반대로 가면 후회가 커지니 0%까지 몰지는 마세요.';
+ }else{
+  read='원화 <b>강세</b>가 더 걱정되는 가정이에요(손익분기보다 '+fmtPct(gap)+'). 그렇다면 좀 더 덮는 <em>'+centerR+'% 부근</em>이 어울려요. 대신 비용이 늘고, 약세로 가면 환차익을 놓쳐요.';
+ }
+ read+=' · 지금 당신은 <em>'+R.w+'%</em>'+(inZone?' — 구간 안이에요 👍':' — 구간 '+(R.w<lo?'아래(더 노출)':'위(더 헤지)')+'예요');
+ $('zoneRead').innerHTML=read;
+ /* regret cards */
+ $('regExpV').textContent=(D.regExp>0?'−':'')+fmtEok(D.regExp);
+ $('regHedV').textContent=(D.regHed>0?'−':'')+fmtEok(D.regHed);
+}
+
+/* ===== inputs ===== */
+function clampInt(el,min,max){var v=Math.round(+(el.value.replace(/[^0-9]/g,''))||0);if(v<min)v=min;if(v>max)v=max;return v;}
+function clampFloat(el,min,max){var v=parseFloat((el.value+'').replace(/[^0-9.\-]/g,''));if(isNaN(v))v=0;if(v<min)v=min;if(v>max)v=max;return v;}
+function bind(){
+ $('inPrin').addEventListener('input',function(){R.prin=clampInt(this,10,100000);setChips('chPrin',R.prin);render(false);});
+ $('inPrin').addEventListener('blur',function(){this.value=R.prin;});
+ document.querySelectorAll('#chPrin .chip').forEach(function(b){b.addEventListener('click',function(){R.prin=+b.dataset.v;$('inPrin').value=R.prin;setChips('chPrin',R.prin);render(true);});});
+
+ $('inYears').addEventListener('input',function(){R.years=+this.value;$('vYears').textContent=R.years;setChips('chYears',R.years);render(false);});
+ document.querySelectorAll('#chYears .chip').forEach(function(b){b.addEventListener('click',function(){R.years=+b.dataset.v;$('inYears').value=R.years;$('vYears').textContent=R.years;setChips('chYears',R.years);render(true);});});
+
+ document.querySelectorAll('#segRet button').forEach(function(b){b.addEventListener('click',function(){R.ret=+b.dataset.v;segOn('segRet',b);render(true);});});
+
+ $('inV').addEventListener('input',function(){R.v=+this.value;$('vVlab').textContent=vLabelShort(R.v);setChips('chV',R.v);render(false);});
+ document.querySelectorAll('#chV .chip').forEach(function(b){b.addEventListener('click',function(){R.v=+b.dataset.v;$('inV').value=R.v;$('vVlab').textContent=vLabelShort(R.v);setChips('chV',R.v);render(true);});});
+
+ $('inHc').addEventListener('input',function(){R.hc=clampFloat(this,-5,10);render(false);});
+ $('inHc').addEventListener('blur',function(){this.value=R.hc;});
+
+ $('inFx').addEventListener('input',function(){R.e0=clampInt(this,500,3000);render(false);});
+ $('inFx').addEventListener('blur',function(){this.value=R.e0;});
+
+ $('inW').addEventListener('input',function(){R.w=+this.value;$('vW').textContent=R.w;$('vWtxt').textContent=R.w;setChips('chW',R.w);render(false);});
+ document.querySelectorAll('#chW .chip').forEach(function(b){b.addEventListener('click',function(){R.w=+b.dataset.v;$('inW').value=R.w;$('vW').textContent=R.w;$('vWtxt').textContent=R.w;setChips('chW',R.w);render(true);});});
+
+ $('saveBtn').addEventListener('click',saveNow);
+}
+function vLabelShort(v){if(v>0)return '약세 +'+v+'%';if(v<0)return '강세 −'+(-v)+'%';return '보합 0%';}
+function setChips(id,v){document.querySelectorAll('#'+id+' .chip').forEach(function(b){b.classList.toggle('on',+b.dataset.v===v);});}
+function segOn(id,btn){document.querySelectorAll('#'+id+' button').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');}
+
+/* ===== localStorage ===== */
+var LSK='bbHedgeRatioPro_v1';
+function loadPlans(){try{return JSON.parse(localStorage.getItem(LSK))||[];}catch(e){return [];}}
+function savePlans(a){try{localStorage.setItem(LSK,JSON.stringify(a));}catch(e){}}
+function saveNow(){
+ var nm=($('saveName').value||'').trim()||('비중안 '+(loadPlans().length+1));
+ var a=loadPlans();
+ a.unshift({n:nm,prin:R.prin,years:R.years,ret:R.ret,v:R.v,hc:R.hc,e0:R.e0,w:R.w,ts:Date.now()});
+ if(a.length>8)a=a.slice(0,8);
+ savePlans(a);$('saveName').value='';renderSaves();
+}
+function renderSaves(){
+ var a=loadPlans(),box=$('saveList');box.innerHTML='';
+ if(!a.length){box.innerHTML='<div class="saveempty">아직 저장한 비중안이 없어요. 마음에 드는 설정을 저장해 두면 다음에 바로 불러와요.</div>';return;}
+ a.forEach(function(it,idx){
+  var fxNm=it.v>0?('약세+'+it.v+'%'):it.v<0?('강세'+it.v+'%'):'보합';
+  var el=document.createElement('div');el.className='saveitem';
+  el.innerHTML='<span class="si-n">'+esc(it.n)+'</span><span class="si-d">'+it.prin+'만·'+it.years+'년·'+it.ret+'%·'+fxNm+'·헤지'+it.w+'%</span>'+
+   '<button class="si-load" data-i="'+idx+'">불러오기</button><button class="si-del" data-i="'+idx+'">삭제</button>';
+  box.appendChild(el);
+ });
+ box.querySelectorAll('.si-load').forEach(function(b){b.addEventListener('click',function(){applyPlan(loadPlans()[+b.dataset.i]);});});
+ box.querySelectorAll('.si-del').forEach(function(b){b.addEventListener('click',function(){var a=loadPlans();a.splice(+b.dataset.i,1);savePlans(a);renderSaves();});});
+}
+function esc(s){return (s+'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function applyPlan(p){
+ if(!p)return;
+ R.prin=p.prin;R.years=p.years;R.ret=p.ret;R.v=p.v;R.hc=(p.hc==null?1.25:p.hc);R.e0=p.e0;R.w=(p.w==null?50:p.w);
+ $('inPrin').value=R.prin;setChips('chPrin',R.prin);
+ $('inYears').value=R.years;$('vYears').textContent=R.years;setChips('chYears',R.years);
+ $('inV').value=R.v;$('vVlab').textContent=vLabelShort(R.v);setChips('chV',R.v);
+ $('inHc').value=R.hc;$('inFx').value=R.e0;
+ $('inW').value=R.w;$('vW').textContent=R.w;$('vWtxt').textContent=R.w;setChips('chW',R.w);
+ document.querySelectorAll('#segRet button').forEach(function(b){b.classList.toggle('on',+b.dataset.v===R.ret);});
+ render(true);
+ document.querySelector('.hero-big').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ===== init ===== */
+bind();renderSaves();
+var started=false;
+function kick(){if(started)return;started=true;render(true);}
+if('IntersectionObserver'in window){
+ var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){kick();io2.disconnect();}});},{threshold:.2});
+ io2.observe(document.querySelector('.hero-big'));
+ setTimeout(kick,1200);
+}else{kick();}
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

@@ -1,0 +1,49 @@
+<!-- [콘텐츠_경제공부_FOMC점도표_샘플] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 4개) -->
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*revealfix*/
+(function(){var d=document;d.documentElement.classList.add('js');
+var els=[].slice.call(d.querySelectorAll('.reveal,.scene,.stag'));if(!els.length)return;
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
+els.forEach(function(e){io.observe(e);});
+setTimeout(function(){els.forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight*1.1&&r.bottom>-50)e.classList.add('in');});},1000);}
+else els.forEach(function(e){e.classList.add('in');});})();
+</script>
+<script>/*cutcalc*/
+(function(){var s=document.getElementById('cutSlider');if(!s)return;
+var UP=3.75;
+function f(){
+ var n=+s.value;var cut=n*0.25;var rate=UP-cut;var lo=(rate-0.25);
+ document.getElementById('cutN').textContent=n;
+ document.getElementById('cutOut').textContent=cut.toFixed(2);
+ document.getElementById('rateOut').textContent=rate.toFixed(2);
+ var v=document.getElementById('cutVerdict');
+ if(n===0){v.className='calc-verdict up';v.textContent='동결 = 3.75% 상단 유지. 점도표 동결파(7명)와 같은 그림 — 물가가 끈적이면 이쪽이에요.';}
+ else if(n===1){v.className='calc-verdict even';v.textContent='1회 인하 = '+rate.toFixed(2)+'% 상단('+lo.toFixed(2)+'–'+rate.toFixed(2)+'%). 2026년 3월 점도표 중앙값(3.4%)과 맞는 ‘시장 컨센서스’ 시나리오예요.';}
+ else if(n<=3){v.className='calc-verdict down';v.textContent=n+'회 인하 = '+rate.toFixed(2)+'% 상단. 점도표 비둘기파 쪽(2~3회·4명)에 가까워요. 경기가 식는 신호가 쌓여야 가능하죠.';}
+ else{v.className='calc-verdict down';v.textContent=n+'회 인하 = '+rate.toFixed(2)+'% 상단. 점도표에서 가장 비둘기(4회·1명)보다도 공격적 — 보통 침체가 와야 나오는 경로예요.';}
+}
+s.addEventListener('input',f);f();})();
+</script>

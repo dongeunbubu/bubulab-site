@@ -1,0 +1,277 @@
+<!-- [도구_비상금Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.12});
+d.querySelectorAll('.reveal,.stag,.scene').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag,.scene').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var STAB={dual:{m:3,t:'안정 맞벌이'},single:{m:5,t:'한 명 소득'},vary:{m:6,t:'변동 소득'}};
+var PRESETS={
+  newly:{ess:2500000,stab:'dual',cur:5000000,save:400000},
+  single:{ess:2800000,stab:'single',cur:4000000,save:300000},
+  dink:{ess:2200000,stab:'dual',cur:8000000,save:600000},
+  rookie:{ess:1500000,stab:'vary',cur:1000000,save:200000}
+};
+var SHOCKS=[
+  {k:'full',loss:1.0,nm:'완전 실직',sub:'소득이 0 — 생활비 전액을 비상금에서',col:'var(--up)'},
+  {k:'half',loss:0.5,nm:'소득 반토막',sub:'한 명 실직·큰 감봉 — 절반은 소득, 절반은 비상금',col:'var(--gold)'},
+  {k:'part',loss:0.3,nm:'부분 감봉',sub:'성과급 컷·근무 축소 — 30%를 비상금으로 메움',col:'var(--sage)'}
+];
+var LS='bbEmergencyPro_v1';
+var state={stab:'dual'};
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,+($(id).value.replace(/[^0-9]/g,''))||0);}
+function pkRate(){var v=parseFloat(($('pk').value+'').replace(/[^0-9.]/g,''));if(isNaN(v)||v<0)v=0;if(v>5)v=5;return v/100;}
+
+function loadRec(){try{var a=JSON.parse(localStorage.getItem(LS));return Array.isArray(a)?a:[];}catch(e){return [];}}
+function saveRec(a){try{localStorage.setItem(LS,JSON.stringify(a.slice(-24)));}catch(e){}}
+
+function buildBattery(months,runway,color,animate){
+ var box=$('barc');box.innerHTML='';
+ for(var i=0;i<months;i++){
+   var fill=Math.max(0,Math.min(1,runway-i))*100;
+   var cell=document.createElement('div');cell.className='cell';
+   var bar=document.createElement('i');bar.style.background=color;
+   var lab=document.createElement('em');lab.textContent=(i+1);
+   cell.appendChild(bar);cell.appendChild(lab);box.appendChild(cell);
+   (function(b,f){ if(animate){requestAnimationFrame(function(){b.style.height=f+'%';});} else {b.style.height=f+'%';} })(bar,fill);
+ }
+}
+
+// 충격 시나리오: 충격별 gap=ess*loss, 버티는 개월 = cur/gap
+function buildShocks(ess,cur,animate){
+ var box=$('scn');box.innerHTML='';
+ var maxScale=12; // 막대 기준 최대 개월
+ SHOCKS.forEach(function(s){
+   var gap=ess*s.loss;
+   var mo=gap>0?cur/gap:0;
+   var w=Math.max(0,Math.min(100,(mo/maxScale)*100));
+   var moTxt = mo>=maxScale ? (maxScale+'개월+') : (mo.toFixed(1)+'개월');
+   var row=document.createElement('div');row.className='row';
+   row.innerHTML='<div class="top"><span class="nm"><i class="pip" style="background:'+s.col+'"></i>'+s.nm+'</span><span class="du" style="color:'+s.col+'">'+moTxt+'</span></div>'+
+     '<div class="track"><div class="fill" style="background:'+s.col+'"></div></div>'+
+     '<div class="scale"><span>0</span><span>'+maxScale+'개월+</span></div>'+
+     '<div class="sub">'+s.sub+' · 매달 <b>'+window.fmtWon(gap)+'원</b> 빠져나가요</div>';
+   box.appendChild(row);
+   var fillEl=row.querySelector('.fill');
+   (function(el,ww){if(animate){requestAnimationFrame(function(){el.style.width=ww+'%';});}else{el.style.width=ww+'%';}})(fillEl,w);
+ });
+ // why
+ var months=STAB[state.stab].m;
+ var fullMo=ess>0?(cur/ess):0;
+ var rec=ess*months;
+ var msg='재취업은 생각보다 오래 걸려요. 최근엔 <b>1년 넘게 일자리를 못 구한 장기 구직자가 늘었고</b>(2026.2 통계청·한국일보), 첫 직장을 그만둔 청년 중 다시 취업한 비율도 60% 안팎에 그쳤어요. 그래서 "한두 달이면 되겠지"보다 <b>‘몇 달 버틸 수 있나’</b>를 기준으로 두는 거예요. ';
+ if(fullMo>=months){ msg+='지금 비상금은 완전 실직 상황에서도 <b>'+fullMo.toFixed(1)+'개월</b>을 버텨, 권장 '+months+'개월을 넘겨요. 든든해요 👏'; }
+ else { msg+='지금은 완전 실직 시 <b>'+fullMo.toFixed(1)+'개월</b>밖에 못 버텨요. 권장 '+months+'개월( '+window.fmtWon(rec)+'원 )까지 채우면 충격이 와도 빚 없이 시간을 벌 수 있어요.'; }
+ $('whyBox').innerHTML=msg;
+}
+
+// D-day: 파킹 이자 포함 월복리로 권장액 도달까지 개월수
+function ddayMonths(cur,rec,save,annual){
+ if(cur>=rec) return 0;
+ if(save<=0) return Infinity;
+ var rm=annual/12, bal=cur, n=0;
+ while(bal<rec && n<600){ bal=bal*(1+rm)+save; n++; }
+ return n>=600?Infinity:n;
+}
+
+function renderDday(cur,rec,save){
+ var annual=pkRate();
+ var big=$('ddBig'),dt=$('ddDate'),note=$('ddNote');
+ if(cur>=rec){ big.textContent='도달 완료 🎉'; dt.textContent=''; note.innerHTML='권장 비상금을 이미 채웠어요. 초과분은 다음 목표(투자·내집마련)로 옮겨도 좋아요.'; return; }
+ if(save<=0){ big.textContent='—'; dt.textContent=''; note.innerHTML='매달 넣을 금액이 0원이라 도달 시점을 계산할 수 없어요. 위에서 <b>매달 넣을 돈</b>을 올려보세요.'; return; }
+ var n=ddayMonths(cur,rec,save,annual);
+ if(n===Infinity){ big.textContent='—'; dt.textContent=''; note.innerHTML='입력 조건으로는 50년 안에 도달이 어려워요. 매달 넣는 금액을 늘려보세요.'; return; }
+ var n0=Math.ceil((rec-cur)/save); // 이자 0 가정
+ big.textContent='D-'+n+'개월';
+ var dd=new Date(); dd.setDate(1); dd.setMonth(dd.getMonth()+n);
+ dt.textContent='약 '+dd.getFullYear()+'년 '+(dd.getMonth()+1)+'월쯤 도달';
+ var saved=n0-n;
+ var extra = saved>0 ? ' 파킹 이자 덕에 이자 없을 때('+n0+'개월)보다 <b>'+saved+'개월</b> 앞당겨져요.' : ' 이자 없이 단순 계산하면 '+n0+'개월이에요.';
+ // 이자소득세 15.4% 원천징수 반영(세후) — 가짜 기대 금지: 실제 입금되는 이자 기준 D-day 병기
+ var nAT=ddayMonths(cur,rec,save,annual*0.846);
+ var tax='';
+ if(annual>0&&isFinite(nAT)){ tax = nAT>n ? ' 이자소득세(15.4%)를 떼면(세후 연 '+(annual*84.6).toFixed(1)+'%) <b>D-'+nAT+'개월</b>로 살짝 늦어져요.' : ' 이자소득세(15.4%)를 떼도(세후 연 '+(annual*84.6).toFixed(1)+'%) 도달 시점은 같아요.'; }
+ note.innerHTML='매달 <b>'+window.fmtWon(save)+'원</b>씩, 연 '+(annual*100).toFixed(1)+'% 파킹 가정(세전).'+extra+tax;
+}
+
+function drawSpark(recs){
+ var svg=$('spark'); var W=320,H=74,pad=8;
+ svg.innerHTML='';
+ if(recs.length===0){ return; }
+ var pts=recs.slice(-12);
+ var maxV=Math.max(100,Math.max.apply(null,pts.map(function(r){return r.pct;})));
+ var minV=0;
+ var n=pts.length;
+ function X(i){ return n<=1?W/2:(pad+ i*(W-2*pad)/(n-1)); }
+ function Y(v){ return H-pad-((v-minV)/(maxV-minV))*(H-2*pad); }
+ var dLine='', dArea='M '+X(0)+' '+(H-pad);
+ pts.forEach(function(r,i){ var x=X(i),y=Y(r.pct); dLine+=(i?' L ':'M ')+x.toFixed(1)+' '+y.toFixed(1); dArea+=' L '+x.toFixed(1)+' '+y.toFixed(1); });
+ dArea+=' L '+X(n-1)+' '+(H-pad)+' Z';
+ var ns='http://www.w3.org/2000/svg';
+ var ar=document.createElementNS(ns,'path');ar.setAttribute('d',dArea);ar.setAttribute('class','ar');svg.appendChild(ar);
+ var ln=document.createElementNS(ns,'path');ln.setAttribute('d',dLine);ln.setAttribute('class','ln');svg.appendChild(ln);
+ // last dot
+ var c=document.createElementNS(ns,'circle');c.setAttribute('cx',X(n-1));c.setAttribute('cy',Y(pts[n-1].pct));c.setAttribute('r','3.4');svg.appendChild(c);
+ // draw anim
+ try{var len=ln.getTotalLength();ln.style.strokeDasharray=len;ln.style.strokeDashoffset=len;requestAnimationFrame(function(){ln.style.strokeDashoffset=0;});}catch(e){}
+}
+
+function renderHist(){
+ var recs=loadRec();
+ $('histCount').textContent=recs.length?('총 '+recs.length+'회'):'';
+ if(recs.length===0){ $('histEmpty').style.display=''; $('histMeta').innerHTML=''; drawSpark([]); return; }
+ $('histEmpty').style.display='none';
+ drawSpark(recs);
+ var last=recs[recs.length-1];
+ var meta='이번 기록 <b>'+last.pct+'%</b>';
+ if(recs.length>=2){ var prev=recs[recs.length-2]; var diff=last.pct-prev.pct; var ar=diff>0?'▲':(diff<0?'▼':'–'); meta+=' · 지난 기록 '+prev.pct+'% 대비 <b>'+ar+' '+Math.abs(diff)+'%p</b>'; }
+ var dd=new Date(last.ts); meta+=' · '+(dd.getMonth()+1)+'월 '+dd.getDate()+'일 기록';
+ $('histMeta').innerHTML=meta;
+}
+
+function compute(animate){
+ var ess=num('ess'); var cur=num('cur'); var save=num('save');
+ var months=STAB[state.stab].m;
+ var rec=ess*months;
+ var runway=ess>0?cur/ess:0;
+ var rawPct=rec>0?cur/rec*100:0;
+ var fillPct=Math.min(100,rawPct);
+ var shortfall=Math.max(0,rec-cur);
+ var surplus=Math.max(0,cur-rec);
+
+ var st;
+ if(rawPct>=100){st={c:'var(--sage)',g:'비상금은 든든해요 👏',m:'권장액을 채웠어요. 어떤 일이 생겨도 한동안은 흔들리지 않아요. 초과분은 투자·목표 통장으로 옮겨도 좋아요.'};}
+ else if(rawPct>=50){st={c:'var(--gold)',g:'절반은 넘었어요, 거의 다 왔어요',m:'기본은 갖췄어요. 조금만 더 채우면 갑작스러운 일에도 카드빚 없이 버틸 수 있어요.'};}
+ else{st={c:'var(--up)',g:'지금은 비상금이 얇아요',m:'예상 못 한 일에 빚으로 막게 될 수 있어요. 투자보다 먼저, 저축 통장에서 비상금부터 채우는 걸 권해요.'};}
+
+ var arc=$('gArc'); arc.setAttribute('stroke',st.c);
+ if(animate){window.countUp($('gPct'),Math.round(rawPct),1000,'');arc.style.strokeDashoffset=(100-fillPct);}
+ else{$('gPct').textContent=Math.round(rawPct);arc.style.strokeDashoffset=(100-fillPct);}
+ $('gGrade').textContent=st.g; $('gGrade').style.color=st.c; $('gMsg').textContent=st.m;
+
+ $('mRecS').textContent='월 필수비 × '+months+'개월';
+ var gapCard=$('mGapCard');
+ if(shortfall>0){$('mGapL').textContent='아직 부족한 금액';$('mGapS').textContent='권장액까지 더 모으면 좋아요';gapCard.style.borderTopColor='var(--up)';}
+ else{$('mGapL').textContent='권장액 초과분';$('mGapS').textContent='이만큼은 투자·목표로 굴려도 OK';gapCard.style.borderTopColor='var(--sage)';}
+ var MSUF='<span style="font-size:15px;font-weight:800"> 개월</span>';
+ if(animate){
+   window.countUp($('mRec'),rec,900);
+   window.countUp($('mGap'),shortfall>0?shortfall:surplus,900);
+   (function(rn,target){var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1);var e=1-Math.pow(1-p,3);rn.innerHTML=(target*e).toFixed(1)+MSUF;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);})($('mRun'),runway);
+ }else{
+   $('mRec').textContent=window.fmtWon(rec);
+   $('mGap').textContent=window.fmtWon(shortfall>0?shortfall:surplus);
+   $('mRun').innerHTML=runway.toFixed(1)+MSUF;
+ }
+
+ $('batSub').textContent='한 칸 = 1개월 · 권장 '+months+'개월 기준';
+ buildBattery(months,runway,st.c,animate);
+
+ var plan=$('plan');
+ if(shortfall>0){
+   var m12=Math.ceil(shortfall/12),m24=Math.ceil(shortfall/24);
+   plan.innerHTML='🎯 권장 비상금까지 <b>'+window.fmtWon(shortfall)+'원</b> 남았어요.<br>1년 안에 채우려면 매달 <b>'+window.fmtWon(m12)+'원</b>, 2년이면 매달 <b>'+window.fmtWon(m24)+'원</b>씩. 월급날 자동이체로 \'먼저\' 떼두면 어느새 채워져 있어요.';
+ }else{
+   plan.innerHTML='🎉 권장 비상금을 모두 채웠어요! 비상금은 \'쉽게 안 꺼내되 필요하면 바로 꺼낼 수 있는\' 파킹통장·CMA에 두고, 초과분 <b>'+window.fmtWon(surplus)+'원</b>은 투자·내집마련 같은 다음 목표로 옮겨보세요.';
+ }
+
+ buildShocks(ess,cur,animate);
+ renderWhatif(ess,cur);
+ renderDday(cur,rec,save);
+}
+
+// what-if: 같은 생활비에 안정성만 바뀌면 권장액이 얼마나 달라지나
+function renderWhatif(ess,cur){
+ var d=ess*STAB.dual.m, s=ess*STAB.single.m, v=ess*STAB.vary.m;
+ var cur2=STAB[state.stab].t;
+ $('whatifBox').innerHTML='같은 생활비라도 <b>소득 안정성</b>에 따라 권장 비상금이 달라져요. 지금 입력 기준: '+
+   '안정 맞벌이 <b>'+window.fmtWon(d)+'원</b>(3개월) · 한 명 소득 <b>'+window.fmtWon(s)+'원</b>(5개월) · 변동 소득 <b>'+window.fmtWon(v)+'원</b>(6개월). '+
+   '소득이 불안정할수록 더 두껍게 — 지금 선택은 <b>'+cur2+'</b>이에요.';
+}
+
+['ess','cur','save'].forEach(function(id){
+  var f=$(id),r=$(id+'R');
+  f.addEventListener('input',function(){var v=Math.max(0,+(f.value.replace(/[^0-9]/g,''))||0);f.value=v?v.toLocaleString('ko-KR'):'';if(v>=+r.min&&v<=+r.max)r.value=v;compute(false);});
+  f.addEventListener('blur',function(){compute(true);});
+  r.addEventListener('input',function(){f.value=(+r.value).toLocaleString('ko-KR');compute(false);});
+});
+// 파킹 이자 슬라이더 ↔ 입력
+(function(){var f=$('pk'),r=$('pkR');
+ function sync(v){v=Math.max(0,Math.min(5,v));f.value=v.toFixed(1);r.value=v;}
+ r.addEventListener('input',function(){sync(parseFloat(r.value));renderDdayQuick();});
+ f.addEventListener('input',function(){var v=parseFloat((f.value+'').replace(/[^0-9.]/g,''));if(!isNaN(v)){if(v>=0&&v<=5)r.value=v;}renderDdayQuick();});
+ f.addEventListener('blur',function(){var v=parseFloat((f.value+'').replace(/[^0-9.]/g,''));sync(isNaN(v)?3:v);renderDdayQuick();});
+})();
+function renderDdayQuick(){ var ess=num('ess'),cur=num('cur'),save=num('save');renderDday(cur,ess*STAB[state.stab].m,save); }
+
+document.querySelectorAll('#stab .seg-b').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('#stab .seg-b').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});
+    b.classList.add('on');b.setAttribute('aria-pressed','true');state.stab=b.dataset.k;
+    syncPresetChips();compute(true);
+  });
+});
+
+function applyPreset(k){
+ var p=PRESETS[k]; if(!p)return;
+ $('ess').value=p.ess.toLocaleString('ko-KR'); $('essR').value=p.ess;
+ $('cur').value=p.cur.toLocaleString('ko-KR'); $('curR').value=p.cur;
+ $('save').value=p.save.toLocaleString('ko-KR'); $('saveR').value=p.save;
+ state.stab=p.stab;
+ document.querySelectorAll('#stab .seg-b').forEach(function(x){var on=x.dataset.k===p.stab;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on?'true':'false');});
+ document.querySelectorAll('#presets .chip').forEach(function(c){c.classList.toggle('on',c.dataset.p===k);});
+ compute(true);
+}
+function syncPresetChips(){
+ // 수동 변경 시 정확히 일치하는 프리셋이 없으면 칩 해제
+ var ess=num('ess'),cur=num('cur'),save=num('save'),found=null;
+ Object.keys(PRESETS).forEach(function(k){var p=PRESETS[k];if(p.ess===ess&&p.cur===cur&&p.save===save&&p.stab===state.stab)found=k;});
+ document.querySelectorAll('#presets .chip').forEach(function(c){c.classList.toggle('on',c.dataset.p===found);});
+}
+document.querySelectorAll('#presets .chip').forEach(function(c){c.addEventListener('click',function(){applyPreset(c.dataset.p);});});
+document.querySelectorAll('#pg .pcard').forEach(function(c){c.addEventListener('click',function(){applyPreset(c.dataset.p);document.getElementById('ess').scrollIntoView({behavior:'smooth',block:'center'});});});
+
+// 기록 버튼
+$('recBtn').addEventListener('click',function(){
+ var ess=num('ess'),cur=num('cur');var rec=ess*STAB[state.stab].m;var pct=rec>0?Math.round(cur/rec*100):0;
+ var recs=loadRec(); recs.push({ts:Date.now(),pct:pct,cur:cur}); saveRec(recs); renderHist();
+});
+$('clrBtn').addEventListener('click',function(){ if(confirm('기록을 모두 지울까요? 되돌릴 수 없어요.')){ try{localStorage.removeItem(LS);}catch(e){} renderHist(); } });
+
+// 입력값 변경 시 충족률 기록 메타는 그대로, 스파크만 유지
+['ess','cur','save'].forEach(function(id){$(id).addEventListener('input',function(){/*hist unaffected*/});});
+
+compute(true);
+renderHist();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
