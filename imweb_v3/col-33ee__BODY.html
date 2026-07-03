@@ -1,0 +1,451 @@
+<!-- [콘텐츠_딥칼럼_배당의함정_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 13건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}.rfill{transition:none!important}}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:660px;margin-top:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.55}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.65;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:12px;color:var(--mut);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:10px;padding:9px 13px;margin-top:16px;line-height:1.55}
+.srcbox{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:22px;box-shadow:var(--cardSh)}
+.srcbox .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+.srcbox ul{list-style:none;margin-top:8px;display:grid;gap:5px}
+.srcbox li{font-size:12.5px;color:var(--ink2);line-height:1.55;padding-left:14px;position:relative}
+.srcbox li::before{content:"·";position:absolute;left:2px;color:var(--rose);font-weight:800}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:640px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac,var(--rose))}
+.hstat .v{font-size:clamp(26px,4.4vw,36px);font-weight:800;letter-spacing:-.03em;color:var(--ac,var(--rose));line-height:1}
+.hstat .l{font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.5;margin-top:9px}
+.hstat .t{font-size:11px;color:var(--mut);font-weight:700;margin-top:7px}
+.recov{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--cardSh);margin-top:18px}
+.recov .ct{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.recov .cs{font-size:12px;color:var(--mut);margin-bottom:14px;line-height:1.5}
+.rrow{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin:10px 0}
+.rrow .lo{font-size:12.5px;font-weight:800;color:var(--ink);text-align:right;letter-spacing:-.02em;line-height:1.3}
+.rtrack{position:relative;background:var(--pinkSoft2);border-radius:9px;height:34px;overflow:hidden}
+.rfill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width 1.1s var(--ease)}
+.rlab{position:absolute;top:0;bottom:0;display:flex;align-items:center;left:13px;font-size:12.5px;font-weight:800;color:#fff;z-index:2;text-shadow:0 1px 2px rgba(140,40,55,.4)}
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.face.ok{background:linear-gradient(180deg,#fff,#F1F7F4)}
+.face.no{background:linear-gradient(180deg,#fff,#FCEFF0)}
+.face .ttl{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.face.ok .ttl{color:var(--sage)}.face.no .ttl{color:var(--rose)}
+.face ul{list-style:none;margin-top:9px;display:grid;gap:7px}
+.face li{font-size:12.8px;color:var(--ink2);line-height:1.55;padding-left:15px;position:relative}
+.face li::before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.face.ok li::before{background:var(--sage)}.face.no li::before{background:var(--rose)}
+/* ── 추가: 배당락 도식 ── */
+.exdiv{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin-top:16px}
+@media(max-width:640px){.exdiv{grid-template-columns:1fr;gap:8px}.exdiv .ar{transform:rotate(90deg);justify-self:center}}
+.exbox{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 12px;text-align:center;box-shadow:var(--cardSh)}
+.exbox .k{font-size:11.5px;font-weight:700;color:var(--mut);line-height:1.4}
+.exbox .n{font-size:clamp(17px,2.4vw,21px);font-weight:800;letter-spacing:-.02em;margin-top:5px;color:var(--ink)}
+.exbox.dn .n{color:var(--down)}.exbox.eq{background:linear-gradient(180deg,#fff,var(--pinkSoft2))}.exbox.eq .n{color:var(--rose)}
+.exdiv .ar{display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:var(--rose)}
+.exnote{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.6}
+/* ── 추가: 비교표 ── */
+.cmpwrap{overflow-x:auto;margin-top:16px;border-radius:14px;border:1px solid var(--border);box-shadow:var(--cardSh)}
+table.cmp{width:100%;border-collapse:collapse;min-width:560px;background:#fff;font-size:13.5px}
+table.cmp th,table.cmp td{padding:11px 13px;text-align:center;border-bottom:1px solid var(--border)}
+table.cmp thead th{background:var(--pinkSoft2);color:var(--ink);font-weight:800;font-size:13px;position:sticky;top:0}
+table.cmp tbody th{text-align:left;font-weight:700;color:var(--ink2);background:#fff;white-space:nowrap}
+table.cmp tbody tr:last-child td,table.cmp tbody tr:last-child th{border-bottom:none}
+table.cmp .tk{font-weight:800;color:var(--rose)}
+table.cmp .up{color:var(--up);font-weight:800}
+table.cmp .dn{color:var(--down);font-weight:800}
+table.cmp .memo{font-size:12px;color:var(--mut);line-height:1.45}
+/* ── 추가: 수익률 계산기 ── */
+.calc{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:18px;padding:22px 22px 20px;box-shadow:var(--cardSh);margin-top:18px}
+.calc .ct{font-size:14px;font-weight:800;color:var(--ink)}
+.calc .cs{font-size:12px;color:var(--mut);margin-top:3px;line-height:1.5}
+.calcgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:560px){.calcgrid{grid-template-columns:1fr}}
+.calcbox{background:#fff;border:1px solid var(--border);border-radius:13px;padding:14px 16px;text-align:center}
+.calcbox .kk{font-size:11.5px;font-weight:700;color:var(--mut)}
+.calcbox .vv{font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.03em;margin-top:4px}
+.calcbox.fix .vv{color:var(--ink)}.calcbox.res .vv{color:var(--rose)}
+.calc input[type=range]{width:100%;margin-top:16px;accent-color:var(--rose);height:5px}
+.calc .rlabels{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);font-weight:700;margin-top:6px}
+.ybarwrap{height:14px;background:var(--pinkSoft2);border-radius:8px;overflow:hidden;margin-top:16px}
+#ybar{height:100%;width:40%;border-radius:8px;background:linear-gradient(90deg,#E0A64E,var(--gold));transition:width .25s var(--ease),background .3s}
+.ycm{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:13px;font-weight:600;min-height:42px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr">
+ <div class="wrap">
+  <nav class="nav">
+   <a class="logo" href="/moneyletter-landing"><span class="dot"></span>부부연구소</a>
+   <div class="menu menu-main">
+    <a href="/moneyletter-landing">머니레터</a>
+    <a href="/contents-hub" class="cur" aria-current="page">구독 콘텐츠</a>
+    <a href="/library">자료실</a>
+   </div>
+   <div class="navright">
+    <a class="cta" href="/moneyletter-landing">무료 구독</a>
+   </div>
+  </nav>
+ </div>
+</header>
+
+<!-- HERO -->
+<section class="blk" style="padding-top:clamp(34px,5vw,54px)">
+ <div class="wrap">
+  <div class="art reveal">
+   <span class="s-eyebrow">딥 인사이트 칼럼</span>
+   <h1 class="tool-h1">'배당주는 안전하다'는 말,<br><span class="grad">절반만 맞아요</span></h1>
+   <div class="artmeta">
+    <span>📌 배당락 · 고배당의 함정 · 배당 삭감</span>
+    <span>🗓 2026-06-02 작성</span>
+    <span>⏱ 약 7분</span>
+   </div>
+   <p class="artlead">"따박따박 현금 주니까 마음이 편하다." 배당주를 고를 때 가장 많이 듣는 말이에요. 그런데 '배당이 나온다'는 사실과 '안전하다'는 느낌 사이에는, 생각보다 큰 틈이 있어요. 오늘은 그 틈을 숫자로 들여다볼게요.</p>
+   <div class="minnote">이 글은 배당의 구조를 이해하기 위한 <b>정보·교육용</b>이에요. 특정 종목의 매수·매도를 권하는 글이 아니며, 등장하는 회사는 모두 개념 설명을 위한 예시예요. 수치는 2026-06-02 조회 시점 기준이라 시점에 따라 달라져요.</div>
+  </div>
+
+  <div class="hstats stag" style="max-width:760px;margin-left:auto;margin-right:auto" aria-label="핵심 숫자 3가지">
+   <div class="hstat" style="--ac:var(--rose)">
+    <div class="v"><span data-count="88" data-suf="%">0%</span></div>
+    <div class="l">알트리아(MO)가 번 돈에서 배당으로 내주는 비율(배당성향)</div>
+    <div class="t">거의 다 나눠줘요 — 여력이 빠듯하다는 뜻</div>
+   </div>
+   <div class="hstat" style="--ac:var(--down)">
+    <div class="v"><span data-count="-7" data-suf="%">0%</span></div>
+    <div class="l">AT&amp;T(T)의 최근 1년 총수익 — 배당까지 더해도</div>
+    <div class="t">고배당이 주가 하락을 못 막은 사례</div>
+   </div>
+   <div class="hstat" style="--ac:var(--gold)">
+    <div class="v"><span data-count="47" data-suf="%">0%</span></div>
+    <div class="l">AT&amp;T가 2022년 분사 때 한 번에 줄인 배당 폭</div>
+    <div class="t">'영원한 고배당'은 없다는 증거</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- BODY -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <article class="art">
+
+   <p class="dropcap reveal">배당주는 분명 매력이 있어요. 주가가 오르내려도 정해진 날짜에 현금이 통장에 꽂히니까, 마치 '월세 받는 건물'처럼 느껴지죠. 그런데 이 안정감이 가끔 우리 눈을 가려요. 배당이라는 단어가 주는 포근함 때문에, 정작 그 배당이 <b>어디서 나오는지</b>, <b>계속 나올 수 있는지</b>를 안 따지게 되거든요. 오늘은 '배당 = 안전'이라는 등식이 깨지는 세 지점을 하나씩 짚어볼게요.</p>
+
+   <h2 class="reveal">함정 ① 배당은 '공짜 현금'이 아니에요 — 배당락</h2>
+   <p class="reveal">가장 먼저 오해하는 게 이거예요. "배당받으면 그만큼 공짜로 버는 거 아냐?" 아쉽게도 아니에요. 배당받을 권리가 사라지는 날(<b>배당락일</b>)에는, 통상 그 배당금만큼 주가가 내려간 채로 시작해요. 회사 통장에서 현금이 주주에게 빠져나갔으니, 회사 가치도 딱 그만큼 줄어드는 거예요.</p>
+
+   <div class="exdiv reveal" aria-label="배당락 도식: 1만원 주식, 배당 300원 예시">
+    <div class="exbox"><div class="k">배당 전 주가</div><div class="n">10,000원</div></div>
+    <div class="ar">→</div>
+    <div class="exbox dn"><div class="k">배당락 (−300원)</div><div class="n">9,700원</div></div>
+    <div class="ar">+</div>
+    <div class="exbox eq"><div class="k">현금배당</div><div class="n">300원</div></div>
+   </div>
+   <p class="exnote reveal">→ 배당락 직후 내 주머니 합계는 <b>9,700원(주식) + 300원(현금) = 10,000원</b>. 단기적으로는 '늘어난 돈'이 아니라 '주식이 현금으로 바뀐 것'에 가까워요. 배당투자의 진짜 수익은 그다음, <b>주가가 배당락을 다시 메우며 우상향할 때</b> 생기는 거예요.</p>
+   <p class="reveal">그래서 고배당주를 배당락 직전에 '배당만 노리고' 샀다가, 주가가 배당락을 회복 못 하면 받은 배당보다 더 큰 평가손을 보기도 해요. 국내에서 12월 고배당주에 몰렸다가 연초 배당락에 물리는 패턴이 매년 반복되는 이유죠.</p>
+
+   <div class="pull reveal">배당락은 '벌점'이 아니라 '정산'이에요. 받은 배당만큼 주가가 빠지는 건 정상. 문제는 그 빠진 자리를 회사가 다시 채울 힘이 있느냐예요.</div>
+
+   <h2 class="reveal">함정 ② 수익률이 높은 게, 좋은 신호가 아닐 수 있어요</h2>
+   <p class="reveal">배당수익률은 아주 단순한 나눗셈이에요. <b>1년 배당금 ÷ 현재 주가 × 100</b>. 여기서 함정이 숨어요. 분자(배당)가 늘어도 수익률이 오르지만, <b>분모(주가)가 빠져도</b> 수익률이 올라가거든요. 즉 "수익률 7%!"라는 숫자가, 회사가 좋아져서가 아니라 <b>주가가 무너져서</b> 나온 숫자일 수 있어요.</p>
+   <p class="reveal">아래 계산기로 직접 움직여 보세요. 배당금은 베리존(VZ)의 연 $2.83로 고정해두고, 주가만 바꿔볼게요. 배당은 그대로인데 주가가 빠질수록 수익률이 어떻게 '예뻐 보이는지' 확인할 수 있어요.</p>
+
+   <div class="calc reveal">
+    <div class="ct">📟 배당수익률 함정 계산기</div>
+    <div class="cs">배당금 고정(VZ 연 $2.83) · 주가만 움직여서 수익률 변화 보기 · 교육용 예시</div>
+    <div class="calcgrid">
+     <div class="calcbox fix"><div class="kk">연 배당금 (고정)</div><div class="vv">$2.83</div></div>
+     <div class="calcbox res"><div class="kk">배당수익률</div><div class="vv" id="yv">5.93%</div></div>
+    </div>
+    <input type="range" id="yp" min="30" max="62" step="0.01" value="47.73" aria-label="주가 슬라이더">
+    <div class="rlabels"><span>주가 $30 (급락)</span><span id="ypv">$47.73</span><span>$62 (강세)</span></div>
+    <div class="ybarwrap"><div id="ybar"></div></div>
+    <div class="ycm" id="ycm"></div>
+   </div>
+   <p class="reveal" style="margin-top:18px">베리존은 지금 수익률이 약 <b>5.9%</b>인데, 5년 평균(6.1%)과 비슷한 수준이에요. 반면 한때 7%대 고배당으로 유명했던 회사들이 지금 수익률이 더 낮아진 경우가 있어요. 회사가 좋아져서가 아니라, <b>배당을 깎았기 때문</b>일 때가 많죠. 그게 세 번째 함정이에요.</p>
+
+   <h2 class="reveal">함정 ③ 못 버틸 배당은, 결국 깎여요</h2>
+   <p class="reveal">배당이 계속 나오려면 '벌어들인 이익' 안에서 나와야 해요. 이걸 보는 지표가 <b>배당성향(Payout Ratio)</b>이에요. 순이익에서 배당으로 나가는 비율인데, 이게 100%에 가깝거나 넘으면 "번 것보다 더 주고 있다"는 뜻이라 위험 신호예요. 세 회사의 배당성향을 나란히 볼게요.</p>
+
+   <div class="recov reveal">
+    <div class="ct">세 회사의 배당성향 (순이익 중 배당 비중)</div>
+    <div class="cs">막대가 길수록 배당으로 더 많이 나가요 · 2026-06-02 기준</div>
+    <div class="rrow"><div class="lo">알트리아<br>MO</div><div class="rtrack"><div class="rfill" data-w="88"></div><div class="rlab">87.7%</div></div></div>
+    <div class="rrow"><div class="lo">베리존<br>VZ</div><div class="rtrack"><div class="rfill" data-w="67"></div><div class="rlab">67.4%</div></div></div>
+    <div class="rrow"><div class="lo">AT&amp;T<br>T</div><div class="rtrack"><div class="rfill" data-w="37"></div><div class="rlab">36.5%</div></div></div>
+   </div>
+   <p class="reveal" style="margin-top:16px">알트리아는 번 돈의 <b>약 88%</b>를 배당으로 내줘요. 거기다 자사주를 워낙 많이 사들여 장부상 자기자본이 마이너스(자본잠식) 상태라, 배당 여력이 빠듯한 편이에요. 반대로 AT&amp;T의 배당성향이 <b>37%</b>로 낮은 건 '여유로워서'가 아니라, <b>2022년에 이미 한 번 크게 깎고 난 뒤</b>의 숫자라는 점이 핵심이에요.</p>
+   <p class="reveal">AT&amp;T는 2022년 워너미디어를 분사하면서 분기 배당을 $0.52 → $0.2775로, 연 환산 $2.08 → $1.11로 약 <b>47% 삭감</b>했어요. 분사라는 사정이 있었지만, '한번 고배당이면 영원히 고배당'이라는 믿음이 깨진 대표 사례예요. 실제로 AT&amp;T의 5년 평균 배당수익률은 6.3%인데 지금은 4.5%로, 주가도 최근 1년 약 −11%예요. 고배당이라는 간판이 손실을 막아주지는 못했어요.</p>
+
+   <h2 class="reveal">그래서 봐야 할 건 '배당률'이 아니라 '총수익'</h2>
+   <p class="reveal">배당투자를 제대로 평가하려면 배당만 보면 안 돼요. <b>총수익 = 주가 등락 + 받은 배당</b>으로 합쳐서 봐야 해요. 같은 고배당 3종목을 총수익 관점으로 다시 줄 세워볼게요.</p>
+
+   <div class="cmpwrap reveal">
+    <table class="cmp">
+     <thead><tr><th>항목</th><th>베리존 <span class="tk">VZ</span></th><th>AT&amp;T <span class="tk">T</span></th><th>알트리아 <span class="tk">MO</span></th></tr></thead>
+     <tbody>
+      <tr><th>주가 (6/2)</th><td>$47.73</td><td>$24.55</td><td>$68.65</td></tr>
+      <tr><th>배당수익률</th><td>5.92%</td><td>4.48%</td><td>6.09%</td></tr>
+      <tr><th>배당성향</th><td>67.4%</td><td>36.5%</td><td class="dn">87.7%</td></tr>
+      <tr><th>5년 평균 배당수익률</th><td>6.12%</td><td>6.29%</td><td>7.64%</td></tr>
+      <tr><th>최근 1년 주가</th><td class="up">+8.4%</td><td class="dn">−11.2%</td><td class="up">+14.8%</td></tr>
+      <tr><th>총수익 (주가+배당, 1년)</th><td class="up">약 +14%</td><td class="dn">약 −7%</td><td class="up">약 +21%</td></tr>
+      <tr><th>한 줄 메모</th><td class="memo">부채 큰 편이나 배당 유지 중</td><td class="memo">2022년 47% 삭감 전력</td><td class="memo">자본잠식·성향 88%</td></tr>
+     </tbody>
+    </table>
+   </div>
+   <p class="exnote reveal">※ 총수익 = 최근 1년 주가 등락 + 배당수익률(근사 합산), 2026-06-02 기준. 같은 '고배당주'라도 1년 총수익이 +21%에서 −7%까지 갈렸어요. AT&amp;T는 4.5% 배당을 꼬박 받았어도, 주가가 11% 빠져 <b>총수익은 마이너스</b>였어요. 참고로 같은 기간 S&amp;P500은 약 +28%였고요. '안전해 보이는 고배당'이 늘 시장을 이기는 건 아니라는 얘기예요.</p>
+
+   <div class="faces reveal">
+    <div class="face ok">
+     <div class="ttl">🌱 좋은 배당주의 모습</div>
+     <ul>
+      <li>이익이 꾸준히 늘고, 배당성향이 여유로워요 (대체로 60% 이하)</li>
+      <li>빚이 아니라 벌어들인 현금흐름(FCF)에서 배당이 나와요</li>
+      <li>배당을 매년 조금씩 늘려온 기록이 있어요</li>
+      <li>배당도 받고 주가도 함께 우상향 — 총수익이 플러스</li>
+     </ul>
+    </div>
+    <div class="face no">
+     <div class="ttl">⚠️ 배당 함정의 신호</div>
+     <ul>
+      <li>수익률만 유난히 높아요 (주가 급락의 결과일 때)</li>
+      <li>배당성향이 100%에 육박하거나 넘어요</li>
+      <li>배당을 빚·자산매각·곳간으로 메워요</li>
+      <li>주가는 계속 흘러내려 — 받은 배당보다 까먹은 주가가 더 커요</li>
+     </ul>
+    </div>
+   </div>
+
+   <h2 class="reveal">사기 전에, 이 세 가지만 물어보세요</h2>
+   <div class="checks reveal">
+    <div class="c"><i>1</i><div><b>수익률이 왜 높지?</b> &nbsp;배당이 늘어서(분자↑)인가요, 주가가 빠져서(분모↓)인가요? 후자라면 한 번 더 의심해 보세요.</div></div>
+    <div class="c"><i>2</i><div><b>배당이 이익 안에서 나오나?</b> &nbsp;배당성향이 100% 가까이거나 넘진 않나요? 잉여현금흐름(FCF)으로 배당이 감당되는지 확인하세요.</div></div>
+    <div class="c"><i>3</i><div><b>깎인 적 있나?</b> &nbsp;최근 5~10년 배당이 꾸준히 늘었나요, 한 번이라도 삭감됐나요? 삭감 전력은 미래 위험의 힌트예요.</div></div>
+   </div>
+
+   <div class="termgrid reveal">
+    <div class="term"><b>배당락(配當落)</b><p>배당받을 권리가 사라지는 날. 통상 그날 주가가 배당금만큼 조정된 채 시작해요.</p></div>
+    <div class="term"><b>배당수익률</b><p>1년 배당 ÷ 현재 주가. 주가가 빠지면 분모 효과로 자동으로 올라가요.</p></div>
+    <div class="term"><b>배당성향(Payout)</b><p>순이익에서 배당으로 나가는 비율. 높을수록 배당 여력이 빠듯해요.</p></div>
+   </div>
+
+   <div class="tldr reveal">
+    <div class="h">TL;DR — 30초 요약</div>
+    <p>배당은 진짜 현금이지만 '공짜'도 '안전 보증'도 아니에요. ① 배당락으로 주가가 그만큼 빠지고(단기 정산), ② 수익률이 높은 건 주가가 빠진 결과일 수 있고(함정), ③ 못 버틸 배당은 결국 깎여요(AT&amp;T 47%). 배당률 숫자 대신 <b>총수익(배당+주가)</b>과 <b>배당성향·현금흐름</b>을 함께 보세요.</p>
+   </div>
+
+   <p class="byline reveal">— 부부연구소 머니레터 · 구독자 전용 딥 인사이트</p>
+
+   <div class="discm reveal">이 콘텐츠는 정보 제공·금융 이해를 돕기 위한 교육용 자료이며, <b>특정 종목의 매수·매도 권유나 투자 자문이 아니에요.</b> 본문의 베리존·AT&amp;T·알트리아는 배당 구조를 설명하기 위한 예시일 뿐, 추천 종목이 아니에요. 모든 수치는 2026-06-02 종가 기준이며(2026-06-03·06-04 자동 세션에서 핵심 수치 변동 없음 재확인), 시점에 따라 달라지고, 투자 판단과 그 결과의 책임은 투자자 본인에게 있어요.</div>
+
+   <div class="srcbox reveal">
+    <div class="h">출처 &amp; 데이터</div>
+    <ul>
+     <li>시세·배당금·배당수익률·배당성향·5년 평균수익률·52주·1년 주가: PLAY UsStockInfo(get_stock_info) — VZ·T·MO, 2026-06-02 조회</li>
+     <li>AT&amp;T 2022년 배당 삭감(분기 $0.52→$0.2775, 연 $2.08→$1.11, 워너미디어 분사): Fox Business 보도 · AT&amp;T SEC Form 8-K(2022)</li>
+     <li>배당락·고배당의 함정 개념: 파이낸셜뉴스 '달콤한 고배당주 배당락 함정' · 이뉴스투데이 '배당으로 월급 만든다? 확인해야 할 함정들'(2025-12)</li>
+     <li>비교 지수(S&amp;P500 1년 변동): UsStockInfo 제공 SandP52WeekChange(약 +28%)</li>
+     <li><b>2026-06-03 재확인(자동 세션)</b>: PLAY UsStockInfo로 다시 조회해 핵심 수치 변동 없음을 확인했어요 — 배당성향 MO 87.7%·VZ 67.4%·AT&amp;T 36.5%, AT&amp;T 분기배당 $0.2775(2022년 47% 삭감 후 그대로·재인상 없음), VZ 연 배당 $2.83·5년 평균수익률 6.12% 동일, AT&amp;T 최근 1년 총수익 여전히 마이너스. 종가 기준일은 6/2예요(한국 6/3 오후 기준 미국 6/3 정규장 마감 전이라 6/2가 가장 최근 종가).</li>
+     <li><b>2026-06-04 재확인(자동 세션)</b>: PLAY로 한 번 더 조회했어요 — 배당성향 MO 87.7%(0.8768)·VZ 67.4%(연 $2.765÷EPS $4.10)·AT&amp;T 36.5%(0.3651), AT&amp;T 연 배당 $1.11(분기 $0.2775·재인상 없음), VZ 연 배당 $2.83(분기 $0.708×4), MO 5년 평균수익률 7.64% 전부 그대로예요. AT&amp;T 최근 1년 주가 변동은 약 −9.9%(52주 기준)로 배당 4.5%를 더해도 총수익은 여전히 마이너스, 같은 기간 S&amp;P500은 약 +27%예요.</li>
+     <li>한계: 무인 자동 세션이라 Chrome 1차 정독 대신 PLAY 실데이터 + 다매체 교차로 작성했어요. 발행 전 원문 1독을 권장해요.</li>
+    </ul>
+   </div>
+
+   <style>/* ===devextras=== 이어읽기 */
+   .relcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+   @media(max-width:700px){.relcards{grid-template-columns:1fr}}
+   .relcard{display:block;background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 16px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .25s,border-color .2s}
+   .relcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi);border-color:var(--rose)}
+   .relcard b{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+   .relcard span{display:block;font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:5px}
+   </style>
+   <h2 class="reveal">이어서 읽으면 좋아요</h2>
+   <div class="relcards reveal">
+    <a class="relcard" href="/eco-2af1"><b>주주환원수익률</b><span>배당수익률만 보면 반쪽이에요 — 배당+자사주를 합쳐 '회사가 돌려주는 전부'를 재는 법</span></a>
+    <a class="relcard" href="/col-873e"><b>빌린 환원의 그림자</b><span>현금이 못 버티는 배당의 끝 — 환원이 잉여현금흐름(FCF)을 넘어선 회사들 이야기</span></a>
+    <a class="relcard" href="/eco-38cf"><b>자사주 매입의 정체</b><span>배당의 쌍둥이 환원 — 주식 수를 줄여 한 주의 몫을 키우는 또 하나의 방법</span></a>
+   </div>
+  </article>
+ </div>
+</section>
+
+<!-- CTA -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="cta-band reveal">
+   <h3>숫자 뒤에 숨은 '진짜 이야기'를 읽어드려요</h3>
+   <p>매주 시장과 종목을, 광고도 권유도 없이 부부의 시선으로 풀어드려요. 무료 머니레터로 시작해 보세요.</p>
+   <a class="btn btn-rose" href="/moneyletter-landing">머니레터 무료 구독하기 →</a>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <div class="ftlogo"><span class="dot"></span>부부연구소 머니레터</div>
+  <div class="ft">
+   <a href="/moneyletter-landing">머니레터</a>
+   <a href="/library">자료실</a>
+   <a href="/privacy-v1">개인정보처리방침</a>
+   <a href="/terms-v1">이용약관</a>
+  </div>
+  <div class="ftnote">© 2026 부부연구소. 본 콘텐츠는 투자 권유가 아닌 정보·교육 목적의 자료예요. 등장 종목은 개념 설명용 예시이며, 모든 수치는 2026-06-02 조회 시점 기준이에요. 투자 판단의 책임은 투자자 본인에게 있어요.</div>
+ </div>
+</footer>

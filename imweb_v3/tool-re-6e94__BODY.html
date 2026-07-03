@@ -1,0 +1,287 @@
+<!-- [도구_부동산_중개보수계산기_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 11건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:920px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(26px,4vw,46px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}
+.readbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--rose),var(--lav));z-index:60;transition:width .12s linear}
+/* anim */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+/* hero */
+.hero{padding:clamp(34px,6vw,60px) 0 6px;text-align:left}
+.crumb{font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:14px}
+.crumb b{color:var(--rose)}
+.badgeline{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.bdg{font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:100px;background:var(--pinkSoft);color:var(--rose);border:1px solid #F0CDD3}
+.bdg.gray{background:#F4ECE7;color:var(--ink2);border-color:var(--sand)}
+h1{font-size:clamp(25px,4.4vw,38px);line-height:1.32;letter-spacing:-.03em;font-weight:800}
+h1 .hl{color:var(--rose)}
+.lead{margin-top:14px;font-size:clamp(14.5px,1.8vw,16.5px);color:var(--ink2);max-width:640px}
+h2{font-size:clamp(19px,2.6vw,24px);letter-spacing:-.02em;font-weight:800;margin-bottom:6px}
+h2 .no{color:var(--pink);margin-right:8px}
+.sub{font-size:14px;color:var(--mut);margin-bottom:20px}
+/* card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(20px,3vw,30px)}
+/* segments */
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:13.5px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:9px 16px;cursor:pointer;transition:all .18s}
+.seg button:hover{border-color:var(--pink);color:var(--rose)}
+.seg button.on{background:var(--pink);color:#fff;border-color:var(--pink);box-shadow:0 4px 12px rgba(182,95,112,.25)}
+.seglb{font-size:12.5px;font-weight:800;color:var(--mut);margin:18px 0 8px;letter-spacing:.02em}
+.seglb:first-child{margin-top:0}
+.seghint{font-size:11.5px;color:var(--mut);margin-top:6px}
+/* fields */
+.field{margin-top:16px}
+.field label{display:block;font-size:13px;font-weight:800;color:var(--ink2);margin-bottom:7px}
+.inwrap{position:relative}
+.inwrap input[type=number]{width:100%;font:inherit;font-size:18px;font-weight:800;padding:13px 60px 13px 16px;border:1.5px solid var(--border);border-radius:14px;background:var(--bg);color:var(--ink);transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+.inwrap input[type=number]:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.inwrap input::-webkit-outer-spin-button,.inwrap input::-webkit-inner-spin-button{-webkit-appearance:none}
+.inwrap .unit{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13.5px;font-weight:800;color:var(--mut)}
+.fldrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.fldrow{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.chips button{font:inherit;font-size:12px;font-weight:700;color:var(--rose);background:var(--pinkSoft2);border:1px solid #F0CDD3;border-radius:100px;padding:6px 12px;cursor:pointer;transition:all .15s}
+.chips button:hover{background:var(--pinkSoft);transform:translateY(-1px)}
+/* result */
+.result{margin-top:22px;background:linear-gradient(135deg,#FFF7F8,#FCEEF1);border:1.5px solid #F0CDD3;border-radius:18px;padding:20px 22px}
+.result .rlb{font-size:12.5px;font-weight:800;color:var(--rose);letter-spacing:.03em}
+.result .rmain{font-size:clamp(28px,5vw,38px);font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.25;margin-top:4px}
+.result .rmain small{font-size:.5em;font-weight:700;color:var(--mut);margin-left:6px}
+.result .rsub{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.7}
+.result .rsub b{color:var(--rose)}
+.capbadge{display:none;font-size:11.5px;font-weight:800;background:var(--rose);color:#fff;border-radius:100px;padding:4px 11px;margin-left:10px;vertical-align:middle}
+.capbadge.show{display:inline-block}
+.trace{margin-top:14px;font-size:12.5px;color:var(--ink2);background:#fff;border:1px dashed var(--border);border-radius:12px;padding:11px 14px;line-height:1.7}
+.trace b{color:var(--rose)}
+.warnline{margin-top:12px;font-size:12.5px;color:var(--warn);background:#FCF6E8;border:1px solid #EFDFBC;border-radius:12px;padding:10px 14px;line-height:1.65}
+/* rate ladder bar */
+.ladder{margin-top:20px}
+.ladder .llb{font-size:12.5px;font-weight:800;color:var(--mut);margin-bottom:8px}
+.lbar{display:flex;gap:4px}
+.lbar .cell{flex:1;text-align:center;padding:8px 2px 7px;border-radius:10px;background:var(--bg);border:1.5px solid var(--border);transition:all .25s var(--ease)}
+.lbar .cell .ru{display:block;font-size:13px;font-weight:800;color:var(--ink2);line-height:1.3}
+.lbar .cell .rb{display:block;font-size:10px;color:var(--mut);line-height:1.4;letter-spacing:-.02em}
+.lbar .cell.on{background:var(--pink);border-color:var(--pink);box-shadow:0 4px 12px rgba(182,95,112,.3);transform:translateY(-2px)}
+.lbar .cell.on .ru,.lbar .cell.on .rb{color:#fff}
+@media(max-width:560px){.lbar .cell .rb{font-size:9px}}
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:var(--pinkSoft2);color:var(--rose);font-weight:800;font-size:12.5px;padding:10px 12px;text-align:left;border-bottom:1.5px solid #F0CDD3;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #F3E6E2;color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--pinkSoft);font-weight:800;color:var(--rose)}
+.tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:#fff}
+.tbl2{margin-top:14px}
+.note-s{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.7}
+.note-s b{color:var(--ink2)}
+/* point list */
+.plist{display:grid;gap:12px;margin-top:18px}
+.pitem{display:flex;gap:13px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--cardSh)}
+.pitem .ic{flex:0 0 38px;height:38px;border-radius:12px;background:var(--pinkSoft2);display:flex;align-items:center;justify-content:center;font-size:18px}
+.pitem .tx{font-size:13.5px;color:var(--ink2);line-height:1.72}
+.pitem .tx b{color:var(--ink);display:block;font-size:14px;margin-bottom:2px}
+.pitem .tx .src{font-size:11.5px;color:var(--mut)}
+/* datalabel */
+.datalabel{font-size:11.5px;color:var(--mut);line-height:1.65;margin-top:16px;padding-top:13px;border-top:1px dashed var(--border)}
+.datalabel b{color:var(--ink2)}
+/* related */
+.relgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:18px}
+@media(max-width:720px){.relgrid{grid-template-columns:1fr}}
+.relcard{display:block;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .25s}
+.relcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi)}
+.relcard .rt{font-size:11px;font-weight:800;color:var(--pink);letter-spacing:.04em}
+.relcard .rn{font-size:14.5px;font-weight:800;color:var(--ink);margin-top:3px;line-height:1.45}
+.relcard .rd{font-size:12px;color:var(--mut);margin-top:5px;line-height:1.6}
+/* disclaim */
+.disclaim{margin-top:26px;background:#FBF1E9;border:1px solid #EFD9C2;border-radius:16px;padding:16px 19px;font-size:12.5px;color:#7A6A5B;line-height:1.75}
+.disclaim b{color:#5C4B3A}
+/* footer */
+footer{background:var(--ink);color:#E9DBD4;padding:38px 0 30px;margin-top:30px}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer .fl{font-weight:800;font-size:15px;color:#fff;display:flex;align-items:center;gap:8px}
+footer .fl .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+footer p{font-size:12px;color:#B6A49B;line-height:1.7}
+/* toTop */
+.toTop{position:fixed;right:22px;bottom:24px;width:46px;height:46px;border-radius:50%;border:none;background:var(--rose);color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(160,63,77,.35);opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s;z-index:55;display:flex;align-items:center;justify-content:center}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--rose,#B85060);outline-offset:2px;border-radius:6px}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<div class="readbar" id="readbar"></div>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/library" class="cur">자료실</a><a href="/story">스토리</a></nav>
+</div></header>
+
+<section class="hero wrap">
+ <div class="crumb">자료실 › 부동산 도구 › <b>중개보수 계산기</b></div>
+ <div class="badgeline">
+  <span class="bdg">🧮 인터랙티브 계산기</span>
+  <span class="bdg gray">교육용 · 투자권유 아님</span>
+  <span class="bdg gray">기준: 공인중개사법 시행규칙 별표1 · 2026-06-04 확인</span>
+ </div>
+ <h1>중개보수(복비), <span class="hl">상한이 법으로</span> 정해져 있어요</h1>
+ <p class="lead">"복비 얼마예요?"라고 묻기 전에, 내 거래의 <b>법정 상한</b>부터 알아두면 협상이 쉬워져요. 매매·전세·월세, 주택·오피스텔·상가까지 — 거래금액만 넣으면 상한요율과 한도액을 바로 보여드릴게요.</p>
+</section>
+
+<section class="blk wrap reveal" id="calc">
+ <h2><span class="no">01</span>내 거래 중개보수 상한 계산</h2>
+ <p class="sub">결과는 <b>법정 상한</b>이에요. 실제 보수는 이 범위 안에서 중개사와 <b>협의</b>해 정해요(상한 강제 아님).</p>
+ <div class="card">
+  <div class="seglb">물건 유형</div>
+  <div class="seg" id="segProp">
+   <button type="button" data-v="house" class="on">🏠 주택 (분양권·부속토지 포함)</button>
+   <button type="button" data-v="offi">🏢 오피스텔 (85㎡↓·주거설비 갖춤)</button>
+   <button type="button" data-v="etc">🏪 그 외 (토지·상가·기타 오피스텔)</button>
+  </div>
+  <p class="seghint" id="propHint">주택 요율은 시·도 조례로 정해요 — 아래 표는 시행규칙 별표1과 동일한 서울시 기준이에요(현재 전국 동일 상한).</p>
+  <div class="seglb">거래 유형</div>
+  <div class="seg" id="segDeal">
+   <button type="button" data-v="sale" class="on">매매 · 교환</button>
+   <button type="button" data-v="jeonse">전세</button>
+   <button type="button" data-v="wolse">월세 (보증부)</button>
+  </div>
+  <div class="field" id="fldAmt">
+   <label for="inAmt">거래금액 (매매가 · 전세보증금)</label>
+   <div class="inwrap"><input type="number" id="inAmt" min="0" step="100" value="60000" inputmode="numeric"><span class="unit">만원</span></div>
+  </div>
+  <div class="fldrow" id="fldWolse" style="display:none">
+   <div class="field">
+    <label for="inDep">보증금</label>
+    <div class="inwrap"><input type="number" id="inDep" min="0" step="100" value="1000" inputmode="numeric"><span class="unit">만원</span></div>
+   </div>
+   <div class="field">
+    <label for="inMo">월세</label>
+    <div class="inwrap"><input type="number" id="inMo" min="0" step="5" value="60" inputmode="numeric"><span class="unit">만원</span></div>
+   </div>
+  </div>
+  <div class="chips" id="chips">
+   <button type="button" data-ex="jeonse35">예시) 신혼 전세 3.5억</button>
+   <button type="button" data-ex="sale6">예시) 첫 매매 6억</button>
+   <button type="button" data-ex="wolse1060">예시) 월세 1,000/60</button>
+   <button type="button" data-ex="offi2">예시) 오피스텔 전세 2억</button>
+  </div>
+  <div class="result" aria-live="polite">
+   <span class="rlb">중개보수 법정 상한 <span class="capbadge" id="capBadge">한도액 적용!</span></span>
+   <div class="rmain"><span id="outFee">—</span><small id="outFeeWon"></small></div>
+   <p class="rsub" id="outRate">—</p>
+   <div class="trace" id="outTrace">—</div>
+   <div class="warnline">⚠️ 위 금액은 <b>한쪽(매수인 또는 매도인, 임차인 또는 임대인)이 각각</b> 부담하는 상한이에요. 부가가치세는 <b>별도</b>예요(중개사무소 과세 유형에 따라 다름). 실제 보수율은 계약 전 <b>중개보수 확인서면</b>으로 확정하세요.</div>
+  </div>
+  <div class="ladder" id="ladder">
+   <div class="llb" id="ladderLb">주택 · 매매 요율 사다리 (내 구간 하이라이트)</div>
+   <div class="lbar" id="lbar"></div>
+  </div>
+  <div class="datalabel">🟢 <b>요율·한도액 = 실제 법령값</b> — 공인중개사법 시행규칙 별표1(2021-10-19 개정 시행)·서울시 주택 중개보수 조례(2021-12-30 시행), 서울부동산정보광장에서 2026-06-04 확인. · 🟡 <b>계산 결과 = 상한 가늠</b> — 실제 보수는 상한 내 협의로 정해지며, 부가세·실비(등기부 열람 등)는 미포함이에요.</div>
+ </div>
+</section>
+<section class="blk wrap reveal" id="table">
+ <h2><span class="no">02</span>법정 요율표 전체 보기</h2>
+ <p class="sub">계산기가 쓰는 원본 표예요. 계산하면 해당 구간이 <b>분홍색</b>으로 켜져요.</p>
+ <div class="tblwrap">
+  <table aria-label="주택 중개보수 상한요율표">
+   <thead><tr><th>주택</th><th>거래금액</th><th>상한요율</th><th>한도액</th></tr></thead>
+   <tbody id="tbHouse">
+    <tr data-b="sale-0"><td rowspan="6"><b>매매·교환</b></td><td>5천만원 미만</td><td>0.6%</td><td>25만원</td></tr>
+    <tr data-b="sale-1"><td>5천만 ~ 2억 미만</td><td>0.5%</td><td>80만원</td></tr>
+    <tr data-b="sale-2"><td>2억 ~ 9억 미만</td><td>0.4%</td><td>없음</td></tr>
+    <tr data-b="sale-3"><td>9억 ~ 12억 미만</td><td>0.5%</td><td>없음</td></tr>
+    <tr data-b="sale-4"><td>12억 ~ 15억 미만</td><td>0.6%</td><td>없음</td></tr>
+    <tr data-b="sale-5"><td>15억 이상</td><td>0.7%</td><td>없음</td></tr>
+    <tr data-b="rent-0"><td rowspan="6"><b>임대차 등</b><br><span style="font-size:11px;color:var(--mut)">(전세·월세)</span></td><td>5천만원 미만</td><td>0.5%</td><td>20만원</td></tr>
+    <tr data-b="rent-1"><td>5천만 ~ 1억 미만</td><td>0.4%</td><td>30만원</td></tr>
+    <tr data-b="rent-2"><td>1억 ~ 6억 미만</td><td>0.3%</td><td>없음</td></tr>
+    <tr data-b="rent-3"><td>6억 ~ 12억 미만</td><td>0.4%</td><td>없음</td></tr>
+    <tr data-b="rent-4"><td>12억 ~ 15억 미만</td><td>0.5%</td><td>없음</td></tr>
+    <tr data-b="rent-5"><td>15억 이상</td><td>0.6%</td><td>없음</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <div class="tblwrap tbl2">
+  <table aria-label="오피스텔·기타 중개보수 상한요율표">
+   <thead><tr><th>주택 외</th><th>조건</th><th>상한요율</th></tr></thead>
+   <tbody id="tbEtc">
+    <tr data-f="offi-sale"><td rowspan="2"><b>오피스텔</b></td><td>전용 85㎡ 이하 + 전용 입식부엌·수세식 화장실·목욕시설 — <b>매매·교환</b></td><td>0.5%</td></tr>
+    <tr data-f="offi-rent"><td>같은 조건 — <b>임대차 등</b></td><td>0.4%</td></tr>
+    <tr data-f="etc-all"><td><b>그 외 전부</b></td><td>위 조건 밖 오피스텔 · 토지 · 상가 등 (매매·임대차 공통)</td><td>0.9% 이내 협의</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <p class="note-s"><b>출처</b> · 주택: 공인중개사법 시행규칙 별표1 + 서울특별시 주택 중개보수 등에 관한 조례 별표1(2021-12-30 시행) · 오피스텔/기타: 시행규칙 제20조 제4항(2015-1-6 시행) — 서울부동산정보광장(land.seoul.go.kr) 게시 요율표를 2026-06-04 확인. 주택 요율은 시·도 조례 사항이라 거래 지역 조례를 한 번 더 확인하면 가장 정확해요(현재 전 시·도가 동일 상한 채택).</p>
+</section>
+
+<section class="blk wrap reveal" id="points">
+ <h2><span class="no">03</span>복비 협상 전 알아둘 6가지</h2>
+ <div class="plist">
+  <div class="pitem"><div class="ic">🤝</div><div class="tx"><b>'상한요율'은 정가가 아니라 천장이에요</b>중개보수는 거래금액 × 상한요율 <b>이내에서 협의</b>로 정해요. 한도액이 있는 구간은 그 금액을 넘을 수 없어요.<span class="src">— 시행규칙 §20①·④</span></div></div>
+  <div class="pitem"><div class="ic">🔄</div><div class="tx"><b>월세는 '환산 보증금'으로 계산해요</b>거래금액 = 보증금 + (월세 × 100). 단, 이렇게 합산해 <b>5천만원 미만이면 월세 × 70</b>으로 다시 계산해요. 위 계산기에 자동 반영돼 있어요.<span class="src">— 시행규칙 §20⑤</span></div></div>
+  <div class="pitem"><div class="ic">🏗️</div><div class="tx"><b>분양권은 '지금까지 낸 돈 + 프리미엄'</b>분양권 거래금액은 총 분양가가 아니라 <b>거래 당시까지 불입한 금액(융자 포함) + 프리미엄</b>이에요.<span class="src">— 서울시 중개보수 적용기준</span></div></div>
+  <div class="pitem"><div class="ic">📐</div><div class="tx"><b>반은 집, 반은 상가인 건물은?</b>건축물 중 <b>주택 면적이 1/2 이상이면 주택 요율</b>, 미만이면 주택 외(0.9%) 요율을 적용해요.<span class="src">— 시행규칙 §20⑥</span></div></div>
+  <div class="pitem"><div class="ic">🧾</div><div class="tx"><b>부가세는 별도, 과세 유형도 달라요</b>요율표 금액에 부가가치세는 포함돼 있지 않아요. 일반과세 사무소는 10%가 더해지고, 간이과세는 더 낮아요 — 계약 전에 물어보세요.<span class="src">— 서울시 중개보수 적용기준</span></div></div>
+  <div class="pitem"><div class="ic">⏰</div><div class="tx"><b>지급 시기는 약정으로, 없으면 잔금일</b>약정이 없으면 <b>거래대금 지급이 완료된 날</b>(잔금일)에 지급해요. 같은 집을 같은 사람끼리 매매+임대차 동시 계약하면 <b>매매 보수만</b> 적용돼요.<span class="src">— 시행령 §27의2 · 시행규칙 §20⑤</span></div></div>
+ </div>
+</section>
+
+<section class="blk wrap reveal" id="related">
+ <h2><span class="no">04</span>함께 보면 좋은 도구·칼럼</h2>
+ <div class="relgrid">
+  <a class="relcard" href="/tool-re-c181"><span class="rt">TOOL</span><div class="rn">취득세 계산기</div><div class="rd">매매 결심했다면 복비 다음은 취득세 — 생애최초 감면까지.</div></a>
+  <a class="relcard" href="/re-68e6"><span class="rt">COLUMN</span><div class="rn">부동산 세금 한 장 정리</div><div class="rd">취득→보유→양도, 단계별 세금 지도를 먼저 그려보세요.</div></a>
+  <a class="relcard" href="/re-vs-2921"><span class="rt">COLUMN</span><div class="rn">상가 vs 주택 임대차</div><div class="rd">상가 복비가 0.9%인 이유 — 환산보증금 계산기 포함.</div></a>
+  <a class="relcard" href="/re-6bcb"><span class="rt">COLUMN</span><div class="rn">전세 안전 체크리스트</div><div class="rd">복비 아끼는 것보다 중요한 보증금 지키기.</div></a>
+  <a class="relcard" href="/re-91aa"><span class="rt">COLUMN</span><div class="rn">부동산 대출 기초</div><div class="rd">LTV·DSR·스트레스 금리 — 자금 계획의 뼈대.</div></a>
+  <a class="relcard" href="/re-50db"><span class="rt">DICTIONARY</span><div class="rn">부동산 용어사전 60</div><div class="rd">중개보수·환산보증금이 낯설다면 여기부터.</div></a>
+ </div>
+ <div class="disclaim"><b>⚠️ 면책</b> 본 페이지는 중개보수 제도를 이해하기 위한 <b>정보·교육용 예시 도구</b>이며, 특정 부동산의 매수·임차·투자 권유가 아닙니다. 법령·조례는 개정될 수 있으니 실제 계약 시에는 거래 지역 시·도 조례, 국가법령정보센터, 중개사무소 게시 요율표 등 <b>1차 자료</b>로 반드시 확인하세요. 계산 결과는 법정 상한의 가늠값으로, 실제 지급액(협의 보수·부가세·실비)과 다를 수 있습니다.</div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <span class="fl"><span class="dot"></span>부부연구소 머니레터</span>
+  <p>돈 이야기를 가장 다정하게. 부부가 함께 읽는 경제·재테크 레터.</p>
+  <p style="margin-top:8px;color:#8E7C73">© 2026 부부연구소 · 본 페이지는 정보·교육 목적의 예시 도구이며 투자·매수 권유가 아닙니다. 중개보수는 계약 전 중개사무소 게시 요율표와 확인서면으로 확정하세요.</p>
+ </div>
+</footer>

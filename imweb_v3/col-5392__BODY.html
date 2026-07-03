@@ -1,0 +1,318 @@
+<!-- [콘텐츠_딥칼럼_금리인하의함정_샘플] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 14건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+/* lock */
+.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
+.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
+.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
+.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:38px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.dotplot{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh);margin-top:16px}
+.dotplot .ct{font-size:13px;font-weight:800;margin-bottom:8px}.dotplot .ct small{color:var(--mut);font-weight:600}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===deepen=== home-level components (2026-06-03 디벨롭) */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:600px){.kpis{grid-template-columns:1fr}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--cardSh);text-align:center}
+.kpi b{display:block;font-size:clamp(24px,4.4vw,33px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.kpi b.up{color:var(--up)}.kpi b.down{color:var(--down)}
+.kpi span{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-top:9px}
+.kpi small{display:block;font-size:11.5px;color:var(--mut);margin-top:4px;line-height:1.45}
+.nowbox{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(135deg,var(--pinkSoft2),#fff);border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 14px 14px 0;padding:15px 18px;margin-top:20px}
+.nowbox .ic{font-size:18px;line-height:1.4;flex-shrink:0}
+.nowbox p{font-size:13.5px;color:var(--ink2);line-height:1.66;margin-top:0}
+.nowbox b{color:var(--ink);font-weight:700}
+.ctab{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.ctab th,.ctab td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.ctab thead th{background:var(--pinkSoft2);font-weight:800;color:var(--ink);font-size:13px}
+.ctab tbody th{font-weight:700;color:var(--mut);font-size:12.5px;width:100px}
+.ctab td small{display:block;font-size:11px;color:var(--mut);font-weight:600;margin-top:3px}
+.ctab .good{color:var(--up);font-weight:800}.ctab .bad{color:var(--down);font-weight:800}
+.ctab tr:last-child td,.ctab tr:last-child th{border-bottom:0}
+.tcap{font-size:11.5px;color:var(--mut);margin-top:9px;line-height:1.55}
+.calc{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;padding:20px 22px;margin:26px 0;box-shadow:var(--cardSh)}
+.calc-h{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.calc-lead{font-size:13.5px;color:var(--ink2);line-height:1.6;margin-top:6px}
+.calc-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.calc-val{font-weight:800;color:var(--rose)}
+.calc input[type=range]{width:100%;margin-top:7px;accent-color:var(--rose);cursor:pointer}
+.calc-result{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px}
+.calc-eq{font-size:14px;font-weight:700;color:var(--ink2)}.calc-eq b{font-size:21px;color:var(--rose)}
+.calc-verdict{margin-top:10px;font-size:13.5px;font-weight:700;line-height:1.55;border-radius:10px;padding:11px 13px;background:var(--bg);color:var(--ink2)}
+.calc-verdict.up{background:#FBEBE9;color:var(--up)}.calc-verdict.down{background:#EAF0FB;color:var(--down)}.calc-verdict.even{background:var(--pinkSoft);color:var(--rose)}
+.calc-note{font-size:12px;color:var(--mut);line-height:1.55;margin-top:11px}
+.srcbox{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:26px;box-shadow:var(--cardSh)}
+.srcbox .srch{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+.srcbox ul{margin:10px 0 0;padding-left:18px}
+.srcbox li{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.srcbox .srcnote{font-size:11.5px;color:var(--mut);line-height:1.55;margin-top:11px}
+.relh{font-size:13px;font-weight:800;color:var(--rose);letter-spacing:.04em;margin-bottom:10px}
+.relcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.relcards{grid-template-columns:1fr}}
+.relcard{display:block;background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 16px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .25s,border-color .2s}
+.relcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi);border-color:var(--rose)}
+.relcard b{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+.relcard span{display:block;font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:5px}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/library">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">Why 인사이트 칼럼 · 구독자 샘플</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">금리가 내리면 <span class="grad">내 자산이 오른다?</span></h1>
+  <div class="artmeta reveal"><span>⏱ 9분</span><span>딥 인사이트</span><span>2026.6.3 갱신</span></div>
+  <p class="artlead reveal">"금리만 내리면 주식도 부동산도 오른다"는 말, 너무 익숙하죠. 그런데 시장은 그렇게 단순하게 움직이지 않아요. 모두가 아는 호재일수록, 한 번 더 의심해봐야 하는 이유를 함께 봐요.</p>
+
+  <div class="kpis reveal">
+    <div class="kpi"><b class="up">+18%</b><span>보험성 인하 후 12개월</span><small>S&amp;P500 역사 평균 · 거의 전부 플러스</small></div>
+    <div class="kpi"><b class="down">−2.7%</b><span>침체성 인하 후 12개월</span><small>같은 인하, 정반대 결과 · 플러스 25%</small></div>
+    <div class="kpi"><b>8 vs 4</b><span>2026.4 FOMC 표결</span><small>1992년 이후 첫 4인 반대 · 지금도 논쟁 중</small></div>
+  </div>
+  <div class="nowbox reveal"><span class="ic">📍</span><p><b>지금 우리는 어디쯤?</b> 2026년 6월, 연준은 기준금리를 <b>3.50–3.75%</b>에서 세 번 연속 동결했어요. 게다가 4월 회의는 <b>8 대 4</b> — 1992년 10월 이후 처음으로 4명이 인하에 반대표를 던졌죠. ‘언제·왜 내릴지’를 두고 시장이 둘로 갈린 상황이에요. 다음 분기점은 <b>6월 16–17일</b> 회의고, 10년물 금리는 약 4.46% 부근이에요.</p></div>
+
+  <p class="reveal dropcap">금리 인하 기대가 커지면 뉴스 헤드라인은 일제히 장밋빛이 돼요. "유동성 파티가 온다", "성장주의 시간". 틀린 말은 아니에요. 금리가 낮아지면 미래 이익의 가치가 커지고, 대출 부담이 줄어 자산 시장에 돈이 흘러드는 경향이 있으니까요. 그런데 <b>'금리 인하 = 자산 상승'을 공식처럼 외우는 순간</b>, 우리는 가장 중요한 질문을 놓쳐요. <b>"금리를 왜 내리는가?"</b></p>
+
+  <h2 class="reveal">같은 인하라도, 이유가 정반대예요</h2>
+  <p class="reveal">중앙은행이 금리를 내리는 데는 크게 두 갈래가 있어요. 하나는 <b>'경기는 괜찮은데 물가가 잡혀서' 여유 있게 내리는</b> 경우 — 이건 진짜 호재예요. 다른 하나는 <b>'경기가 빠르게 식어서 급하게 구하러' 내리는</b> 경우. 후자라면 금리 인하는 호재가 아니라 <b>비상벨</b>이에요. 실제로 과거 가파른 인하 국면의 상당수는 침체와 겹쳤고, 그때 주가는 '인하에도 불구하고' 한참 더 빠졌어요.</p>
+  <div class="pull reveal">중요한 건 '금리를 내렸다'가 아니라 ‘무엇이 무서워서 내렸나’예요.</div>
+
+  <div class="reveal">
+  <table class="ctab">
+    <thead><tr><th>구분</th><th>보험성(예방적) 인하</th><th>침체성 인하</th></tr></thead>
+    <tbody>
+      <tr><th>왜 내리나</th><td>물가가 잡혀 여유 있게 · 둔화에 선제 대응</td><td>경기가 빠르게 식어서 급하게 구조</td></tr>
+      <tr><th>대표 사례</th><td>1995 · 1998 · 2019(미드사이클 3×25bp)</td><td>2001(닷컴) · 2007(금융위기)</td></tr>
+      <tr><th>인하 후 12개월<br>S&amp;P500</th><td class="good">평균 약 +18%<small>역사 표본 거의 전부 플러스</small></td><td class="bad">평균 약 −2.7%<small>플러스는 네 번 중 한 번꼴</small></td></tr>
+      <tr><th>빛나는 자산</th><td>주식 등 위험자산</td><td>현금 · 국채 등 안전자산</td></tr>
+    </tbody>
+  </table>
+  <p class="tcap">출처: CFA Institute · Mackenzie · Robin J. Brooks 종합(미 연준 인하 후 12개월 S&amp;P500 역사 평균). 표본·기간 정의는 출처마다 달라 ‘평균의 방향’으로 보세요 — 예측이 아니라 과거 평균이에요.</p>
+  </div>
+
+  <h2 class="reveal">두 번째 함정 — 이미 가격에 들어가 있다</h2>
+  <p class="reveal">시장은 미래를 <b>미리</b> 반영해요. 모두가 "곧 내린다"를 알면, 그 기대는 이미 오늘 주가에 상당 부분 들어가 있어요. 그래서 막상 인하가 발표되는 날 오히려 차익실현으로 빠지는 '소문에 사고 뉴스에 판다'가 흔하거든요. 인하가 발표된 바로 그날 주가가 오히려 빠지기도 하는데, <b>호재가 거짓이어서가 아니라 이미 가격에 다 들어가 있어서</b>예요.</p>
+  <p class="reveal">그러니 질문은 두 개로 늘어나요. 첫째 <b>왜 내리나</b>(보험성이냐 침체성이냐), 둘째 <b>얼마나 이미 반영됐나</b>(선반영). 아래에서 '시장이 미리 반영한 인하'와 '실제 인하'의 간격이 만드는 서프라이즈를 직접 움직여 보세요.</p>
+
+  <div class="calc reveal">
+    <div class="calc-h">📊 선반영 서프라이즈 계산기</div>
+    <p class="calc-lead">시장은 인하를 <b>미리</b> 가격에 반영해요. 그래서 중요한 건 인하 그 자체가 아니라, <b>예상과 실제의 간격</b>이에요.</p>
+    <div class="calc-row"><span>시장이 미리 반영한 인하</span><span class="calc-val"><span id="expOut">2</span>회</span></div>
+    <input type="range" id="expCut" min="0" max="4" step="1" value="2" aria-label="시장이 미리 반영한 인하 횟수">
+    <div class="calc-row"><span>올해 실제 인하</span><span class="calc-val"><span id="actOut">2</span>회</span></div>
+    <input type="range" id="actCut" min="0" max="4" step="1" value="2" aria-label="올해 실제 인하 횟수">
+    <div class="calc-result">
+      <div class="calc-eq">서프라이즈 = 실제 − 기대 = <b id="surpOut">0회</b></div>
+      <div class="calc-verdict even" id="surpVerdict">딱 예상만큼 내렸어요 — 이미 가격에 들어가 있어 '뉴스에 파는' 구간이 되기 쉬워요.</div>
+    </div>
+    <p class="calc-note">교육용 단순 모형이에요. 실제 시장은 인하 횟수뿐 아니라 속도·이유·물가·고용까지 함께 반영해요. 투자 권유가 아니에요.</p>
+  </div>
+
+  <h2 class="reveal">그래서, 금리 인하 뉴스를 어떻게 읽을까</h2>
+  <p class="reveal">예측이 아니라 <b>구분</b>이 핵심이에요. 같은 '인하'라도 이유와 선반영 정도에 따라 약이 되기도, 경고가 되기도 하니까요. 헤드라인에 바로 반응하기 전에 세 가지만 같이 봐요.</p>
+  <div class="checks">
+    <div class="c reveal"><i>1</i><span><b>왜 내리는지부터</b> — 물가가 잡혀 여유 있게(보험성)인가, 경기가 식어 급하게(침체성)인가? 둘은 12개월 뒤
+주가의 평균 경로가 정반대로 달랐어요 — 약 +18% vs 약 −2.7%(과거 평균일 뿐, 예측은 아니에요).</span></div>
+    <div class="c reveal"><i>2</i><span><b>얼마나 선반영됐는지</b> — 발표 '내용'보다 시장 기대와의 '간격'이 가격을 움직여요. 위 계산기처럼 서프라이즈(실제 − 기대)가 플러스인지 마이너스인지부터 따져봐요.</span></div>
+    <div class="c reveal"><i>3</i><span><b>점도표와 연준의 '말'까지</b> — 이번 결정 너머의 경로는 분기마다 나오는 점도표와 의장 기자회견 톤에 담겨요. 2026년 4월처럼 표결이 8 대 4로 갈렸다면, 그 자체가 '경로가 불확실하다'는 신호거든요.</span></div>
+  </div>
+
+  <p class="reveal">결국 '금리가 내리면 오른다'는 절반만 맞는 말이에요. 나머지 절반 — <b>왜 내리는지, 얼마나 이미 반영됐는지</b>가 채워져야 그림이 완성되거든요. 역사도 그랬어요. 같은 '인하'인데 보험성이면 12개월 뒤 평균 약 +18%, 침체성이면 약 −2.7% — 헤드라인 한 줄로는 구분할 수 없는 차이였죠.</p>
+  <p class="reveal">그러니 다음 발표가 와도 속보에 바로 반응하기보다, 질문 두 개를 먼저 꺼내봐요. "왜 내렸지?" 그리고 "시장은 몇 회나 미리 반영하고 있었지?" — 모두가 같은 방향을 외칠 때 반 박자 멈춰 묻는 게 쉽진 않지만,, 그 습관이 발표일의 출렁임 앞에서 우리를 덜 흔들리게 해줘요. 두 분도 당장 6월 16–17일 회의부터 같이 연습해봐요:)</p>
+
+  <div class="tldr reveal"><div class="h">핵심 요약</div><p>금리 인하는 '왜 내리는지(보험성 vs 침체성)'와 '얼마나 선반영됐는지'에 따라 호재일 수도, 경고일 수도 있어요. 역사 평균으로 보험성 인하 뒤 12개월 S&amp;P500은 약 +18%, 침체성은 약 −2.7%로 정반대였고요. 발표 그 자체보다 기대와 실제의 간격(서프라이즈)이 가격을 움직여요. 예측 대신 두 질문 — 왜 내리나, 몇 회나 반영됐나 — 부터 확인해요. 투자 권유가 아니라 이해를 돕는 글이에요.</p></div>
+  <p class="byline reveal">— 동은부부 드림</p>
+
+  <div class="termgrid stag reveal">
+    <div class="term"><b>보험성(예방적) 인하</b><p>경기가 아직 괜찮을 때 물가가 잡혀 여유 있게, 둔화에 미리 대비하며 내리는 인하예요. 역사적으로 12개월 뒤 주가 평균이 플러스였던 쪽이에요.</p></div>
+    <div class="term"><b>침체성 인하</b><p>경기가 빠르게 식어 급하게 구조하러 내리는 인하예요. 인하 자체가 비상벨이라, 과거엔 인하에도 불구하고 주가가 더 빠진 경우가 많았어요.</p></div>
+    <div class="term"><b>선반영</b><p>시장이 미래 이벤트를 미리 가격에 넣어두는 거예요. 모두가 아는 호재는 이미 반영돼 있어서, 발표일엔 '소문에 사고 뉴스에 판다'가 나오기도 해요.</p></div>
+    <div class="term"><b>점도표(Dot Plot)</b><p>FOMC 위원들이 각자 생각하는 적정 금리 수준을 점으로 찍은 분기 전망표예요. 연준이 그리는 인하 '경로'를 엿보는 창이고요.</p></div>
+  </div>
+
+  <div class="reveal" style="margin-top:34px">
+    <div class="relh">이어서 읽으면 좋아요</div>
+    <div class="relcards">
+      <a class="relcard" href="/eco-fomc-958f"><b>FOMC 점도표 읽는 법</b><span>연준 위원들의 점 하나하나가 말하는 '인하 경로' — 오늘 글의 세 번째 체크를 깊게 풀었어요.</span></a>
+      <a class="relcard" href="/col-561d"><b>금리가 오르면 내 돈은? — 금리 시소</b><span>같은 금리 한 칸에 대출·예금·채권·주식이 정반대로 움직이는 이유를 시소로 봤어요.</span></a>
+      <a class="relcard" href="/eco-5396"><b>수익률 곡선 — 장단기 금리의 신호</b><span>침체성 인하를 미리 귀띔해주곤 했던 장단기 금리의 간격, 같이 읽어두면 좋아요.</span></a>
+    </div>
+  </div>
+
+  <div class="srcbox reveal"><div class="srch">데이터 · 출처</div><ul>
+    <li>보험성 vs 침체성 인하 후 12개월 S&amp;P500 역사 평균(약 +18% / 약 −2.7%) — CFA Institute·Mackenzie Investments·Robin J. Brooks 종합. 표본·기간 정의는 출처마다 달라 '평균의 방향'으로 읽어주세요.</li>
+    <li>미 연방기금금리 3.50–3.75%(세 번 연속 동결) · 2026-04 FOMC 8 대 4 표결(1992-10 이후 첫 4인 반대) · 차기 회의 2026-06-16~17 — 미 연준(FOMC) 발표</li>
+    <li>미 10년물 국채금리 약 4.46% — FRED(세인트루이스 연은), 2026-06-03 조회</li>
+  </ul><div class="srcnote">모든 수치는 2026-06-03 조회·발표 시점 기준이라 지금과 다를 수 있어요. 선반영 계산기는 이해를 돕기 위한 교육용 단순 모형이에요.</div></div>
+
+  <div class="discm reveal">※ 본문의 +18%·−2.7% 같은 통계는 미 연준 인하 국면들의 과거 평균이에요. 출처마다 표본·기간 정의가 달라 값이 조금씩 다르고, 과거 평균이 미래 수익을 보장하지 않아요. 수치는 2026-06-03 조회·발표 시점 기준이라 지금과 다를 수 있어요.</div>
+  <div class="discm reveal">※ 이 칼럼은 특정 종목·상품·시점의 매수·매도를 권유하는 글이 아니에요. 시장 해석을 돕기 위한 교육용 콘텐츠이며, 최종 판단과 책임은 본인에게 있습니다.</div>
+</div></section>
+
+<section class="blk wrap" style="padding-top:0"><div class="cta-band reveal"><h3>숫자 너머의 '왜'를, 매주 한 편.</h3><p>오늘 같은 딥 인사이트 칼럼을 구독자에게 매주 보내드려요. 매일의 머니레터와 함께요.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px"><a class="btn btn-rose magnet" href="/home#subscribe">구독하고 칼럼 받기 →</a><a class="btn btn-ghost" href="/col-561d">'금리 시소' 칼럼 보기</a></div></div></section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">이 칼럼은 일반적인 경제 이해를 돕기 위한 참고용이며, 투자 권유가 아니에요. 수치는 2026-06-03 조회·발표 시점 기준이고, 과거 흐름이 미래를 보장하지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

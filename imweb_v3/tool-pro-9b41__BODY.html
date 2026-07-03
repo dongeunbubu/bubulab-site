@@ -1,0 +1,571 @@
+<!-- [도구_환헤지반반비중Pro_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 16건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(40px,5.5vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px;align-items:center}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.menu .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.menu .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:760px){.menu a:not(.cta){display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.barseg i,#rfpaths path,#hpaths path,.gauge-mk,.gauge-cur,.zone-cur,.zone-band{transition:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(29px,5vw,48px);font-weight:800;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17px);line-height:1.72;max-width:690px;margin-top:15px}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:16px}
+.backlink:hover{color:var(--rose)}
+.livechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip b{color:var(--rose);font-variant-numeric:tabular-nums}
+.livechip .ld{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(94,140,127,.18)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--rose);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.panelhd{font-size:clamp(18px,2.3vw,22px);font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.panelsub{font-size:13.5px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.6}
+/* calc fields */
+.calc{margin-top:24px}
+.field{margin-bottom:20px}
+.field>label{font-size:14px;font-weight:800;display:block;margin-bottom:9px}
+.incrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.incfield{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.incfield input{border:0;background:transparent;font-family:inherit;font-size:19px;font-weight:800;width:130px;text-align:right;color:var(--ink)}
+.incfield.sm input{width:84px}
+.incfield span{font-size:13.5px;color:var(--mut);font-weight:700}
+.incfield:focus-within{border-color:var(--rose)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:150px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+input[type=range].big{height:10px}
+input[type=range].big::-webkit-slider-thumb{width:28px;height:28px;border-width:4px}
+.bigv{font-size:18px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums;min-width:96px;text-align:right}
+.bigv.xl{font-size:24px}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.55}
+.hint b{color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{border-color:var(--rose);background:var(--pinkSoft2);color:var(--rose)}
+.seg{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px;flex-wrap:wrap}
+.seg button{flex:1;min-width:96px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:9px;padding:9px 8px;cursor:pointer;transition:background .2s,color .2s;line-height:1.3}
+.seg button small{display:block;font-size:10.5px;font-weight:600;color:var(--mut);margin-top:2px}
+.seg button.on{background:#fff;color:var(--rose);box-shadow:var(--cardSh)}
+.seg button.on small{color:var(--rose)}
+.wbox{margin-top:8px;background:linear-gradient(135deg,var(--pinkSoft2),#fff);border:1.5px solid var(--pink);border-radius:16px;padding:18px 20px}
+.wbox>label{font-size:14.5px;font-weight:800;display:block;margin-bottom:11px}
+.wbox .wval{color:var(--rose)}
+/* reco band */
+.recoband{margin-top:6px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:22px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.recoband .crown{font-size:34px;line-height:1}
+.recoband .rt{flex:1;min-width:220px}
+.recoband .rt .k{font-size:12.5px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.recoband .rt .g{font-size:clamp(18px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.28}
+.recoband .rt p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;max-width:640px}
+.hero-big{margin-top:22px;text-align:center;background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:24px 20px}
+.hero-big .hl{font-size:13px;font-weight:800;color:var(--mut)}
+.hero-big .hv{font-size:clamp(30px,6vw,46px);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.05;margin-top:6px;background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-big .hs{font-size:12.5px;color:var(--ink2);font-weight:700;margin-top:8px}
+/* kpi strip */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;text-align:center;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.kpi.k1{border-top-color:var(--rose)} .kpi.k2{border-top-color:var(--sage)} .kpi.k3{border-top-color:var(--lav)}
+.kpi .kl{font-size:12px;font-weight:700;color:var(--mut)}
+.kpi .kv{font-size:clamp(18px,2.4vw,24px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;letter-spacing:-.01em}
+.kpi .ks{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:3px}
+/* section head */
+.split,.chartwrap,.scen,.zonewrap,.bewrap{margin-top:28px;padding-top:22px;border-top:1px dashed var(--border)}
+.ch{font-size:14px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+.chs{font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:16px;line-height:1.55}
+/* contribution split */
+.barseg{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:13px;margin-bottom:12px}
+@media(max-width:560px){.barseg{grid-template-columns:118px 1fr;}.barseg .bv{grid-column:2;justify-self:end}}
+.barseg .bl{font-size:12.5px;font-weight:800;display:flex;align-items:center;gap:7px}
+.barseg .bl .pin{width:11px;height:11px;border-radius:4px;flex-shrink:0}
+.barbox{height:30px;border-radius:9px;background:var(--bg);border:1px solid var(--border);position:relative;overflow:hidden}
+.barseg i{position:absolute;left:0;top:0;height:100%;width:0;border-radius:9px;transition:width 1s var(--ease);opacity:.92}
+.barseg .bv{font-size:15.5px;font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.eqline{font-size:13px;color:var(--ink2);font-weight:700;margin-top:6px;background:var(--pinkSoft2);border-radius:12px;padding:12px 15px;line-height:1.65}
+.eqline b{color:var(--rose)}
+/* chart */
+.chartwrap .chh{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chartwrap .chh b{font-size:14px;font-weight:800}
+.chartwrap .chh span{font-size:12.5px;color:var(--mut);font-weight:700}
+.chartbox{position:relative;width:100%}
+#rfChart,#hChart{width:100%;height:auto;display:block;overflow:visible}
+#rfpaths path,#hpaths path{transition:stroke-dashoffset 1.3s var(--ease)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--ink2);font-weight:700}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.leg .sw{width:14px;height:3px;border-radius:2px;display:inline-block}
+.leg .sw.d{height:0;border-top:2.5px dashed var(--mut)}
+.leg .sw.f{height:11px;width:14px;border-radius:3px;opacity:.5}
+/* scenario table */
+.scentbl{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:560px){.scentbl{grid-template-columns:1fr}}
+.scc{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:15px 16px;border-top:4px solid var(--border)}
+.scc .sct{font-size:12.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px}
+.scc .scsub{font-size:11px;color:var(--mut);font-weight:700;margin-top:2px}
+.scc .scrow{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.scc .scrow .v{font-variant-numeric:tabular-nums;font-weight:800}
+.scc .scrow.hi .v{color:var(--rose)}
+.scc .scnote{margin-top:10px;font-size:11px;font-weight:700;color:var(--mut);border-top:1px dashed var(--border);padding-top:8px}
+/* recommended zone bar */
+.zonebar{position:relative;height:54px;border-radius:13px;overflow:hidden;border:1px solid var(--border);background:linear-gradient(90deg,rgba(94,140,127,.14),rgba(201,168,76,.10),rgba(184,80,96,.16))}
+.zone-band{position:absolute;top:0;height:100%;background:rgba(255,255,255,.55);border-left:2px dashed var(--rose);border-right:2px dashed var(--rose);transition:left .9s var(--ease),width .9s var(--ease)}
+.zone-band::after{content:"후회 최소 구간";position:absolute;top:5px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--rose);white-space:nowrap}
+.zone-cur{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:0 2px 8px rgba(62,47,41,.3);transform:translate(-50%,-50%);transition:left .9s var(--ease);z-index:3}
+.zone-cur::after{content:"지금";position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--ink);white-space:nowrap}
+.zone-ax{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--mut);margin-top:9px}
+.zone-read{margin-top:14px;font-size:13px;font-weight:700;color:var(--ink2);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:13px 15px;line-height:1.65}
+.zone-read em{font-style:normal;color:var(--rose);font-weight:800}
+/* why / regret cards */
+.bd{margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:680px){.bd{grid-template-columns:1fr}}
+.bdc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:19px;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.bdc.t-exp{border-top-color:var(--sage)} .bdc.t-hed{border-top-color:var(--rose)} .bdc.t-rate{border-top-color:var(--gold)} .bdc.t-ins{border-top-color:var(--lav)}
+.bdc h5{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.bdc .rv{font-size:clamp(18px,2.4vw,22px);font-weight:800;font-variant-numeric:tabular-nums;margin:4px 0 8px}
+.bdc p{font-size:13px;color:var(--ink2);line-height:1.66}
+.bdc p b{color:var(--ink)}
+/* related links */
+.linkrow{margin-top:22px;display:flex;flex-wrap:wrap;gap:9px}
+.linkrow a{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;transition:border-color .2s,color .2s}
+.linkrow a:hover{border-color:var(--rose);color:var(--rose)}
+/* save box */
+.savebox{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px}
+.savebox .sh{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.savebox .ss{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px;line-height:1.5}
+.saverow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saverow input{flex:1;min-width:160px;border:1.5px solid var(--border);background:#fff;border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink)}
+.saverow input:focus{outline:none;border-color:var(--rose)}
+.saverow .btn{padding:11px 18px;font-size:13.5px}
+.savelist{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.saveitem{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 14px}
+.saveitem .si-n{font-weight:800;font-size:13.5px}
+.saveitem .si-d{font-size:12px;color:var(--mut);font-weight:600;margin-left:auto;font-variant-numeric:tabular-nums}
+.saveitem button{font-family:inherit;font-size:12px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);border-radius:9px;padding:6px 11px;cursor:pointer;color:var(--ink2);transition:border-color .2s,color .2s}
+.saveitem .si-load:hover{border-color:var(--rose);color:var(--rose)}
+.saveitem .si-del:hover{border-color:var(--up);color:var(--up)}
+.saveempty{font-size:12.5px;color:var(--mut);font-weight:600;text-align:center;padding:8px}
+/* lock box */
+.lockbox{margin-top:22px;position:relative;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px dashed var(--pink);border-radius:18px;padding:clamp(22px,3vw,30px);overflow:hidden}
+.lockbox .lk{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:#fff;background:var(--rose);border-radius:100px;padding:5px 13px;letter-spacing:.02em}
+.lockbox h4{font-size:clamp(17px,2.3vw,21px);font-weight:800;letter-spacing:-.02em;margin-top:12px}
+.lockbox p.lksub{font-size:13.5px;color:var(--ink2);margin-top:7px;max-width:560px;line-height:1.6}
+.lockgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:18px}
+@media(max-width:600px){.lockgrid{grid-template-columns:1fr}}
+.lockf{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:13px;padding:14px 15px}
+.lockf .ic{font-size:20px;line-height:1}
+.lockf b{font-size:13.5px;font-weight:800;display:block}
+.lockf span{font-size:12px;color:var(--ink2);font-weight:600;line-height:1.5}
+.lockcta{margin-top:18px;display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.lockcta .note{font-size:12px;color:var(--mut);font-weight:600}
+/* details */
+.tooldet{margin-top:16px;border:1px solid var(--border);border-radius:13px;background:#fff;overflow:hidden}
+.tooldet summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--ink2);padding:14px 16px;list-style:none;display:flex;align-items:center;gap:8px}
+.tooldet summary::-webkit-details-marker{display:none}
+.tooldet summary::before{content:"▸";color:var(--rose);transition:transform .25s}
+.tooldet[open] summary::before{transform:rotate(90deg)}
+.tooldet .dd{padding:0 16px 16px;font-size:12.5px;color:var(--ink2);line-height:1.7}
+.tooldet .dd b{color:var(--ink)}
+.tooldet .dd code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12px;font-variant-numeric:tabular-nums}
+/* disclaim */
+.toolnote{font-size:12.5px;color:var(--mut);margin-top:18px;line-height:1.65;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.toolnote b{color:var(--ink2)}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:540px}
+.cta-band .btn{margin-top:20px}
+/* back to top */
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose);color:#fff;border:none;cursor:pointer;font-size:19px;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:60}
+.toTop.show{opacity:1;pointer-events:auto;transform:none}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<main>
+<!-- HERO -->
+<section class="blk" style="padding-bottom:clamp(20px,3vw,30px)">
+ <div class="wrap">
+  <p class="s-eyebrow reveal">자료실 · 투자 학습 도구 · Pro</p>
+  <h1 class="tool-h1 reveal">달러 자산,<br><span class="grad">얼마나 덮을까 (0~100%)</span></h1>
+  <p class="lead reveal">환헤지는 <b>전부 덮기(100%) vs 그냥 두기(0%)</b>의 0/1 선택이 아니에요. 실제로는 <b>'반반'처럼 일부만 덮는 부분 헤지</b>를 고르는 부부가 많죠. 비중을 올릴수록 <b>환율 변동성은 줄지만</b> 한·미 금리차만큼 <b>비용이 더 빠져요</b>. 이 도구는 비중 슬라이더를 직접 굴리며 평가액·환노출·변동성 폭이 어떻게 맞바뀌는지, 그리고 <b>확신이 없을 땐 왜 반반인지</b>를 눈으로 보여드려요. 종목 추천이 아니라 <b>'구조'를 보는</b> 교육용 도구예요.</p>
+  <div class="livechips reveal">
+   <span class="livechip"><span class="ld"></span>원/달러 <b id="liveFx">1,534.8</b>원</span>
+   <span class="livechip">美 <b>3.75%</b> · 韓 <b>2.5%</b> → 금리차 <b>≈1.25%p</b></span>
+   <span class="livechip">= 헤지비용 <b>≈1.25%/년</b></span>
+   <span class="livechip" style="color:var(--mut)">2026-06-04 실데이터 기준</span>
+  </div>
+  <a class="backlink reveal" href="/tool-vs-24fc">← 먼저 '환헤지 vs 언헤지(0% vs 100%)' 기본판 보기</a>
+ </div>
+</section>
+
+<!-- CALC -->
+<section class="blk" style="padding-top:clamp(8px,2vw,16px)">
+ <div class="wrap">
+  <div class="panel reveal">
+   <div class="panelhd">🎛️ 우리 집 가정으로 '헤지 비중' 굴려보기</div>
+   <p class="panelsub">투자금·기간·기대 수익률과, 보유 기간 동안 원/달러가 어떻게 움직일지 '가정'만 넣어요. 맨 아래 <b>헤지 비중 슬라이더</b>가 이 도구의 주인공이에요.</p>
+
+   <div class="calc">
+    <div class="field">
+     <label>① 투자 원금 (달러 자산에 넣을 돈)</label>
+     <div class="incrow">
+      <div class="incfield"><input id="inPrin" inputmode="numeric" value="1000"><span>만원</span></div>
+     </div>
+     <div class="chips" id="chPrin">
+      <button class="chip" data-v="500">500만</button>
+      <button class="chip on" data-v="1000">1,000만</button>
+      <button class="chip" data-v="3000">3,000만</button>
+      <button class="chip" data-v="5000">5,000만</button>
+     </div>
+    </div>
+
+    <div class="field">
+     <label>② 보유 기간</label>
+     <div class="incrow">
+      <input type="range" id="inYears" min="1" max="20" step="1" value="5">
+      <span class="bigv"><span id="vYears">5</span>년</span>
+     </div>
+     <div class="chips" id="chYears">
+      <button class="chip" data-v="1">1년</button>
+      <button class="chip" data-v="3">3년</button>
+      <button class="chip on" data-v="5">5년</button>
+      <button class="chip" data-v="10">10년</button>
+     </div>
+    </div>
+
+    <div class="field">
+     <label>③ 기초자산 기대 연수익률 (달러 기준)</label>
+     <div class="seg" id="segRet">
+      <button data-v="4">보수 4%<small>예금·채권 섞기</small></button>
+      <button data-v="7" class="on">표준 7%<small>장기 주식 평균권</small></button>
+      <button data-v="10">적극 10%<small>주식 비중 큼</small></button>
+     </div>
+     <p class="hint">참고로 <b>S&amp;P500(SPY)</b>은 최근 5년 연 <b>+14.1%</b>·3년 연 <b>+23.2%</b>였지만, 그건 '지난 기록'일 뿐 미래 보장이 아니에요. 보수적으로 잡아보길 권해요. 헤지 비중 비교에선 수익률은 두 길에 똑같이 들어가요.</p>
+    </div>
+
+    <div class="field">
+     <label>④ 보유 기간 동안 원/달러 흐름 (환율 가정)</label>
+     <div class="incrow">
+      <input type="range" id="inV" min="-8" max="8" step="1" value="0">
+      <span class="bigv" id="vVlab">보합 0%</span>
+     </div>
+     <div class="chips" id="chV">
+      <button class="chip" data-v="-5">원화 강세 −5%/년</button>
+      <button class="chip on" data-v="0">보합 0%</button>
+      <button class="chip" data-v="5">원화 약세 +5%/년</button>
+     </div>
+     <p class="hint">+면 <b>원화 약세(달러 강세)</b> → 달러 평가액이 올라 <b>덜 덮을수록(낮은 비중) 유리</b>. −면 <b>원화 강세(달러 약세)</b> → <b>더 덮을수록(높은 비중) 유리</b>. 최근 1년 원/달러는 1,322~1,537원을 오갔어요.</p>
+    </div>
+
+    <div class="field">
+     <label>⑤ 환헤지 비용 (연, = 한·미 금리차)</label>
+     <div class="incrow">
+      <div class="incfield sm"><input id="inHc" inputmode="decimal" value="1.25"><span>%/년</span></div>
+     </div>
+     <p class="hint">환헤지는 달러를 '선물환'으로 미리 파는 건데, 그 값이 <b>두 나라 금리차</b>로 정해져요. 지금은 <b>美 3.75% − 韓 2.5% ≈ 1.25%p</b>. 덮는 비중에 비례해 매년 비용이 빠져요. (韓 7월 금리 인상설이 현실화돼 금리차가 좁아지면 이 값은 더 작아져요.)</p>
+    </div>
+
+    <div class="field" style="margin-bottom:6px">
+     <label>⑥ 시작 환율 (참고용)</label>
+     <div class="incrow">
+      <div class="incfield sm"><span>원/$</span><input id="inFx" inputmode="numeric" value="1535"></div>
+     </div>
+    </div>
+
+    <!-- ⭐ the star: hedge ratio -->
+    <div class="wbox">
+     <label>⑦ 🛡️ 환헤지 비중 — 달러 자산의 <span class="wval"><span id="vWtxt">50</span>%</span>를 덮어요</label>
+     <div class="incrow">
+      <input type="range" class="big" id="inW" min="0" max="100" step="5" value="50">
+      <span class="bigv xl"><span id="vW">50</span>%</span>
+     </div>
+     <div class="chips" id="chW">
+      <button class="chip" data-v="0">0% · 전부 노출(언헤지)</button>
+      <button class="chip on" data-v="50">50% · 반반</button>
+      <button class="chip" data-v="100">100% · 전부 덮기</button>
+     </div>
+     <p class="hint">0%는 환율을 그냥 두는 <b>언헤지</b>, 100%는 전부 덮는 <b>완전 헤지</b>, 그 사이는 <b>부분(반반) 헤지</b>예요. 슬라이더를 움직이면 아래 모든 숫자·그래프가 즉시 따라와요.</p>
+    </div>
+   </div>
+
+   <!-- hero big -->
+   <div class="hero-big reveal">
+    <div class="hl">🛡️ 환헤지 <b id="hbW">50</b>% 비중일 때 · <span id="hbY">5</span>년 뒤 평가액</div>
+    <div class="hv" id="hbV">0원</div>
+    <div class="hs" id="hbS"></div>
+   </div>
+
+   <!-- reco -->
+   <div class="recoband reveal" style="margin-top:18px">
+    <div class="crown" id="recoCrown">🎛️</div>
+    <div class="rt">
+     <div class="k" id="recoK">지금 비중·가정에서는</div>
+     <div class="g" id="recoG">계산하고 있어요…</div>
+     <p id="recoP"></p>
+    </div>
+   </div>
+
+   <!-- kpi -->
+   <div class="kpis reveal">
+    <div class="kpi k1"><div class="kl">🛡️ 이 비중 평가액</div><div class="kv" id="kpV">0원</div><div class="ks" id="kpVs">현재 헤지 비중 기준</div></div>
+    <div class="kpi k2"><div class="kl">🌊 남은 환노출 비중</div><div class="kv" id="kpExp">0%</div><div class="ks" id="kpExps">환율에 열려 있는 몫</div></div>
+    <div class="kpi k3"><div class="kl">📊 환율 변동성 폭</div><div class="kv" id="kpBand">0원</div><div class="ks" id="kpBands">강세↔약세 출렁임</div></div>
+   </div>
+
+   <!-- ratio fan chart (HERO visual) -->
+   <div class="chartwrap reveal">
+    <div class="chh"><b>🎚️ 비중을 0%→100%로 올리면 — 기대 평가액과 '출렁임 폭'</b><span id="rfTail"></span></div>
+    <div class="chartbox">
+     <svg id="rfChart" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="헤지 비중에 따른 평가액과 변동성 부채꼴">
+      <g id="rfGrid"></g>
+      <g id="rfFan"></g>
+      <g id="rfpaths"></g>
+      <g id="rfNow"></g>
+      <g id="rfDots"></g>
+      <g id="rfLabs"></g>
+     </svg>
+    </div>
+    <div class="leg">
+     <span><i class="sw" style="background:var(--up)"></i>원화 약세(+5%/년)</span>
+     <span><i class="sw" style="background:var(--mut)"></i>보합(0%)</span>
+     <span><i class="sw" style="background:var(--down)"></i>원화 강세(−5%/년)</span>
+     <span><i class="sw f" style="background:var(--lav)"></i>출렁임 폭(부채꼴)</span>
+    </div>
+    <p class="eqline" id="rfRead" style="margin-top:14px"></p>
+   </div>
+
+   <!-- split (blended decomposition) -->
+   <div class="split reveal">
+    <div class="ch">🔍 이 비중에서, 평가액은 무엇으로 이뤄지나</div>
+    <p class="chs">원금과 <b style="color:var(--lav)">자산이 오른 몫</b>은 비중과 무관해요. 비중이 바꾸는 건 단 둘 — <b style="color:var(--sage)">환율손익</b>은 노출 비중만큼(×<span id="splitExpPct">50</span>%)만 받고, <b style="color:var(--up)">헤지비용</b>은 덮은 비중만큼(×<span id="splitHedPct">50</span>%)만 내요.</p>
+    <div id="splitBars"></div>
+    <p class="eqline" id="eqB"></p>
+   </div>
+
+   <!-- scenario table -->
+   <div class="scen reveal">
+    <div class="ch">🎲 환율 시나리오 3개 — 이 비중이면 결과가 얼마나 벌어질까</div>
+    <p class="chs">100% 덮으면 어느 칸이든 금액이 같아요(확정). 비중이 낮을수록 칸끼리 더 벌어져요 — 그게 변동성이에요.</p>
+    <div class="scentbl" id="scenTbl"></div>
+   </div>
+
+   <!-- recommended zone -->
+   <div class="zonewrap reveal">
+    <div class="ch">🤝 그래서 몇 %가 좋을까 — '후회 최소' 구간</div>
+    <p class="chs">정답은 없어요. 다만 <b>환율 방향에 확신이 없을수록</b>, 한쪽에 몰면 반대로 갔을 때 후회가 커요. 반반(50%)은 두 후회를 <b>절반씩</b> 나눠 가져요. 당신의 환율 가정이 강할수록 그쪽으로 조금 기울이면 돼요.</p>
+    <div class="zonebar" id="zoneBar">
+     <div class="zone-band" id="zoneBand"></div>
+     <div class="zone-cur" id="zoneCur"></div>
+    </div>
+    <div class="zone-ax"><span>0% 전부 노출</span><span>50% 반반</span><span>100% 전부 덮기</span></div>
+    <p class="zone-read" id="zoneRead"></p>
+
+    <div class="bd">
+     <div class="bdc t-exp">
+      <h5>🌊 덜 덮은 대가 (원화가 강세로 가면)</h5>
+      <div class="rv" id="regExpV" style="color:var(--sage)">–</div>
+      <p>원화가 <b>−5%/년</b>으로 가는데 이 비중이라면, 100% 덮었을 때보다 이만큼 <b>덜 받아요</b>. 노출을 남겨둔 대가예요. 100%로 갈수록 이 후회는 0에 가까워져요.</p>
+     </div>
+     <div class="bdc t-hed">
+      <h5>🛡️ 더 덮은 대가 (원화가 약세로 가면)</h5>
+      <div class="rv" id="regHedV" style="color:var(--rose)">–</div>
+      <p>원화가 <b>+5%/년</b>으로 가는데 이 비중이라면, 0% 노출했을 때보다 이만큼 <b>덜 받아요</b>(못 받은 환차익 + 낸 비용). 0%로 갈수록 이 후회는 0에 가까워져요.</p>
+     </div>
+    </div>
+   </div>
+
+   <!-- why cards -->
+   <div class="bd reveal">
+    <div class="bdc t-rate">
+     <h5>💡 비중을 올린다고 공짜가 아니에요</h5>
+     <p>덮는 비중 1%p마다 <b>한·미 금리차(≈1.25%)의 그만큼</b>이 매년 비용으로 빠져요. 변동성을 줄이는 값이죠. 반대로 비중을 낮추면 비용은 아끼지만 <b>환율 출렁임을 그대로</b> 떠안아요. <b>변동성↓ ↔ 비용↑</b>의 맞바꿈, 이게 부분 헤지의 본질이에요.</p>
+    </div>
+    <div class="bdc t-ins">
+     <h5>🧩 (H)형 ETF로 부분 헤지를 만들 수도 있어요</h5>
+     <p>같은 지수의 <b>일반형</b>과 <b>환헤지(H)형</b> ETF를 비중대로 섞으면 부분 헤지가 돼요. 다만 (H)형은 선물환 롤오버·운용보수 때문에 <b>금리차에 소폭(대략 +0.1~0.3%p)</b>이 더 붙는 편이라, 실제 비용은 이 도구의 가정보다 조금 클 수 있어요. 정확한 괴리는 상품별로 달라요.</p>
+    </div>
+   </div>
+
+   <div class="linkrow reveal">
+    <a href="/tool-vs-24fc">🛡️ 환헤지 vs 언헤지 (0% vs 100%)</a>
+    <a href="/tool-af26">💱 달러 적립(환율) 시뮬레이터</a>
+    <a href="/tool-pro-fbcd">🧭 투자성향→자산배분 Pro</a>
+    <a href="/eco-vs-3479">📖 환헤지 vs 언헤지 — 개념 정리</a>
+   </div>
+
+   <!-- save -->
+   <div class="savebox reveal">
+    <div class="sh">💾 이 비중·가정 저장해 두기</div>
+    <div class="ss">설정을 저장하면 다음에 바로 불러와요. (이 기기에만 저장돼요)</div>
+    <div class="saverow">
+     <input id="saveName" maxlength="24" placeholder="예: 달러 ETF 5년 · 반반 헤지">
+     <button class="btn btn-rose" id="saveBtn">저장</button>
+    </div>
+    <div class="savelist" id="saveList"></div>
+   </div>
+
+   <!-- lock box -->
+   <div class="lockbox reveal" id="sub">
+    <span class="lk">🔒 구독자 전용 · 환헤지 비중 Pro</span>
+    <h4>오늘의 금리차로 비용을 자동 갱신하고, (H)형 ETF 실제 괴리까지 따라가요</h4>
+    <p class="lksub">위 도구의 헤지비용은 '가정'이에요. 구독하면 실시간 한·미 금리차와 (H)형 ETF의 진짜 괴리를 물려 <b>우리 집 통화 전략</b>으로 굴러가요.</p>
+    <div class="lockgrid">
+     <div class="lockf"><span class="ic">🔄</span><div><b>실시간 금리차로 비용 자동연동</b><span>韓 금리 인상 등으로 금리차가 바뀌면 비용도 자동 갱신</span></div></div>
+     <div class="lockf"><span class="ic">🏷️</span><div><b>(H)형 vs 일반형 ETF 실제 괴리</b><span>같은 지수 두 상품의 실측 차이로 부분 헤지 비용을 보정</span></div></div>
+     <div class="lockf"><span class="ic">⚖️</span><div><b>우리 집 목표 비중 추적</b><span>실제 보유 비중이 목표에서 벗어나면 리밸런싱 알림</span></div></div>
+     <div class="lockf"><span class="ic">💞</span><div><b>부부 통화 노출 합산</b><span>둘의 원화·달러 자산을 합쳐 전체 환노출 비중을 관리</span></div></div>
+    </div>
+    <div class="lockcta">
+     <a class="btn btn-rose" href="/home#subscribe">구독하고 전부 열기</a>
+     <a class="btn btn-ghost" href="/moneyletter-landing">무료 머니레터 먼저 받기</a>
+     <span class="note">먼저 무료로 맛보고 결정해도 좋아요 :)</span>
+    </div>
+   </div>
+
+   <!-- method details -->
+   <details class="tooldet reveal">
+    <summary>🧮 계산 방법이 궁금하면 (펼쳐보기)</summary>
+    <div class="dd">
+     원금 <code>P</code>를 비중 <code>w</code>(0~1)만큼은 <b>덮고</b>, 나머지 <code>1−w</code>는 <b>노출</b>로 둬요. 자산은 둘 다 똑같이 <code>(1+수익률)^년</code>으로 자라요(<code>fA</code>).<br>
+     · <b>덮은 몫</b> = <code>w·P·fA·(1−헤지비용)^년</code> &nbsp; · <b>노출 몫</b> = <code>(1−w)·P·fA·(1+환율변동)^년</code><br>
+     · <b>이 비중 평가액</b> = 덮은 몫 + 노출 몫 = <code>w·(완전헤지) + (1−w)·(언헤지)</code> — 즉 두 끝값의 <b>직선(가중평균)</b>이에요. 그래서 위 부채꼴이 비중에 따라 곧게 모여요.<br>
+     · <b>환노출 비중</b> = <code>1−w</code> &nbsp; · <b>변동성 폭</b> = 노출 몫이 환율 시나리오(±5%/년)에 따라 벌어지는 금액 = <code>(1−w)</code>에 비례.<br>
+     · <b>후회 최소 구간</b>은 환율 방향 확신이 없을 때 두 후회를 고르게 나누는 50% 부근을, 당신의 환율 가정만큼 기울여 표시한 <b>발견적(heuristic) 안내</b>예요(정답·권유 아님).<br>
+     세금·배당·거래비용·헤지 베이시스는 단순화를 위해 뺐어요.
+    </div>
+   </details>
+
+   <p class="toolnote reveal"><b>잠깐, 꼭 읽어주세요.</b> 이 도구는 <b>투자 권유나 종목 추천이 아니에요.</b> 입력한 수익률·환율·헤지비용·비중은 모두 <b>가정</b>이고, 결과는 '구조를 이해하는 용도'로만 봐주세요. '후회 최소 구간'도 정답이 아니라 참고용 안내예요. 실제로는 헤지비용이 금리차와 정확히 같지 않고((H)형 ETF 보수·베이시스·수수료 존재), 환율·주가는 예측할 수 없게 출렁이며, 세금·배당·거래비용은 단순화를 위해 뺐어요. 부분 헤지엔 정답이 없어 <b>특정 비중을 권하지 않아요.</b> 입력값은 <b>이 기기에만</b> 저장되고 서버로 전송되지 않아요. · 실데이터: 원/달러·SPY = PLAY 실시세(2026-06-04), 한·미 기준금리 = 2026-05 공개자료(美 3.75%·韓 2.5%).</p>
+  </div>
+ </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="blk">
+ <div class="wrap">
+  <div class="cta-band reveal">
+   <h3>'전부냐 제로냐'가 아니라 '몇 %냐'로 보면, 마음이 편해져요</h3>
+   <p>매주 부부연구소 머니레터가 환율·금리·지수 흐름을 부부의 언어로 풀어드려요. 우리 집 달러 비중 이야기를 같이 나눠봐요.</p>
+   <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="ftlogo"><span class="dot"></span>부부연구소</div>
+  <div class="ft"><span>자료실 · 환헤지 반반 비중 비교 Pro</span><span>교육용 · 투자 권유 아님</span><span>문의 dongeunbubu</span></div>
+  <p class="ftnote">본 도구의 계산은 입력한 가정에 따른 단순 시뮬레이션이며, 특정 상품·종목의 매수/매도를 권유하지 않습니다. 실제 결과는 환율·금리·시장 변동, 헤지 베이시스, (H)형 ETF 보수, 수수료·세금 등에 따라 달라질 수 있습니다. 입력값은 사용자 기기(브라우저 localStorage)에만 저장됩니다.</p>
+ </div>
+</footer>
+
+<button class="toTop" id="toTop" aria-label="맨 위로">↑</button>

@@ -1,0 +1,558 @@
+<!-- [콘텐츠_부동산_세금기초_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 15건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:880px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(44px,5.6vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}*{scroll-behavior:auto!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+h1.tit{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.74;max-width:680px;margin-top:16px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.chip.warn{color:#9A6A12;background:#FBF4E4;border-color:#EFE0BE}
+/* stage timeline */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:720px){.timeline{grid-template-columns:1fr}}
+.stage{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px 18px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c,var(--pink))}
+.stage .sn{font-size:11.5px;font-weight:800;letter-spacing:.08em;color:var(--mut)}
+.stage h3{font-size:17px;font-weight:800;margin:6px 0 4px;display:flex;align-items:center;gap:8px}
+.stage .em{font-size:20px}
+.stage .taxname{font-size:13.6px;font-weight:800;color:var(--c,var(--rose))}
+.stage p{font-size:12.8px;color:var(--ink2);line-height:1.6;margin-top:6px}
+/* article */
+.art{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(24px,4vw,46px);margin-top:22px}
+.dropcap::first-letter{float:left;font-size:62px;line-height:.84;font-weight:800;color:var(--rose);padding:6px 12px 0 0}
+.art p{font-size:15.6px;color:var(--ink2);margin:0 0 16px}
+.art p.big{font-size:16.4px;color:var(--ink)}
+.sec{margin-top:40px;scroll-margin-top:80px}
+.sec:first-of-type{margin-top:26px}
+.step{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--rose)}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--pinkSoft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:13px}
+.sec h2{font-size:clamp(20px,2.7vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25;margin:10px 0 6px}
+.sec h3{font-size:16.5px;font-weight:800;margin:24px 0 8px;color:var(--ink)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:32px 0}
+/* callouts */
+.note{border-radius:16px;padding:16px 18px;margin:16px 0;font-size:14.6px;line-height:1.7;border:1px solid var(--border)}
+.note .nt{font-weight:800;font-size:13.5px;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.note.tip{background:#EEF6F2;border-color:#CFE6DB}
+.note.tip .nt{color:#3C6E5E}
+.note.danger{background:#FBEAE8;border-color:#F2C9C4}
+.note.danger .nt{color:#B23B30}
+.note.info{background:var(--pinkSoft2);border-color:var(--border)}
+.note.info .nt{color:var(--rose)}
+.ic{width:18px;height:18px;flex-shrink:0;stroke-width:2.2;fill:none}
+/* compare table */
+.tblwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:13.8px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--pinkSoft2);color:var(--rose);font-weight:800;font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td b{color:var(--ink)}
+td.r,th.r{text-align:right;white-space:nowrap}
+caption{caption-side:bottom;font-size:11.5px;color:var(--mut);padding:9px 6px 0;text-align:left;line-height:1.55}
+/* keypill */
+.keypill{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:100px;margin:2px 3px 2px 0}
+.keypill.rose{background:#FBE6E3;color:#B23B30}
+.keypill.sage{background:#E7F1EC;color:#3C6E5E}
+.keypill.gold{background:#FBF4E4;color:#9A6A12}
+/* selfcheck tool */
+.tool{background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardHi);padding:clamp(22px,3.4vw,34px);margin-top:8px}
+.toolhead{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.gaugewrap{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px 18px;box-shadow:var(--cardSh)}
+.gring{position:relative;width:104px;height:104px;flex-shrink:0}
+.gring svg{transform:rotate(-90deg)}
+.gring .gtrk{stroke:var(--pinkSoft);stroke-width:11;fill:none}
+.gring .garc{stroke:var(--rose);stroke-width:11;fill:none;stroke-linecap:round;transition:stroke-dashoffset 1s var(--ease),stroke 1s var(--ease)}
+.gring .gnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gring .gnum b{font-size:25px;font-weight:800;letter-spacing:-.02em}
+.gring .gnum s{font-size:11px;color:var(--mut);text-decoration:none;font-weight:700}
+.glabel{min-width:160px}
+.glabel .gv{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.glabel .gd{font-size:13px;color:var(--ink2);margin-top:3px;line-height:1.55}
+.cklist{margin-top:22px;display:grid;gap:10px}
+.ck{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .2s,box-shadow .2s,background .2s}
+.ck:hover{border-color:var(--pink);box-shadow:var(--cardSh)}
+.ck input{appearance:none;-webkit-appearance:none;width:23px;height:23px;border:2px solid var(--sand);border-radius:7px;flex-shrink:0;margin-top:1px;cursor:pointer;position:relative;transition:background .2s,border-color .2s}
+.ck input:checked{background:var(--rose);border-color:var(--rose)}
+.ck input:checked::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.ck input:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
+.ck .ctxt{font-size:14.4px;color:var(--ink);line-height:1.55}
+.ck .ctxt em{font-style:normal;color:var(--mut);font-size:12.5px;font-weight:600;display:block;margin-top:2px}
+.ck .ess{font-size:10.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.ck.on{background:#FFF8F4;border-color:var(--pink)}
+.toolfoot{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.toolfoot .fn{font-size:12px;color:var(--mut)}
+/* summary cards */
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:720px){.sumgrid{grid-template-columns:1fr}}
+.sumcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.sumcard .si{width:34px;height:34px;border-radius:10px;background:var(--pinkSoft);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.sumcard .si svg{width:19px;height:19px;stroke:var(--rose);fill:none;stroke-width:2.2}
+.sumcard h4{font-size:14.5px;font-weight:800;margin-bottom:5px}
+.sumcard p{font-size:13.2px;color:var(--ink2);line-height:1.6;margin:0}
+/* sources / disclaimer */
+.src{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:24px;font-size:12.6px;color:var(--ink2);line-height:1.72}
+.src b{color:var(--ink);font-size:13px}
+.src a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--sand)}
+.disc{font-size:12px;color:var(--mut);line-height:1.7;margin-top:18px;padding:16px 18px;border:1px dashed var(--border);border-radius:14px;background:#fff}
+.datalabel{display:inline-flex;align-items:flex-start;gap:7px;flex-wrap:wrap;font-size:11.5px;font-weight:800;border-radius:14px;padding:8px 14px;margin-top:12px;border:1px solid;line-height:1.55}
+.dl-real{color:#3f7a6b;background:#e9f3ef;border-color:#cfe6dd}
+.dl-ex{color:#947217;background:#fbf3da;border-color:#f0e2b6}
+/* 관련 도구·콘텐츠 카드 그리드 */
+.relsec{margin-top:30px}
+.relh{font-size:clamp(17px,2.4vw,20px);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.relsub{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.6}
+.related{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+@media(max-width:560px){.related{grid-template-columns:1fr}}
+.rcard{display:block;background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 17px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px}
+.rcard .rk{font-size:10.5px;font-weight:800;letter-spacing:.05em;color:var(--rose);text-transform:uppercase}
+.rcard .rt{font-size:14.5px;font-weight:800;color:var(--ink);margin-top:3px;letter-spacing:-.02em}
+.rcard .rd{font-size:12.2px;color:var(--ink2);margin-top:5px;line-height:1.55}
+footer{background:var(--ink);color:#E9DBD4;padding:38px 0 30px;margin-top:30px}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer .fl{font-weight:800;font-size:15px;color:#fff;display:flex;align-items:center;gap:8px}
+footer .fl .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+footer p{font-size:12px;color:#B6A49B;line-height:1.7}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:linear-gradient(100deg,var(--rose),var(--lav));color:#fff;font-weight:800;font-size:14px;padding:12px 22px;border-radius:100px;box-shadow:0 8px 22px rgba(184,80,96,.28);transition:transform .2s var(--ease),box-shadow .25s;align-self:flex-start}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(184,80,96,.36)}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===rehdr=== self-contained site GNB */
+#readbar{display:none!important}
+#hdr{position:sticky;top:0;z-index:1300;background:rgba(253,251,247,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border,#EAD7D3)}
+#hdr .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:16px}
+#hdr .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px;color:var(--ink,#3E2F29);text-decoration:none}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink,#D67A89);box-shadow:0 0 0 4px var(--pinkSoft,#F8E8EA)}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2,#5C4B43);margin:0;list-style:none}
+#hdr .menu a{position:relative;padding:4px 0;color:inherit;text-decoration:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink,#D67A89);border-radius:2px;transition:right .3s cubic-bezier(.16,1,.3,1)}
+#hdr .menu a:hover{color:var(--pink,#D67A89)}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink,#3E2F29)}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut,#8A7B72);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink,#D67A89)}#hdr .menu-sub a.cur{color:var(--ink,#3E2F29)}
+#hdr .cta{background:var(--rose,#B85060);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1400;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}#hdr .cta{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<!-- HERO -->
+<section class="blk" style="padding-top:clamp(30px,4vw,46px)">
+ <div class="wrap">
+  <span class="s-eyebrow reveal">부동산 세금 기초 · REAL ESTATE TAX 101</span>
+  <h1 class="tit reveal">집 살 때, 가질 때, 팔 때<br><span class="grad">세금이 다 다릅니다</span></h1>
+  <p class="lead reveal">내 집 마련의 가장 큰 복병은 집값이 아니라 <b>세금</b>일 때가 많아요. 취득세·재산세·종합부동산세·양도소득세 — 이름만 들어도 머리 아픈 네 가지를 <b>“언제 내는지”</b> 순서대로 풀어드릴게요. 숫자보다 <b>흐름</b>을 잡는 게 먼저입니다.</p>
+  <div class="metarow reveal">
+   <span class="chip">⏱ 읽는 시간 9분</span>
+   <span class="chip">🎓 교육용 기초 가이드</span>
+   <span class="chip warn">📅 2026년 기준 · 세율은 시점·상황 따라 변동</span>
+  </div>
+
+  <!-- 3-stage timeline -->
+  <div class="timeline reveal" aria-label="부동산 보유 단계별 세금">
+   <div class="stage" style="--c:var(--rose)">
+    <div class="sn">STEP 1 · 취득</div>
+    <h3><span class="em">🔑</span> 살 때</h3>
+    <div class="taxname">취득세 (+지방교육세·농특세)</div>
+    <p>잔금 치르고 등기할 때 한 번. 가격·주택수·면적에 따라 세율이 달라져요.</p>
+   </div>
+   <div class="stage" style="--c:var(--lav)">
+    <div class="sn">STEP 2 · 보유</div>
+    <h3><span class="em">🏠</span> 가질 때</h3>
+    <div class="taxname">재산세 + 종합부동산세</div>
+    <p>매년 <b>6월 1일</b> 가진 사람에게. 공시가격이 높으면 종부세까지 더해져요.</p>
+   </div>
+   <div class="stage" style="--c:var(--sage)">
+    <div class="sn">STEP 3 · 양도</div>
+    <h3><span class="em">💸</span> 팔 때</h3>
+    <div class="taxname">양도소득세</div>
+    <p>판 가격이 아니라 <b>번 돈(차익)</b>에 매겨요. 1주택은 비과세 길이 넓어요.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ARTICLE -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <article class="art reveal">
+   <p class="dropcap big">“집 한 채 사는데 세금이 이렇게 많아요?” 부동산 상담에서 가장 많이 나오는 말이에요. 사실 부동산 세금은 <b>딱 세 박자</b>로 나눠 보면 단순해집니다. <b>살 때 한 번(취득세)</b>, <b>가지고 있는 동안 매년(재산세·종부세)</b>, 그리고 <b>팔아서 이익이 났을 때(양도세)</b>. 이 글은 네 가지 세금의 뼈대만 잡아주는 기초 가이드예요. 실제 세액은 개인 상황과 그해 정책에 따라 달라지니, 마지막 면책 안내를 꼭 함께 읽어주세요.</p>
+
+   <!-- SEC 1: 취득세 -->
+   <div class="sec" id="buy">
+    <span class="step"><span class="num">1</span> 살 때 — 취득세</span>
+    <h2>집을 ‘내 것’으로 만드는 비용</h2>
+    <p>취득세는 부동산 소유권을 넘겨받을 때 내는 <b>지방세</b>예요. 잔금일과 등기 접수일 중 빠른 날을 기준으로, 보통 <b>취득일로부터 60일 이내</b>에 신고·납부합니다. 세율은 <b>가격·보유 주택 수·면적</b> 세 가지로 갈립니다.</p>
+
+    <h3>1주택자 — 가격에 따라 1%~3%</h3>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>취득가격(주택)</th><th class="r">취득세</th><th class="r">지방교육세</th><th class="r">농특세<br>(85㎡ 초과)</th></tr></thead>
+      <tbody>
+       <tr><td>6억원 이하</td><td class="r"><b>1%</b></td><td class="r">0.1%</td><td class="r">0.2%</td></tr>
+       <tr><td>6억 초과 ~ 9억</td><td class="r"><b>1~3%</b><br><span style="color:var(--mut);font-weight:600;font-size:12px">(구간 비례)</span></td><td class="r">비례</td><td class="r">0.2%</td></tr>
+       <tr><td>9억원 초과</td><td class="r"><b>3%</b></td><td class="r">0.3%</td><td class="r">0.2%</td></tr>
+      </tbody>
+      <caption>※ 전용면적 85㎡(국민주택 규모) 이하는 농어촌특별세 비과세. 6~9억 구간 세율(%) = (취득가액 ÷ 1.5억 − 3), 소수점 다섯째자리 반올림 (예: 7.5억 → 2%). 2026년 기준이며 시점·정책 따라 변동.</caption>
+     </table>
+    </div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 가장 흔한 경우</div>
+     6억 이하 · 전용 85㎡ 이하 1주택을 사면 <b>취득세 1% + 지방교육세 0.1% = 총 1.1%</b>. 5억원짜리라면 약 <b>550만원</b>이에요. (중개·법무 비용은 별도)
+    </div>
+
+    <h3>다주택·법인 — 8% 또는 12% 중과</h3>
+    <p>주택을 여러 채 갖게 되면 취득세가 무겁게 붙어요. 조정대상지역 2주택·비조정 3주택은 <span class="keypill rose">8%</span>, 그 이상이거나 법인은 <span class="keypill rose">12%</span>까지 올라갑니다. 다만 다주택 중과는 정부 정책에 따라 <b>한시 완화·기준 변경이 잦은 영역</b>이라, 실제 취득 전에 반드시 현행 규정을 확인해야 해요.</p>
+    <div class="datalabel dl-ex">🟡 정책 변동 잦음·현행 확인 — 다주택·법인 <b>중과 8%·12%</b>는 정부 대책에 따라 한시 완화·기준 변경이 잦은 영역이에요. 위 세율은 가늠용이며, 실제 취득 전 반드시 행정안전부·위택스에서 현행 규정을 확인하세요.</div>
+    <div class="note info">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg> 알아두면 좋은 예외</div>
+     <b>지방 저가주택</b>(공시가격 2억원 이하, 2025.1.2 이후 취득)은 보유 주택 수에 넣지 않고 중과도 빼줘요. 기존 ‘1억원 이하’ 기준이 <b>2억원</b>으로 완화됐습니다.
+    </div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 생애 첫 집 — 취득세 최대 200만원 감면 (2028년 말까지 연장)</div>
+     본인·배우자 모두 주택 보유 이력이 없고 취득가액 <b>12억원 이하</b>인 집을 유상으로 사면 취득세를 <b>최대 200만원</b>(인구감소지역은 300만원) 감면받아요. 일몰이 <b>2028-12-31까지 연장</b>됐고, 2026년 취득분부터는 <b>실거주 요건</b>이 강화됐습니다 — 취득 후 <b>3개월 내 전입 + 3년 계속 거주</b>를 못 채우면(그 전 매각·증여·임대 포함) 감면세액이 추징돼요. 내 경우의 금액은 아래 <b>‘취득세 계산기’</b>로 확인해 보세요.
+    </div>
+    <div class="datalabel dl-real">🟢 공식 기준값 · 출처 지방세법 §11·시행령 — 1주택 취득세 6억↓ <b>1%</b> / 6~9억 <b>1~3%</b>(구간세율% = 취득가액÷1.5억 − 3) / 9억↑ <b>3%</b> · 전용 <b>85㎡↓ 농특세 비과세</b> · 생애최초(무주택·취득가 12억↓)는 취득세 <b>최대 200만원</b>(인구감소지역 300만원) 감면, <b>2028-12-31까지 연장</b>·취득 후 <b>3개월 내 전입+3년 거주</b> 요건 · 재확인 2026-06-08</div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SEC 2: 보유세 -->
+   <div class="sec" id="hold">
+    <span class="step"><span class="num">2</span> 가질 때 — 재산세 · 종합부동산세</span>
+    <h2>집을 ‘가지고 있는 동안’ 매년 내는 세금</h2>
+    <p>보유세는 매년 <b>6월 1일(과세기준일)</b>에 그 집을 가진 사람에게 부과돼요. 이 날짜가 핵심입니다 — 6월 1일 <b>하루 차이</b>로 한 해 보유세를 내는 사람이 바뀌니까요.</p>
+    <div class="note danger">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/></svg> 6월 1일의 함정</div>
+     <b>살 때</b>는 6월 1일 <b>이후(예: 6월 2일)</b> 잔금을 치르면 그해 보유세를 안 내요. <b>팔 때</b>는 6월 1일 <b>이전</b>에 넘기면 그해 보유세에서 빠집니다. 잔금일 하루로 한 해 세금이 갈릴 수 있어요.
+    </div>
+
+    <h3>① 재산세 — 지방세 (7월·9월 분납)</h3>
+    <p>모든 주택 보유자가 내는 기본 세금이에요. <b>과세표준 = 공시가격 × 공정시장가액비율</b>로 정하고, 거기에 구간별 세율을 곱합니다.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>과세표준(주택)</th><th class="r">표준세율</th></tr></thead>
+      <tbody>
+       <tr><td>6,000만원 이하</td><td class="r">0.1%</td></tr>
+       <tr><td>6,000만 ~ 1.5억</td><td class="r">0.15% <span style="color:var(--mut);font-size:11.5px">(+6만원)</span></td></tr>
+       <tr><td>1.5억 ~ 3억</td><td class="r">0.25% <span style="color:var(--mut);font-size:11.5px">(+19.5만원)</span></td></tr>
+       <tr><td>3억원 초과</td><td class="r">0.4% <span style="color:var(--mut);font-size:11.5px">(+57만원)</span></td></tr>
+      </tbody>
+      <caption>※ 누진 구조(괄호는 누진 가산액). 1세대 1주택(공시 9억 이하)은 구간별로 <b>0.05%p 낮은 특례세율</b> 적용. 공정시장가액비율은 주택 기본 60%, 1세대 1주택 특례 43~45%(공시 3억↓ 43 · 3~6억 44 · 6억↑ 45%) — 시행령으로 매년 정하는 한시 특례로 <b>2026년에도 유지</b>(정책브리핑). 연장 여부는 매년 확인.</caption>
+     </table>
+    </div>
+
+    <h3>② 종합부동산세 — 국세 (12월 납부)</h3>
+    <p>비싼 집이나 여러 채를 가진 사람에게 ‘추가로’ 매기는 세금이에요. 보유한 주택 <b>공시가격을 모두 더한 뒤</b>, 일정 금액을 공제하고 남는 부분에만 부과합니다.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>구분</th><th class="r">기본공제</th><th class="r">세율(주택분)</th></tr></thead>
+      <tbody>
+       <tr><td><b>1세대 1주택자</b></td><td class="r"><b>12억원</b></td><td class="r">0.5 ~ 2.7%</td></tr>
+       <tr><td>그 외(다주택 등)</td><td class="r">9억원</td><td class="r">2주택 이하 0.5~2.7%<br>3주택 이상 0.5~5.0%</td></tr>
+      </tbody>
+      <caption>※ 과세표준 = (공시가격 합계 − 기본공제) × 공정시장가액비율(60%). 1세대 1주택자는 고령(60세↑)·장기보유(5년↑) <b>세액공제 최대 80%</b>. 2026년 기준 · 시점 따라 변동.</caption>
+     </table>
+    </div>
+    <div class="datalabel dl-real">🟢 공식 기준값 · 출처 지방세법·종부세법·정책브리핑 — 재산세 표준세율 <b>0.1~0.4%</b> 누진(1세대1주택 공시 9억↓는 <b>0.05%p 낮은 특례</b>) · 공정시장가액비율 주택 <b>60%</b>, 1주택 특례 <b>43%(3억↓)·44%(3~6억)·45%(6억↑)</b> · 종부세 기본공제 <b>1주택 12억 / 그 외 9억</b>, 세율 <b>0.5~2.7%</b>(3주택↑ 0.5~5.0%), 1주택 고령·장기보유 세액공제 <b>최대 80%</b> · 재확인 2026-06-08</div>
+    <div class="note tip">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> 한 줄 정리</div>
+     공시가격 <b>12억원 이하</b> 집 한 채만 있다면 종부세 걱정은 거의 없어요. 재산세만 신경 쓰면 됩니다.
+    </div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SEC 3: 양도세 -->
+   <div class="sec" id="sell">
+    <span class="step"><span class="num">3</span> 팔 때 — 양도소득세</span>
+    <h2>판 가격이 아니라 ‘번 돈’에 매기는 세금</h2>
+    <p>양도세는 집을 팔아 <b>이익(양도차익)</b>이 났을 때 내는 국세예요. 산 값 그대로 팔거나 손해를 봤다면 양도세는 없습니다. 양도일이 속한 달의 말일부터 <b>2개월 이내</b> 신고·납부해요.</p>
+
+    <h3>핵심은 ‘1세대 1주택 비과세’</h3>
+    <p>우리나라 양도세의 가장 큰 혜택이에요. 아래 세 가지를 모두 채우면 <b>양도가액 12억원까지 세금이 0원</b>입니다.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>요건</th><th>내용</th></tr></thead>
+      <tbody>
+       <tr><td><b>1주택</b></td><td>양도일 현재 우리 세대가 국내에 <b>주택 1채만</b> 보유 (분양권·입주권 등 주택 수 포함 여부 주의)</td></tr>
+       <tr><td><b>2년 보유</b></td><td>그 주택을 <b>2년 이상 보유</b>. 취득 당시 조정대상지역이었다면 <b>2년 이상 거주</b>까지 필요</td></tr>
+       <tr><td><b>12억 이하</b></td><td>양도가액(실거래가) <b>12억원 이하</b>면 전액 비과세. 초과하면 <b>넘는 부분만</b> 비례 과세</td></tr>
+      </tbody>
+      <caption>※ 일시적 2주택, 상속·혼인·동거봉양 등 특례로 1주택으로 보는 경우도 있어요. 개별 사정에 따라 달라지니 양도 전 확인 필수.</caption>
+     </table>
+    </div>
+
+    <h3>비과세가 안 되면? — 기본세율 6~45% + 공제</h3>
+    <p>비과세 대상이 아니거나 12억을 넘는 부분은 <b>양도차익</b>에서 장기보유특별공제·기본공제를 뺀 금액에 <b>6~45% 누진세율</b>을 적용해요.</p>
+    <div class="tblwrap">
+     <table>
+      <thead><tr><th>상황</th><th class="r">세율</th></tr></thead>
+      <tbody>
+       <tr><td>2년 이상 보유 (기본)</td><td class="r"><b>6 ~ 45%</b> 누진</td></tr>
+       <tr><td>1~2년 보유 (단기, 주택·입주권)</td><td class="r">60%</td></tr>
+       <tr><td>1년 미만 보유 (단기, 주택·입주권)</td><td class="r">70%</td></tr>
+      </tbody>
+      <caption>※ 조정대상지역 다주택 중과(+20~30%p)는 한시 배제가 운영돼 온 영역으로 <b>연장·종료 여부가 자주 바뀝니다</b>. 매도 전 반드시 현행 확인. 2026년 기준.</caption>
+     </table>
+    </div>
+    <div class="note info">
+     <div class="nt"><svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h6v6"/></svg> 오래 살수록 깎아주는 ‘장기보유특별공제’</div>
+     1세대 1주택 고가주택은 <b>보유 1년당 4% + 거주 1년당 4%</b>씩, <b>최대 80%</b>까지 양도차익을 공제해줘요. 길게 보유하고 실거주할수록 세금이 크게 줄어듭니다.
+    </div>
+    <div class="datalabel dl-real">🟢 공식 기준값 · 출처 소득세법·국세청 — 1세대 1주택 비과세 = <b>1주택+2년 보유</b>(취득 시 조정대상지역이면 <b>2년 거주</b>)+양도가액 <b>12억↓</b> · 단기세율 <b>1~2년 60%·1년 미만 70%</b>, 그 외 기본 <b>6~45%</b> 누진 · 1세대1주택 장기보유특별공제 <b>보유 4%+거주 4%/년, 최대 80%</b> · 재확인 2026-06-08</div>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- SELF CHECK TOOL -->
+   <div class="sec" id="check">
+    <span class="step"><span class="num">✓</span> 셀프 체크</span>
+    <h2>나는 ‘1세대 1주택 비과세’에 해당될까?</h2>
+    <p>아래 핵심 요건을 체크해 보세요. <b style="color:var(--rose)">필수</b> 표시는 비과세의 기본 조건이에요. (교육용 가늠일 뿐, 실제 비과세 판정은 세무 전문가나 관할 세무서에서 꼭 확인하세요.)</p>
+
+    <div class="tool">
+     <div class="toolhead">
+      <div>
+       <div style="font-weight:800;font-size:16px">비과세 요건 충족도</div>
+       <div style="font-size:13px;color:var(--ink2);margin-top:3px">체크할수록 게이지가 채워져요</div>
+      </div>
+      <div class="gaugewrap">
+       <div class="gring">
+        <svg width="104" height="104" viewBox="0 0 104 104" aria-hidden="true">
+         <circle class="gtrk" cx="52" cy="52" r="46"/>
+         <circle class="garc" id="garc" cx="52" cy="52" r="46" stroke-dasharray="289.03" stroke-dashoffset="289.03"/>
+        </svg>
+        <div class="gnum"><b id="gpct">0</b><s>/ 6 항목</s></div>
+       </div>
+       <div class="glabel">
+        <div class="gv" id="gtitle" style="color:var(--mut)">시작해 볼까요</div>
+        <div class="gd" id="gdesc">핵심 요건부터 체크해 보세요.</div>
+       </div>
+      </div>
+     </div>
+
+     <div class="cklist" id="cklist">
+      <label class="ck"><input type="checkbox" data-ess="1"><span class="ctxt">양도일 현재 우리 세대가 국내에 <b>주택 1채만</b> 보유한다<span class="ess">필수</span><em>배우자·같이 사는 가족의 주택까지 합쳐 세대 기준으로 판단</em></span></label>
+      <label class="ck"><input type="checkbox" data-ess="1"><span class="ctxt">그 주택을 <b>2년 이상 보유</b>했다<span class="ess">필수</span><em>취득일~양도일 기준</em></span></label>
+      <label class="ck"><input type="checkbox"><span class="ctxt">취득 당시 <b>조정대상지역</b>이었다면 <b>2년 이상 거주</b>도 채웠다<em>비조정지역 취득이면 거주 요건 없음 → 해당 없으면 체크</em></span></label>
+      <label class="ck"><input type="checkbox" data-ess="1"><span class="ctxt">양도가액(실거래가)이 <b>12억원 이하</b>다<span class="ess">필수</span><em>초과 시 넘는 부분만 과세 — 전액 비과세는 아님</em></span></label>
+      <label class="ck"><input type="checkbox"><span class="ctxt"><b>분양권·입주권·오피스텔</b> 등 주택 수에 포함될 자산이 없다<em>있다면 ‘1주택’ 판단이 달라질 수 있음</em></span></label>
+      <label class="ck"><input type="checkbox"><span class="ctxt">일시적 2주택이라면 <b>종전주택 처분기한</b> 안에 팔 예정이다<em>특례 기한은 시점·지역 따라 다름 → 해당 없으면 체크</em></span></label>
+     </div>
+
+     <div class="toolfoot">
+      <button class="btn btn-ghost" id="resetBtn" type="button">
+       <svg class="ic" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.7 3L3 8"/><path d="M3 3v5h5"/></svg> 다시 체크
+      </button>
+      <span class="fn">입력값은 저장·전송되지 않고 이 화면에서만 계산돼요.</span>
+     </div>
+    </div>
+   </div>
+
+   <!-- 출처 -->
+   <div class="src">
+    <b>📚 참고한 공개 출처 (1차 자료 확인)</b><br>
+    · 국세청 — <a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7707&mi=2308" target="_blank" rel="noopener">양도소득세 개요</a> · <a href="https://nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2354&cntntsId=7736" target="_blank" rel="noopener">종합부동산세 세율</a><br>
+    · 찾기쉬운 생활법령정보 — <a href="https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=666&ccfNo=2&cciNo=2&cnpClsNo=4" target="_blank" rel="noopener">매매 시 세금 납부</a><br>
+    · 대한민국 정책브리핑 — <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148942191" target="_blank" rel="noopener">지방 저가주택 취득세 중과 기준 완화(1억→2억)</a> · <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148941752" target="_blank" rel="noopener">1주택자 재산세 공정시장가액비율 특례</a><br>
+    · 국가법령정보센터 — <a href="https://law.go.kr/lsRvsRsnListP.do?chrClsCd=010102&lsId=011178" target="_blank" rel="noopener">지방세특례제한법 개정이유(생애최초 감면 2028-12-31 연장·실거주 요건)</a><br>
+    <span style="color:var(--mut)">세율·공제·금액은 2026년 6월 기준으로 정리했으며(생애최초 감면·공정시장가액비율 특례 2026-06-08 재확인), 법령·정책 개정과 개인 상황에 따라 달라질 수 있습니다.</span>
+   </div>
+
+   <!-- 면책 -->
+   <div class="disc">
+    <b style="color:var(--ink2)">⚠️ 안내 ·</b> 이 콘텐츠는 부동산 세금의 큰 흐름을 이해하기 위한 <b>교육용 정보</b>이며, 특정 주택의 매수·매도·보유를 권유하지 않습니다. 세율·공제 한도·과세 기준은 <b>시점·지역·개인별 상황에 따라 수시로 바뀌므로</b>, 실제 신고·납부나 거래 의사결정 전에는 반드시 <b>국세청 홈택스, 위택스, 관할 세무서 또는 세무 전문가</b>를 통해 최신 규정과 본인 사례를 확인하세요. 본 자료는 세무·법률 자문이 아니며, 수치는 이해를 돕기 위한 예시·개략값을 포함합니다.
+   </div>
+  </article>
+
+  <!-- 한장 요약 -->
+  <div class="sumgrid">
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg></div>
+    <h4>살 때 — 취득세</h4>
+    <p>가격·주택수·면적으로 결정. 6억↓·85㎡↓ 1주택은 <b>총 1.1%</b>가 기본. 다주택은 8~12% 중과.</p>
+   </div>
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+    <h4>가질 때 — 보유세</h4>
+    <p>매년 <b>6월 1일</b> 기준. 재산세는 모두, 종부세는 공시가 합산 <b>9억(1주택 12억)</b> 초과분에만.</p>
+   </div>
+   <div class="sumcard reveal">
+    <div class="si"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+    <h4>팔 때 — 양도세</h4>
+    <p>‘번 돈’에만 과세. 1세대 1주택(2년 보유·12억↓)은 비과세. 오래·실거주할수록 공제 최대 80%.</p>
+   </div>
+  </div>
+
+  <!-- 관련 도구·콘텐츠 -->
+  <section class="relsec reveal" aria-labelledby="reltitle">
+   <h2 id="reltitle" class="relh">함께 보면 좋은 도구·콘텐츠</h2>
+   <p class="relsub">세금의 큰 그림을 잡았다면, 단계별로 더 깊이 들어가 볼까요.</p>
+   <div class="related">
+    <a class="rcard" href="/tool-re-c181">
+     <div class="rk">살 때 · 계산 도구</div>
+     <div class="rt">🧮 주택 취득세 간이 계산기</div>
+     <div class="rd">가액·면적·보유주택수로, 살 때 한 번 내는 취득세를 어림셈해 봐요.</div>
+    </a>
+    <a class="rcard" href="/re-5d69">
+     <div class="rk">가질 때 · 기초</div>
+     <div class="rt">📘 보유세 기초 (재산세·종부세)</div>
+     <div class="rd">매년 6월 1일 기준으로 내는 재산세·종합부동산세의 구조를 차근차근 정리해요.</div>
+    </a>
+    <a class="rcard" href="/tool-re-3253">
+     <div class="rk">계산 도구</div>
+     <div class="rt">🧮 종합부동산세 가늠기</div>
+     <div class="rd">공시가격·주택수·공제로 종부세를 어림셈해 보는 교육용 계산기예요.</div>
+    </a>
+    <a class="rcard" href="/re-4870">
+     <div class="rk">팔 때 · 기초</div>
+     <div class="rt">📕 양도소득세 기초</div>
+     <div class="rd">집을 팔아 차익이 났을 때 내는 세금. 1세대 1주택 비과세·장기보유공제를 풀어요.</div>
+    </a>
+    <a class="rcard" href="/re-50db">
+     <div class="rk">용어</div>
+     <div class="rt">📚 부동산 용어사전</div>
+     <div class="rd">과세표준·공정시장가액비율·조정대상지역 등 헷갈리는 말을 쉬운 말로 풀이해요.</div>
+    </a>
+    <a class="rcard" href="/tool-re-fefa">
+     <div class="rk">계산 도구</div>
+     <div class="rt">📐 평형 ↔ ㎡ 변환</div>
+     <div class="rd">취득세 농어촌특별세가 갈리는 85㎡ 기준선이 몇 평인지 바로 확인해요.</div>
+    </a>
+   </div>
+  </section>
+
+  <div style="text-align:center;margin-top:28px" class="reveal">
+   <a href="/moneyletter-landing" class="cta">💌 머니레터에서 더 받아보기</a>
+   <div style="font-size:12px;color:var(--mut);margin-top:10px">* 위 버튼은 미리보기용 더미 링크예요.</div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <div class="fl"><span class="dot"></span> 부부연구소 머니레터</div>
+  <p>돈 공부가 처음인 부부를 위한, 가장 쉬운 경제 이야기.</p>
+  <p style="margin-top:8px;color:#8E7A70">© 2026 부부연구소 · 본 콘텐츠는 교육·정보 제공 목적이며 투자·세무·법률 자문이 아닙니다.</p>
+ </div>
+</footer>

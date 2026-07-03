@@ -1,0 +1,361 @@
+<!-- [콘텐츠_허브_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 60건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(96px,11vw,152px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(32px,5.6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+/* lock */
+.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
+.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
+.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
+.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
+
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}
+@media(max-width:760px){.rgrid{grid-template-columns:1fr}}
+.tool{display:flex;gap:16px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;position:relative;overflow:hidden}
+.tool:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.tool .ico{width:54px;height:54px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.tool .ico svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tool .tb{flex:1}
+.tool .badge{font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:100px;display:inline-block}
+.badge.free{background:#E8F4ED;color:#4A8060}.badge.sub{background:var(--pinkSoft);color:var(--rose)}
+.tool h3{font-size:17.5px;font-weight:800;letter-spacing:-.02em;margin:7px 0 5px}
+.tool p{font-size:13px;color:var(--ink2);line-height:1.55}
+.tool .go{margin-top:11px;font-size:13.5px;font-weight:800;color:var(--rose);display:inline-flex;gap:5px;align-items:center}
+.tool .go .ar{transition:transform .3s var(--ease)}.tool:hover .go .ar{transform:translateX(4px)}
+.tool.locked{opacity:.96}
+.tool.locked .ico{filter:saturate(.6)}
+.tool.locked .lockt{position:absolute;top:14px;right:14px;font-size:11px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:4px 10px;box-shadow:var(--cardSh)}
+.cathead2{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:40px}
+.cathead2 .e{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--rose);text-transform:uppercase}
+.cathead2 h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:6px}
+.cathead2 .d{font-size:13.5px;color:var(--ink2);margin-top:4px}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+</style>
+<style>
+/* ===surfacing hub=== */
+.hwrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hhero{padding:56px 0 18px;text-align:center}
+.hhero .eyebrow{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--rose);background:var(--pinkSoft);padding:7px 14px;border-radius:100px}
+.hhero h1{font-size:clamp(27px,4.4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.18;margin:16px 0 10px;color:var(--ink)}
+.hhero p{color:var(--ink2);font-size:15.5px;max-width:600px;margin:0 auto;line-height:1.7}
+.gateway{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0 6px}
+.gcard{display:flex;gap:14px;align-items:center;padding:18px 20px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(135deg,#fff,var(--pinkSoft2));text-decoration:none;transition:transform .2s,box-shadow .2s}
+.gcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi)}
+.gcard .gi{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--pinkSoft);flex:none}
+.gcard h3{font-size:16px;font-weight:800;color:var(--ink);margin:0 0 2px}
+.gcard p{font-size:13px;color:var(--mut);margin:0}
+.gcard .ga{margin-left:auto;color:var(--rose);font-weight:800;font-size:18px}
+.rcat{margin:40px 0 0}
+.rcat-h{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+.rcat-h .ce{font-size:20px}
+.rcat-h h2{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0}
+.rcat-h .cn{font-size:12.5px;color:var(--mut);font-weight:700}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+.rcard{display:flex;gap:13px;align-items:flex-start;padding:16px 17px;border-radius:16px;border:1px solid var(--border);background:var(--card);text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none;background:var(--pinkSoft)}
+.rcard.t2 .ic{background:#E8F0EC}.rcard.t3 .ic{background:#F3ECF6}.rcard.t4 .ic{background:#FBF1DC}.rcard.t5 .ic{background:#EAF0FB}
+.rcard h4{font-size:14.5px;font-weight:800;color:var(--ink);margin:0 0 4px;line-height:1.3}
+.rcard p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.55}
+.rbadge{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:100px;margin-bottom:6px;letter-spacing:.02em}
+.rbadge.free{background:#E8F3EE;color:#3F7A66}
+.rbadge.lock{color:#8A6A50;background:#F6EEE4;border:1px solid #EADFCE}
+.rbadge.sub{background:var(--pinkSoft);color:var(--rose)}
+.rcard .arr{position:absolute;right:13px;top:16px;color:var(--sand);font-weight:800;transition:color .2s,transform .2s}
+.rcard:hover .arr{color:var(--rose);transform:translateX(3px)}
+.hnote{text-align:center;color:var(--mut);font-size:12.5px;margin:30px auto 0;max-width:640px;line-height:1.7}
+@media(max-width:640px){.gateway{grid-template-columns:1fr}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* resurface extra */
+.rcard.t6 .ic{background:#F3ECF6}
+.rcat-pro{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:22px;padding:clamp(20px,3vw,30px);margin-top:40px}
+.rcat-pro .rcat-h{margin-bottom:6px}
+.rcat-pro .pro-sub{font-size:13px;color:var(--ink2);margin:0 0 14px;line-height:1.6}
+</style>
+<style>/*wowkit-css*/
+/* ── 스크롤 등장(방향 변형) ── */
+html.js .wv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+html.js .wv.wv-l{transform:translateX(-34px)}
+html.js .wv.wv-r{transform:translateX(34px)}
+html.js .wv.wv-s{transform:scale(.94) translateY(14px)}
+html.js .wv.in{opacity:1;transform:none}
+/* ── 자식 스태거(카드 그리드·리스트) ── */
+html.js .wstag>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+html.js .wstag.in>*{opacity:1;transform:none}
+/* ── 형광펜 밑줄 스윕(키 카피 1~2곳만) ── */
+.whl{background:linear-gradient(transparent 60%,#F8E8EA 60%) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.16,1,.3,1) .18s;border-radius:2px}
+.whl.in{background-size:100% 100%}
+/* ── 섹션 헤더 라인 드로우 ── */
+.wline{position:relative}
+.wline::after{content:"";display:block;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#D67A89,#B85060);margin-top:10px;transition:width .8s cubic-bezier(.16,1,.3,1) .15s}
+.wline.in::after{width:44px}
+.wline.wline-c::after{margin-left:auto;margin-right:auto}
+/* ── 카드 호버 리프트(+은은한 그림자) ── */
+.wlift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}
+.wlift:hover{transform:translateY(-5px);box-shadow:0 18px 40px -18px rgba(62,47,41,.22)}
+.wtilt{transition:transform .25s ease-out}
+/* ── CTA 샤인 스윕(주 CTA 1곳만) ── */
+.wshine{position:relative;overflow:hidden}
+.wshine::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.34),transparent);transform:skewX(-18deg);transition:left .75s ease}
+.wshine:hover::after{left:125%}
+/* ── 모션 최소화: 전부 정적 폴백 ── */
+@media (prefers-reduced-motion:reduce){
+  html.js .wv,html.js .wstag>*{opacity:1!important;transform:none!important;transition:none!important}
+  .whl{background-size:100% 100%!important;transition:none!important}
+  .wline::after{width:44px!important;transition:none!important}
+  .wlift,.wlift:hover{transform:none!important;transition:none!important}
+  .wshine::after{display:none!important}
+}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/* ===nextlane-hub=== ⑤다음 동선·⑦구독밴드 신설 · B레인 — 추가 전용(기존 블록 무접촉). wshine·wv는 기존 wowkit-css 재사용, 여기선 미정의 */
+.subsec{max-width:1080px;margin:0 auto;padding:46px clamp(20px,5vw,40px) 6px}
+.subband{background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(26px,4.5vw,40px);box-shadow:var(--cardHi);text-align:center}
+.subband .sb-k{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--rose);background:var(--pinkSoft);padding:6px 13px;border-radius:100px}
+.subband .sb-h{font-size:clamp(20px,3.2vw,26px);font-weight:800;letter-spacing:-.02em;line-height:1.32;margin-top:13px;color:var(--ink)}
+.subband .sb-d{font-size:14px;color:var(--ink2);line-height:1.7;margin-top:9px}
+.svm{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px auto 0;max-width:680px;text-align:left}
+@media(max-width:620px){.svm{grid-template-columns:1fr}}
+.svm .vm{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 18px;box-shadow:var(--cardSh)}
+.svm .vm.pro{border-color:var(--pink);background:linear-gradient(165deg,#fff,var(--pinkSoft2))}
+.svm .vmh{font-size:13.5px;font-weight:800;color:var(--ink)}
+.svm .vmp{font-size:12.5px;font-weight:800;color:var(--rose);margin-top:2px}
+.svm .inc{display:inline-block;font-size:11.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:100px;padding:4px 10px;margin-top:8px}
+.svm ul{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.svm li{position:relative;padding-left:16px;font-size:12.5px;color:var(--ink2);line-height:1.55}
+.svm li::before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--pink)}
+.sb-row{display:flex;flex-direction:column;align-items:center}
+.sb-cta{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:50px;padding:14px 28px;margin-top:20px;border-radius:14px;background:var(--rose);color:#fff;font-size:15px;font-weight:800;letter-spacing:-.01em;text-decoration:none;box-shadow:0 10px 26px rgba(184,80,96,.32);transition:box-shadow .3s,transform .25s var(--ease)}
+.sb-cta:hover{box-shadow:0 14px 32px rgba(184,80,96,.42)}
+.sb-cta .ar{transition:transform .3s var(--ease)}
+.sb-cta:hover .ar{transform:translateX(4px)}
+.sb-ghost{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 18px;margin-top:10px;border-radius:100px;color:var(--rose);font-size:13.5px;font-weight:800;text-decoration:none;border:1.5px solid var(--border);background:rgba(255,255,255,.8);transition:background .25s,border-color .25s}
+.sb-ghost:hover{background:var(--pinkSoft);border-color:var(--pink)}
+.sb-rsr{font-size:12px;color:var(--mut);line-height:1.6;margin-top:14px}
+.sb-rsr b{color:var(--ink2)}
+.nextrow{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}
+.backhub{display:inline-flex;align-items:center;gap:7px;min-height:48px;padding:12px 22px;border-radius:100px;border:1.6px solid var(--pink);background:rgba(255,255,255,.85);color:var(--rose);font-weight:800;font-size:14px;text-decoration:none;transition:background .25s,box-shadow .3s}
+.backhub:hover{background:var(--pinkSoft);box-shadow:var(--cardSh)}
+@media (prefers-reduced-motion:reduce){
+.sb-cta,.sb-cta .ar,.sb-ghost,.backhub{transition:none!important}
+.sb-cta:hover .ar{transform:none!important}
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta wmag wshine" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+<main>
+<section class="hhero hwrap"><span class="eyebrow">📘 경제공부 · 딥칼럼 · 부동산</span>
+<h1>경제 뉴스, 우리만 어려운 걸까요?</h1>
+<p>아니에요, 용어가 불친절했을 뿐이에요. 어려운 경제·투자 개념을 두 분이 같이 읽기 쉽게 풀었어요 — 실데이터로 <span class="whl">통념은 뒤집고</span>, 기초는 단단하게. 이미 <b class="cu" data-to="46" data-suf="편">46편</b>, 매주 늘어나요. 입문 15편은 늘 무료고, 심화 31편은 구독하면 다 열려요.</p>
+<div class="gateway wv wv-s"><a class="gcard" href="/library"><span class="gi">🧰</span><div><h3>재테크 도구 58종</h3><p>진단·계획·실행·부동산·Pro</p></div><span class="ga">→</span></a>
+<a class="gcard" href="/report-hub"><span class="gi">🔥</span><div><h3>기업 파헤치기 레포트 15편</h3><p>한 기업씩 끝까지 깊게</p></div><span class="ga">→</span></a></div></section>
+<div class="hwrap">
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">📈</span><h2 class="wline">경제공부 — 단어가 쉬워지면 시장이 보여요</h2><span class="cn cu" data-to="18" data-suf="편">18편</span></div><div class="rgrid wstag">
+<a class="rcard c" href="/eco-etf-364f"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>ETF 완전 정복</h4><p>ETF 하나면 분산투자 끝이라고들 해요. 맞는 말이에요. 그런데 같은 'ETF'라는 이름…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-630d"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>재무제표 3장, 한 회사로 30분에 끝내기</h4><p>재무제표가 어렵게 느껴지는 건 장이 셋이나 되고, 비슷한 숫자가 여기저기서 나와서예요. 그…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-perpbrroe-18bd"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>PER·PBR·ROE 3형제 한 번에 이해하기</h4><p>종목 분석 글을 읽다 보면 꼭 나오는 PER·PBR·ROE . 따로따로 외우면 헷갈리는데,…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-fcfvs-19e4"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>잉여현금흐름(FCF) vs 순이익</h4><p>아마존이 분기 사상 최대 순이익을 냈다는 뉴스가 나온 바로 그 분기에, 회사가 손에 쥔 잉…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-fcf-3b13"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>적자 회사는 PER이 안 나와요</h4><p>지난 「적자 회사가 왜 더 비쌀까」 편에서, 적자인데도 비싼 회사들을 봤죠. 그런데 적자면…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-ev-f752"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>기업가치(EV)</h4><p>시가총액(시총)은 '그 회사 주식을 다 사는 값'이에요. 그런데 회사를 통째로 인수하려면,…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-38cf"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>자사주 매입(Buyback)</h4><p>회사가 주주에게 돈을 돌려주는 길은 두 갈래예요. 하나는 배당 (현금을 직접 나눠줌), 다…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-5396"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>장단기 금리 역전(수익률 곡선)이 보내는 신호</h4><p>수익률 곡선이 역전됐다, 장단기 금리가 뒤집혔다 — 침체를 걱정하는 뉴스에 단골로 나오는…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-676e"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>변동성·베타·표준편차 — '얼마나 출렁이나'를 숫자로</h4><p>똑같이 좋은 종목이라고 불려도, 어떤 건 시장이 휘청일 때 두세 배로 출렁이고, 어떤 건…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-7ee1"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>샤프지수(Sharpe)</h4><p>두 사람이 똑같이 1년에 +20%를 벌었어요. 한 명은 잔잔하게, 한 명은 +60%와 −3…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-9e63"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>상관관계와 분산</h4><p>샤프지수 편 마지막에 분산은 공짜 점심이라고 적었죠. 오늘은 그 공짜 점심이 정말 공짜인지…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-vs-3479"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>환헤지(H) vs 언헤지</h4><p>미국 주식이나 ETF를 원화로 사면, 사실 두 가지에 동시에 베팅하는 거예요. 하나는 그…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-fomc-958f"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>FOMC·점도표 5분 이해</h4><p>뉴스에 자꾸 나오는 FOMC , 점도표 , 매파·비둘기파 . 어렵게 느껴지지만, 핵심만 알…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-abc-c50f"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>금리가 오르면 왜 이미 산 채권이 손해일까</h4><p>표면금리·만기·듀레이션 세 부품을 뜯어요. 금리 1%p에 어떤 채권은 살짝, 어떤 건 −14%씩…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-2031"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>국채보다 회사채가 금리를 더 주는 이유</h4><p>똑같은 만기라도 정부보다 회사는 금리를 더 얹어줘야 팔려요. 그 '더 얹는 값'이 신용 스프레드…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-2af1"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>주주환원수익률 — 배당 0.3%인데 실제론 2.3%</h4><p>배당과 자사주 매입을 합친 게 주주환원수익률. 배당만 보면 짠물인 애플이 실제론 후하게…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-cf33"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>효율적 투자선 — 활처럼 휜 곡선</h4><p>모든 비율을 다 찍어보면 점들이 활처럼 휜 곡선이 돼요. 마코위츠가 노벨상을 받은 그 곡선…</p></div><span class="arr">→</span></a>
+<a class="rcard c" href="/eco-rpo-6696"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>매출 너머를 먼저 보는 신호 — 빌링과 RPO</h4><p>구독 소프트웨어(SaaS)에선 다음 분기 성장의 씨앗이 매출이 아니라 빌링·RPO에 먼저 적혀요…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">🪄</span><h2 class="wline">딥 칼럼 — 익숙한 그 말, 사실일까요?</h2><span class="cn cu" data-to="14" data-suf="편">14편</span></div><div class="rgrid wstag">
+<a class="rcard col" href="/col-a331"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>'존버'는 정말 이기는 전략일까</h4><p>주식은 안 팔면 손실이 아니다, 떨어지면 물타기해서 평단가 낮추면 된다. 너무 익숙한 말이…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-e2bc"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>손절의 기술</h4><p>사는 건 설레서 잘해요. 그런데 파는 건 늘 어려워요. 미련, 본전 생각, 조금만 더….…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-vs-a208"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>좋은 회사 ≠ 좋은 주식</h4><p>엔비디아 좋잖아, 코카콜라가 망하겠어? 다 맞는 말이에요. 그런데 좋은 회사를 안다고 좋은…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-bca7"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>적자 회사가 왜 더 비쌀까</h4><p>크라우드스트라이크는 작년에 회계상 적자 를 냈어요. 그런데 선행 PER 126배, 시가총액…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-561d"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>금리가 오르면 내 돈은?</h4><p>한국은행이 기준금리를 2.50%로 또 묶었어요. 그런데 물가는 3.1%, 유가는 들썩, 환…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-5fa2"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>실적은 좋았는데 왜 −32%였을까</h4><p>줌스케일러는 그 분기에 매출이 +25% 늘고 영업이익률은 분기 신기록 을 찍었어요. 누가…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-33ee"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>'배당주는 안전하다'는 착각</h4><p>따박따박 현금 주니까 마음이 편하다. 배당주를 고를 때 가장 많이 듣는 말이에요. 그런데…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-cae7"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>현금이 안전하다는 착각</h4><p>통장 잔액은 작년이랑 똑같은데, 장 보러 가면 자꾸 모자라요. 분명 돈을 안 썼는데 왜 가…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-6a03"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>환율의 두 얼굴</h4><p>환율이 오르면 수출 기업이 웃는다고들 하죠. 그런데 정작 환율이 뛰는 날, 내 계좌는 더…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-5392"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>금리 인하의 함정</h4><p>금리만 내리면 주식도 부동산도 오른다는 말, 너무 익숙하죠. 그런데 시장은 그렇게 단순하게…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-6b79"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>소문에 사서, 뉴스에 판다 — 컨센서스 게임</h4><p>주가는 '잘했나'가 아니라 '기대를 넘었나'에 반응해요. 역대급 실적에도 주가가 빠지는 이유…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-873e"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>빚내서 돌려주는 회사 — 주주환원의 그림자</h4><p>같은 환원율이라도 '벌어 남긴 현금'이면 건강한 환원, '빚'에서 나오면 빌린 환원이에요…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-d16b"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>흑자인데 망하고, 적자인데 버틴다</h4><p>장부에 찍힌 순이익과 통장에 들어온 영업현금은 자주 갈려요. 흑자인데 현금이 말라 망하기도…</p></div><span class="arr">→</span></a>
+<a class="rcard col" href="/col-1d8c"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>곡괭이·삽의 함정 — 원자재주의 숨은 주인</h4><p>채굴주에는 회사 분석으로는 안 보이는 숨은 주인이 있어요. 바로 원자재 가격이에요…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">🏠</span><h2 class="wline">부동산 칼럼 — 계약하기 전에 읽어요</h2><span class="cn cu" data-to="14" data-suf="편">14편</span></div><div class="rgrid wstag">
+<a class="rcard re" href="/re-91aa"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>주택담보대출 기초 A to Z</h4><p>‘LTV가 50%면 얼마 나오는 거지?’, ‘DSR에서 막혔다는 게 무슨 말이야?’ 대출은…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-1a87"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>주택청약 기초 A to Z</h4><p>‘1순위’, ‘가점’, ‘특별공급’… 청약은 단어부터 외계어 같죠. 사실 청약은 딱 세 단…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-68e6"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 살 때·가질 때·팔 때 세금 한눈에</h4><p>내 집 마련의 가장 큰 복병은 집값이 아니라 세금 일 때가 많아요. 취득세·재산세·종합부동…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-e6d2"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>임대차 3법, 세입자·집주인 핵심 정리</h4><p>계약갱신요구권, 전월세상한제(5%), 전월세신고제. 이름은 들어봤지만 막상 내 계약에 뭐가…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-vs-2921"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>상가 임대차 vs 주택 임대차, 뭐가 다를까</h4><p>같은 '임대차'라도 적용되는 법이 달라요. 주택은 모든 계약이 주택임대차보호법 으로 보호받…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-6bcb"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>전세 보증금 안전 체크리스트</h4><p>평생 모은 목돈이 한 번에 묶이는 게 전세예요. 화려한 인테리어보다 먼저 봐야 할 건 등기…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-a0a2"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>전세사기·깡통전세 위험 신호 셀프 체크</h4><p>전세사기와 깡통전세는 대부분 등기부와 시세에 미리 적혀 있던 신호 를 놓쳐서 일어나요. 내…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-e0f1"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>부동산 계약서 '특약' 체크리스트 (전세·매매)</h4><p>표준계약서의 인쇄된 조항보다 강한 건, 직접 적어 넣는 특약사항 이에요. 민법의 많은 규정…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-440a"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>등기부등본 읽는 법</h4><p>전세 보증금도, 평생 모은 내집 자금도 결국 이 한 장에서 지켜져요. 등기부등본(등기사항증…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-50db"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>처음 집 사는 부부를 위한 부동산 용어사전</h4><p>전용면적·전세가율·근저당·대항력·LTV·가점제… 집을 알아보다 보면 모르는 말이 쏟아져요.…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-5d69"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 가지고 있을 때 내는 세금 — 재산세·종부세 기초</h4><p>보유세는 매년 6월 1일 기준 집 가진 사람에게 반복 부과돼요. 공시가격→과세표준→세율로…</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-vs-7b73"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>오피스텔 vs 생활숙박시설</h4><p>둘 다 집처럼 보여도 주택 수·취득세·전입·대출이 전혀 달라요. 사기 전에 꼭 구분해요.</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-c89d"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>전세보증금 반환보증 3사 비교</h4><p>HUG·HF·SGI — 가입 조건·보증료·한도가 달라요. 우리 전세에 맞는 곳을 골라요.</p></div><span class="arr">→</span></a>
+<a class="rcard re" href="/re-4870"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 팔 때 세금 — 양도세 기초</h4><p>1세대 1주택 비과세부터 장기보유특별공제까지, 팔기 전에 알아야 손해가 없어요.</p></div><span class="arr">→</span></a>
+</div></section>
+</div>
+<!-- ===nextlane-hub=== ⑤다음 동선·⑦구독밴드 신설 (B레인 · 추가 전용 — wv/wmag/wshine 와이어는 기존 wowkit 스크립트가 담당, 신규 JS 없음) -->
+<section class="subsec" id="subscribe" aria-labelledby="subh">
+<div class="subband wv wv-s">
+<span class="sb-k">SUBSCRIBE · 내일도 같이</span>
+<h2 class="sb-h" id="subh">여기 글은 매주 늘고,<br><span class="grad">레터는 매일 찾아가요</span></h2>
+<p class="sb-d">다음 편 기다리는 동안 — 매일 아침 7시·저녁 5시, 그날 시장 정리를 보내드려요. 시작은 0원이에요.</p>
+<div class="svm">
+<div class="vm"><div class="vmh">데일리 레터</div><div class="vmp">0원</div><ul><li>매일 아침·저녁 시장 정리</li><li>지수 한눈에 표·등락·투자심리</li><li>경제뉴스 큐레이션·캘린더</li></ul></div>
+<div class="vm pro"><div class="vmh">딥 레터 구독</div><div class="vmp">월 9,900원</div><span class="inc">데일리 레터 모든 것 그대로 +</span><ul><li>딥 분석·내일 체크포인트</li><li>Why 인사이트 칼럼</li><li>전 정보글 + 구독자 자료·할인</li></ul></div>
+</div>
+<div class="sb-row">
+<!-- TODO(사장님): 아래 href="#subscribe"를 실제 카카오 채널/구독 링크로 교체하세요 (예: https://pf.kakao.com/_xxxxx). 링크 연결 전에는 같은 섹션에 머물러 '맨 위로 튐'을 막아둡니다. -->
+<a href="#subscribe" data-cta="kakao-start" class="sb-cta wshine wmag"><span>내일 레터, 0원으로 받아보기</span> <span class="ar">→</span></a>
+<a href="/home#subscribe" class="sb-ghost">딥 레터 구독 안내 보기 <span class="ar">→</span></a>
+</div>
+<p class="sb-rsr">약정 없이 마음 편히 — 무료로 충분히 읽어보고, 딥 레터 구독도 <b>언제든 한 번에 해지</b>할 수 있어요.</p>
+</div>
+<div class="nextrow wv" role="navigation" aria-label="다음 동선">
+<a class="backhub" href="/library">재테크 도구 자료실 보기</a>
+<a class="backhub" href="/report-hub">기업 레포트 허브 보기</a>
+<a class="backhub" href="/home">← 부부연구소 홈으로</a>
+</div>
+</section>
+</main>
+<footer><div class="wrap">
+<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

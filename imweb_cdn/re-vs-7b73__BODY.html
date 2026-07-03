@@ -1,0 +1,557 @@
+<!-- [콘텐츠_부동산_오피스텔vs생활숙박시설_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 12건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --danger:#D8584E; --safe:#5E8C7F; --warn:#C9912E;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:880px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(44px,5.6vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}*{scroll-behavior:auto!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+h1.tit{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.74;max-width:680px;margin-top:16px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.chip.warn{color:#9A6A12;background:#FBF4E4;border-color:#EFE0BE}
+.datalabel{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;font-size:11.5px}
+.datalabel span{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 10px;color:var(--mut);font-weight:600}
+.datalabel span b{color:var(--rose);font-weight:800}
+/* article */
+.art{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardSh);padding:clamp(24px,4vw,46px);margin-top:8px}
+.dropcap::first-letter{float:left;font-size:62px;line-height:.84;font-weight:800;color:var(--rose);padding:6px 12px 0 0}
+.art p{font-size:15.6px;color:var(--ink2);margin:0 0 16px}
+.art p.big{font-size:16.4px;color:var(--ink)}
+.sec{margin-top:38px;scroll-margin-top:80px}
+.sec:first-of-type{margin-top:26px}
+.step{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--rose)}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--pinkSoft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:13px}
+.sec h2{font-size:clamp(20px,2.7vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.25;margin:10px 0 6px}
+.sec h3{font-size:16.5px;font-weight:800;margin:22px 0 8px;color:var(--ink)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:30px 0}
+/* overview cards */
+.lawgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 6px}
+@media(max-width:720px){.lawgrid{grid-template-columns:1fr}}
+.lawc{background:linear-gradient(165deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;padding:20px 18px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.lawc .ln{position:absolute;top:12px;right:14px;font-size:34px;font-weight:800;color:var(--pinkSoft);letter-spacing:-.03em}
+.lawc .li{width:40px;height:40px;border-radius:12px;background:var(--pinkSoft);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.lawc .li svg{width:22px;height:22px;stroke:var(--rose);stroke-width:2.1;fill:none}
+.lawc h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
+.lawc p{font-size:13.4px;color:var(--ink2);line-height:1.62}
+.lawc .pin{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:4px 11px}
+/* callouts */
+.note{border-radius:16px;padding:16px 18px;margin:16px 0;font-size:14.6px;line-height:1.7;border:1px solid var(--border)}
+.note .nt{font-weight:800;font-size:13.5px;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.note.tip{background:#EEF6F2;border-color:#CFE6DB}
+.note.tip .nt{color:#3C6E5E}
+.note.danger{background:#FBEAE8;border-color:#F2C9C4}
+.note.danger .nt{color:#B23B30}
+.note.info{background:var(--pinkSoft2);border-color:var(--border)}
+.note.info .nt{color:var(--rose)}
+.ic{width:18px;height:18px;flex-shrink:0;stroke-width:2.2;fill:none;stroke:currentColor}
+/* compare table */
+.tblwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.6px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--pinkSoft2);color:var(--rose);font-weight:800;font-size:13px;white-space:nowrap}
+thead th.c-store{background:#F3E7F1;color:var(--lav)}
+tbody tr:last-child td{border-bottom:none}
+td b{color:var(--ink)}
+td.rowh{font-weight:800;color:var(--ink);background:var(--bg);white-space:nowrap}
+caption{caption-side:bottom;font-size:11.5px;color:var(--mut);padding:9px 6px 0;text-align:left;line-height:1.55}
+.ox{font-weight:800}
+.ox.o{color:var(--safe)}
+.ox.x{color:var(--danger)}
+/* env table (region thresholds) */
+.thr{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:18px 0 4px}
+@media(max-width:720px){.thr{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.thr{grid-template-columns:1fr}}
+.thrc{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 14px;box-shadow:var(--cardSh);text-align:center}
+.thrc .rg{font-size:12px;font-weight:700;color:var(--mut);line-height:1.45;min-height:34px;display:flex;align-items:center;justify-content:center}
+.thrc .am{font-size:20px;font-weight:800;color:var(--rose);letter-spacing:-.02em;margin-top:6px}
+.thrc .am small{font-size:12px;font-weight:700;color:var(--ink2)}
+/* tool */
+.tool{background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--cardHi);padding:clamp(22px,3.4vw,34px);margin-top:8px}
+.toolhead h3{font-size:18px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.toolhead p{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.6}
+.selrow{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:640px){.selrow{grid-template-columns:1fr}}
+.field label{display:block;font-size:12px;font-weight:800;color:var(--rose);margin-bottom:6px;letter-spacing:.02em}
+.field select,.field input{width:100%;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 13px;box-shadow:var(--cardSh)}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B85060' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}
+.field input{text-align:right}
+.field select:focus-visible,.field input:focus-visible{outline:3px solid var(--lav);outline-offset:2px;border-color:var(--rose)}
+.field .unit{font-size:11px;color:var(--mut);font-weight:700;margin-top:5px;display:block}
+.calcout{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--cardSh);display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.calcout .lbl{font-size:12.5px;font-weight:800;color:var(--mut)}
+.calcout .big{font-size:24px;font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.calcout .vs{font-size:12.5px;color:var(--ink2);font-weight:600;margin-left:auto}
+.verdicts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media(max-width:640px){.verdicts{grid-template-columns:1fr}}
+.vc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--cardSh);transition:border-color .3s,box-shadow .3s}
+.vc .vh{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.02em}
+.vc .vs{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:7px 0 5px;display:flex;align-items:center;gap:7px}
+.vc .vd{font-size:12.6px;color:var(--ink2);line-height:1.55}
+.vc .vbadge{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.vc.on{border-color:var(--rose)}
+.vc.on .vbadge{background:var(--rose)}
+.vc.on .vs{color:var(--rose)}
+.vc.off{border-color:#CFE6DB}
+.vc.off .vbadge{background:var(--safe)}
+.vc.off .vs{color:#3C6E5E}
+.vc.cond{border-color:#EFE0BE}
+.vc.cond .vbadge{background:var(--warn)}
+.vc.cond .vs{color:var(--warn)}
+.toolfoot{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.toolfoot small{font-size:11.5px;color:var(--mut);line-height:1.5}
+/* checklist */
+.chklist{list-style:none;display:grid;gap:10px;margin:16px 0 4px}
+.chklist li{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:13px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.6}
+.chklist li .ck{width:21px;height:21px;border-radius:7px;background:var(--pinkSoft);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.chklist li .ck svg{width:13px;height:13px;stroke:var(--rose);stroke-width:2.6;fill:none}
+.chklist li b{color:var(--ink)}
+/* summary cards */
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:18px}
+@media(max-width:720px){.sumgrid{grid-template-columns:1fr}}
+.sumc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.sumc .sk{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.03em}
+.sumc p{font-size:13.6px;color:var(--ink2);margin-top:7px;line-height:1.6}
+/* sources + footer */
+.src{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:22px}
+.src h4{font-size:13px;font-weight:800;color:var(--rose);margin-bottom:9px;letter-spacing:.02em}
+.src ul{list-style:none;display:grid;gap:7px}
+.src li{font-size:12.7px;color:var(--ink2);padding-left:16px;position:relative;line-height:1.55}
+.src li::before{content:"›";position:absolute;left:2px;color:var(--rose);font-weight:800}
+.src a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--border)}
+.disc{font-size:12px;color:var(--mut);line-height:1.66;margin-top:18px;padding:16px 18px;background:var(--bg);border:1px dashed var(--border);border-radius:14px}
+.crosslink{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.crosslink a{flex:1;min-width:220px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--cardSh);transition:border-color .25s,transform .2s var(--ease)}
+.crosslink a:hover{border-color:var(--rose);transform:translateY(-2px)}
+.crosslink .ck{font-size:11.5px;font-weight:800;color:var(--rose);letter-spacing:.04em}
+.crosslink .ct{font-size:14.5px;font-weight:800;color:var(--ink);margin-top:4px;display:flex;align-items:center;gap:6px}
+.crosslink .cd{font-size:12.3px;color:var(--mut);margin-top:4px;line-height:1.5}
+footer{background:#3A2C27;color:#E9DCD5;margin-top:10px}
+footer .wrap{padding:34px 0}
+footer .ft{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+footer .fl{font-weight:800;font-size:15px;display:inline-flex;align-items:center;gap:9px}
+footer .fl .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+footer .fm{font-size:12.5px;color:#C3B2AA;line-height:1.7;max-width:560px;margin-top:10px}
+.backlink{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--rose);margin-top:24px}
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink),var(--rose));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+</style>
+<style>/* ===rehdr=== self-contained site GNB */
+#readbar{display:none!important}
+#hdr{position:sticky;top:0;z-index:1300;background:rgba(253,251,247,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border,#EAD7D3)}
+#hdr .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:16px}
+#hdr .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px;color:var(--ink,#3E2F29);text-decoration:none}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink,#D67A89);box-shadow:0 0 0 4px var(--pinkSoft,#F8E8EA)}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2,#5C4B43);margin:0;list-style:none}
+#hdr .menu a{position:relative;padding:4px 0;color:inherit;text-decoration:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink,#D67A89);border-radius:2px;transition:right .3s cubic-bezier(.16,1,.3,1)}
+#hdr .menu a:hover{color:var(--pink,#D67A89)}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink,#3E2F29)}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut,#8A7B72);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink,#D67A89)}#hdr .menu-sub a.cur{color:var(--ink,#3E2F29)}
+#hdr .cta{background:var(--rose,#B85060);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1400;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}#hdr .cta{display:none}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="blk">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">PROPERTY · 오피스텔 vs 생숙</span>
+  <h1 class="tit">비슷해 보여도 세금이 다르다<br><span class="grad">오피스텔 vs 생활숙박시설</span> 핵심 비교</h1>
+  <p class="lead">겉모습은 닮았지만 <b>건축법상 용도</b>가 달라요. 오피스텔은 '업무시설', 생활숙박시설(생숙)은 '숙박시설'입니다. 이 한 글자 차이가 <b>전입신고·주택 수 포함·취득세·청약</b>을 통째로 바꿔놓아요. 특히 생숙은 주거로 쓰면 <b>이행강제금</b> 리스크가 있고, 오피스텔은 주거용이면 다른 집의 세금 계산에 주택 수로 잡힐 수 있어요. 2026년 6월 기준으로 한 번에 정리하고, 내 물건 유형이 어디에 걸리는지 가늠해봐요.</p>
+  <div class="metarow">
+   <span class="chip">📖 교육용·정보 제공</span>
+   <span class="chip warn">⚖️ 법률·세무 자문 아님</span>
+   <span class="chip">🗓️ 2026년 6월 기준</span>
+  </div>
+  <div class="datalabel" aria-label="데이터 기준일과 출처">
+   <span>기준일 <b>2026-06-08</b></span>
+   <span>근거 <b>건축법·지방세법·종부세법·소득세법</b></span>
+   <span>출처 <b>법령·국토부 대책/가이드라인</b></span>
+   <span>수치 <b>현행·정책변동 잦음</b></span>
+  </div>
+ </div>
+</section>
+
+<div class="wrap">
+<article class="art reveal">
+
+ <p class="big dropcap">분양 광고만 보면 오피스텔과 생활숙박시설(생숙)은 잘 구분이 안 돼요. 둘 다 '주거처럼' 쓸 수 있게 지어졌고, 아파트보다 진입 가격이 낮은 경우가 많거든요. 그런데 둘은 <b>건축법상 용도</b>부터 달라요. 오피스텔은 <b>업무시설</b>, 생숙은 <b>숙박시설</b>입니다. 이 분류가 전입신고가 되는지, 다른 집을 살 때 내 주택 수에 잡히는지, 청약 무주택 자격이 유지되는지를 전부 좌우해요. "싸게 내 집 마련"인 줄 알고 샀다가 세금·청약·이행강제금에서 예상 못 한 결과를 만나는 경우가 적지 않아요.</p>
+
+ <p>핵심만 먼저 말하면 이래요. <b>주거용 오피스텔</b>은 실제로 살 수 있고 전입신고도 되지만, 2020년 8월 12일 이후 취득분은 다른 주택을 살 때 <b>주택 수에 포함</b>돼 취득세 중과 판단에 영향을 줄 수 있어요(종부세·양도세도 주거용이면 주택으로 봄). 반대로 <b>생숙</b>은 숙박시설이라 <b>주택 수에 안 들어가</b> 무주택 자격 유지에는 유리하지만, <b>전입신고가 원칙적으로 안 되고</b> 주거로 쓰면 이행강제금 대상이 될 수 있죠. 그럼 항목별로 나란히 뜯어볼게요.</p>
+
+ <!-- OVERVIEW -->
+ <div class="sec" id="diff">
+  <span class="step"><span class="num">◆</span> 한눈에 보는 핵심 3차이</span>
+  <h2>같은 듯 다른, 세 갈래</h2>
+  <div class="lawgrid">
+   <div class="lawc">
+    <span class="ln">1</span>
+    <div class="li"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg></div>
+    <h4>건축법상 용도</h4>
+    <p>오피스텔은 <b>업무시설</b>(주거·업무 선택). 생숙은 <b>숙박시설</b>이라 원칙적으로 상시 주거가 아니에요.</p>
+    <span class="pin">업무시설 vs 숙박시설</span>
+   </div>
+   <div class="lawc">
+    <span class="ln">2</span>
+    <div class="li"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+    <h4>전입신고·실거주</h4>
+    <p>주거용 오피스텔은 <b>전입신고 가능</b>(주택임대차보호법 대항력). 생숙은 <b>전입신고 불가</b>가 원칙이에요.</p>
+    <span class="pin">오피스텔 O · 생숙 X</span>
+   </div>
+   <div class="lawc">
+    <span class="ln">3</span>
+    <div class="li"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+    <h4>주택 수·세금</h4>
+    <p>주거용 오피스텔은 다른 집 살 때 <b>주택 수에 포함</b>(원칙). 생숙은 주택이 아니라 <b>주택 수 미포함</b>이에요.</p>
+    <span class="pin">청약·중과 판단이 갈림</span>
+   </div>
+  </div>
+ </div>
+
+ <div class="divider"></div>
+
+ <!-- 주택 수 포함 -->
+ <div class="sec" id="count">
+  <span class="step"><span class="num">1</span> 가장 중요한 갈림길</span>
+  <h2>내 주택 수에 들어갈까?</h2>
+  <p style="font-size:15.6px;color:var(--ink2);margin:8px 0 0">두 시설의 가장 큰 차이는 '주택 수'예요. 무주택 자격으로 청약을 노리거나, 이미 집이 있어 취득세 중과가 걱정이라면 이 한 줄이 결과를 바꿉니다. 핵심 규칙부터 정리할게요.</p>
+  <div class="note info">
+   <div class="nt"><svg class="ic" viewBox="0 0 24 24"><path d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>주택 수 포함 핵심 규칙</div>
+   <b>주거용 오피스텔</b> — 2020년 8월 12일 이후 취득분은 다른 주택의 <b>취득세 중과 판단 시 주택 수에 포함</b>(지방세법). 종부세·양도세에서도 주거용이면 주택으로 봐요.<br>
+   <b>생활숙박시설</b> — 건축법상 숙박시설이라 <b>취득세·종부세·양도세 모두 주택 수 미포함</b>. 청약 무주택 유지에는 유리해요.<br>
+   <b>예외(한시 특례)</b> — 2024.1~2027.12 준공·취득한 <b>신축 소형주택</b>(전용 60㎡↓, 수도권 6억·지방 3억 이하 등 요건)은 주거용 오피스텔도 취득·종부·양도세 주택 수에서 <b>제외</b>(8·8 대책으로 2025년 말→2027년 말 연장). ※업계는 2030년까지 추가 연장을 건의 중이라 시점·요건 변동 가능.
+  </div>
+  <h3>4가지로 빠르게 비교</h3>
+  <div class="thr">
+   <div class="thrc"><div class="rg">취득세 (둘 다 건물 기준)</div><div class="am">4.6<small>%</small></div></div>
+   <div class="thrc"><div class="rg">주택 수 포함</div><div class="am" style="font-size:15px">오피 <b>포함</b>·생숙 <b>미포함</b></div></div>
+   <div class="thrc"><div class="rg">전입신고</div><div class="am" style="font-size:15px">오피 <b>O</b> · 생숙 <b>X</b></div></div>
+   <div class="thrc"><div class="rg">청약 무주택 유지</div><div class="am" style="font-size:15px">생숙에 <b>유리</b></div></div>
+  </div>
+  <p style="font-size:13px;color:var(--mut);margin-top:10px">※ 취득세 4.6%는 비주택(건물) 일반세율(취득세 4%+지방교육세·농특세)로, 주택 취득세율(1~3%대)보다 높아요. '주택 수 포함'은 <b>그 오피스텔에 매겨지는 세율</b>이 아니라 <b>다른 주택을 살 때의 중과·청약 판단에 영향</b>을 준다는 뜻이에요. 청약 자격은 주택 종류·모집공고 기준에 따라 달라질 수 있어 반드시 청약홈·모집공고로 확인하세요.</p>
+  <div class="datalabel" style="margin-top:12px" aria-label="취득세·주택 수 데이터 출처">
+   <span>취득세율 근거 <b>지방세법(비주택 4.6%)</b></span>
+   <span>주택 수 포함 <b>2020.8.12 이후 취득분</b></span>
+   <span>신축 소형 특례 <b>~2027년 말</b></span>
+  </div>
+ </div>
+
+ <div class="divider"></div>
+
+ <!-- 비교표 -->
+ <div class="sec" id="table">
+  <span class="step"><span class="num">2</span> 항목별 비교</span>
+  <h2>오피스텔 vs 생숙, 항목별로 나란히</h2>
+  <div class="tblwrap">
+   <table>
+    <caption>2026년 6월 기준. 오피스텔은 '주거용'으로 사용하는 경우를 전제로 정리했어요. 세부 요건·예외와 세율·특례는 법령 개정과 개별 상황에 따라 달라집니다.</caption>
+    <thead><tr><th>항목</th><th>🏢 오피스텔(주거용)</th><th class="c-store">🏨 생활숙박시설(생숙)</th></tr></thead>
+    <tbody>
+     <tr><td class="rowh">건축법상 용도</td><td><b>업무시설</b> (주거·업무 선택)</td><td><b>숙박시설</b> (단기 숙박)</td></tr>
+     <tr><td class="rowh">전입신고</td><td><span class="ox o">○ 가능</span> (주거용 사용 시)</td><td><span class="ox x">✕ 원칙 불가</span></td></tr>
+     <tr><td class="rowh">상시 주거</td><td><span class="ox o">○ 가능</span></td><td><span class="ox x">✕ 원칙 불가</span> (위반 시 이행강제금)</td></tr>
+     <tr><td class="rowh">취득세</td><td><b>4.6%</b> (비주택 건물 기준)</td><td><b>4.6%</b> (숙박시설 건물 기준)</td></tr>
+     <tr><td class="rowh">주택 수 포함</td><td><span class="ox x">포함(원칙)</span> 2020.8.12 이후 취득분<br>※신축 소형 특례(~2027) 시 제외</td><td><span class="ox o">미포함</span> (주택 아님)</td></tr>
+     <tr><td class="rowh">종부세·양도세</td><td>주거용이면 <b>주택으로 과세</b></td><td>주택 아님 → <b>주택분 미해당</b></td></tr>
+     <tr><td class="rowh">청약 무주택 유지</td><td>주거용은 <b>영향 가능</b>(공고 기준)</td><td><span class="ox o">○ 유리</span> (주택 아님)</td></tr>
+     <tr><td class="rowh">임대차보호법</td><td>주거용은 <b>주택임대차보호법</b> 적용</td><td>주택 아님 → <b>상가임대차법 등</b> 별도 판단</td></tr>
+     <tr><td class="rowh">발코니·바닥난방</td><td>발코니·바닥난방 <b>가능</b></td><td>발코니 설치 <b>제한</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="note tip">
+   <div class="nt"><svg class="ic" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>한 줄 요약</div>
+   <b>오피스텔(주거용)</b>은 '실거주·전입 OK, 대신 주택 수에 잡힘'. <b>생숙</b>은 '주택 수엔 안 잡혀 무주택엔 유리, 대신 상시 주거가 원칙적으로 안 됨'. 목적이 <b>실거주</b>인지 <b>무주택 유지·수익</b>인지부터 정하는 게 첫 단추예요.
+  </div>
+ </div>
+
+ <div class="divider"></div>
+
+ <!-- TOOL -->
+ <div class="sec" id="tool">
+  <span class="step"><span class="num">3</span> 내 유형으로 확인</span>
+  <h2>유형별 세금·전입 가늠기</h2>
+  <p style="font-size:15.6px;color:var(--ink2);margin:8px 0 0">물건 유형을 고르면 취득세·주택 수 포함·전입신고가 어떻게 되는지 한 번에 보여드려요. 입력값은 어디에도 저장·전송되지 않고 브라우저 안에서만 계산돼요.</p>
+  <div class="tool" role="group" aria-label="유형별 세금·전입 가늠기">
+   <div class="toolhead">
+    <h3>🏢 내 물건은 어떤 유형인가요?</h3>
+    <p>유형을 바꾸면 아래 결과가 즉시 갱신돼요.</p>
+   </div>
+   <div class="selrow" style="grid-template-columns:1fr">
+    <div class="field">
+     <label for="selType">물건 유형</label>
+     <select id="selType" aria-label="물건 유형 선택">
+      <option value="resi">주거용 오피스텔 (실거주·전입)</option>
+      <option value="biz">업무용 오피스텔 (사무실)</option>
+      <option value="saeng">생활숙박시설 (생숙)</option>
+     </select>
+     <span class="unit">실제 '사용 용도'에 따라 세금 판정이 달라질 수 있어요</span>
+    </div>
+   </div>
+   <div class="calcout">
+    <span class="lbl">선택한 유형</span>
+    <span class="big" id="outName">주거용 오피스텔</span>
+    <span class="vs" id="outVs">편의성↑·전입 가능, 그러나 주택 수 포함(원칙)</span>
+   </div>
+   <div class="verdicts" id="verdicts">
+    <div class="vc cond" id="vc1">
+     <div class="vh">취득세율</div>
+     <div class="vs"><span class="vbadge" id="b1">∼</span><span id="s1">4.6%</span></div>
+     <div class="vd" id="d1">비주택 일반세율 4.6%(건물 기준). 주택 취득세율보다 높아요.</div>
+    </div>
+    <div class="vc on" id="vc2">
+     <div class="vh">주택 수 포함</div>
+     <div class="vs"><span class="vbadge" id="b2">★</span><span id="s2">포함(원칙)</span></div>
+     <div class="vd" id="d2">2020.8.12 이후 취득분은 다른 주택 취득세 중과 판단 시 포함. 신축 소형 특례 대상이면 제외.</div>
+    </div>
+    <div class="vc off" id="vc3">
+     <div class="vh">전입·실거주</div>
+     <div class="vs"><span class="vbadge" id="b3">✓</span><span id="s3">가능</span></div>
+     <div class="vd" id="d3">주거용이면 전입신고 O → 주택임대차보호법 대항력. 임대차 신고제 대상.</div>
+    </div>
+   </div>
+   <div class="toolfoot">
+    <button class="btn btn-ghost" id="resetBtn" type="button">↺ 처음 유형으로</button>
+    <small>예시·교육용 가늠이에요. 실제 세금·청약·전입 가능 여부는 사용 용도·취득 시점·지자체 운영과 법령 개정에 따라 달라질 수 있어요. 반드시 청약홈·세무서·지자체로 확인하세요.</small>
+   </div>
+  </div>
+ </div>
+
+ <div class="divider"></div>
+
+ <!-- 생숙 이슈 -->
+ <div class="sec" id="saengsuk">
+  <span class="step"><span class="num">4</span> 생숙만의 쟁점</span>
+  <h2>생숙 이행강제금·용도변경</h2>
+  <p style="font-size:15.6px;color:var(--ink2);margin:8px 0 0">생숙은 '주거 불가'가 원칙이라, 실거주를 하려면 <b>오피스텔 등으로 용도변경</b>하거나 <b>숙박업 신고</b>를 해야 해요. 정부는 2021년 「생숙 불법전용 방지방안」 이후 미이행 시 <b>이행강제금</b>(매년 시가표준액의 약 10%)을 부과하기로 했고, 여러 차례 계도·유예를 거쳐 왔어요. 2026년 6월 현재 핵심을 정리하면 이래요.</p>
+  <ul class="chklist">
+   <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>주거 사용은 원칙 불가</b> — 생숙은 숙박시설이라 전입신고·상시 주거가 원칙적으로 안 돼요. 주거로 쓰면 이행강제금 부과 대상이 될 수 있어요.</span></li>
+   <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>유예 조건(국토부 가이드라인)</b> — <b>2025년 9월 말까지</b> 숙박업(예비)신고 또는 오피스텔 용도변경을 신청한 경우, <b>2027년 말까지</b> 이행강제금 부과가 유예돼요. 신청하지 않은 미조치 시설은 점검·단속·부과 대상.</span></li>
+   <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>용도변경의 벽</b> — 오피스텔로 바꾸려면 주차·복도폭·지구단위계획 등 기준을 맞춰야 해 현실적으로 어려운 단지가 많아요. 정부는 규제 완화·1객실 숙박업 허용 등 보완책을 논의 중이에요(시점·내용 변동 가능).</span></li>
+   <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>분양·대출 유의</b> — 생숙은 주택이 아니라 주택담보대출·디딤돌 등 정책대출 대상이 아니고, 분양보증 사각지대 사례도 보도됐어요. 계약 전 용도·신고 가능 여부를 반드시 확인하세요.</span></li>
+  </ul>
+  <h3>이행강제금, 얼마나 나올까 — 가늠해보기</h3>
+  <div class="tool" role="group" aria-label="생숙 이행강제금 가늠기">
+   <div class="toolhead">
+    <h3>🏨 생숙 주거전용 이행강제금 가늠</h3>
+    <p>용도변경·숙박업 신고 없이 주거로 계속 쓰면 부과될 수 있는 <b>1년분</b> 이행강제금을 가늠해봐요. 건축법 제80조는 위반 부분 <b>시가표준액의 10% 범위</b>에서 부과하도록 정해요.</p>
+   </div>
+   <div class="selrow" style="grid-template-columns:1fr">
+    <div class="field">
+     <label for="ipStd">위반(주거전용) 부분 건축물 <b>시가표준액</b></label>
+     <input id="ipStd" type="number" inputmode="decimal" min="0" step="0.1" value="2" aria-label="시가표준액(억 원)">
+     <span class="unit">억 원 단위 · ⚠️ '시세(실거래가)'가 아니라 <b>건축물 시가표준액</b>이에요(보통 시세보다 낮음)</span>
+    </div>
+   </div>
+   <div class="calcout">
+    <span class="lbl">1년분 이행강제금(가늠)</span>
+    <span class="big" id="ipOut">약 2,000만 원</span>
+    <span class="vs" id="ipSub">시가표준액 2억 × 10% = 연 2,000만 원(상한 기준)</span>
+   </div>
+   <div class="datalabel" style="margin-top:14px" aria-label="이행강제금 데이터 출처">
+    <span>근거 <b>건축법 §80①(시가표준액 10% 범위)</b></span>
+    <span>유예 <b>2025.9 신청 시 2027년 말까지</b></span>
+    <span>결과 <b>교육용 가늠·지자체 운영 상이</b></span>
+   </div>
+   <div class="toolfoot">
+    <small>10%는 건축법상 <b>상한(범위)</b>이고, 실제 부과액은 시행령·위반유형·지자체 운영에 따라 달라져요. 시정명령 후 미이행 시 통상 <b>매년 반복</b> 부과될 수 있고, 유예 신청 대상이면 2027년 말까지 부과가 미뤄져요. 시가표준액은 위택스·부동산공시가격알리미 등에서 확인하세요. 입력값은 저장·전송 없이 브라우저에서만 계산돼요.</small>
+   </div>
+  </div>
+  <div class="note danger">
+   <div class="nt"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>주의</div>
+   생숙 관련 제도는 <b>2021년 이후 계도기간·유예가 여러 번 바뀌었고</b> 지금도 논의가 진행 중이에요. "전입 된다"·"곧 주택으로 풀린다" 같은 분양 현장의 설명을 그대로 믿지 말고, <b>해당 지자체 건축과·국토교통부 공고</b>로 직접 확인하세요.
+  </div>
+ </div>
+
+ <div class="divider"></div>
+
+ <!-- 요약 -->
+ <div class="sec">
+  <span class="step"><span class="num">◆</span> 기억할 3가지</span>
+  <h2>핵심만 다시</h2>
+  <div class="sumgrid">
+   <div class="sumc"><div class="sk">① 용도가 먼저</div><p>오피스텔=업무시설, 생숙=숙박시설. 전입신고·주택 수·청약이 전부 이 한 줄에서 갈려요.</p></div>
+   <div class="sumc"><div class="sk">② 목적을 정하라</div><p><b>실거주</b>면 주거용 오피스텔, <b>무주택 유지·수익</b>이면 생숙. 단 생숙은 상시 주거가 원칙적으로 안 돼요.</p></div>
+   <div class="sumc"><div class="sk">③ 세금·특례 확인</div><p>주거용 오피스텔은 <b>주택 수 포함</b>(2020.8.12~), 신축 소형 특례(~2027)면 제외. 생숙은 <b>이행강제금</b> 유예 조건 확인.</p></div>
+  </div>
+ </div>
+
+ <!-- CROSSLINK -->
+ <h3 style="font-size:16.5px;font-weight:800;margin:30px 0 6px;color:var(--ink)">함께 보면 좋은 글</h3>
+ <div class="crosslink">
+  <a href="/re-1a87">
+   <div class="ck">APPLY · 청약</div>
+   <div class="ct">🎯 청약 기초 가이드</div>
+   <div class="cd">무주택 자격·가점·1순위 조건. 생숙·오피스텔이 청약에 어떻게 걸리는지 함께 보세요.</div>
+  </a>
+  <a href="/tool-re-c181">
+   <div class="ck">TAX · 도구</div>
+   <div class="ct">🧮 취득세 계산기</div>
+   <div class="cd">주택·비주택 취득세율을 직접 계산. 오피스텔·생숙 4.6%도 확인해봐요.</div>
+  </a>
+  <a href="/re-68e6">
+   <div class="ck">TAX · 기초</div>
+   <div class="ct">💰 부동산 세금 기초</div>
+   <div class="cd">취득·보유·양도 한 번에. 주택 수가 세금을 어떻게 바꾸는지 이해해요.</div>
+  </a>
+ </div>
+
+ <!-- SOURCES -->
+ <div class="src">
+  <h4>출처 · 근거 (공개 1차 자료 · 2026-06-08 확인)</h4>
+  <ul>
+   <li>주거용 오피스텔 주택 수 포함(2020.8.12 이후 취득분) · 취득세 4.6% — 지방세법/시행령, <a href="https://www.law.go.kr" target="_blank" rel="noopener">국가법령정보센터</a></li>
+   <li>신축 소형주택(오피스텔 포함) 주택 수 제외 특례 2025년 말→<b>2027년 말</b> 연장 — 「8·8 주택공급 확대방안」(2024.8, 국토교통부·기획재정부)</li>
+   <li>생활숙박시설 주거용 사용 제한·이행강제금, 숙박업 신고/용도변경 유예(2025.9 신청 시 2027년 말까지) — 「생숙 불법전용 방지방안」(2021.10)·미조치 생숙 현장점검 가이드라인, 국토교통부</li>
+   <li>전입신고·청약·종부세·양도세 주택 수 판정 — 종합부동산세법·소득세법·주택공급규칙, <a href="https://www.gov.kr" target="_blank" rel="noopener">정부24</a>·청약홈</li>
+   <li>최신 정책 동향(특례 연장 건의·생숙 규제 완화 논의) — 언론 보도(머니투데이·경향·아주경제 등, 2026.3~5월) 교차 확인</li>
+  </ul>
+ </div>
+
+ <div class="disc">
+  본 콘텐츠는 부부연구소 머니레터의 <b>교육·정보 제공용</b>이며, 특정 계약·투자·매수 권유나 법률·세무 자문이 아니에요. 오피스텔·생활숙박시설 관련 <b>세금·청약·전입·이행강제금 규정은 정책 변동이 잦고</b>, 사용 용도·취득 시점·지자체 운영·개별 사정과 법령 개정에 따라 달라질 수 있어요. 수치·기준은 <b>2026년 6월 8일</b> 기준 공개 자료를 바탕으로 정리했고, 시점에 따라 변동될 수 있습니다. 실제 거래·세금·청약은 반드시 법령 원문과 <b>세무서·관할 지자체 건축과·청약홈·전문가 상담</b>으로 확인하세요. 가늠기는 유형별 일반 사항을 보여주는 예시 도구예요.
+ </div>
+
+ <a class="backlink" href="/contents-hub">← 부동산·경제 콘텐츠 더 보기</a>
+
+</article>
+</div>
+
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="ft">
+   <div>
+    <span class="fl"><span class="dot"></span>부부연구소 머니레터</span>
+    <p class="fm">월급쟁이 부부의 돈 공부. 어려운 경제·부동산을 부부의 눈높이로 쉽게 풀어드려요. 본 글은 교육용 정보이며 투자·법률 자문이 아닙니다.</p>
+   </div>
+  </div>
+ </div>
+</footer>

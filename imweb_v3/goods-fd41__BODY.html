@@ -1,0 +1,653 @@
+<!-- [굿즈_상세_v3] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 17건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+  --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+  --up:#E85B4A; --upSoft:#FFF0EE; --down:#4A7DE8; --star:#E8A93C;
+  --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+  --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+  --lift:0 1px 2px rgba(62,47,41,.04),0 6px 14px rgba(190,80,96,.07),0 22px 48px rgba(190,80,96,.12);
+  --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.soft{position:relative;background:var(--bg2)}
+::selection{background:var(--pinkSoft)}
+.grad{background:linear-gradient(96deg,var(--pink),var(--rose) 58%,var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+html.js .scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+html.js .scene.sl{transform:translateX(-40px)}html.js .scene.sr{transform:translateX(40px)}html.js .scene.su{transform:scale(.94)}
+html.js .scene.in{opacity:1;transform:none}
+html.js .stag>*:nth-child(2){transition-delay:.07s}html.js .stag>*:nth-child(3){transition-delay:.14s}html.js .stag>*:nth-child(4){transition-delay:.21s}html.js .stag>*:nth-child(5){transition-delay:.28s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal,.scene{opacity:1!important;transform:none!important}}
+.ringed{position:relative}
+.ringed::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(150deg,rgba(214,122,137,.55),transparent 46%,rgba(94,140,127,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s var(--ease);pointer-events:none}
+.ringed:hover::after{opacity:1}
+
+.topbar{background:var(--rose);color:#fff;font-size:13px;display:flex;align-items:center;gap:14px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;overflow:hidden}
+.topbar::before{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:shim 6s ease-in-out infinite}
+@keyframes shim{0%,60%{left:-30%}100%{left:130%}}
+.topbar span{position:relative;z-index:1}.topbar a{position:relative;z-index:1;background:#fff;color:var(--rose);padding:5px 13px;border-radius:100px;font-weight:800;font-size:12.5px}
+header{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.74);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{font-weight:800;font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{display:flex;gap:22px;font-size:14.5px;font-weight:600;color:var(--ink2)}
+.menu a{position:relative;padding:4px 0}.menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
+.menu a:hover{color:var(--pink)}.menu a:hover::after{right:0}
+.nav .cta{background:var(--rose);color:#fff;padding:9px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:860px){.menu{display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 28px;border-radius:15px;font-weight:800;font-size:16px;border:1.6px solid transparent;cursor:pointer;transition:transform .22s var(--ease),box-shadow .25s,background .2s}
+.btn-primary{background:var(--rose);color:#fff;box-shadow:var(--lift);position:relative;overflow:hidden;will-change:transform}
+.btn-primary span{position:relative;z-index:1}.btn-primary:hover{background:#A03F4D}
+.btn-primary::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .65s}
+.btn-primary:hover::after{left:140%}
+.btn-ghost{background:rgba(255,255,255,.72);border-color:var(--pink);color:var(--rose)}
+.btn-ghost:hover{background:#fff}
+
+.crumb{font-size:12.5px;color:var(--mut);font-weight:600;padding:16px 0 0}
+.crumb a:hover{color:var(--rose)}.crumb i{font-style:normal;margin:0 7px;color:var(--border)}
+
+/* 히어로 */
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(680px 360px at 82% -8%,var(--pinkSoft) 0%,transparent 60%),radial-gradient(560px 320px at -6% 110%,#EAF1EE 0%,transparent 58%)}
+.hgrid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center;padding:34px 0 48px}
+@media(max-width:860px){.hgrid{grid-template-columns:1fr;gap:30px;padding:20px 0 36px}}
+.hvis{position:relative}
+.frame{position:relative;border-radius:26px;padding:8px;background:linear-gradient(150deg,#fff,var(--pinkSoft2));box-shadow:var(--lift)}
+.frame::before{content:"";position:absolute;inset:0;border-radius:26px;padding:1.5px;background:linear-gradient(150deg,rgba(214,122,137,.6),rgba(255,255,255,.1) 40%,rgba(94,140,127,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.mock{border-radius:19px;overflow:hidden;background:#fff;border:1px solid var(--border)}
+.mock .bar{display:flex;align-items:center;gap:6px;padding:10px 13px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.mock .bar i{width:9px;height:9px;border-radius:50%;background:#E6D6D0}.mock .bar .fn{margin-left:8px;font-size:11.5px;color:var(--mut);font-weight:700}
+.mock .body{padding:16px}
+.mock .mt{font-size:12px;color:var(--mut);font-weight:700;display:flex;justify-content:space-between}
+.mline{margin-top:11px}
+.mline .l{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:5px}
+.mtrack{height:9px;border-radius:5px;background:var(--bg2);overflow:hidden}
+.mtrack i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--pink),var(--rose));width:0;transition:width 1.1s var(--ease)}
+.in .mtrack i{width:var(--w)}
+.mock .tabs{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.mock .tabs span{font-size:11px;font-weight:700;color:var(--mut);background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:4px 10px}
+.fcard{position:absolute;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:15px;box-shadow:var(--lift);padding:11px 14px;font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px;animation:bob 5.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.fcard.f1{top:-14px;right:-10px}.fcard.f1 .dotg{width:8px;height:8px;border-radius:50%;background:var(--sage)}
+.fcard.f2{bottom:-16px;left:-12px;animation-delay:-2.5s}.fcard.f2 b{color:var(--rose)}
+@media(max-width:860px){.hvis{max-width:420px;margin:0 auto}.fcard.f1{right:4px}.fcard.f2{left:4px}}
+
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--rose)}
+.eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.htag{display:inline-block;font-size:11.5px;font-weight:800;color:var(--sage);background:#EAF1EE;border:1px solid #d4e6df;border-radius:7px;padding:3px 9px;margin-left:8px;vertical-align:middle}
+.hero h1{margin-top:14px;font-size:clamp(30px,4.8vw,50px);font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.hero .lead{margin-top:14px;color:var(--ink2);font-size:15.5px;max-width:480px}
+.rate{margin-top:16px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink2)}
+.stars{color:var(--star);font-size:15px;letter-spacing:1px}
+.rate b{color:var(--ink);font-weight:800}.rate a{color:var(--mut);text-decoration:underline;text-underline-offset:2px}
+.pricebox{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--cardSh)}
+.saver{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:var(--rose);border-radius:7px;padding:3px 10px}
+.priceline{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.priceline s{color:var(--mut);font-size:16px;font-weight:600}
+.priceline .now{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.priceline .won{font-size:16px;font-weight:700;color:var(--ink2)}
+.pricesub{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:6px}
+.perks{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.perk{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:6px 11px}
+.perk svg{width:13px;height:13px;fill:none;stroke:var(--sage);stroke-width:2.4}
+.hbtns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.hbtns .btn{flex:1;min-width:180px}
+.trustrow{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;font-size:12px;color:var(--mut);font-weight:600}
+.trustrow span{display:inline-flex;align-items:center;gap:5px}.trustrow svg{width:13px;height:13px;fill:none;stroke:var(--sage);stroke-width:2}
+
+/* 섹션 */
+section.blk{padding:clamp(80px,10vw,132px) 0;position:relative}
+.keyc{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.keyc::before{content:"";width:26px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.keyc.ctr{justify-content:center}
+.h2{font-size:clamp(25px,3.7vw,36px);font-weight:800;letter-spacing:-.025em;margin-top:11px;margin-bottom:0;line-height:1.25}
+.sub{color:var(--ink2);font-size:15px;margin-top:9px;max-width:600px}
+.ctr-h{text-align:center}.ctr-h .sub{margin-left:auto;margin-right:auto}
+
+/* 후기 */
+.revtop{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center;margin-top:26px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--cardSh)}
+@media(max-width:680px){.revtop{grid-template-columns:1fr;gap:18px;text-align:center}}
+.revtop .big{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.revtop .stars{font-size:18px}.revtop .cnt{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:6px}
+.distrib{display:flex;flex-direction:column;gap:7px}
+.drow{display:grid;grid-template-columns:36px 1fr 40px;align-items:center;gap:10px;font-size:12px;color:var(--ink2);font-weight:700}
+.dtrack{height:8px;border-radius:5px;background:var(--bg2);overflow:hidden}.dtrack i{display:block;height:100%;background:var(--star);border-radius:5px;width:0;transition:width 1s var(--ease)}
+.in .dtrack i{width:var(--w)}
+.revgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+@media(max-width:820px){.revgrid{grid-template-columns:1fr}}
+.rev{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--cardSh);transition:transform .25s var(--ease),box-shadow .25s}
+.rev:hover{transform:translateY(-4px);box-shadow:var(--cardHi)}
+.rev .who{display:flex;align-items:center;gap:10px}
+.rev .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(150deg,var(--pink),var(--rose));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.rev .nm{font-size:13.5px;font-weight:800}.rev .meta{font-size:11.5px;color:var(--mut);font-weight:600}
+.rev .stars{font-size:13px;margin-top:10px}
+.rev p{font-size:13.5px;color:var(--ink2);line-height:1.7;margin-top:8px}
+
+/* 구성/그리드 카드 */
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+@media(max-width:680px){.feats{grid-template-columns:1fr}}
+.feat{position:relative;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;overflow:hidden}
+.feat:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.feat .ic{width:46px;height:46px;border-radius:13px;background:var(--pinkSoft);color:var(--rose);display:flex;align-items:center;justify-content:center;margin-bottom:13px}
+.feat .ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.feat.bonus .ic{background:#EAF1EE;color:var(--sage)}
+.feat h4{font-size:16.5px;font-weight:800;letter-spacing:-.01em}
+.feat h4 .bdg{font-size:10.5px;font-weight:800;color:var(--sage);background:#EAF1EE;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.feat p{font-size:13.5px;color:var(--ink2);margin-top:7px;line-height:1.65}
+.feat .kind{font-size:12px;color:var(--mut);font-weight:700;margin-top:10px}
+
+/* 미리보기 탭 */
+.preview{margin-top:26px;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);overflow:hidden}
+.ptabs{display:flex;gap:6px;padding:14px 14px 0;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.ptab{font-size:13px;font-weight:800;color:var(--mut);background:transparent;border:0;border-bottom:2.5px solid transparent;padding:8px 12px 12px;cursor:pointer;transition:color .2s,border-color .2s}
+.ptab.on{color:var(--rose);border-color:var(--rose)}
+.ppanel{display:none;padding:24px}
+.ppanel.on{display:block;animation:fadein .5s var(--ease)}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ppanel h4{font-size:16px;font-weight:800}.ppanel .free{font-size:11px;font-weight:800;color:var(--sage);border:1px solid var(--sage);border-radius:6px;padding:2px 7px;margin-left:7px}
+.ppanel p{font-size:13.5px;color:var(--ink2);margin-top:8px;line-height:1.7}
+.pvbars{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.pvrow .l{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:5px}
+.pvtrack{height:11px;border-radius:6px;background:var(--bg2);overflow:hidden}.pvtrack i{display:block;height:100%;border-radius:6px;width:0;transition:width 1.1s var(--ease)}
+.preview.in .pvtrack i{width:var(--w)}
+.split{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+@media(max-width:560px){.split{grid-template-columns:1fr 1fr}}
+.spc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.spc .pc{font-size:18px;font-weight:800;color:var(--rose)}.spc .lb{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:3px}
+.assetbars{display:flex;align-items:flex-end;gap:10px;height:120px;margin-top:14px;padding:0 4px}
+.assetbars .ab{flex:1;background:linear-gradient(180deg,var(--pink),var(--rose));border-radius:7px 7px 0 0;height:0;transition:height 1.1s var(--ease);position:relative}
+.preview.in .assetbars .ab{height:var(--h)}
+.assetbars .ab span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--mut);font-weight:700}
+.checklist{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.cli{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink2);background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:11px 14px}
+.cli .ck{flex:none;width:20px;height:20px;border-radius:6px;background:var(--sage);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.cli .ck svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.6}
+
+/* 사용법 스텝 */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.step{position:relative;background:#fff;border:1px solid var(--border);border-radius:18px;padding:24px 22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s}
+.step:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.step .n{width:34px;height:34px;border-radius:11px;background:linear-gradient(150deg,var(--pink),var(--rose));color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step h4{font-size:16px;font-weight:800;margin:13px 0 6px}
+.step p{font-size:13.5px;color:var(--ink2);line-height:1.65}
+
+/* 솔직한 핏 */
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+@media(max-width:760px){.fit{grid-template-columns:1fr}}
+.fitcard{border-radius:18px;padding:24px;border:1px solid var(--border);box-shadow:var(--cardSh)}
+.fitcard.good{background:linear-gradient(160deg,#fff,var(--pinkSoft2))}
+.fitcard.no{background:linear-gradient(160deg,#fff,var(--bg2))}
+.fitcard .ft{display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:800}
+.fitcard .ft svg{width:20px;height:20px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fitcard.good .ft svg{stroke:var(--rose)}.fitcard.no .ft svg{stroke:var(--mut)}
+.fitcard ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:11px}
+.fitcard li{position:relative;padding-left:26px;font-size:13.5px;color:var(--ink2);line-height:1.6}
+.fitcard li::before{position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.fitcard.good li::before{content:"✓";background:var(--pinkSoft);color:var(--rose)}
+.fitcard.no li::before{content:"−";background:var(--bg2);color:var(--mut);border:1px solid var(--border)}
+
+/* FAQ */
+.faq{max-width:760px;margin:26px auto 0}
+.faq details{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:box-shadow .3s,border-color .3s}
+.faq details[open]{box-shadow:var(--cardSh);border-color:var(--pink)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:700;font-size:15.5px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .x{color:var(--pink);font-size:21px;transition:transform .3s var(--ease);flex-shrink:0;line-height:1}
+.faq details[open] .x{transform:rotate(135deg)}
+.faq .a{padding:0 20px 18px;color:var(--ink2);font-size:14px;line-height:1.75}
+.faq .a b{color:var(--ink)}
+
+/* 관련 */
+.related{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+@media(max-width:760px){.related{grid-template-columns:1fr}}
+.rel{position:relative;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;display:flex;flex-direction:column}
+.rel:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.rel .tag{font-size:11px;font-weight:800;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
+.rel h4{font-size:16px;font-weight:800;margin:6px 0 7px;letter-spacing:-.01em}
+.rel p{font-size:13px;color:var(--ink2);flex:1;line-height:1.6}
+.rel .go{margin-top:12px;font-weight:800;font-size:13.5px;color:var(--rose);display:inline-flex;align-items:center;gap:5px}
+.rel .go .ar{transition:transform .3s var(--ease)}.rel:hover .go .ar{transform:translateX(4px)}
+
+/* 마지막 밴드 */
+.band{position:relative;overflow:hidden;border-radius:26px;border:1px solid var(--border);box-shadow:var(--lift);background:linear-gradient(120deg,var(--pinkSoft2),#fff 55%,#EAF1EE);text-align:center;padding:clamp(40px,6vw,60px) 28px}
+.band h2{font-size:clamp(25px,3.7vw,36px);font-weight:800;letter-spacing:-.02em;margin-top:10px;line-height:1.25}
+.band .pl{display:flex;align-items:baseline;gap:9px;justify-content:center;margin-top:14px}
+.band .pl s{color:var(--mut);font-size:16px}.band .pl .now{font-size:26px;font-weight:800}.band .pl .won{font-size:15px;font-weight:700;color:var(--ink2)}
+.band .pls{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:6px}
+.band .note{font-size:11.5px;color:var(--mut);margin-top:16px}
+
+/* 스티키 구매바 */
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border);box-shadow:0 -8px 24px rgba(190,80,96,.08);transform:translateY(120%);transition:transform .4s var(--ease)}
+.buybar.show{transform:none}
+.buybar .in{max-width:var(--maxw);margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:14px}
+.buybar .pi{display:flex;flex-direction:column;line-height:1.2}
+.buybar .pi .now{font-size:18px;font-weight:800}.buybar .pi .now s{font-size:12.5px;color:var(--mut);font-weight:600;margin-right:6px}
+.buybar .pi .lb{font-size:11.5px;color:var(--mut);font-weight:600}
+.buybar .btn{margin-left:auto;padding:13px 26px;font-size:15px}
+@media(max-width:560px){.buybar .pi .lb{display:none}.buybar .btn{padding:13px 20px}}
+
+footer{background:var(--ink);color:#cdbfb6;font-size:12.5px;padding:38px 0 90px;margin-top:8px}
+footer .ftlogo{font-weight:800;color:#fff;font-size:15px;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+footer .ftlogo .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+footer .ft{display:flex;flex-wrap:wrap;gap:7px 22px}footer b{color:#fff}
+footer .law{margin-top:13px;font-size:11.5px;color:#9a8b82;line-height:1.7}
+
+/* 굿즈 전용 */
+.planner{border-radius:19px;overflow:hidden;border:1px solid var(--border);background:#fff}
+.pcover{padding:30px 22px;background:linear-gradient(155deg,var(--cov1,#E89AAB),var(--cov2,#C75E70));color:#fff;transition:background .4s var(--ease)}
+.pcover .pk{font-size:11px;font-weight:800;letter-spacing:.18em;opacity:.85}
+.pcover .pt{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:8px;line-height:1.2}
+.pcover .pe{font-size:11px;font-weight:700;letter-spacing:.16em;opacity:.8;margin-top:6px}
+.pbody{padding:16px}
+.pbody .mt{font-size:12px;color:var(--mut);font-weight:700;display:flex;justify-content:space-between}
+.swatches{display:flex;gap:9px;margin-top:14px;align-items:center}
+.sw{width:32px;height:32px;border-radius:9px;border:2px solid #fff;box-shadow:0 0 0 1px var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.sw.on{box-shadow:0 0 0 2px var(--rose);transform:scale(1.1)}
+.sw.rose{background:#D67A89}.sw.sage{background:#9CB7AD}.sw.cream{background:#E7DBC4}
+.swlabel{font-size:12.5px;font-weight:700;color:var(--ink2);margin-left:4px}
+.optsel{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt{border:1.5px solid var(--border);border-radius:13px;padding:12px 14px;cursor:pointer;background:#fff;transition:border-color .2s,box-shadow .2s;position:relative;text-align:left}
+.opt.on{border-color:var(--rose);box-shadow:var(--cardSh)}
+.opt .onm{font-size:13.5px;font-weight:800}.opt .op{font-size:13px;margin-top:3px;font-weight:700}.opt .op s{color:var(--mut);font-size:11.5px;margin-right:5px;font-weight:500}
+.opt .hot{position:absolute;top:-9px;right:10px;background:var(--rose);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px}
+.shipgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+@media(max-width:760px){.shipgrid{grid-template-columns:1fr}}
+.shipc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--cardSh)}
+.shipc .si{width:42px;height:42px;border-radius:12px;background:var(--pinkSoft);color:var(--rose);display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.shipc .si svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.shipc h4{font-size:15px;font-weight:800}.shipc p{font-size:13px;color:var(--ink2);margin-top:6px;line-height:1.6}.shipc p b{color:var(--rose)}
+.spectable{margin-top:16px;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--cardSh)}
+.spectable .sr{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--border);font-size:13.5px}
+.spectable .sr:last-child{border-bottom:0}
+.spectable .sk{background:var(--bg2);padding:12px 14px;font-weight:800;color:var(--ink2)}
+.spectable .sv{padding:12px 14px;color:var(--ink2)}
+.notebox{margin-top:14px;background:linear-gradient(120deg,var(--pinkSoft2),#fff);border:1px solid var(--border);border-radius:14px;padding:15px 18px;font-size:12.5px;color:var(--ink2);line-height:1.7}
+.notebox b{color:var(--ink)}
+.phototag{font-size:10.5px;font-weight:800;color:var(--sage);background:#EAF1EE;border-radius:6px;padding:2px 7px;margin-left:6px}
+
+/* ===dviz=== interactive data-viz widget */
+.dviz{display:grid;grid-template-columns:260px 1fr;gap:34px;align-items:center;margin-top:26px;background:#fff;border:1px solid var(--border);border-radius:24px;padding:clamp(24px,3vw,38px);box-shadow:var(--cardSh)}
+@media(max-width:720px){.dviz{grid-template-columns:1fr;justify-items:center;gap:26px}}
+.dnutfig{position:relative;width:230px;height:230px;flex:none}
+.dnut{width:230px;height:230px;transform:rotate(-90deg)}
+.dnut-bg{fill:none;stroke:var(--bg2);stroke-width:26}
+.dseg{fill:none;stroke-width:26;stroke-linecap:butt;stroke-dasharray:0 999;transition:stroke-dasharray 1.1s var(--ease)}
+.dseg.s1{stroke:var(--sage)}.dseg.s2{stroke:var(--gold)}.dseg.s3{stroke:var(--rose)}.dseg.s4{stroke:var(--lav)}
+.dnutc{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.2}
+.dnutc .dl{font-size:12px;color:var(--mut);font-weight:700}
+.dnutc .dv{font-size:25px;font-weight:800;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.dvside{width:100%}
+.dslider label{font-size:13.5px;font-weight:700;color:var(--ink2);display:block;margin-bottom:9px}
+.dslider label b{color:var(--rose);font-variant-numeric:tabular-nums}
+.dslider input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none}
+.dslider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+.dslider input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+.dslider input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.dcards{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:18px}
+.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:12px 14px;border-left:4px solid var(--border)}
+.dcard.s1{border-left-color:var(--sage)}.dcard.s2{border-left-color:var(--gold)}.dcard.s3{border-left-color:var(--rose)}.dcard.s4{border-left-color:var(--lav)}
+.dcard .dn{font-size:11.5px;color:var(--mut);font-weight:700;display:block}
+.dcard b{font-size:17px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.dvlink{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-weight:800;font-size:14px;color:var(--rose)}
+.dvnote{font-size:11.5px;color:var(--mut);margin-top:12px}
+/* growth bars (강의) */
+.gbars{display:flex;flex-direction:column;gap:15px;margin-top:6px}
+.gbrow .gl{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.gbrow .gl b{color:var(--rose);font-variant-numeric:tabular-nums}
+.gbtrack{height:14px;background:var(--bg2);border-radius:8px;overflow:hidden}
+.gbfill{height:100%;border-radius:8px;width:0;transition:width .9s var(--ease)}
+.gbfill.c1{background:linear-gradient(90deg,var(--sage),#6fa595)}.gbfill.c2{background:linear-gradient(90deg,var(--gold),#d9bd66)}
+.gbfill.c3{background:linear-gradient(90deg,var(--rose),var(--pink))}.gbfill.c4{background:linear-gradient(90deg,var(--lav),#b58cc2)}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===cntfix=== 카운트업 숫자는 부모 통계 스타일 상속(작은-span 충돌 차단) */.cnt{font-size:inherit!important;font-weight:inherit!important;color:inherit!important;display:inline!important;letter-spacing:inherit!important;margin:0!important;line-height:inherit!important;vertical-align:baseline!important}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<style>/*wowkit-css*/
+/* ── 스크롤 등장(방향 변형) ── */
+html.js .wv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+html.js .wv.wv-l{transform:translateX(-34px)}
+html.js .wv.wv-r{transform:translateX(34px)}
+html.js .wv.wv-s{transform:scale(.94) translateY(14px)}
+html.js .wv.in{opacity:1;transform:none}
+/* ── 자식 스태거(카드 그리드·리스트) ── */
+html.js .wstag>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+html.js .wstag.in>*{opacity:1;transform:none}
+/* ── 형광펜 밑줄 스윕(키 카피 1~2곳만) ── */
+.whl{background:linear-gradient(transparent 60%,#F8E8EA 60%) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.16,1,.3,1) .18s;border-radius:2px}
+.whl.in{background-size:100% 100%}
+/* ── 섹션 헤더 라인 드로우 ── */
+.wline{position:relative}
+.wline::after{content:"";display:block;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#D67A89,#B85060);margin-top:10px;transition:width .8s cubic-bezier(.16,1,.3,1) .15s}
+.wline.in::after{width:44px}
+.wline.wline-c::after{margin-left:auto;margin-right:auto}
+/* ── 카드 호버 리프트(+은은한 그림자) ── */
+.wlift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}
+.wlift:hover{transform:translateY(-5px);box-shadow:0 18px 40px -18px rgba(62,47,41,.22)}
+.wtilt{transition:transform .25s ease-out}
+/* ── CTA 샤인 스윕(주 CTA 1곳만) ── */
+.wshine{position:relative;overflow:hidden}
+.wshine::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.34),transparent);transform:skewX(-18deg);transition:left .75s ease}
+.wshine:hover::after{left:125%}
+/* ── 모션 최소화: 전부 정적 폴백 ── */
+@media (prefers-reduced-motion:reduce){
+  html.js .wv,html.js .wstag>*{opacity:1!important;transform:none!important;transition:none!important}
+  .whl{background-size:100% 100%!important;transition:none!important}
+  .wline::after{width:44px!important;transition:none!important}
+  .wlift,.wlift:hover{transform:none!important;transition:none!important}
+  .wshine::after{display:none!important}
+}
+</style>
+<style>/*wowplus-b — 다음 동선 UI·탭 타깃 44px+·고정바 키보드 가드 (B레인, 추가 전용)*/
+/* 관련 그리드 아래 허브 백링크 줄 */
+.nextrow{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}
+.backhub{display:inline-flex;align-items:center;gap:7px;min-height:48px;padding:13px 24px;border-radius:100px;border:1.6px solid var(--pink);background:rgba(255,255,255,.85);color:var(--rose);font-weight:800;font-size:14.5px;transition:background .2s,box-shadow .25s}
+.backhub:hover{background:var(--pinkSoft);box-shadow:var(--cardSh)}
+/* 작은 링크·탭 영역 확장(터치 타깃 44px+) */
+.topbar a::before{content:"";position:absolute;inset:-10px -8px}
+.crumb a{position:relative;display:inline-block;padding:11px 2px;margin:-11px -2px}
+.rate a{position:relative;display:inline-block;padding:11px 4px;margin:-11px -4px}
+#hdr .navMobBtn{width:44px;height:44px}
+.ptab{min-height:44px}
+.dvlink{min-height:44px}
+/* 스티키 구매바: 숨김 상태에서 키보드 포커스 진입 차단 */
+.buybar{visibility:hidden;transition:transform .4s var(--ease),visibility 0s .4s}
+.buybar.show{visibility:visible;transition:transform .4s var(--ease),visibility 0s}
+@media (prefers-reduced-motion:reduce){.buybar{transition:none}}
+</style>
+<style>/*wowplus-goods — 색상 스와치 탭 타깃 44px+ 확장 (B레인, 추가 전용·모션 없음)*/
+.sw{position:relative}
+.sw::before{content:"";position:absolute;inset:-6px}
+</style>
+<style>/*a11y-goods — 소형 캡션 대비 AA(--mut 3.44~4.07:1→--ink2 6.97~8.26:1) override. :root 토큰 hex 불변, 참조만 교체. 렌더 캡션만 포함(.mock/.spc/.ptab/.assetbars=휴면CSS·취소선·비활성마커·장식아이콘·대형닫기 AA-large·의미그래픽 role=img 제외). A레인 a11y·추가전용·색만*/
+.crumb,.pbody .mt,.rate a,.pricesub,.trustrow,.revtop .cnt,.rev .meta,.feat .kind,.rel .tag,.band .pls,.band .note,.buybar .pi .lb,.dnutc .dl,.dcard .dn,.dvnote,#hdr .menu-sub a{color:var(--ink2)}
+</style>
+<div class="topbar"><span>평일 오후 2시 이전 주문은 당일 출고돼요</span><a href="/home#store">스토어 더 보기 →</a></div>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
+<a class="cta wshine" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="crumb" role="navigation" aria-label="현재 위치"><a href="/home">홈</a><i>›</i><a href="/goods-9972">굿즈</a><i>›</i>부부 머니 플래너 + 현금봉투 세트</div>
+    <div class="hgrid">
+      <div class="hvis scene sl">
+        <div class="frame wtilt">
+          <div class="planner">
+            <div class="pcover" id="cover" role="img" aria-label="부부 머니 플래너 표지 미리보기"><div class="pk">BUBU MONEY PLANNER</div><div class="pt">부부 머니 플래너</div><div class="pe">2026 · FOR US</div></div>
+            <div class="pbody">
+              <div class="mt"><span>이번 주 예산</span><span>함께 돌아보기</span></div>
+              <div class="mline"><div class="l"><span>생활비</span><span>이번 달 봉투</span></div><div class="mtrack" style="--w:70%"><i></i></div></div>
+              <div class="mline"><div class="l"><span>저축</span><span>먼저 떼두기</span></div><div class="mtrack" style="--w:85%"><i></i></div></div>
+              <div class="mline"><div class="l"><span>데이트</span><span>우리 즐거움</span></div><div class="mtrack" style="--w:45%"><i></i></div></div>
+              <div class="mline"><div class="l"><span>비상금</span><span>만약을 위해</span></div><div class="mtrack" style="--w:60%"><i></i></div></div>
+              <div class="tabs"><span>플래너 1권</span><span>현금봉투 6매</span><span>스티커 1세트</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="fcard f1"><span class="dotg"></span>당일 출고</div>
+        <div class="fcard f2"><b>손으로 쓰는</b> 돈 습관</div>
+      </div>
+      <div class="scene sr">
+        <!-- copy_B: eyebrow에 타깃(부부)+차별점(손으로 쓰는) 추가 → 3초 후킹 타깃 명확화. 원문: "돈 모으기 · 실물 굿즈" -->
+        <span class="eyebrow"><span class="d"></span>돈 모으기 · 손으로 쓰는 부부 플래너</span><span class="htag">실물</span>
+        <!-- copy_B 헤드라인 A/B 후보(추천=현행 페인형 유지, 3초 후킹 강함):
+             ②결과형 H1: "쓴 돈이, 적는 순간 다 보여요" / grad: "우리 손으로 쓰는 부부 플래너"
+             ③숫자형 H1: "하루 1분, 손으로 적는 우리 집 가계부" / grad: "받은 날부터 바로 시작해요"
+             ※ 라이브 카피는 변경하지 않음(현행 유지). 사장님 A/B 테스트용 후보. -->
+        <h1>"우리 돈, 다 어디로 간 거지?"<br><span class="grad">적는 순간부터 보이기 시작해요</span></h1>
+        <!-- copy_B: lead 결손프레임("앱이 손에 안 익는")→선호·이득 프레임으로(You-message·결과중심). 원문 보존:
+             "앱이 손에 안 익는 부부를 위해, 손으로 직접 쓰는 플래너예요. 통장 쪼개기 현금봉투까지 같이 있어서, 받는 날부터 바로 시작할 수 있어요 :)" -->
+        <p class="lead">화면보다 손으로 쓸 때 돈이 더 잘 보이는 부부를 위해 만든 플래너예요. 통장 쪼개기 현금봉투까지 같이 있어서, 받는 날부터 바로 시작할 수 있어요 :)</p>
+        <!-- TODO(사장님): 실제 후기·평점이 쌓이면 이 줄을 실데이터(★평점·후기 N개)로 교체해 주세요. 오픈 전엔 가짜 수치 대신 제품 사실만 보여드려요. -->
+        <div class="rate"><b>표지 3색 · 구성 2종</b><a href="#reviews">예시 후기 미리 보기</a><span style="color:var(--ink2)">· 실제 후기는 오픈 후 채워요</span></div>
+        <div class="pricebox">
+          <span class="saver">런칭 할인 30%</span>
+          <div class="swlabel" aria-live="polite">표지 색상 — <span id="swname">로즈</span></div>
+          <div class="swatches" role="group" aria-label="표지 색상 선택"><span class="sw rose on" role="button" tabindex="0" aria-label="로즈" data-c1="#E89AAB" data-c2="#C75E70" data-n="로즈"></span><span class="sw sage" role="button" tabindex="0" aria-label="세이지" data-c1="#9CB7AD" data-c2="#5E8C7F" data-n="세이지"></span><span class="sw cream" role="button" tabindex="0" aria-label="크림" data-c1="#EBDFC6" data-c2="#C9A84C" data-n="크림"></span></div>
+          <div class="swlabel" style="margin-top:14px">구성 선택</div>
+          <div class="optsel">
+            <button type="button" class="opt" data-p="16,000" data-pl="플래너만 · 1개"><span class="onm">플래너만</span><div class="op"><s>22,000</s>16,000원</div></button>
+            <button type="button" class="opt on" data-p="19,000" data-pl="풀세트 · 1개"><span class="hot">추천</span><span class="onm">풀세트</span><div class="op"><s>27,000</s>19,000원</div></button>
+          </div>
+          <div class="priceline" style="margin-top:14px" aria-live="polite" aria-atomic="true"><span class="now" id="bigp">19,000</span><span class="won">원</span></div>
+          <!-- copy_B: pricesub 해요체·고객관점으로. 원문: "실물 배송 상품 · 색상/구성 선택 가능" -->
+          <div class="pricesub">표지 색과 구성을 골라 담는 실물 배송 상품이에요</div>
+          <div class="perks">
+            <span class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-11"/></svg>3만원+ 무료배송</span>
+            <span class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-11"/></svg>당일 출고</span>
+            <span class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-11"/></svg>7일 교환·반품</span>
+          </div>
+          <div class="hbtns">
+            <a href="#buy" class="btn btn-primary magnet"><span>주문하고 받은 날 바로 시작하기 →</span></a>
+            <a href="#ship" class="btn btn-ghost">배송·반품 먼저 보기</a>
+          </div>
+          <!-- copy_B 추가: 결정 지점 저위험 마이크로카피(CRO §4.3 — CTA 밑 신뢰문). 신규 텍스트(원문 덮어쓰기 아님), 기존 .pricesub 클래스 재사용 -->
+          <div class="pricesub" style="margin-top:10px">마음이 바뀌면, 받은 날부터 7일 안에 교환·반품돼요 · 하자·오배송은 저희가 전액 책임져요</div>
+          <div class="trustrow">
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>안전결제(카카오·카드)</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h13l1 5h4v5H3z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>평일 14시 전 주문 당일 출고</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="soft">
+<section class="blk wrap" id="reviews">
+  <div class="ctr-h"><span class="keyc ctr reveal" style="display:inline-flex">EXAMPLE REVIEWS</span>
+  <h2 class="h2 reveal">오픈하면 이 자리에 <span class="grad">솔직한 후기가 쌓여요.</span></h2>
+  <p class="sub reveal">실물이라 색·두께·질감이 제일 궁금하시죠? 오픈하면 그 이야기들부터 모아 보여드릴게요. (지금 보이는 후기는 전부 예시예요)</p></div>
+  <!-- TODO(사장님): 실제 후기가 쌓이면 이 .revtop 카드를 실데이터(★평점 빅넘버·점수 분포 막대)로 교체해 주세요. 실데이터 전엔 가짜 평점·분포 금지예요. -->
+  <div class="revtop reveal">
+    <div style="text-align:center"><div class="big" style="font-size:23px;line-height:1.35">첫 후기를<br>기다리고 있어요</div><div class="cnt">실제 평점·후기 수는 오픈 후 공개돼요</div></div>
+    <div class="distrib">
+      <p style="margin:0;font-size:13.5px;line-height:1.75;color:var(--ink2)">아래 후기 카드는 <b>전부 예시</b>예요. 오픈 후 진짜 후기가 쌓이면 이 카드에 평점과 점수 분포를 그대로 공개할게요. 좋은 후기만 골라 보여드리지 않고, 아쉬운 이야기도 같이 둘게요.</p>
+    </div>
+  </div>
+  <div class="revgrid stag">
+    <div class="rev reveal"><div class="who"><span class="av" aria-hidden="true">YR</span><div><div class="nm">윤0락 님</div><div class="meta">결혼 2년차</div></div></div><div class="stars" role="img" aria-label="별점 5점 만점에 5점 · 포토 후기 (예시 후기)">★★★★★ <span class="phototag">포토 후기</span></div><p>색이 화면이랑 거의 똑같아요(로즈 골랐어요). 종이가 도톰해서 만년필도 안 번지고요. 둘이 주말마다 봉투에 현금 나눠 넣는 게 루틴이 됐어요 :)</p></div>
+    <div class="rev reveal"><div class="who"><span class="av" aria-hidden="true">DH</span><div><div class="nm">도0희 님</div><div class="meta">예비부부</div></div></div><div class="stars" role="img" aria-label="별점 5점 만점에 5점 · 포토 후기 (예시 후기)">★★★★★ <span class="phototag">포토 후기</span></div><p>주문 다음 날 바로 왔어요. 포장도 안 눌리게 단단하게 와서 선물용으로도 좋겠더라고요. 현금봉투가 생각보다 튼튼해요.</p></div>
+    <div class="rev reveal"><div class="who"><span class="av" aria-hidden="true">MK</span><div><div class="nm">민0경 님</div><div class="meta">결혼 4년차</div></div></div><div class="stars" role="img" aria-label="별점 5점 만점에 4점 (예시 후기)">★★★★☆</div><p>플래너 구성은 정말 알차요. 앱보다 손으로 쓰니까 돈 쓸 때 한 번 더 생각하게 돼요. 별 하나 뺀 건 크림색이 생각보다 밝아서요(취향 차이예요).</p></div>
+  </div>
+</section>
+</div>
+
+<section class="blk wrap" id="inside">
+  <span class="keyc reveal">WHAT YOU GET</span>
+  <h2 class="h2 reveal">상자를 열면, <span class="grad">이게 들어있어요.</span></h2>
+  <p class="sub reveal">풀세트 기준 구성이에요. '플래너만' 옵션은 플래너 1권만 배송돼요.</p>
+  <div class="feats stag">
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M13 8h3M13 12h3"/></svg></div><h4>부부 머니 플래너 1권</h4><p>주간 예산·지출·함께 돌아보기 페이지로 구성된 6개월용 플래너예요. 양장 제본이라 펼침이 편해요.</p><div class="kind">실물 · 양장노트 · 약 120p</div></div>
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v11H4z"/><path d="M4 7l8 6 8-6"/></svg></div><h4>통장 쪼개기 현금봉투 6매</h4><p>생활비·저축·데이트·비상금처럼 항목을 나눠 현금을 담아두는 봉투예요. 라벨을 직접 붙일 수 있어요.</p><div class="kind">실물 · 두꺼운 크라프트지</div></div>
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div><h4>라벨·꾸미기 스티커 1세트</h4><p>봉투와 플래너를 우리 스타일대로 꾸밀 수 있는 스티커예요. 항목 라벨도 함께 들어있어요.</p><div class="kind">실물 · 떼었다 붙이는 스티커</div></div>
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></div><h4>시작 가이드 카드</h4><p>"어디서부터 쓰지?" 막막하지 않게, 첫 주 세팅을 한 장에 담은 카드를 넣어드려요.</p><div class="kind">실물 · 카드 1매</div></div>
+  </div>
+  <div class="spectable reveal">
+    <div class="sr"><div class="sk">플래너 크기</div><div class="sv">약 148 × 210mm (A5) · 두께 약 12mm</div></div>
+    <div class="sr"><div class="sk">재질</div><div class="sv">표지 양장(하드커버) · 내지 100g 미색 모조지</div></div>
+    <div class="sr"><div class="sk">현금봉투</div><div class="sv">약 90 × 180mm · 두꺼운 크라프트지 6매</div></div>
+    <div class="sr"><div class="sk">구성 무게</div><div class="sv">풀세트 약 480g (배송 박스 포함 약 600g)</div></div>
+    <div class="sr"><div class="sk">제조·원산지</div><div class="sv">대한민국 (예시 — 실제 정보로 교체)</div></div>
+  </div>
+  <div class="notebox reveal">※ 색상은 모니터 환경에 따라 실제와 조금 다를 수 있어요. 위 히어로의 <b class="whl">색상 스와치</b>로 표지를 미리 확인하고 골라주세요.</div>
+</section>
+
+<div class="soft">
+<section class="blk wrap" id="ship">
+  <span class="keyc reveal">SHIPPING</span>
+  <h2 class="h2 reveal">배송, <span class="grad">미리 솔직하게 알려드릴게요.</span></h2>
+  <p class="sub reveal">실물이라 '언제 오는지·얼마인지'가 제일 궁금하시잖아요. 그것부터 명확히요.</p>
+  <div class="shipgrid stag">
+    <div class="shipc reveal"><div class="si"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h13l1 5h4v5H3z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></div><h4>출고</h4><p>평일 <b class="whl">오후 2시 이전</b> 주문은 당일 출고, 이후는 다음 영업일에 나가요. 주말·공휴일은 쉬어요.</p></div>
+    <div class="shipc reveal"><div class="si"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/></svg></div><h4>도착</h4><p>택배로 보통 <b>출고 후 1~2일</b>이면 받아요. 도서·산간은 하루 정도 더 걸릴 수 있어요.</p></div>
+    <div class="shipc reveal"><div class="si"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>배송비</h4><p>기본 <b>3,000원</b>, 3만원 이상 구매 시 무료예요. 풀세트 2개부터는 무료배송이에요.</p></div>
+  </div>
+  <div class="notebox reveal">
+    <b>교환·반품 안내 (실물 상품)</b> — 받은 날부터 <b>7일 이내</b> 단순 변심 교환·반품이 가능해요(이때 왕복 배송비는 구매자 부담). 상품 하자·오배송은 부부연구소가 전액 부담해 새 상품으로 바꿔드려요(사진 한 장만 보내주시면 돼요). 다만 스티커를 떼어 썼거나 플래너에 필기한 경우처럼 사용 흔적이 있으면 교환·반품이 어려워요(위생·재판매 사유).
+  </div>
+</section>
+</div>
+
+<section class="blk wrap" id="closeup">
+  <span class="keyc reveal">CLOSE-UP</span>
+  <h2 class="h2 reveal">가까이서, <span class="grad">이렇게 생겼어요.</span></h2>
+  <p class="sub reveal">못 만져보는 대신 디테일을 최대한 보여드릴게요. (실제 촬영컷이 들어갈 자리예요)</p>
+  <div class="feats stag">
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/></svg></div><h4>도톰한 양장 표지</h4><p>매일 손이 가도 잘 안 상하게, 단단한 하드커버로 만들었어요.</p><div class="kind">표지 · 양장</div></div>
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 10h8M4 15h8"/></svg></div><h4>주간 예산 페이지</h4><p>한 주를 한눈에. 쓸 돈을 먼저 정하고, 쓴 돈을 적는 구조예요.</p><div class="kind">내지 · 주간</div></div>
+    <div class="feat ringed reveal"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v11H4z"/><path d="M4 7l8 6 8-6"/></svg></div><h4>튼튼한 현금봉투</h4><p>자주 여닫아도 잘 안 찢어지는 두께. 라벨을 붙여 항목을 나눠요.</p><div class="kind">현금봉투</div></div>
+  </div>
+</section>
+
+<div class="soft">
+<section class="blk wrap" id="dviz"><span class="keyc reveal">TRY IT · 체험</span><h2 class="h2 reveal">월 생활비를, <span class="grad">봉투에 나눠 봐요.</span></h2><p class="sub reveal">슬라이더를 움직이면 현금 봉투 세트에 얼마씩 담을지 미리 보여드려요.</p><div class="dviz reveal scene su"><div class="dnutfig"><svg class="dnut" viewBox="0 0 200 200" role="img" aria-label="월 생활비가 식비 35%, 데이트 15%, 생활 30%, 예비 20%로 나뉘는 예시 도넛 차트"><circle class="dnut-bg" cx="100" cy="100" r="78"/><circle class="dseg s1" cx="100" cy="100" r="78"/><circle class="dseg s2" cx="100" cy="100" r="78"/><circle class="dseg s3" cx="100" cy="100" r="78"/><circle class="dseg s4" cx="100" cy="100" r="78"/></svg><div class="dnutc"><div class="dl">월 생활비</div><div class="dv" id="dtot">0</div></div></div><div class="dvside"><div class="dslider"><label for="dinc">월 생활비 예산 <b id="dincl" aria-live="polite">0원</b></label><input type="range" id="dinc" min="600000" max="3000000" step="50000" value="1200000"></div><div class="dcards"><div class="dcard s1"><span class="dn">식비 35%</span><b id="da1">0</b></div><div class="dcard s2"><span class="dn">데이트 15%</span><b id="da2">0</b></div><div class="dcard s3"><span class="dn">생활 30%</span><b id="da3">0</b></div><div class="dcard s4"><span class="dn">예비 20%</span><b id="da4">0</b></div></div><a class="dvlink" href="/tool-dfe4">통장 쪼개기 도구도 보기 →</a><div class="dvnote">※ 예시 비율이에요. 봉투 구성과 금액은 부부마다 다르게 정하면 돼요.</div></div></div></section>
+<section class="blk wrap" id="fit">
+  <span class="keyc reveal">HONEST FIT</span>
+  <h2 class="h2 reveal">솔직히, <span class="grad">이런 분께 잘 맞아요.</span></h2>
+  <p class="sub reveal">맞는 분께만 권하고 싶어서, 아닌 경우도 솔직하게 적어둘게요.</p>
+  <div class="fit">
+    <div class="fitcard good reveal"><div class="ft"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-11"/></svg>이런 분께 추천해요</div><ul><li>앱·엑셀보다 손으로 쓰는 게 편한 부부</li><li>현금 봉투로 '쓰는 돈'을 눈에 보이게 관리하고 싶은 분</li><li>둘이 주말에 같이 펴놓고 돈 얘기를 시작하고 싶은 분</li><li>신혼·집들이 선물을 찾는 분 (포장 튼튼해요)</li></ul></div>
+    <div class="fitcard no reveal"><div class="ft"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5M12 16h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/></svg>이런 분껜 추천하지 않아요</div><ul><li>자동 기록·은행 연동을 원하는 분 — 이건 손으로 쓰는 실물이에요</li><li>지금 당장 디지털 파일이 필요한 분 — 그건 '가계부 키트(디지털)'를 봐주세요</li><li>종목·매수 추천을 기대하는 분 — 돈 '관리' 도구지 투자 추천이 아니에요</li></ul></div>
+  </div>
+</section>
+</div>
+
+<section class="blk wrap" id="faq">
+  <div class="ctr-h"><span class="keyc ctr reveal" style="display:inline-flex">FAQ</span><h2 class="h2 reveal">사기 전, 마음에 걸리는 것부터 풀어요</h2></div>
+  <div class="faq reveal">
+    <details open><summary>주문하면 언제쯤 받아볼 수 있어요?<span class="x" aria-hidden="true">+</span></summary><div class="a">평일 오후 2시 이전에 주문하시면 <b>당일 출고</b>되고, 택배로 보통 <b>1~2일</b> 안에 받으실 수 있어요. 주말·공휴일 주문은 다음 영업일에 나가고요. 도서·산간 지역은 하루 정도 더 걸릴 수 있어요.</div></details>
+    <details><summary>화면 색이랑 실물 색이 많이 다르진 않나요?<span class="x" aria-hidden="true">+</span></summary><div class="a">모니터·조명에 따라 조금 다르게 보일 수 있어요. 위쪽 색상 스와치에서 색을 고르면 표지 미리보기 색이 바뀌니, 가장 가까운 색을 확인하고 골라주세요. 그래도 걱정되면 구매 전에 편하게 문의해 주세요 :)</div></details>
+    <details><summary>교환·반품이 되나요?<span class="x" aria-hidden="true">+</span></summary><div class="a">받은 날부터 <b>7일 이내</b> 단순 변심 교환·반품이 가능해요(이 경우 왕복 배송비는 구매자 부담이에요). 다만 스티커를 떼어 쓰거나 플래너에 필기한 경우처럼 사용 흔적이 있으면 어려워요. 상품 하자·오배송은 저희가 전액 부담해 새 상품으로 바꿔드려요.</div></details>
+    <details><summary>'플래너만'과 '풀세트'는 뭐가 달라요?<span class="x" aria-hidden="true">+</span></summary><div class="a">'플래너만'은 플래너 1권만, '풀세트'는 <b>플래너 + 현금봉투 6매 + 스티커 + 시작 가이드 카드</b>가 모두 들어있어요. 통장 쪼개기를 제대로 해보고 싶다면 풀세트를 추천드려요.</div></details>
+    <details><summary>디지털 가계부 키트랑 같이 써도 되나요?<span class="x" aria-hidden="true">+</span></summary><div class="a">네, 잘 맞아요. 평소 기록은 손에 익은 플래너로, 자동 계산·자산 그래프는 디지털 키트로 쓰는 부부가 많아요. 둘 다 '관리' 도구거든요. 함께 써도 부담이 없어요.</div></details>
+    <details><summary>혹시 투자 종목도 추천해 주나요?<span class="x" aria-hidden="true">+</span></summary><div class="a">아니요. 이 상품은 부부의 돈을 <b>기록하고 관리</b>하도록 돕는 굿즈예요. 특정 종목의 매수·매도를 권하는 투자 자문이 아니고, 투자 판단과 책임은 본인에게 있어요.</div></details>
+  </div>
+</section>
+
+<div class="soft">
+<section class="blk wrap" id="related">
+  <span class="keyc reveal">YOU MIGHT ALSO LIKE</span>
+  <h2 class="h2 reveal">플래너 곁에 두면 더 잘 굴러가요</h2>
+  <div class="related stag">
+    <a href="/kit-842c" class="rel ringed reveal"><span class="tag">키트 · 디지털</span><h4>통장 쪼개기 가계부 키트</h4><p>자동 계산·자산 그래프는 디지털로. 손 플래너와 함께 쓰기 좋아요.</p><span class="go">키트 구경 가기 <span class="ar">→</span></span></a>
+    <a href="/home#letter" class="rel ringed reveal"><span class="tag">구독 · 머니레터</span><h4>매일 5분, 시장 읽는 습관</h4><p>기록이 손에 익기 시작하면, 시장 읽는 눈도 궁금해지는데요. 머니레터가 매일 5분으로 정리해 드려요.</p><span class="go">오늘 레터, 0원으로 읽어보기 <span class="ar">→</span></span></a>
+    <a href="/class-7389" class="rel ringed reveal"><span class="tag">강의 · 4주 클래스</span><h4>제대로 한 번, 부부 재테크 기초</h4><p>봉투에 얼마씩 나눌지 기준이 궁금해지면, 4주 클래스에서 원리부터 같이 잡아요.</p><span class="go">커리큘럼 구경 가기 <span class="ar">→</span></span></a>
+  </div>
+  <div class="nextrow wv" role="navigation" aria-label="다음 동선">
+    <a class="backhub" href="/goods-9972">← 굿즈 카테고리 전체 보기</a>
+    <a class="backhub" href="/home">부부연구소 홈으로</a>
+  </div>
+</section>
+</div>
+
+<section class="blk wrap" id="buy">
+  <div class="band reveal">
+    <span class="keyc ctr" style="display:inline-flex;justify-content:center">START TODAY</span>
+    <h2>오늘부터, <span class="grad">둘이 같이 적어봐요.</span></h2>
+    <div class="pl"><s>27,000원</s><span class="now">19,000</span><span class="won">원</span></div>
+    <div class="pls">풀세트 · 실물 배송 · 평일 14시 전 주문 당일 출고 · 받은 날부터 7일 교환·반품</div>
+    <a href="#buy" data-cta="buy-goods" class="btn btn-primary magnet" style="margin-top:20px"><span>우리 집 플래너 주문하기 →</span></a>
+    <!-- TODO(사장님): 위 버튼 href="#buy"를 실제 결제/상품 URL로 바꿔 주세요. data-cta는 결제 훅이라 그대로 두면 돼요. (copy_B: 사용자에게 노출되던 개발 안내문을 주석으로 내리고, 신뢰 마이크로카피로 교체) -->
+    <div class="note">안전결제(카카오페이·카드) · 평일 14시 전 주문은 당일 출고돼요</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ftlogo"><span class="dot"></span>부부연구소</div>
+    <div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>통신판매업 <b>2026-별내-1152</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+    <div class="law">실물 상품 안내 — 본 상품은 택배 배송되는 실물 굿즈예요. 단순 변심 교환·반품은 수령 후 7일 이내 가능하며 왕복 배송비는 구매자 부담이에요(상품 하자·오배송은 판매자 부담). 사용 흔적(스티커 사용·필기 등)이 있으면 교환·반품이 제한될 수 있어요. 자세한 사항은 「전자상거래법」 및 회사 교환·반품 정책을 따라요.<br>이 굿즈와 부속 자료는 돈 관리를 돕는 콘텐츠이며 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요. · © 부부연구소</div>
+  </div>
+</footer>
+
+<div class="buybar" id="buybar" role="region" aria-label="구매 바로가기">
+  <div class="in">
+    <div class="pi"><div class="now" id="barp">19,000원</div><div class="lb" id="barlb">로즈 · 풀세트 · 1개</div></div>
+    <!-- TODO(사장님): 이 버튼과 위 구매 섹션 버튼의 href="#buy"를 실제 결제/상품 URL로 1줄씩 바꿔 주세요. data-cta는 결제 스크립트 연결용 훅이라 그대로 두면 돼요. -->
+    <a href="#buy" data-cta="buy-goods-bar" class="btn btn-primary magnet"><span>이 구성으로 주문하기 →</span></a>
+  </div>
+</div>

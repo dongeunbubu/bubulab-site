@@ -1,0 +1,166 @@
+<!-- [도구_자산배분가이드_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+/* ===== 투자 성향 진단 → 자산배분 가이드 ===== */
+var $=function(id){return document.getElementById(id);};
+/* tag: 'h'=기간(horizon), 'r'=위험(risk) · 보기 weight 0~3 */
+var Q=[
+ {"tag":"h","q":"이 돈, 언제쯤 쓸 계획이에요?","o":[["3년 안에 쓸 것 같아요",0],["3~7년 뒤에요",1],["7~12년 뒤에요",2],["12년 넘게 묶어둘 수 있어요",3]]},
+ {"tag":"r","q":"투자, 두 분은 얼마나 해보셨어요?","o":[["거의 안 해봤어요",0],["예·적금 위주였어요",1],["펀드·ETF는 해봤어요",2],["개별 주식까지 적극적으로요",3]]},
+ {"tag":"r","q":"모은 돈이 1년 만에 20% 줄면, 두 분은?","o":[["불안해서 다 정리할 것 같아요",0],["일부는 줄일 것 같아요",1],["계획대로 그냥 둬요",2],["오히려 더 담을 기회로 봐요",3]]},
+ {"tag":"h","q":"중간에 이 돈을 꺼내 쓸 가능성은?","o":[["자주 꺼내 쓸 것 같아요",0],["가끔 필요할 수 있어요",1],["거의 안 건드릴 거예요",2],["완전히 묶어둘 수 있어요",3]]},
+ {"tag":"r","q":"두 분에게 더 중요한 건 어느 쪽이에요?","o":[["원금은 꼭 지키고 싶어요",0],["조금의 손실은 견딜 수 있어요",1],["수익을 위해 변동은 감수해요",2],["크게 불리는 게 1순위예요",3]]},
+ {"tag":"r","q":"지금 소득·생활의 안정감은 어때요?","o":[["불안정한 편이라 조심스러워요",0],["보통이에요",1],["안정적인 맞벌이예요",2],["안정적이고 여윳돈도 충분해요",3]]}
+];
+/* 교과서식 예시 매트릭스 [주식형, 채권형, 현금성, 분산] · 각 칸 합=100 */
+var MATRIX={
+ stable:{short:[10,35,50,5],mid:[20,45,25,10],long:[30,45,15,10]},
+ balanced:{short:[25,35,35,5],mid:[45,35,10,10],long:[55,28,5,12]},
+ bold:{short:[40,25,30,5],mid:[60,20,8,12],long:[70,15,3,12]}
+};
+var RISK_LABEL={stable:"안정형",balanced:"균형형",bold:"도전형"};
+var HOR_LABEL={short:"단기",mid:"중기",long:"장기"};
+var HOR_VIEW={short:"단기 관점",mid:"중기 관점",long:"장기 관점"};
+var ASSET=[
+ {k:"주식형",sub:"성장 · 주식",c:"var(--rose)",d:"길게 보고 불리는 자리예요. 기대가 큰 만큼 흔들림도 커요."},
+ {k:"채권형",sub:"안정 · 이자",c:"var(--sage)",d:"비교적 잔잔하게 이자를 받아요. 주식이 흔들릴 때 완충해줘요."},
+ {k:"현금성",sub:"예금 · 파킹",c:"var(--gold)",d:"언제든 쓸 수 있는 자리예요. 비상금과 기회를 위한 여유예요."},
+ {k:"분산",sub:"리츠 · 해외 등",c:"var(--lav)",d:"한쪽에 쏠리지 않게 더 넓게 나눠 담는 자리예요."}
+];
+
+var i=0,acc={h:0,r:0},lastAlloc=[20,45,25,10],lastKey={ri:"balanced",hi:"mid"};
+function show(id){['intro','quiz','result'].forEach(function(x){$(x).classList.toggle('on',x===id);});}
+function renderQ(){
+ var q=Q[i];$('qnum').textContent=(i+1);$('qfill').style.width=(i/Q.length*100)+'%';
+ var tg=$('qtag');tg.textContent=(q.tag==='h'?'투자 기간':'위험 성향');tg.className='qtag'+(q.tag==='h'?' h':'');
+ $('qq').textContent=q.q;var op=$('opts');op.innerHTML='';
+ q.o.forEach(function(o,idx){var b=document.createElement('button');b.className='opt';
+   b.innerHTML='<span class="ol">'+'ABCD'[idx]+'</span><span></span>';
+   b.lastChild.textContent=o[0];
+   b.addEventListener('click',function(){if(q.tag==='h')acc.h+=o[1];else acc.r+=o[1];next();});op.appendChild(b);});
+}
+function next(){var c=$('qcard');c.classList.add('out');
+ setTimeout(function(){i++;if(i>=Q.length){$('qfill').style.width='100%';finish();return;}renderQ();c.classList.remove('out');c.classList.add('inr');c.getBoundingClientRect();c.classList.remove('inr');},340);}
+function classify(){
+ var hi=acc.h<=1?'short':(acc.h<=4?'mid':'long');
+ var ri=acc.r<=4?'stable':(acc.r<=8?'balanced':'bold');
+ return {hi:hi,ri:ri};
+}
+function buildLegend(alloc){
+ var lg=$('legend');lg.innerHTML='';
+ ASSET.forEach(function(a,idx){
+  var row=document.createElement('div');row.className='lg';
+  row.innerHTML='<span class="dotc" style="background:'+a.c+'"></span>'+
+    '<div><div class="nm">'+a.k+'<small>'+a.sub+'</small></div><div class="desc"></div><div class="track"><i style="background:'+a.c+'"></i></div></div>'+
+    '<div class="pc"><b>0%</b><span></span></div>';
+  row.querySelector('.desc').textContent=a.d;
+  lg.appendChild(row);
+ });
+}
+function fmtWon(n){return Math.round(n).toLocaleString('ko-KR');}
+function updateAmounts(){
+ var raw=($('amt').value||'').replace(/[^0-9]/g,'');
+ var rows=$('legend').querySelectorAll('.lg');
+ if(!raw){rows.forEach(function(r){r.querySelector('.pc span').textContent='';});return;}
+ var amt=+raw;
+ rows.forEach(function(r,idx){r.querySelector('.pc span').textContent='약 '+fmtWon(amt*lastAlloc[idx]/100)+'원';});
+}
+function finish(){
+ var key=classify();lastKey=key;
+ var alloc=MATRIX[key.ri][key.hi].slice();lastAlloc=alloc;
+ show('result');
+ var rL=RISK_LABEL[key.ri],hL=HOR_LABEL[key.hi];
+ $('cRisk').textContent=rL;$('cHor').textContent=hL+' ('+(key.hi==='short'?'~3년':key.hi==='mid'?'3~10년':'10년+')+')';
+ $('dCtr').textContent=rL;$('dCtr2').textContent=HOR_VIEW[key.hi];
+ $('donut').setAttribute('aria-label','자산배분 예시: '+rL+' '+hL+' · 주식형 '+alloc[0]+'%, 채권형 '+alloc[1]+'%, 현금성 '+alloc[2]+'%, 분산 '+alloc[3]+'%');
+ buildLegend(alloc);
+ var rows=$('legend').querySelectorAll('.lg');
+ /* 한 줄 요약 */
+ var sorted=alloc.map(function(v,idx){return {n:ASSET[idx].k,v:v};}).sort(function(a,b){return b.v-a.v;});
+ $('sumline').innerHTML='두 분은 <b>'+hL+'·'+rL+'</b>에 가까워요. 교과서에서는 이럴 때 <b>'+sorted[0].n+' '+sorted[0].v+'%</b> · '+sorted[1].n+' '+sorted[1].v+'% 정도를 예로 들어요. 정답이 아니라 ‘이런 결이구나’ 정도로만 봐 주세요 :)';
+ /* 도넛 + 범례 애니메이션 */
+ var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var cum=0,offs=[];alloc.forEach(function(v){offs.push(cum);cum+=v;});
+ for(var s=0;s<4;s++){var seg=$('s'+s);seg.setAttribute('stroke-dashoffset',(-offs[s]));seg.setAttribute('stroke-dasharray','0 100');}
+ setTimeout(function(){
+  $('donut').classList.add('in');
+  for(var s=0;s<4;s++){(function(s){var seg=$('s'+s);
+    if(reduce){seg.setAttribute('stroke-dasharray',alloc[s]+' 100');}
+    else{requestAnimationFrame(function(){seg.setAttribute('stroke-dasharray',(alloc[s]>0?alloc[s]-0.6:0)+' 100');});}
+  })(s);}
+  rows.forEach(function(r,idx){
+    var pcb=r.querySelector('.pc b');
+    if(reduce){pcb.textContent=alloc[idx]+'%';}else{window.countUp(pcb,alloc[idx],950,'%');}
+    setTimeout(function(){r.querySelector('.track i').style.width=alloc[idx]+'%';},60);
+  });
+  updateAmounts();
+ },140);
+ /* 결과 해석(verdict) — 위험자산 비중 진단 + 과거 최악의 해 거친 추정(자기참조 수학) */
+ (function(){
+  var risk=alloc[0]+alloc[3], band; /* 위험자산 = 주식형 + 분산 */
+  if(risk<30) band={c:'var(--sage)',e:'🛡️',t:'안정 중심',d:'흔들림을 크게 줄인 배분이에요. 가까운 시일에 쓸 돈이거나, 마음 편한 게 1순위일 때 어울려요.'};
+  else if(risk<50) band={c:'var(--gold)',e:'⚖️',t:'균형',d:'성장과 방어를 한쪽에 치우치지 않게 나눠 담은 모습이에요. 대부분의 부부에게 무난한 출발점이 돼요.'};
+  else if(risk<70) band={c:'var(--rose)',e:'📈',t:'성장 기울기',d:'장기 성장에 조금 더 무게를 둔 배분이에요. 오래 묶어둘 수 있는 돈일수록 흔들림을 견디기 쉬워요.'};
+  else band={c:'var(--rose)',e:'🔥',t:'공격적',d:'성장 가능성에 크게 무게를 실은 배분이에요. 10년 넘게 안 건드릴 돈, 그리고 폭락장에서도 안 팔 자신이 있을 때만 어울려요.'};
+  /* 과거 최악의 해: 주식형 −46%·채권형 −14%(아래 표) · 현금성 0% · 분산은 채권~주식 사이 범위 */
+  var ddLow=(alloc[0]*46+alloc[1]*14+alloc[3]*14)/100;  /* 분산을 채권처럼(작은 낙폭) */
+  var ddHigh=(alloc[0]*46+alloc[1]*14+alloc[3]*46)/100; /* 분산을 주식처럼(큰 낙폭) */
+  var lo=Math.round(ddLow),hi2=Math.round(ddHigh);
+  var ddTxt=(lo===hi2?('약 −'+lo+'%'):('약 −'+lo+'% ~ −'+hi2+'%'));
+  var lossLo=Math.round(ddLow*10),lossHi=Math.round(ddHigh*10); /* 1,000만 원 기준, 만 원 단위 */
+  var lossTxt=(lossLo===lossHi?('약 '+lossLo.toLocaleString('ko-KR')+'만'):('약 '+lossLo.toLocaleString('ko-KR')+'만~'+lossHi.toLocaleString('ko-KR')+'만'))+' 원';
+  var v=$('verd');v.style.setProperty('--vc',band.c);
+  v.innerHTML='<div class="vtop"><span class="vpill">'+band.e+' '+band.t+'</span>'+
+    '<span class="vh">위험자산 '+risk+'% · 안전자산 '+(100-risk)+'%</span></div>'+
+    '<div class="vbody">'+band.d+'</div>'+
+    '<div class="vdd">📉 과거 최악의 해라면, 이 배분은 <span class="big">'+ddTxt+'</span> 흔들렸을 수 있어요.<br>1,000만 원으로 치면 <b>'+lossTxt+'</b>이 한때 줄어드는 셈이에요 (다시 오를 수도, 더 빠질 수도 있어요).'+
+    '<div class="vsrc">아래 표의 과거 최악 낙폭(주식형 −46%·채권형 −14%)을 비중대로 섞은 거친 추정이에요. 현금성은 0%, 분산은 채권~주식 사이로 봤어요. 실제와 다를 수 있고, 투자 권유가 아니에요.</div></div>'+
+    '<div class="verd-rel"><b style="font-size:12px;color:var(--mut);align-self:center;font-weight:700">함께 보면 좋아요 →</b>'+
+    '<a href="/tool-pro-3a11">🎯 목표 플래너</a>'+
+    '<a href="/tool-64bb">📈 1억 복리</a>'+
+    '<a href="/tool-pro-cc61">🛟 비상금(현금성)</a></div>';
+  v.style.display='block';
+  setTimeout(function(){v.classList.add('in');},reduce?0:220);
+ })();
+ window._res={ri:rL,hi:hL,alloc:alloc};
+}
+$('start').addEventListener('click',function(){i=0;acc={h:0,r:0};show('quiz');renderQ();});
+$('again').addEventListener('click',function(){i=0;acc={h:0,r:0};$('amt').value='';show('intro');window.scrollTo({top:0,behavior:'smooth'});});
+$('amt').addEventListener('input',function(){var v=this.value.replace(/[^0-9]/g,'');this.value=v?(+v).toLocaleString('ko-KR'):'';updateAmounts();});
+$('copy').addEventListener('click',function(){var r=window._res;if(!r)return;
+ var txt='우리 부부 자산배분 예시('+r.hi+'·'+r.ri+'): 주식형 '+r.alloc[0]+'% · 채권형 '+r.alloc[1]+'% · 현금성 '+r.alloc[2]+'% · 분산 '+r.alloc[3]+'% (부부연구소 자료실 · 교육용 예시)';
+ navigator.clipboard&&navigator.clipboard.writeText(txt);var b=$('copy');var o=b.textContent;b.textContent='복사됐어요!';setTimeout(function(){b.textContent=o;},1500);});
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

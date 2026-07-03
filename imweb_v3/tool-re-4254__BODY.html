@@ -1,0 +1,459 @@
+<!-- [도구_부동산_아파트분석_실데이터_v2] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 14건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(40px,5vw,68px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.nav .back{font-size:13.5px;font-weight:700;color:var(--mut);display:inline-flex;align-items:center;gap:6px}
+.nav .back:hover{color:var(--rose)}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.rehero{padding:clamp(34px,5vw,58px) 0 6px}
+.mockbadge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.04em;color:#B85060;background:var(--pinkSoft);border:1px solid var(--border);border-radius:100px;padding:6px 13px}
+.tool-h1{font-size:clamp(27px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17px);line-height:1.72;max-width:680px;margin-top:15px}
+.searchbar{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;max-width:540px;margin-top:20px;box-shadow:var(--cardSh)}
+.searchbar svg{width:20px;height:20px;stroke:var(--mut);fill:none;stroke-width:2;flex:none}
+.searchbar .q{flex:1;font-size:15px;font-weight:700;color:var(--ink)}
+.searchbar .go{background:var(--rose);color:#fff;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:800;white-space:nowrap}
+.searchbar .tag{font-size:11px;font-weight:800;color:var(--sage);background:#e9f3ef;border:1px solid #cfe6dd;border-radius:100px;padding:4px 9px;white-space:nowrap}
+.disc{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:16px;line-height:1.62}
+.disc b{color:var(--rose)}
+/* data label component (R11) */
+.datalabel{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#fff;border:1px solid var(--border);border-left:4px solid var(--sage);border-radius:14px;padding:14px 16px;margin-top:18px;box-shadow:var(--cardSh)}
+.datalabel .ttl{font-size:12px;font-weight:800;color:var(--sage);letter-spacing:.04em}
+.dchip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:5px 11px;display:inline-flex;gap:6px;align-items:center}
+.dchip b{color:var(--ink);font-weight:800}
+.dchip.warn{color:#b5443c;background:#fbe6e4;border-color:#f3c9c5}
+.dchip.live{color:#3f7a6b;background:#e9f3ef;border-color:#cfe6dd}
+/* section title */
+.sectit{margin-top:8px;margin-bottom:4px}
+.sectit .e{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--rose);text-transform:uppercase}
+.sectit h3{font-size:clamp(19px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;margin-top:6px}
+.sectit .src{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:4px}
+/* apt card */
+.aptcard{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(20px,3vw,28px);margin-top:16px}
+.apttop{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.apttop h2{font-size:clamp(22px,3vw,28px);font-weight:800;letter-spacing:-.02em}
+.apttop .sub{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:4px}
+.scorepill{text-align:center;background:linear-gradient(135deg,var(--pinkSoft),var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:10px 16px;min-width:96px}
+.scorepill .n{font-size:26px;font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.scorepill .n small{font-size:13px;color:var(--mut)}
+.scorepill .l{font-size:11px;font-weight:700;color:var(--ink2);margin-top:1px}
+.apttags{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.apttags span{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:5px 11px}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+@media(max-width:760px){.kgrid{grid-template-columns:repeat(2,1fr)}}
+.kbox{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:14px 15px}
+.kbox .lab{font-size:11.5px;color:var(--mut);font-weight:700}
+.kbox b{font-size:20px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kbox b small{font-size:12px;color:var(--mut);font-weight:700}
+/* area composition bars */
+.compbars{margin-top:14px;display:grid;gap:12px}
+.comprow{display:grid;grid-template-columns:128px 1fr auto;align-items:center;gap:12px}
+@media(max-width:560px){.comprow{grid-template-columns:96px 1fr auto;gap:8px}}
+.comprow .nm{font-size:13px;font-weight:800}
+.comprow .nm small{display:block;font-size:11px;color:var(--mut);font-weight:700}
+.comprow .track{height:26px;border-radius:8px;background:var(--bg);overflow:hidden;border:1px solid var(--border)}
+.comprow .fill{height:100%;width:0;border-radius:8px 0 0 8px;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width 1.2s var(--ease)}
+.comprow .vv{font-size:13.5px;font-weight:800;white-space:nowrap}
+.comprow .vv small{color:var(--mut);font-weight:700}
+/* real-deal cards */
+.dealgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+@media(max-width:680px){.dealgrid{grid-template-columns:1fr}}
+.dealcard{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--cardSh);border-top:3px solid var(--pink)}
+.dealcard .dm{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.dealcard .price{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+.dealcard .price small{font-size:14px;color:var(--mut);font-weight:700}
+.dealrows{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)}
+.dealrows>div{display:flex;flex-direction:column}
+.dealrows span{font-size:11.5px;color:var(--mut);font-weight:700}
+.dealrows b{font-size:15px;font-weight:800;margin-top:1px}
+.nodata{background:var(--bg);border:1px dashed var(--border);border-radius:14px;padding:16px;margin-top:14px;font-size:13px;color:var(--ink2);font-weight:600;line-height:1.6}
+.nodata b{color:var(--rose)}
+/* market context */
+.mkbars{display:grid;gap:13px;margin-top:14px}
+.mkrow{display:grid;grid-template-columns:84px 1fr auto;align-items:center;gap:12px}
+.mkrow .nm{font-size:13px;font-weight:800}
+.mkrow .track{height:24px;border-radius:8px;background:var(--bg);overflow:hidden;border:1px solid var(--border)}
+.mkrow .fill{height:100%;width:0;border-radius:8px 0 0 8px;background:linear-gradient(90deg,var(--lav),var(--rose));transition:width 1.2s var(--ease)}
+.mkrow .vv{font-size:13.5px;font-weight:800;white-space:nowrap}
+.mkrow .vv small{color:var(--mut);font-weight:700}
+.warnline{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;font-weight:700;color:#b5443c;background:#fbe6e4;border:1px solid #f3c9c5;border-radius:12px;padding:11px 13px;margin-top:14px;line-height:1.55}
+.warnline.info{color:#5C4B43;background:var(--pinkSoft2);border-color:var(--border)}
+.warnline svg{width:17px;height:17px;flex:none;margin-top:1px}
+/* distribution */
+.distgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media(max-width:720px){.distgrid{grid-template-columns:1fr}}
+.distcard{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:15px}
+.distcard .mo{font-size:12px;font-weight:800;color:var(--rose)}
+.distbar{display:flex;height:18px;border-radius:6px;overflow:hidden;margin-top:9px;border:1px solid var(--border)}
+.distbar i{height:100%}
+.distbar i.b1{background:#cfe6dd}.distbar i.b2{background:var(--pink)}.distbar i.b3{background:var(--lav)}.distbar i.b4{background:var(--rose)}
+.distleg{font-size:11px;color:var(--mut);font-weight:700;margin-top:8px;line-height:1.6}
+/* mapping table */
+.tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.tbl th,.tbl td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.tbl th{background:var(--pinkSoft2);font-weight:800;font-size:12.5px;color:var(--ink)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .auto{color:#3f7a6b;font-weight:800}.tbl .semi{color:#947217;font-weight:800}.tbl .manu{color:#b5443c;font-weight:800}
+/* code */
+.code{background:#2B2320;color:#F3E8E2;border-radius:14px;padding:16px 18px;margin-top:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75;overflow-x:auto;white-space:pre}
+.code .c{color:#9C8B82}.code .k{color:#E0A3AE}.code .s{color:#A7C9BD}
+/* one-line summary */
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+@media(max-width:760px){.sumgrid{grid-template-columns:1fr}}
+.sumcard{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.sumcard .ic{font-size:20px}
+.sumcard h4{font-size:15px;font-weight:800;margin-top:8px;letter-spacing:-.01em}
+.sumcard p{font-size:13px;color:var(--ink2);margin-top:5px;line-height:1.6}
+/* sources / footer */
+.srcbox{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-top:16px;font-size:12.5px;color:var(--ink2);line-height:1.75}
+.srcbox b{color:var(--ink)}
+.srcbox a{color:var(--rose);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+footer{background:var(--ink);color:#E9DDD7;padding:34px 0 40px;margin-top:48px}
+footer .ft{font-size:12.5px;color:#C9B8B0;line-height:1.7}
+footer .ft b{color:#fff}
+.cta-row{margin-top:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--rose);color:#fff;padding:12px 22px;border-radius:100px;font-weight:800;font-size:14.5px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+
+/* ===rel18=== related cards */
+.relhead{font-size:18px;font-weight:800;color:var(--ink);margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.relsub{font-size:12.6px;color:var(--mut)}
+.related{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+@media(max-width:560px){.related{grid-template-columns:1fr}}
+.rcard{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:15px 17px;box-shadow:var(--cardSh);transition:transform .22s var(--ease),box-shadow .25s var(--ease),border-color .2s;color:var(--ink);text-decoration:none}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px}
+.rcard .rk{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.04em}
+.rcard .rt{font-size:14.6px;font-weight:800;color:var(--ink)}
+.rcard .rd{font-size:12.4px;color:var(--mut);line-height:1.6}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<main>
+<!-- HERO -->
+<section class="blk rehero">
+ <div class="wrap">
+  <span class="mockbadge reveal">📊 실데이터 분석 템플릿 · 교육용</span>
+  <h1 class="tool-h1 reveal">단지명만 넣으면 <span class="grad">국토부 실거래</span>가<br>그대로 채워지는 분석 카드</h1>
+  <p class="lead reveal">아래는 <b>‘헬리오시티(송파구 가락동)’</b>를 실제 공개데이터로 채워 본 예시예요. 단지 기본정보·면적 구성·실거래 추출·시장 맥락까지 — 전부 <b>국토부 공개 실거래가/단지정보</b>에서 가져온 <b>진짜 숫자</b>입니다. 같은 틀에 다른 단지명을 넣어도 동일하게 작동하도록 설계했어요.</p>
+
+  <div class="searchbar reveal" role="img" aria-label="단지 검색 예시: 헬리오시티 (조회 완료)">
+   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+   <span class="q">헬리오시티</span>
+   <span class="tag">✓ 국토부 데이터 연결됨</span>
+   <span class="go">분석</span>
+  </div>
+
+  <!-- R11: 데이터 기준일·출처 라벨 공통 컴포넌트 -->
+  <div class="datalabel reveal">
+   <span class="ttl">DATA</span>
+   <span class="dchip live">출처 <b>국토부 실거래가·단지정보 OpenAPI</b></span>
+   <span class="dchip">조회일 <b>2026-06-02</b></span>
+   <span class="dchip live">재검증 <b>2026-06-04 · 단지 11항목·거래 일치</b></span>
+   <span class="dchip">실거래 계약월 <b>2026-03 ~ 05</b></span>
+   <span class="dchip warn">표본 한계: 구·월 약 10건 캡</span>
+  </div>
+
+  <p class="disc reveal">⚠️ <b>예시·교육용 자료입니다.</b> 모든 수치는 국토부 공개 실거래가/공동주택 단지정보(AptInfo MCP 경유)에서 가져온 <b>실데이터</b>이지만, 공개 OpenAPI는 구·월별 표본(약 10건)만 반환하므로 <b>한 단지의 모든 거래를 망라하지 않습니다.</b> 특정 종목·단지의 <b>매수/매도·투자 권유가 아니며</b>, 시세는 시점·층·향에 따라 크게 달라집니다. 네이버부동산·아실·호갱노노 등 민간 사이트는 <b>직접 크롤링·재배포하지 않았습니다.</b></p>
+ </div>
+</section>
+
+<!-- 1. 단지 기본 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">STEP 1 · 단지 기본</div><h3>단지 한 장 요약</h3><div class="src">출처: 국토부 공동주택 단지정보 (단지코드 A10025850) · 조회 2026-06-02 · <b style="color:var(--sage)">재검증 2026-06-04 — 세대·준공·시공·주차·승강기·CCTV·역·면적구성 등 11항목 원자료 일치</b></div></div>
+  <div class="aptcard reveal">
+   <div class="apttop">
+    <div>
+     <h2>헬리오시티</h2>
+     <div class="sub">서울 송파구 가락동 · 단지코드 A10025850</div>
+     <div class="apttags">
+      <span>🏢 9,510세대</span>
+      <span>🗓️ 2018.12 준공</span>
+      <span>🏗️ 현대건설·삼성물산·HDC</span>
+      <span>🚇 송파역 도보 5분 이내</span>
+     </div>
+    </div>
+    <div class="scorepill" title="공공데이터 기반 생활편의성 종합점수">
+     <div class="n">9<small>/10</small></div>
+     <div class="l">생활편의 ‘우수’</div>
+    </div>
+   </div>
+   <div class="kgrid">
+    <div class="kbox"><div class="lab">총 세대수</div><b>9,510<small> 세대</small></b></div>
+    <div class="kbox"><div class="lab">세대당 주차</div><b>1.27<small> 대</small></b></div>
+    <div class="kbox"><div class="lab">승강기</div><b>384<small> 대</small></b></div>
+    <div class="kbox"><div class="lab">CCTV</div><b>2,685<small> 대</small></b></div>
+   </div>
+   <p class="disc" style="margin-top:14px">지하주차 12,096대(지상 0)로 세대당 1.27대 — 공공데이터 분석상 ‘주차 충분’. 인접역 표기는 송파역(공공데이터 노선표기 3·8·9호선), 버스·지하철 모두 도보 5분 이내. <b>노선·역 표기는 공공데이터 기준이며 발행 전 1회 교차 확인 권장.</b></p>
+  </div>
+ </div>
+</section>
+
+<!-- 2. 면적 구성 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">STEP 2 · 면적 구성</div><h3>전용면적별 세대 구성</h3><div class="src">출처: 국토부 공동주택 단지정보 · 합계 9,510세대(검증 일치)</div></div>
+  <div class="aptcard reveal">
+   <div class="compbars">
+    <div class="comprow"><div class="nm">60㎡ 이하<small>소형</small></div><div class="track"><i class="fill" data-w="55.6"></i></div><div class="vv">2,854<small> · 30.0%</small></div></div>
+    <div class="comprow"><div class="nm">60~85㎡<small>중소형</small></div><div class="track"><i class="fill" data-w="100"></i></div><div class="vv">5,132<small> · 54.0%</small></div></div>
+    <div class="comprow"><div class="nm">85~135㎡<small>중대형</small></div><div class="track"><i class="fill" data-w="29.2"></i></div><div class="vv">1,500<small> · 15.8%</small></div></div>
+    <div class="comprow"><div class="nm">135㎡ 초과<small>대형</small></div><div class="track"><i class="fill" data-w="0.5"></i></div><div class="vv">24<small> · 0.3%</small></div></div>
+   </div>
+   <p class="disc" style="margin-top:14px">막대 길이는 가장 많은 구간(60~85㎡)을 100%로 둔 <b>상대 비율</b>이에요. 중소형(60~85㎡)이 절반 이상 — 실수요·전세 회전이 많은 단지 구조입니다. (구성 해석은 정보 제공이며 매수 권유가 아닙니다.)</p>
+  </div>
+ </div>
+</section>
+
+<!-- 3. 실거래 추출 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">STEP 3 · 실거래 추출</div><h3>‘헬리오시티’ 실거래만 골라내기</h3><div class="src">출처: 국토부 아파트 매매 실거래가 OpenAPI · 송파구(11710) 표본에서 단지명 필터</div></div>
+  <div class="dealgrid reveal">
+   <div class="dealcard">
+    <div class="dm">2026년 3월 계약</div>
+    <div class="price">27.0<small>억원</small></div>
+    <div class="dealrows">
+     <div><span>전용면적</span><b>84.98㎡<small style="font-weight:700;color:var(--mut)"> (25.7평)</small></b></div>
+     <div><span>층</span><b>20층</b></div>
+     <div><span>전용 평단가</span><b>약 1.05억<small style="font-weight:700;color:var(--mut)">/평</small></b></div>
+     <div><span>계약일</span><b>3월 28일</b></div>
+    </div>
+   </div>
+   <div class="dealcard">
+    <div class="dm">2026년 4월 계약</div>
+    <div class="price">28.2<small>억원</small></div>
+    <div class="dealrows">
+     <div><span>전용면적</span><b>84.99㎡<small style="font-weight:700;color:var(--mut)"> (25.7평)</small></b></div>
+     <div><span>층</span><b>33층</b></div>
+     <div><span>전용 평단가</span><b>약 1.10억<small style="font-weight:700;color:var(--mut)">/평</small></b></div>
+     <div><span>계약일</span><b>4월 27일</b></div>
+    </div>
+   </div>
+   <div class="dealcard">
+    <div class="dm">2026년 5월 계약 <span style="font-size:10.5px;color:var(--sage);font-weight:800">· 재검증(06-04) 표본에서 새로 포착</span></div>
+    <div class="price">28.0<small>억원</small></div>
+    <div class="dealrows">
+     <div><span>전용면적</span><b>84.95㎡<small style="font-weight:700;color:var(--mut)"> (25.7평)</small></b></div>
+     <div><span>층</span><b>26층</b></div>
+     <div><span>전용 평단가</span><b>약 1.09억<small style="font-weight:700;color:var(--mut)">/평</small></b></div>
+     <div><span>계약일</span><b>5월 6일</b></div>
+    </div>
+   </div>
+  </div>
+  <div class="warnline info reveal">
+   <svg viewBox="0 0 24 24" fill="none" stroke="#B85060" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+   <span>세 거래 모두 <b>전용 84㎡지만 층이 달라(20·33·26층)</b> 단순 비교는 주의하세요. 3월 27.0억 → 4월 28.2억 → 5월 28.0억은 ‘추세선’이 아니라 <b>각각의 실거래 점(point)</b>입니다. 계약일은 재검증(06-04) 때 원자료 기준으로 맞췄어요(4월 27일·5월 6일). 전용 평단가는 <b>전용면적 기준</b>(공급면적 아님)으로 계산했어요.</span>
+  </div>
+  <div class="nodata reveal">📭 <b>전용 59㎡·114㎡ 등 다른 평형은 이번 표본(2026-03~05)에 잡히지 않았어요.</b> 9,510세대 대단지라도 공개 OpenAPI는 구·월 약 10건만 반환하기 때문이에요. 없는 평형의 가격을 <b>추측해 채우지 않습니다</b> — ‘데이터 없음’이 정직한 표기입니다. 전 평형·전 거래를 보려면 운영계정 키로 전체 페이지를 받아야 합니다(아래 STEP 5 참고).</div>
+ </div>
+</section>
+
+<!-- 4. 시장 맥락 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">STEP 4 · 시장 맥락</div><h3>송파구 최근 3개월 표본 흐름</h3><div class="src">출처: 국토부 실거래가 OpenAPI · 송파구(11710) 월별 표본 각 10건</div></div>
+  <div class="aptcard reveal">
+   <div class="mkbars">
+    <div class="mkrow"><div class="nm">2026.03</div><div class="track"><i class="fill" data-w="79.1"></i></div><div class="vv">14.6<small>억 · 표본 10건</small></div></div>
+    <div class="mkrow"><div class="nm">2026.04</div><div class="track"><i class="fill" data-w="77.5"></i></div><div class="vv">14.3<small>억 · 표본 10건</small></div></div>
+    <div class="mkrow"><div class="nm">2026.05</div><div class="track"><i class="fill" data-w="100"></i></div><div class="vv">18.4<small>억 · 표본 10건</small></div></div>
+   </div>
+   <div class="distgrid">
+    <div class="distcard"><div class="mo">2026.03 가격대 분포</div><div class="distbar"><i class="b1" style="width:30%"></i><i class="b2" style="width:40%"></i><i class="b3" style="width:30%"></i></div><div class="distleg">10억↓ 3건 · 10~20억 4건 · 20~30억 3건 · 범위 2.3~29.0억</div></div>
+    <div class="distcard"><div class="mo">2026.04 가격대 분포</div><div class="distbar"><i class="b1" style="width:20%"></i><i class="b2" style="width:60%"></i><i class="b3" style="width:20%"></i></div><div class="distleg">10억↓ 2건 · 10~20억 6건 · 20~30억 2건 · 범위 6.0~28.2억</div></div>
+    <div class="distcard"><div class="mo">2026.05 가격대 분포</div><div class="distbar"><i class="b1" style="width:10%"></i><i class="b2" style="width:60%"></i><i class="b3" style="width:10%"></i><i class="b4" style="width:20%"></i></div><div class="distleg">10억↓ 1건 · 10~20억 6건 · 20~30억 1건 · 30억↑ 2건 · 범위 8.0~35.6억</div></div>
+   </div>
+   <div class="warnline reveal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b5443c" stroke-width="2"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+    <span><b>이 ‘평균’은 가격지수가 아니에요.</b> 표본 10건이 어느 단지로 구성됐는지(잠실 고가 vs 마천 중저가)에 따라 평균이 출렁입니다 — 5월이 높은 건 파크리오(35.6억)·트리지움(32.3억) 같은 고가 거래가 표본에 들어왔기 때문이지 ‘송파 전체가 올랐다’는 뜻이 아닙니다. 추세 판단은 한국부동산원 가격지수(R-ONE) 같은 지수 데이터로 보세요.</span>
+   </div>
+   <div class="warnline info reveal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#B85060" stroke-width="2"><path d="M21 12a9 9 0 11-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
+    <span><b>🔁 재검증 실측(2026-06-04):</b> 같은 3~5월을 이틀 뒤 다시 조회하니 표본 평균이 <b>3월 14.6→16.2억, 5월 18.4→20.8억</b>으로 움직였어요(4월 14.3억은 동일). 신고 추가·해제(취소)·표본 추출에 따라 <b>표본 10건의 구성 자체가 바뀌기 때문</b> — ‘구 표본 평균’을 가격지수처럼 읽으면 안 되는 이유의 실측 증거입니다. 막대는 최초 조회(2026-06-02) 스냅샷을 유지했어요. 단지 단위 실거래 카드(STEP 3)는 재검증에서도 동일했습니다.</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5. 재사용 바인딩 가이드 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">STEP 5 · 재사용</div><h3>‘단지명 → 실데이터’ 자동 연결 설계</h3><div class="src">같은 카드 틀에 다른 단지명을 넣어도 동작하도록 4단계 파이프라인으로 분리</div></div>
+
+  <div class="code reveal"><span class="c"># 단지명 한 줄 → 실데이터 카드까지 (의사코드)</span>
+<span class="k">region</span> = get_region_code(<span class="s">"송파구 가락동"</span>)        <span class="c"># → LAWD_CD 11710</span>
+<span class="k">apts</span>   = get_apt_list(<span class="s">"11710"</span>)                <span class="c"># → 단지목록(178개)에서</span>
+<span class="k">kapt</span>   = match(apts, name=<span class="s">"헬리오시티"</span>)         <span class="c"># → 단지코드 A10025850</span>
+
+<span class="c"># ① 단지 기본·면적구성·생활점수 (STEP 1·2)</span>
+<span class="k">info</span>   = get_apt_info(<span class="s">"A10025850"</span>)
+
+<span class="c"># ② 구·월 실거래 표본 → 단지명으로 필터 (STEP 3)</span>
+<span class="k">deals</span>  = []
+<span class="k">for</span> ym <span class="k">in</span> [<span class="s">"202603"</span>, <span class="s">"202604"</span>, <span class="s">"202605"</span>]:
+    rows = get_apt_price(<span class="s">"11710"</span>, ym)        <span class="c"># 월 약 10건 표본</span>
+    deals += [r <span class="k">for</span> r <span class="k">in</span> rows <span class="k">if</span> r.name == <span class="s">"헬리오시티"</span>]
+<span class="c"># → 84㎡ 3건 추출(3·4·5월 각 1건, 5월은 06-04 재검증에서 포착)</span>
+<span class="c"># 없는 평형은 추측 금지 → '데이터 없음'</span></div>
+
+  <table class="tbl reveal">
+   <thead><tr><th>카드 영역</th><th>데이터 소스</th><th>자동화 수준</th><th>메모</th></tr></thead>
+   <tbody>
+    <tr><td>단지 기본·면적구성·생활점수</td><td>국토부 공동주택 단지정보 (get_apt_info)</td><td class="auto">✅ 자동</td><td>단지코드만 있으면 즉시 채움</td></tr>
+    <tr><td>단지 실거래 (해당 단지)</td><td>국토부 실거래가 (get_apt_price + 단지명 필터)</td><td class="semi">🟡 반자동</td><td>표본 10건 캡 → 대단지만 일부 포착</td></tr>
+    <tr><td>전 평형·전 거래 망라</td><td>실거래가 OpenAPI <b>운영계정 키</b> 전체 페이징</td><td class="manu">🔴 키 필요</td><td>사용자가 data.go.kr 발급해야 함</td></tr>
+    <tr><td>가격지수·변동률 추세</td><td>한국부동산원 R-ONE (15134761)</td><td class="manu">🔴 별도</td><td>표본 평균과 분리(지수 데이터)</td></tr>
+    <tr><td>호가·매물·여론</td><td>민간 사이트(네이버·아실·호갱노노)</td><td class="manu">🔴 수동</td><td>크롤링·재배포 금지 → 수동 큐레이션</td></tr>
+   </tbody>
+  </table>
+  <p class="disc reveal" style="margin-top:14px">핵심은 <b>‘표본 캡’</b>이에요. 공개 OpenAPI는 구·월 약 10건만 주므로, 헬리오시티(9,510세대)처럼 거래가 잦은 대단지는 표본에 1~2건 들어오지만 작은 단지·한산한 평형은 안 잡힐 수 있어요. <b>‘전 거래 망라’가 필요하면 운영계정 키로 전체 페이지를 받아야 합니다.</b> 이 템플릿은 ‘표본으로 잡힌 진짜 거래’만 정직하게 보여주고, 나머지는 ‘데이터 없음’으로 둡니다.</p>
+ </div>
+</section>
+
+<!-- 한 장 요약 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap">
+  <div class="sectit reveal"><div class="e">SUMMARY</div><h3>이 카드가 보여주는 것</h3></div>
+  <div class="sumgrid reveal">
+   <div class="sumcard"><div class="ic">🏢</div><h4>기본정보는 100% 자동</h4><p>세대수·준공·시공사·주차·면적구성·생활점수는 단지코드만 있으면 공공데이터로 즉시 채워져요.</p></div>
+   <div class="sumcard"><div class="ic">🎯</div><h4>실거래는 ‘단지명 필터’</h4><p>구 표본에서 단지명으로 골라낸 진짜 계약가. 헬리오시티 84㎡ 3월 27.0억·4월 28.2억·5월 28.0억이 그 결과예요.</p></div>
+   <div class="sumcard"><div class="ic">📭</div><h4>없으면 ‘없음’이라 적기</h4><p>표본에 안 잡힌 평형·달은 추측하지 않아요. 정직한 빈칸이 가짜 숫자보다 낫습니다.</p></div>
+  </div>
+
+  <div class="srcbox reveal">
+   <b>📚 데이터 출처 &amp; 확인</b><br>
+   · 아파트 매매 실거래가 — 국토교통부, <a href="https://www.data.go.kr/data/15126469/openapi.do" target="_blank" rel="noopener">data.go.kr/15126469</a> (AptInfo MCP 경유)<br>
+   · 공동주택 단지정보 — 국토교통부, <a href="https://www.data.go.kr/data/15058453/openapi.do" target="_blank" rel="noopener">data.go.kr/공동주택 단지정보</a><br>
+   · 부동산 가격지수(추세용) — 한국부동산원 R-ONE, <a href="https://www.reb.or.kr/r-one/" target="_blank" rel="noopener">reb.or.kr/r-one</a><br>
+   · 법정동코드 — 행정표준코드관리시스템 <a href="https://www.code.go.kr" target="_blank" rel="noopener">code.go.kr</a><br>
+   <span style="color:var(--mut)">※ 조회일 2026-06-02 KST · 재검증 2026-06-04 KST(단지정보 11항목·단지 실거래 일치 / 4월 계약일 27일로 정정·5월 84㎡ 28.0억 추가 / 구 표본 평균은 재조회 시 변동 확인). 실거래는 계약 후 신고까지 시차가 있어 최근월은 추가 신고·해제로 바뀔 수 있습니다.</span>
+  </div>
+
+  <!-- 같이 보면 좋아요 (rel18) -->
+  <div class="relhead" style="margin-top:26px">🔗 같이 보면 좋아요</div>
+  <div class="relsub">헬리오시티를 실데이터로 봤다면 — 다른 단지 검색 → 종합 분석 → 같은 송파구 흐름 → 살 때 세금 순서로 이어가요.</div>
+  <div class="related">
+   <a class="rcard reveal" href="/tool-re-c0bd"><span class="rk">🔍 짝꿍 도구</span><span class="rt">단지명 검색 → 실거래 자동 연동</span><span class="rd">단지명→지역코드→단지코드→실거래 4단계 자동 해소 파이프라인 — 이 리포트의 '단지명 필터' 방식을 다른 단지에도 그대로 써요.</span></a>
+   <a class="rcard reveal" href="/tool-re-8cfa"><span class="rk">📊 도구</span><span class="rt">아파트 분석 리포트 v3.1</span><span class="rd">표본/전수 2경로 실거래·전세가율 자동 브리지·보유비용 가늠 — 실데이터에 분석 레이어를 얹은 종합판이에요.</span></a>
+   <a class="rcard reveal" href="/tool-re-158a"><span class="rk">📈 도구</span><span class="rt">거래량·중위가 타임라인</span><span class="rd">이 리포트와 같은 송파구 실거래 표본 6개월 — 한 시점 가격이 아니라 월별 흐름으로 봐요.</span></a>
+   <a class="rcard reveal" href="/tool-re-c181"><span class="rk">🧾 계산기</span><span class="rt">주택 취득세 간이 계산기</span><span class="rd">가격·주택 수·생애최초 감면 — 단지를 정했다면 살 때 낼 세금부터 가늠해요.</span></a>
+   <a class="rcard reveal" href="/re-50db"><span class="rk">📚 사전</span><span class="rt">부동산 용어사전</span><span class="rd">전용면적·LTV·DSR·대항력 — 리포트에서 막히는 용어 60개를 검색·분류로 바로 찾아요.</span></a>
+  </div>
+
+  <div class="cta-row reveal">
+   <a class="btn" href="/library">자료실에서 다른 도구 보기 →</a>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="ft">
+   <b>부부연구소 머니레터 · 부동산 실데이터 분석 템플릿 (검토용 예시)</b><br>
+   이 문서는 <b>교육·정보 제공용 예시</b>이며, 특정 단지·부동산의 <b>매수/매도·투자 권유가 아닙니다.</b> 모든 수치는 국토부 공개데이터(실거래가·단지정보) 기준이나 공개 OpenAPI 표본 한계가 있어 한 단지의 모든 거래를 망라하지 않습니다. 시세는 시점·층·향·동에 따라 달라지며, 투자 판단과 그 결과의 책임은 본인에게 있습니다(면책 고지). 네이버부동산·아실·호갱노노 등 민간 사이트는 직접 크롤링·재배포하지 않았습니다.<br>
+   <span style="color:#A48E85">© 2026 부부연구소 · 데이터 기준일 2026-06-02 · AptInfo 재검증 2026-06-04</span>
+  </div>
+ </div>
+</footer>

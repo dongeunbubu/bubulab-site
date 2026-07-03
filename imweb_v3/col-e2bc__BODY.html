@@ -1,0 +1,365 @@
+<!-- [콘텐츠_딥칼럼_손절의기술_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 15건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}.rfill{transition:none!important}.ln{stroke-dashoffset:0!important;transition:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:12px;color:var(--mut);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:10px;padding:9px 13px;margin-top:16px;line-height:1.55}
+.srcbox{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:22px;box-shadow:var(--cardSh)}
+.srcbox .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+.srcbox ul{list-style:none;margin-top:8px;display:grid;gap:5px}
+.srcbox li{font-size:12.5px;color:var(--ink2);line-height:1.55;padding-left:14px;position:relative}
+.srcbox li::before{content:"·";position:absolute;left:2px;color:var(--rose);font-weight:800}
+/* hero stat cards */
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:640px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac,var(--rose))}
+.hstat .v{font-size:clamp(26px,4.4vw,36px);font-weight:800;letter-spacing:-.03em;color:var(--ac,var(--rose));line-height:1}
+.hstat .l{font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.5;margin-top:9px}
+.hstat .t{font-size:11px;color:var(--mut);font-weight:700;margin-top:7px}
+/* recovery bars */
+.recov{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--cardSh);margin-top:18px}
+.recov .ct{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.recov .cs{font-size:12px;color:var(--mut);margin-bottom:14px;line-height:1.5}
+.rrow{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:center;margin:9px 0}
+.rrow .lo{font-size:13px;font-weight:800;color:var(--down);text-align:right;letter-spacing:-.02em}
+.rtrack{position:relative;background:var(--pinkSoft2);border-radius:9px;height:32px;overflow:hidden}
+.rfill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width 1.1s var(--ease)}
+.rlab{position:absolute;top:0;bottom:0;display:flex;align-items:center;left:13px;font-size:12.5px;font-weight:800;color:#fff;z-index:2;text-shadow:0 1px 2px rgba(140,40,55,.4)}
+/* spark (concept) */
+.sparkwrap{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 18px 12px;box-shadow:var(--cardSh);margin-top:16px}
+.sparkwrap .ct{font-size:13.5px;font-weight:800;margin-bottom:2px}
+.sparkwrap .cs{font-size:12px;color:var(--mut);margin-bottom:8px;line-height:1.5}
+.spark{width:100%;height:auto;display:block}
+.spark .grid{stroke:var(--border);stroke-width:1;stroke-dasharray:3 4}
+.spark .stop{stroke:var(--rose);stroke-width:1.6;stroke-dasharray:6 5}
+.spark .ln{fill:none;stroke:var(--lav);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1600;stroke-dashoffset:1600;transition:stroke-dashoffset 1.9s var(--ease)}
+.spark.in .ln{stroke-dashoffset:0}
+.spark .dotT{fill:var(--down)}.spark .dotE{fill:var(--up)}
+.spark .lbl{font-size:11px;font-weight:800;fill:var(--ink2)}
+.spark .lblm{font-size:10.5px;font-weight:700;fill:var(--mut)}
+/* compare faces */
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.face.ok{background:linear-gradient(180deg,#fff,#F1F7F4)}
+.face.no{background:linear-gradient(180deg,#fff,#FCEFF0)}
+.face .ttl{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.face.ok .ttl{color:var(--sage)}.face.no .ttl{color:var(--rose)}
+.face p{font-size:13px;color:var(--ink2);line-height:1.62;margin-top:8px}
+.face .tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:100px;margin-top:10px}
+.face.ok .tag{background:#E6F1EC;color:var(--sage)}.face.no .tag{background:var(--pinkSoft);color:var(--rose)}
+/* calculator */
+.calc{background:linear-gradient(180deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;padding:20px 22px;box-shadow:var(--cardSh);margin-top:18px}
+.calc .ct{font-size:14.5px;font-weight:800;color:var(--ink)}
+.calc .cs{font-size:12.5px;color:var(--mut);margin-top:3px;line-height:1.5}
+.calc .field{margin-top:16px}
+.calc .flab{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:700;color:var(--ink2)}
+.calc .flab b{font-size:18px;font-weight:800;color:var(--rose)}
+.calc input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:8px;margin-top:11px;background:linear-gradient(90deg,var(--rose) var(--p,40%),var(--sand) var(--p,40%));cursor:pointer}
+.calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer}
+.calc input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer}
+.calc .out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+@media(max-width:520px){.calc .out{grid-template-columns:1fr}}
+.calc .ot{background:#fff;border:1px solid var(--border);border-radius:13px;padding:14px 12px;text-align:center}
+.calc .ot .ov{font-size:clamp(20px,3.4vw,26px);font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--ac,var(--ink))}
+.calc .ot .ol{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:7px;line-height:1.4}
+.calc .note{font-size:13px;color:var(--ink2);background:#fff;border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:12px 15px;margin-top:14px;line-height:1.6;font-weight:600}
+
+/* ===navfix=== canonical nav */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===devextras=== 이어읽기(relcards) */
+.relcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:700px){.relcards{grid-template-columns:1fr}}
+.relcard{display:block;background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 16px;box-shadow:var(--cardSh);transition:transform .2s var(--ease),box-shadow .25s,border-color .2s}
+.relcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi);border-color:var(--rose)}
+.relcard b{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+.relcard span{display:block;font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:5px}
+</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/library">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">Why 인사이트 칼럼 · 구독자 전용</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">손절의 기술 — <span class="grad">언제 파는 게</span> 맞을까?</h1>
+  <div class="artmeta reveal"><span>⏱ 8분</span><span>딥 인사이트</span><span>2026.6.2</span></div>
+  <p class="artlead reveal">사는 건 설레서 잘해요. 그런데 파는 건 늘 어려워요. 미련, 본전 생각, "조금만 더…". 그래서 손절은 '용기'가 아니라 <b>사기 전에 정해두는 규칙</b>이어야 해요. 오늘은 감정 대신 룰로 파는 법을 같이 정리해봐요.</p>
+
+  <div class="hstats stag reveal">
+    <div class="hstat" style="--ac:var(--rose)"><div class="v" data-count="43" data-pre="+" data-suf="%">+0%</div><div class="l">−30% 손실을 본전으로 되돌리는 데 필요한 상승률</div><div class="t">손실은 깊어질수록 비대칭으로 메우기 어려워요</div></div>
+    <div class="hstat" style="--ac:var(--lav)"><div class="v" data-count="82.6" data-dec="1" data-pre="+" data-suf="%">+0%</div><div class="l">테슬라가 최근 1년 저점에서 고점까지 움직인 폭</div><div class="t">$273 → $499 · 변동성 큰 종목은 −N% 손절이 쉽게 발동돼요</div></div>
+    <div class="hstat" style="--ac:var(--sage)"><div class="v" data-count="2" data-suf="가지">0가지</div><div class="l">미리 정해두는 손절 기준 — 가격선과 논리선</div><div class="t">기준을 사기 전에 적어두면 감정이 끼어들 틈이 줄어요</div></div>
+  </div>
+  <div class="minnote reveal">※ 회복 상승률은 <b>1 ÷ (1 − 손실률) − 1</b> 로 계산한 값이에요. 테슬라 수치는 2026-06-02 조회 시점 기준이고, 이 글은 특정 종목·시점의 매수/매도 권유가 아니에요.</div>
+
+  <p class="reveal dropcap" style="margin-top:26px">지난 칼럼에서 '존버'와 '물타기'를 다루며 <b>"더 살까?"</b>를 같이 고민했어요. 오늘은 동전의 뒷면, <b>"언제 팔까?"</b>예요. 사실 파는 게 훨씬 어려워요. 살 때는 기대가 가득하지만, 팔 때는 늘 무언가에 미련이 남거든요. 빨갛던 숫자가 파래질 때 "여기서 끊을까, 본전까지만 기다려볼까" 하는 그 마음, 저희도 잘 알아요. 그래서 손절을 '그 순간의 결심'에 맡기면 거의 매번 져요. 결심은 감정에 약하니까요. 손절은 결심이 아니라 <b>사기 전에 미리 정해둔 규칙</b>일 때 비로소 작동해요.</p>
+
+  <h2 class="reveal">왜 '미리 정한' 손절이 필요할까</h2>
+  <p class="reveal">이유는 차가운 산수에 있어요. 손실은 깊어질수록, 되돌리는 데 필요한 상승률이 <b>비대칭으로</b> 커져요. 10% 빠지면 11%만 오르면 되지만, 30% 빠지면 +43%, 반토막(−50%)이면 <b>두 배(+100%)</b>, 70%면 +233%가 올라야 겨우 제자리예요. "조금만 더 기다리자"가 위험한 건, 기다리는 동안 손실이 깊어지면 회복선이 손쓸 수 없이 가팔라지기 때문이에요.</p>
+  <div class="recov reveal">
+    <div class="ct">손실을 되돌리는 데 필요한 상승률 (비대칭)</div>
+    <div class="cs">막대는 이해를 돕기 위한 표현이고, 정확한 값은 막대 안 숫자예요 · 계산식 1 ÷ (1 − 손실률) − 1</div>
+    <div class="rrow"><div class="lo">−10%</div><div class="rtrack"><div class="rfill" data-w="8"></div><div class="rlab">+11%</div></div></div>
+    <div class="rrow"><div class="lo">−30%</div><div class="rtrack"><div class="rfill" data-w="18"></div><div class="rlab">+43%</div></div></div>
+    <div class="rrow"><div class="lo">−50%</div><div class="rtrack"><div class="rfill" data-w="42"></div><div class="rlab">+100%</div></div></div>
+    <div class="rrow"><div class="lo">−70%</div><div class="rtrack"><div class="rfill" data-w="88"></div><div class="rlab">+233%</div></div></div>
+  </div>
+  <p class="reveal">이 비대칭은 손절의 <b>존재 이유</b>예요. "손실을 작게 자르면, 회복이라는 거대한 산을 애초에 만들지 않는다." 손절은 멋진 베팅이 아니라, 회복 불가능한 구간으로 들어가지 않으려는 <b>안전벨트</b>에 가까워요. (이 비대칭의 자세한 이야기는 <a href="/col-a331" style="color:var(--rose);font-weight:700;border-bottom:1px solid var(--pink)">'존버는 정말 이기는 전략일까' 칼럼</a>에서 더 깊이 다뤘어요.)</p>
+  <div class="pull reveal">손절은 결심이 아니라, 사기 전에 정해둔 규칙이에요.</div>
+
+  <h2 class="reveal">왜 우리는 빨간 숫자를 못 자를까 — 머릿속 두 버릇</h2>
+  <p class="reveal">산수는 이렇게 분명한데, 막상 손절 버튼 앞에선 손이 안 나가요. 이건 의지가 약해서가 아니라, <b>누구에게나 똑같이 작동하는 심리 버릇</b> 때문이에요. 행동재무학이 오래전에 숫자로 보여준 두 가지를 알아두면, '왜 규칙이 필요한지'가 더 또렷해져요.</p>
+  <div class="termgrid stag reveal">
+    <div class="term"><b>손실회피</b><p>같은 크기라도 <b>손실의 고통이 이익의 기쁨보다 약 2배</b> 크게 느껴져요(전망이론, 손실회피 계수 λ≈2.25). 그래서 '본전까지만'이 자꾸 발목을 잡는 거예요. — Kahneman &amp; Tversky(1979)</p></div>
+    <div class="term"><b>처분효과</b><p>오른 주식은 서둘러 팔고, <b>내린 주식은 오래 끌어안는</b> 버릇. 실제 1만 개 계좌를 보니 오른 주식이 내린 주식보다 <b>약 60% 더 자주</b> 팔렸어요. 손절은 본능과 정반대라 룰이 필요해요. — Odean(1998)</p></div>
+    <div class="term"><b>본전 집착</b><p>기준점이 '내가 산 가격'에 묶이면, 회사가 아니라 <b>내 매수가를 보고</b> 결정하게 돼요. 미리 쓴 규칙은 이 기준점을 '산 가격'에서 '<b>정해둔 조건</b>'으로 옮겨줘요.</p></div>
+  </div>
+  <p class="reveal">즉 손절이 어려운 건 우리가 부족해서가 아니라, 뇌가 원래 그렇게 설계돼 있어서예요. 그러니 그 순간의 마음을 이기려 애쓰는 대신, <b>마음이 끼어들기 전에</b> 규칙을 정해두는 거예요.</p>
+
+  <h2 class="reveal">손절에는 두 종류가 있어요</h2>
+  <p class="reveal">손절 기준은 크게 둘로 나뉘어요. 하나는 <b>가격 기반</b>(예: −10% 떨어지면 판다), 다른 하나는 <b>논리 기반</b>(처음에 살 때의 이유가 깨지면 판다)이에요. 둘 다 장단점이 뚜렷해서, 어느 하나만 고집하면 탈이 나요.</p>
+  <div class="faces reveal">
+    <div class="face ok"><div class="ttl">① 가격 기반 — "−N%면 판다"</div><p>미리 정한 손실 한도에 닿으면 기계적으로 팔아요. 장점은 명확해요. 감정이 끼어들 틈이 없고, 큰 손실을 원천 차단해요. 단점은 <b>변동성에 휘둘린다</b>는 거예요. 종목이 평소 크게 출렁이면, 일상적인 흔들림에도 자꾸 털려 나가요.</p><span class="tag">감정 차단 · 단, 휘둘림 주의</span></div>
+    <div class="face no"><div class="ttl">② 논리 기반 — "살 이유가 깨지면 판다"</div><p>"이 회사를 왜 샀지?"의 답(성장·점유율·흑자 전환 등)이 무너지면 팔아요. 회사의 본질을 보니 잔잔한 출렁임엔 안 흔들려요. 단점은 <b>자기합리화</b>예요. 논리가 깨졌는데도 "이번엔 다르다"며 이유를 자꾸 고쳐 쓰면, 손절은 영영 오지 않아요.</p><span class="tag">본질 충실 · 단, 합리화 주의</span></div>
+  </div>
+  <p class="reveal">그래서 현실적인 답은 <b>둘을 겹쳐 쓰는 것</b>이에요. 가격선은 '여기까진 절대 안 돼'라는 <b>안전벨트</b>로, 논리선은 '진짜 팔아야 하는 이유'로요. 평소엔 논리로 버티되, 논리가 틀렸더라도 손실이 안전벨트(가격선)를 넘으면 일단 멈추는 거죠.</p>
+
+  <h2 class="reveal">변동성을 모르면, 손절선도 못 정해요</h2>
+  <p class="reveal">가격 기반 손절의 함정은 여기 있어요. <b>−10%</b>라는 숫자는 종목마다 의미가 완전히 달라요. 어떤 종목엔 큰 사건이고, 어떤 종목엔 그냥 화요일이에요. 실제로 테슬라는 최근 1년 동안 저점 $273에서 고점 $499까지, <b>저점 대비 +82.6%</b>나 출렁였어요(고점에서 저점까지로 보면 −45%). 베타는 약 1.79, 오늘 하루만도 −4.6% 움직였고요. 이런 종목에 −10% 손절을 걸어두면, 회사에 아무 일이 없어도 그저 변동성 때문에 몇 번이고 털려 나갈 수 있어요.</p>
+  <div class="sparkwrap reveal"><svg class="spark reveal" viewBox="0 0 720 220" role="img" aria-label="개념 그림 — 변동성 큰 종목에 좁은 손절선을 걸면 일시적 하락에 털린 뒤 가격이 회복하는 모습">
+    <line class="grid" x1="50" y1="40" x2="700" y2="40"></line>
+    <line class="grid" x1="50" y1="190" x2="700" y2="190"></line>
+    <line class="stop" x1="50" y1="150" x2="700" y2="150"></line>
+    <text class="lblm" x="54" y="144" fill="#B85060">손절선 (−N%)</text>
+    <polyline class="ln" points="50,95 120,72 190,118 260,168 330,138 400,98 470,128 540,86 610,66 680,52"></polyline>
+    <circle class="dotT" cx="260" cy="168" r="5"></circle>
+    <circle class="dotE" cx="680" cy="52" r="5"></circle>
+    <text class="lbl" x="260" y="186" text-anchor="middle" fill="#4A7DE8">여기서 털림</text>
+    <text class="lbl" x="680" y="44" text-anchor="end" fill="#D8584E">이후 회복…</text>
+  </svg><div class="cs" style="margin-top:6px;color:var(--mut)">이해를 돕기 위한 개념 그림이에요(실제 시세 아님) · 좁은 손절선은 일시적 출렁임에 털린 뒤 회복을 놓칠 수 있어요</div></div>
+  <p class="reveal">그래서 손절폭은 <b>그 종목이 평소 얼마나 출렁이는지</b>에 맞춰야 해요. 변동성이 큰 종목엔 손절폭을 넉넉히(대신 투입 비중을 줄여서), 잔잔한 종목엔 좁게. 같은 −10%라도 누구에겐 너무 좁고 누구에겐 적당하니까요. 아래 계산기로, 손절폭에 따라 본전이 얼마나 멀어지는지 직접 움직여 봐요.</p>
+
+  <div class="calc reveal" id="calc">
+    <div class="ct">손절선 계산기</div>
+    <div class="cs">진입가를 100이라 두고, 손절선을 움직여 보세요. 손절가와 '본전까지 필요한 상승률'이 바로 바뀌어요.</div>
+    <div class="field">
+      <div class="flab"><span>손절선</span><b id="oN">−12%</b></div>
+      <input type="range" id="slN" min="5" max="30" step="1" value="12" aria-label="손절선 퍼센트">
+    </div>
+    <div class="out">
+      <div class="ot" style="--ac:var(--down)"><div class="ov" id="oExit">88</div><div class="ol">손절가 (진입가 100 기준)</div></div>
+      <div class="ot" style="--ac:var(--rose)"><div class="ov" id="oLoss">−12%</div><div class="ol">1회 손실</div></div>
+      <div class="ot" style="--ac:var(--lav)"><div class="ov" id="oRec">+13.6%</div><div class="ol">본전까지 필요한 상승률</div></div>
+    </div>
+    <div class="note" id="oNote">무난한 범위예요. 다만 종목이 평소 얼마나 출렁이는지(변동성)에 맞춰 조정하는 게 좋아요.</div>
+    <div class="cs" style="margin-top:10px">※ 회복률 = 1 ÷ (1 − 손절폭) − 1 · 진입가 100 가정의 개념 계산이에요.</div>
+  </div>
+
+  <h2 class="reveal">팔고 나서가 진짜 시작이에요 — 재매수 규칙</h2>
+  <p class="reveal">손절의 가장 큰 적은 따로 있어요. "<b>팔자마자 오르면 어떡하지?</b>" 이 두려움 하나가 룰을 무너뜨려요. 그래서 잘 파는 사람은 <b>되살 조건도 미리</b> 정해둬요. 팔 때 이미 "이런 조건이면 다시 산다"를 적어두면, 팔고 난 뒤의 출렁임에 휘둘리지 않아요. 또 하나, 손절 직후의 '복수 매수'는 가장 위험해요. 잃은 걸 빨리 만회하고 싶은 마음으로 다시 들어가는 건, 손절을 한 이유를 스스로 지우는 일이거든요.</p>
+  <div class="termgrid stag reveal">
+    <div class="term"><b>되살 조건 미리쓰기</b><p>매도 사유가 해소되거나, 정해둔 가격·추세를 회복하면 다시 본다 — 처럼 <b>구체적 조건</b>으로 적어둬요.</p></div>
+    <div class="term"><b>복수 매수 금지</b><p>'빨리 만회'하려는 재진입은 감정이에요. 손절한 이유가 그대로면, 가격이 빠졌어도 다시 살 이유는 없어요.</p></div>
+    <div class="term"><b>나눠서 재진입</b><p>되살 때도 한 번에 다 넣지 않아요. 조건이 확인될수록 비중을 늘리면 실수의 크기를 줄일 수 있어요.</p></div>
+  </div>
+  <p class="reveal">완벽한 타이밍은 아무도 못 맞혀요. 손절도 재매수도, 가끔은 '결과적으로' 틀려요. 그래도 괜찮아요. 우리가 통제할 수 있는 건 미래 예측이 아니라 <b>규칙을 지키는 일</b>뿐이고, 길게 보면 규칙을 지킨 사람이 살아남아요. 한두 번 아쉬운 손절보다, 룰 없이 버티다 회복 불가 구간으로 들어가는 게 훨씬 무서운 일이에요.</p>
+
+  <h2 class="reveal">그래서 우리는 어떻게?</h2>
+  <p class="reveal">손절은 '얼마나 용감한가'의 문제가 아니라 '얼마나 미리 정해뒀나'의 문제예요. 사기 전에 세 가지만 적어두면, 그 순간의 감정에 휘둘릴 일이 크게 줄어요.</p>
+  <div class="checks">
+    <div class="c reveal"><i>1</i><span><b>사기 전에 손절선을 적어둬요</b> — 가격 한도(안전벨트)와 논리 조건('이게 깨지면 판다')을 함께. 산 다음엔 규칙대로 움직여요.</span></div>
+    <div class="c reveal"><i>2</i><span><b>손절폭은 종목 변동성에 맞춰요</b> — 평소 크게 출렁이는 종목에 좁은 −N%는 휘둘려요. 폭을 넓히는 대신 투입 비중을 줄이는 식으로요.</span></div>
+    <div class="c reveal"><i>3</i><span><b>'되살 조건'도 미리 정해요</b> — 팔자마자 오를까 두려워 룰을 깨지 않게. 복수 매수 금지, 재진입은 나눠서.</span></div>
+  </div>
+
+  <p class="reveal">결국 손절의 기술은 '잘 맞히는 법'이 아니라 '잘 정해두는 법'이에요. 빨간 숫자 앞에서 본전부터 떠올리는 대신, 사기 전에 적어둔 내 규칙을 펼쳐보는 작은 습관. 그게 큰 손실을 피하고 길게 살아남는 투자자의 조용한 차이예요. 파는 일이 더는 두렵지 않도록, 저희도 같이 규칙부터 적어볼게요:)</p>
+  <div class="tldr reveal"><div class="h">핵심 요약</div><p>손실은 깊어질수록 회복이 비대칭으로 멀어져요(−30%는 +43%, −50%는 +100%). 그래서 손절은 결심이 아니라 '사기 전에 정한 규칙'이어야 해요. 가격선(안전벨트)과 논리선(매도 사유)을 함께 쓰고, 손절폭은 종목 변동성에 맞춰요. 그리고 '되살 조건'까지 미리 정해 팔고 난 뒤의 두려움에 룰을 깨지 않기.</p></div>
+  <p class="byline reveal">— 동은부부 드림</p>
+
+  <h2 class="reveal">함께 읽으면 좋아요</h2>
+  <div class="relcards reveal">
+    <a class="relcard" href="/col-a331"><b>존버는 정말 이기는 전략일까</b><span>'더 살까?'의 뒷면 — 버티기·물타기의 진짜 비용과 회복의 비대칭</span></a>
+    <a class="relcard" href="/eco-676e"><b>변동성과 베타</b><span>손절폭을 정하려면 먼저 — '이 종목은 평소 얼마나 출렁이나'</span></a>
+    <a class="relcard" href="/col-vs-a208"><b>좋은 회사 vs 좋은 주식</b><span>논리 기반 손절의 핵심 — 살 이유(논지)가 깨졌는지 가려내기</span></a>
+  </div>
+
+  <div class="srcbox reveal"><div class="h">데이터 · 계산 · 연구 근거</div><ul>
+    <li>회복 상승률: 1 ÷ (1 − 손실률) − 1 로 계산 (−10%→+11.1% / −30%→+42.9% / −50%→+100% / −70%→+233.3%)</li>
+    <li>테슬라(TSLA): 현재가 $415.88(당일 −4.57%) · 52주 범위 $273.21~$498.83(저점→고점 +82.6%, 고점 대비 현재 −16.6%) · 베타 약 1.79 · UsStockInfo 2026-06-02 조회</li>
+    <li>참고 — 엔비디아(NVDA): 52주 범위 $135.40~$236.54(저점→고점 +74.7%) · 베타 약 2.24. 대형주도 1년 새 이만큼 출렁여요 · UsStockInfo 2026-06-02 조회</li>
+    <li>손실회피(같은 크기라도 손실이 이익보다 약 2배 아프다 · 손실회피 계수 λ≈2.25): 전망이론 — <a href="https://en.wikipedia.org/wiki/Prospect_theory" target="_blank" rel="noopener">Kahneman &amp; Tversky(1979) · Tversky &amp; Kahneman(1992)</a></li>
+    <li>처분효과(오른 주식을 내린 주식보다 약 60% 더 자주 판다 · 1만 개 계좌 1987–1993, PGR 0.148 &gt; PLR 0.098): <a href="https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf" target="_blank" rel="noopener">Odean(1998), "Are Investors Reluctant to Realize Their Losses?", Journal of Finance</a> · 용어 정의는 Shefrin &amp; Statman(1985)</li>
+  </ul></div>
+  <div class="discm reveal">※ 이 칼럼은 특정 종목·시점의 매수/매도 권유가 아니에요. 본문에 나온 종목은 변동성·손절 개념을 설명하기 위한 예시이고, 특정 손절 룰(−N%)도 정답이 아니라 사고의 틀이에요. 모든 수치는 2026-06-02 조회 시점 기준이라 지금과 다를 수 있어요. 과거 성과가 미래 수익을 보장하지는 않아요. 최종 판단과 책임은 본인에게 있습니다.</div>
+</div></section>
+
+<section class="blk wrap" style="padding-top:0"><div class="cta-band reveal"><h3>숫자 너머의 '왜'를, 매주 한 편.</h3><p>오늘 같은 딥 인사이트 칼럼을 구독자에게 매주 보내드려요. 매일의 머니레터와 함께요.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px"><a class="btn btn-rose magnet" href="/home#subscribe">구독하고 칼럼 받기 →</a><a class="btn btn-ghost" href="/moneyletter-landing">머니레터 보기</a></div></div></section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">이 칼럼은 일반적인 시장 해석을 돕기 위한 참고용이며, 투자 권유가 아니에요. 수치는 2026-06-02 조회 시점 기준이고, 과거 성과가 미래를 보장하지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>
