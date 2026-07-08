@@ -1,0 +1,73 @@
+<!-- money-letter 2026-07-07 pm FOOTER · scripts=1 · dcl-guarded=0 -->
+<script>
+(function(){
+ var d=document;d.documentElement.classList.add('js');
+ var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ /* 워드 스태거 */
+ var hh=d.getElementById('hh');
+ if(hh){[].slice.call(hh.querySelectorAll('.w')).forEach(function(w,i){w.style.setProperty('--i',i);});
+   setTimeout(function(){hh.classList.add('in');},80);}
+ /* IO 리빌 + 스태거 + 바/카운트 발화 */
+ function fire(el){
+   el.classList.add('in');
+   [].slice.call(el.querySelectorAll('.mbar i,.sb i')).concat(el.matches&&el.matches('.mbar i,.sb i')?[el]:[]).forEach(function(b){b.style.width=b.getAttribute('data-w')+'%';});
+   [].slice.call(el.querySelectorAll('.cnt')).forEach(function(c){
+     if(c.__done)return;c.__done=1;
+     var to=parseFloat(c.getAttribute('data-to')),txt=c.textContent,dec=(txt.split('.')[1]||'').length,t0=null;
+     if(rm||!isFinite(to))return;
+     function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1),e=1-Math.pow(1-p,3);
+       c.textContent=(to*e).toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+       if(p<1)requestAnimationFrame(s);else c.textContent=txt;}
+     requestAnimationFrame(s);});
+ }
+ var els=[].slice.call(d.querySelectorAll('.wv,.wstag,.wline'));
+ if(rm||!('IntersectionObserver'in window)){els.forEach(fire);}
+ else{var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){fire(en.target);io.unobserve(en.target);}});},{threshold:.13,rootMargin:'0px 0px -7% 0px'});
+   els.forEach(function(e){io.observe(e);});}
+ /* 스토리 스텝 스크롤 스파이 */
+ var chaps=[].slice.call(d.querySelectorAll('.chap')),sfill=d.getElementById('sfill'),sns=[].slice.call(d.querySelectorAll('.sn'));
+ if(chaps.length&&sfill){
+   var seen=-1;
+   function mark(i){
+     if(i<=seen)return;seen=i;
+     sfill.style.width=((i+1)/chaps.length*100)+'%';
+     sns.forEach(function(a,j){a.classList.toggle('on',j===i);});
+   }
+   if(!('IntersectionObserver'in window)){mark(chaps.length-1);}
+   else{var io2=new IntersectionObserver(function(es){es.forEach(function(en){
+       if(en.isIntersecting){mark(chaps.indexOf(en.target));}});},{threshold:.35});
+     chaps.forEach(function(c){io2.observe(c);});}
+ }
+ /* 용어 툴팁 */
+ var tip=d.getElementById('tip');
+ if(tip){
+   function hide(){tip.classList.remove('on');}
+   function show(t){
+     tip.innerHTML='';
+     var b=d.createElement('b');b.textContent=t.getAttribute('data-t');
+     var s=d.createElement('span');s.textContent=t.getAttribute('data-d');
+     var a=d.createElement('a');a.href=t.getAttribute('href');a.textContent='용어사전에서 자세히 →';
+     tip.appendChild(b);tip.appendChild(s);tip.appendChild(a);
+     var r=t.getBoundingClientRect(),sy=window.pageYOffset||d.documentElement.scrollTop,sx=window.pageXOffset||d.documentElement.scrollLeft;
+     tip.classList.add('on');
+     var tw=tip.offsetWidth,lx=Math.max(10,Math.min(r.left+sx,d.documentElement.clientWidth-tw-10));
+     tip.style.left=lx+'px';tip.style.top=(r.bottom+sy+8)+'px';
+   }
+   d.addEventListener('click',function(e){
+     var t=e.target.closest&&e.target.closest('a.term');
+     if(t){e.preventDefault();if(tip.classList.contains('on')&&tip.__for===t){hide();tip.__for=null;}
+       else{show(t);tip.__for=t;}}
+     else if(!tip.contains(e.target)){hide();tip.__for=null;}
+   });
+   d.addEventListener('keydown',function(e){if(e.key==='Escape'){hide();tip.__for=null;}});
+   addEventListener('scroll',function(){if(tip.classList.contains('on')&&tip.__for){var r=tip.__for.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)hide();}},{passive:true});
+ }
+ /* 진행바·탑버튼 */
+ var pg=d.getElementById('pg'),tp=d.getElementById('top');
+ function upd(){var h=d.documentElement,max=h.scrollHeight-h.clientHeight;
+   pg.style.width=(max>0?(h.scrollTop||d.body.scrollTop)/max*100:0)+'%';
+   tp.classList.toggle('on',(h.scrollTop||0)>600);}
+ addEventListener('scroll',upd,{passive:true});upd();
+ tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
+})();
+</script>
