@@ -1,0 +1,227 @@
+<!-- money-letter 2026-07-08 am · auto-published (publish_letters.py) · links: xletter=1 slug=3 · dcl-guarded=0 -->
+<style>
+:root{--bg:#FDFBF7;--ink:#3E2F29;--ink2:#5C4B43;--mut:#8A7B72;--rose:#B85060;--pink:#D67A89;--pinkSoft:#F8E8EA;--pinkSoft2:#FCEEF1;--border:#EAD7D3;--sage:#5E8C7F;--up:#E85B4A;--down:#4A7DE8;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:800px;margin:0 auto;padding:0 20px}
+#pg{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink),var(--rose));z-index:99;border-radius:0 2px 2px 0}
+.mast{position:relative;overflow:hidden;background:linear-gradient(168deg,#FFFDFA 18%,var(--pinkSoft2) 62%,#F6E7DA);border-bottom:1px solid var(--border);padding:clamp(52px,8vw,92px) 0 clamp(38px,6vw,64px)}
+.mesh{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;pointer-events:none}
+.m1{width:340px;height:340px;background:#F8DDE2;top:-120px;right:-60px}
+.m2{width:260px;height:260px;background:#EAF1EE;bottom:-100px;left:-80px}
+.m3{width:180px;height:180px;background:#F6E7DA;top:30%;left:38%}
+.mastin{position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--rose);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(184,80,96,.35)}55%{box-shadow:0 0 0 8px rgba(184,80,96,0)}}
+.dn{font-size:clamp(52px,10vw,84px);font-weight:800;letter-spacing:-.045em;line-height:1;margin-top:16px}
+.dn small{font-size:.4em;font-weight:700;color:var(--rose);margin-left:5px}
+.ed{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;font-weight:800;letter-spacing:.13em;color:var(--rose);margin-top:12px}
+.edtg{letter-spacing:0;font-size:12px;font-weight:800;color:var(--ink2);background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:999px;padding:5px 12px;text-decoration:none;transition:.25s var(--ease)}
+.edtg:hover{color:var(--rose);border-color:var(--rose)}
+h1{font-size:clamp(25px,4.8vw,40px);font-weight:800;letter-spacing:-.038em;line-height:1.32;margin-top:18px;max-width:660px}
+h1 .w{display:inline-block;opacity:0;transform:translateY(16px)}
+html.js h1.in .w{animation:wup .7s var(--ease) forwards;animation-delay:calc(var(--i)*.07s)}
+@keyframes wup{to{opacity:1;transform:none}}
+.mnav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap}
+.mnav a{font-size:12.5px;font-weight:800;color:var(--ink2);background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:999px;padding:7px 14px;text-decoration:none;transition:.25s var(--ease)}
+.mnav a:hover{color:var(--rose);border-color:var(--rose);transform:translateY(-2px)}
+.blk{padding:clamp(40px,6.4vw,68px) 0;border-bottom:1px solid var(--border)}
+.blk:last-of-type{border-bottom:0}
+.sech{display:flex;align-items:center;gap:10px;font-size:clamp(19px,2.8vw,24px);font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+.sech .fl{font-size:1.1em}
+h3{font-size:14.5px;font-weight:800;color:var(--mut);letter-spacing:.02em;margin:0 0 12px}
+.wline{position:relative;padding-bottom:9px}
+.wline::after{content:"";position:absolute;left:0;bottom:0;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width .8s var(--ease) .15s}
+html.js .wline.in::after{width:40px}
+html:not(.js) .wline::after{width:40px}
+.mb{margin:0 0 26px}
+p{color:var(--ink2);font-size:clamp(15px,1.9vw,16.4px);margin:0 0 13px}
+ul.nl{list-style:none;display:grid;gap:9px;margin:0 0 13px}
+ul.nl li{position:relative;padding-left:16px;color:var(--ink2);font-size:clamp(14.5px,1.8vw,15.8px)}
+ul.nl li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:50%;background:var(--rose);opacity:.55}
+/* 형광펜 */
+.whl{background:linear-gradient(transparent 62%,#F8E8EA 62%) no-repeat 0 0/0% 100%;transition:background-size .9s var(--ease) .2s;border-radius:2px}
+html.js .in .whl,html.js .whl.in{background-size:100% 100%}
+html:not(.js) .whl{background-size:100% 100%}
+/* 용어 툴팁 */
+a.term{color:inherit;font-weight:inherit;text-decoration:none;border-bottom:1.5px dotted var(--rose);cursor:help;background:linear-gradient(transparent 88%,var(--pinkSoft) 0)}
+a.term:hover{color:var(--rose)}
+#tip{position:absolute;z-index:98;max-width:min(300px,calc(100vw - 32px));background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px -14px rgba(62,47,41,.3);padding:13px 15px;font-size:13px;line-height:1.7;color:var(--ink2);display:none}
+#tip.on{display:block}
+#tip b{display:block;font-size:13.5px;color:var(--ink);margin-bottom:3px}
+#tip a{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:800;color:var(--rose);text-decoration:none}
+#tip a:hover{text-decoration:underline}
+/* 지표 카드 */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:6px 0 16px}
+.mc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:15px 16px 13px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.mc:hover{transform:translateY(-4px);box-shadow:0 14px 30px -16px rgba(62,47,41,.25)}
+.mn{font-size:12px;font-weight:700;color:var(--mut)}
+.mv{font-size:clamp(19px,2.6vw,23px);font-weight:800;letter-spacing:-.02em;margin-top:3px}
+.mv small{font-size:.55em;font-weight:700;margin-left:1px}
+.md{font-size:12.5px;font-weight:800;margin-top:2px}
+.mbar{height:5px;background:#F1EDEA;border-radius:99px;margin-top:9px;overflow:hidden}
+.mbar i{display:block;height:100%;width:0;border-radius:99px;transition:width 1s var(--ease) .3s}
+html:not(.js) .mbar i{width:var(--w,60%)}
+/* 수급 차트 */
+.supply{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;margin:4px 0 16px}
+.sup-h{font-size:13px;font-weight:800;margin-bottom:12px}
+.sr{display:grid;grid-template-columns:52px 1fr 76px;align-items:center;gap:10px;margin-bottom:9px}
+.sw{font-size:12.5px;font-weight:700;color:var(--ink2)}
+.st{height:14px;position:relative}
+.sb{position:absolute;top:0;height:100%;width:50%;overflow:hidden}
+.sb.pos{left:50%;border-radius:0 7px 7px 0}
+.sb.neg{right:50%;transform:scaleX(-1);border-radius:0 7px 7px 0}
+.sb i{display:block;height:100%;width:0;border-radius:inherit;opacity:.85;transition:width 1s var(--ease) .35s}
+.st::before{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1.5px;background:var(--border)}
+.sr b{font-size:12.5px;text-align:right}
+.sup-note{font-size:11px;color:var(--mut);margin-top:7px}
+/* 체크포인트 */
+.cpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.cp{background:var(--pinkSoft2);border:1px solid var(--border);border-radius:16px;padding:17px 18px}
+.cpn{font-size:21px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.cp h4{font-size:14.5px;font-weight:800;margin-bottom:6px}
+.cp p{font-size:13.6px;margin:0}
+/* 미니 차트 */
+.spark{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin:4px 0 16px}
+.spark figcaption{font-size:12.5px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.spark svg{width:100%;height:auto;display:block}
+.spl{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+html.js .spark .spl{stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 1.4s var(--ease) .2s}
+html.js .spark.in .spl{stroke-dashoffset:0}
+.spx{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-top:4px}
+/* 딥칼럼 */
+.insight .ib{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--rose);background:var(--pinkSoft);border-radius:999px;padding:5px 13px}
+.ih{font-size:clamp(20px,3.4vw,28px);font-weight:800;letter-spacing:-.032em;line-height:1.38;margin:15px 0 17px}
+/* 스토리 스텝 네비 */
+.snav{position:sticky;top:10px;z-index:30;background:rgba(253,251,247,.92);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:16px;padding:11px 14px 9px;margin:4px 0 22px}
+.sline{height:3px;background:#F1EDEA;border-radius:99px;overflow:hidden;margin-bottom:9px}
+.sline i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width .5s var(--ease)}
+html:not(.js) .sline i{width:100%}
+.snr{display:flex;gap:6px;flex-wrap:wrap}
+.sn{flex:1 1 auto;min-width:0;display:flex;align-items:baseline;gap:6px;font-size:12px;color:var(--mut);text-decoration:none;border-radius:10px;padding:4px 8px;transition:.25s var(--ease)}
+.sn b{font-size:12.5px;font-weight:800;color:var(--ink2);white-space:nowrap}
+.sn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:9em}
+.sn.on{background:var(--pinkSoft2)}
+.sn.on b,.sn.on span{color:var(--rose)}
+.sn:hover b{color:var(--rose)}
+/* 챕터 */
+.chaps{position:relative;padding-left:26px;margin:4px 0 6px}
+.chaps::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(180deg,var(--pink),var(--pinkSoft))}
+.chap{position:relative;padding:2px 0 10px}
+.chap::before{content:"";position:absolute;left:-24px;top:8px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--pink)}
+.chm{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.chn{font-size:19px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+.chk{font-size:12.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:999px;padding:3px 11px}
+/* 대형 인용 브레이크 */
+.pq{position:relative;margin:20px 0 22px;padding:6px 0 6px 20px;border-left:4px solid var(--pink)}
+.pq p{font-size:clamp(18px,2.9vw,24px);font-weight:800;letter-spacing:-.028em;line-height:1.5;color:var(--ink);margin:0}
+.pq::after{content:"”";position:absolute;right:2px;bottom:-18px;font-size:54px;font-weight:800;color:var(--pinkSoft);line-height:1}
+/* 확인날짜 타임라인 */
+.tline{background:#fff;border:1px solid var(--border);border-radius:16px;padding:15px 16px;margin-top:16px}
+.tlh{font-size:12.5px;font-weight:800;color:var(--ink2);margin-bottom:12px}
+.tlrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.tn{position:relative;padding-top:14px}
+.tn::before{content:"";position:absolute;top:3px;left:0;right:0;height:2px;border-radius:2px;background:var(--pinkSoft)}
+.tn::after{content:"";position:absolute;top:-1px;left:0;width:10px;height:10px;border-radius:50%;background:var(--rose)}
+.tnd b{font-size:13.5px;font-weight:800;color:var(--rose)}
+.tnl{display:block;font-size:12.5px;font-weight:700;color:var(--ink2);line-height:1.5;margin-top:2px}
+.dcal{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-top:16px}
+.dcl{font-size:12.5px;font-weight:800;color:var(--ink2);margin-right:2px}
+.dc{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:999px;padding:6px 12px}
+.dc b{color:var(--rose)}
+/* 뉴스 */
+.ngrid{display:grid;gap:14px}
+.nc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+article.nc:hover{transform:translateY(-4px);box-shadow:0 16px 34px -18px rgba(62,47,41,.22)}
+.nc h3{display:inline;font-size:15.5px;font-weight:800;color:var(--ink);line-height:1.5;margin:0 0 8px}
+article.nc h3{display:block}
+.nb{display:inline-block;vertical-align:2px;font-size:10.5px;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:2px 9px;margin-right:8px}
+.nb.top{color:#fff;background:linear-gradient(135deg,var(--pink),var(--rose))}
+.nb.ref{color:var(--ink2);background:var(--pinkSoft2);border:1px solid var(--border)}
+details.nc summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px}
+details.nc summary::-webkit-details-marker{display:none}
+details.nc summary h3{flex:1}
+.chev{color:var(--mut);font-size:13px;transition:transform .3s var(--ease)}
+details.nc[open] .chev{transform:rotate(180deg)}
+.ncb{margin-top:10px}
+.nc p{font-size:14.6px}
+.src{font-size:13px;font-weight:800;color:var(--rose);text-decoration:none}
+.src:hover{text-decoration:underline}
+a{color:var(--rose)}
+/* 추천 블록 */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.rc{display:flex;flex-direction:column;gap:7px;background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:17px 18px;text-decoration:none;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.rc:hover{transform:translateY(-4px);box-shadow:0 16px 34px -18px rgba(62,47,41,.22)}
+.rcb{align-self:flex-start;font-size:11px;font-weight:800;color:var(--sage);background:#EAF1EE;border-radius:999px;padding:3px 10px}
+.rc b{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.45}
+.rgo{font-size:12.5px;font-weight:800;color:var(--rose)}
+/* 클로징 밴드 */
+.band{background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:22px;padding:clamp(26px,4vw,40px);text-align:center;margin:clamp(36px,6vw,56px) 0 10px}
+.band h3{font-size:clamp(18px,2.8vw,23px);font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-bottom:8px}
+.band p{font-size:14.5px;margin:0 0 16px}
+.band a{display:inline-block;background:var(--rose);color:#fff;font-weight:800;font-size:15px;border-radius:999px;padding:13px 26px;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.band a:hover{transform:translateY(-2px);box-shadow:0 14px 28px -12px rgba(184,80,96,.5)}
+.disc{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;font-size:12.5px;color:var(--mut);line-height:1.7;margin-top:22px}
+footer{padding:30px 0 52px}
+/* 리빌 */
+html.js .wv{opacity:0;transform:translateY(22px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+html.js .wv.in{opacity:1;transform:none}
+html.js .wstag>*{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .wstag.in>*{opacity:1;transform:none}
+#top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;background:var(--rose);color:#fff;border:0;cursor:pointer;font-size:17px;opacity:0;pointer-events:none;transition:.3s;z-index:90;box-shadow:0 8px 22px rgba(62,47,41,.28)}
+#top.on{opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){
+ html.js .wv,html.js .wstag>*,h1 .w{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+ .wline::after{width:40px!important}.mbar i,.sb i{transition:none!important}.brand .dot{animation:none}
+ .whl{background-size:100% 100%!important;transition:none!important}
+ .sline i{width:100%!important;transition:none!important}
+ .spark .spl{stroke-dasharray:none!important;stroke-dashoffset:0!important;transition:none!important}
+ .chev{transition:none!important}html{scroll-behavior:auto}
+}
+@media(max-width:560px){.mgrid{grid-template-columns:1fr 1fr}.cpgrid{grid-template-columns:1fr}.tlrow{grid-template-columns:1fr 1fr}.sn span{max-width:6em}}
+@media(max-width:360px){.tlrow{grid-template-columns:1fr}.snr{gap:3px}.sn{padding:4px 5px}}
+</style>
+<div id="pg"></div>
+<header class="mast">
+ <span class="mesh m1"></span><span class="mesh m2"></span><span class="mesh m3"></span>
+ <div class="wrap mastin">
+  <div class="brand"><span class="dot"></span>동은부부 머니레터</div>
+  <div class="dn">7.8<small>수</small></div>
+  <div class="ed"><span>SUNRISE BRIEF · 아침 정리본</span><a class="edtg" href="/letter-evening?d=20260707&e=pm">🌙 어제 저녁판</a></div>
+  <h1 id="hh"><span class="w">다우는</span> <span class="w">0.25%</span> <span class="w">빠지는</span> <span class="w">데</span> <span class="w">그쳤는데,,</span> <span class="w">반도체지수는</span> <span class="w">왜</span> <span class="w">4.65%나</span> <span class="w">무너졌을까요</span></h1>
+  <nav class="mnav"><a href="#kr">🇰🇷 한국시장</a><a href="#us">🇺🇸 미국시장</a><a href="#why">💡 숫자 너머</a><a href="#news">📰 뉴스</a><a href="#reco">🔗 더 읽기</a></nav>
+ </div>
+</header>
+<main class="wrap">
+<section class="blk" id="kr"><h2 class="sech wv"><span class="fl">🇰🇷</span>한국시장</h2><div class="mb ana"><h3 class="wline">마감 · 오늘 8일 오전장 흐름)</h3></div><div class="mb sum"><h3 class="wline">어제와 오늘 오전의 한국시장 요약</h3><div class="mgrid wstag"><div class="mc wv"><div class="mn">코스피</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="7514.75">7,514.75</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -141.56p (-1.85%)</div><div class="mbar"><i style="width:20%;background:#4A7DE8" data-w="20"></i></div></div><div class="mc wv"><div class="mn">코스닥</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="799.34">799.34</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -31.89p (-3.84%)</div><div class="mbar"><i style="width:42%;background:#4A7DE8" data-w="42"></i></div></div></div><ul class="nl wstag"><li>어제(7일) : 코스피가 장중 서킷브레이커 끝에 7,656선(5% 가까이 하락)으로 밀린 급락일</li><li>원/달러 환율 : 1,514.45원 (7일 고시 기준·오늘 서울 고시는 아직)</li></ul></div><div class="mb ana"><h3 class="wline">어제와 오늘 오전 짚어보기</h3><p><span class="whl">어제 코스피는 장중 서킷브레이커까지 걸린 끝에 5% 가까이 급락하며 7,656선에 마감했어요.</span> 그리고 그 여진이 오늘 오전장까지 이어지고 있어요. 오늘 낮 12시 58분 기준 코스피는 1.85% 내린 7,514.75, 코스닥은 3.84% 내린 799.34거든요. 특히 코스닥이 800선 아래로 내려온 게 눈에 밟히는 오전이에요.</p>
+<p>이유는 간밤 뉴욕에 있어요. 어제 저녁 레터에서 '오늘 밤 뉴욕이 한국발 급락을 어떻게 받아들이는지가 첫 단추'라고 말씀드렸는데, 간밤 뉴욕은 반도체를 중심으로 크게 밀리며 대답했거든요. 서울에서 시작된 충격이 뉴욕을 돌아 오늘 아침 다시 서울로 도착한, 되먹임의 하루인 셈이에요.</p>
+<p>다만 어제 기억해둘 만하다고 짚었던 장면, 그러니까 장 막판에 낙폭을 되돌리는 손이 오늘도 나오는지가 남은 오후의 관전 포인트예요. 미국의 간밤 낙폭이 반도체에 집중됐고 시장 전체의 공포는 아직 낮은 구간이라는 점도, 오후를 지켜볼 때 같이 놓고 볼 부분이에요 :)</p></div><div class="mb"><h3 class="wline">오늘 남은 장 관전 포인트</h3><div class="cpgrid wstag"><div class="cp wv"><div class="cpn">01</div><h4>코스닥 800선</h4><p>낮 12시 58분 기준 799.34까지 내려온 코스닥이 마감까지 800선을 되찾는지가 오늘 우리 시장 체력의 온도계예요.</p></div><div class="cp wv"><div class="cpn">02</div><h4>장 막판 되돌림의 반복 여부</h4><p>어제는 장중 8% 급락에서 5% 안쪽으로 낙폭을 줄이며 마감했어요. 싸진 가격에 사려는 손이 오늘도 들어오는지가 투매와 소화를 가르는 신호예요.</p></div><div class="cp wv"><div class="cpn">03</div><h4>오늘 밤 뉴욕의 이틀째</h4><p>오늘 우리 마감을 오늘 밤 뉴욕 반도체가 어떻게 받는지까지 확인해야 이 되먹임 고리가 끊기는지 보여요. 환율이 진정되는지와 함께 보면 좋아요.</p></div></div></div></section>
+<section class="blk" id="us"><h2 class="sech wv"><span class="fl">🇺🇸</span>미국시장</h2><div class="mb ana"><h3 class="wline">마감)</h3></div><div class="mb sum"><h3 class="wline">간밤 미국시장 요약</h3><div class="mgrid wstag"><div class="mc wv"><div class="mn">S&amp;P500 지수</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="7503.85">7,503.85</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -33.58p (-0.45%)</div><div class="mbar"><i style="width:5%;background:#4A7DE8" data-w="5"></i></div></div><div class="mc wv"><div class="mn">나스닥 지수</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="25818.69">25,818.69</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -302.47p (-1.16%)</div><div class="mbar"><i style="width:13%;background:#4A7DE8" data-w="13"></i></div></div><div class="mc wv"><div class="mn">다우 지수</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="52925.15">52,925.15</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -130.76p (-0.25%)</div><div class="mbar"><i style="width:3%;background:#4A7DE8" data-w="3"></i></div></div><div class="mc wv"><div class="mn">필라델피아 반도체지수</div><div class="mv" style="color:#4A7DE8"><span class="cnt" data-to="12300.52">12,300.52</span><small>pt</small></div><div class="md" style="color:#4A7DE8">▼ -599.63p (-4.65%)</div><div class="mbar"><i style="width:51%;background:#4A7DE8" data-w="51"></i></div></div><div class="mc wv"><div class="mn">VIX</div><div class="mv" style="color:#E85B4A"><span class="cnt" data-to="16.13">16.13</span><small></small></div><div class="md" style="color:#E85B4A">▲  (+3.6%)</div><div class="mbar"><i style="width:40%;background:#E85B4A" data-w="40"></i></div></div></div><ul class="nl wstag"><li>흐름 : AI 반도체 급락이 3대 지수를 일제히 끌어내림 / 낙폭은 반도체에 집중, 다우·S&amp;P는 얕게 방어</li></ul></div><div class="mb ana"><h3 class="wline">간밤 시장 짚어보기</h3><p>간밤 뉴욕은 3대 지수가 나란히 내렸어요. <span class="whl">나스닥이 1.16% 내린 25,818.69, S&amp;P500이 0.45% 내린 7,503.85, 다우가 0.25% 내린 52,925.15에 마감했거든요.</span> 그저께 '저가 매수'로 일제히 반등했던 시장이 하루 만에 방향을 되돌린 거예요.</p>
+<p>하락의 진앙은 이번에도 반도체였어요. <span class="whl">필라델피아 반도체지수가 4.65%, 599.63포인트 급락한 12,300.52까지 밀렸거든요.</span> 아시아경제가 '반도체 업종 폭락', 아주경제가 'AI 반도체주 급락'으로 간밤 장의 원인을 같은 곳에서 짚었고, 조선일보는 아예 '뉴욕 증시 흔든 삼성전자'라는 제목을 달았어요. 어제 서울에서 확인된 그 질문, 그러니까 역대 최대 실적에도 시장이 '앞으로의 수요'를 의심했던 그 질문이 하루 만에 뉴욕으로 건너간 그림이에요.</p>
+<p>그런데 낙폭의 결을 보면 전면적인 후퇴는 아니었어요. <span class="whl">다우는 0.25%, S&amp;P500은 0.45%로 얕게 방어했고, 공포지수 <a class="term" href="../../../페이지_컴포넌트/투자경제_용어사전_v1.html" data-d="시장이 느끼는 불안의 온도" data-t="VIX">VIX</a>도 3.6% 오른 16.13으로 여전히 낮은 구간이거든요.</span> 시장 전체가 도망친 게 아니라, 'AI 반도체'라는 한 질문에 조정이 집중된 하루였어요. 이 온도차가 무슨 뜻인지는 아래 Why 코너에서 찬찬히 풀어볼게요 :)</p></div><div class="mb"><h3 class="wline">오늘 미국시장 체크포인트</h3><div class="cpgrid wstag"><div class="cp wv"><div class="cpn">01</div><h4>반도체의 이틀 연속 여부</h4><p>간밤 급락이 하루짜리 되돌림인지, 이틀 연속으로 이어지는 조정인지는 오늘 밤 뉴욕이 답해요. 여기서 조정의 성격이 갈려요.</p></div><div class="cp wv"><div class="cpn">02</div><h4>서울-뉴욕 되먹임 고리</h4><p>오늘 오후 코스피·코스닥 마감을 오늘 밤 뉴욕이 어떻게 받는지가 핵심이에요. 얕게 받아내면 이번 조정은 반도체 안의 일로 좁혀져요.</p></div><div class="cp wv"><div class="cpn">03</div><h4>FOMC(28~29일)까지 연준 인사 발언</h4><p>시장이 예민해진 구간이라, 금리 방향을 둘러싼 발언 하나에 달러·금리·환율이 함께 출렁일 수 있어요.</p></div></div></div><div class="mb ana"><h3 class="wline">코인 마켓</h3><ul class="nl wstag"><li>BTC : $62,691 (-0.69%, 24시간) / 약 9,494만원</li><li>ETH : $1,749.44 (-1.16%, 24시간) / 약 265만원</li></ul>
+<p>주식이 반도체를 중심으로 크게 밀린 밤이었는데, 코인은 24시간 기준 소폭 하락에 그쳤어요. <span class="whl">비트코인이 0.69% 내린 6만 2,691달러, 이더리움이 1.16% 내린 1,749달러 부근이거든요.</span> 위험자산이 다 같이 투매된 게 아니라, 이번 조정이 AI 반도체라는 질문에 집중돼 있다는 또 하나의 단서예요. 그래도 방향을 말하려면 오늘 밤 뉴욕과 이달 말 FOMC를 먼저 확인하는 게 순서예요 :)</p></div></section>
+<section class="blk insight" id="why"><span class="ib wv">숫자 너머 읽기</span><h2 class="ih wv">“다우는 0.25% 빠지는 데 그쳤는데,, 반도체지수는 왜 4.65%나 무너졌을까요”</h2><nav class="snav wv" aria-label="딥칼럼 순서"><div class="sline"><i id="sfill"></i></div><div class="snr"><a class="sn" href="#chap1"><b>첫째</b><span>AI 반도체 밸류체인</span></a><a class="sn" href="#chap2"><b>둘째</b></a><a class="sn" href="#chap3"><b>셋째</b></a></div></nav>
+<p>간밤 뉴욕의 성적표엔 이상한 온도차가 하나 있어요. 같은 밤 같은 시장인데, 다우는 0.25% 내리는 데 그친 반면 필라델피아 반도체지수는 4.65%나 무너졌거든요. 어제 저녁 레터에서 '오늘 밤 뉴욕이 한국발 급락을 어떻게 받는지'를 관전 포인트로 남겨뒀는데, 간밤 뉴욕의 대답은 '번지긴 했는데, 전부가 아니라 한 곳으로만'이었던 셈이에요. 이 온도차를 뜯어보면 지금 조정의 정체가 보여요.</p>
+<div class="chaps">
+<section class="chap wv" id="chap1"><div class="chm"><span class="chn">01</span><span class="chk">AI 반도체 밸류체인</span></div><p>첫째, 충격이 건너간 통로는 'AI 반도체 밸류체인'이었어요. 간밤 하락의 원인을 아시아경제는 '반도체 업종 폭락'으로, 아주경제는 'AI 반도체주 급락'으로 같은 곳에서 짚었어요. 조선일보는 한발 더 나아가 '뉴욕 증시 흔든 삼성전자'라는 제목을 달았고요. 어제 서울에서 벌어진 일, 그러니까 역대 최대 실적을 받아든 시장이 오히려 '앞으로의 수요가 이 속도를 이어갈까'를 의심했던 그 장면이, 하루 만에 뉴욕 AI 반도체로 그대로 수출된 거예요. 메모리를 만드는 회사와 그 칩으로 AI를 굴리는 회사들은 국경이 달라도 결국 한 줄로 이어진 밸류체인이거든요.</p></section>
+<section class="chap wv" id="chap2"><div class="chm"><span class="chn">02</span></div><p>둘째, 낙폭의 기울기가 말해주는 게 있어요. 간밤 낙폭을 줄 세워보면 다우 0.25%, S&amp;P500 0.45%, 나스닥 1.16%, 그리고 필라델피아 반도체지수 4.65% 순이에요. AI 반도체에서 멀수록 얕게, 가까울수록 깊게 빠진 거예요. 시장 전체가 출구로 달려간 게 아니라, 'AI 수요가 정말 탄탄한가'라는 한 질문에 조정이 집중됐다는 뜻이에요. 무차별 투매와 선별적 조정은 겉모습이 비슷해도 성격이 전혀 다른 장세거든요.</p></section>
+<section class="chap wv" id="chap3"><div class="chm"><span class="chn">03</span></div><p>셋째, 공포의 온도가 아직 낮아요. 시장의 불안을 재는 공포지수 VIX는 3.6% 오른 16.13이었어요. 지수가 밀렸으니 경계감이 올라온 건 자연스러운데, 절대 수준으로는 여전히 낮은 구간이에요.</p>
+<blockquote class="pq wv"><p>어제 서울이 장중 8% 급락에 서킷브레이커까지 갔던 것과 나란히 놓고 보면, 간밤 뉴욕은 '공포'보다는 '경계'에 가까운 표정이었어요.</p></blockquote></section>
+</div>
+<p>물론 반대쪽도 같이 적어둘게요. 낙폭이 반도체에 집중됐다는 건 나머지 시장이 버티고 있다는 위안이 되지만, 뒤집어 보면 그저께의 저가 매수 반등이 단 하루 만에 반납됐다는 뜻이기도 해요. '싸졌으니 담는다'는 가격의 논리는 '수요가 정말 탄탄한가'라는 질문의 답이 될 수 없다는 게 이틀 연속 확인된 거거든요. VIX가 낮다는 것도 안심의 근거인 동시에, 나쁜 소식이 아직 다 반영되지 않았을 가능성으로 읽을 수도 있어요. 두 해석 사이에서 지금 단정할 수 있는 건 많지 않아요.</p>
+<p>그래서 달력에 적어둘 확인 날짜예요. 먼저 오늘 오후 우리 시장 마감에서 코스닥이 800선을 되찾는지, 어제처럼 장 막판 낙폭을 줄이는 손이 들어오는지를 봐요. 다음은 오늘 밤 뉴욕이에요. 반도체가 이틀 연속 급락하면 하루짜리 되돌림이 아니라 결이 다른 조정이 되거든요. 그리고 줄줄이 이어질 어닝 시즌이 'AI 수요' 질문을 숫자로 검증하고, 28~29일 FOMC가 금리 방향을 정해요.</p>
+<p>이틀째 붉은 화면을 보는 아침이라 마음이 무거울 수 있어요. 그런데 간밤 온도차가 말해주는 건, 시장 전체가 무너진 게 아니라 질문 하나가 아직 답을 받지 못했다는 사실이에요. 답이 나오는 날짜들은 이미 달력에 적혀 있으니까, 그 전에 서둘러 결론 내리지 말고 내 원칙 안에서 나눠서 차분히 확인해보자구요. 오늘 하루도 차분하게 시작해보자구요 :)</p></section>
+<section class="blk" id="news"><h2 class="sech wv"><span class="fl">📰</span>오늘의 경제뉴스</h2><div class="ngrid wstag"><article class="nc wv"><h3><span class="nb top">TOP</span>이번엔 서울발이었어요,, '뉴욕 증시 흔든 삼성전자'</h3><p>간밤 뉴욕 3대 지수가 일제히 내렸어요. 나스닥이 1.16% 하락한 25,818.69로 마감했거든요. 조선일보는 이날 장을 '뉴욕 증시 흔든 삼성전자'라는 제목으로 짚었어요. 어제 서울의 실적 충격이 하루 만에 뉴욕으로 건너간 그림이에요.</p><a class="src" href="https://news.google.com/rss/articles/CBMingFBVV95cUxOVGg0V1E4YXUxTFZwc3ZKVGZtcjZNTUlVWVVLU182QTJPbk13bXdOVWpud0hLLW9PeGxja0JoUkx0S3cxTjU1MEYtb1R6SWZ2Sm5FX0c3c0RYSjhtcGVuNFkzcjhXcUpuMEJhQ1BkYm00SmZFSGVfLTdWVWdvaF9nWjFDWWNubnM0UnlVdXJZaU9CMUJqSm1ySjhWTlRFdw?oc=5" target="_blank" rel="noopener">원문 보기 →</a></article><details class="nc wv"><summary><h3><span class="nb ref">참고</span>반도체 업종 폭락,, 뉴욕 3대 지수를 끌어내렸어요</h3><span class="chev" aria-hidden="true">▾</span></summary><div class="ncb"><p>간밤 하락의 진앙은 반도체였어요. 필라델피아 반도체지수가 4.65% 급락한 12,300.52까지 밀렸거든요. 아시아경제도 '반도체 업종 폭락에 일제히 하락 마감'이라고 속보로 전했어요. 그저께 반등을 이끌었던 업종이 하루 만에 하락을 이끈 주인공이 됐어요.</p><a class="src" href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE8zZ0tqSUNuUkVGeFJTbXRlU3VtRFVsRjllWmE1TmhHektzc2hTTG1zRUVZbWJkZDFIZGRwNDExeDRsMmk0cmtkbk9wX1N1cmtuS2xwYVBQNmFDMFQyb0NTWQ?oc=5" target="_blank" rel="noopener">원문 보기 →</a></div></details><details class="nc wv"><summary><h3><span class="nb ref">참고</span>AI 반도체주 급락,, 그저께의 반등이 하루 만에 뒤집혔어요</h3><span class="chev" aria-hidden="true">▾</span></summary><div class="ncb"><p>아주경제는 간밤 장을 'AI 반도체주 급락에 3대 지수 하락'으로 정리했어요. 나스닥이 1.16% 내리는 동안 반도체지수는 4.65%나 밀렸거든요. '싸졌다'는 이유만으로는 반등이 이어지기 어렵다는 걸 보여준 하루였어요.</p><a class="src" href="https://news.google.com/rss/articles/CBMiWkFVX3lxTFAzNXFyb0hNSkxleHlxb0NZLUlQem5PZHNIX1dZT0dodDRrT2pTZmZuR0M5V24zemJVSTQ1ZHZjdU5LRzNkRXRRNkp2QXYzTEpsUFNraC1MRjVSd9IBWEFVX3lxTE94amlDeFpvaGc3UFd4cVEwWW52N0RyaUNrM1VfQXdIc0tuX0x1OUE3bGgzbncwVmV2ZHN5WGVMUlFrSHphSHpoUTEzdFJrT0JCaVU2OWt5Z28?oc=5" target="_blank" rel="noopener">원문 보기 →</a></div></details><details class="nc wv"><summary><h3><span class="nb ref">참고</span>3대 지수가 나란히 밀렸어요,, 낙폭은 반도체에서 멀수록 얕았어요</h3><span class="chev" aria-hidden="true">▾</span></summary><div class="ncb"><p>블루밍비트에 따르면 간밤 뉴욕증시는 하락세로 마감했어요. 나스닥 1.16%, S&amp;P500 0.45%, 다우 0.25% 하락으로 같은 하락이어도 깊이가 제각각이었거든요. AI 반도체와 가까운 지수일수록 더 아팠던 하루였어요.</p><a class="src" href="https://news.google.com/rss/articles/CBMiUEFVX3lxTE9IaTR0MTZoOGQ4Ukp3VFBrUXh0Ni12anFqLWUxYkl0Z1p6aURCN0xCOWJDMUktTnllNGplbU9YeER6VnpEVzVIYjJJZk5DcXNE?oc=5" target="_blank" rel="noopener">원문 보기 →</a></div></details></div></section>
+<section class="blk" id="reco"><h2 class="sech wv"><span class="fl">🔗</span>오늘 이야기와 이어지는 무료 콘텐츠</h2><div class="rgrid wstag"><a class="rc wv" href="/col-a331"><span class="rcb">🆓 무료 딥칼럼</span><b>'존버'는 이기는 전략일까</b><span class="rgo">읽으러 가기 →</span></a><a class="rc wv" href="/eco-fomc-958f"><span class="rcb">🆓 무료 경제공부</span><b>FOMC·점도표 5분 정리</b><span class="rgo">읽으러 가기 →</span></a></div></section>
+<div class="band wv">
+ <h3>이 정리, 매일 아침저녁으로 받아보세요</h3>
+ <p>숫자는 정확하게, 해석은 쉽게 — 두 사람이 매일 정리해드려요 :)</p>
+ <a href="/moneyletter-landing">머니레터 구독 알아보기 →</a>
+</div>
+<div class="disc">뉴스레터 안의 종목·지표·전망은 모두 투자 참고용 정보이지 투자 권유가 아니에요. 최종 판단과 책임은 본인에게 있으니 꼭 분할·분산으로 안전하게 운용해주세요.</div>
+</main>
+<footer><div class="wrap"><div class="brand"><span class="dot"></span>동은부부 머니레터 — 매일 아침, 시장을 가장 쉽게</div></div></footer>
+<button id="top" aria-label="맨 위로">↑</button>
+<div id="tip" role="tooltip"></div>
