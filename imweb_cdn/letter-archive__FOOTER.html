@@ -1,0 +1,53 @@
+<!-- [letter-archive] FOOTER = 페이지별 푸터 · index.json 렌더(월별 카드+딥링크) · 2026-07-08 -->
+<script>
+(function(){
+  var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
+  var TIMEOUT=10000;
+  var host=document.getElementById('bblArcList');
+  var skel=document.getElementById('bblArcSkel');
+  var countEl=document.getElementById('bblArcCount');
+  if(!host)return;
+  function fetchText(url){
+    if(!window.fetch)return Promise.reject(new Error('no-fetch'));
+    var ctl=('AbortController'in window)?new AbortController():null;
+    var to=ctl?setTimeout(function(){ctl.abort();},TIMEOUT):null;
+    return fetch(url,{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){
+      if(to)clearTimeout(to);
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.text();
+    });
+  }
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':String(s));return d.innerHTML;}
+  function ym(g){var p=g.split('-');return p[0]+'년 '+parseInt(p[1],10)+'월';}
+  function badge(ed){return ed==='am'?'<span class="arb am">아침</span>':'<span class="arb pm">저녁</span>';}
+  function chips(kpi){
+    if(!kpi||!kpi.length)return '';
+    var h='';for(var i=0;i<kpi.length;i++){var k=kpi[i];h+='<span class="kchip '+esc(k.d||'flat')+'">'+esc(k.k)+' '+esc(k.v)+'</span>';}
+    return '<div class="arkpi">'+h+'</div>';
+  }
+  function link(e){var d=e.date.replace(/-/g,'');return e.edition==='am'?('/letter-morning?d='+d+'&e=am'):('/letter-evening?d='+d+'&e=pm');}
+  function render(idx){
+    var L=idx.letters||[];
+    if(countEl)countEl.textContent=L.length+'개의 레터';
+    var order=[],map={};
+    L.forEach(function(e){var g=e.date.slice(0,7);if(!map[g]){map[g]=[];order.push(g);}map[g].push(e);});
+    var html='';
+    order.forEach(function(g){
+      html+='<div class="armonth">'+esc(ym(g))+'</div><div class="argrid">';
+      map[g].forEach(function(e){
+        html+='<a class="arcard" href="'+link(e)+'">'
+          +'<div class="arhead"><span class="ardate">'+esc(e.date)+'</span>'+badge(e.edition)+'</div>'
+          +'<div class="artitle">'+esc(e.title)+'</div>'
+          +'<div class="arteaser">'+esc(e.teaser)+'</div>'
+          +chips(e.kpi)
+          +'<span class="argo">읽으러 가기 →</span></a>';
+      });
+      html+='</div>';
+    });
+    host.innerHTML=html;host.hidden=false;if(skel)skel.style.display='none';
+  }
+  fetchText(RAW+'index.json?_t='+Date.now()).then(function(t){render(JSON.parse(t));}).catch(function(){
+    if(skel)skel.innerHTML='<div class="bbl-err"><div class="ei">🌥️</div><div class="et">아카이브를 불러오지 못했어요</div><div class="ed">잠시 후 다시 시도해 주세요.</div><a class="ebtn" href="/letter-evening">오늘 레터 보기 →</a></div>';
+  });
+})();
+</script>

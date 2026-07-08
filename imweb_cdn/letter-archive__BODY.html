@@ -1,0 +1,70 @@
+<!-- [letter-archive] BODY = 전체너비 코드위젯 · 머니레터 아카이브(월별 그룹) · 2026-07-08 -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--bg:#FDFBF7;--bg2:#FBF3EE;--card:#fff;--ink:#3E2F29;--ink2:#5C4B43;--mut:#8A7B72;--pink:#D67A89;--pinkSoft:#F8E8EA;--pinkSoft2:#FCEEF1;--border:#EAD7D3;--rose:#B85060;--sage:#5E8C7F;--gold:#C9A84C;--up:#E85B4A;--down:#4A7DE8;--ease:cubic-bezier(.16,1,.3,1)}
+.bbl-shell{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg2);max-width:920px;margin:0 auto;padding:clamp(20px,5vw,44px) clamp(16px,4.5vw,32px);line-height:1.7;-webkit-font-smoothing:antialiased}
+.bbl-shell *{box-sizing:border-box}
+.bbl-status{margin:0 0 16px;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:12px;padding:11px 15px;font-size:13px;font-weight:700;color:var(--rose);line-height:1.55}
+.bbl-skel .skmast{padding:8px 0 6px}
+.skbrand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--ink)}
+.skdot{width:11px;height:11px;border-radius:50%}
+.skpill{margin-left:auto;font-size:11.5px;font-weight:800;border-radius:100px;padding:5px 12px}
+.skdate{height:70px;width:min(58%,320px);margin:20px 0 18px}
+.skh1{height:26px;width:92%;margin:10px 0}
+.skh1.short{width:64%}
+.skcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:640px){.skcards{grid-template-columns:1fr}}
+.skcard{height:104px}
+.skload{margin-top:26px;text-align:center;font-size:13.5px;font-weight:700;color:var(--mut)}
+.sk{position:relative;overflow:hidden;background:#F1E4E0;border-radius:12px}
+.sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.62),transparent);animation:bblsh 1.45s infinite}
+@keyframes bblsh{100%{transform:translateX(100%)}}
+.bbl-err{max-width:520px;margin:20px auto;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:34px 26px;box-shadow:0 4px 18px rgba(190,80,96,.07)}
+.bbl-err .ei{font-size:40px;line-height:1}
+.bbl-err .et{font-size:18px;font-weight:800;margin-top:14px;color:var(--ink)}
+.bbl-err .ed{font-size:14px;color:var(--ink2);margin-top:9px;line-height:1.7}
+.bbl-err .ebtn{display:inline-flex;align-items:center;gap:6px;margin-top:18px;min-height:46px;padding:12px 22px;border-radius:12px;background:var(--rose);color:#fff;font-size:14px;font-weight:800;text-decoration:none}
+.bbl-nojs{max-width:520px;margin:20px auto;text-align:center;background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:26px 22px;font-size:14px;color:var(--ink2);line-height:1.7}
+.bbl-nojs a{color:var(--rose);font-weight:800}
+@media(prefers-reduced-motion:reduce){.sk::after{animation:none;background:none}}
+
+.arhero{padding:6px 0 20px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.arhero .abrand{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--rose);text-transform:uppercase}
+.arhero .abrand .d{width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.arhero h1{font-size:clamp(24px,5vw,34px);font-weight:800;letter-spacing:-.03em;margin:12px 0 6px;line-height:1.25}
+.arhero p{font-size:14.5px;color:var(--ink2);line-height:1.7}
+.arhero .acount{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:100px;padding:5px 13px}
+.armonth{font-size:13px;font-weight:800;color:var(--mut);letter-spacing:.02em;margin:28px 0 12px}
+.argrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+@media(max-width:640px){.argrid{grid-template-columns:1fr}}
+.arcard{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:17px 18px;text-decoration:none;color:var(--ink);box-shadow:0 1px 2px rgba(62,47,41,.04),0 6px 16px rgba(190,80,96,.05);transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s}
+.arcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(190,80,96,.13);border-color:var(--pink)}
+.arhead{display:flex;align-items:center;gap:9px}
+.ardate{font-size:12.5px;font-weight:800;color:var(--mut);font-variant-numeric:tabular-nums}
+.arb{font-size:11px;font-weight:800;border-radius:7px;padding:3px 9px}
+.arb.am{color:var(--sage);background:#EAF1EE}
+.arb.pm{color:var(--rose);background:var(--pinkSoft)}
+.artitle{font-size:15.5px;font-weight:800;line-height:1.45;color:var(--ink)}
+.arteaser{font-size:13px;color:var(--ink2);line-height:1.6}
+.arkpi{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.kchip{font-size:11.5px;font-weight:800;border-radius:100px;padding:4px 10px;background:var(--bg2);border:1px solid var(--border);font-variant-numeric:tabular-nums}
+.kchip.up{color:var(--up)}.kchip.down{color:var(--down)}.kchip.flat{color:var(--mut)}
+.argo{margin-top:4px;font-size:12.5px;font-weight:800;color:var(--rose)}
+</style>
+<div class="bbl-shell" id="bblArc">
+  <div class="arhero">
+    <span class="abrand"><span class="d"></span>MONEY LETTER · 아카이브</span>
+    <h1>지난 머니레터, 다시 보기</h1>
+    <p>동은부부가 매일 아침 7시·저녁 5시에 정리한 시장 이야기를 모았어요.</p>
+    <span class="acount" id="bblArcCount">불러오는 중…</span>
+  </div>
+  <div id="bblArcSkel" class="bbl-skel">
+    <div class="armonth" style="margin-top:20px">불러오는 중…</div>
+    <div class="argrid">
+      <div class="sk" style="height:150px"></div><div class="sk" style="height:150px"></div>
+      <div class="sk" style="height:150px"></div><div class="sk" style="height:150px"></div>
+    </div>
+  </div>
+  <div id="bblArcList" hidden></div>
+  <noscript><div class="bbl-nojs">아카이브 목록은 자바스크립트가 켜져 있어야 보여요. 오늘 레터는 <a href="/letter-evening">여기</a>에서 볼 수 있어요.</div></noscript>
+</div>
