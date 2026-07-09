@@ -527,9 +527,9 @@ html.js .rv.rv-in{opacity:1;transform:none}
 .dvrow{display:grid;grid-template-columns:78px 1fr 60px;align-items:center;gap:11px;margin-top:13px}
 .dvrow .dvlab{font-size:12px;font-weight:700;color:var(--ink2);line-height:1.25}
 .dvrow .dvlab b{font-weight:800;color:var(--ink)}
-.dvtrack{height:19px;border-radius:6px;background:rgba(59,111,224,.1);position:relative;overflow:hidden}
-.dvbar{position:absolute;left:0;top:0;bottom:0;width:var(--p);border-radius:6px;background:linear-gradient(90deg,#9db7ee,var(--down));box-shadow:0 1px 4px rgba(59,111,224,.3)}
-.dvbar.kr{background:linear-gradient(90deg,#6d97ec,var(--downT))}
+.dvtrack{height:20px;border-radius:6px;background:rgba(42,80,170,.15);position:relative;overflow:hidden;box-shadow:inset 0 1px 2px rgba(42,80,170,.16)}
+.dvbar{position:absolute;left:0;top:0;bottom:0;width:var(--p);border-radius:6px;background:linear-gradient(90deg,#5f8ae8,var(--downT));box-shadow:0 1px 5px rgba(42,80,170,.4)}
+.dvbar.kr{background:linear-gradient(90deg,#4a76e0,#1e3f9e)}
 .dvval{font-size:12.5px;font-weight:800;text-align:right}
 .dvnote{font-size:12px;color:var(--ink2);margin-top:13px;line-height:1.6;border-top:1px dashed var(--border);padding-top:11px}
 .dvnote b{color:var(--downT);font-weight:800}
@@ -537,6 +537,15 @@ html.js .dropviz .dvbar{width:0;transition:width 1.15s var(--ease) .15s}
 html.js .dropviz.rv-in .dvbar{width:var(--p)}
 .ntitem::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:15px 15px 0 0;background:linear-gradient(90deg,var(--rose),transparent);opacity:.72}
 @media(max-width:520px){.dvrow{grid-template-columns:64px 1fr 54px;gap:8px}}
+/* ===== v5.2 R3 (드롭바 대비·게이지 거리·챕터 hover) ===== */
+.dvbadge{font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--down),var(--downT));border-radius:999px;padding:3px 10px;letter-spacing:.01em;box-shadow:0 3px 8px -3px rgba(42,80,170,.6)}
+.gdist{margin-top:13px;border-top:1px dashed var(--darkLine);padding-top:10px;font-size:11px;color:var(--darkMut);font-weight:600;display:flex;align-items:center;gap:6px;line-height:1.4}
+.gdist b{color:#FF9A8A;font-weight:800}
+.gdist .gdi{color:#FF9A8A;font-size:9px}
+.chh .chn{transition:transform .32s var(--ease2),box-shadow .3s var(--ease)}
+.chap:hover .chh .chn{transform:scale(1.12) rotate(-4deg);box-shadow:0 8px 18px -6px rgba(124,36,59,.7)}
+.dropviz{transition:transform .34s var(--ease),box-shadow .34s var(--ease)}
+.dropviz:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
 </style>
 </head><body>
 
@@ -752,6 +761,7 @@ html.js .dropviz.rv-in .dvbar{width:var(--p)}
       </div>
       <div class="zlab"><span>안정</span><span>주의</span><span>경계</span><span>공포</span></div>
       <div class="gval"><span class="gv tnum">18.83</span><span class="gc tnum">+16.74%</span><div class="gs">20선 아래지만 경계가 빠르게 상승</div></div>
+      <div class="gdist" data-field="derived.vix_gap20" data-rule="20-minus-vix|abs-change"><span class="gdi">▲</span>공포(20선)까지 <b class="tnum">1.17p</b> · 오늘 <b class="tnum">+2.70p</b> 급등</div>
      </div>
 
      <div class="pcard" data-field="facts.aux.BTC+facts.aux.ETH">
@@ -788,7 +798,7 @@ html.js .dropviz.rv-in .dvbar{width:var(--p)}
    </div>
 
    <figure class="dropviz rv" data-field="facts.us.NDQ+facts.kr.KOSPI" data-rule="two-market-drop-compare|abs-pct-scaled">
-    <figcaption>간밤 낙폭, 얼마나 달랐나 <span class="dvsub">진앙에 가까울수록 깊게</span></figcaption>
+    <figcaption>간밤 낙폭, 얼마나 달랐나<span class="dvbadge tnum" data-field="derived.drop_ratio">약 4.6배</span><span class="dvsub">진앙에 가까울수록 깊게</span></figcaption>
     <div class="dvrow">
      <div class="dvlab">뉴욕 <b>나스닥</b></div>
      <div class="dvtrack"><span class="dvbar ny" style="--p:21.7%"></span></div>
