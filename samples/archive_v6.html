@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>동은부부 머니레터 — 시장 일기장 아카이브 (v6 쇼케이스)</title>
-<meta name="description" content="동은부부가 매일 아침·저녁 시장을 정리해온 기록. 표지만 넘겨봐도 그날의 온도가 보이는 시장 일기장. (아카이브 v6 쇼케이스)">
+<title>동은부부 머니레터 — 시장 일기장 아카이브</title>
+<meta name="description" content="동은부부가 매일 아침·저녁 시장을 정리해온 기록. 표지만 넘겨봐도 그날의 온도가 보이는 시장 일기장.">
 <meta name="robots" content="noindex">
 <!-- ====== 데이터 계약 (render_web 이식용) ======
  letters[i] = letters/index.json .letters (date·edition·title·teaser·kpi[3])
@@ -18,6 +18,7 @@
  --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
  --ink:#2C201B;--ink2:#57453D;--mut:#877468;
  --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --term-bg:rgba(135,116,104,.15);--term-bg-on:rgba(135,116,104,.26); /* E9: 용어 툴팁 공통 토큰(전 페이지 표준) */
  --border:#ECDAD5;--borderStrong:#E4C8C2;
  --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
  --up:#E4483A;--upT:#C22E22;--upSoft:#FDEAE7;
@@ -181,6 +182,9 @@ footer .brandline .dot{width:8px;height:8px;border-radius:50%;background:var(--r
  html.js .reveal{opacity:1!important;transform:none!important}
  .mesh{animation:none!important}
 }
+/* E9: 용어 툴팁 공통 스타일(전 페이지 표준) — 은은한 회색 음영, 점선 없음. 아카이브엔 현재 용어 없음(렌더 무변경), 향후 재사용 대비 */
+.term{background:var(--term-bg);border-radius:4px;padding:.5px 4px;margin:0 -1px;cursor:help;font-weight:700;color:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .18s ease}
+.term:hover,.term:focus,.term.on{background:var(--term-bg-on)}
 </style>
 </head>
 <body>
@@ -225,7 +229,6 @@ footer .brandline .dot{width:8px;height:8px;border-radius:50%;background:var(--r
 <footer>
  <div class="fin">
   <div class="brandline"><span class="dot"></span>동은부부 머니레터 — 시장 일기장</div>
-  실데이터 바인딩: <b>letters/index.json</b>(총 9통) · <b>history.json</b> · 라이브 fetch 성공 시 최신으로 재렌더, 실패 시 인라인 스냅샷 유지 · 딥링크는 로더 규약(<b>?d=&amp;e=</b>) · 본 페이지는 아카이브 v6 <b>쇼케이스</b>로 실제 발행물이 아니에요.
  </div>
 </footer>
 <button id="top" aria-label="맨 위로">↑</button>

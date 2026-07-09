@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>동은부부 머니레터 — 2026.07.08 저녁판 (v6.2 쇼케이스)</title>
-<meta name="description" content="간밤 뉴욕은 1.16% 내렸는데 코스피는 왜 5.35% 무너졌을까 — 동은부부가 매일 정리하는 시장 이야기. (웹 v6 쇼케이스)">
+<title>동은부부 머니레터 — 2026.07.08 저녁판</title>
+<meta name="description" content="간밤 뉴욕은 1.16% 내렸는데 코스피는 왜 5.35% 무너졌을까 — 동은부부가 매일 정리하는 시장 이야기.">
 <meta name="robots" content="noindex">
 <!-- ====== 데이터 계약 바인딩 지도 (render_web v5 이식용) ======
   이 페이지의 모든 시각 요소에는 data-field="..." 가 붙어 있습니다.
@@ -21,6 +21,7 @@
  --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
  --ink:#2C201B;--ink2:#57453D;--mut:#877468;
  --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --term-bg:rgba(135,116,104,.15);--term-bg-on:rgba(135,116,104,.26); /* E9: 용어 툴팁 공통 토큰 — 은은한 회색 음영, 전 페이지 재사용 */
  --border:#ECDAD5;--borderStrong:#E4C8C2;
  --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
  /* 등락 — 자신감 있는 한국식(빨강↑ 파랑↓) */
@@ -401,6 +402,48 @@ html.js .sec.in .ddtl li:nth-child(5) .tdot{transition-delay:.4s}
 .railsub .rs-d{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.6}
 .railsub a{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;min-height:44px;padding:11px 16px;border-radius:13px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;box-shadow:0 10px 22px -8px rgba(179,58,76,.6);transition:transform .25s var(--ease)}
 .railsub a:hover{transform:translateY(-2px)}
+/* ===== v6.3 (E8·E9·E11·E12) ===== */
+/* E8: 유료 연결 카드(구독 전용) — 부분 공개 티저 + 페이드아웃 마스크 */
+.premcard{position:relative;display:block;margin:16px 0 2px;background:linear-gradient(158deg,#fff,var(--pinkSoft2) 92%);border:1.5px solid var(--borderStrong);border-radius:18px;padding:18px 20px 20px;box-shadow:var(--sh2);overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+.premcard::before{content:"";position:absolute;top:0;bottom:0;left:0;width:4px;background:linear-gradient(180deg,var(--rose),var(--deep))}
+.premcard:hover{transform:translateY(-4px);box-shadow:var(--shLift);border-color:var(--pink)}
+.premcard:active{transform:scale(.985)}
+.pm-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pm-badge{font-size:10.5px;font-weight:800;letter-spacing:.02em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:7px;padding:4px 10px;box-shadow:0 4px 10px -3px rgba(179,58,76,.5)}
+.pm-key{font-size:11.5px;font-weight:800;color:var(--rose);letter-spacing:.01em}
+.pm-tt{font-size:16px;font-weight:800;margin-top:11px;letter-spacing:-.015em;line-height:1.4;color:var(--ink)}
+.pm-teaser{position:relative;margin-top:9px;max-height:118px;overflow:hidden}
+.pm-teaser p{font-size:13px;line-height:1.62;color:var(--ink2)}
+.pm-teaser p+p{margin-top:8px}
+.pm-teaser::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(180deg,rgba(252,238,241,0),var(--pinkSoft2) 82%);pointer-events:none}
+.pm-cta{position:relative;display:inline-flex;align-items:center;gap:6px;margin-top:14px;min-height:44px;padding:11px 20px;border-radius:13px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:13px;font-weight:800;box-shadow:0 12px 26px -10px rgba(179,58,76,.6);transition:transform .25s var(--ease2),box-shadow .25s var(--ease)}
+.premcard:hover .pm-cta{transform:translateY(-2px);box-shadow:0 18px 34px -10px rgba(179,58,76,.72)}
+.rel-lead{font-size:11.5px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border-radius:7px;padding:4px 10px;display:inline-block;margin:18px 0 2px;letter-spacing:.01em}
+/* E12: 하단 전환 존(상세페이지형) — 6 카테고리 카드 · 데스크톱 3열/모바일 1열 · 진입 스태거 · 정적 링크(데이터 무관) */
+.hubzone{margin:34px 0 0}
+.hz-head{text-align:center;max-width:640px;margin:0 auto}
+.hz-sub{font-size:13.5px;color:var(--ink2);margin-top:10px;line-height:1.6}
+.hubgrid{display:grid;grid-template-columns:1fr;gap:13px;margin:22px 0 0}
+@media(min-width:640px){.hubgrid{grid-template-columns:1fr 1fr}}
+@media(min-width:920px){.hubgrid{grid-template-columns:1fr 1fr 1fr}}
+.hub-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--sh1);text-decoration:none;color:inherit;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+.hub-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--tint,var(--rose))}
+.hub-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--tint,var(--borderStrong))}
+.hub-card:active{transform:scale(.985)}
+.hub-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--tint,var(--rose));background:var(--tintSoft,var(--pinkSoft2))}
+.hub-ic svg{width:22px;height:22px}
+.hub-tt{font-size:15.5px;font-weight:800;margin-top:13px;letter-spacing:-.01em;color:var(--ink)}
+.hub-dd{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.55;flex:1}
+.hub-go{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12px;font-weight:800;color:var(--rose);transition:transform .25s var(--ease)}
+.hub-card:hover .hub-go{transform:translateX(4px)}
+html.js .hubzone .hub-card{opacity:0;transform:translateY(16px)}
+html.js .hubzone.in .hub-card{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease)}
+html.js .hubzone.in .hub-card:nth-child(2){transition-delay:.07s}
+html.js .hubzone.in .hub-card:nth-child(3){transition-delay:.14s}
+html.js .hubzone.in .hub-card:nth-child(4){transition-delay:.21s}
+html.js .hubzone.in .hub-card:nth-child(5){transition-delay:.28s}
+html.js .hubzone.in .hub-card:nth-child(6){transition-delay:.35s}
+@media(prefers-reduced-motion:reduce){html.js .hubzone .hub-card{opacity:1;transform:none;transition:none}}
 /* 푸터·고지 */
 .disc{margin:26px 0 0;font-size:11.5px;color:var(--mut);line-height:1.7;background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:14px 16px}
 footer{border-top:1px solid var(--border);margin-top:10px}
@@ -555,8 +598,9 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
 .snap .sv{white-space:nowrap;flex:none;text-align:right;display:flex;align-items:baseline;gap:3px;justify-content:flex-end}
 
 /* #6 용어 호버/탭 툴팁 (점선 밑줄 + 카드) */
-.term{border-bottom:1.5px dotted var(--rose2);cursor:help;font-weight:700;color:inherit;background:linear-gradient(transparent 82%,var(--pinkSoft2) 0);padding:0 1px;border-radius:2px;transition:background .2s var(--ease)}
-.term:hover,.term.on{background:linear-gradient(transparent 82%,var(--pinkSoft) 0)}
+/* E9: 용어 표시 공통 스타일 — 은은한 회색 음영(하이라이트), 점선 없이 인지 · --term-bg 토큰(전 페이지 재사용) */
+.term{background:var(--term-bg);border-radius:4px;padding:.5px 4px;margin:0 -1px;cursor:help;font-weight:700;color:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .18s var(--ease)}
+.term:hover,.term:focus,.term.on{background:var(--term-bg-on)}
 #glosspop{position:fixed;z-index:1300;max-width:262px;background:linear-gradient(165deg,#fff,var(--pinkSoft2));color:var(--ink2);border:1px solid var(--borderStrong);border-radius:13px;padding:12px 14px;box-shadow:var(--shLift);opacity:0;transform:translateY(5px) scale(.98);transition:opacity .16s var(--ease),transform .16s var(--ease);pointer-events:none}
 #glosspop.on{opacity:1;transform:none}
 #glosspop .gp-t{font-weight:800;color:var(--rose);font-size:13px;letter-spacing:-.01em}
@@ -1092,13 +1136,25 @@ html.js .dd-figure[data-step="1"] .dds .rp3{animation-delay:1s}
     <span class="kwchip"><span class="kh">#</span>VIX·변동성</span>
     <span class="kwchip"><span class="kh">#</span>FOMC·금리</span>
    </div>
+   <!-- E8 유료 연결 카드(구독 전용): web.related 중 type=report 항목을 티저로 승격.
+        data-field 계약: web.related[].type(report=구독전용→티저 / column·tool=무료→그리드),
+        web.related[].teaser = 원고 본문 첫 1~2문장 자동 발췌(파이프라인 규칙: 문장경계 보존·2문장·최대 ~140자 컷),
+        access="premium"이면 링크 href=LANDING(구독페이지), 무료면 실슬러그. -->
+   <a class="premcard" href="https://bubulab.co.kr/moneyletter-landing" target="_blank" rel="noopener" data-field="web.related.premium" data-access="premium">
+    <div class="pm-top"><span class="pm-badge">구독 전용</span><span class="pm-key"># 반도체 · 진앙</span></div>
+    <div class="pm-tt">반도체 3사 파헤치기 — 엔비디아·TSMC·브로드컴</div>
+    <div class="pm-teaser" data-field="web.related.premium.teaser" data-rule="auto-extract:first-2-sentences">
+     <p>이번 조정의 진앙에 선 세 회사를 나란히 놓고 봤어요. AI 반도체 밸류체인에서 엔비디아·TSMC·브로드컴이 각각 어느 길목을 쥐고 있는지, 오늘 같은 급락이 세 회사에 똑같이 오지 않는 이유를 하나씩 짚어볼게요.</p>
+     <p>먼저 큰 지도를 그리면, 칩을 설계하는 엔비디아와 그 물량을 도맡아 생산하는 TSMC, 그리고 맞춤형 칩으로 그 사이를 파고드는 브로드컴이 서로 다른 자리에 서 있어요. 세 회사가 같은 충격을 다르게 받아내는 건 바로 이 자리 차이 때문인데……</p>
+    </div>
+    <span class="pm-cta">구독하고 전체 읽기 →</span>
+   </a>
+   <div class="rel-lead">무료로 바로 읽어요 · 오늘 키워드 매칭</div>
    <div class="rel rvs">
-    <a class="relcard" href="https://bubulab.co.kr/report-de46" target="_blank" rel="noopener" data-field="web.related.0"><span class="rel-type report">리포트</span><div class="rkey"># 반도체 · 진앙</div><div class="rtt">반도체 3사 파헤치기 — 엔비디아·TSMC·브로드컴</div><div class="rdd">오늘 딥다이브의 ‘진앙 = AI 반도체’를 기업 단위로 풀어보는 리포트예요.</div><span class="rgo">이어서 읽기 →</span></a>
-    <a class="relcard" href="https://bubulab.co.kr/eco-vs-3479" target="_blank" rel="noopener" data-field="web.related.1"><span class="rel-type column">칼럼</span><div class="rkey"># 중동 · 환율</div><div class="rtt">환헤지 vs 언헤지 — 환율이 수익률을 가르는 법</div><div class="rdd">오늘 새로 얹힌 중동·환율 변수를 생활 언어로 정리한 칼럼이에요.</div><span class="rgo">이어서 읽기 →</span></a>
-    <a class="relcard" href="https://bubulab.co.kr/eco-676e" target="_blank" rel="noopener" data-field="web.related.2"><span class="rel-type column">칼럼</span><div class="rkey"># VIX · 변동성</div><div class="rtt">변동성·베타·표준편차 — 흔들림을 숫자로 읽기</div><div class="rdd">VIX가 20선을 넘는지 왜 보는지, 변동성의 문법을 짚어요.</div><span class="rgo">이어서 읽기 →</span></a>
-    <a class="relcard" href="https://bubulab.co.kr/eco-fomc-958f" target="_blank" rel="noopener" data-field="web.related.3"><span class="rel-type column">칼럼</span><div class="rkey"># FOMC · 금리</div><div class="rtt">FOMC·점도표 — 금리 방향을 읽는 지도</div><div class="rdd">딥다이브 달력에 적어둔 28~29일 FOMC, 무엇을 보면 되는지 미리 봐요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-vs-3479" target="_blank" rel="noopener" data-field="web.related.0"><span class="rel-type column">칼럼</span><div class="rkey"># 중동 · 환율</div><div class="rtt">환헤지 vs 언헤지 — 환율이 수익률을 가르는 법</div><div class="rdd">오늘 새로 얹힌 중동·환율 변수를 생활 언어로 정리한 칼럼이에요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-676e" target="_blank" rel="noopener" data-field="web.related.1"><span class="rel-type column">칼럼</span><div class="rkey"># VIX · 변동성</div><div class="rtt">변동성·베타·표준편차 — 흔들림을 숫자로 읽기</div><div class="rdd">VIX가 20선을 넘는지 왜 보는지, 변동성의 문법을 짚어요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-fomc-958f" target="_blank" rel="noopener" data-field="web.related.2"><span class="rel-type column">칼럼</span><div class="rkey"># FOMC · 금리</div><div class="rtt">FOMC·점도표 — 금리 방향을 읽는 지도</div><div class="rdd">딥다이브 달력에 적어둔 28~29일 FOMC, 무엇을 보면 되는지 미리 봐요.</div><span class="rgo">이어서 읽기 →</span></a>
    </div>
-   <div class="relnote" data-field="web.related">오늘 레터의 키워드(반도체·중동·환율·변동성·금리)로 <b>부부연구소 무료 자료</b>를 매칭했어요. 더 많은 글은 <a class="relmark" href="https://bubulab.co.kr/contents-hub" target="_blank" rel="noopener">콘텐츠 허브</a> 에서 볼 수 있어요.</div>
   </section>
 
   <section class="sec band cta" id="s09" data-name="구독 안내" data-field="web.rhythm">
@@ -1152,11 +1208,55 @@ html.js .dd-figure[data-step="1"] .dds .rp3{animation-delay:1s}
 </div>
 
 <div class="reading" style="padding-top:0">
- <div class="disc" data-field="prose.announcement">뉴스레터 안에서 짚어드리는 종목·지표·시장 전망은 모두 <b>투자 참고용 정보이지 투자 권유가 아니에요</b>. 최종 투자 판단과 책임은 언제나 본인에게 있으니 꼭 분할·분산으로 안전하게 운용해주세요. · 데이터 2026-07-08 저녁 기준 · 본 페이지는 웹 v6 <b>쇼케이스</b>로, 실제 발행물이 아니에요.</div>
+ <section class="sec hubzone" data-name="부부연구소에서 더 보기" data-field="static.explore" data-rule="static-links|data-independent">
+  <div class="hz-head">
+   <span class="kicker"><span class="kn">＋</span>MORE · 부부연구소</span>
+   <h2 class="sh">레터를 덮기 전에, 이런 것도 있어요</h2>
+   <p class="hz-sub">오늘 읽은 이야기에서 한 걸음 더 — 부부연구소의 칼럼·도구·레포트·클래스로 이어져요.</p>
+  </div>
+  <div class="hubgrid">
+    <a class="hub-card" style="--tint:var(--rose2);--tintSoft:var(--pinkSoft2)" href="https://bubulab.co.kr/contents-hub" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h4"/></svg></span>
+     <div class="hub-tt">무료 칼럼</div>
+     <div class="hub-dd">경제·재테크 개념을 생활 언어로 풀어드려요</div>
+     <span class="hub-go">칼럼 보기 →</span>
+    </a>
+    <a class="hub-card" style="--tint:var(--sageInk);--tintSoft:var(--sageSoft)" href="https://bubulab.co.kr/library" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h9M18 7h1M5 12h1M10 12h9M5 17h6M15 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="13" cy="17" r="2"/></svg></span>
+     <div class="hub-tt">재테크 도구</div>
+     <div class="hub-dd">계산기·시트로 내 상황에 바로 대입해요</div>
+     <span class="hub-go">도구 열기 →</span>
+    </a>
+    <a class="hub-card" style="--tint:var(--deep);--tintSoft:var(--pinkSoft)" href="https://bubulab.co.kr/report-hub" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-5M12 20V8M17 20v-8"/></svg></span>
+     <div class="hub-tt">구독 레포트</div>
+     <div class="hub-dd">종목·업종을 깊게 파고든 심화 리포트</div>
+     <span class="hub-go">레포트 보기 →</span>
+    </a>
+    <a class="hub-card" style="--tint:#B5872A;--tintSoft:#F5EAD0" href="https://bubulab.co.kr/class-b779" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l5.5 3.5L10 15.5z"/></svg></span>
+     <div class="hub-tt">강의</div>
+     <div class="hub-dd">차근차근 따라 하는 재테크 클래스</div>
+     <span class="hub-go">클래스 보기 →</span>
+    </a>
+    <a class="hub-card" style="--tint:var(--pink);--tintSoft:var(--pinkSoft2)" href="https://bubulab.co.kr/goods-9972" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9.5" width="16" height="11" rx="1.4"/><path d="M4 13.5h16M12 9.5v11"/><path d="M12 9.5C11 6 7 6.4 7.5 8.8 7.9 10.2 10 9.7 12 9.5zM12 9.5C13 6 17 6.4 16.5 8.8 16.1 10.2 14 9.7 12 9.5z"/></svg></span>
+     <div class="hub-tt">굿즈</div>
+     <div class="hub-dd">부부연구소의 살림·문구 감성 아이템</div>
+     <span class="hub-go">굿즈 보기 →</span>
+    </a>
+    <a class="hub-card" style="--tint:var(--sage);--tintSoft:var(--sageSoft)" href="https://bubulab.co.kr/kit-bcaf" target="_blank" rel="noopener">
+     <span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.3v9.4L12 21l-8-4.3V7.3z"/><path d="M4 7.3l8 4.3 8-4.3M12 11.6V21"/></svg></span>
+     <div class="hub-tt">키트</div>
+     <div class="hub-dd">바로 시작하는 재테크 실전 키트</div>
+     <span class="hub-go">키트 보기 →</span>
+    </a>
+  </div>
+ </section>
 </div>
 
 <footer>
- <div class="fin"><span class="dot"></span>동은부부 머니레터 — 매일 아침·저녁, 시장을 가장 쉽게 · v6.2 쇼케이스</div>
+ <div class="fin"><span class="dot"></span>동은부부 머니레터</div>
 </footer>
 <button id="top" aria-label="맨 위로">↑</button>
 
@@ -1303,7 +1403,7 @@ html.js .dd-figure[data-step="1"] .dds .rp3{animation-delay:1s}
   selectSym(meta(syms[0]),true);
  })();
 
- // ===== #6 용어 툴팁 (glossary.json 재사용+확장 · 호버/포커스/탭 · 점선 밑줄) =====
+ // ===== #6 용어 툴팁 (glossary.json 재사용+확장 · 호버/포커스/탭 · E9 회색 음영 공통 토큰) =====
  (function(){
   var GL={
    "VIX":["VIX","시장이 느끼는 불안의 온도","보통 20을 넘으면 ‘경계’에서 ‘공포’ 구간으로 읽어요."],
