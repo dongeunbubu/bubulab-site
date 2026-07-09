@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>부부연구소 UI 패턴 라이브러리 v1 — 살아있는 카탈로그</title>
+<meta name="robots" content="noindex">
+<style>
+/* ===================== ① 디자인 토큰 (정본) ===================== */
+:root{
+ --bg:#FDFBF7;--bg2:#FBF3EE;--ink:#3E2F29;--ink2:#5C4B43;--mut:#8A7B72;
+ --pink:#D67A89;--pinkSoft:#F8E8EA;--pinkSoft2:#FCEEF1;--sand:#F0DED8;
+ --border:#EAD7D3;--borderStrong:#E0A9A0;--rose:#B85060;--rose2:#C56B79;--deep:#7C243B;
+ --sage:#5E8C7F;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A84C;
+ --up:#E4483A;--upT:#C22E22;--upSoft:#FDEAE7;--down:#3B6FE0;--downT:#2A55C2;--downSoft:#E7EFFD;--flat:#8A7A70;
+ /* 모션 토큰(T1) */
+ --ease-enter:cubic-bezier(.22,1,.36,1);--ease-morph:cubic-bezier(.65,0,.35,1);--ease-hover:ease;
+ --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.34,1.32,.42,1);
+ --dur-press:150ms;--dur-1:240ms;--dur-2:480ms;--stagger:90ms;
+ /* 틴티드 레이어드 섀도 */
+ --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
+ --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+ --shLift:0 3px 6px rgba(120,60,50,.07),0 16px 30px -6px rgba(150,70,80,.16),0 40px 70px -20px rgba(179,58,76,.28);
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;
+ background:var(--bg);color:var(--ink);line-height:1.75;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+svg{max-width:100%;display:block}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.up{color:var(--upT)}.down{color:var(--downT)}
+a{color:inherit}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:4px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+
+/* 진행바(5-3 실물) */
+#pg{position:fixed;top:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:0 50%;z-index:1200;
+ background:linear-gradient(90deg,var(--pink),var(--rose),var(--deep));box-shadow:0 0 12px rgba(179,58,76,.4)}
+@keyframes pgGrow{to{transform:scaleX(1)}}
+@supports (animation-timeline:scroll()){#pg{animation:pgGrow linear both;animation-timeline:scroll(root block)}}
+
+/* 마스트 */
+.mast{position:relative;overflow:hidden;padding:clamp(48px,8vw,88px) 0 clamp(30px,5vw,52px);
+ background:radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),
+  radial-gradient(90% 80% at 8% 108%,#F7E7DE 0%,rgba(247,231,222,0) 60%),
+  linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
+.mast .eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose)}
+.mast h1{font-size:clamp(27px,5vw,44px);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin:12px 0 0}
+.mast h1 .grad{background:linear-gradient(120deg,var(--rose),var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.mast .lead{margin-top:14px;max-width:64ch;color:var(--ink2);font-size:clamp(14px,2vw,16px)}
+.mast .meta{margin-top:16px;font-size:12px;color:var(--mut);line-height:1.9}
+.mast .meta code{background:#fff8;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:11.5px}
+
+/* 카테고리 네비 */
+.tabnav{position:sticky;top:0;z-index:1100;background:rgba(253,251,247,.86);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--border)}
+.tabnav .row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:9px 0}
+.tabnav .row::-webkit-scrollbar{display:none}
+.tabnav a{flex:none;font-size:12.5px;font-weight:700;color:var(--ink2);padding:7px 13px;border-radius:100px;white-space:nowrap;text-decoration:none;transition:background var(--dur-1) var(--ease-hover),transform var(--dur-press) var(--ease-enter)}
+.tabnav a:hover{background:var(--pinkSoft)}
+.tabnav a:active{transform:scale(.96)}
+.tabnav a.is-active{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff}
+
+/* 섹션·데모 골격 */
+section.cat{padding:clamp(34px,6vw,64px) 0;border-bottom:1px solid var(--border)}
+.cat-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.cat-h .no{font-size:26px;font-weight:900;color:var(--rose);letter-spacing:-.02em}
+.cat-h h2{font-size:clamp(20px,3vw,27px);font-weight:800;letter-spacing:-.02em}
+.cat-sub{color:var(--ink2);font-size:14px;margin-bottom:24px;max-width:70ch}
+.demos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(16px,2.4vw,22px)}
+.demo{background:#fff;border:1px solid var(--border);border-radius:18px;padding:18px 19px;box-shadow:var(--sh1);display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.demo.wide{grid-column:1/-1}
+.demo .dh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.demo .dtag{font-size:10.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;letter-spacing:.02em}
+.demo h3{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.demo .when{font-size:12px;color:var(--mut);line-height:1.6}
+.demo .when b{color:var(--ink2)}
+.stage{background:var(--bg);border:1px dashed var(--border);border-radius:13px;padding:16px;display:flex;flex-direction:column;gap:10px;justify-content:center;min-height:96px}
+.note{font-size:11px;color:var(--mut);line-height:1.55}
+.note b{color:var(--ink2)}
+
+/* 리빌 유틸(5-1) */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:var(--d,0ms)}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ── ① 토큰 데모 ── */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.sw{border-radius:10px;height:52px;border:1px solid rgba(0,0,0,.05);display:flex;align-items:flex-end;padding:5px 6px;font-size:9px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.sw.dk{color:var(--ink);text-shadow:none}
+.easerow{display:flex;align-items:center;gap:10px}
+.easetrack{flex:1;height:8px;background:var(--bg2);border-radius:6px;position:relative;overflow:hidden}
+.easedot{position:absolute;top:-4px;left:0;width:16px;height:16px;border-radius:50%;background:var(--rose);box-shadow:var(--sh1)}
+.easelbl{font-size:11px;font-weight:800;color:var(--ink2);width:96px}
+.shcard{border-radius:14px;background:#fff;padding:14px;font-size:11.5px;font-weight:700;color:var(--ink2);text-align:center}
+
+/* ── ③ 숫자 ── */
+.bignum{font-size:34px;font-weight:900;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.bignum small{font-size:.42em;color:var(--mut);font-weight:800;margin-left:3px}
+.odo{display:inline-flex;align-items:baseline;font-variant-numeric:tabular-nums;font-size:34px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.od-col{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:baseline}
+.od-reel{display:block;will-change:transform;transform:translateY(0);transition:transform 1s var(--ease-enter)}
+.od-reel>span{display:block;height:1em;line-height:1;text-align:center}
+.od-sep{display:inline-block}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── ④ 차트 ── */
+.spark{width:100px;height:30px}
+.frow{display:grid;grid-template-columns:60px 1fr 58px;align-items:center;gap:10px;font-size:12px}
+.frow .fn{font-weight:800;color:var(--ink2)}
+.ftrack{position:relative;height:16px;background:var(--bg2);border-radius:8px;overflow:hidden}
+.ftrack::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--border)}
+.ffill{position:absolute;top:3px;height:10px;border-radius:5px;width:0;transition:width 1s var(--ease)}
+.ffill.u{background:linear-gradient(90deg,#F2937F,var(--up));left:50%}
+.ffill.d{background:linear-gradient(270deg,#7FA3F0,var(--down));right:50%}
+.fval{text-align:right;font-weight:800}
+.gauge{--v:38;width:150px;aspect-ratio:2/1;margin:0 auto;position:relative;
+ background:radial-gradient(closest-side,#fff 78%,transparent 79%),conic-gradient(from -90deg,var(--rose) calc(var(--v)*1.8deg),var(--border) 0);border-radius:150px 150px 0 0}
+.gauge b{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:20px;font-weight:900;color:var(--ink)}
+.heatgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:7px}
+.hcell{display:flex;justify-content:space-between;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:800}
+.mc-svg{width:100%;height:130px}
+.mc-line{fill:none;stroke:var(--rose);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.mc-line.draw{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600);animation:draw 1s var(--ease) .05s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.mc-ranges{display:flex;gap:6px;margin-top:10px}
+.mc-range{flex:1;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:10px;padding:7px 5px;cursor:pointer;transition:.2s var(--ease);text-align:center}
+.mc-range[aria-selected="true"]{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep))}
+.rings circle{fill:none;stroke:var(--rose);stroke-width:2}
+.rings .rp{animation:ringp 3.2s ease-in-out infinite}
+.rings .rp2{animation-delay:.5s}.rings .rp3{animation-delay:1s}
+@keyframes ringp{0%,100%{opacity:.16}50%{opacity:.52}}
+.stepper{display:flex;gap:6px;margin-top:8px}
+.stepper button{flex:1;font-size:11px;font-weight:800;padding:6px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--ink2);cursor:pointer;transition:.2s var(--ease)}
+.stepper button.on{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border-color:var(--rose)}
+.dg{opacity:0;transition:opacity .45s var(--ease-enter)}
+.dd-fig[data-step="1"] .dg1,.dd-fig[data-step="2"] .dg2,.dd-fig[data-step="3"] .dg3{opacity:1}
+.dgnote{font-size:11.5px;color:var(--ink2);line-height:1.55;min-height:34px}
+
+/* ── ⑤ 스크롤/모션 ── */
+.stagbox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stagbox .s{background:var(--pinkSoft2);border:1px solid var(--border);border-radius:10px;height:44px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--rose)}
+.scrolly{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.scrolly{grid-template-columns:1fr}}
+.scrolly__fig{position:sticky;top:70px;align-self:start;background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--sh1);text-align:center}
+.scrolly__fig .big{font-size:30px;font-weight:900;color:var(--rose);transition:.4s var(--ease)}
+.scrolly .step{min-height:150px;display:flex;align-items:center;font-size:13px;color:var(--ink2);padding:8px 0}
+.wordline .w{display:inline-block;opacity:0;transform:translateY(.55em)}
+.wordline.is-in .w{animation:wordUp .6s var(--ease-enter) forwards;animation-delay:calc(var(--wi,0)*80ms)}
+@keyframes wordUp{to{opacity:1;transform:none}}
+.wordline .grad{background:linear-gradient(120deg,var(--rose),var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ── ⑥ 마이크로 ── */
+.lift{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px;font-size:12.5px;font-weight:700;color:var(--ink2);box-shadow:var(--sh1);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+@media (hover:hover) and (min-width:901px){.lift:hover{transform:translateY(-4px);box-shadow:var(--sh2)}}
+.btn{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:13.5px;padding:11px 18px;border-radius:100px;border:0;cursor:pointer;color:#fff;
+ background:linear-gradient(135deg,var(--rose),var(--deep));transition:background var(--dur-1) var(--ease-hover),transform var(--dur-press) var(--ease-enter),box-shadow var(--dur-1) var(--ease)}
+.btn:hover{box-shadow:var(--sh2)}
+.btn:active{transform:scale(.97)}
+.btn.shine{position:relative;overflow:hidden}
+.btn.shine::after{content:"";position:absolute;inset:0;transform:translateX(-130%);pointer-events:none;
+ background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.4) 50%,transparent 80%);transition:transform .9s var(--ease)}
+@media (hover:hover) and (min-width:901px){.btn.shine:hover::after{transform:translateX(130%)}}
+.term{border-bottom:1.5px dotted var(--rose2);cursor:help;font-weight:800;background:linear-gradient(transparent 82%,var(--pinkSoft2) 0);padding:0 1px;border-radius:2px}
+.term:hover,.term.on{background:linear-gradient(transparent 82%,var(--pinkSoft) 0)}
+#glosspop{position:fixed;z-index:1300;max-width:240px;background:linear-gradient(165deg,#fff,var(--pinkSoft2));border:1px solid var(--borderStrong);border-radius:13px;padding:11px 13px;box-shadow:var(--shLift);opacity:0;transform:translateY(5px);transition:opacity .16s var(--ease),transform .16s var(--ease);pointer-events:none}
+#glosspop.on{opacity:1;transform:none}
+#glosspop .gp-t{font-weight:800;color:var(--rose);font-size:12.5px}
+#glosspop .gp-s{font-size:12.5px;line-height:1.5;margin-top:4px;color:var(--ink)}
+
+/* ── ⑦ 전환 ── */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:20px;padding:clamp(22px,3vw,32px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h4{font-size:clamp(17px,2.4vw,22px);font-weight:800;letter-spacing:-.02em}
+.cta-band p{color:var(--ink2);font-size:13.5px;margin:9px auto 0;max-width:440px}
+.cta-band .btn{margin-top:16px}
+.teaser{background:linear-gradient(158deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:18px}
+.teaser .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border:1px solid #d4e6df;border-radius:100px;padding:4px 10px}
+.teaser .badge i{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:tp 2s ease-in-out infinite}
+@keyframes tp{0%,100%{opacity:1}50%{opacity:.4}}
+.teaser .tt{font-size:16px;font-weight:800;letter-spacing:-.01em;margin-top:11px;line-height:1.4}
+.teaser .ts{font-size:12.5px;color:var(--ink2);margin-top:5px}
+.teaser .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border)}
+.teaser .chip{background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;box-shadow:var(--cardSh)}
+.teaser .chip .cn{font-size:10px;color:var(--mut);font-weight:700}
+.teaser .chip .cv{font-size:14px;font-weight:800;margin-top:2px}
+.teaser .chip .cg{font-size:10.5px;font-weight:800;margin-top:1px}
+.rel{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:560px){.rel{grid-template-columns:1fr}}
+.relcard{position:relative;display:block;background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:14px;padding:14px 15px 13px;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s var(--ease);text-decoration:none;color:inherit}
+.relcard:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.rel-type{position:absolute;top:10px;right:10px;font-size:9px;font-weight:800;border-radius:6px;padding:3px 7px;color:#fff}
+.rel-type.report{background:linear-gradient(135deg,var(--rose),var(--deep))}.rel-type.column{background:var(--rose2)}.rel-type.tool{background:var(--sageInk)}
+.relcard .rkey{font-size:10.5px;font-weight:800;color:var(--rose)}
+.relcard .rtt{font-size:13.5px;font-weight:800;margin-top:7px;line-height:1.35;color:var(--ink)}
+.relcard .rgo{display:inline-flex;gap:4px;margin-top:9px;font-size:11.5px;font-weight:800;color:var(--rose);transition:transform .25s var(--ease)}
+.relcard:hover .rgo{transform:translateX(4px)}
+.preview{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--sh2)}
+.preview .pbar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg)}
+.preview .pbar i{width:9px;height:9px;border-radius:50%;background:var(--sand)}
+.preview .pbar .pt{margin-left:8px;font-size:11px;font-weight:800;color:var(--mut)}
+.preview .pbar .live{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;color:var(--rose)}
+.preview .pbar .live .d{width:6px;height:6px;border-radius:50%;background:var(--rose);animation:tp 1.6s ease-in-out infinite}
+.preview .pbody{padding:16px 18px}
+.preview .pmast{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.preview .pdate{font-size:11px;color:var(--mut);font-weight:700;margin-top:4px}
+
+/* ── ⑧ 레이아웃 ── */
+.laydemo{display:grid;grid-template-columns:1fr 96px;gap:10px}
+.laydemo .col{background:var(--pinkSoft2);border:1px solid var(--border);border-radius:10px;min-height:64px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--rose)}
+.laydemo .rail{background:var(--sageSoft);border-color:#d4e6df;color:var(--sageInk)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+.grid3 .g{background:var(--bg2);border:1px solid var(--border);border-radius:9px;height:40px}
+.fbleed{position:relative;border-radius:12px;overflow:hidden;padding:20px;text-align:center;font-size:12.5px;font-weight:800;color:var(--rose);border:1px solid var(--border)}
+.fbleed::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 50% 0%,var(--pinkSoft2),transparent 72%)}
+.fbleed span{position:relative;z-index:1}
+
+/* 가이드 표 */
+.guide{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.guide th,.guide td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.guide th{font-size:11px;color:var(--mut);font-weight:800;letter-spacing:.02em;background:var(--bg2)}
+.guide td b{color:var(--rose)}
+.guide tr:hover td{background:var(--pinkSoft2)}
+.ban{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:6px}
+.bancard{background:#fff;border:1px solid var(--border);border-left:3px solid var(--rose);border-radius:12px;padding:13px 15px;box-shadow:var(--sh1)}
+.bancard h4{font-size:13px;font-weight:800;color:var(--deep);margin-bottom:6px}
+.bancard ul{margin:0;padding-left:16px;font-size:12px;color:var(--ink2);line-height:1.65}
+footer{padding:40px 0 60px;text-align:center;color:var(--mut);font-size:12px;line-height:1.8}
+
+@media(prefers-reduced-motion:reduce){
+ .reveal,.wordline .w{opacity:1!important;transform:none!important;animation:none!important}
+ .od-reel{transition:none}
+ #pg{display:none}
+ .teaser .badge i,.preview .pbar .live .d,.rings .rp,.mc-line.draw{animation:none!important}
+ .mc-line.draw{stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+<div id="pg" aria-hidden="true"></div>
+
+<!-- ===================== 마스트 ===================== -->
+<header class="mast">
+ <div class="wrap">
+  <span class="eyebrow">부부연구소 · DESIGN SYSTEM</span>
+  <h1 class="wordline"><span class="w" style="--wi:0">UI</span> <span class="w" style="--wi:1">패턴</span> <span class="w grad" style="--wi:2">라이브러리</span> <span class="w grad" style="--wi:3">v1</span></h1>
+  <p class="lead">홈페이지·머니레터·상세페이지에 실제로 쓰인 모든 시각화·인터랙션·전환효과의 <b>살아있는 카탈로그</b>. 아래 데모는 전부 실토큰·실코드예요. 상황에 맞는 패턴을 골라 그대로 꺼내 쓰세요.</p>
+  <p class="meta">
+   스택 <code>바닐라 HTML/CSS/JS</code> · 이미지 0 · <code>transform/opacity</code>만 · <code>prefers-reduced-motion</code> 전역 준수 · 동작은 위젯이 아니라 FOOTER의 DGB 엔진(<code>data-*</code>)<br>
+   문서 정본 <code>_부부연구소_UI패턴_라이브러리_v1.md</code>
+  </p>
+ </div>
+</header>
+
+<!-- ===================== 카테고리 네비 ===================== -->
+<nav class="tabnav" id="tabnav" aria-label="카테고리">
+ <div class="wrap"><div class="row">
+  <a href="#c1">① 토큰</a><a href="#c2">② 카드·표면</a><a href="#c3">③ 숫자</a><a href="#c4">④ 차트</a>
+  <a href="#c5">⑤ 스크롤·모션</a><a href="#c6">⑥ 마이크로</a><a href="#c7">⑦ 전환</a><a href="#c8">⑧ 레이아웃</a>
+  <a href="#guide">선택 가이드</a><a href="#ban">금지 목록</a>
+ </div></div>
+</nav>
+
+<main class="wrap">
+
+<!-- ===================== ① 토큰 ===================== -->
+<section class="cat" id="c1">
+ <div class="cat-h"><span class="no">①</span><h2>디자인 토큰</h2></div>
+ <p class="cat-sub">모든 패턴의 뿌리. 페이지 최상단 <code>:root</code>에 1회. 색·타이포·모션 이징·틴티드 섀도 4계열. 이 문서 전체가 이 토큰만 참조해요.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">1-1</span><h3>브랜드 색 토큰</h3></div>
+   <p class="when">웜톤(분홍·장미·샌드)+잉크 텍스트+등락 2색. <b>한국식 빨강↑ 파랑↓</b>.</p>
+   <div class="stage"><div class="swatches">
+    <div class="sw" style="background:var(--rose)">rose</div>
+    <div class="sw" style="background:var(--deep)">deep</div>
+    <div class="sw" style="background:var(--pink)">pink</div>
+    <div class="sw dk" style="background:var(--pinkSoft)">pinkSoft</div>
+    <div class="sw dk" style="background:var(--sand)">sand</div>
+    <div class="sw" style="background:var(--ink)">ink</div>
+    <div class="sw" style="background:var(--sage)">sage</div>
+    <div class="sw" style="background:var(--gold)">gold</div>
+    <div class="sw" style="background:var(--up)">up</div>
+    <div class="sw" style="background:var(--down)">down</div>
+   </div></div>
+   <p class="note"><b>주의</b> 순수 #000·보라/네온 금지. 등락은 색 단독 인코딩 말고 부호·화살표 병기.</p>
+  </div>
+
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">1-3</span><h3>모션 이징 (T1)</h3></div>
+   <p class="when">4접점(진입·이동·호버·프레스) <b>동일 리듬</b>. ease-in 금지.</p>
+   <div class="stage">
+    <div class="easerow"><span class="easelbl">enter</span><div class="easetrack"><span class="easedot" data-ease="enter"></span></div></div>
+    <div class="easerow"><span class="easelbl">morph</span><div class="easetrack"><span class="easedot" data-ease="morph"></span></div></div>
+    <div class="easerow"><span class="easelbl">ease2(overshoot)</span><div class="easetrack"><span class="easedot" data-ease="over"></span></div></div>
+    <button class="btn" id="easeReplay" style="align-self:flex-start;font-size:12px;padding:7px 13px">다시 재생 ↻</button>
+   </div>
+   <p class="note">enter <code>cubic-bezier(.22,1,.36,1)</code> · morph <code>(.65,0,.35,1)</code> · overshoot <code>(.34,1.32,.42,1)</code></p>
+  </div>
+
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">1-4</span><h3>틴티드 레이어드 섀도</h3></div>
+   <p class="when">검정 대신 <b>브랜드 웜톤 틴트</b> 다층. 기본→호버→떠오름.</p>
+   <div class="stage" style="background:var(--bg2);flex-direction:row;gap:14px;flex-wrap:wrap">
+    <div class="shcard" style="box-shadow:var(--sh1)">sh1</div>
+    <div class="shcard" style="box-shadow:var(--sh2)">sh2</div>
+    <div class="shcard" style="box-shadow:var(--shLift)">shLift</div>
+   </div>
+   <p class="note">그림자 색=배경 색조 틴트 <code>rgba(179,58,76,…)</code>. 순수 검정 금지.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ② 카드·표면 ===================== -->
+<section class="cat" id="c2">
+ <div class="cat-h"><span class="no">②</span><h2>카드 · 표면</h2></div>
+ <p class="cat-sub">글래스·틴티드 섀도·보더 그라디언트. 라운드는 크기 비례(균일 금지), 3등분 카드 행 회피.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">2-1</span><h3>기본 카드 표면</h3></div>
+   <p class="when">대부분의 콘텐츠 블록. <b>#fff + border + cardSh</b>.</p>
+   <div class="stage"><div style="background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--cardSh);font-size:12.5px;color:var(--ink2);font-weight:700">콘텐츠 카드 — border-radius 16~22px</div>
+   <div style="background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--sh1);font-size:12.5px;color:var(--rose);font-weight:800">강조 카드 — 웜 그라디언트 표면</div></div>
+  </div>
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">2-2</span><h3>글래스 (backdrop)</h3></div>
+   <p class="when">고정 헤더·오버레이 바. 라이브 139/139 페이지 헤더.</p>
+   <div class="stage" style="background:linear-gradient(120deg,var(--pink),var(--sage));padding:22px">
+    <div style="background:rgba(253,251,247,.72);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border:1px solid rgba(255,255,255,.5);border-radius:12px;padding:12px 14px;font-size:12.5px;font-weight:800;color:var(--ink)">☰ 부부연구소 — glass header</div>
+   </div>
+   <p class="note">blur는 페이지당 1~2곳(성능). 미지원 시 반투명으로 자연 강등.</p>
+  </div>
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">2-3</span><h3>보더 그라디언트</h3></div>
+   <p class="when">프리미엄 카드 1~2곳 미묘한 테두리 광택(마스크 합성).</p>
+   <div class="stage">
+    <div class="bordgrad" style="position:relative;overflow:hidden;background:linear-gradient(168deg,#fff,#FFFCFB);border-radius:18px;padding:18px;font-size:12.5px;font-weight:700;color:var(--ink2)">
+     기간 차트급 프리미엄 카드
+     <span style="position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.4) 52%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none"></span>
+    </div>
+   </div>
+   <p class="note"><code>mask-composite:exclude</code> + <code>pointer-events:none</code>. 페이지당 소수 카드만.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ③ 숫자 ===================== -->
+<section class="cat" id="c3">
+ <div class="cat-h"><span class="no">③</span><h2>숫자 표현</h2></div>
+ <p class="cat-sub">카운트업·오도미터·tabular. 헤드라인 몇 개만 애니, 나머지는 정적 tabular. 결측이면 요소 제거.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">3-1</span><h3>카운트업</h3></div>
+   <p class="when">진입 시 0→값. <b>data-count-to</b>, easeOutQuart.</p>
+   <div class="stage" style="align-items:center;text-align:center">
+    <div class="bignum"><span class="count tnum" data-count-to="10">0</span><small>배</small></div>
+    <div class="bignum"><small>₩</small><span class="count tnum" data-count-to="9900">0</span></div>
+   </div>
+   <p class="note">마크업엔 속성만, 동작은 FOOTER 엔진. RM=최종값 즉시.</p>
+  </div>
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">3-2</span><h3>오도미터 (T4)</h3></div>
+   <p class="when">자릿수 슬롯머신 롤. 금융 티커 감성. KPI 4~6개.</p>
+   <div class="stage" style="align-items:center;text-align:center">
+    <div class="odo" data-odo="2947" aria-hidden="true"></div>
+    <span class="sr-only">코스피 2,947</span>
+    <span class="note">코스피 2,947 · 진입 1회 롤</span>
+   </div>
+   <p class="note">굴러가는 릴=<code>aria-hidden</code>, 확정값=<code>aria-live</code> 별도. 없으면 스크린리더가 값 못 읽음.</p>
+  </div>
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">3-3</span><h3>tabular-nums</h3></div>
+   <p class="when">표·리스트 자릿수 세로 정렬·폭 고정.</p>
+   <div class="stage" style="gap:4px">
+    <div style="display:flex;justify-content:space-between;font-size:14px"><span>코스피</span><b class="tnum">2,947.31</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:14px"><span>원/달러</span><b class="tnum">1,384.00</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:14px"><span>S&amp;P500</span><b class="tnum">6,204.95</b></div>
+   </div>
+   <p class="note">값 span에 <code>.tnum</code> 클래스만. 한글 본문엔 불필요.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ④ 차트 ===================== -->
+<section class="cat" id="c4">
+ <div class="cat-h"><span class="no">④</span><h2>차트</h2></div>
+ <p class="cat-sub">전부 인라인 SVG/CSS로. 좌표·값 데이터 바인딩. 원본 30모듈: <code>머니레터_시각화_라이브러리_v1.html</code>.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">4-1</span><h3>스파크라인 (T5)</h3></div>
+   <p class="when">숫자 옆 초소형 추세선. 정밀+추세 한 줄에.</p>
+   <div class="stage" style="flex-direction:row;align-items:center;gap:12px;justify-content:center">
+    <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+     <polyline points="0,22 20,19 40,24 60,11 80,15 100,6" fill="none" stroke="var(--up)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+     <circle cx="100" cy="6" r="2.6" fill="var(--up)"/>
+    </svg>
+    <b class="tnum up" style="font-size:16px">+1.2%</b>
+   </div>
+   <p class="note">끝점 도트+라벨 상시(모바일 호버 없음). <code>non-scaling-stroke</code>.</p>
+  </div>
+
+  <div class="demo reveal" style="--d:60ms">
+   <div class="dh"><span class="dtag">4-2</span><h3>다이버징 바 (T6)</h3></div>
+   <p class="when">0축 기준 좌우 발산. 섹터·수급 서열화.</p>
+   <div class="stage" style="gap:8px">
+    <div class="frow"><span class="fn">반도체</span><div class="ftrack"><span class="ffill u" data-w="42"></span></div><span class="fval up tnum">+4.1%</span></div>
+    <div class="frow"><span class="fn">2차전지</span><div class="ftrack"><span class="ffill u" data-w="20"></span></div><span class="fval up tnum">+1.8%</span></div>
+    <div class="frow"><span class="fn">자동차</span><div class="ftrack"><span class="ffill d" data-w="30"></span></div><span class="fval down tnum">−2.6%</span></div>
+   </div>
+   <p class="note">빨강↑/블루↓ 고대비 + 부호 병기. RM=width 트랜지션 생략.</p>
+  </div>
+
+  <div class="demo reveal" style="--d:120ms">
+   <div class="dh"><span class="dtag">4-3</span><h3>게이지 (T7)</h3></div>
+   <p class="when">0~100 단일 지표 + 구간 맥락. 투자심리.</p>
+   <div class="stage" style="align-items:center">
+    <div class="gauge" style="--v:38"><b class="tnum">38</b></div>
+    <span class="note" style="text-align:center">공포·탐욕 · 38 (공포)</span>
+   </div>
+   <p class="note">값 중앙 텍스트 반드시 병기(접근성). conic-gradient 각도=값×1.8deg.</p>
+  </div>
+
+  <div class="demo reveal" style="--d:180ms">
+   <div class="dh"><span class="dtag">4-4</span><h3>섹터 온도판</h3></div>
+   <p class="when">여러 섹터 등락을 셀 색농도로 한눈에.</p>
+   <div class="stage"><div class="heatgrid">
+    <div class="hcell" style="background:var(--up);color:#fff"><span>반도체</span><span>+4.1</span></div>
+    <div class="hcell" style="background:var(--upSoft);color:var(--upT)"><span>2차전지</span><span>+1.8</span></div>
+    <div class="hcell" style="background:var(--downSoft);color:var(--downT)"><span>바이오</span><span>−0.9</span></div>
+    <div class="hcell" style="background:var(--down);color:#fff"><span>자동차</span><span>−2.6</span></div>
+    <div class="hcell" style="background:var(--bg2);color:var(--flat)"><span>통신</span><span>0.0</span></div>
+    <div class="hcell" style="background:var(--upSoft);color:var(--upT)"><span>금융</span><span>+0.6</span></div>
+   </div></div>
+   <p class="note">셀 안에 수치·부호 병기. 단일 hue 농도가 색맹 안전.</p>
+  </div>
+
+  <div class="demo reveal wide">
+   <div class="dh"><span class="dtag">4-5</span><h3>기간 전환 인터랙티브 차트</h3></div>
+   <p class="when">심볼·기간 탭으로 라인 다시 그림. 진입 시 드로우. <b>실패 시 컴포넌트 숨김</b>.</p>
+   <div class="stage bordgrad" style="position:relative;overflow:hidden;background:linear-gradient(168deg,#fff,#FFFCFB)">
+    <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+     <b style="font-size:14px">코스피</b><b class="tnum" style="font-size:20px">2,947.31</b><span class="up tnum" style="font-size:12px;font-weight:800">+38.2 (+1.31%)</span>
+    </div>
+    <svg class="mc-svg" id="mcSvg" viewBox="0 0 320 130" preserveAspectRatio="none" role="img" aria-label="코스피 기간별 종가 추이">
+     <polyline class="mc-line draw" id="mcLine" points="0,96 46,88 92,100 138,72 184,80 230,50 276,58 320,30"/>
+    </svg>
+    <div class="mc-ranges" role="tablist" aria-label="기간">
+     <button class="mc-range" role="tab" aria-selected="true" data-pts="0,96 46,88 92,100 138,72 184,80 230,50 276,58 320,30">1개월</button>
+     <button class="mc-range" role="tab" aria-selected="false" data-pts="0,60 46,74 92,44 138,90 184,52 230,66 276,34 320,48">3개월</button>
+     <button class="mc-range" role="tab" aria-selected="false" data-pts="0,110 46,72 92,84 138,40 184,64 230,30 276,52 320,20">1년</button>
+    </div>
+    <span class="note" style="margin-top:8px">일별 종가 · 가용 범위만 활성 · <code>series/&lt;SYM&gt;.json</code> 온디맨드 fetch</span>
+   </div>
+   <p class="note"><b>데이터 계약</b> series JSON(일별 종가). fetch 실패/무데이터 → <code>hidden</code>(빈 차트·더미 금지). dasharray는 getTotalLength()로.</p>
+  </div>
+
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">4-6</span><h3>동심원 다이어그램</h3></div>
+   <p class="when">"중심서 멀수록 약하게"류 개념. 딥다이브 챕터 동기.</p>
+   <div class="stage dd-fig" id="ddFig" data-step="1">
+    <svg viewBox="0 0 200 110" class="rings" aria-hidden="true" style="height:100px;margin:0 auto">
+     <g class="dg dg1">
+      <circle class="rp rp3" cx="70" cy="60" r="46"/><circle class="rp rp2" cx="70" cy="60" r="30"/><circle class="rp" cx="70" cy="60" r="15"/>
+      <circle cx="70" cy="60" r="5" fill="var(--rose)" stroke="none"/>
+      <text x="128" y="40" font-size="10" font-weight="800" fill="var(--rose)">진앙</text>
+      <text x="128" y="72" font-size="9" fill="var(--ink2)">가까울수록 크게</text>
+     </g>
+     <g class="dg dg2"><rect x="30" y="44" width="60" height="30" rx="6" fill="var(--upSoft)" stroke="var(--up)"/><text x="60" y="63" font-size="10" font-weight="800" fill="var(--upT)" text-anchor="middle">악재 2개</text></g>
+     <g class="dg dg3"><text x="70" y="60" font-size="13" font-weight="800" fill="var(--deep)" text-anchor="middle">받는 손 = 0</text></g>
+    </svg>
+    <div class="dgnote" id="ddNote">코스피는 진앙 바로 위 — 나스닥보다 깊게 파여요.</div>
+    <div class="stepper" id="ddStep">
+     <button class="on">이유1</button><button>이유2</button><button>이유3</button>
+    </div>
+   </div>
+   <p class="note">스텝은 각 1개 상태만 스왑. RM=펄스 정지·전환 즉시. 모바일=스택.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ⑤ 스크롤·모션 ===================== -->
+<section class="cat" id="c5">
+ <div class="cat-h"><span class="no">⑤</span><h2>스크롤 · 모션</h2></div>
+ <p class="cat-sub">IO 리빌·스태거·진행바·스티키 그래픽·워드 스태거. 지속 루프는 페이지당 1~2곳. (이 페이지 상단 진행바가 5-3 실물)</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">5-1·5-2</span><h3>IO 리빌 + 스태거</h3></div>
+   <p class="when">뷰 진입 시 순차 등장. 유형별 방향 다양화.</p>
+   <div class="stage"><div class="stagbox" id="stagDemo">
+    <div class="s">1</div><div class="s">2</div><div class="s">3</div><div class="s">4</div><div class="s">5</div><div class="s">6</div>
+   </div><button class="btn" id="stagReplay" style="align-self:flex-start;font-size:12px;padding:7px 13px;margin-top:4px">다시 재생 ↻</button></div>
+   <p class="note"><code>data-reveal="up|left|right|scale|clip|fade"</code> · 부모 <code>data-reveal-stagger="90"</code>. once(unobserve). RM=즉시.</p>
+  </div>
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">5-3</span><h3>읽기 진행바 (T2)</h3></div>
+   <p class="when">긴 글 "얼마나 남았나". 이탈 감소.</p>
+   <div class="stage" style="align-items:center;justify-content:center">
+    <div style="width:100%;height:3px;background:var(--pinkSoft);border-radius:3px;overflow:hidden"><i style="display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--pink),var(--rose),var(--deep));border-radius:3px"></i></div>
+    <span class="note">↑ 이 페이지 최상단 바가 실물(스크롤 해보세요)</span>
+   </div>
+   <p class="note">네이티브 <code>animation-timeline:scroll()</code> 우선 + JS 폴백. <code>scaleX</code>만 60fps. RM=숨김.</p>
+  </div>
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">5-5</span><h3>워드 스태거</h3></div>
+   <p class="when">히어로 제목 단어별 등장. <b>페이지당 1곳만</b>.</p>
+   <div class="stage" style="align-items:center;justify-content:center">
+    <div class="wordline" id="wordDemo" style="font-size:22px;font-weight:900;letter-spacing:-.02em;text-align:center">
+     <span class="w" style="--wi:0">매일,</span> <span class="w" style="--wi:1">오늘의</span> <span class="w grad" style="--wi:2">시장을</span> <span class="w grad" style="--wi:3">쉽게</span>
+    </div>
+    <button class="btn" id="wordReplay" style="font-size:12px;padding:7px 13px;margin-top:6px">다시 재생 ↻</button>
+   </div>
+   <p class="note">단어 <code>&lt;span class="w"&gt;</code>+<code>--wi</code> 인덱스. 본문 전체 워드 스태거 금지.</p>
+  </div>
+  <div class="demo reveal wide">
+   <div class="dh"><span class="dtag">5-4</span><h3>스티키 그래픽 스크롤텔링 (T3 · 하루 1곳)</h3></div>
+   <p class="when">스텝 텍스트 스크롤 동안 옆 그래픽 1개 고정·상태 스왑. <b>전면 풀-핀 금지</b>.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent">
+    <div class="scrolly" id="scrollyDemo">
+     <div class="scrolly__fig"><div class="note" style="margin-bottom:6px">코스피 낙폭</div><div class="big" id="scrollyBig">−1.2%</div></div>
+     <div>
+      <div class="step" data-v="−1.2%">① 장 초반, 반도체 약세로 지수 −1.2%.</div>
+      <div class="step" data-v="−3.4%">② 중동 이슈 겹치며 낙폭 확대 −3.4%.</div>
+      <div class="step" data-v="−5.35%">③ 저가매수 손 실종, 종가 −5.35%.</div>
+     </div>
+    </div>
+   </div>
+   <p class="note"><code>position:sticky</code>(위젯 경계 안, fixed pin 금지). 트리거 <b>px</b>(vh 금지). 모바일=스티키 해제 스택.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ⑥ 마이크로 ===================== -->
+<section class="cat" id="c6">
+ <div class="cat-h"><span class="no">⑥</span><h2>마이크로 인터랙션</h2></div>
+ <p class="cat-sub">호버 리프트·press·툴팁·샤인. "적게, 반응은 확실히". PC 전용은 <code>hover:hover & min-width:901px</code> 게이트.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">6-1</span><h3>호버 리프트</h3></div>
+   <p class="when">카드 호버 시 살짝 떠오름+그림자 심화(PC).</p>
+   <div class="stage" style="flex-direction:row;gap:10px;flex-wrap:wrap"><div class="lift">카드 A</div><div class="lift">카드 B</div><div class="lift">카드 C</div></div>
+   <p class="note">PC 게이트 필수(모바일 sticky-hover 방지). translateY −4px.</p>
+  </div>
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">6-2·6-4</span><h3>프레스 + 샤인</h3></div>
+   <p class="when">눌림 <code>scale(.97)</code> + 주 CTA 광택 쓸림.</p>
+   <div class="stage" style="align-items:center;justify-content:center;gap:12px">
+    <button class="btn shine">구독하기 →</button>
+    <span class="note">누르면 눌리고, 호버 시 광택(PC)</span>
+   </div>
+   <p class="note">프레스는 전면 OK. 샤인은 주 CTA 1곳만. RM=scale 제거·색만.</p>
+  </div>
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">6-3</span><h3>용어 툴팁</h3></div>
+   <p class="when">어려운 용어에 호버/탭 → 설명 카드.</p>
+   <div class="stage" style="align-items:center;justify-content:center;font-size:14px;text-align:center">
+    <p>오늘 <span class="term" data-t="시가총액" data-s="상장 주식 수 × 주가. 기업의 시장 크기.">시가총액</span> 상위주가 흔들렸고,<br><span class="term" data-t="VIX" data-s="시장 공포지수. 변동성 기대치를 숫자로.">VIX</span>가 20선을 넘었어요.</p>
+   </div>
+   <p class="note">모바일=탭 토글 필수. 팝은 <code>fixed</code>+<code>pointer-events:none</code>. <code>data-g</code> 없으면 미부착.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ⑦ 전환 ===================== -->
+<section class="cat" id="c7">
+ <div class="cat-h"><span class="no">⑦</span><h2>전환 요소</h2></div>
+ <p class="cat-sub">CTA 밴드·티저 카드·전환 존(키워드 매칭)·프리뷰. 한 페이지 한 CTA. 실패/무데이터 시 숨김, 가짜 링크 금지.</p>
+ <div class="demos">
+  <div class="demo reveal wide">
+   <div class="dh"><span class="dtag">7-1</span><h3>CTA 밴드</h3></div>
+   <p class="when">섹션 말미 전환 유도. 증거를 주장 옆에, 위험 반전 명시.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent">
+    <div class="cta-band">
+     <h4>오늘 레터, 0원으로 먼저 읽어보세요</h4>
+     <p>막막했던 그 마음, 저희가 제일 잘 알아요. 매일 아침·저녁 시장을 진심으로 정리해 곁에 둬요.</p>
+     <button class="btn shine">무료로 시작하기 →</button>
+    </div>
+   </div>
+  </div>
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">7-2</span><h3>오늘의 레터 티저</h3></div>
+   <p class="when">최신 1건 자동 노출+시장칩. <b>fetch 실패 시 숨김</b>.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent">
+    <div class="teaser">
+     <span class="badge"><i></i>아침판</span>
+     <div class="tt">반도체가 흔든 하루, 진앙을 읽다</div>
+     <div class="ts">코스피가 왜 뉴욕보다 더 아팠는지 지진에 빗대어 정리했어요.</div>
+     <div class="chips">
+      <div class="chip"><div class="cn">코스피</div><div class="cv tnum">2,947</div><div class="cg up">+1.31%</div></div>
+      <div class="chip"><div class="cn">원/달러</div><div class="cv tnum">1,384</div><div class="cg down">−0.4%</div></div>
+      <div class="chip"><div class="cn">S&amp;P500</div><div class="cv tnum">6,205</div><div class="cg up">+0.8%</div></div>
+     </div>
+    </div>
+   </div>
+   <p class="note"><code>index.json</code>+<code>history.json</code> fetch(no-store, 8s timeout). 결측 필드=칩 숨김. 멱등 가드.</p>
+  </div>
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">7-4</span><h3>프리뷰 (브라우저 크롬)</h3></div>
+   <p class="when">레터 실물을 창처럼 미리보기.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent">
+    <div class="preview">
+     <div class="pbar"><i></i><i></i><i></i><span class="pt">머니레터 · 저녁판</span><span class="live"><span class="d"></span>LIVE</span></div>
+     <div class="pbody"><div class="pmast">오늘의 시장, 딱 3줄로</div><div class="pdate tnum">2026. 7. 10</div></div>
+    </div>
+   </div>
+   <p class="note">신호등은 장식. 실 레터 톤과 일치. RM=live 점 정지.</p>
+  </div>
+  <div class="demo reveal wide">
+   <div class="dh"><span class="dtag">7-3</span><h3>전환 존 / 키워드 매칭 (이어서 보기)</h3></div>
+   <p class="when">오늘 키워드로 <b>실존 자료</b> 매칭 → 다음 읽기로 전환. <code>keyword-match|real-slug-only|omit-if-none</code>.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent">
+    <div class="rel">
+     <a class="relcard" href="#"><span class="rel-type report">리포트</span><div class="rkey"># 반도체 · 진앙</div><div class="rtt">반도체 3사 파헤치기 — 엔비디아·TSMC·브로드컴</div><span class="rgo">이어서 읽기 →</span></a>
+     <a class="relcard" href="#"><span class="rel-type column">칼럼</span><div class="rkey"># 중동 · 환율</div><div class="rtt">환헤지 vs 언헤지 — 환율이 수익률을 가르는 법</div><span class="rgo">이어서 읽기 →</span></a>
+    </div>
+   </div>
+   <p class="note"><b>실존 slug만</b>(가짜 링크 금지). 매칭 없으면 섹션 생략. 인라인 마커 <code>.relmark</code>(↗)로도 연결.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== ⑧ 레이아웃 ===================== -->
+<section class="cat" id="c8">
+ <div class="cat-h"><span class="no">⑧</span><h2>레이아웃</h2></div>
+ <p class="cat-sub">레일·풀블리드·그리드. 본문 폭 한글 34~38자/줄. 고정 3열 지양(<code>auto-fill</code>). 모바일 1단 강등.</p>
+ <div class="demos">
+  <div class="demo reveal">
+   <div class="dh"><span class="dtag">8-1</span><h3>본문 + 우측 레일</h3></div>
+   <p class="when">레터=본문 720px + 레일 312px. 모바일 레일 숨김.</p>
+   <div class="stage"><div class="laydemo"><div class="col">본문 720px</div><div class="col rail">레일 312</div></div></div>
+   <p class="note"><code>--col:720px;--rail:312px;--gap:44px</code>. 레일=보조정보만.</p>
+  </div>
+  <div class="demo reveal" style="--d:80ms">
+   <div class="dh"><span class="dtag">8-2</span><h3>컨테이너 그리드</h3></div>
+   <p class="when">폭 통일 + auto-fill 반응형.</p>
+   <div class="stage"><div class="grid3"><div class="g"></div><div class="g"></div><div class="g"></div><div class="g"></div><div class="g"></div><div class="g"></div></div></div>
+   <p class="note"><code>repeat(auto-fill,minmax(240px,1fr))</code>. 고정 3열=AI-티.</p>
+  </div>
+  <div class="demo reveal" style="--d:160ms">
+   <div class="dh"><span class="dtag">8-3</span><h3>풀블리드</h3></div>
+   <p class="when">배경은 화면 끝까지, 콘텐츠는 폭 안에.</p>
+   <div class="stage" style="padding:0;border:0;background:transparent"><div class="fbleed"><span>히어로 mesh / 광원 배경</span></div></div>
+   <p class="note">배경 레이어 <code>pointer-events:none</code>+z-index 격리. 은은하게.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ===================== 선택 가이드 ===================== -->
+<section class="cat" id="guide">
+ <div class="cat-h"><span class="no">▶</span><h2>선택 가이드 — 상황 → 추천 패턴</h2></div>
+ <table class="guide">
+  <thead><tr><th>상황 / 목적</th><th>1순위 패턴</th><th>결합</th></tr></thead>
+  <tbody>
+   <tr><td>새 페이지 시작</td><td><b>①-1~4 토큰 세트</b></td><td>5-3 진행바 · 6-2 프레스</td></tr>
+   <tr><td>히어로 임팩트</td><td><b>5-5 워드 스태거</b></td><td>3-1 카운트업 · 6-4 샤인</td></tr>
+   <tr><td>"오늘의 숫자" KPI</td><td><b>3-2 오도미터</b></td><td>4-1 스파크 · 3-3 tabular</td></tr>
+   <tr><td>섹터·수급 등락 한눈에</td><td><b>4-2 다이버징 바</b></td><td>4-4 온도판</td></tr>
+   <tr><td>단일 심리·목표 지표</td><td><b>4-3 게이지</b></td><td>3-3 tabular</td></tr>
+   <tr><td>"이 지표 어디서 왔나" 추이</td><td><b>4-5 기간차트</b></td><td>4-1 스파크</td></tr>
+   <tr><td>개념 설명(진앙·파급)</td><td><b>4-6 동심원 + 5-4 스티키</b></td><td>6-3 툴팁</td></tr>
+   <tr><td>긴 글 이탈 방지</td><td><b>5-3 진행바</b></td><td>8-1 레일</td></tr>
+   <tr><td>섹션 등장 리듬</td><td><b>5-1 IO 리빌 + 5-2 스태거</b></td><td>—</td></tr>
+   <tr><td>카드 그리드</td><td><b>8-2 그리드</b></td><td>6-1 리프트 · 2-1 카드</td></tr>
+   <tr><td>어려운 용어</td><td><b>6-3 툴팁</b></td><td>—</td></tr>
+   <tr><td>페이지 전환 유도</td><td><b>7-1 CTA 밴드</b></td><td>6-4 샤인</td></tr>
+   <tr><td>최신 레터 자동노출</td><td><b>7-2 티저 카드</b></td><td>4-1 스파크</td></tr>
+   <tr><td>다음 읽기 연결</td><td><b>7-3 전환 존 / 키워드</b></td><td>7-4 프리뷰</td></tr>
+   <tr><td>프리미엄 카드 광택</td><td><b>2-3 보더 그라디언트</b></td><td>1-4 틴티드 섀도</td></tr>
+   <tr><td>레터/레포트 레이아웃</td><td><b>8-1 레일</b></td><td>5-3 진행바 · 4-7 모듈</td></tr>
+  </tbody>
+ </table>
+ <p class="note" style="margin-top:12px"><b>조합 원칙</b> ① 토큰은 항상 먼저 · ② 지속 루프 애니는 페이지당 1~2곳 · ③ 한 타겟엔 한 모션 · ④ 결측 데이터 요소는 제거 · ⑤ 모바일=호버→탭·고정라벨, 스티키→스택, 레일→숨김.</p>
+</section>
+
+<!-- ===================== 금지 목록 ===================== -->
+<section class="cat" id="ban" style="border-bottom:0">
+ <div class="cat-h"><span class="no">⛔</span><h2>금지 목록</h2></div>
+ <p class="cat-sub">AI-티·운영 메타·정직성·접근성 (기존 규칙 통합).</p>
+ <div class="ban">
+  <div class="bancard reveal"><h4>AI-티 (브랜드 역행)</h4><ul>
+   <li>보라/네온 그라디언트, 순수 #000, 검정 일변도 그림자</li>
+   <li>3등분 카드 행 · 전부 가운데 · 균일 라운드</li>
+   <li>과포화 액센트 2+ · hover 무반응 · 느낌표 남발</li>
+   <li>"완벽한/혁신적/시너지" buzzword · 한글에 라틴 전용 폰트</li>
+  </ul></div>
+  <div class="bancard reveal" style="--d:60ms"><h4>운영 메타 노출</h4><ul>
+   <li>"매일 자동 렌더/발행", "AI 작성"</li>
+   <li>파이프라인·생성기·모델·스킬 명칭</li>
+   <li>내부 태그라인·장식 문장 → 독자에겐 콘텐츠만</li>
+  </ul></div>
+  <div class="bancard reveal" style="--d:120ms"><h4>정직성 (가짜 금지)</h4><ul>
+   <li>그럴듯한 더미·가짜 사회증거·가짜 slug</li>
+   <li><b>숫자·자료 없으면 요소 자체 제거</b>(가짜 0 금지)</li>
+   <li>"수익 보장" 금지(기록·비보장 명시)</li>
+  </ul></div>
+  <div class="bancard reveal" style="--d:180ms"><h4>성능·접근성</h4><ul>
+   <li>풀-핀/스크롤 하이재킹, Lenis 전역, 트리거 vh</li>
+   <li>레이아웃 속성 스크럽(→transform/opacity)</li>
+   <li>RM 미대응 · 오도미터 aria-live 누락 · 차트 색 단독</li>
+   <li>위젯에 &lt;script&gt;(→FOOTER 엔진) · WebGL/3D/디더 · 루프 3곳+</li>
+  </ul></div>
+ </div>
+ <p class="note" style="margin-top:14px"><b>검수 게이트</b> 감사(무엇을 바꿨나) → 검증(라이브/로컬 렌더 증거) → 쉬운 설명 3단 보고. "다 됐다" 금지, 검증된 범위만.</p>
+</section>
+
+</main>
+
+<div id="glosspop" role="tooltip" aria-hidden="true"><div class="gp-t"></div><div class="gp-s"></div></div>
+
+<footer>
+ 부부연구소 UI 패턴 라이브러리 v1 · 살아있는 카탈로그<br>
+ 문서 정본 <code>_부부연구소_UI패턴_라이브러리_v1.md</code> · 소스 <code>samples/patterns.html</code><br>
+ 모든 데모는 실토큰·실코드 · 이미지 0 · prefers-reduced-motion 준수
+</footer>
+
+<script>
+/* ===================== 엔진 (바닐라·멱등·RM 가드) ===================== */
+(function(){
+ 'use strict';
+ document.documentElement.classList.remove('no-js');
+ document.documentElement.classList.add('js');
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var IO='IntersectionObserver' in window;
+ function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+
+ /* --- 진행바 폴백(네이티브 미지원 시) --- */
+ var pg=document.getElementById('pg');
+ if(pg && !CSS.supports('animation-timeline','scroll()')){
+  var tick=false;
+  window.addEventListener('scroll',function(){
+   if(tick)return;tick=true;
+   requestAnimationFrame(function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    var y=window.pageYOffset||document.documentElement.scrollTop;
+    pg.style.transform='scaleX('+(h>0?(y/h):0)+')';tick=false;
+   });
+  },{passive:true});
+ }
+
+ /* --- IO 리빌 --- */
+ function reveal(){
+  var items=$all('.reveal');
+  if(RM||!IO){items.forEach(function(e){e.classList.add('is-in');});return;}
+  var obs=new IntersectionObserver(function(es){
+   es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');obs.unobserve(e.target);}});
+  },{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+  items.forEach(function(e){obs.observe(e);});
+ }
+
+ /* --- 카운트업 (easeOutQuart) --- */
+ function countOne(el){
+  var to=parseFloat(el.getAttribute('data-count-to'));if(isNaN(to))return;
+  var dec=(String(to).split('.')[1]||'').length;
+  if(RM){el.textContent=fmt(to,dec);return;}
+  var start=null,dur=1500;
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);var e=1-Math.pow(1-p,4);
+   el.textContent=fmt(to*e,dec);if(p<1)requestAnimationFrame(step);else el.textContent=fmt(to,dec);}
+  requestAnimationFrame(step);
+ }
+ function fmt(n,dec){return n.toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+ function initCount(){
+  var ns=$all('.count');if(!ns.length)return;
+  if(!IO){ns.forEach(countOne);return;}
+  var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countOne(e.target);obs.unobserve(e.target);}});},{threshold:.5});
+  ns.forEach(function(e){obs.observe(e);});
+ }
+
+ /* --- 오도미터: 자리별 릴 생성 + 진입 시 롤 --- */
+ function buildOdo(el){
+  var val=el.getAttribute('data-odo')||'0';
+  var frag=document.createDocumentFragment();
+  val.split('').forEach(function(ch){
+   if(ch<'0'||ch>'9'){var sep=document.createElement('span');sep.className='od-sep';sep.textContent=ch;frag.appendChild(sep);return;}
+   var col=document.createElement('span');col.className='od-col';
+   var reel=document.createElement('span');reel.className='od-reel';
+   for(var i=0;i<=9;i++){var s=document.createElement('span');s.textContent=i;reel.appendChild(s);}
+   reel.setAttribute('data-target',ch);col.appendChild(reel);frag.appendChild(col);
+  });
+  el.appendChild(frag);
+ }
+ function rollOdo(el){
+  $all('.od-reel',el).forEach(function(reel){
+   var t=parseInt(reel.getAttribute('data-target'),10)||0;
+   if(RM){reel.style.transform='translateY(-'+(t)+'em)';reel.style.transition='none';return;}
+   requestAnimationFrame(function(){reel.style.transform='translateY(-'+t+'em)';});
+  });
+ }
+ function initOdo(){
+  var els=$all('[data-odo]');els.forEach(buildOdo);
+  if(!IO){els.forEach(rollOdo);return;}
+  var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){rollOdo(e.target);obs.unobserve(e.target);}});},{threshold:.5});
+  els.forEach(function(e){obs.observe(e);});
+ }
+
+ /* --- 다이버징 바: width 주입 --- */
+ function initBars(){
+  var bars=$all('.ffill');
+  function fill(){bars.forEach(function(b){b.style.width=(parseFloat(b.getAttribute('data-w'))||0)+'%';});}
+  if(RM||!IO){fill();return;}
+  var host=document.getElementById('c4');
+  var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){fill();obs.disconnect();}});},{threshold:.2});
+  if(host)obs.observe(host);else fill();
+ }
+
+ /* --- 이징 데모: 3 곡선 도트 --- */
+ var EASE={enter:'cubic-bezier(.22,1,.36,1)',morph:'cubic-bezier(.65,0,.35,1)',over:'cubic-bezier(.34,1.32,.42,1)'};
+ function playEase(){
+  $all('.easedot').forEach(function(d){
+   var k=d.getAttribute('data-ease');d.style.transition='none';d.style.transform='translateX(0)';
+   requestAnimationFrame(function(){requestAnimationFrame(function(){
+    d.style.transition='transform 1s '+EASE[k];
+    d.style.transform='translateX(calc(100% - 16px))';
+   });});
+  });
+ }
+ var er=document.getElementById('easeReplay');if(er)er.addEventListener('click',playEase);
+
+ /* --- 기간차트 탭: 폴리라인 morph + 재드로우 --- */
+ var mcLine=document.getElementById('mcLine');
+ $all('.mc-range').forEach(function(btn){
+  btn.addEventListener('click',function(){
+   $all('.mc-range').forEach(function(b){b.setAttribute('aria-selected','false');});
+   btn.setAttribute('aria-selected','true');
+   if(!mcLine)return;
+   mcLine.setAttribute('points',btn.getAttribute('data-pts'));
+   if(RM)return;
+   mcLine.classList.remove('draw');void mcLine.getBBox();
+   var len=mcLine.getTotalLength?mcLine.getTotalLength():600;
+   mcLine.style.setProperty('--len',len);mcLine.classList.add('draw');
+  });
+ });
+
+ /* --- 동심원 스텝퍼 --- */
+ var ddFig=document.getElementById('ddFig'),ddNote=document.getElementById('ddNote');
+ var DDN=['코스피는 진앙 바로 위 — 나스닥보다 깊게 파여요.','악재 1개→2개. 성장 의심 위에 지정학이 겹쳤어요.','받아내는 손 = 0. 저가매수 손이 오늘은 없었어요.'];
+ $all('#ddStep button').forEach(function(b,i){
+  b.addEventListener('click',function(){
+   $all('#ddStep button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+   if(ddFig)ddFig.setAttribute('data-step',String(i+1));
+   if(ddNote)ddNote.textContent=DDN[i];
+  });
+ });
+
+ /* --- 스티키 스크롤텔링 데모: 스텝 활성 값 스왑 --- */
+ var scrollyBig=document.getElementById('scrollyBig');
+ if(scrollyBig && IO){
+  var sObs=new IntersectionObserver(function(es){
+   es.forEach(function(e){if(e.isIntersecting){var v=e.target.getAttribute('data-v');if(v)scrollyBig.textContent=v;}});
+  },{rootMargin:'-45% 0px -45% 0px'});
+  $all('#scrollyDemo .step').forEach(function(s){sObs.observe(s);});
+ }
+
+ /* --- 스태거 재생 버튼 --- */
+ function replayStagger(){
+  $all('#stagDemo .s').forEach(function(el,i){
+   el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='none';
+   setTimeout(function(){el.style.transition='opacity .5s var(--ease-enter),transform .5s var(--ease-enter)';el.style.opacity='1';el.style.transform='none';},RM?0:i*90);
+  });
+ }
+ var sr=document.getElementById('stagReplay');if(sr)sr.addEventListener('click',replayStagger);
+
+ /* --- 워드 스태거 재생 --- */
+ var wl=document.getElementById('wordDemo');
+ function replayWord(){if(!wl)return;wl.classList.remove('is-in');void wl.offsetWidth;wl.classList.add('is-in');}
+ var wr=document.getElementById('wordReplay');if(wr)wr.addEventListener('click',replayWord);
+
+ /* --- 용어 툴팁 (호버+탭) --- */
+ var pop=document.getElementById('glosspop');
+ function showPop(t){
+  var r=t.getBoundingClientRect();
+  pop.querySelector('.gp-t').textContent=t.getAttribute('data-t')||'';
+  pop.querySelector('.gp-s').textContent=t.getAttribute('data-s')||'';
+  pop.classList.add('on');pop.setAttribute('aria-hidden','false');
+  var pw=pop.offsetWidth,ph=pop.offsetHeight;
+  var x=Math.min(Math.max(r.left+r.width/2-pw/2,8),window.innerWidth-pw-8);
+  var y=r.top-ph-10;if(y<8)y=r.bottom+10;
+  pop.style.left=x+'px';pop.style.top=y+'px';
+ }
+ function hidePop(){pop.classList.remove('on');pop.setAttribute('aria-hidden','true');}
+ $all('.term').forEach(function(t){
+  t.addEventListener('mouseenter',function(){showPop(t);t.classList.add('on');});
+  t.addEventListener('mouseleave',function(){hidePop();t.classList.remove('on');});
+  t.addEventListener('click',function(e){e.stopPropagation();if(t.classList.contains('on')){hidePop();t.classList.remove('on');}else{$all('.term').forEach(function(x){x.classList.remove('on');});showPop(t);t.classList.add('on');}});
+ });
+ document.addEventListener('click',hidePop);
+ window.addEventListener('scroll',hidePop,{passive:true});
+
+ /* --- 카테고리 네비 스크롤스파이 --- */
+ var navLinks=$all('#tabnav a');
+ if(IO){
+  var map={};navLinks.forEach(function(a){var id=a.getAttribute('href').slice(1);var s=document.getElementById(id);if(s)map[id]=a;});
+  var nObs=new IntersectionObserver(function(es){
+   es.forEach(function(e){if(e.isIntersecting){navLinks.forEach(function(a){a.classList.remove('is-active');});if(map[e.target.id])map[e.target.id].classList.add('is-active');}});
+  },{rootMargin:'-40% 0px -55% 0px'});
+  Object.keys(map).forEach(function(id){nObs.observe(document.getElementById(id));});
+ }
+
+ /* --- 부팅 --- */
+ reveal();initCount();initOdo();initBars();
+ if(!RM){setTimeout(function(){playEase();if(wl)wl.classList.add('is-in');},400);}
+ else{if(wl)wl.classList.add('is-in');}
+})();
+</script>
+</body>
+</html>
