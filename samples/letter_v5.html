@@ -501,6 +501,8 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
  .whl{background-size:100% 100%!important}
  .ddtl li .tdot{transform:scale(1)!important}
  #sparklive .spl{stroke-dashoffset:0!important}
+ .rv{opacity:1!important;transform:none!important}
+ .dropviz .dvbar{width:var(--p)!important}
 }
 /* ===== v5.2 R1 상향 (플래그·게이지 글로우·미세 인터랙션) ===== */
 .flagi{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.55),0 1px 3px rgba(0,0,0,.28)}
@@ -516,6 +518,25 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
 .relcard{background:linear-gradient(162deg,#fff,var(--pinkSoft2))}
 .relcard .rgo{transition:transform .25s var(--ease)}
 .relcard:hover .rgo{transform:translateX(4px)}
+/* ===== v5.2 R2 (스크롤 리빌·낙폭 비교·타임라인 격) ===== */
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .72s var(--ease),transform .72s var(--ease)}
+html.js .rv.rv-in{opacity:1;transform:none}
+.dropviz{margin:20px 0 4px;background:linear-gradient(165deg,#fff,var(--downSoft));border:1px solid var(--border);border-radius:18px;padding:17px 20px 18px;box-shadow:var(--sh1)}
+.dropviz figcaption{font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.dropviz .dvsub{font-size:11px;font-weight:700;color:var(--downT)}
+.dvrow{display:grid;grid-template-columns:78px 1fr 60px;align-items:center;gap:11px;margin-top:13px}
+.dvrow .dvlab{font-size:12px;font-weight:700;color:var(--ink2);line-height:1.25}
+.dvrow .dvlab b{font-weight:800;color:var(--ink)}
+.dvtrack{height:19px;border-radius:6px;background:rgba(59,111,224,.1);position:relative;overflow:hidden}
+.dvbar{position:absolute;left:0;top:0;bottom:0;width:var(--p);border-radius:6px;background:linear-gradient(90deg,#9db7ee,var(--down));box-shadow:0 1px 4px rgba(59,111,224,.3)}
+.dvbar.kr{background:linear-gradient(90deg,#6d97ec,var(--downT))}
+.dvval{font-size:12.5px;font-weight:800;text-align:right}
+.dvnote{font-size:12px;color:var(--ink2);margin-top:13px;line-height:1.6;border-top:1px dashed var(--border);padding-top:11px}
+.dvnote b{color:var(--downT);font-weight:800}
+html.js .dropviz .dvbar{width:0;transition:width 1.15s var(--ease) .15s}
+html.js .dropviz.rv-in .dvbar{width:var(--p)}
+.ntitem::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:15px 15px 0 0;background:linear-gradient(90deg,var(--rose),transparent);opacity:.72}
+@media(max-width:520px){.dvrow{grid-template-columns:64px 1fr 54px;gap:8px}}
 </style>
 </head><body>
 
@@ -761,33 +782,48 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
    <span class="kicker"><span class="kn">04</span>DEEP DIVE · 딥다이브 — Why?</span>
    <h2 class="sh">왜 어둠은 유독 서울에서 짙었을까요</h2>
 
-   <div class="qbreak" data-field="web.quote">
+   <div class="qbreak rv" data-field="web.quote">
     <div class="qq">“간밤 뉴욕은 <span class="grad tnum">1.16%</span> 내렸는데,, 코스피는 왜 <span class="grad tnum">5.35%</span>나 무너졌을까요”</div>
     <div class="qc">같은 뉴스로 하루를 시작한 두 시장의 진도가 네 배 넘게 차이 났어요.</div>
    </div>
+
+   <figure class="dropviz rv" data-field="facts.us.NDQ+facts.kr.KOSPI" data-rule="two-market-drop-compare|abs-pct-scaled">
+    <figcaption>간밤 낙폭, 얼마나 달랐나 <span class="dvsub">진앙에 가까울수록 깊게</span></figcaption>
+    <div class="dvrow">
+     <div class="dvlab">뉴욕 <b>나스닥</b></div>
+     <div class="dvtrack"><span class="dvbar ny" style="--p:21.7%"></span></div>
+     <div class="dvval down tnum">▼ 1.16%</div>
+    </div>
+    <div class="dvrow">
+     <div class="dvlab">서울 <b>코스피</b></div>
+     <div class="dvtrack"><span class="dvbar kr" style="--p:100%"></span></div>
+     <div class="dvval down tnum">▼ 5.35%</div>
+    </div>
+    <div class="dvnote">같은 밤인데 서울이 <b>약 4.6배</b> 더 깊게 파였어요 — 우리가 반도체(진앙) 위에 서 있기 때문이에요.</div>
+   </figure>
 
    <p data-field="prose.insight_full.intro">연합뉴스는 오늘 마감 속보에 ‘검은 수요일’이라는 제목을 달았는데,, 왜 어둠은 유독 서울에서 짙었을까요. 이 비대칭을 뜯어보면 지금 우리가 어떤 조정을 지나는 중인지가 보여요.</p>
 
    <div class="dd">
     <div class="ddprog" aria-hidden="true"><span style="font-size:11px;font-weight:800;color:var(--mut)">이유 3가지</span><div class="ddtrack"><i id="sfill"></i></div><div class="ddsteps"><span class="sn on">1</span><span class="sn">2</span><span class="sn">3</span></div></div>
 
-    <article class="chap" data-field="prose.insight_full.ch1">
+    <article class="chap rv" data-field="prose.insight_full.ch1">
      <h3 class="chh"><span class="chn">첫째</span>진앙과의 거리가 달라요</h3>
      <p>이번 조정의 진앙은 사흘째 한결같이 ‘AI 반도체’예요. 간밤에도 필라반도체지수만 4.65% 급락했고 다우는 0.25%로 얕았거든요. 지진은 <mark class="whl">진앙에서 멀수록 약하게, 가까울수록 세게</mark> 흔들려요. 뉴욕에게 반도체는 시장의 한 구역이지만, 우리 코스피는 시가총액 맨 윗줄부터 반도체가 차지하는, 말하자면 진앙 바로 위에 지어진 도시거든요. 그래서 뉴욕에선 ‘한 업종의 조정’인 흔들림이 서울로 오면 ‘지수 전체의 조정’으로 증폭되는 거예요.</p>
     </article>
 
-    <article class="chap" data-field="prose.insight_full.ch2">
+    <article class="chap rv" data-field="prose.insight_full.ch2">
      <h3 class="chh"><span class="chn">둘째</span>오늘은 악재가 겹으로 왔어요</h3>
      <p>어제까지 시장을 누르던 건 ‘AI 수요가 이 속도를 이어갈까’라는 성장 쪽 의심 하나였어요. 그런데 오늘 뉴스핌은 마감 기사 제목으로 ‘중동긴장 확대’를 짚었거든요. <mark class="whl">성장 의심 위에 지정학 불안이 얹힌</mark> 거예요. 종류가 다른 악재는 서로 상쇄되지 않고 계산을 어렵게 만들어요. 가뜩이나 환율이 1,514원대(7일 고시)로 높은 판에서, 계산이 안 되는 날 시장은 일단 위험을 줄이는 쪽을 골라요.</p>
     </article>
 
-    <article class="chap" data-field="prose.insight_full.ch3">
+    <article class="chap rv" data-field="prose.insight_full.ch3">
      <h3 class="chh"><span class="chn">셋째</span>받아내는 손이 오늘은 없었어요</h3>
      <p>어제는 장중 8% 급락을 4.9%까지 되돌리는 저가 매수의 손이 있었어요. 그런데 오늘은 반대로 오후로 갈수록 낙폭이 커진 채 그대로 마감했거든요. 연합인포맥스 마감 기사 제목은 <mark class="whl">‘개인도 팔자’</mark>였어요. 하락이 사흘째 이어지면 ‘싸졌다’는 확신보다 손절 규칙이나 반대매매 같은 기계적인 매도가 먼저 움직이는 구간이 와요. 매도 사이드카가 이틀 연속 발동됐다는 것도, 매물이 나온 속도가 그만큼 빨랐다는 제도적 흔적이고요.</p>
     </article>
    </div>
 
-   <div class="counter" data-field="prose.insight_full.counterview">
+   <div class="counter rv" data-field="prose.insight_full.counterview">
     <div class="clab">◑ 다른 시각도 같이 적어둘게요 · 정직성</div>
     <p>뉴욕이 얕게 빠졌다는 사실은, 뒤집어 보면 <b>세계 전체가 후퇴하는 국면은 아직 아니라는 뜻</b>이기도 해요. VIX는 18.83으로 20선 아래고, 코인도 1~2%대 하락에 그쳐 있거든요. 그렇다면 오늘 서울의 5%대는 진앙 위 도시의 과잉 반응이었을 가능성도 있어요. 다만 반대로, 뉴욕은 아직 ‘오늘의 서울’을 반영하기 전이라는 점도 잊으면 안 돼요. 어느 쪽 해석이 맞는지는 지금 단정할 수 없고, 사실 단정할 필요도 없어요.</p>
    </div>
@@ -803,14 +839,14 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
     </ol>
    </div>
 
-   <p class="lesson" data-field="prose.insight_full.lesson"><mark class="whl">낙폭의 크기는 공포의 크기가 아니라, 진앙과의 거리</mark>라는 것. 우리 시장이 유난히 아픈 건 우리가 반도체 위에 서 있기 때문이지, 적어도 간밤까지의 숫자로는 세계가 무너지고 있어서가 아니에요 :)</p>
+   <p class="lesson rv" data-field="prose.insight_full.lesson"><mark class="whl">낙폭의 크기는 공포의 크기가 아니라, 진앙과의 거리</mark>라는 것. 우리 시장이 유난히 아픈 건 우리가 반도체 위에 서 있기 때문이지, 적어도 간밤까지의 숫자로는 세계가 무너지고 있어서가 아니에요 :)</p>
   </section>
 
   <section class="sec" id="s05" data-name="경제뉴스" data-field="prose.news_list">
    <span class="kicker"><span class="kn">05</span>NEWS · 경제뉴스</span>
    <h2 class="sh">오늘의 경제뉴스</h2>
 
-   <article class="newstop" data-field="prose.news_list.0">
+   <article class="newstop rv" data-field="prose.news_list.0">
     <div class="srcrow"><span class="src" data-field="facts.news.main.1.source">연합뉴스</span><span class="srcdate" data-field="facts.news.main.1.pub">2026.07.08</span></div>
     <div class="nq">“‘검은 수요일’이래요,, 코스피 5.4%·코스닥 5.6% 급락 마감”</div>
     <div class="nb">오늘 코스피와 코스닥이 나란히 5%대 급락으로 마감했어요. 연합뉴스는 마감 속보 제목에 ‘검은 수요일’이라는 이름을 붙였거든요. 사흘째 이어진 하락 중에서도 오늘이 가장 가팔랐던 하루였어요.</div>
@@ -832,14 +868,14 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
    <span class="kicker"><span class="kn">06</span>CLOSING · 마무리</span>
    <h2 class="sh">진앙 위의 우리가, 가장 크게 흔들린 하루예요</h2>
    <div class="closing">
-    <div class="cbub" data-field="prose.closing_1">
+    <div class="cbub rv" data-field="prose.closing_1">
      <div class="cav"><span class="eyes"><i></i><i></i></span></div>
      <div class="cbody"><div class="cname">동 · 남편</div>
       <p>사흘째 파란 화면, 그것도 이틀 새 10% 가까이 밀린 지수를 보고 나면 어떤 위로도 가볍게 들릴 수 있는 저녁이에요. 오늘은 낙폭을 되돌리는 손도 보이지 않아서 더 그랬을 거예요.</p>
       <p>그래도 오늘 확인해둔 것 하나는 챙겨가요. 뉴욕은 아직 얕고, 공포지수는 20선 아래고, 코인도 잔잔했어요,, 세계가 무너진 게 아니라 진앙 위의 우리가 가장 크게 흔들린 하루였어요.</p>
      </div>
     </div>
-    <div class="cbub eun" data-field="prose.closing_2">
+    <div class="cbub eun rv" data-field="prose.closing_2">
      <div class="cav eun"><span class="eyes"><i></i><i></i></span></div>
      <div class="cbody"><div class="cname">은 · 아내</div>
       <p>부부도 오후 들어 낙폭이 커지는 화면을 보면서, 숫자를 몇 번이고 다시 확인하며 이 레터를 정리했어요. 이런 날 제일 위험한 건 시장이 아니라 조급해진 마음인 것 같아요. 하락이 사흘째일수록 결론은 미루고, 확인할 날짜만 달력에 적어두는 게 부부의 방식이에요.</p>
@@ -963,6 +999,10 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
  if(rm||!('IntersectionObserver'in window)){revs.forEach(fire);}
  else{var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){fire(en.target);io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -8% 0px'});
   revs.forEach(function(e){io.observe(e);});}
+ // v5.2 개별 스크롤 리빌(.rv) — 요소별 1회 진입(딥다이브·뉴스·마무리)
+ var rvs2=[].slice.call(d.querySelectorAll('.rv'));
+ if(rm||!('IntersectionObserver'in window)){rvs2.forEach(function(e){e.classList.add('rv-in');});}
+ else{var io3=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('rv-in');io3.unobserve(en.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});rvs2.forEach(function(e){io3.observe(e);});}
  // 딥다이브 챕터 진행선
  var chaps=[].slice.call(d.querySelectorAll('.chap')),sfill=d.getElementById('sfill'),sns=[].slice.call(d.querySelectorAll('.ddsteps .sn'));
  if(chaps.length&&sfill){
