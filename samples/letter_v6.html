@@ -1107,6 +1107,8 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
   function render(j){
    var arr=(j&&(j.series||j.letters))||[];if(!arr.length){return;}
    arr=arr.slice().sort(function(a,b){return (a.date||'')<(b.date||'')?-1:1;});
+   var EDITION_DATE='2026-07-08';
+   arr=arr.filter(function(e){return !e.date||e.date<=EDITION_DATE;});
    var any=false;
    figs.forEach(function(fig){
     var key=fig.getAttribute('data-series'),lab=fig.getAttribute('data-label')||'';
