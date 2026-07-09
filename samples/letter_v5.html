@@ -924,6 +924,8 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
  var hk=d.getElementById('hook');
  if(hk){[].slice.call(hk.querySelectorAll('.w')).forEach(function(w,i){w.style.setProperty('--i',i);});
   setTimeout(function(){hk.classList.add('in');},80);}
+ // mrise 엔트런스 안전망: CSS 애니 스로틀/일시정지(비활성 탭 등) 환경에서도 마스트 콘텐츠 가시 100% 보장
+ setTimeout(function(){[].slice.call(d.querySelectorAll('.mast .mrise')).forEach(function(el){el.style.opacity='1';el.style.transform='none';});},1600);
  // 카운트업
  function countup(el){
   [].slice.call(el.querySelectorAll('.cnt')).forEach(function(c){
