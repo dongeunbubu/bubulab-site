@@ -54,16 +54,16 @@ html:not(.js) #pg{display:none}
   radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),
   radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),
   linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
-.mast .grain{position:absolute;inset:0;opacity:.34;pointer-events:none;mix-blend-mode:multiply;z-index:1}
-.mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(58px)}
+.mast .grain{position:absolute;inset:0;opacity:.42;pointer-events:none;z-index:1}
+.mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(46px);will-change:transform}
 .m1{width:440px;height:440px;background:radial-gradient(circle at 40% 40%,#F7C9D0,#F4A9B6 70%);opacity:.5;top:-150px;right:-40px}
 .m2{width:340px;height:340px;background:radial-gradient(circle at 50% 50%,#CFE5DC,#AFD3C6 70%);opacity:.42;bottom:-160px;left:-60px}
 .m3{width:260px;height:260px;background:radial-gradient(circle at 50% 50%,#F8DEC7,#F1C79E 70%);opacity:.4;top:30%;left:46%}
 html.js .mesh{animation:aurora 20s var(--ease) infinite alternate}
 html.js .m2{animation-duration:26s;animation-delay:-6s}
 html.js .m3{animation-duration:23s;animation-delay:-11s}
-@keyframes aurora{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(26px,-22px,0) scale(1.08)}100%{transform:translate3d(-20px,20px,0) scale(.96)}}
-.watermark{position:absolute;z-index:0;right:-2%;top:24%;font-weight:900;font-size:min(38vw,520px);line-height:.8;letter-spacing:-.04em;color:rgba(179,58,76,.05);pointer-events:none;user-select:none;font-variant-numeric:tabular-nums}
+@keyframes aurora{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(30px,-26px,0)}100%{transform:translate3d(-24px,24px,0)}}
+.watermark{position:absolute;z-index:0;will-change:transform;right:-2%;top:24%;font-weight:900;font-size:min(38vw,520px);line-height:.8;letter-spacing:-.04em;color:rgba(179,58,76,.05);pointer-events:none;user-select:none;font-variant-numeric:tabular-nums}
 @media(max-width:1023px){.watermark{top:auto;bottom:-4%;right:-6%;font-size:62vw;opacity:.7}}
 .in1180{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
 .mastin{padding:clamp(34px,5.2vw,58px) 0 clamp(30px,4.4vw,50px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,54px);align-items:center}
@@ -71,7 +71,7 @@ html.js .m3{animation-duration:23s;animation-delay:-11s}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--ink)}
 .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);flex:none;box-shadow:0 0 0 0 rgba(179,58,76,.4)}
 html.js .brand .dot{animation:pulse 2.6s infinite}
-.brand .live{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--sageInk);background:rgba(230,240,236,.8);border:1px solid #cfe4dc;border-radius:100px;padding:5px 11px;backdrop-filter:blur(6px)}
+.brand .live{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--sageInk);background:rgba(230,240,236,.92);border:1px solid #cfe4dc;border-radius:100px;padding:5px 11px}
 .brand .live .d{width:6px;height:6px;border-radius:50%;background:var(--sage)}
 html.js .brand .live .d{animation:pulse2 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(179,58,76,.36)}55%{box-shadow:0 0 0 9px rgba(179,58,76,0)}}
@@ -96,7 +96,7 @@ html.js h1.hook.in .key::after{animation:hl .7s var(--ease) .5s forwards}
 .dek{font-size:clamp(16px,2vw,19px);color:var(--ink2);font-weight:600;margin-top:17px;max-width:34ch;line-height:1.62}
 .dek b{color:var(--rose);font-weight:800}
 .metaline{display:flex;gap:9px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mut);font-weight:600;margin-top:17px}
-.metaline .mi{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:8px;padding:4px 10px;backdrop-filter:blur(4px)}
+.metaline .mi{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:8px;padding:4px 10px}
 .metaline .mi b{color:var(--ink2);font-weight:800}
 
 /* 우측 히어로 카드 스택 (오늘의 핵심) */
@@ -104,7 +104,7 @@ html.js h1.hook.in .key::after{animation:hl .7s var(--ease) .5s forwards}
 .hvhead{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--rose);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .hvhead::before{content:"";width:20px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
 .hstack{position:relative}
-.hcard{background:linear-gradient(160deg,rgba(255,255,255,.94),rgba(255,255,255,.78));border:1px solid transparent;border-radius:22px;box-shadow:var(--sh2);backdrop-filter:blur(10px);
+.hcard{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,255,255,.9));border:1px solid transparent;border-radius:22px;box-shadow:var(--sh2);
   background-clip:padding-box}
 .hcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(214,92,110,.4) 46%,rgba(255,255,255,.15));
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
@@ -441,7 +441,7 @@ html.js .cav.eun{animation-delay:-3s}
 .cbtn:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 22px 44px -10px rgba(0,0,0,.4)}
 .cfoot{font-size:12px;opacity:.92;margin-top:14px}
 /* 레일 */
-.railcard{position:relative;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:18px;padding:16px 17px;box-shadow:var(--sh1)}
+.railcard{position:relative;background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:18px;padding:16px 17px;box-shadow:var(--sh1)}
 .railcard .rt{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.08em}
 .rtoc{margin-top:10px;display:flex;flex-direction:column;gap:1px}
 .rtoc a{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:10px;font-size:12.5px;font-weight:700;color:var(--ink2);text-decoration:none;transition:background .25s,color .25s}
