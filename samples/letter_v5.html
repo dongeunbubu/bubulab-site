@@ -468,11 +468,30 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
 #top.on{opacity:1;transform:none}
 #top:hover{transform:translateY(-2px)}
 @media(max-width:560px){.rhythm{max-width:none}}
+/* ===== JS 스크롤/로드 리빌 (CSS·IO 전담 · GSAP 없이 완전 동작 = 이중경로 기저) ===== */
+html.js .mast .mrise{opacity:0;transform:translateY(20px);animation:mrise .78s var(--ease) both}
+@keyframes mrise{to{opacity:1;transform:none}}
+html.js .mast .m-d1{animation-delay:.06s}
+html.js .mast .m-d2{animation-delay:.14s}
+html.js .mast .m-d3{animation-delay:.30s}
+html.js .mast .m-d4{animation-delay:.38s}
+html.js .mast .m-d5{animation-delay:.22s}
+html.js .rvs>*{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+html.js .in .rvs>*{opacity:1;transform:none}
+html.js .in .rvs>*:nth-child(2){transition-delay:.07s}
+html.js .in .rvs>*:nth-child(3){transition-delay:.14s}
+html.js .in .rvs>*:nth-child(4){transition-delay:.21s}
+html.js .in .rvs>*:nth-child(5){transition-delay:.28s}
+html.js .in .rvs>*:nth-child(6){transition-delay:.35s}
+html.js .in .rvs>*:nth-child(7){transition-delay:.42s}
+html.js .in .rvs>*:nth-child(8){transition-delay:.49s}
+html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
 /* 접근성: 모션 최소화 */
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation:none!important;transition:none!important}
  h1.hook .w{opacity:1!important;transform:none!important}
  h1.hook .key::after{transform:scaleX(1)!important}
+ .mrise,.rvs>*{opacity:1!important;transform:none!important;animation:none!important}
  .hcard.main,.hcard.b1,.hcard.b2{transform:none!important}
  .mc .mbar i{width:var(--w)!important}
  .flows .fmark{left:33%!important}
@@ -493,17 +512,17 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
  <div class="in1180 mastin">
   <div class="mastleft">
    <div class="brand"><span class="dot"></span>동은부부 머니레터<span class="live"><span class="d"></span>매일 발행</span></div>
-   <div class="eyebrow-ed">
+   <div class="eyebrow-ed mrise m-d1">
     <span class="badge" data-field="facts.meta.edition">🇰🇷 저녁판 · PM BRIEF</span>
     <span class="ed-you">오늘 시장, 옆에서 정리해 드릴게요</span>
    </div>
-   <time class="bigdate tnum" datetime="2026-07-08" data-field="facts.meta.date_label">
+   <time class="bigdate tnum mrise m-d2" datetime="2026-07-08" data-field="facts.meta.date_label">
     <span class="dnum">7.08</span>
     <span class="dwrap"><span class="dday">수요일</span><span class="dyear">2026년 7월</span></span>
    </time>
    <h1 class="hook" id="hook" data-field="web.hook"><span class="w">간밤</span> <span class="w">뉴욕은</span> <span class="w tnum">1.16%</span> <span class="w">내렸는데,,</span> <span class="w">코스피는</span> <span class="w">왜</span> <span class="w key tnum">5.35%나</span> <span class="w">무너졌을까요</span></h1>
-   <p class="dek" data-field="web.tldr.lead">낙폭의 크기는 공포의 크기가 아니라, <b>진앙과의 거리</b>였어요.</p>
-   <div class="metaline">
+   <p class="dek mrise m-d3" data-field="web.tldr.lead">낙폭의 크기는 공포의 크기가 아니라, <b>진앙과의 거리</b>였어요.</p>
+   <div class="metaline mrise m-d4">
     <span class="mi" data-field="facts.meta.generated_at">기준 <b>18:34</b> KST 수집</span>
     <span class="mi" data-field="derived.read_min">스캔 3분 · 정독 <b>10분</b></span>
     <span class="mi" data-field="facts.meta.coverage">지표 <b>7/7</b> 수집</span>
@@ -511,7 +530,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
   </div>
 
   <!-- 우측 히어로 카드 스택 = 마스트 KPI 3칩(코스피 고정·max-abs-move 진앙·VIX 고정). 필드 부재시 해당 카드 생략 -->
-  <div class="heroviz" data-field="web.kpi" data-rule="kospi|max-abs-move|vix">
+  <div class="heroviz mrise m-d5" data-field="web.kpi" data-rule="kospi|max-abs-move|vix">
    <div class="hvhead">오늘의 핵심</div>
    <div class="hstack">
     <div class="hcard main" data-field="facts.kr.KOSPI">
@@ -539,7 +558,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
 <section class="heatband" aria-label="오늘 시장 지표 한 줄 요약" data-field="web.heat" data-rule="kr+fx+us+aux|sign-color|omit-if-missing">
  <div class="heatin">
   <div class="heatlead"><span class="hb-dot"></span>2026.07.08 저녁 · <b>시장 전체 온도</b> — 수집 성공 지표만 · 기준 18:34 KST</div>
-  <div class="heatrow">
+  <div class="heatrow rvs">
    <div class="heat d" data-field="facts.kr.KOSPI"><div class="hnm">코스피</div><div class="hvl tnum">7,246.79</div><div class="hcg down tnum">▼ 5.35%</div></div>
    <div class="heat d" data-field="facts.kr.KOSDAQ"><div class="hnm">코스닥</div><div class="hvl tnum">785.00</div><div class="hcg down tnum">▼ 5.56%</div></div>
    <div class="heat f" data-field="facts.fx.USDKRW"><div class="hnm">원/달러</div><div class="hvl tnum">1,514.45<small>원</small></div><div class="hcg flat tnum">7일 고시</div></div>
@@ -564,7 +583,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
   <section class="sec" id="sg" data-name="오늘 한눈에" data-field="web.tldr" data-rule="promote-or-extract-summary">
    <span class="kicker">✦ TODAY AT A GLANCE · 오늘 한눈에</span>
    <h2 class="sh">오늘, 딱 네 가지만</h2>
-   <div class="glance">
+   <div class="glance rvs">
     <div class="gcard lead" data-field="facts.kr.KOSPI+facts.kr.KOSDAQ">
      <div class="gi">🇰🇷</div>
      <div class="gt">코스피 <span class="down tnum">-5.35%</span> · 코스닥 <span class="down tnum">-5.56%</span>, 사흘 연속 하락</div>
@@ -593,7 +612,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
    <h2 class="sh">받아내는 손이 보이지 않았어요</h2>
    <div class="when" data-field="facts.meta.date_label">26.07.08 마감 기준</div>
 
-   <div class="mgrid">
+   <div class="mgrid rvs">
     <div class="mc dtop" data-field="facts.kr.KOSPI">
      <div class="ml">코스피</div>
      <div class="mv tnum cnt" data-to="7246.79">7,246.79<small>pt</small></div>
@@ -644,7 +663,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
    <p data-field="prose.kr.analysis">그래도 오늘 전광판이 온통 파랗기만 했던 건 아니에요. <mark class="whl sage">기아는 2분기 실적이 컨센서스에 부합</mark>했다는 평가에 5%대 강세를 보였다는 특징주 기사(글로벌이코노믹)도 있었거든요. 지수 전체가 쓸려 내려가는 날에도 확인된 실적은 값을 받는다는 걸 보여준 장면이라, 작지만 기억해둘 만한 위안인 것 같아요 :)</p>
 
    <h3 class="eyebrow">내일 한국시장 체크포인트</h3>
-   <div class="chks" data-field="prose.kr.checkpoints">
+   <div class="chks rvs" data-field="prose.kr.checkpoints">
     <div class="chk"><span class="cn">1</span><div class="ct">오늘 밤 뉴욕의 대답</div><div class="cd">서울의 5%대 급락과 중동 변수를 오늘 밤 뉴욕이 얕게 받아내는지가 내일 아침의 첫 단추예요.</div></div>
     <div class="chk"><span class="cn">2</span><div class="ct">나흘째냐, 멈추냐</div><div class="cd">오늘 보이지 않았던 ‘받아내는 손’이 내일 돌아오는지가 투매와 소화를 가르는 신호예요.</div></div>
     <div class="chk"><span class="cn">3</span><div class="ct">코스닥 800선·환율·유가</div><div class="cd">785까지 내려온 코스닥이 800선을 되찾는지, 중동 헤드라인에 환율·유가가 어떻게 반응하는지가 체력의 온도계예요.</div></div>
@@ -656,7 +675,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
    <h2 class="sh">간밤엔 반도체만 깊게 파였어요</h2>
    <div class="when" data-field="facts.meta">26.07.07 마감 기준 · 오늘 밤(8일) 뉴욕은 이 레터 이후 개장</div>
 
-   <div class="mgrid">
+   <div class="mgrid rvs">
     <div class="mc dtop" data-field="facts.us.SPX"><div class="ml">S&amp;P500</div><div class="mv tnum cnt" data-to="7503.85">7,503.85</div><div class="mchg down tnum">-0.45% · -33.58p</div><div class="mbar"><i class="d" style="--w:9%"></i></div><div class="mnote">얕게 방어</div></div>
     <div class="mc dtop" data-field="facts.us.NDQ"><div class="ml">나스닥</div><div class="mv tnum cnt" data-to="25818.69">25,818.69</div><div class="mchg down tnum">-1.16% · -302.47p</div><div class="mbar"><i class="d" style="--w:23%"></i></div><div class="mnote">기술주 눌림</div></div>
     <div class="mc dtop" data-field="facts.us.DJI"><div class="ml">다우</div><div class="mv tnum cnt" data-to="52925.15">52,925.15</div><div class="mchg down tnum">-0.25% · -130.76p</div><div class="mbar"><i class="d" style="--w:5%"></i></div><div class="mnote">가장 얕은 낙폭</div></div>
@@ -667,7 +686,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
    <p data-field="prose.us.analysis">위안이 되는 온도차도 있어요. 서울이 5%대씩 밀리는 동안에도 <mark class="whl sage">뉴욕 3대 지수의 낙폭은 1% 안팎</mark>에 머물러 있고, VIX도 아직 20선 아래거든요. 세계 전체가 출구로 달려가는 그림은 간밤까지는 아니었다는 뜻이에요. 그래서 오늘 밤은 지수보다도 <mark class="whl">VIX가 20선을 넘는지</mark>를 먼저 보는 게 좋을 것 같아요 :)</p>
 
    <h3 class="eyebrow">오늘 밤 미국시장 일정 · 체크포인트</h3>
-   <div class="ntime" data-field="prose.us.checkpoints">
+   <div class="ntime rvs" data-field="prose.us.checkpoints">
     <div class="ntitem"><div class="nl"><span class="dt"></span>오늘 밤</div><div class="nt">서울발 충격의 수용 강도</div><div class="nd">코스피 5%대 급락·중동 헤드라인을 뉴욕이 얕게 소화하는지, 반도체가 이틀 연속 급락하는지.</div></div>
     <div class="ntitem"><div class="nl"><span class="dt"></span>실시간</div><div class="nt">VIX 20선 돌파 여부</div><div class="nd">18.83이 20선을 넘으면 ‘경계 → 공포’로 단계가 바뀌는 신호로 읽혀요.</div></div>
     <div class="ntitem"><div class="nl"><span class="dt"></span>이어서</div><div class="nt">중동·유가와 연준</div><div class="nd">중동긴장이 유가를 자극하면 물가·금리로 번져요. FOMC(28~29일) 앞둔 발언·환율과 함께.</div></div>
@@ -679,7 +698,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
    <div class="bin">
     <div class="bh"><span class="bk">03 · SENTIMENT</span><span class="bt">공포가 20선을 넘는지, 먼저 봐요</span></div>
     <p class="bsub" data-field="prose.us.analysis">지수보다 온도를 먼저 재는 자리예요. VIX는 아직 20선 아래, 코인도 1~2%대 하락에 그쳐 — 위험자산 전체가 투매되는 국면은 아직 아니라는 단서들이에요.</p>
-    <div class="psygrid">
+    <div class="psygrid rvs">
 
      <div class="pcard" data-field="facts.aux.VIX">
       <div class="pl">VIX 공포지수 · 0–40 스케일</div>
@@ -920,7 +939,7 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
  }
  // IO 리빌 (1회) — 마스트 히어로 카운트업은 즉시
  var mastEl=d.querySelector('.mast');if(mastEl)countup(mastEl);
- var revs=[].slice.call(d.querySelectorAll('.sec'));
+ var revs=[].slice.call(d.querySelectorAll('.sec,.heatband'));
  function fire(el){el.classList.add('in');countup(el);}
  if(rm||!('IntersectionObserver'in window)){revs.forEach(fire);}
  else{var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){fire(en.target);io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -8% 0px'});
@@ -993,38 +1012,11 @@ footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
 
  // ===== GSAP 강화(있을 때만) · 로드 실패/RM 시 위 IO·CSS 경로가 전부 커버(이중 경로) =====
  function gsapEnhance(){
-  if(rm||!window.gsap)return;
-  var g=window.gsap;
-  if(window.ScrollTrigger)g.registerPlugin(window.ScrollTrigger);
-  // 히어로 엔트런스 타임라인 (마스트 좌측 + 우측 카드 스택)
-  var tl=g.timeline({defaults:{ease:'power3.out'}});
-  tl.from('.mast .brand',{y:-14,autoAlpha:0,duration:.6})
-    .from('.mast .eyebrow-ed>*',{y:16,autoAlpha:0,duration:.5,stagger:.08},'-=.25')
-    .from('.mast .bigdate .dnum',{y:26,autoAlpha:0,scale:.9,duration:.7,ease:'back.out(1.5)'},'-=.2')
-    .from('.mast .bigdate .dwrap',{y:14,autoAlpha:0,duration:.5},'-=.45')
-    .from('.mast .metaline .mi',{y:12,autoAlpha:0,duration:.45,stagger:.06},'-=.2')
-    .from('.heroviz .hvhead',{x:16,autoAlpha:0,duration:.5},'-=.7')
-    .from('.heroviz .hstack',{y:30,autoAlpha:0,duration:.8,ease:'power3.out'},'-=.4');
-    // 개별 히어로 카드는 CSS float(무한 transform) 담당 → GSAP는 컨테이너만 건드려 충돌 회피
-  if(!window.ScrollTrigger)return;
-  var ST=window.ScrollTrigger;
-  // 히트바 셀 스태거
-  g.from('.heat',{y:18,autoAlpha:0,duration:.5,stagger:.05,ease:'power2.out',
-   scrollTrigger:{trigger:'.heatband',start:'top 88%'}});
-  // 카드 그리드 스태거 리빌 (스크럽 아님 · once)
-  ['.glance .gcard','#s01 .mgrid .mc','#s02 .mgrid .mc','.psygrid .pcard','.chks .chk','.ntime .ntitem'].forEach(function(sel){
-   var items=d.querySelectorAll(sel);if(!items.length)return;
-   g.from(items,{y:26,autoAlpha:0,duration:.6,stagger:.08,ease:'power3.out',
-    scrollTrigger:{trigger:items[0].parentNode,start:'top 84%',once:true}});
-  });
-  // 딥다이브 챕터 부드러운 진입
-  g.utils.toArray('.chap').forEach(function(ch){
-   g.from(ch.querySelector('p'),{y:20,autoAlpha:0,duration:.6,ease:'power2.out',
-    scrollTrigger:{trigger:ch,start:'top 80%',once:true}});
-  });
-  // 오로라 메쉬 미세 패럴랙스 (핀 없음 · transform만)
-  g.to('.watermark',{yPercent:-14,ease:'none',scrollTrigger:{trigger:'.mast',start:'top top',end:'bottom top',scrub:.8}});
-  ST.refresh();
+  if(rm||!window.gsap||!window.ScrollTrigger)return;
+  var g=window.gsap;g.registerPlugin(window.ScrollTrigger);
+  // 안전한 transform-only 스크럽만 (콘텐츠 숨김 없음 · 엔트런스·스태거·리빌은 CSS/IO 전담)
+  g.to('.watermark',{yPercent:-16,ease:'none',scrollTrigger:{trigger:'.mast',start:'top top',end:'bottom top',scrub:.8}});
+  window.ScrollTrigger.refresh();
  }
  // GSAP 지연 로드 (cdnjs) — 실패해도 조용히 무시(이중 경로)
  if(!rm){
