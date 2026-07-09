@@ -1,4 +1,36 @@
-<!-- [머니레터_랜딩_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 7개) -->
+<!-- [머니레터_랜딩_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 8개) -->
+<script>/*bblletterlanding*/
+  (function(){
+    var root=document.getElementById('bblLL');
+    if(!root||root.getAttribute('data-bblll'))return;
+    root.setAttribute('data-bblll','1');
+    var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
+    var TIMEOUT=8000;
+    function getJSON(url){
+      if(!window.fetch)return Promise.reject(new Error('no-fetch'));
+      var ctl=('AbortController'in window)?new AbortController():null;
+      var to=ctl?setTimeout(function(){if(ctl)ctl.abort();},TIMEOUT):null;
+      return fetch(url,{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){
+        if(to)clearTimeout(to);
+        if(!r.ok)throw new Error('HTTP '+r.status);
+        return r.json();
+      });
+    }
+    getJSON(RAW+'index.json?_t='+Date.now()).then(function(idx){
+      var L=(idx&&idx.letters)||[];var t=L[0];
+      if(!t||!t.title)throw new Error('no-letter');
+      var href=(t.edition==='pm')?'/letter-evening':'/letter-morning';
+      document.getElementById('bblllEd').textContent=(t.edition==='pm')?'저녁판':'아침판';
+      document.getElementById('bblllTitle').textContent=t.title;
+      document.getElementById('bblllTeaser').textContent=t.teaser||'';
+      document.getElementById('bblllLink').setAttribute('href',href);
+      document.getElementById('bblllRead').setAttribute('href',href);
+      root.hidden=false;
+      if('requestAnimationFrame'in window)requestAnimationFrame(function(){root.classList.add('on');});
+      else root.classList.add('on');
+    }).catch(function(){});
+  })();
+  </script>
 <script>
 (function(){var d=document;d.documentElement.classList.add('js');
 var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});

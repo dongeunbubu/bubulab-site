@@ -1,4 +1,73 @@
-<!-- [부부연구소_홈_v10] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 7개) -->
+<!-- [부부연구소_홈_v10] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 8개) -->
+<script>/*bblhometeaser*/
+(function(){
+  var root=document.getElementById('bblHT');
+  if(!root||root.getAttribute('data-bblht'))return;
+  root.setAttribute('data-bblht','1');
+  var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
+  var TIMEOUT=8000;
+  function getJSON(url){
+    if(!window.fetch)return Promise.reject(new Error('no-fetch'));
+    var ctl=('AbortController'in window)?new AbortController():null;
+    var to=ctl?setTimeout(function(){if(ctl)ctl.abort();},TIMEOUT):null;
+    return fetch(url,{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){
+      if(to)clearTimeout(to);
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.json();
+    });
+  }
+  function reveal(){
+    root.hidden=false;
+    if('requestAnimationFrame'in window)requestAnimationFrame(function(){root.classList.add('on');});
+    else root.classList.add('on');
+  }
+  function num(n){return Math.round(n).toLocaleString('ko-KR');}
+  function chip(vId,gId,cur,prev){
+    var v=document.getElementById(vId),g=document.getElementById(gId);
+    if(!v||!g||cur==null||!isFinite(cur))return false;
+    v.textContent=num(cur);
+    if(prev==null||!isFinite(prev)||prev===0){g.textContent='–';g.className='bblht-cg';return true;}
+    var p=(cur-prev)/prev*100;
+    var cls=p>0?'up':(p<0?'down':'');
+    var sign=p>0?'+':(p<0?'-':'');
+    g.textContent=sign+Math.abs(p).toFixed(2)+'%';
+    g.className='bblht-cg'+(cls?' '+cls:'');
+    return true;
+  }
+  function fmtWhen(idxUpdated,ltrDate){
+    var s=idxUpdated||ltrDate||'';
+    var m=/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(s);
+    if(!m)return '';
+    var y=+m[1],mo=+m[2],d=+m[3],hh=m[4]!=null?+m[4]:null,mm=m[5];
+    var now=new Date();
+    var td=(now.getFullYear()===y&&now.getMonth()+1===mo&&now.getDate()===d);
+    var ye=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1);
+    var yd=(ye.getFullYear()===y&&ye.getMonth()+1===mo&&ye.getDate()===d);
+    var dl=td?'오늘':(yd?'어제':(y+'. '+mo+'. '+d+'.'));
+    var tl='';
+    if(hh!=null){var ap=hh<12?'오전':'오후';var h=hh%12;if(!h)h=12;tl=' '+ap+' '+h+':'+mm;}
+    return dl+tl+' 발행';
+  }
+  getJSON(RAW+'index.json?_t='+Date.now()).then(function(idx){
+    var L=(idx&&idx.letters)||[];var t=L[0];
+    if(!t||!t.title)throw new Error('no-letter');
+    document.getElementById('bblhtEd').textContent=(t.edition==='pm')?'저녁판':'아침판';
+    document.getElementById('bblhtTitle').textContent=t.title;
+    document.getElementById('bblhtTeaser').textContent=t.teaser||'';
+    document.getElementById('bblhtLink').setAttribute('href',(t.edition==='pm')?'/letter-evening':'/letter-morning');
+    var w=fmtWhen(idx.updated,t.date);if(w)document.getElementById('bblhtWhen').textContent=w;
+    reveal();
+    getJSON(RAW+'history.json?_t='+Date.now()).then(function(h){
+      var S=(h&&h.series)||[];if(!S.length)return;
+      var c=S[S.length-1],p=S.length>1?S[S.length-2]:{};
+      var a=chip('bblhtK','bblhtKg',c.kospi,p.kospi);
+      var b=chip('bblhtU','bblhtUg',c.usdkrw,p.usdkrw);
+      var d=chip('bblhtS','bblhtSg',c.spx,p.spx);
+      if(a||b||d)document.getElementById('bblhtChips').hidden=false;
+    }).catch(function(){});
+  }).catch(function(){});
+})();
+</script>
 <script>
 /* 아임웹에서는 이 블록을 FOOTER(닫는 body 직전)에 — 시장 데이터는 발행 파이프라인이 money_letter.json으로 자동 주입 */
 (function(){

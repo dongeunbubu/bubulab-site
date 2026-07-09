@@ -480,6 +480,30 @@ html.js .wstag.in>*{opacity:1;transform:none}
       <div class="pnote">※ 미리보기 예시예요. 실제 레터는 매일 그날 수치로 자동 갱신돼 발행돼요. 투자 권유가 아니에요.</div>
     </div>
   </div>
+<!-- [오늘 발행된 레터 프리뷰 · index.json 최신 1건 + 아카이브 링크 · 자동갱신 · 실패/무데이터 시 블록 숨김] -->
+  <style>
+  #bblLL{max-width:680px;margin:clamp(24px,4vw,40px) auto 0;background:linear-gradient(158deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--r);padding:clamp(20px,3vw,28px);box-shadow:var(--cardSh);text-align:center;opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  #bblLL.on{opacity:1;transform:none}
+  #bblLL .bblll-tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--rose)}
+  #bblLL .bblll-dot{width:7px;height:7px;border-radius:50%;background:var(--rose);animation:bp 1.6s ease-in-out infinite}
+  #bblLL .bblll-main{display:block;margin-top:12px}
+  #bblLL .bblll-title{font-size:clamp(17px,2.2vw,21px);font-weight:800;letter-spacing:-.02em;line-height:1.42;color:var(--ink)}
+  #bblLL .bblll-teaser{font-size:13.5px;color:var(--ink2);margin-top:8px}
+  #bblLL .bblll-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  @media(prefers-reduced-motion:reduce){#bblLL{opacity:1;transform:none;transition:none}#bblLL .bblll-dot{animation:none}}
+  </style>
+  <div id="bblLL" hidden aria-label="오늘 발행된 레터">
+    <div class="bblll-tag"><span class="bblll-dot"></span><span id="bblllEd">아침판</span> · 오늘 발행된 레터</div>
+    <a class="bblll-main" id="bblllLink" href="/letter-morning">
+      <div class="bblll-title" id="bblllTitle"></div>
+      <div class="bblll-teaser" id="bblllTeaser"></div>
+    </a>
+    <div class="bblll-cta">
+      <a class="btn btn-rose" id="bblllRead" href="/letter-morning">오늘 레터 읽으러 가기 →</a>
+      <a class="btn btn-ghost" href="/letter-archive">지난 레터 아카이브</a>
+    </div>
+  </div>
+  
 </section>
 
 <section class="blk wrap">
