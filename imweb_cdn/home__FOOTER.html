@@ -18,8 +18,8 @@
   }
   function reveal(){
     root.hidden=false;
-    if('requestAnimationFrame'in window)requestAnimationFrame(function(){root.classList.add('on');});
-    else root.classList.add('on');
+    void root.offsetWidth;
+    root.classList.add('on');
   }
   function num(n){return Math.round(n).toLocaleString('ko-KR');}
   function chip(vId,gId,cur,prev){

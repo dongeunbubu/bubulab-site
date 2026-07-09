@@ -26,8 +26,8 @@
       document.getElementById('bblllLink').setAttribute('href',href);
       document.getElementById('bblllRead').setAttribute('href',href);
       root.hidden=false;
-      if('requestAnimationFrame'in window)requestAnimationFrame(function(){root.classList.add('on');});
-      else root.classList.add('on');
+      void root.offsetWidth;
+      root.classList.add('on');
     }).catch(function(){});
   })();
   </script>
