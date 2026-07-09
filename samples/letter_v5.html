@@ -55,7 +55,7 @@ html:not(.js) #pg{display:none}
   radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),
   linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
 .mast .grain{position:absolute;inset:0;opacity:.42;pointer-events:none;z-index:1}
-.mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(46px);will-change:transform}
+.mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(42px);will-change:transform}
 .m1{width:440px;height:440px;background:radial-gradient(circle at 40% 40%,#F7C9D0,#F4A9B6 70%);opacity:.5;top:-150px;right:-40px}
 .m2{width:340px;height:340px;background:radial-gradient(circle at 50% 50%,#CFE5DC,#AFD3C6 70%);opacity:.42;bottom:-160px;left:-60px}
 .m3{width:260px;height:260px;background:radial-gradient(circle at 50% 50%,#F8DEC7,#F1C79E 70%);opacity:.4;top:30%;left:46%}
@@ -931,10 +931,11 @@ html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
    var to=parseFloat(c.getAttribute('data-to')),html0=c.innerHTML,small=c.querySelector('small');
    var suffix=small?small.outerHTML:'',dec=(String(c.getAttribute('data-to')).split('.')[1]||'').length,t0=null;
    if(rm||!isFinite(to))return;
-   function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1),e=1-Math.pow(1-p,3);
+   function step(ts){if(c.__stop)return;if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1),e=1-Math.pow(1-p,3);
     c.innerHTML=(to*e).toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suffix;
-    if(p<1)requestAnimationFrame(step);else c.innerHTML=html0;}
+    if(p<1)requestAnimationFrame(step);else{c.__stop=1;c.innerHTML=html0;}}
    requestAnimationFrame(step);
+   setTimeout(function(){if(!c.__stop){c.__stop=1;c.innerHTML=html0;}},1500);
   });
  }
  // IO 리빌 (1회) — 마스트 히어로 카운트업은 즉시
