@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>동은부부 머니레터 — 2026.07.08 저녁판 (v6 쇼케이스)</title>
+<title>동은부부 머니레터 — 2026.07.08 저녁판 (v6.1 쇼케이스)</title>
 <meta name="description" content="간밤 뉴욕은 1.16% 내렸는데 코스피는 왜 5.35% 무너졌을까 — 동은부부가 매일 정리하는 시장 이야기. (웹 v5 예시 페이지)">
 <meta name="robots" content="noindex">
 <!-- ====== 데이터 계약 바인딩 지도 (render_web v5 이식용) ======
@@ -58,12 +58,12 @@ html:not(.js) #pg{display:none}
 /* ==================== 마스트 (2단 · 오버사이즈 · 오로라) ==================== */
 .mast{position:relative;overflow:hidden;background:
   radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),
-  radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),
+  radial-gradient(90% 80% at 8% 108%,#F7E7DE 0%,rgba(247,231,222,0) 60%),
   linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
 .mast .grain{position:absolute;inset:0;opacity:.42;pointer-events:none;z-index:1}
 .mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(42px);will-change:transform}
 .m1{width:440px;height:440px;background:radial-gradient(circle at 40% 40%,#F7C9D0,#F4A9B6 70%);opacity:.5;top:-150px;right:-40px}
-.m2{width:340px;height:340px;background:radial-gradient(circle at 50% 50%,#CFE5DC,#AFD3C6 70%);opacity:.42;bottom:-160px;left:-60px}
+.m2{width:340px;height:340px;background:radial-gradient(circle at 50% 50%,#F7D8CF,#F2BEC1 70%);opacity:.4;bottom:-160px;left:-60px}
 .m3{width:260px;height:260px;background:radial-gradient(circle at 50% 50%,#F8DEC7,#F1C79E 70%);opacity:.4;top:30%;left:46%}
 html.js .mesh{animation:aurora 20s var(--ease) infinite alternate}
 html.js .m2{animation-duration:26s;animation-delay:-6s}
@@ -180,8 +180,9 @@ html.js .hcard.b2{animation:floatC 9s ease-in-out infinite}
 @media(min-width:1024px){
  .reading{display:grid;grid-template-columns:minmax(0,var(--col)) var(--rail);gap:var(--gap);justify-content:center;align-items:start}
  .flow{grid-column:1}
- .rail{grid-column:2;display:flex;flex-direction:column;gap:14px;position:sticky;top:18px;align-self:start}
- .flow>.band{width:calc(100% + var(--gap) + var(--rail))}
+ .rail{grid-column:2;display:flex;flex-direction:column;gap:14px;position:sticky;top:18px;align-self:start;z-index:3}
+ /* v6.1 #2: 풀블리드 밴드가 레일을 침범/가리던 문제 해소 — 데스크톱에선 본문 칼럼 폭 안에서만(레일 공존) */
+ .flow>.band{width:100%}
 }
 /* 섹션 공통 */
 .sec{padding:clamp(48px,6vw,82px) 0 clamp(40px,5vw,64px);border-bottom:1px solid var(--border);scroll-margin-top:70px}
@@ -282,7 +283,7 @@ html.js .sec.in .flows .fmark{left:33%}
 .band{margin:clamp(48px,6vw,82px) 0;padding:clamp(38px,5vw,58px) 0;border-radius:0;position:relative}
 @media(max-width:1023px){.band{margin-left:calc(-1*clamp(16px,3.5vw,26px));margin-right:calc(-1*clamp(16px,3.5vw,26px));padding-left:clamp(16px,3.5vw,26px);padding-right:clamp(16px,3.5vw,26px)}}
 .band .bin{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
-@media(min-width:1024px){.band .bin{padding:0}.flow>.band{position:relative;z-index:2}.rail{z-index:1}}
+@media(min-width:1024px){.band .bin{padding:0}.flow>.band{position:relative;z-index:1;border-radius:24px;overflow:hidden}.rail{z-index:3}}
 .band .bh{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
 .band .bk{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--rose);text-transform:uppercase}
 .band .bt{font-size:clamp(20px,2.7vw,27px);font-weight:800;letter-spacing:-.02em}
@@ -431,10 +432,12 @@ html.js .cav.eun{animation-delay:-3s}
 .relcard .rgo{display:inline-block;margin-top:12px;font-size:12px;font-weight:800;color:var(--rose);text-decoration:none;border-bottom:1.5px solid var(--pink)}
 .relnote{font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.55}
 /* CTA 밴드 */
+/* v6.1 #1: 웜다크 심리 밴드와 톤 통일 — 동일 잉크(#2A151D) 계열 + 브랜드 로즈. 초록 그라디언트 제거 */
 .band.cta{background:
-  radial-gradient(90% 140% at 88% -20%,rgba(255,255,255,.16),transparent 60%),
-  linear-gradient(150deg,var(--rose),#A83350 48%,#3F6E62);color:#fff;text-align:center;border:0;overflow:hidden}
-.band.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 20% 120%,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+  radial-gradient(100% 150% at 84% -24%,rgba(224,134,150,.34),transparent 58%),
+  radial-gradient(84% 120% at 10% 122%,rgba(124,36,59,.55),transparent 60%),
+  linear-gradient(158deg,#2A151D 0%,var(--deep) 42%,var(--rose) 100%);color:#fff;text-align:center;border:0;overflow:hidden}
+.band.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 22% 118%,rgba(255,255,255,.12),transparent 60%);pointer-events:none}
 .band.cta .bin{max-width:760px;position:relative}
 .band.cta .clbl{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.92;text-transform:uppercase}
 .band.cta h2{font-size:clamp(23px,3.5vw,32px);font-weight:800;letter-spacing:-.02em;margin-top:11px;line-height:1.3}
@@ -616,6 +619,140 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
  .ddf-track i{width:var(--p)!important}.ddf-cause{opacity:1!important;transform:none!important}.ddf-hand{opacity:1!important}
  .cgauge-needle{transition:none!important}
 }
+
+/* ==================== v6.1 신규 컴포넌트 CSS ==================== */
+/* #3 레일 스냅샷 가로 클리핑 방지(비트코인 카드) */
+.railcard{overflow:visible}
+.snap .srow{gap:6px;min-width:0}
+.snap .sn2{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.snap .sv{white-space:nowrap;flex:none;text-align:right;display:flex;align-items:baseline;gap:3px;justify-content:flex-end}
+
+/* #6 용어 호버/탭 툴팁 (점선 밑줄 + 카드) */
+.term{border-bottom:1.5px dotted var(--rose2);cursor:help;font-weight:700;color:inherit;background:linear-gradient(transparent 82%,var(--pinkSoft2) 0);padding:0 1px;border-radius:2px;transition:background .2s var(--ease)}
+.term:hover,.term.on{background:linear-gradient(transparent 82%,var(--pinkSoft) 0)}
+.band.psy .term{border-bottom-color:var(--pink);background:none;color:#fff}
+.band.psy .term:hover,.band.psy .term.on{background:rgba(255,255,255,.08)}
+#glosspop{position:fixed;z-index:1300;max-width:262px;background:linear-gradient(165deg,#33222a,var(--ink));color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:12px 14px;box-shadow:var(--shLift);opacity:0;transform:translateY(5px) scale(.98);transition:opacity .16s var(--ease),transform .16s var(--ease);pointer-events:none}
+#glosspop.on{opacity:1;transform:none}
+#glosspop .gp-t{font-weight:800;color:var(--pink);font-size:13px;letter-spacing:-.01em}
+#glosspop .gp-s{font-size:13px;line-height:1.5;margin-top:4px;color:#fff}
+#glosspop .gp-c{font-size:11px;line-height:1.5;margin-top:7px;color:var(--darkMut);border-top:1px solid rgba(255,255,255,.14);padding-top:7px}
+#glosspop::after{content:"";position:absolute;left:var(--ax,50%);bottom:-6px;width:11px;height:11px;background:var(--ink);border-right:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);transform:translateX(-50%) rotate(45deg)}
+#glosspop.below::after{bottom:auto;top:-6px;border:0;border-left:1px solid rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.12)}
+@media(prefers-reduced-motion:reduce){#glosspop{transition:none}}
+
+/* #5 기간 전환 인터랙티브 차트 */
+.mchart{margin:22px 0 0;background:linear-gradient(168deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:22px;box-shadow:var(--sh2);padding:16px 17px 17px;position:relative;overflow:hidden}
+.mchart::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.26) 52%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.mchart[hidden]{display:none}
+.mc-syms{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;position:relative}
+.mc-syms::-webkit-scrollbar{display:none}
+.mc-sym{flex:none;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;transition:.2s var(--ease);touch-action:manipulation}
+.mc-sym:hover{border-color:var(--pink);color:var(--rose)}
+.mc-sym[aria-selected="true"]{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.mc-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:15px 3px 2px}
+.mc-title{font-size:14.5px;font-weight:800;color:var(--ink)}
+.mc-now{font-size:21px;font-weight:900;letter-spacing:-.022em;color:var(--ink);line-height:1}
+.mc-now small{font-size:.55em;font-weight:800;color:var(--mut);margin-left:2px}
+.mc-chg{font-size:12.5px;font-weight:800}
+.mc-span{margin-left:auto;font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.01em}
+.mc-figwrap{position:relative;margin-top:7px;touch-action:pan-y}
+.mc-svg{width:100%;height:196px;display:block}
+.mc-svg .mc-area{stroke:none}
+.mc-svg .mc-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+html.js .mchart.in .mc-svg .mc-line.reveal{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);animation:draw 1s var(--ease) .05s forwards}
+.mc-svg .mc-cross{stroke:var(--mut);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.mc-svg .mc-dot{opacity:0}
+.mc-svg.act .mc-cross,.mc-svg.act .mc-dot{opacity:.9}
+.mc-tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:11px;font-weight:800;padding:5px 9px;border-radius:9px;transform:translate(-50%,-134%);white-space:nowrap;opacity:0;transition:opacity .14s;box-shadow:var(--sh2);z-index:5;font-variant-numeric:tabular-nums}
+.mc-tip.on{opacity:1}
+.mc-tip b{color:var(--pink);display:block;font-size:9.5px;font-weight:800;margin-bottom:1px}
+.mc-x{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);font-weight:700;margin-top:2px;padding:0 3px;font-variant-numeric:tabular-nums}
+.mc-ranges{display:flex;gap:6px;margin-top:13px}
+.mc-range{flex:1;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:11px;padding:9px 5px;cursor:pointer;transition:.2s var(--ease);touch-action:manipulation;text-align:center}
+.mc-range:hover:not([disabled]){border-color:var(--pink);color:var(--rose)}
+.mc-range[aria-selected="true"]{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep));box-shadow:0 6px 13px -6px rgba(179,58,76,.5)}
+.mc-range[disabled]{opacity:.45;cursor:default;color:var(--mut);background:var(--bg2)}
+.mc-foot{font-size:10.5px;color:var(--mut);margin-top:11px;font-weight:600;line-height:1.5}
+.mc-foot b{color:var(--ink2);font-weight:800}
+
+/* #7 딥다이브 논지 그래픽 (챕터 동기화 · 3 장면 오버레이) */
+.dds{position:relative;margin-top:13px}
+.dds svg{width:100%;height:auto;display:block;overflow:visible}
+.dds .dg{opacity:0;transition:opacity .5s var(--ease-enter),transform .5s var(--ease-enter)}
+.dd-figure[data-step="1"] .dds .dg1,.dd-figure[data-step="2"] .dds .dg2,.dd-figure[data-step="3"] .dds .dg3{opacity:1}
+.dds .dg2,.dds .dg3{transform:translateY(6px)}
+.dd-figure[data-step="2"] .dds .dg2,.dd-figure[data-step="3"] .dds .dg3{transform:none}
+.dds text{font-family:inherit}
+html.js .dd-figure[data-step="1"] .dds .rp{animation:ringp 3.2s ease-in-out infinite}
+html.js .dd-figure[data-step="1"] .dds .rp2{animation-delay:.5s}
+html.js .dd-figure[data-step="1"] .dds .rp3{animation-delay:1s}
+@keyframes ringp{0%,100%{opacity:.16}50%{opacity:.52}}
+@media(prefers-reduced-motion:reduce){.dds .dg{transition:none}html.js .dds .rp{animation:none}}
+
+/* #8 경제뉴스 우선순위 카드 (아코디언 제거·최대 7슬롯) */
+.newsgrid{display:grid;gap:12px;margin:20px 0 0}
+.ncard{position:relative;background:linear-gradient(160deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:16px;padding:15px 17px 15px 19px;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;overflow:hidden}
+.ncard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border)}
+.ncard.pTOP::after{background:linear-gradient(180deg,var(--rose),var(--deep))}
+.ncard.pMAJ::after{background:linear-gradient(180deg,var(--pink),var(--rose))}
+.ncard:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--borderStrong)}
+.nc-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11px}
+.nc-badge{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:6px;padding:3px 8px;color:#fff}
+.nc-badge.top{background:linear-gradient(135deg,var(--rose),var(--deep))}
+.nc-badge.maj{background:var(--rose2)}
+.nc-badge.ref{background:var(--flat)}
+.nc-cat{font-size:9.5px;font-weight:800;border-radius:6px;padding:3px 8px;border:1px solid var(--border)}
+.nc-cat.kr{background:var(--pinkSoft2);color:var(--rose)}
+.nc-cat.us{background:var(--downSoft);color:var(--downT);border-color:#cdddfb}
+.nc-cat.glob{background:rgba(201,162,76,.16);color:#8a6a1c;border-color:#e7d6a8}
+.nc-cat.money{background:var(--sageSoft);color:var(--sageInk);border-color:#cfe4dc}
+.nc-src{font-weight:800;color:var(--mut)}
+.nc-date{color:var(--mut);font-weight:600}
+.nc-src-wrap{margin-left:auto;display:inline-flex;gap:7px;align-items:center}
+.nc-q{font-size:15px;font-weight:800;letter-spacing:-.015em;line-height:1.42;margin-top:11px;color:var(--ink)}
+.ncard.pTOP .nc-q{font-size:16.5px}
+.nc-c{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.62}
+.nc-link{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12px;font-weight:800;color:var(--rose);text-decoration:none}
+.nc-link:hover{text-decoration:underline}
+.newshint{font-size:11px;color:var(--mut);margin-top:13px;font-weight:600;line-height:1.5;display:flex;align-items:center;gap:7px}
+.newshint .nh-slots{display:inline-flex;gap:3px}
+.newshint .nh-slots i{width:15px;height:5px;border-radius:3px;background:var(--rose);opacity:.85}
+.newshint .nh-slots i.empty{background:var(--border);opacity:1}
+
+/* #10 관련 연결(키워드 → 실존 자료) + 인라인 관련글 마커 */
+.kwline{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 4px}
+.kwchip{font-size:12px;font-weight:800;color:var(--rose);background:var(--pinkSoft2);border:1px solid var(--borderStrong);border-radius:999px;padding:6px 12px;letter-spacing:-.01em}
+.kwchip .kh{opacity:.6;margin-right:2px}
+.rel{display:grid;gap:13px;margin:14px 0 0;grid-template-columns:1fr 1fr}
+@media(max-width:620px){.rel{grid-template-columns:1fr}}
+.relcard{position:relative;display:block;background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:16px 17px 15px;box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;text-decoration:none;color:inherit}
+.relcard:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--borderStrong)}
+.rel-type{position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:6px;padding:3px 8px;color:#fff}
+.rel-type.report{background:linear-gradient(135deg,var(--rose),var(--deep))}
+.rel-type.column{background:var(--rose2)}
+.rel-type.tool{background:var(--sageInk)}
+.rel-type.hub{background:var(--flat)}
+.relcard .rkey{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.01em}
+.relcard .rtt{font-size:14.5px;font-weight:800;margin-top:9px;letter-spacing:-.015em;line-height:1.4;max-width:24ch;color:var(--ink)}
+.relcard .rdd{font-size:12.5px;color:var(--ink2);margin-top:7px;line-height:1.56}
+.relcard .rgo{display:inline-flex;align-items:center;gap:4px;margin-top:12px;font-size:12px;font-weight:800;color:var(--rose);transition:transform .25s var(--ease)}
+.relcard:hover .rgo{transform:translateX(4px)}
+.relnote{font-size:11.5px;color:var(--mut);margin-top:14px;line-height:1.55}
+.relmark{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;color:var(--rose);text-decoration:none;background:var(--pinkSoft2);border:1px solid var(--borderStrong);border-radius:8px;padding:2px 9px;line-height:1.5;white-space:nowrap;transition:.2s var(--ease)}
+.relmark::before{content:"↗";font-size:11px;opacity:.8}
+.relmark:hover{border-color:var(--pink);background:var(--pinkSoft)}
+.relmark:active{transform:scale(.96)}
+
+/* #14 심리 신호 판정 카드(투자심리 밴드 3번째 칼럼 대체) */
+.psyverdict{display:flex;flex-direction:column;gap:9px;margin-top:8px}
+.pv-row{display:flex;align-items:flex-start;gap:9px}
+.pv-ic{flex:none;width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid var(--darkLine);color:#fff}
+.pv-ic.ok{color:#BFE3D6}.pv-ic.warn{color:#FF9A8A}
+.pv-tx{font-size:12px;line-height:1.5;color:var(--darkInk)}
+.pv-tx b{color:#fff;font-weight:800}
+.pv-foot{margin-top:12px;border-top:1px dashed var(--darkLine);padding-top:10px;font-size:11px;color:var(--darkMut);line-height:1.55}
+.mc-sym:active,.mc-range:active,.relcard:active{transform:scale(.98)}
 </style>
 </head><body>
 
@@ -639,9 +776,8 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
    <h1 class="hook" id="hook" data-field="web.hook"><span class="w">간밤</span> <span class="w">뉴욕은</span> <span class="w tnum">1.16%</span> <span class="w">내렸는데,,</span> <span class="w">코스피는</span> <span class="w">왜</span> <span class="w key tnum">5.35%나</span> <span class="w">무너졌을까요</span></h1>
    <p class="dek mrise m-d3" data-field="web.tldr.lead">낙폭의 크기는 공포의 크기가 아니라, <b>진앙과의 거리</b>였어요.</p>
    <div class="metaline mrise m-d4">
-    <span class="mi" data-field="facts.meta.generated_at">기준 <b>18:34</b> KST 수집</span>
+    <span class="mi" data-field="facts.meta.generated_at">기준 <b>18:34</b> KST</span>
     <span class="mi" data-field="derived.read_min">스캔 3분 · 정독 <b>10분</b></span>
-    <span class="mi" data-field="facts.meta.coverage">지표 <b>7/7</b> 수집</span>
    </div>
   </div>
 
@@ -674,7 +810,7 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
 <!-- ===== 풀블리드 마켓 히트바 (오늘 시장 전체 온도) ===== -->
 <section class="heatband" aria-label="오늘 시장 지표 한 줄 요약" data-field="web.heat" data-rule="kr+fx+us+aux|sign-color|omit-if-missing">
  <div class="heatin">
-  <div class="heatlead"><span class="hb-dot"></span>2026.07.08 저녁 · <b>시장 전체 온도</b> — 수집 성공 지표만 · 기준 18:34 KST</div>
+  <div class="heatlead"><span class="hb-dot"></span>2026.07.08 저녁 · <b>시장 전체 온도</b> · 기준 18:34 KST</div>
   <div class="heatrow rvs">
    <div class="heat d" data-field="facts.kr.KOSPI"><div class="hnm">코스피</div><div class="hvl tnum">7,246.79</div><div class="hcg down tnum">▼ 5.35%</div></div>
    <div class="heat d" data-field="facts.kr.KOSDAQ"><div class="hnm">코스닥</div><div class="hvl tnum">785.00</div><div class="hcg down tnum">▼ 5.56%</div></div>
@@ -690,7 +826,7 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
 </section>
 
 <nav class="chipnav" aria-label="섹션 바로가기">
- <a href="#sg">한눈에</a><a href="#s01">한국</a><a href="#s02">미국·세계</a><a href="#s03">투자심리</a><a href="#s04">딥다이브</a><a href="#s05">경제뉴스</a><a href="#s06">마무리</a><a href="#s09">구독</a>
+ <a href="#sg">한눈에</a><a href="#s01">한국</a><a href="#s02">미국·세계</a><a href="#schart">지표흐름</a><a href="#s03">투자심리</a><a href="#s04">딥다이브</a><a href="#s05">경제뉴스</a><a href="#s07">이어서</a><a href="#s09">구독</a>
 </nav>
 
 <div class="reading">
@@ -793,9 +929,9 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
    <div class="when" data-field="facts.meta">26.07.07 마감 기준 · 오늘 밤(8일) 뉴욕은 이 레터 이후 개장</div>
 
    <div class="mgrid rvs">
-    <div class="mc dtop" data-field="facts.us.SPX"><div class="ml">S&amp;P500</div><div class="mv tnum cnt" data-to="7503.85">7,503.85</div><div class="mchg down tnum">-0.45% · -33.58p</div><div class="mbar"><i class="d" style="--w:9%"></i></div><div class="mnote">얕게 방어</div></div>
+    <div class="mc dtop" data-field="facts.us.SPX"><div class="ml">S&amp;P500</div><div class="mv tnum">7,503.85</div><div class="mchg down tnum">-0.45% · -33.58p</div><div class="mbar"><i class="d" style="--w:9%"></i></div><div class="mnote">얕게 방어</div></div>
     <div class="mc dtop" data-field="facts.us.NDQ"><div class="ml">나스닥</div><div class="mv tnum cnt" data-to="25818.69">25,818.69</div><div class="mchg down tnum">-1.16% · -302.47p</div><div class="mbar"><i class="d" style="--w:23%"></i></div><div class="mnote">기술주 눌림</div></div>
-    <div class="mc dtop" data-field="facts.us.DJI"><div class="ml">다우</div><div class="mv tnum cnt" data-to="52925.15">52,925.15</div><div class="mchg down tnum">-0.25% · -130.76p</div><div class="mbar"><i class="d" style="--w:5%"></i></div><div class="mnote">가장 얕은 낙폭</div></div>
+    <div class="mc dtop" data-field="facts.us.DJI"><div class="ml">다우</div><div class="mv tnum">52,925.15</div><div class="mchg down tnum">-0.25% · -130.76p</div><div class="mbar"><i class="d" style="--w:5%"></i></div><div class="mnote">가장 얕은 낙폭</div></div>
     <div class="mc dtop" data-field="facts.us.SOX"><div class="ml">필라반도체 <span class="pin" style="background:var(--downSoft);color:var(--downT)" data-field="derived.epicenter" data-rule="max-abs-move-index">진앙</span></div><div class="mv tnum cnt" data-to="12300.52">12,300.52</div><div class="mchg down tnum">-4.65% · -599.63p</div><div class="mbar"><i class="d" style="--w:93%"></i></div><div class="mnote">이번 조정의 진앙</div></div>
    </div>
 
@@ -808,6 +944,47 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
     <div class="ntitem"><div class="nl"><span class="dt"></span>실시간</div><div class="nt">VIX 20선 돌파 여부</div><div class="nd">18.83이 20선을 넘으면 ‘경계 → 공포’로 단계가 바뀌는 신호로 읽혀요.</div></div>
     <div class="ntitem"><div class="nl"><span class="dt"></span>이어서</div><div class="nt">중동·유가와 연준</div><div class="nd">중동긴장이 유가를 자극하면 물가·금리로 번져요. FOMC(28~29일) 앞둔 발언·환율과 함께.</div></div>
    </div>
+  </section>
+
+  <!-- ===== #5 기간 전환 인터랙티브 차트 · letters/series/<SYM>.json 온디맨드 fetch(실패 시 컴포넌트 숨김) · 탭은 가용 범위만 ===== -->
+  <section class="sec" id="schart" data-name="지표 흐름" data-field="series" data-rule="ondemand-fetch|available-ranges-only|hide-if-fail">
+   <span class="kicker"><span class="kn">03</span>CHART · 지표 흐름</span>
+   <h2 class="sh">지표, 기간을 바꿔가며 봐요</h2>
+   <p>오늘의 숫자 하나가 아니라, 그 숫자가 어디에서 와서 어디로 흘러가는지를 같이 봐요. 지표를 고르고 기간을 누르면, 선이 부드럽게 다시 그려져요.</p>
+   <figure class="mchart" id="mchart" hidden aria-label="주요 지표 기간별 종가 추이">
+    <div class="mc-syms" role="tablist" aria-label="지표 선택" data-field="series.symbols">
+     <button class="mc-sym" role="tab" type="button" data-sym="KOSPI"  data-label="코스피"   data-unit="pt">코스피</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="KOSDAQ" data-label="코스닥"   data-unit="pt">코스닥</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="SP500"  data-label="S&amp;P500" data-unit="pt">S&amp;P500</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="NASDAQ" data-label="나스닥"   data-unit="pt">나스닥</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="VIX"    data-label="VIX"      data-unit="" data-dec="2">VIX</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="USDKRW" data-label="원/달러"  data-unit="원">원/달러</button>
+     <button class="mc-sym" role="tab" type="button" data-sym="BTC"    data-label="비트코인" data-unit="" data-pre="$">비트코인</button>
+    </div>
+    <div class="mc-head">
+     <span class="mc-title" id="mcTitle" data-field="series.current.label">코스피</span>
+     <span class="mc-now tnum" id="mcNow" aria-live="polite">—</span>
+     <span class="mc-chg tnum" id="mcChg"></span>
+     <span class="mc-span" id="mcSpan"></span>
+    </div>
+    <div class="mc-figwrap" id="mcFig">
+     <svg class="mc-svg" id="mcSvg" role="img" aria-label="선택한 지표의 기간별 종가 추이 선그래프">
+      <path class="mc-area" id="mcArea" d=""></path>
+      <path class="mc-line reveal" id="mcLine" d=""></path>
+      <line class="mc-cross" id="mcCross" x1="0" y1="0" x2="0" y2="0"></line>
+      <circle class="mc-dot" id="mcDot" r="3.8"></circle>
+     </svg>
+     <div class="mc-tip" id="mcTip" role="status"></div>
+    </div>
+    <div class="mc-x"><span id="mcX0">—</span><span id="mcX1">—</span></div>
+    <div class="mc-ranges" role="tablist" aria-label="기간 선택">
+     <button class="mc-range" role="tab" type="button" data-days="7">7일</button>
+     <button class="mc-range" role="tab" type="button" data-days="30">1개월</button>
+     <button class="mc-range" role="tab" type="button" data-days="90">3개월</button>
+     <button class="mc-range" role="tab" type="button" data-days="0">전체</button>
+    </div>
+    <div class="mc-foot" id="mcFoot" data-field="series.meta">일별 종가 · 공개소스 실데이터예요. <b>가용 범위</b>만 눌러지고, 데이터가 쌓이면 더 긴 기간이 저절로 열려요.</div>
+   </figure>
   </section>
 
   <section class="sec band psy" id="s03" data-name="투자심리" data-field="facts.aux">
@@ -836,17 +1013,17 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
        <div class="coin" data-field="facts.aux.BTC"><span class="tk" style="background:#F7931A">₿</span><div class="cmeta"><div class="cnm">비트코인</div><div class="cw tnum">약 9,393만원 · 1,514원 기준</div></div><div class="cright"><span class="cv tnum">$62,024</span><span class="cc down tnum">▼ 1.72%</span></div></div>
        <div class="coin" data-field="facts.aux.ETH"><span class="tk" style="background:#627EEA">Ξ</span><div class="cmeta"><div class="cnm">이더리움</div><div class="cw tnum">약 263만원 · 1,514원 기준</div></div><div class="cright"><span class="cv tnum">$1,736.50</span><span class="cc down tnum">▼ 2.02%</span></div></div>
       </div>
-      <div class="fgslot" data-field="facts.fg" data-degraded="true"><span class="dchip">라이브 위젯 자리</span>공포·탐욕 지수(CNN)는 서버 수집이 막혀 있어, 수집 성공한 날 이 자리에 클라이언트 위젯이 붙어요. 오늘은 VIX·코인으로 온도를 대신 읽어요.</div>
+      <div class="fgslot" data-field="prose.us.analysis"><span class="dchip">읽는 법</span>주식이 사흘째 크게 흔들리는 동안에도 코인은 24시간 기준 <span class="term" data-g="위험자산">위험자산</span> 1~2%대 하락에 그쳤어요. 전체가 투매되는 국면은 아직 아니라는 단서예요.</div>
      </div>
 
-     <div class="pcard">
-      <div class="pl">최근 6거래일 흐름 · 라이브</div>
-      <div id="sparklive" hidden>
-       <figure class="slfig" data-series="kospi" data-label="코스피"></figure>
-       <figure class="slfig" data-series="usdkrw" data-label="원/달러"></figure>
-       <figure class="slfig" data-series="vix" data-label="VIX"></figure>
+     <div class="pcard" data-field="prose.us.analysis" data-rule="sentiment-verdict">
+      <div class="pl">오늘의 심리 판정</div>
+      <div class="psyverdict">
+       <div class="pv-row"><span class="pv-ic ok" aria-hidden="true">✓</span><div class="pv-tx"><b><span class="term" data-g="VIX">VIX</span> 20선 아래</b> — 아직 ‘공포’ 아닌 ‘경계’ 단계예요.</div></div>
+       <div class="pv-row"><span class="pv-ic ok" aria-hidden="true">✓</span><div class="pv-tx"><b>코인 1~2%대</b> 하락 — 위험자산 전체 투매는 아니에요.</div></div>
+       <div class="pv-row"><span class="pv-ic warn" aria-hidden="true">!</span><div class="pv-tx"><b>경계는 빠르게</b> — VIX가 하루 <span class="tnum">+16.74%</span> 뛰었어요.</div></div>
       </div>
-      <div class="snote" data-field="history.series">letters/history.json 라이브 fetch(실패 시 스냅샷 폴백). 6일치라 ‘최근 6거래일’로 표기 — 누적되면 자동으로 길어져요.</div>
+      <div class="pv-foot">그래서 오늘 밤은 지수보다 <b>VIX가 20선을 넘는지</b>를 먼저 봐요. 넘지 않으면 조정은 아직 업종 단위예요.</div>
       <script type="application/json" id="histfallback" data-field="history.series">{"series":[{"date":"2026-07-02","kospi":7648.09,"kosdaq":866.72,"usdkrw":1558.09,"spx":7483.23},{"date":"2026-07-03","kospi":8088.34,"kosdaq":868.41,"usdkrw":1548.85,"spx":7483.24,"vix":15.92},{"date":"2026-07-04","kospi":8088.34,"kosdaq":868.41,"usdkrw":1531.23,"spx":7483.24,"vix":15.81},{"date":"2026-07-06","kospi":8051.33,"kosdaq":847.07,"usdkrw":1531.23,"spx":7483.24,"vix":16.35},{"date":"2026-07-07","kospi":7656.31,"kosdaq":831.23,"usdkrw":1531.07,"spx":7537.43,"vix":15.85},{"date":"2026-07-08","kospi":7246.79,"kosdaq":785.0,"usdkrw":1514.45,"spx":7503.85,"vix":18.83}]}</script>
      </div>
 
@@ -867,32 +1044,69 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
    <p data-field="prose.insight_full.intro">연합뉴스는 오늘 마감 속보에 ‘검은 수요일’이라는 제목을 달았는데,, 왜 어둠은 유독 서울에서 짙었을까요. 이 비대칭을 뜯어보면 지금 우리가 어떤 조정을 지나는 중인지가 보여요.</p>
 
    <div class="dd scrolly">
-    <figure class="dd-figure" data-step="1" aria-hidden="true" data-field="facts.us.NDQ+facts.kr.KOSPI+facts.us.SOX" data-rule="two-market-drop|epicenter|sticky-1곳">
-     <div class="ddf-cap">오늘의 그래프 · 왜 서울이 더 아팠나<span class="ddf-live">진앙 거리</span></div>
-     <div class="ddf-epi" data-field="facts.us.SOX">진앙 · 필라반도체 <b class="down tnum">▼4.65%</b></div>
-     <div class="ddf-bars">
-      <div class="ddf-row"><span class="ddf-lab">뉴욕<br><b>나스닥</b></span><span class="ddf-track"><i class="ny" style="--p:21.7%"></i></span><span class="ddf-v down tnum">▼1.16%</span></div>
-      <div class="ddf-row"><span class="ddf-lab">서울<br><b>코스피</b></span><span class="ddf-track"><i class="kr" style="--p:100%"></i><span class="ddf-hand">✕ 받아내는 손</span></span><span class="ddf-v down tnum">▼5.35%</span></div>
+    <figure class="dd-figure" data-step="1" aria-hidden="true" data-field="facts.us.NDQ+facts.kr.KOSPI+facts.us.SOX" data-rule="chapter-synced-graphic|sticky-1곳">
+     <div class="ddf-cap">이 챕터를 그림 하나로 · <span id="ddsTitle">진앙과의 거리</span><span class="ddf-live" id="ddsStep">이유 1 / 3</span></div>
+     <div class="dds">
+      <svg viewBox="0 0 250 206" role="img" aria-label="왜 서울이 더 아팠나 — 챕터별 논지 그림">
+       <!-- 장면1: 진앙 동심원 (진앙에 가까운 코스피 vs 먼 나스닥) -->
+       <g class="dg dg1">
+        <circle class="rp rp3" cx="96" cy="102" r="90" fill="none" stroke="#B33A4C" stroke-width="1"/>
+        <circle class="rp rp2" cx="96" cy="102" r="60" fill="none" stroke="#B33A4C" stroke-width="1.15"/>
+        <circle class="rp" cx="96" cy="102" r="31" fill="none" stroke="#B33A4C" stroke-width="1.35"/>
+        <circle cx="96" cy="102" r="8.5" fill="#7C243B"/><circle cx="96" cy="102" r="3.6" fill="#fff"/>
+        <text x="96" y="126" text-anchor="middle" font-size="8.5" font-weight="800" fill="#7C243B">진앙 · AI 반도체</text>
+        <circle cx="120" cy="86" r="7" fill="#E4483A"/>
+        <text x="132" y="82" font-size="10" font-weight="800" fill="#C22E22">코스피</text>
+        <text x="132" y="95" font-size="11" font-weight="900" fill="#C22E22">▼5.35%</text>
+        <circle cx="167" cy="55" r="6" fill="#3B6FE0"/>
+        <text x="178" y="51" font-size="9.5" font-weight="800" fill="#2A55C2">나스닥</text>
+        <text x="178" y="63" font-size="10.5" font-weight="900" fill="#2A55C2">▼1.16%</text>
+        <text x="20" y="199" font-size="9" font-weight="700" fill="#877468">진앙 위 도시 = 코스피, 진앙에서 먼 = 나스닥</text>
+       </g>
+       <!-- 장면2: 겹친 악재 레이어 스택 (성장 의심 + 지정학) -->
+       <g class="dg dg2">
+        <rect x="26" y="104" width="156" height="56" rx="13" fill="#E7EFFD" stroke="#3B6FE0" stroke-width="1.3"/>
+        <text x="42" y="128" font-size="10.5" font-weight="800" fill="#2A55C2">성장 의심</text>
+        <text x="42" y="145" font-size="9" font-weight="700" fill="#5578c0">‘AI 수요 이어갈까’ — 어제까지</text>
+        <rect x="70" y="58" width="156" height="56" rx="13" fill="#F8E3E7" stroke="#B33A4C" stroke-width="1.3"/>
+        <text x="86" y="82" font-size="10.5" font-weight="800" fill="#7C243B">중동 · 지정학</text>
+        <text x="86" y="99" font-size="9" font-weight="700" fill="#a84a5c">오늘 새로 얹힌 변수</text>
+        <rect x="70" y="104" width="112" height="10" fill="#C9A24C" opacity=".32"/>
+        <text x="126" y="200" text-anchor="middle" font-size="9" font-weight="800" fill="#8a6a1c">겹치면 서로 안 상쇄 → 계산 난도 ↑</text>
+       </g>
+       <!-- 장면3: 받아내는 손이 없었다 (수급) -->
+       <g class="dg dg3">
+        <g stroke="#E4483A" stroke-width="6.5" stroke-linecap="round" fill="#E4483A">
+         <line x1="62" y1="36" x2="62" y2="82"/><polygon points="53,78 71,78 62,94" stroke="none"/>
+         <line x1="108" y1="30" x2="108" y2="88" stroke-width="7.5"/><polygon points="98,84 118,84 108,101" stroke="none"/>
+         <line x1="154" y1="36" x2="154" y2="82"/><polygon points="145,78 163,78 154,94" stroke="none"/>
+        </g>
+        <text x="108" y="122" text-anchor="middle" font-size="10.5" font-weight="800" fill="#C22E22">개인도 ‘팔자’ · 매도 우위</text>
+        <line x1="34" y1="150" x2="182" y2="150" stroke="#877468" stroke-width="2" stroke-dasharray="4 4"/>
+        <text x="176" y="146" text-anchor="end" font-size="15" font-weight="900" fill="#877468">✕</text>
+        <text x="108" y="170" text-anchor="middle" font-size="9.5" font-weight="800" fill="#877468">받아내는 손이 오늘은 없었어요</text>
+        <text x="108" y="199" text-anchor="middle" font-size="8.5" font-weight="700" fill="#877468">매도 사이드카 2회 · 매물 속도 ↑</text>
+       </g>
+      </svg>
      </div>
-     <div class="ddf-cause">＋ 중동긴장 · 지정학이 겹쳤어요</div>
-     <div class="ddf-note" data-note>진앙에 가까울수록 깊게 흔들려요 — 서울이 <b>약 4.6배</b> 더 파였어요.</div>
+     <div class="ddf-note" data-note>진앙에 가까울수록 깊게 흔들려요 — 서울은 진앙 바로 위, <b>약 4.6배</b> 더 파였어요.</div>
     </figure>
     <div class="dd-main">
-    <div class="ddprog" aria-hidden="true"><span style="font-size:11px;font-weight:800;color:var(--mut)">이유 3가지</span><div class="ddtrack"><i id="sfill"></i></div><div class="ddsteps"><span class="sn on">1</span><span class="sn">2</span><span class="sn">3</span></div></div>
+    <div class="ddprog" aria-hidden="true"><span style="font-size:11px;font-weight:800;color:var(--mut)">짚어볼 이유 <b style="color:var(--rose)">셋</b></span><div class="ddtrack"><i id="sfill"></i></div><div class="ddsteps"><span class="sn on">1</span><span class="sn">2</span><span class="sn">3</span></div></div>
 
     <article class="chap step rv" data-step="1" data-field="prose.insight_full.ch1">
      <h3 class="chh"><span class="chn">첫째</span>진앙과의 거리가 달라요</h3>
-     <p>이번 조정의 진앙은 사흘째 한결같이 ‘AI 반도체’예요. 간밤에도 필라반도체지수만 4.65% 급락했고 다우는 0.25%로 얕았거든요. 지진은 <mark class="whl">진앙에서 멀수록 약하게, 가까울수록 세게</mark> 흔들려요. 뉴욕에게 반도체는 시장의 한 구역이지만, 우리 코스피는 시가총액 맨 윗줄부터 반도체가 차지하는, 말하자면 진앙 바로 위에 지어진 도시거든요. 그래서 뉴욕에선 ‘한 업종의 조정’인 흔들림이 서울로 오면 ‘지수 전체의 조정’으로 증폭되는 거예요.</p>
+     <p>이번 조정의 진앙은 사흘째 한결같이 ‘AI 반도체’예요. 간밤에도 필라반도체지수만 4.65% 급락했고 다우는 0.25%로 얕았거든요. 지진은 <mark class="whl">진앙에서 멀수록 약하게, 가까울수록 세게</mark> 흔들려요. 뉴욕에게 반도체는 시장의 한 구역이지만, 우리 코스피는 <span class="term" data-g="시가총액">시가총액</span> 맨 윗줄부터 반도체가 차지하는, 말하자면 진앙 바로 위에 지어진 도시거든요. 그래서 뉴욕에선 ‘한 업종의 조정’인 흔들림이 서울로 오면 ‘지수 전체의 조정’으로 증폭되는 거예요. <a class="relmark" href="https://bubulab.co.kr/report-de46" target="_blank" rel="noopener" data-field="web.related">관련 글 · 반도체 3사</a></p>
     </article>
 
     <article class="chap step rv" data-step="2" data-field="prose.insight_full.ch2">
      <h3 class="chh"><span class="chn">둘째</span>오늘은 악재가 겹으로 왔어요</h3>
-     <p>어제까지 시장을 누르던 건 ‘AI 수요가 이 속도를 이어갈까’라는 성장 쪽 의심 하나였어요. 그런데 오늘 뉴스핌은 마감 기사 제목으로 ‘중동긴장 확대’를 짚었거든요. <mark class="whl">성장 의심 위에 지정학 불안이 얹힌</mark> 거예요. 종류가 다른 악재는 서로 상쇄되지 않고 계산을 어렵게 만들어요. 가뜩이나 환율이 1,514원대(7일 고시)로 높은 판에서, 계산이 안 되는 날 시장은 일단 위험을 줄이는 쪽을 골라요.</p>
+     <p>어제까지 시장을 누르던 건 ‘AI 수요가 이 속도를 이어갈까’라는 성장 쪽 의심 하나였어요. 그런데 오늘 뉴스핌은 마감 기사 제목으로 ‘중동긴장 확대’를 짚었거든요. <mark class="whl">성장 의심 위에 지정학 불안이 얹힌</mark> 거예요. 종류가 다른 악재는 서로 상쇄되지 않고 계산을 어렵게 만들어요. 가뜩이나 환율이 1,514원대(7일 고시)로 높은 판에서, 계산이 안 되는 날 시장은 일단 위험을 줄이는 쪽을 골라요. <a class="relmark" href="https://bubulab.co.kr/eco-vs-3479" target="_blank" rel="noopener" data-field="web.related">관련 글 · 환율이 수익률을 가르는 법</a></p>
     </article>
 
     <article class="chap step rv" data-step="3" data-field="prose.insight_full.ch3">
      <h3 class="chh"><span class="chn">셋째</span>받아내는 손이 오늘은 없었어요</h3>
-     <p>어제는 장중 8% 급락을 4.9%까지 되돌리는 저가 매수의 손이 있었어요. 그런데 오늘은 반대로 오후로 갈수록 낙폭이 커진 채 그대로 마감했거든요. 연합인포맥스 마감 기사 제목은 <mark class="whl">‘개인도 팔자’</mark>였어요. 하락이 사흘째 이어지면 ‘싸졌다’는 확신보다 손절 규칙이나 반대매매 같은 기계적인 매도가 먼저 움직이는 구간이 와요. 매도 사이드카가 이틀 연속 발동됐다는 것도, 매물이 나온 속도가 그만큼 빨랐다는 제도적 흔적이고요.</p>
+     <p>어제는 장중 8% 급락을 4.9%까지 되돌리는 저가 매수의 손이 있었어요. 그런데 오늘은 반대로 오후로 갈수록 낙폭이 커진 채 그대로 마감했거든요. 연합인포맥스 마감 기사 제목은 <mark class="whl">‘개인도 팔자’</mark>였어요. 하락이 사흘째 이어지면 ‘싸졌다’는 확신보다 손절 규칙이나 <span class="term" data-g="반대매매">반대매매</span> 같은 기계적인 매도가 먼저 움직이는 구간이 와요. 매도 <span class="term" data-g="사이드카">사이드카</span>가 이틀 연속 발동됐다는 것도, 매물이 나온 속도가 그만큼 빨랐다는 제도적 흔적이고요.</p>
     </article>
     </div>
    </div>
@@ -916,70 +1130,71 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
    <p class="lesson rv" data-field="prose.insight_full.lesson"><mark class="whl">낙폭의 크기는 공포의 크기가 아니라, 진앙과의 거리</mark>라는 것. 우리 시장이 유난히 아픈 건 우리가 반도체 위에 서 있기 때문이지, 적어도 간밤까지의 숫자로는 세계가 무너지고 있어서가 아니에요 :)</p>
   </section>
 
-  <section class="sec" id="s05" data-name="경제뉴스" data-field="prose.news_list">
-   <span class="kicker"><span class="kn">05</span>NEWS · 경제뉴스</span>
-   <h2 class="sh">오늘의 경제뉴스</h2>
+  <section class="sec" id="s05" data-name="경제뉴스" data-field="prose.news_list" data-rule="priority-sort|max-7|no-empty-slot">
+   <span class="kicker"><span class="kn">06</span>NEWS · 경제뉴스</span>
+   <h2 class="sh">오늘의 경제뉴스, 중요한 순서로</h2>
+   <div class="newsgrid rvs">
 
-   <article class="newstop rv" data-field="prose.news_list.0">
-    <div class="srcrow"><span class="src" data-field="facts.news.main.1.source">연합뉴스</span><span class="srcdate" data-field="facts.news.main.1.pub">2026.07.08</span></div>
-    <div class="nq">“‘검은 수요일’이래요,, 코스피 5.4%·코스닥 5.6% 급락 마감”</div>
-    <div class="nb">오늘 코스피와 코스닥이 나란히 5%대 급락으로 마감했어요. 연합뉴스는 마감 속보 제목에 ‘검은 수요일’이라는 이름을 붙였거든요. 사흘째 이어진 하락 중에서도 오늘이 가장 가팔랐던 하루였어요.</div>
-    <a class="nlink" href="https://news.google.com/rss/articles/CBMiW0FVX3lxTFAtN2dlSk9NSVVtb2l2eC1tdnlVZ0xabGg2UzVkX0dQTlBlWXhqMkZNX1RST1RZbmdMRUE1WXdaS09ib2xON0lMVktQSExkQ1RPY1JHZzJFUGhqTWfSAWBBVV95cUxNR1hpcnpZZlA1Um5MWHVGcXBCc0RGaEltZ1VoLUN5d2tVTmJPelliVlNBc05DVE9md19nb2ZJaFREcl9oMUlfdm02dWRhLVltQW5peE9aQVF0SG5HRWJadUU?oc=5" target="_blank" rel="noopener" data-field="facts.news.main.1.link">원문 기사 보기 →</a>
-   </article>
+    <article class="ncard pTOP rv" data-field="prose.news_list.0">
+     <div class="nc-meta"><span class="nc-badge top">TOP</span><span class="nc-cat kr">한국</span>
+      <span class="nc-src-wrap"><span class="nc-src" data-field="facts.news.main.1.source">연합뉴스</span><span class="nc-date" data-field="facts.news.main.1.pub">07.08</span></span></div>
+     <div class="nc-q">“‘검은 수요일’이래요,, 코스피 5.4%·코스닥 5.6% 급락 마감”</div>
+     <div class="nc-c">사흘째 이어진 하락 중에서도 오늘이 가장 가팔랐어요. 연합뉴스가 마감 속보 제목에 ‘검은 수요일’이라는 이름을 붙였을 정도의 하루였어요.</div>
+     <a class="nc-link" href="https://news.google.com/rss/articles/CBMiW0FVX3lxTFAtN2dlSk9NSVVtb2l2eC1tdnlVZ0xabGg2UzVkX0dQTlBlWXhqMkZNX1RST1RZbmdMRUE1WXdaS09ib2xON0lMVktQSExkQ1RPY1JHZzJFUGhqTWfSAWBBVV95cUxNR1hpcnpZZlA1Um5MWHVGcXBCc0RGaEltZ1VoLUN5d2tVTmJPelliVlNBc05DVE9md19nb2ZJaFREcl9oMUlfdm02dWRhLVltQW5peE9aQVF0SG5HRWJadUU?oc=5" target="_blank" rel="noopener" data-field="facts.news.main.1.link">원문 기사 보기 →</a>
+    </article>
 
-   <details class="newsmore" data-field="prose.news_list">
-    <summary>참고 뉴스 4건 더 보기 <span class="cv">▾</span></summary>
-    <div class="nsub">
-     <div class="nsi" data-field="prose.news_list.1"><div class="srcrow"><span class="src">연합인포맥스</span><span class="srcdate">2026.07.08</span></div><div class="nq2">“사흘 연속 하락,, 이번엔 개인도 ‘팔자’로 돌아섰어요”</div><div class="nb2">코스피는 사흘 연속 하락하며 7,246.79에 마감했어요. 사는 손보다 파는 손이 많았던 하루의 수급 표정을 압축한 제목이에요.</div><a class="nlink" href="https://news.google.com/rss/articles/CBMidEFVX3lxTFBHZ3Y3d3FhQVEwLWFmSGJSMzdtaXpmV0dSQnExQUJQdWlTZkxlRzVEWW0wZWtGOFZBTVZqTF9keUl5d0hjUHMtQkE1SGlGWlE2b3FxMzRQVWJFTWEyWWR0WkxNazZWb3FsSFBqLXhadmozT0xf?oc=5" target="_blank" rel="noopener">원문 →</a></div>
-     <div class="nsi" data-field="prose.news_list.2"><div class="srcrow"><span class="src">에너지경제신문</span><span class="srcdate">2026.07.08</span></div><div class="nq2">“이틀 연속 ‘매도 사이드카’,, 매물의 속도가 그만큼 빨랐어요”</div><div class="nb2">사이드카는 선물 가격이 급변할 때 프로그램 매매를 잠시 묶어 속도를 줄이는 안전장치예요. 이게 이틀 연속 걸렸다는 건 매물이 그만큼 급하게 쏟아졌다는 흔적이에요.</div><a class="nlink" href="https://news.google.com/rss/articles/CBMiY0FVX3lxTE5Ma1hWTll1VkhWTkY0MEV0M1c4blctT3hIR1ZxR3J5R0dEb2dKZ0ttR3NsY3g5eFU0M05xVU12bmI3d2h0T01oSXZodHVnd1p5VzU3NzJCaU5GblV2M25iTXJfYw?oc=5" target="_blank" rel="noopener">원문 →</a></div>
-     <div class="nsi" data-field="prose.news_list.3"><div class="srcrow"><span class="src">뉴스핌</span><span class="srcdate">2026.07.08</span></div><div class="nq2">“이번엔 중동이에요,, 긴장 확대가 새 변수로 얹혔어요”</div><div class="nb2">반도체 수요 의심이라는 성장 쪽 악재에 지정학 변수가 겹친 거예요. 유가와 환율로 번지는지가 다음 확인 지점이에요.</div><a class="nlink" href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE1oLVhsdGd6QWNDYlpGOTlOMzBEMExDVUoxMDdVb1ZjLTh2NkNPNnk5ZEdpNTZJVVZpMmVRbENlZHhRVFQ5X08xQnlHeDAyeUF0UXFJZl9aaC1hVmJM?oc=5" target="_blank" rel="noopener">원문 →</a></div>
-     <div class="nsi" data-field="prose.news_list.4"><div class="srcrow"><span class="src">글로벌이코노믹</span><span class="srcdate">2026.07.08</span></div><div class="nq2">“이 와중에 5%대 강세,, 기아는 실적으로 받아냈어요”</div><div class="nb2">2분기 실적이 컨센서스에 부합했다는 평가 덕분이에요. 무차별 하락처럼 보이는 날에도 확인된 실적엔 값이 매겨진다는 걸 보여준 장면이에요.</div><a class="nlink" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPMkpKcExuX2Y5bjQweHh1R2ZZZzl3VTN4VXppUUNqUjJwVURibXhCQVVYUi03cUlIRVZaV1diSmsybU9YY0ZPaVcwVmxLb0dVZ1VGd01TX2EyWlVnVHIwVlhMVTN3SzRlV0taQTY2Xzg4NFl2NnZiTUpsVkd4bmhoTE9QTF9XOTA1?oc=5" target="_blank" rel="noopener">원문 →</a></div>
-    </div>
-   </details>
-  </section>
+    <article class="ncard pMAJ rv" data-field="prose.news_list.1">
+     <div class="nc-meta"><span class="nc-badge maj">주요</span><span class="nc-cat kr">한국</span>
+      <span class="nc-src-wrap"><span class="nc-src">연합인포맥스</span><span class="nc-date">07.08</span></span></div>
+     <div class="nc-q">“사흘 연속 하락,, 이번엔 개인도 ‘팔자’로 돌아섰어요”</div>
+     <div class="nc-c">사는 손보다 파는 손이 많았던 하루의 <span class="term" data-g="수급">수급</span> 표정을 압축한 제목이에요. 코스피는 7,246.79에 마감했어요.</div>
+     <a class="nc-link" href="https://news.google.com/rss/articles/CBMidEFVX3lxTFBHZ3Y3d3FhQVEwLWFmSGJSMzdtaXpmV0dSQnExQUJQdWlTZkxlRzVEWW0wZWtGOFZBTVZqTF9keUl5d0hjUHMtQkE1SGlGWlE2b3FxMzRQVWJFTWEyWWR0WkxNazZWb3FsSFBqLXhadmozT0xf?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a>
+    </article>
 
-  <section class="sec" id="s06" data-name="마무리" data-field="prose.closing">
-   <span class="kicker"><span class="kn">06</span>CLOSING · 마무리</span>
-   <h2 class="sh">진앙 위의 우리가, 가장 크게 흔들린 하루예요</h2>
-   <div class="closing">
-    <div class="cbub rv" data-field="prose.closing_1">
-     <div class="cav"><span class="eyes"><i></i><i></i></span></div>
-     <div class="cbody"><div class="cname">동 · 남편</div>
-      <p>사흘째 파란 화면, 그것도 이틀 새 10% 가까이 밀린 지수를 보고 나면 어떤 위로도 가볍게 들릴 수 있는 저녁이에요. 오늘은 낙폭을 되돌리는 손도 보이지 않아서 더 그랬을 거예요.</p>
-      <p>그래도 오늘 확인해둔 것 하나는 챙겨가요. 뉴욕은 아직 얕고, 공포지수는 20선 아래고, 코인도 잔잔했어요,, 세계가 무너진 게 아니라 진앙 위의 우리가 가장 크게 흔들린 하루였어요.</p>
-     </div>
-    </div>
-    <div class="cbub eun rv" data-field="prose.closing_2">
-     <div class="cav eun"><span class="eyes"><i></i><i></i></span></div>
-     <div class="cbody"><div class="cname">은 · 아내</div>
-      <p>부부도 오후 들어 낙폭이 커지는 화면을 보면서, 숫자를 몇 번이고 다시 확인하며 이 레터를 정리했어요. 이런 날 제일 위험한 건 시장이 아니라 조급해진 마음인 것 같아요. 하락이 사흘째일수록 결론은 미루고, 확인할 날짜만 달력에 적어두는 게 부부의 방식이에요.</p>
-      <p>여러분의 오늘 저녁만큼은 전광판과 멀리, 잔잔하고 따뜻하게 흘러가기를 바라요. 오늘 밤 미국 마감과 함께, 내일 아침 다시 차분하게 정리해서 찾아올게요 :)</p>
-     </div>
-    </div>
-    <div class="sign">— 동은부부 드림<small>오늘 하루도 정말 수고 많으셨어요</small></div>
+    <article class="ncard pMAJ rv" data-field="prose.news_list.2">
+     <div class="nc-meta"><span class="nc-badge maj">주요</span><span class="nc-cat kr">한국</span>
+      <span class="nc-src-wrap"><span class="nc-src">에너지경제신문</span><span class="nc-date">07.08</span></span></div>
+     <div class="nc-q">“이틀 연속 ‘매도 사이드카’,, 매물의 속도가 그만큼 빨랐어요”</div>
+     <div class="nc-c"><span class="term" data-g="사이드카">사이드카</span>는 <span class="term" data-g="선물">선물</span> 가격이 급변할 때 프로그램 매매를 잠시 묶는 안전장치예요. 이게 이틀 연속 걸렸다는 건 매물이 그만큼 급하게 쏟아졌다는 흔적이에요.</div>
+     <a class="nc-link" href="https://news.google.com/rss/articles/CBMiY0FVX3lxTE5Ma1hWTll1VkhWTkY0MEV0M1c4blctT3hIR1ZxR3J5R0dEb2dKZ0ttR3NsY3g5eFU0M05xVU12bmI3d2h0T01oSXZodHVnd1p5VzU3NzJCaU5GblV2M25iTXJfYw?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a>
+    </article>
+
+    <article class="ncard pMAJ rv" data-field="prose.news_list.3">
+     <div class="nc-meta"><span class="nc-badge maj">주요</span><span class="nc-cat glob">글로벌</span>
+      <span class="nc-src-wrap"><span class="nc-src">뉴스핌</span><span class="nc-date">07.08</span></span></div>
+     <div class="nc-q">“이번엔 중동이에요,, 긴장 확대가 새 변수로 얹혔어요”</div>
+     <div class="nc-c">반도체 수요 의심이라는 성장 쪽 악재에 지정학 변수가 겹친 거예요. 유가와 환율로 번지는지가 다음 확인 지점이에요.</div>
+     <a class="nc-link" href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE1oLVhsdGd6QWNDYlpGOTlOMzBEMExDVUoxMDdVb1ZjLTh2NkNPNnk5ZEdpNTZJVVZpMmVRbENlZHhRVFQ5X08xQnlHeDAyeUF0UXFJZl9aaC1hVmJM?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a>
+    </article>
+
+    <article class="ncard rv" data-field="prose.news_list.4">
+     <div class="nc-meta"><span class="nc-badge ref">참고</span><span class="nc-cat money">재테크</span>
+      <span class="nc-src-wrap"><span class="nc-src">글로벌이코노믹</span><span class="nc-date">07.08</span></span></div>
+     <div class="nc-q">“이 와중에 5%대 강세,, 기아는 실적으로 받아냈어요”</div>
+     <div class="nc-c">2분기 실적이 <span class="term" data-g="컨센서스">컨센서스</span>에 부합했다는 평가 덕분이에요. 무차별 하락처럼 보이는 날에도 확인된 실적엔 값이 매겨진다는 걸 보여준 장면이에요.</div>
+     <a class="nc-link" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPMkpKcExuX2Y5bjQweHh1R2ZZZzl3VTN4VXppUUNqUjJwVURibXhCQVVYUi03cUlIRVZaV1diSmsybU9YY0ZPaVcwVmxLb0dVZ1VGd01TX2EyWlVnVHIwVlhMVTN3SzRlV0taQTY2Xzg4NFl2NnZiTUpsVkd4bmhoTE9QTF9XOTA1?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a>
+    </article>
+
    </div>
+   <div class="newshint" data-field="prose.news_list" data-rule="7-slot-demo|no-empty-shell">우선순위로 정렬한 오늘의 뉴스 <b>5건</b><span class="nh-slots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="empty"></i><i class="empty"></i></span>최대 7건까지 · 없는 날은 빈 자리를 만들지 않아요</div>
   </section>
 
-  <section class="sec" id="s07" data-name="이어서 보기" data-field="web.related" data-degraded="true">
+  <section class="sec" id="s07" data-name="이어서 보기" data-field="web.related" data-rule="keyword-match|real-slug-only|omit-if-none">
    <span class="kicker"><span class="kn">07</span>NEXT · 이어서 보기</span>
-   <h2 class="sh">오늘 키워드로 이어서 보기</h2>
-   <div class="rel">
-    <div class="relcard" data-field="web.related.0" data-degraded="true">
-     <span class="rslot">키워드 매칭</span>
-     <div class="rkey"># 반도체 · 진앙</div>
-     <div class="rtt">‘왜 우리 시장은 반도체에 유독 약할까’</div>
-     <div class="rdd">오늘 딥다이브의 ‘진앙과의 거리’를 더 풀어보는 무료 글이 이 자리에 자동으로 매칭돼요.</div>
-     <a class="rgo" href="#s09">무료 콘텐츠 허브 →</a>
-    </div>
-    <div class="relcard" data-field="web.related.1" data-degraded="true">
-     <span class="rslot">키워드 매칭</span>
-     <div class="rkey"># 중동 · 환율 · 유가</div>
-     <div class="rtt">‘지정학 뉴스, 유가와 환율로 읽는 법’</div>
-     <div class="rdd">오늘 새로 얹힌 중동 변수를 생활 언어로 정리한 글이 키워드 매칭으로 붙어요.</div>
-     <a class="rgo" href="#s09">무료 콘텐츠 허브 →</a>
-    </div>
+   <h2 class="sh">오늘 키워드로, 더 깊이 읽어요</h2>
+   <div class="kwline" data-field="web.keywords">
+    <span class="kwchip"><span class="kh">#</span>반도체·진앙</span>
+    <span class="kwchip"><span class="kh">#</span>중동·환율</span>
+    <span class="kwchip"><span class="kh">#</span>VIX·변동성</span>
+    <span class="kwchip"><span class="kh">#</span>FOMC·금리</span>
    </div>
-   <div class="relnote" data-field="web.related">이 섹션은 오늘 레터의 키워드(반도체·중동·환율)로 <b>추천 사전(정적)</b>에서 무료 글 2건을 매칭하는 자리예요. 매칭된 무료 글이 있으면 이 자리에 자동으로 채워지고, 0건이면 섹션째 조용히 생략돼요.</div>
+   <div class="rel rvs">
+    <a class="relcard" href="https://bubulab.co.kr/report-de46" target="_blank" rel="noopener" data-field="web.related.0"><span class="rel-type report">리포트</span><div class="rkey"># 반도체 · 진앙</div><div class="rtt">반도체 3사 파헤치기 — 엔비디아·TSMC·브로드컴</div><div class="rdd">오늘 딥다이브의 ‘진앙 = AI 반도체’를 기업 단위로 풀어보는 리포트예요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-vs-3479" target="_blank" rel="noopener" data-field="web.related.1"><span class="rel-type column">칼럼</span><div class="rkey"># 중동 · 환율</div><div class="rtt">환헤지 vs 언헤지 — 환율이 수익률을 가르는 법</div><div class="rdd">오늘 새로 얹힌 중동·환율 변수를 생활 언어로 정리한 칼럼이에요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-676e" target="_blank" rel="noopener" data-field="web.related.2"><span class="rel-type column">칼럼</span><div class="rkey"># VIX · 변동성</div><div class="rtt">변동성·베타·표준편차 — 흔들림을 숫자로 읽기</div><div class="rdd">VIX가 20선을 넘는지 왜 보는지, 변동성의 문법을 짚어요.</div><span class="rgo">이어서 읽기 →</span></a>
+    <a class="relcard" href="https://bubulab.co.kr/eco-fomc-958f" target="_blank" rel="noopener" data-field="web.related.3"><span class="rel-type column">칼럼</span><div class="rkey"># FOMC · 금리</div><div class="rtt">FOMC·점도표 — 금리 방향을 읽는 지도</div><div class="rdd">딥다이브 달력에 적어둔 28~29일 FOMC, 무엇을 보면 되는지 미리 봐요.</div><span class="rgo">이어서 읽기 →</span></a>
+   </div>
+   <div class="relnote" data-field="web.related">오늘 레터의 키워드(반도체·중동·환율·변동성·금리)로 <b>부부연구소 무료 자료</b>를 매칭했어요. 더 많은 글은 <a class="relmark" href="https://bubulab.co.kr/contents-hub" target="_blank" rel="noopener">콘텐츠 허브</a> 에서 볼 수 있어요.</div>
   </section>
 
   <section class="sec band cta" id="s09" data-name="구독 안내" data-field="web.rhythm">
@@ -1006,10 +1221,10 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
     <a href="#sg"><span class="ic"></span>오늘 한눈에</a>
     <a href="#s01"><span class="ic"></span>01 한국시장</a>
     <a href="#s02"><span class="ic"></span>02 미국·세계</a>
-    <a href="#s03"><span class="ic"></span>03 투자심리</a>
-    <a href="#s04"><span class="ic"></span>04 딥다이브</a>
-    <a href="#s05"><span class="ic"></span>05 경제뉴스</a>
-    <a href="#s06"><span class="ic"></span>06 마무리</a>
+    <a href="#schart"><span class="ic"></span>03 지표 흐름</a>
+    <a href="#s03"><span class="ic"></span>04 투자심리</a>
+    <a href="#s04"><span class="ic"></span>05 딥다이브</a>
+    <a href="#s05"><span class="ic"></span>06 경제뉴스</a>
     <a href="#s07"><span class="ic"></span>07 이어서 보기</a>
     <a href="#s09"><span class="ic"></span>08 구독 안내</a>
    </div>
@@ -1023,7 +1238,7 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
     <div class="srow" data-field="facts.aux.VIX"><span class="sn2">VIX</span><span class="sv tnum">18.83<span class="sc up">+16.74%</span></span></div>
     <div class="srow" data-field="facts.aux.BTC"><span class="sn2">비트코인</span><span class="sv tnum">$62,024<span class="sc down">-1.72%</span></span></div>
    </div>
-   <div style="font-size:10.5px;color:var(--mut);margin-top:10px;line-height:1.5">수집 성공한 지표만 표시 · 기준 18:34 KST</div>
+   <div style="font-size:10.5px;color:var(--mut);margin-top:10px;line-height:1.5">기준 18:34 KST 마감</div>
   </div>
   <div class="railcard railsub">
    <div class="rs-t">매일 이 정리를<br>받아보고 싶다면</div>
@@ -1038,7 +1253,7 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
 </div>
 
 <footer>
- <div class="fin"><span class="dot"></span>동은부부 머니레터 — 매일 아침·저녁, 시장을 가장 쉽게 · v6 쇼케이스</div>
+ <div class="fin"><span class="dot"></span>동은부부 머니레터 — 매일 아침·저녁, 시장을 가장 쉽게 · v6.1 쇼케이스</div>
 </footer>
 <button id="top" aria-label="맨 위로">↑</button>
 
@@ -1094,61 +1309,121 @@ html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180
  var chaps=[].slice.call(d.querySelectorAll('.chap')),sfill=d.getElementById('sfill'),sns=[].slice.call(d.querySelectorAll('.ddsteps .sn'));
  if(chaps.length&&sfill){
   var seen=-1;
-  var ddfig=d.querySelector('.dd-figure'),DDNOTE=['진앙에 가까울수록 깊게 흔들려요 — 서울이 <b>약 4.6배</b> 더 파였어요.','성장 의심 위에 <b>중동·지정학</b>이 겹쳤어요 — 계산이 어려워졌죠.','오늘은 낙폭을 되돌리는 <b>‘받아내는 손’</b>이 보이지 않았어요.'];function mark(i){if(ddfig){ddfig.setAttribute('data-step',String(i+1));var nn=ddfig.querySelector('[data-note]');if(nn&&DDNOTE[i])nn.innerHTML=DDNOTE[i];}if(i<=seen)return;seen=i;sfill.style.width=((i+1)/chaps.length*100)+'%';sns.forEach(function(a,j){a.classList.toggle('on',j===i);});}
+  var ddfig=d.querySelector('.dd-figure'),ddT=d.getElementById('ddsTitle'),ddS=d.getElementById('ddsStep'),DDNOTE=['진앙에 가까울수록 깊게 흔들려요 — 서울은 진앙 바로 위, <b>약 4.6배</b> 더 파였어요.','성장 의심 위에 <b>중동·지정학</b>이 겹쳤어요 — 서로 안 상쇄돼 계산이 어려워졌죠.','오늘은 낙폭을 되돌리는 <b>‘받아내는 손’</b>이 보이지 않았어요.'],DDTITLE=['진앙과의 거리','겹친 악재','받아내는 손'];function mark(i){if(ddfig){ddfig.setAttribute('data-step',String(i+1));var nn=ddfig.querySelector('[data-note]');if(nn&&DDNOTE[i])nn.innerHTML=DDNOTE[i];if(ddT&&DDTITLE[i])ddT.textContent=DDTITLE[i];if(ddS)ddS.textContent='이유 '+(i+1)+' / 3';}if(i<=seen)return;seen=i;if(sfill)sfill.style.width=((i+1)/chaps.length*100)+'%';sns.forEach(function(a,j){a.classList.toggle('on',j===i);});}
   if(!('IntersectionObserver'in window)){mark(chaps.length-1);}
   else{var io2=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)mark(chaps.indexOf(en.target));});},{threshold:.4});
    chaps.forEach(function(c){io2.observe(c);});}
  }
- // 라이브 스파크라인 (history.json → 실패 시 인라인 스냅샷 폴백)
+ // 히어로 인라인 스파크(T5) — 내장 스냅샷에서 즉시(운영 메타 비노출)
  (function(){
-  var wrap=d.getElementById('sparklive');if(!wrap)return;
-  var figs=[].slice.call(wrap.querySelectorAll('.slfig[data-series]'));if(!figs.length)return;
-  var fb=null;try{fb=JSON.parse(d.getElementById('histfallback').textContent);}catch(e){}
-  function render(j){
-   var arr=(j&&(j.series||j.letters))||[];if(!arr.length){return;}
-   arr=arr.slice().sort(function(a,b){return (a.date||'')<(b.date||'')?-1:1;});
-   var EDITION_DATE='2026-07-08';
-   arr=arr.filter(function(e){return !e.date||e.date<=EDITION_DATE;});
-   var any=false;
-   figs.forEach(function(fig){
-    var key=fig.getAttribute('data-series'),lab=fig.getAttribute('data-label')||'';
-    var pts=[];arr.forEach(function(e){var v=e[key];if(typeof v==='number'&&isFinite(v))pts.push([e.date,v]);});
-    pts=pts.slice(-14);if(pts.length<3){fig.style.display='none';return;}
-    draw(fig,lab,pts);any=true;
-   });
-   if(any){wrap.removeAttribute('hidden');wrap.classList.add('in');}
-   try{miniSparks(arr);}catch(e){}
+  var el=d.querySelector('.spark-mini[data-series]');if(!el)return;
+  var fb;try{fb=JSON.parse(d.getElementById('histfallback').textContent);}catch(e){el.style.display='none';return;}
+  var arr=(fb&&fb.series)||[],key=el.getAttribute('data-series'),pts=[];
+  arr.forEach(function(e){var v=e[key];if(typeof v==='number'&&isFinite(v))pts.push(v);});
+  pts=pts.slice(-6);if(pts.length<3){el.style.display='none';return;}
+  var lo=Math.min.apply(null,pts),hi=Math.max.apply(null,pts),rng=(hi-lo)||1,W=66,H=26,p=3,n=pts.length;
+  var poly=pts.map(function(v,i){return (p+i*(W-2*p)/(n-1)).toFixed(1)+','+(H-p-(v-lo)/rng*(H-2*p)).toFixed(1);}).join(' ');
+  var up=pts[n-1]>=pts[0],col=up?'#E4483A':'#3B6FE0';
+  var lx=(W-p).toFixed(1),ly=(H-p-(pts[n-1]-lo)/rng*(H-2*p)).toFixed(1);
+  el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><polyline points="'+poly+'" fill="none" stroke="'+col+'" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+lx+'" cy="'+ly+'" r="2.6" fill="'+col+'"/></svg>';
+ })();
+
+ // ===== #5 기간 전환 인터랙티브 차트 · letters/series/<SYM>.json 온디맨드 fetch(실패 시 컴포넌트 숨김) · 탭은 가용 범위만 · 크로스헤어 · 패스 모핑(RM 정적) =====
+ (function(){
+  var host=d.getElementById('mchart');if(!host||!window.fetch)return;
+  var BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/series/';
+  var svg=d.getElementById('mcSvg'),line=d.getElementById('mcLine'),area=d.getElementById('mcArea'),cross=d.getElementById('mcCross'),dot=d.getElementById('mcDot'),tip=d.getElementById('mcTip'),fig=d.getElementById('mcFig'),elNow=d.getElementById('mcNow'),elChg=d.getElementById('mcChg'),elTitle=d.getElementById('mcTitle'),elSpan=d.getElementById('mcSpan'),elX0=d.getElementById('mcX0'),elX1=d.getElementById('mcX1');
+  var syms=[].slice.call(host.querySelectorAll('.mc-sym')),ranges=[].slice.call(host.querySelectorAll('.mc-range'));
+  var cache={},K=72,morphRAF=null,shown=false;
+  var S={W:320,H:196,pad:11,padT:12,padB:16,draw:[],slice:[],lo:0,hi:1,days:90,meta:null,daily:null,revealed:false};
+  function meta(b){return{sym:b.getAttribute('data-sym'),label:b.getAttribute('data-label'),unit:b.getAttribute('data-unit')||'',pre:b.getAttribute('data-pre')||'',dec:b.getAttribute('data-dec')?+b.getAttribute('data-dec'):null,btn:b};}
+  function fmt(v,dec,pre){if(dec==null)dec=(Math.abs(v)>=1000?0:2);return (pre||'')+v.toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+  function measure(){var w=fig.clientWidth||320;S.W=Math.max(220,Math.round(w));svg.setAttribute('viewBox','0 0 '+S.W+' '+S.H);}
+  function spanDays(dl){return (Date.parse(dl[dl.length-1][0])-Date.parse(dl[0][0]))/864e5;}
+  function avail(dl,D){return D===0?dl.length>=2:(dl.length>=3&&spanDays(dl)>=D);}
+  function windowSlice(dl,days){if(!days)return dl.slice();var last=Date.parse(dl[dl.length-1][0]),st=last-days*864e5;var o=dl.filter(function(r){return Date.parse(r[0])>=st;});return o.length>=2?o:dl.slice(-Math.max(2,Math.min(dl.length,8)));}
+  function resample(v,k){if(v.length<=1)return v.slice();var o=[];for(var i=0;i<k;i++){var t=i/(k-1)*(v.length-1),a=Math.floor(t),b=Math.ceil(t);o.push(v[a]+(v[b]-v[a])*(t-a));}return o;}
+  function sx(i,n){return S.pad+i*(S.W-2*S.pad)/((n-1)||1);}
+  function sy(val){return S.padT+(1-(val-S.lo)/((S.hi-S.lo)||1))*(S.H-S.padT-S.padB);}
+  function pth(xs,ys){var s='';for(var i=0;i<xs.length;i++)s+=(i?'L':'M')+xs[i].toFixed(1)+' '+ys[i].toFixed(1);return s;}
+  function apth(xs,ys){if(!xs.length)return'';var bY=(S.H-S.padB).toFixed(1),s='M'+xs[0].toFixed(1)+' '+bY;for(var i=0;i<xs.length;i++)s+='L'+xs[i].toFixed(1)+' '+ys[i].toFixed(1);return s+'L'+xs[xs.length-1].toFixed(1)+' '+bY+'Z';}
+  function render(animate){
+   var sl=S.slice,vals=sl.map(function(r){return r[1];});if(vals.length<2)return;
+   S.lo=Math.min.apply(null,vals);S.hi=Math.max.apply(null,vals);
+   var rise=vals[vals.length-1]>=vals[0],col=rise?{s:'#E4483A',a:'rgba(228,72,58,.13)'}:{s:'#3B6FE0',a:'rgba(59,111,224,.13)'};
+   line.style.stroke=col.s;area.style.fill=col.a;dot.style.fill=col.s;cross.style.stroke=col.s;
+   var rv=resample(vals,K),xs=rv.map(function(_,i){return sx(i,K);}),ys=rv.map(function(v){return sy(v);});
+   var pts=xs.map(function(x,i){return [x,ys[i]];});
+   if(animate&&!rm&&S.draw.length===pts.length){
+    var from=S.draw.slice(),t0=null;if(morphRAF)cancelAnimationFrame(morphRAF);line.classList.remove('reveal');
+    function step(ts){if(t0==null)t0=ts;var k=Math.min(1,(ts-t0)/430),e=1-Math.pow(1-k,3),X=[],Y=[],i;for(i=0;i<pts.length;i++){X.push(from[i][0]+(pts[i][0]-from[i][0])*e);Y.push(from[i][1]+(pts[i][1]-from[i][1])*e);}line.setAttribute('d',pth(X,Y));area.setAttribute('d',apth(X,Y));if(k<1)morphRAF=requestAnimationFrame(step);else S.draw=pts;}
+    morphRAF=requestAnimationFrame(step);
+   }else{
+    line.setAttribute('d',pth(xs,ys));area.setAttribute('d',apth(xs,ys));S.draw=pts;
+    if(!rm&&!S.revealed&&host.classList.contains('in')&&line.getTotalLength){void line.getBoundingClientRect();line.style.setProperty('--len',Math.ceil(line.getTotalLength()));line.classList.add('reveal');S.revealed=true;}
+   }
+   var first=vals[0],last=vals[vals.length-1],chg=first?((last-first)/first*100):0,m=S.meta;
+   elNow.innerHTML=fmt(last,m.dec,m.pre)+(m.unit?'<small>'+m.unit+'</small>':'');
+   elChg.textContent=(chg>=0?'▲ ':'▼ ')+Math.abs(chg).toFixed(2)+'%';elChg.style.color=chg>=0?'#C22E22':'#2A55C2';
+   elX0.textContent=sl[0][0].slice(2);elX1.textContent=sl[sl.length-1][0].slice(2);
+   elSpan.textContent=({7:'최근 7일',30:'최근 1개월',90:'최근 3개월',0:'전체'})[S.days]+' · '+sl.length+'거래일';
   }
-  function draw(fig,lab,pts){
-   var vals=pts.map(function(p){return p[1];});
-   var lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals),rng=(hi-lo)||1;
-   var W=300,H=64,pad=8,n=pts.length;
-   var xs=pts.map(function(_,i){return pad+i*(W-2*pad)/(n-1);});
-   var ys=vals.map(function(v){return H-pad-(v-lo)/rng*(H-2*pad);});
-   var poly=xs.map(function(x,i){return x.toFixed(1)+','+ys[i].toFixed(1);}).join(' ');
-   var up=vals[n-1]>=vals[0],col=up?'#E4483A':'#5B87F0';
-   function fn(v){return v>=1000?Math.round(v).toLocaleString('ko-KR'):(Math.round(v*100)/100).toLocaleString('ko-KR');}
-   fig.innerHTML='<figcaption>'+lab+' · 최근 '+n+'거래일</figcaption>'+
-    '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+lab+' 최근 추이 '+fn(vals[0])+'에서 '+fn(vals[n-1])+'"><polyline class="spl" points="'+poly+'" style="stroke:'+col+'"/><circle cx="'+xs[n-1].toFixed(1)+'" cy="'+ys[n-1].toFixed(1)+'" r="3.2" fill="'+col+'"/><text x="'+(xs[n-1]-3).toFixed(1)+'" y="'+Math.max(11,ys[n-1]-4).toFixed(1)+'" text-anchor="end" font-size="11" font-weight="800" fill="'+col+'">'+fn(vals[n-1])+'</text></svg>'+
-    '<div class="spx"><span class="tnum">'+pts[0][0].slice(5)+' '+fn(vals[0])+'</span><b class="tnum" style="color:'+col+'">'+pts[n-1][0].slice(5)+' '+fn(vals[n-1])+'</b></div>';
-   var pl=fig.querySelector('.spl');if(pl&&pl.getTotalLength){var L=pl.getTotalLength();pl.style.setProperty('--len',L.toFixed(0));}
+  function syncRanges(){ranges.forEach(function(b){var D=+b.getAttribute('data-days'),ok=avail(S.daily,D);b.disabled=!ok;b.setAttribute('aria-selected',String(D===S.days&&ok));});}
+  function pickDays(dl){if(avail(dl,S.days))return S.days;var pref=[90,30,7,0];for(var i=0;i<pref.length;i++)if(avail(dl,pref[i]))return pref[i];return 0;}
+  function selectRange(days){S.days=days;S.slice=windowSlice(S.daily,days);syncRanges();measure();render(true);}
+  function apply(j,m,initial){
+   S.meta=m;S.daily=j.daily.slice();elTitle.textContent=m.label;
+   S.days=pickDays(S.daily);S.slice=windowSlice(S.daily,S.days);syncRanges();
+   if(!shown){shown=true;host.removeAttribute('hidden');
+    if(!rm&&'IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){host.classList.add('in');measure();render(false);io.disconnect();}});},{threshold:.18});io.observe(host);}
+    else{host.classList.add('in');}
+   }
+   measure();render(!initial);
   }
-  function miniSparks(arr){
-   var el=d.querySelector('.spark-mini[data-series]');if(!el)return;
-   var key=el.getAttribute('data-series'),pts=[];arr.forEach(function(e){var v=e[key];if(typeof v==='number'&&isFinite(v))pts.push(v);});
-   pts=pts.slice(-6);if(pts.length<3){el.style.display='none';return;}
-   var lo=Math.min.apply(null,pts),hi=Math.max.apply(null,pts),rng=(hi-lo)||1,W=66,H=26,p=3,n=pts.length;
-   var poly=pts.map(function(v,i){return (p+i*(W-2*p)/(n-1)).toFixed(1)+','+(H-p-(v-lo)/rng*(H-2*p)).toFixed(1);}).join(' ');
-   var up=pts[n-1]>=pts[0],col=up?'#E4483A':'#3B6FE0';
-   var lx=(W-p).toFixed(1),ly=(H-p-(pts[n-1]-lo)/rng*(H-2*p)).toFixed(1);
-   el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><polyline points="'+poly+'" fill="none" stroke="'+col+'" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+lx+'" cy="'+ly+'" r="2.6" fill="'+col+'"/></svg>';
+  function selectSym(m,initial){
+   syms.forEach(function(b){b.setAttribute('aria-selected',String(b===m.btn));});
+   if(cache[m.sym]){apply(cache[m.sym],m,initial);return;}
+   fetch(BASE+m.sym+'.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(j&&j.daily&&j.daily.length>=2){cache[m.sym]=j;apply(j,m,initial);}else if(initial&&!shown){host.setAttribute('hidden','');}
+   }).catch(function(){if(initial&&!shown)host.setAttribute('hidden','');});
   }
-  if(window.fetch){
-   fetch('https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/history.json',{cache:'no-store'})
-    .then(function(r){return r.ok?r.json():null;})
-    .then(function(j){render((j&&(j.series||j.letters))?j:fb);})
-    .catch(function(){render(fb);});
-  }else{render(fb);}
+  function moveAt(clientX){var sl=S.slice,n=sl.length;if(n<2)return;var r=svg.getBoundingClientRect();var frac=((clientX-r.left)/r.width*S.W-S.pad)/(S.W-2*S.pad);frac=Math.max(0,Math.min(1,frac));var idx=Math.round(frac*(n-1)),pt=sl[idx],x=sx(idx,n),y=sy(pt[1]),m=S.meta;cross.setAttribute('x1',x);cross.setAttribute('x2',x);cross.setAttribute('y1',S.padT-3);cross.setAttribute('y2',S.H-S.padB);dot.setAttribute('cx',x);dot.setAttribute('cy',y);svg.classList.add('act');tip.innerHTML='<b>'+pt[0].slice(2)+'</b>'+fmt(pt[1],m.dec,m.pre)+(m.unit?' '+m.unit:'');tip.style.left=(x/S.W*r.width)+'px';tip.style.top=(y/S.H*r.height)+'px';tip.classList.add('on');}
+  function leave(){svg.classList.remove('act');tip.classList.remove('on');}
+  fig.addEventListener('mousemove',function(e){moveAt(e.clientX);});
+  fig.addEventListener('mouseleave',leave);
+  fig.addEventListener('touchstart',function(e){if(e.touches[0])moveAt(e.touches[0].clientX);},{passive:true});
+  fig.addEventListener('touchmove',function(e){if(e.touches[0])moveAt(e.touches[0].clientX);},{passive:true});
+  fig.addEventListener('touchend',leave);
+  syms.forEach(function(b){b.addEventListener('click',function(){selectSym(meta(b),false);});});
+  ranges.forEach(function(b){b.addEventListener('click',function(){if(!b.disabled)selectRange(+b.getAttribute('data-days'));});});
+  var rt;addEventListener('resize',function(){if(S.daily){clearTimeout(rt);rt=setTimeout(function(){measure();render(false);},170);}},{passive:true});
+  selectSym(meta(syms[0]),true);
+ })();
+
+ // ===== #6 용어 툴팁 (glossary.json 재사용+확장 · 호버/포커스/탭 · 점선 밑줄) =====
+ (function(){
+  var GL={
+   "VIX":["VIX","시장이 느끼는 불안의 온도","보통 20을 넘으면 ‘경계’에서 ‘공포’ 구간으로 읽어요."],
+   "수급":["수급","사려는 돈과 팔려는 돈의 균형","‘매도 우위’면 파는 힘이 더 셌다는 뜻이에요."],
+   "사이드카":["매도 사이드카","선물이 급변할 때 프로그램 매매를 잠시 묶는 안전장치","한쪽으로 쏠린 주문 속도를 잠깐 늦춰줘요."],
+   "선물":["선물","미래의 정해진 날에 정해진 값으로 사고팔기로 한 계약","현물보다 먼저 움직여 시장 방향을 비추곤 해요."],
+   "반대매매":["반대매매","빌린 돈으로 산 주식을 못 갚으면 증권사가 강제로 파는 것","하락장에서 매도를 더 키우는 기계적 매물이에요."],
+   "컨센서스":["컨센서스","애널리스트들이 모은 평균 예상","실적이 이보다 좋으면 서프라이즈, 나쁘면 쇼크예요."],
+   "시가총액":["시가총액","회사 전체의 시장 가격","지수에서 큰 회사일수록 지수를 더 많이 흔들어요."],
+   "위험자산":["위험자산","주식·코인처럼 변동이 큰 자산","현금·국채 같은 안전자산과 반대편에 있어요."]
+  };
+  var terms=[].slice.call(d.querySelectorAll('.term[data-g]'));if(!terms.length)return;
+  var pop=d.createElement('div');pop.id='glosspop';pop.setAttribute('role','tooltip');d.body.appendChild(pop);var cur=null;
+  function pos(t){var r=t.getBoundingClientRect();pop.style.left='0px';pop.style.top='0px';var pr=pop.getBoundingClientRect();var cx=r.left+r.width/2,left=Math.max(8,Math.min(cx-pr.width/2,innerWidth-pr.width-8)),below=r.top<pr.height+16,top=below?(r.bottom+9):(r.top-pr.height-9);pop.style.left=left+'px';pop.style.top=top+'px';pop.classList.toggle('below',below);pop.style.setProperty('--ax',(cx-left)+'px');}
+  function show(t){var g=GL[t.getAttribute('data-g')];if(!g)return;pop.innerHTML='<div class="gp-t">'+g[0]+'</div><div class="gp-s">'+g[1]+'</div>'+(g[2]?'<div class="gp-c">'+g[2]+'</div>':'');pop.classList.add('on');if(cur&&cur!==t)cur.classList.remove('on');cur=t;t.classList.add('on');pos(t);}
+  function hide(){pop.classList.remove('on');if(cur){cur.classList.remove('on');cur=null;}}
+  terms.forEach(function(t){t.setAttribute('tabindex','0');t.setAttribute('role','button');
+   t.addEventListener('mouseenter',function(){show(t);});t.addEventListener('mouseleave',hide);
+   t.addEventListener('focus',function(){show(t);});t.addEventListener('blur',hide);
+   t.addEventListener('click',function(e){e.stopPropagation();if(cur===t)hide();else show(t);});
+   t.addEventListener('keydown',function(e){if(e.key==='Escape')hide();});});
+  d.addEventListener('click',function(e){if(cur&&e.target!==cur)hide();});
+  addEventListener('scroll',function(){if(cur)hide();},{passive:true});
  })();
  // 스크롤스파이 (rAF 스로틀)
  var secs=[].slice.call(d.querySelectorAll('.sec[id]'));
