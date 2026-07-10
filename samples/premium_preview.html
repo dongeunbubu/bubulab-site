@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>부부연구소 — 프리미엄 안내</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+</head>
+<body>
+<!-- [부부연구소_프리미엄_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 자기완결(BODY+FOOTER) · G4 전환 허브(/premium) -->
+<style>
+:root{
+  --greige:#F8F5F2;--bg:#FDFBF7;--bg2:#FBF3EE;--card:#FFFFFF;
+  --ink:#3E2F29;--ink2:#5C4B43;--mut:#8A7B72;
+  --pink:#D67A89;--pinkSoft:#F8E8EA;--pinkSoft2:#FCEEF1;--sand:#F0DED8;--border:#EAD7D3;
+  --rose:#B85060;--rose2:#B33A4C;--sage:#5E8C7F;--lav:#9C6BA8;--gold:#C9A84C;
+  --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+  --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+  --lift:0 1px 2px rgba(62,47,41,.04),0 6px 14px rgba(190,80,96,.07),0 22px 48px rgba(190,80,96,.12);
+  --r:22px;--maxw:1120px;--ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.soft{position:relative;background:var(--greige)}
+.grad{background:linear-gradient(96deg,var(--pink),var(--rose) 58%,var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+::selection{background:var(--pinkSoft)}
+
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+html.js .stag>*{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+html.js .stag.in>*{opacity:1;transform:none}
+html.js .stag.in>*:nth-child(2){transition-delay:.07s}
+html.js .stag.in>*:nth-child(3){transition-delay:.14s}
+html.js .stag.in>*:nth-child(4){transition-delay:.21s}
+html.js .stag.in>*:nth-child(5){transition-delay:.28s}
+html.js .stag.in>*:nth-child(6){transition-delay:.35s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}.reveal,.stag>*{opacity:1!important;transform:none!important}}
+
+.ringed{position:relative}
+.ringed::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(150deg,rgba(214,122,137,.55),transparent 46%,rgba(94,140,127,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s var(--ease);pointer-events:none;z-index:3}
+.ringed:hover::after{opacity:1}
+
+.topbar{background:var(--rose);color:#fff;font-size:13px;display:flex;align-items:center;gap:16px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;z-index:2}
+.topbar a{background:#fff;color:var(--rose);padding:5px 14px;border-radius:100px;font-weight:800;font-size:12.5px;transition:transform .2s}
+.topbar a:hover{transform:translateY(-1px)}
+
+#hdr{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.72);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border);transition:box-shadow .3s,background .3s}
+#hdr.scrolled{box-shadow:0 6px 22px rgba(190,80,96,.08);background:rgba(253,251,247,.86)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2)}
+.menu a{position:relative;padding:4px 0}
+.menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
+.menu a:hover{color:var(--pink)}.menu a:hover::after{right:0}
+.menu a.cur{color:var(--ink)}.menu a.cur::after{right:0}
+#hdr .cta{position:relative;overflow:hidden;background:var(--rose);color:#fff;padding:10px 20px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s var(--ease);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink);padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft);color:var(--rose)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px}
+@media(max-width:940px){#hdr .menu{display:none}#hdr .navMobBtn{display:flex}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 30px;border-radius:16px;font-weight:800;font-size:16px;border:1.6px solid transparent;cursor:pointer;transition:transform .22s var(--ease),box-shadow .25s,background .2s}
+.btn-primary{background:var(--rose);color:#fff;box-shadow:var(--lift);position:relative;overflow:hidden;will-change:transform}
+.btn-primary span{position:relative;z-index:1}
+.btn-primary:hover{background:#A03F4D}
+.btn-primary::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .65s}
+.btn-primary:hover::after{left:140%}
+.btn-ghost{background:rgba(255,255,255,.72);border-color:var(--pink);color:var(--rose);backdrop-filter:blur(6px)}
+.btn-ghost:hover{background:#fff;transform:translateY(-2px);box-shadow:var(--cardSh)}
+
+section.blk{padding:clamp(84px,10vw,140px) 0;position:relative;z-index:2}
+.s-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:28px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.s-eyebrow.ctr{justify-content:center}
+.h2{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.032em;margin-top:12px;line-height:1.24}
+.sub{color:var(--ink2);font-size:clamp(14px,1.5vw,16px);margin-top:12px;max-width:640px}
+.center{text-align:center}.center .s-eyebrow{justify-content:center}.center .sub{margin-left:auto;margin-right:auto}
+
+/* ── HERO ── */
+.phero{position:relative;overflow:hidden;padding:clamp(46px,7vw,84px) 0 clamp(60px,8vw,96px)}
+.pmesh{position:absolute;inset:-25%;z-index:0;filter:blur(64px);opacity:.85;pointer-events:none}
+.pmesh i{position:absolute;border-radius:50%;mix-blend-mode:multiply}
+.pmesh .m1{width:44vw;height:44vw;background:#F8D9DE;top:-8%;right:0}
+.pmesh .m2{width:38vw;height:38vw;background:#F3E7DE;bottom:-12%;left:-6%}
+.pmesh .m3{width:30vw;height:30vw;background:#ECE3F2;top:26%;left:30%}
+.phero .in{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:46px;align-items:center}
+@media(max-width:900px){.phero .in{grid-template-columns:1fr;gap:34px}}
+.pk{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.16em;color:var(--rose2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;text-transform:uppercase;box-shadow:var(--cardSh)}
+.pk .hs{width:15px;height:15px}
+.phero h1{margin-top:18px;font-size:clamp(31px,4.8vw,54px);font-weight:800;letter-spacing:-.04em;line-height:1.14}
+.phero .lead{margin-top:20px;max-width:540px;font-size:clamp(15px,1.5vw,17px);color:var(--ink2)}
+.phero .hbtns{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+.phero .free-hint{margin-top:14px;font-size:13px;color:var(--mut)}
+.phero .free-hint a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--pinkSoft)}
+.pricecard{position:relative;background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:26px;padding:30px 30px 26px;box-shadow:var(--lift)}
+.pricecard .rib{position:absolute;top:-13px;left:28px;background:var(--rose);color:#fff;font-weight:800;font-size:12px;padding:6px 14px;border-radius:100px;box-shadow:var(--cardSh)}
+.pricecard .pl{font-size:14px;font-weight:800;color:var(--ink2);letter-spacing:-.01em}
+.pricecard .pv{margin-top:6px;font-size:clamp(36px,5vw,48px);font-weight:800;letter-spacing:-.03em;color:var(--rose2)}
+.pricecard .pv small{font-size:18px;font-weight:700;color:var(--mut);letter-spacing:0}
+.pricecard .pday{margin-top:6px;font-size:13.5px;color:var(--ink2)}
+.pricecard ul{margin:18px 0 0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.pricecard li{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--ink2)}
+.pricecard li svg{flex:none;width:19px;height:19px;margin-top:1px;fill:none;stroke:var(--sage);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pricecard .pcta{margin-top:22px;display:block}
+.pricecard .prsr{margin-top:12px;font-size:12px;color:var(--mut);text-align:center}
+.btn.block{width:100%;justify-content:center}
+
+/* ── BENEFITS 3 ── */
+.ben3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+@media(max-width:820px){.ben3{grid-template-columns:1fr}}
+.bcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px 24px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s}
+.bcard:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.bic{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:var(--pinkSoft);margin-bottom:15px}
+.bic svg{width:26px;height:26px;fill:none;stroke:var(--rose);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bcard.c2 .bic{background:#EAF1EE}.bcard.c2 .bic svg{stroke:var(--sage)}
+.bcard.c3 .bic{background:#F1EAF3}.bcard.c3 .bic svg{stroke:var(--lav)}
+.bcard h3{font-size:18px;letter-spacing:-.02em}
+.bcard .acc{display:inline-block;margin-top:4px;font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.bcard p{margin-top:10px;font-size:14px;color:var(--ink2);line-height:1.65}
+
+/* ── SHOWCASE ── */
+.showgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+@media(max-width:860px){.showgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.showgrid{grid-template-columns:1fr}}
+.scard{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 20px 22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;overflow:hidden}
+.scard:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.scard .badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:100px;letter-spacing:.02em}
+.badge.col{background:#F1EAF3;color:var(--lav)}
+.badge.tool{background:#EAF1EE;color:var(--sage)}
+.badge.rep{background:var(--pinkSoft);color:var(--rose)}
+.scard h4{margin-top:13px;font-size:16.5px;letter-spacing:-.02em;line-height:1.4}
+.scard p{margin-top:9px;font-size:13.5px;color:var(--ink2);line-height:1.62;flex:1}
+.scard .go{margin-top:15px;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:800;color:var(--rose)}
+.scard .lock{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--mut)}
+.scard .lock svg{width:14px;height:14px;fill:none;stroke:var(--mut);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.scard .ar{transition:transform .3s var(--ease)}
+.scard:hover .ar{transform:translateX(4px)}
+
+/* ── COMPARE ── */
+.cmpwrap{margin-top:30px;background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:var(--cardSh);overflow:hidden}
+.cmptbl{width:100%;border-collapse:collapse;font-size:14px}
+.cmptbl th,.cmptbl td{padding:15px 16px;text-align:left;border-bottom:1px solid var(--border)}
+.cmptbl thead th{font-size:13px;letter-spacing:-.01em;background:var(--bg2)}
+.cmptbl thead th.col-free{color:var(--ink2)}
+.cmptbl thead th.col-pro{color:var(--rose2)}
+.cmptbl th.rowh{font-weight:700;color:var(--ink);width:44%}
+.cmptbl td.c{text-align:center;width:28%}
+.cmptbl tbody tr:last-child td,.cmptbl tbody tr:last-child th{border-bottom:0}
+.cmptbl .colpro{background:linear-gradient(180deg,rgba(248,232,234,.5),rgba(252,238,241,.35))}
+.yes{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#EAF1EE;align-items:center;justify-content:center}
+.yes svg{width:13px;height:13px;fill:none;stroke:var(--sage);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.no{color:var(--mut);font-weight:700;font-size:13px}
+.part{color:var(--ink2);font-size:12.5px;font-weight:700}
+.cmp-note{margin-top:14px;font-size:13px;color:var(--ink2);display:flex;gap:8px;align-items:flex-start}
+.cmp-note svg{flex:none;width:18px;height:18px;margin-top:2px;fill:none;stroke:var(--sage);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── FAQ ── */
+.faq{margin-top:30px;max-width:820px}
+.faq details{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:var(--cardSh)}
+.faq summary{list-style:none;cursor:pointer;padding:19px 22px;font-weight:800;font-size:15.5px;letter-spacing:-.01em;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{flex:none;width:22px;height:22px;position:relative;transition:transform .3s var(--ease)}
+.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;top:50%;left:50%;background:var(--rose);border-radius:2px}
+.faq summary .pl::before{width:13px;height:2.2px;transform:translate(-50%,-50%)}
+.faq summary .pl::after{width:2.2px;height:13px;transform:translate(-50%,-50%);transition:transform .3s var(--ease)}
+.faq details[open] summary .pl::after{transform:translate(-50%,-50%) scaleY(0)}
+.faq .fa{padding:0 22px 20px;font-size:14px;color:var(--ink2);line-height:1.72}
+
+/* ── FINAL CTA ── */
+.finalcta{position:relative;overflow:hidden;background:linear-gradient(150deg,var(--pinkSoft2),var(--pinkSoft));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.finalcta .in{position:relative;z-index:2;text-align:center;padding:clamp(64px,8vw,104px) 0}
+.finalcta h2{font-size:clamp(25px,3.6vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.24}
+.finalcta .fp{margin-top:14px;font-size:15px;color:var(--ink2)}
+.finalcta .fp b{color:var(--rose2);font-weight:800}
+.finalcta .fbtns{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.finalcta .free2{margin-top:16px;font-size:13.5px;color:var(--mut)}
+.finalcta .free2 a{color:var(--rose);font-weight:700;border-bottom:1px solid rgba(184,80,96,.28)}
+.disc{margin-top:26px;font-size:11.5px;color:var(--mut);max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink),var(--rose));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+</style>
+
+<div class="topbar">
+  <span>매일 머니레터는 늘 0원이에요 — 아침 7시·저녁 6시, 그날 시장을 정리해 보내드려요:)</span>
+  <a href="/letter-evening">오늘의 머니레터 열어보기 →</a>
+</div>
+
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<!-- ① HERO — 포지셔닝 + 가격(여기서만) + 주 CTA -->
+<section class="phero">
+  <div class="pmesh"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div>
+  <div class="wrap in">
+    <div class="reveal">
+      <span class="pk"><svg class="hs" viewBox="0 0 24 24" fill="none" stroke="#B33A4C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.7 11 12 4.2l8.3 6.8"/><path d="M5.6 9.9V19a1.3 1.3 0 0 0 1.3 1.3h10.2A1.3 1.3 0 0 0 18.4 19V9.9"/></svg>PREMIUM · 부부연구소</span>
+      <h1>경제공부를 넘어,<br><span class="grad">경제적 완성까지.</span></h1>
+      <p class="lead">매일의 머니레터는 늘 0원이에요. 여기에 더해 — 유료 칼럼·투자 도구·기업 분석 자료까지, 아는 것에서 그치지 않고 '내 자산'으로 이어지도록 프리미엄을 준비했어요.</p>
+      <div class="hbtns">
+        <!-- 최종 결제 동선: /home#subscribe (사이트 공통 구독 섹션 · 결제 체계 변경 금지). 사장님이 이 목적지의 버튼 href를 실제 카카오 채널/결제 링크로 교체하면 전 페이지가 함께 연결돼요. -->
+        <a href="/home#subscribe" data-cta="premium-start" class="btn btn-primary magnet"><span>프리미엄 시작하기 →</span></a>
+        <a href="/letter-evening" class="btn btn-ghost">무료로 먼저 읽어보기</a>
+      </div>
+      <p class="free-hint">아직 고민 중이라면 — <a href="/letter-evening">오늘의 머니레터</a>부터 0원으로 받아보세요.</p>
+    </div>
+    <div class="reveal">
+      <div class="pricecard ringed">
+        <span class="rib">추천</span>
+        <div class="pl">프리미엄</div>
+        <div class="pv">월 9,900원</div>
+        <div class="pday">하루로 치면 약 330원 — 커피 한 잔보다 적은 값이에요.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>홈페이지 유료 칼럼 접근 권한</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>홈페이지 유료 도구 접근 권한</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>홈페이지 유료 기업 분석 자료 접근 권한</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>매일 머니레터 전문은 그대로 + 구독자 자료·할인</li>
+        </ul>
+        <a href="/home#subscribe" data-cta="premium-start" class="btn btn-primary block pcta magnet"><span>프리미엄 시작하기 →</span></a>
+        <p class="prsr">약정 없이 · 언제든 한 번에 해지</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② 혜택 3종 — '접근 권한' 프레임(홈 T116~118과 동일 언어) -->
+<section class="blk">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="s-eyebrow ctr">WHAT YOU GET</span>
+      <div class="h2">프리미엄은 '접근 권한'이에요</div>
+      <p class="sub">새 상품을 하나 더 파는 게 아니라, 홈페이지의 유료 콘텐츠를 <b>다 열어드리는</b> 열쇠예요. 세 갈래로 이어져요.</p>
+    </div>
+    <div class="ben3 stag">
+      <div class="bcard c1">
+        <div class="bic"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h4"/></svg></div>
+        <h3>유료 칼럼</h3><span class="acc">접근 권한</span>
+        <p>통념을 뒤집는 딥칼럼까지, 홈페이지의 유료 칼럼을 전부 열어드려요. "그래서 내 돈엔 무슨 의미인지"를 끝까지 짚어요.</p>
+      </div>
+      <div class="bcard c2">
+        <div class="bic"><svg viewBox="0 0 24 24"><path d="M5 7h9M18 7h1M5 12h1M10 12h9M5 17h6M15 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="13" cy="17" r="2"/></svg></div>
+        <h3>유료 도구</h3><span class="acc">접근 권한</span>
+        <p>계산기·시트 같은 투자 도구를 프리미엄으로 열어드려요. 내 숫자를 바로 넣어 보면서 '내 상황'으로 계산해요.</p>
+      </div>
+      <div class="bcard c3">
+        <div class="bic"><svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 20v-6M12 20V8M17 20v-9"/></svg></div>
+        <h3>기업 분석 자료</h3><span class="acc">접근 권한</span>
+        <p>기업·업종을 실제 재무 숫자로 파헤친 분석 자료를 이어서 보실 수 있어요. 뉴스가 아니라 '관점'으로 정리했어요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ 쇼케이스 — premium_showcase.json 6종 -->
+<section class="blk soft">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="s-eyebrow ctr">SHOWCASE</span>
+      <div class="h2">이런 걸 읽게 돼요</div>
+      <p class="sub">프리미엄으로 열리는 대표 콘텐츠예요. 제목을 누르면 해당 글로 이어져요 — 잠금은 구독하면 풀려요.</p>
+    </div>
+    <div class="showgrid stag">
+      <a class="scard reveal" href="/col-e2bc">
+        <span class="badge col">칼럼</span>
+        <h4>손절의 기술 — 언제 파는 게 맞을까?</h4>
+        <p>사는 건 설레서 잘하는데, 파는 건 늘 어려워요. 감정 대신 '룰'로 파는 법을 같이 정리했어요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>읽으러 가기 <span class="ar">→</span></span></span>
+      </a>
+      <a class="scard reveal" href="/tool-pro-6b5d">
+        <span class="badge tool">도구</span>
+        <h4>복리 스노우볼 — 시간이 굴리면 돈은 눈덩이가 돼요</h4>
+        <p>원금과 불어난 수익을 갈라 보여주고, 이자가 원금을 추월하는 '골든 크로스' 시점까지 짚어드려요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>열어보기 <span class="ar">→</span></span></span>
+      </a>
+      <a class="scard reveal" href="/report-ai-9970">
+        <span class="badge rep">레포트</span>
+        <h4>AI는 결국 '전기'를 먹고 자라요 — AI 전력 3사</h4>
+        <p>진짜 수혜는 칩이 아니라 전기를 만들고 실어 나르는 쪽일 수 있어요. 핵심 세 회사를 재무 숫자로 파헤쳤어요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>읽으러 가기 <span class="ar">→</span></span></span>
+      </a>
+      <a class="scard reveal" href="/col-6a03">
+        <span class="badge col">칼럼</span>
+        <h4>환율은 오르는데, 내 주식은 왜 빠질까?</h4>
+        <p>같은 '원화 약세' 안에 정반대인 두 얼굴이 숨어 있어요. 환율 뛰는 날 계좌가 파래지는 이유를 풀어요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>읽으러 가기 <span class="ar">→</span></span></span>
+      </a>
+      <a class="scard reveal" href="/tool-pro-9b41">
+        <span class="badge tool">도구</span>
+        <h4>달러 자산, 얼마나 덮을까 — 환헤지 반반 비중</h4>
+        <p>비중 슬라이더를 굴리며 평가액·환노출·변동성이 어떻게 맞바뀌는지, '반반' 헤지의 손익을 눈으로 확인해요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>열어보기 <span class="ar">→</span></span></span>
+      </a>
+      <a class="scard reveal" href="/report-ccb2">
+        <span class="badge rep">레포트</span>
+        <h4>금값은 최고권인데, 금광주는 왜 다 다를까 — 금광 빅3</h4>
+        <p>뉴몬트·배릭·애그니코 — 같은 금광 빅3인데 줄 세우는 잣대마다 1등이 바뀌어요.</p>
+        <span class="go"><span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>프리미엄</span><span>읽으러 가기 <span class="ar">→</span></span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ④ 무료 vs 프리미엄 — 무료 가치 먼저 -->
+<section class="blk">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="s-eyebrow ctr">FREE vs PREMIUM</span>
+      <div class="h2">무료만으로도 충분해요</div>
+      <p class="sub">매일 머니레터 <b>전문</b>은 늘 0원이에요. 프리미엄은 그 위에 유료 칼럼·도구·기업 분석 자료가 더해지는 거예요.</p>
+    </div>
+    <div class="cmpwrap reveal">
+      <table class="cmptbl">
+        <thead><tr><th class="rowh">&nbsp;</th><th class="c col-free">무료</th><th class="c col-pro colpro">프리미엄</th></tr></thead>
+        <tbody>
+          <tr><th class="rowh">매일 머니레터 전문 (아침 7시·저녁 6시)</th><td class="c"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">시장 정리 · 지수·환율·투자심리</th><td class="c"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">경제뉴스 큐레이션 · 경제캘린더</th><td class="c"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">홈페이지 유료 칼럼 전체</th><td class="c"><span class="part">맛보기</span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">투자 도구 (계산기·시트)</th><td class="c"><span class="no">—</span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">기업 분석 자료</th><td class="c"><span class="no">—</span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+          <tr><th class="rowh">구독자 전용 자료 · 할인</th><td class="c"><span class="no">—</span></td><td class="c colpro"><span class="yes"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cmp-note reveal"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><span>무료로 충분히 써보고 결정하셔도 돼요. 약정이 없어서, 프리미엄도 언제든 한 번에 해지할 수 있어요.</span></p>
+  </div>
+</section>
+
+<!-- ⑤ FAQ -->
+<section class="blk soft">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="s-eyebrow ctr">FAQ</span>
+      <div class="h2">자주 묻는 것들</div>
+    </div>
+    <div class="faq reveal">
+      <details><summary>언제든 해지할 수 있나요?<span class="pl"></span></summary><div class="fa">네, 약정이 없어요. 언제든 한 번에 해지할 수 있고, 이미 결제한 기간은 그대로 이용돼요. 자동결제는 해지하면 다음 회차부터 청구되지 않아요.</div></details>
+      <details><summary>결제는 어떻게 하나요?<span class="pl"></span></summary><div class="fa">프리미엄은 월 9,900원 자동결제예요. 결제 수단·영수증·다음 결제일은 결제 내역에서 확인할 수 있어요. 결제일·재시도 일정은 결제사 안내를 따라요.</div></details>
+      <details><summary>콘텐츠는 얼마나 자주 올라오나요?<span class="pl"></span></summary><div class="fa">머니레터는 매일 아침 7시·저녁 6시에 보내드려요. 프리미엄 칼럼·도구·기업 분석 자료는 꾸준히 더해지고, 접근 권한이 있으면 새 자료도 그대로 열려요.</div></details>
+      <details><summary>무료와 정확히 뭐가 다른가요?<span class="pl"></span></summary><div class="fa">매일 머니레터 전문은 무료도 똑같이 받아보세요. 프리미엄은 그 위에 홈페이지 유료 칼럼·투자 도구·기업 분석 자료 접근 권한이 더해지는 거예요. 새 상품이 아니라 '열쇠'라고 보시면 돼요.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ 최종 CTA 밴드 (웜 분홍 라이트) + 면책 -->
+<section class="finalcta">
+  <div class="wrap in reveal">
+    <h2>경제공부를 넘어, 경제적 완성까지<br>오늘부터 함께해요.</h2>
+    <p class="fp"><b>월 9,900원</b> · 약정 없이 언제든 해지</p>
+    <div class="fbtns">
+      <a href="/home#subscribe" data-cta="premium-start" class="btn btn-primary magnet"><span>프리미엄 시작하기 →</span></a>
+    </div>
+    <p class="free2">아직이라면 — <a href="/letter-evening">오늘의 머니레터</a>를 0원으로 먼저 받아보세요.</p>
+    <p class="disc">부부연구소 콘텐츠는 정보 제공을 위한 것으로, 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있어요. 특정 종목이나 수익을 보장하지 않아요.</p>
+  </div>
+</section>
+
+<!-- [부부연구소_프리미엄_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개 · 점진향상·jsdom 무해) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');}else{e.target.classList.remove('in');}});},{threshold:.14});
+ d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});
+}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs — 스크롤 진행바 + 맨 위로*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+
+</body>
+</html>
