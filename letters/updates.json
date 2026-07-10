@@ -4,5 +4,11 @@
     "edition": "pulse",
     "title": "SOX 반도체 지수 +2.23%",
     "source": "naver"
+  },
+  {
+    "ts": "2026-07-10T21:55:07.023272+09:00",
+    "edition": "pulse",
+    "title": "SOX 반도체 지수 +3.06%",
+    "source": "fetch_facts"
   }
 ]
