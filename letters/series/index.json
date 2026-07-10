@@ -1,11 +1,11 @@
 {
- "updated": "2026-07-10T17:09:07",
+ "updated": "2026-07-10T17:09:28",
  "note": "머니레터 기간전환 차트용 시계열(공개소스 실 일별종가; 창작·보간 없음)",
  "symbols": [
   {
    "symbol": "BTC",
    "file": "BTC.json",
-   "bytes": 9142,
+   "bytes": 9141,
    "points": 366,
    "start": "2025-07-10",
    "end": "2026-07-10",
@@ -59,7 +59,7 @@
   {
    "symbol": "VIX",
    "file": "VIX.json",
-   "bytes": 2604,
+   "bytes": 2605,
    "points": 110,
    "start": "2026-02-05",
    "end": "2026-07-09",
