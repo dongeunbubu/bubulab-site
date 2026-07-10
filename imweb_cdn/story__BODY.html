@@ -76,11 +76,15 @@ footer .wrap{padding-top:30px;padding-bottom:34px}
 .shero{padding:clamp(40px,6vw,72px) 0 8px;text-align:center}
 .shero .quote{font-size:clamp(26px,4.6vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.22;max-width:760px;margin:16px auto 0}
 .shero .lead{margin:18px auto 0;text-align:center}
-.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
-@media(max-width:620px){.nums{grid-template-columns:1fr}}
-.num{background:#fff;border:1px solid var(--border);border-radius:18px;padding:24px 18px;text-align:center;box-shadow:var(--cardSh)}
-.num b{font-size:clamp(28px,4vw,38px);font-weight:800;letter-spacing:-.03em;color:var(--rose);font-variant-numeric:tabular-nums;display:block;line-height:1}
-.num .k{font-size:13px;color:var(--ink2);font-weight:700;margin-top:8px}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.6vw,30px);margin-top:34px}
+@media(max-width:620px){.nums{grid-template-columns:1fr;gap:0}}
+.num{position:relative;text-align:center;padding:10px 10px}
+.num+.num{border-left:1px solid var(--border)}
+@media(max-width:620px){.num+.num{border-left:0;border-top:1px solid var(--border)}}
+.num .ndot{display:block;width:9px;height:9px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 5px #F8E8EA;margin:0 auto 15px}
+.num b{font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-.03em;color:var(--rose);font-variant-numeric:tabular-nums;display:block;line-height:1}
+.num .k{font-size:13.5px;color:var(--ink2);font-weight:700;margin-top:12px;white-space:nowrap}
+@media(max-width:620px){.num .k{white-space:normal}}
 .chap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,46px);align-items:center;margin-top:clamp(40px,6vw,72px)}
 @media(max-width:780px){.chap{grid-template-columns:1fr;gap:22px}}
 .chap .fig{aspect-ratio:4/3;border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;box-shadow:var(--cardHi)}
@@ -200,8 +204,8 @@ html{overflow-x:hidden}
 .chap .fig .figimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .55s var(--ease)}
 .chap .fig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,30,28,.05) 0,transparent 38%,transparent 56%,rgba(40,30,28,.40));z-index:1;pointer-events:none}
 .chap .fig .cap{z-index:2}
-.num{transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
-.num:hover{transform:translateY(-4px);box-shadow:var(--cardHi)}
+.num .ndot{transition:box-shadow .3s var(--ease),transform .3s var(--ease)}
+.num:hover .ndot{box-shadow:0 0 0 7px #F8E8EA;transform:scale(1.12)}
 @media(prefers-reduced-motion:reduce){.smesh{display:none}.grad{animation:none}.chap .fig .figimg{transition:none}}
 </style>
 <style>/* ===prinwow=== 원칙 3카드 hover 글로우+리프트(홈 #why 카드 동적언어 일관·죽어있던 transition 활성화·additive) */
@@ -272,9 +276,9 @@ html.js .wstag.in>*{opacity:1;transform:none}
   <div class="quote reveal">“버섯이 피던 반지하에서, <span class="grad">우리는 돈 공부를 시작했어요.</span>”</div>
   <p class="lead reveal">통장 앞에서 한숨짓던 밤, 저희도 숱하게 보냈어요. 그 막막함을 잘 알아서, 지금은 예비·신혼부부 곁에서 매일 시장을 정리해 두는 사람이 되기로 했어요. 두 분께 우리가 걸어온 길을 들려드릴게요.</p>
   <div class="nums stag">
-    <div class="num"><b><span class="cnt" data-to="10">0</span>배</b><div class="k">2년 만에 함께 불린 자산</div></div>
-    <div class="num"><b><span class="cnt" data-to="2">0</span>회</b><div class="k">매일 아침·저녁 시장 레터</div></div>
-    <div class="num"><b><span class="cnt" data-to="4">0</span>개</b><div class="k">월급날 자동으로 나뉘는 통장</div></div>
+    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="10">0</span>배</b><div class="k">2년 만에 함께 불린 자산</div></div>
+    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="2">0</span>회</b><div class="k">매일 아침·저녁 시장 레터</div></div>
+    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="4">0</span>개</b><div class="k">월급날 자동으로 나뉘는 통장</div></div>
   </div>
 </section>
 

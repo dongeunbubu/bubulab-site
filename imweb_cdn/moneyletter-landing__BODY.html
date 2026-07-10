@@ -491,6 +491,16 @@ html.js .wstag.in>*{opacity:1;transform:none}
   #bblLL .bblll-teaser{font-size:13.5px;color:var(--ink2);margin-top:8px}
   #bblLL .bblll-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
   @media(prefers-reduced-motion:reduce){#bblLL{opacity:1;transform:none;transition:none}#bblLL .bblll-dot{animation:none}}
+  #bblLL .bblll-div{height:1px;background:var(--border);margin:22px 0 15px}
+  #bblLL .bblll-lh{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--mut);text-align:left;margin-bottom:10px}
+  #bblLL .bblll-list{display:flex;flex-direction:column;gap:8px;text-align:left}
+  #bblLL .bblll-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff;text-decoration:none;transition:border-color .2s,transform .2s,box-shadow .2s}
+  #bblLL .bblll-row:hover{border-color:var(--rose);transform:translateY(-1px);box-shadow:var(--cardSh)}
+  #bblLL .bblll-rd{flex:none;font-size:12px;font-weight:800;color:var(--mut);font-variant-numeric:tabular-nums;min-width:34px}
+  #bblLL .bblll-rb{flex:none;font-size:10.5px;font-weight:800;border-radius:6px;padding:2px 7px}
+  #bblLL .bblll-rb.am{color:var(--sage);background:#EAF1EE}
+  #bblLL .bblll-rb.pm{color:var(--rose);background:var(--pinkSoft)}
+  #bblLL .bblll-rt{font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   </style>
   <div id="bblLL" hidden aria-label="오늘 발행된 레터">
     <div class="bblll-tag"><span class="bblll-dot"></span><span id="bblllEd">아침판</span> · 오늘 발행된 레터</div>
@@ -498,9 +508,12 @@ html.js .wstag.in>*{opacity:1;transform:none}
       <div class="bblll-title" id="bblllTitle"></div>
       <div class="bblll-teaser" id="bblllTeaser"></div>
     </a>
+    <div class="bblll-div"></div>
+    <div class="bblll-lh">최근 레터</div>
+    <div class="bblll-list" id="bblllList"></div>
     <div class="bblll-cta">
       <a class="btn btn-rose" id="bblllRead" href="/letter-morning">오늘 레터 읽으러 가기 →</a>
-      <a class="btn btn-ghost" href="/letter-archive">지난 레터 아카이브</a>
+      <a class="btn btn-ghost" href="/letter-archive">전체 아카이브 보기 →</a>
     </div>
   </div>
   

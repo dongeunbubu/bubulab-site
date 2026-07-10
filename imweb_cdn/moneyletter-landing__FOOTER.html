@@ -4,6 +4,10 @@
     var root=document.getElementById('bblLL');
     if(!root||root.getAttribute('data-bblll'))return;
     root.setAttribute('data-bblll','1');
+    function esc(s){var x=document.createElement('div');x.textContent=(s==null?'':String(s));return x.innerHTML;}
+    function ymd(dt){return String(dt).replace(/-/g,'');}
+    function shortD(s){var p=String(s).split('-');return (+p[1])+'.'+(+p[2]);}
+    function deeplink(e){return (e.edition==='pm'?'/letter-evening':'/letter-morning')+'?d='+ymd(e.date)+'&e='+e.edition;}
     var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
     var TIMEOUT=8000;
     function getJSON(url){
@@ -19,12 +23,15 @@
     getJSON(RAW+'index.json?_t='+Date.now()).then(function(idx){
       var L=(idx&&idx.letters)||[];var t=L[0];
       if(!t||!t.title)throw new Error('no-letter');
-      var href=(t.edition==='pm')?'/letter-evening':'/letter-morning';
+      var href=deeplink(t);
       document.getElementById('bblllEd').textContent=(t.edition==='pm')?'저녁판':'아침판';
       document.getElementById('bblllTitle').textContent=t.title;
       document.getElementById('bblllTeaser').textContent=t.teaser||'';
       document.getElementById('bblllLink').setAttribute('href',href);
       document.getElementById('bblllRead').setAttribute('href',href);
+      var rest=L.slice(1,7),lh='',listEl=document.getElementById('bblllList');
+      for(var i=0;i<rest.length;i++){var e=rest[i];lh+='<a class="bblll-row" href="'+deeplink(e)+'"><span class="bblll-rd">'+shortD(e.date)+'</span><span class="bblll-rb '+(e.edition==='pm'?'pm':'am')+'">'+(e.edition==='pm'?'저녁':'아침')+'</span><span class="bblll-rt">'+esc(e.title)+'</span></a>';}
+      if(listEl){if(rest.length){listEl.innerHTML=lh;}else{listEl.style.display='none';}}
       root.hidden=false;
       void root.offsetWidth;
       root.classList.add('on');
