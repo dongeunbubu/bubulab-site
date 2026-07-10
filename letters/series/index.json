@@ -1,14 +1,14 @@
 {
- "updated": "2026-07-11T01:25:12",
+ "updated": "2026-07-11T06:34:09",
  "note": "머니레터 기간전환 차트용 시계열(공개소스 실 일별종가; 창작·보간 없음)",
  "symbols": [
   {
    "symbol": "BTC",
    "file": "BTC.json",
-   "bytes": 9141,
-   "points": 366,
+   "bytes": 9164,
+   "points": 367,
    "start": "2025-07-10",
-   "end": "2026-07-10",
+   "end": "2026-07-11",
    "source": "coingecko(market_chart 365d daily)"
   },
   {
@@ -32,28 +32,28 @@
   {
    "symbol": "NASDAQ",
    "file": "NASDAQ.json",
-   "bytes": 2958,
-   "points": 111,
+   "bytes": 2982,
+   "points": 112,
    "start": "2026-01-29",
-   "end": "2026-07-09",
+   "end": "2026-07-10",
    "source": "naver(api.stock foreign .IXIC dayCandle)"
   },
   {
    "symbol": "SP500",
    "file": "SP500.json",
-   "bytes": 2845,
-   "points": 111,
+   "bytes": 2868,
+   "points": 112,
    "start": "2026-01-29",
-   "end": "2026-07-09",
+   "end": "2026-07-10",
    "source": "naver(api.stock foreign .INX dayCandle)"
   },
   {
    "symbol": "USDKRW",
    "file": "USDKRW.json",
-   "bytes": 29561,
-   "points": 1281,
+   "bytes": 29584,
+   "points": 1282,
    "start": "2021-07-09",
-   "end": "2026-07-09",
+   "end": "2026-07-10",
    "source": "frankfurter(ECB timeseries)"
   },
   {
