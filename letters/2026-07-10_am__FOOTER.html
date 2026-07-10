@@ -52,8 +52,14 @@
  // 딥다이브 챕터 진행선
  var chaps=[].slice.call(d.querySelectorAll('.chap')),sfill=d.getElementById('sfill'),sns=[].slice.call(d.querySelectorAll('.ddsteps .sn'));
  if(chaps.length&&sfill){
-  var seen=-1;
-  var ddfig=d.querySelector('.dd-figure'),ddQ=d.getElementById('ddsQ'),ddS=d.getElementById('ddsStep'),DDNOTE=(function(){try{return (JSON.parse(d.getElementById('ddcaps').textContent).note)||[]}catch(e){return []}})(),DDQ=(function(){try{return (JSON.parse(d.getElementById('ddcaps').textContent).q)||[]}catch(e){return []}})();function mark(i){if(ddfig){ddfig.setAttribute('data-step',String(i+1));var nn=ddfig.querySelector('[data-note]');if(nn&&DDNOTE[i])nn.innerHTML=DDNOTE[i];if(ddQ&&DDQ[i])ddQ.textContent=DDQ[i];if(ddS)ddS.textContent='이유 '+(i+1)+' / 3';}if(i<=seen)return;seen=i;if(sfill)sfill.style.width=((i+1)/chaps.length*100)+'%';sns.forEach(function(a,j){a.classList.toggle('on',j===i);});}
+  var seen=-1,ddLock=0,NC=chaps.length;
+  var ddfig=d.querySelector('.dd-figure'),ddQ=d.getElementById('ddsQ'),ddS=d.getElementById('ddsStep'),DDNOTE=(function(){try{return (JSON.parse(d.getElementById('ddcaps').textContent).note)||[]}catch(e){return []}})(),DDQ=(function(){try{return (JSON.parse(d.getElementById('ddcaps').textContent).q)||[]}catch(e){return []}})();
+  function paint(i){if(ddfig){ddfig.setAttribute('data-step',String(i+1));var nn=ddfig.querySelector('[data-note]');if(nn&&DDNOTE[i])nn.innerHTML=DDNOTE[i];if(ddQ&&DDQ[i])ddQ.textContent=DDQ[i];if(ddS)ddS.textContent='이유 '+(i+1)+' / '+NC;}if(sfill)sfill.style.width=((i+1)/NC*100)+'%';sns.forEach(function(a,j){a.classList.toggle('on',j===i);});}
+  function mark(i){if(Date.now()<ddLock)return;if(i<=seen)return;seen=i;paint(i);}
+  // F3: 진행 필 호버(데스크톱)/클릭·탭 → 해당 장면 즉시 전환. 조작 후 5초 또는 다음 스크롤까지 사용자 선택 우선.
+  function jump(i){if(i<0||i>=NC)return;paint(i);if(i>seen)seen=i;ddLock=Date.now()+5000;}
+  sns.forEach(function(b,i){b.addEventListener('click',function(){jump(i);});b.addEventListener('mouseenter',function(){jump(i);});});
+  window.addEventListener('scroll',function(){ddLock=0;},{passive:true});
   if(!('IntersectionObserver'in window)){mark(chaps.length-1);}
   else{var io2=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)mark(chaps.indexOf(en.target));});},{threshold:.4});
    chaps.forEach(function(c){io2.observe(c);});}
