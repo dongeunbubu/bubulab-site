@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-10T17:11:41",
+ "updated": "2026-07-10T17:14:14",
  "note": "머니레터 기간전환 차트용 시계열(공개소스 실 일별종가; 창작·보간 없음)",
  "symbols": [
   {
@@ -59,10 +59,10 @@
   {
    "symbol": "VIX",
    "file": "VIX.json",
-   "bytes": 2605,
-   "points": 110,
+   "bytes": 2626,
+   "points": 111,
    "start": "2026-02-05",
-   "end": "2026-07-09",
+   "end": "2026-07-10",
    "source": "naver(api.stock foreign .VIX dayCandle)"
   }
  ]
