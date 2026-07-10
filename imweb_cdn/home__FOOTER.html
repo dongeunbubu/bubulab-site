@@ -51,7 +51,7 @@
   getJSON(RAW+'index.json?_t='+Date.now()).then(function(idx){
     var L=(idx&&idx.letters)||[];var t=L[0];
     if(!t||!t.title)throw new Error('no-letter');
-    document.getElementById('bblhtEd').textContent=(t.edition==='pm')?'저녁판':'아침판';
+    document.getElementById('bblhtEd').textContent=(t.edition==='pm')?'저녁 머니레터':'아침 머니레터';
     document.getElementById('bblhtTitle').textContent=t.title;
     document.getElementById('bblhtTeaser').textContent=t.teaser||'';
     document.getElementById('bblhtLink').setAttribute('href',(t.edition==='pm')?'/letter-evening':'/letter-morning');
