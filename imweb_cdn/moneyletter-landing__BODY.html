@@ -415,7 +415,7 @@ html.js .wstag.in>*{opacity:1;transform:none}
   <p class="lead reveal">돈 공부, 검색만 하다 끝나곤 했죠. 미루는 사이에도 시장은 매일 움직이고요. 그래서 매일 아침 7시·저녁 6시, 한국·미국 시장부터 경제뉴스·Why 칼럼까지 <span class="whl">두 분의 언어로</span> 정리해 보내드려요. 시작은 0원이에요.</p>
   <div class="lcta reveal">
     <a class="btn btn-rose wmag wshine" href="/letter-evening">오늘 레터, 0원으로 먼저 읽기 →</a>
-    <a class="btn btn-ghost magnet" href="/home#subscribe">딥 레터 구독 · 월 9,900원</a>
+    <a class="btn btn-ghost magnet" href="/premium">프리미엄 안내</a>
   </div>
   <div class="ticker"><div class="track"><span class="tki"><span class="nm">코스피</span><span class="vl">7,763.95</span><span class="ch up">+0.43%</span></span><span class="tki"><span class="nm">코스닥</span><span class="vl">996.93</span><span class="ch up">+4.76%</span></span><span class="tki"><span class="nm">원/달러</span><span class="vl">1,528.90</span><span class="ch up">+0.31%</span></span><span class="tki"><span class="nm">S&P500</span><span class="vl">7,266.99</span><span class="ch dn">-1.62%</span></span><span class="tki"><span class="nm">나스닥</span><span class="vl">25,169.50</span><span class="ch dn">-1.98%</span></span><span class="tki"><span class="nm">다우</span><span class="vl">49,918.78</span><span class="ch dn">-1.87%</span></span><span class="tki"><span class="nm">VIX</span><span class="vl">22.22</span><span class="ch up">+11.83%</span></span><span class="tki"><span class="nm">비트코인</span><span class="vl">$62,769.57</span><span class="ch up">+2.15%</span></span><span class="tki" aria-hidden="true"><span class="nm">코스피</span><span class="vl">7,763.95</span><span class="ch up">+0.43%</span></span><span class="tki" aria-hidden="true"><span class="nm">코스닥</span><span class="vl">996.93</span><span class="ch up">+4.76%</span></span><span class="tki" aria-hidden="true"><span class="nm">원/달러</span><span class="vl">1,528.90</span><span class="ch up">+0.31%</span></span><span class="tki" aria-hidden="true"><span class="nm">S&P500</span><span class="vl">7,266.99</span><span class="ch dn">-1.62%</span></span><span class="tki" aria-hidden="true"><span class="nm">나스닥</span><span class="vl">25,169.50</span><span class="ch dn">-1.98%</span></span><span class="tki" aria-hidden="true"><span class="nm">다우</span><span class="vl">49,918.78</span><span class="ch dn">-1.87%</span></span><span class="tki" aria-hidden="true"><span class="nm">VIX</span><span class="vl">22.22</span><span class="ch up">+11.83%</span></span><span class="tki" aria-hidden="true"><span class="nm">비트코인</span><span class="vl">$62,769.57</span><span class="ch up">+2.15%</span></span></div></div>
   <div class="trust stag" style="margin-top:26px">
@@ -426,12 +426,123 @@ html.js .wstag.in>*{opacity:1;transform:none}
 </section>
 
 <section class="blk wrap preview-sec" id="preview">
-  <div class="sectit reveal"><span class="e">TODAY'S LETTER</span><h2 class="wline wline-c">말로 설명하는 대신, 오늘 레터를 그대로 펼쳤어요</h2><p>실제 발행본의 일부예요. 아래 수치는 2026년 6월 11일 기준 실데이터로 채웠어요.</p></div>
+  <div class="sectit reveal"><span class="e">TODAY'S LETTER</span><h2 class="wline wline-c">말로 설명하는 대신, 오늘 레터를 그대로 펼쳤어요</h2><p>실제 발행본의 레이아웃이에요. 오늘의 실데이터는 위 카드와 그래프에서 매일 자동으로 갱신돼요.</p></div>
+<!-- ▼▼ BBL LANDING LIVE (runB) — 오늘 2카드 + 미니 코스피 차트 · 데이터원=파이프라인 JSON, 실패 시 정적 폴백 유지 ▼▼ -->
+<style>/*bbllive-css · .bbllive 루트로 스코프 격리(페이지 스타일과 충돌 없음)*/
+.bbllive{--bU:#E4483A;--bUT:#C22E22;--bD:#3B6FE0;--bDT:#2A55C2;--bRose:#B33A4C;--bDeep:#7C243B;--bPink:#E08696;--bInk:#2C201B;--bInk2:#57453D;--bMut:#877468;--bBd:#ECDAD5;--bBdS:#E4C8C2;--bBg2:#FBF3EE;--bPS:#F8E3E7;--bPS2:#FCEEF1;--bE:cubic-bezier(.16,1,.3,1);margin:26px 0 0;font-variant-numeric:tabular-nums}
+.bbllive *{box-sizing:border-box}
+.bbll-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px}
+.bbll-strip::-webkit-scrollbar{display:none}
+.bbll-si{flex:none;display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:8px 13px;box-shadow:0 2px 6px -3px rgba(150,70,80,.18)}
+.bbll-sn{font-size:11px;font-weight:800;color:var(--bMut)}
+.bbll-sv{font-size:13px;font-weight:900;color:var(--bInk)}
+.bbll-sc{font-size:10.5px;font-weight:800}
+.bbll-sc.up{color:var(--bUT)}.bbll-sc.down{color:var(--bDT)}.bbll-sc.flat{color:var(--bMut)}
+.bbll-count{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:16px;background:linear-gradient(150deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:18px;padding:16px 18px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.1)}
+.bbll-countl{font-size:14px;font-weight:800;color:var(--bInk2)}
+.bbll-countn{font-size:26px;font-weight:900;letter-spacing:-.02em;color:var(--bRose);margin:0 2px}
+.bbll-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bbll-btn{font-size:12.5px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:10px 15px;text-decoration:none;transition:.2s var(--bE);white-space:nowrap}
+.bbll-btn:hover{border-color:var(--bPink);color:var(--bRose);transform:translateY(-1px)}
+.bbll-btn.primary{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bbll-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:620px){.bbll-cards{grid-template-columns:1fr}}
+.bbll-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--bBd);border-radius:20px;padding:20px 20px 18px;text-decoration:none;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -10px rgba(150,70,80,.16);transition:transform .28s var(--bE),box-shadow .28s;position:relative;overflow:hidden}
+.bbll-card:hover{transform:translateY(-4px);box-shadow:0 6px 12px rgba(120,60,50,.09),0 24px 44px -14px rgba(179,58,76,.24)}
+.bbll-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--bRose),var(--bDeep))}
+.bbll-cbadge{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:var(--bRose)}
+.bbll-cdot{width:7px;height:7px;border-radius:50%;background:var(--bRose)}
+.bbll-cwhen{color:var(--bMut);font-weight:700;margin-left:auto}
+.bbll-ctitle{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--bInk);margin-top:11px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bbll-cteaser{font-size:12.5px;color:var(--bInk2);margin-top:7px;font-weight:600}
+.bbll-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.bbll-kpi{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:800;border-radius:999px;padding:5px 10px;border:1px solid var(--bBd);background:var(--bBg2)}
+.bbll-kpi .bbll-kk{color:var(--bMut)}
+.bbll-kpi.up{background:#FDEAE7;border-color:#F6CFC9}.bbll-kpi.up .bbll-kv{color:var(--bUT)}
+.bbll-kpi.down{background:#E7EFFD;border-color:#CFDDF6}.bbll-kpi.down .bbll-kv{color:var(--bDT)}
+.bbll-kpi.flat .bbll-kv{color:var(--bInk2)}
+.bbll-cgo{margin-top:auto;padding-top:13px;font-size:13px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:5px}
+.bbll-card:hover .bbll-ar{transform:translateX(3px)}
+.bbll-ar{transition:transform .2s var(--bE);display:inline-block}
+.bbll-card.is-wait{background:var(--bBg2);border-style:dashed}
+.bbll-card.is-wait::before{opacity:.4}
+.bbll-cwait{font-size:12.5px;color:var(--bMut);font-weight:700;margin-top:10px;line-height:1.6}
+.bbll-nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.bbll-navchip{font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;text-decoration:none;transition:.2s var(--bE)}
+.bbll-navchip:hover{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep))}
+.bbll-mc{margin:20px 0 0;background:linear-gradient(168deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);padding:16px 17px 17px;position:relative;overflow:hidden}
+.bbll-mc[hidden]{display:none}
+.bblmc-syms{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.bblmc-syms::-webkit-scrollbar{display:none}
+.bblmc-sym{flex:none;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;transition:.2s var(--bE);touch-action:manipulation}
+.bblmc-sym:hover{border-color:var(--bPink);color:var(--bRose)}
+.bblmc-sym[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bblmc-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:15px 3px 2px}
+.bblmc-title{font-size:14.5px;font-weight:800;color:var(--bInk)}
+.bblmc-now{font-size:21px;font-weight:900;letter-spacing:-.022em;color:var(--bInk);line-height:1}
+.bblmc-now small{font-size:.55em;font-weight:800;color:var(--bMut);margin-left:2px}
+.bblmc-chg{font-size:12.5px;font-weight:800}
+.bblmc-span{margin-left:auto;font-size:11px;font-weight:700;color:var(--bMut)}
+.bblmc-figwrap{position:relative;margin-top:7px;touch-action:pan-y}
+.bblmc-svg{width:100%;height:196px;display:block}
+.bblmc-svg .bblmc-area{stroke:none}
+.bblmc-svg .bblmc-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.bblmc-svg .bblmc-line.reveal{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);animation:bbldraw 1s var(--bE) .05s forwards}
+@keyframes bbldraw{to{stroke-dashoffset:0}}
+.bblmc-svg .bblmc-cross{stroke:var(--bMut);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.bblmc-svg .bblmc-dot{opacity:0}
+.bblmc-svg.act .bblmc-cross,.bblmc-svg.act .bblmc-dot{opacity:.9}
+.bblmc-tip{position:absolute;pointer-events:none;background:#fff;color:var(--bInk);font-size:11px;font-weight:800;padding:5px 9px;border-radius:9px;border:1px solid var(--bBdS);transform:translate(-50%,-134%);white-space:nowrap;opacity:0;transition:opacity .14s;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);z-index:5}
+.bblmc-tip.on{opacity:1}
+.bblmc-tip b{color:var(--bRose);display:block;font-size:9.5px;font-weight:800;margin-bottom:1px}
+.bblmc-x{display:flex;justify-content:space-between;font-size:10px;color:var(--bMut);font-weight:700;margin-top:2px;padding:0 3px}
+.bblmc-ranges{display:flex;gap:6px;margin-top:13px}
+.bblmc-range{flex:1;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:9px 5px;cursor:pointer;transition:.2s var(--bE);touch-action:manipulation;text-align:center}
+.bblmc-range:hover:not([disabled]){border-color:var(--bPink);color:var(--bRose)}
+.bblmc-range[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 13px -6px rgba(179,58,76,.5)}
+.bblmc-range[disabled]{opacity:.45;cursor:default;color:var(--bMut);background:var(--bBg2)}
+.bblmc-foot{font-size:10.5px;color:var(--bMut);margin-top:11px;font-weight:600;line-height:1.5}
+.bblmc-foot b{color:var(--bInk2);font-weight:800}
+.bbll-why{margin-top:20px;background:linear-gradient(135deg,var(--bPS2),#fff);border:1px solid var(--bBd);border-radius:20px;padding:22px 22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -12px rgba(150,70,80,.14)}
+.bbll-whyk{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--bRose);text-transform:uppercase}
+.bbll-whyt{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--bInk);margin-top:9px}
+.bbll-whyl{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.bbll-whyl:hover .bbll-ar{transform:translateX(3px)}
+@media (prefers-reduced-motion:reduce){.bbll-card,.bbll-btn{transition:none}.bblmc-svg .bblmc-line.reveal{animation:none}}
+</style>
+<div class="bbllive" id="bblLandingLive" data-live="landing" style="max-width:880px;margin:26px auto 0">
+  <div class="bbll-cards" id="bbllCards">
+    <a class="bbll-card" href="/letter-evening"><div class="bbll-cbadge"><span class="bbll-cdot"></span>저녁 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">저녁 머니레터가 곧 도착해요</div><div class="bbll-cteaser">한국 증시 마감 정리 · 저녁 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+    <a class="bbll-card" href="/letter-morning"><div class="bbll-cbadge"><span class="bbll-cdot"></span>아침 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">아침 머니레터가 곧 도착해요</div><div class="bbll-cteaser">미국 증시 마감 정리 · 아침 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+  </div>
+  <figure class="bbll-mc" id="bblmc2" hidden aria-label="주요 지표 기간별 종가 추이" style="margin-top:16px">
+    <div class="bblmc-syms" role="tablist" aria-label="지표 선택">
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSPI" data-label="코스피" data-unit="pt">코스피</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSDAQ" data-label="코스닥" data-unit="pt">코스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="SP500" data-label="S&amp;P500" data-unit="pt">S&amp;P500</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="NASDAQ" data-label="나스닥" data-unit="pt">나스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="VIX" data-label="VIX" data-unit="" data-dec="2">VIX</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="USDKRW" data-label="원/달러" data-unit="원">원/달러</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="BTC" data-label="비트코인" data-unit="" data-pre="$">비트코인</button>
+    </div>
+    <div class="bblmc-head"><span class="bblmc-title" id="bblmcTitle">코스피</span><span class="bblmc-now" id="bblmcNow" aria-live="polite">—</span><span class="bblmc-chg" id="bblmcChg"></span><span class="bblmc-span" id="bblmcSpan"></span></div>
+    <div class="bblmc-figwrap" id="bblmcFig"><svg class="bblmc-svg" id="bblmcSvg" role="img" aria-label="기간별 종가 추이"><path class="bblmc-area" id="bblmcArea" d=""></path><path class="bblmc-line reveal" id="bblmcLine" d=""></path><line class="bblmc-cross" id="bblmcCross" x1="0" y1="0" x2="0" y2="0"></line><circle class="bblmc-dot" id="bblmcDot" r="3.8"></circle></svg><div class="bblmc-tip" id="bblmcTip" role="status"></div></div>
+    <div class="bblmc-x"><span id="bblmcX0">—</span><span id="bblmcX1">—</span></div>
+    <div class="bblmc-ranges" role="tablist" aria-label="기간 선택">
+      <button class="bblmc-range" role="tab" type="button" data-days="7">7일</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="30">1개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="90">3개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="0">전체</button>
+    </div>
+    <div class="bblmc-foot">일별 종가예요. <b>가용 범위</b>만 눌러지고, 데이터가 쌓이면 더 긴 기간이 저절로 열려요.</div>
+  </figure>
+</div>
+<!-- ▲▲ BBL LANDING LIVE 끝 ▲▲ -->
   <div class="preview reveal">
     <div class="pbar"><i></i><i style="background:#E6C4C9"></i><i style="background:#CFE0D6"></i><span class="pt">머니레터 · 저녁 정리본</span><span class="live"><span class="d"></span>매일 자동 발행</span></div>
     <div class="pbody">
       <div class="pmast">오늘의 시장, <span class="grad">이렇게 정리</span>해드렸어요.</div>
-      <div class="pdate">2026년 6월 11일 목요일 · 부부연구소 머니레터</div>
+      <div class="pdate">부부연구소 머니레터 · 매일 그날 수치로 자동 발행</div>
       <div class="ptldr">
         <span class="tl">● 오늘 딱 3줄</span>
         <ul>
@@ -470,7 +581,7 @@ html.js .wstag.in>*{opacity:1;transform:none}
   </svg>
   <div class="fgnum" id="fgnum">27</div>
   <div class="fglab">공포 (Fear)</div>
-  <div class="fgsub">CNN 공포·탐욕 지수(6/11 기준) · 1주 전 54 → 오늘 27, 시장이 더 움츠러들었어요</div>
+  <div class="fgsub">CNN 공포·탐욕 지수는 매일 갱신돼요 · 0에 가까울수록 공포, 100에 가까울수록 탐욕</div>
 </div>
       </div>
       <div class="pcta">
@@ -503,7 +614,7 @@ html.js .wstag.in>*{opacity:1;transform:none}
   #bblLL .bblll-rt{font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   </style>
   <div id="bblLL" hidden aria-label="오늘 발행된 레터">
-    <div class="bblll-tag"><span class="bblll-dot"></span><span id="bblllEd">아침판</span> · 오늘 발행된 레터</div>
+    <div class="bblll-tag"><span class="bblll-dot"></span><span id="bblllEd">아침 머니레터</span> · 오늘 발행된 레터</div>
     <a class="bblll-main" id="bblllLink" href="/letter-morning">
       <div class="bblll-title" id="bblllTitle"></div>
       <div class="bblll-teaser" id="bblllTeaser"></div>
@@ -651,7 +762,7 @@ html.js .wstag.in>*{opacity:1;transform:none}
     <p>막막했던 돈 관리, 이제 매일 옆에서 같이 정리할게요. 무료로 받아보고 마음이 닿으면 구독으로.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
       <a class="btn btn-rose magnet" href="/letter-evening">오늘 레터, 0원으로 먼저 읽기 →</a>
-      <a class="btn btn-ghost" href="/home#subscribe">월 9,900원, 구독하기</a>
+      <a class="btn btn-ghost" href="/premium">프리미엄 안내</a>
     </div>
   </div>
 </section>

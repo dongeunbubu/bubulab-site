@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>홈 S04 라이브 모듈</title>
+<style>
+  body{margin:0;background:#FBF3EE;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:#2C201B;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:0 auto;padding:32px clamp(16px,4vw,40px)}
+  .pvhd{font-size:13px;font-weight:800;color:#B33A4C;letter-spacing:.04em}
+  .s-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.09em;color:#B33A4C;text-transform:uppercase;margin-top:8px}
+  .h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.3;margin:6px 0 4px}
+  .grad{background:linear-gradient(120deg,#B33A4C,#E08696);-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 4px}
+  .autobadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#877468;margin-left:6px}
+  .autobadge .dot{width:7px;height:7px;border-radius:50%;background:#B33A4C}
+  .fullcta{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,#B33A4C,#7C243B);color:#fff;border-radius:20px;padding:20px 22px;text-decoration:none;box-shadow:0 16px 30px -12px rgba(179,58,76,.5);flex-wrap:wrap}
+  .fullcta .fc-t{font-size:16px;font-weight:800}
+  .fullcta .fc-d{font-size:12.5px;opacity:.92;margin-top:5px;line-height:1.6;max-width:640px}
+  .fullcta .fc-go{font-size:13px;font-weight:800;white-space:nowrap}
+  .ndate{font-size:11px;color:#877468;font-weight:600;margin-top:12px}
+  .reveal{opacity:1} .note{font-size:12px;color:#877468;margin-top:22px;border-top:1px dashed #ECDAD5;padding-top:12px}
+</style></head><body><div class="wrap">
+<div class="pvhd">● 실데이터 미리보기(standalone) — letters/index·history·series 실시간 fetch · 홈 S04 라이브 모듈</div>
+<span class="s-eyebrow reveal">오늘의 머니레터</span>
+<div class="h2 reveal">오늘의 재테크 관련 이슈와<span class="grad">데이터를 모두</span>간단하게 정리해드릴게요<span class="autobadge"><span class="dot"></span>자동 발행</span></div>
+<!-- ▼▼ BBL LIVE MODULE (runB · S04 리빌드) — 데이터원=파이프라인 JSON만(letters/index·history·series). fetch 실패 시 아래 정적 폴백이 그대로 남아요(틀은 데이터와 무관). 코드 불변·데이터만 흐름. ▼▼ -->
+<style>/*bbllive-css · .bbllive 루트로 스코프 격리(페이지 스타일과 충돌 없음)*/
+.bbllive{--bU:#E4483A;--bUT:#C22E22;--bD:#3B6FE0;--bDT:#2A55C2;--bRose:#B33A4C;--bDeep:#7C243B;--bPink:#E08696;--bInk:#2C201B;--bInk2:#57453D;--bMut:#877468;--bBd:#ECDAD5;--bBdS:#E4C8C2;--bBg2:#FBF3EE;--bPS:#F8E3E7;--bPS2:#FCEEF1;--bE:cubic-bezier(.16,1,.3,1);margin:26px 0 0;font-variant-numeric:tabular-nums}
+.bbllive *{box-sizing:border-box}
+.bbll-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px}
+.bbll-strip::-webkit-scrollbar{display:none}
+.bbll-si{flex:none;display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:8px 13px;box-shadow:0 2px 6px -3px rgba(150,70,80,.18)}
+.bbll-sn{font-size:11px;font-weight:800;color:var(--bMut)}
+.bbll-sv{font-size:13px;font-weight:900;color:var(--bInk)}
+.bbll-sc{font-size:10.5px;font-weight:800}
+.bbll-sc.up{color:var(--bUT)}.bbll-sc.down{color:var(--bDT)}.bbll-sc.flat{color:var(--bMut)}
+.bbll-count{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:16px;background:linear-gradient(150deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:18px;padding:16px 18px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.1)}
+.bbll-countl{font-size:14px;font-weight:800;color:var(--bInk2)}
+.bbll-countn{font-size:26px;font-weight:900;letter-spacing:-.02em;color:var(--bRose);margin:0 2px}
+.bbll-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bbll-btn{font-size:12.5px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:10px 15px;text-decoration:none;transition:.2s var(--bE);white-space:nowrap}
+.bbll-btn:hover{border-color:var(--bPink);color:var(--bRose);transform:translateY(-1px)}
+.bbll-btn.primary{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bbll-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:620px){.bbll-cards{grid-template-columns:1fr}}
+.bbll-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--bBd);border-radius:20px;padding:20px 20px 18px;text-decoration:none;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -10px rgba(150,70,80,.16);transition:transform .28s var(--bE),box-shadow .28s;position:relative;overflow:hidden}
+.bbll-card:hover{transform:translateY(-4px);box-shadow:0 6px 12px rgba(120,60,50,.09),0 24px 44px -14px rgba(179,58,76,.24)}
+.bbll-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--bRose),var(--bDeep))}
+.bbll-cbadge{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:var(--bRose)}
+.bbll-cdot{width:7px;height:7px;border-radius:50%;background:var(--bRose)}
+.bbll-cwhen{color:var(--bMut);font-weight:700;margin-left:auto}
+.bbll-ctitle{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--bInk);margin-top:11px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bbll-cteaser{font-size:12.5px;color:var(--bInk2);margin-top:7px;font-weight:600}
+.bbll-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.bbll-kpi{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:800;border-radius:999px;padding:5px 10px;border:1px solid var(--bBd);background:var(--bBg2)}
+.bbll-kpi .bbll-kk{color:var(--bMut)}
+.bbll-kpi.up{background:#FDEAE7;border-color:#F6CFC9}.bbll-kpi.up .bbll-kv{color:var(--bUT)}
+.bbll-kpi.down{background:#E7EFFD;border-color:#CFDDF6}.bbll-kpi.down .bbll-kv{color:var(--bDT)}
+.bbll-kpi.flat .bbll-kv{color:var(--bInk2)}
+.bbll-cgo{margin-top:auto;padding-top:13px;font-size:13px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:5px}
+.bbll-card:hover .bbll-ar{transform:translateX(3px)}
+.bbll-ar{transition:transform .2s var(--bE);display:inline-block}
+.bbll-card.is-wait{background:var(--bBg2);border-style:dashed}
+.bbll-card.is-wait::before{opacity:.4}
+.bbll-cwait{font-size:12.5px;color:var(--bMut);font-weight:700;margin-top:10px;line-height:1.6}
+.bbll-nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.bbll-navchip{font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;text-decoration:none;transition:.2s var(--bE)}
+.bbll-navchip:hover{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep))}
+.bbll-mc{margin:20px 0 0;background:linear-gradient(168deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);padding:16px 17px 17px;position:relative;overflow:hidden}
+.bbll-mc[hidden]{display:none}
+.bblmc-syms{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.bblmc-syms::-webkit-scrollbar{display:none}
+.bblmc-sym{flex:none;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;transition:.2s var(--bE);touch-action:manipulation}
+.bblmc-sym:hover{border-color:var(--bPink);color:var(--bRose)}
+.bblmc-sym[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bblmc-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:15px 3px 2px}
+.bblmc-title{font-size:14.5px;font-weight:800;color:var(--bInk)}
+.bblmc-now{font-size:21px;font-weight:900;letter-spacing:-.022em;color:var(--bInk);line-height:1}
+.bblmc-now small{font-size:.55em;font-weight:800;color:var(--bMut);margin-left:2px}
+.bblmc-chg{font-size:12.5px;font-weight:800}
+.bblmc-span{margin-left:auto;font-size:11px;font-weight:700;color:var(--bMut)}
+.bblmc-figwrap{position:relative;margin-top:7px;touch-action:pan-y}
+.bblmc-svg{width:100%;height:196px;display:block}
+.bblmc-svg .bblmc-area{stroke:none}
+.bblmc-svg .bblmc-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.bblmc-svg .bblmc-line.reveal{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);animation:bbldraw 1s var(--bE) .05s forwards}
+@keyframes bbldraw{to{stroke-dashoffset:0}}
+.bblmc-svg .bblmc-cross{stroke:var(--bMut);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.bblmc-svg .bblmc-dot{opacity:0}
+.bblmc-svg.act .bblmc-cross,.bblmc-svg.act .bblmc-dot{opacity:.9}
+.bblmc-tip{position:absolute;pointer-events:none;background:#fff;color:var(--bInk);font-size:11px;font-weight:800;padding:5px 9px;border-radius:9px;border:1px solid var(--bBdS);transform:translate(-50%,-134%);white-space:nowrap;opacity:0;transition:opacity .14s;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);z-index:5}
+.bblmc-tip.on{opacity:1}
+.bblmc-tip b{color:var(--bRose);display:block;font-size:9.5px;font-weight:800;margin-bottom:1px}
+.bblmc-x{display:flex;justify-content:space-between;font-size:10px;color:var(--bMut);font-weight:700;margin-top:2px;padding:0 3px}
+.bblmc-ranges{display:flex;gap:6px;margin-top:13px}
+.bblmc-range{flex:1;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:9px 5px;cursor:pointer;transition:.2s var(--bE);touch-action:manipulation;text-align:center}
+.bblmc-range:hover:not([disabled]){border-color:var(--bPink);color:var(--bRose)}
+.bblmc-range[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 13px -6px rgba(179,58,76,.5)}
+.bblmc-range[disabled]{opacity:.45;cursor:default;color:var(--bMut);background:var(--bBg2)}
+.bblmc-foot{font-size:10.5px;color:var(--bMut);margin-top:11px;font-weight:600;line-height:1.5}
+.bblmc-foot b{color:var(--bInk2);font-weight:800}
+.bbll-why{margin-top:20px;background:linear-gradient(135deg,var(--bPS2),#fff);border:1px solid var(--bBd);border-radius:20px;padding:22px 22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -12px rgba(150,70,80,.14)}
+.bbll-whyk{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--bRose);text-transform:uppercase}
+.bbll-whyt{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--bInk);margin-top:9px}
+.bbll-whyl{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.bbll-whyl:hover .bbll-ar{transform:translateX(3px)}
+@media (prefers-reduced-motion:reduce){.bbll-card,.bbll-btn{transition:none}.bblmc-svg .bblmc-line.reveal{animation:none}}
+</style>
+<div class="bbllive" id="bblLetterLive" data-live="s04">
+  <div class="bbll-strip" id="bbllStrip" aria-label="오늘의 주요 지표(직전 거래일 종가)">
+    <span class="bbll-si"><span class="bbll-sn">코스피</span><span class="bbll-sv">7,476</span><span class="bbll-sc up">+2.52%</span></span>
+    <span class="bbll-si"><span class="bbll-sn">코스닥</span><span class="bbll-sv">837</span><span class="bbll-sc up">+5.47%</span></span>
+    <span class="bbll-si"><span class="bbll-sn">원/달러</span><span class="bbll-sv">1,512</span><span class="bbll-sc up">+0.22%</span></span>
+    <span class="bbll-si"><span class="bbll-sn">S&amp;P500</span><span class="bbll-sv">7,544</span><span class="bbll-sc up">+0.81%</span></span>
+    <span class="bbll-si"><span class="bbll-sn">투자심리</span><span class="bbll-sv">경계</span></span>
+  </div>
+  <div class="bbll-count">
+    <div class="bbll-countl">지금까지 <span class="bbll-countn" id="bbllCountN">—</span>편의 머니레터를 매일 배달했어요</div>
+    <div class="bbll-btns"><a class="bbll-btn primary" id="bbllTodayBtn" href="/letter-evening">오늘의 머니레터</a><a class="bbll-btn" href="/moneyletter-landing">지난 레터 보기</a></div>
+  </div>
+  <div class="bbll-cards" id="bbllCards">
+    <a class="bbll-card" href="/letter-evening"><div class="bbll-cbadge"><span class="bbll-cdot"></span>저녁 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">저녁 머니레터가 곧 도착해요</div><div class="bbll-cteaser">한국 증시 마감 정리 · 저녁 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+    <a class="bbll-card" href="/letter-morning"><div class="bbll-cbadge"><span class="bbll-cdot"></span>아침 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">아침 머니레터가 곧 도착해요</div><div class="bbll-cteaser">미국 증시 마감 정리 · 아침 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+  </div>
+  <!-- T22: 레터 로더(letter-evening/morning FOOTER v2)가 hashchange/scrollIntoView 미탑재 → 섹션 딥링크 대신 레터 페이지로 연결 -->
+  <div class="bbll-nav" id="bbllNav" aria-label="오늘의 머니레터 바로가기">
+    <a class="bbll-navchip" href="/letter-evening">한국시장</a>
+    <a class="bbll-navchip" href="/letter-evening">미국·세계</a>
+    <a class="bbll-navchip" href="/letter-evening">지표 흐름</a>
+    <a class="bbll-navchip" href="/letter-evening">투자심리</a>
+    <a class="bbll-navchip" href="/letter-evening">경제뉴스</a>
+  </div>
+  <figure class="bbll-mc" id="bblmc" hidden aria-label="주요 지표 기간별 종가 추이">
+    <div class="bblmc-syms" role="tablist" aria-label="지표 선택">
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSPI" data-label="코스피" data-unit="pt">코스피</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSDAQ" data-label="코스닥" data-unit="pt">코스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="SP500" data-label="S&amp;P500" data-unit="pt">S&amp;P500</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="NASDAQ" data-label="나스닥" data-unit="pt">나스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="VIX" data-label="VIX" data-unit="" data-dec="2">VIX</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="USDKRW" data-label="원/달러" data-unit="원">원/달러</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="BTC" data-label="비트코인" data-unit="" data-pre="$">비트코인</button>
+    </div>
+    <div class="bblmc-head"><span class="bblmc-title" id="bblmcTitle">코스피</span><span class="bblmc-now" id="bblmcNow" aria-live="polite">—</span><span class="bblmc-chg" id="bblmcChg"></span><span class="bblmc-span" id="bblmcSpan"></span></div>
+    <div class="bblmc-figwrap" id="bblmcFig"><svg class="bblmc-svg" id="bblmcSvg" role="img" aria-label="선택한 지표의 기간별 종가 추이 선그래프"><path class="bblmc-area" id="bblmcArea" d=""></path><path class="bblmc-line reveal" id="bblmcLine" d=""></path><line class="bblmc-cross" id="bblmcCross" x1="0" y1="0" x2="0" y2="0"></line><circle class="bblmc-dot" id="bblmcDot" r="3.8"></circle></svg><div class="bblmc-tip" id="bblmcTip" role="status"></div></div>
+    <div class="bblmc-x"><span id="bblmcX0">—</span><span id="bblmcX1">—</span></div>
+    <div class="bblmc-ranges" role="tablist" aria-label="기간 선택">
+      <button class="bblmc-range" role="tab" type="button" data-days="7">7일</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="30">1개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="90">3개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="0">전체</button>
+    </div>
+    <div class="bblmc-foot">일별 종가예요. <b>가용 범위</b>만 눌러지고, 데이터가 쌓이면 더 긴 기간이 저절로 열려요.</div>
+  </figure>
+  <div class="bbll-why" id="bbllWhy">
+    <div class="bbll-whyk">오늘의 Why</div>
+    <div class="bbll-whyt">오늘 시장이 던진 질문, 레터에서 함께 풀어봐요.</div>
+    <a class="bbll-whyl" href="/letter-evening">전문 읽기 <span class="bbll-ar">→</span></a>
+  </div>
+  <a class="fullcta reveal" href="/letter-evening" style="margin-top:20px">
+    <div><div class="fc-t">오늘의 머니레터 전체 본문 읽기</div><div class="fc-d">요약 내용을 넘어 오늘 있었던 이슈와 데이터를 정리한 본문 전체를 보러가요! 경제공부를 어떻게 해야하는지, 돈관리와 재테크에 친숙하기 어려운 모든 예비/신혼 부부분들을 위해 무료로 매일 아침/저녁 정리해드려요:)</div></div>
+    <span class="fc-go">전체 레터 읽기 <span class="ar">→</span></span>
+  </a>
+  <div class="ndate" data-k="ndate">※ 직전 거래일 종가 기준으로 매일 아침 7시·저녁 6시에 업데이트 해드려요:)</div>
+</div>
+<!-- ▲▲ BBL LIVE MODULE 끝 ▲▲ -->
+
+<div class="note">이 파일은 QA/미리보기용 단독본이에요. fetch가 차단되면 위 정적 폴백 마크업이 그대로 유지돼요(틀은 데이터와 무관). 실제 홈·랜딩 위젯에는 동일 모듈이 인라인 주입돼요.</div>
+</div>
+<script>/*bbllive-core · 레터 라이브 모듈(홈·랜딩 공용) · 데이터원=파이프라인 JSON만 · 실패 시 정적 폴백 유지 · 외부 스크립트 의존 0*/
+(function(){
+  if(window.__bblLive)return; window.__bblLive=1;
+  var d=document;
+  var RM=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||false;
+  var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
+  var SB=RAW+'series/';
+  var TIMEOUT=10000;
+  function cb(u){return u+(u.indexOf('?')<0?'?':'&')+'cb='+Date.now();}
+  function getJSON(u){
+    if(!window.fetch)return Promise.reject(new Error('no-fetch'));
+    var c=('AbortController'in window)?new AbortController():null;
+    var to=c?setTimeout(function(){try{c.abort();}catch(e){}},TIMEOUT):null;
+    return fetch(cb(u),{cache:'no-store',signal:c?c.signal:undefined}).then(function(r){
+      if(to)clearTimeout(to); if(!r.ok)throw new Error('HTTP '+r.status); return r.json();
+    });
+  }
+  function num(n){return Math.round(n).toLocaleString('ko-KR');}
+  function dec2(n){return Number(n).toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function edLabel(e){return e==='pm'?'저녁 머니레터':'아침 머니레터';}
+  function edHref(e){return e==='pm'?'/letter-evening':'/letter-morning';}
+  function pctStr(cur,prev){ if(prev==null||!isFinite(prev)||prev===0||cur==null||!isFinite(cur))return null; return (cur-prev)/prev*100; }
+  function dirCls(p){return p>0?'up':(p<0?'down':'flat');}
+  function signPct(p){ if(p==null)return '–'; var s=p>0?'+':(p<0?'-':''); return s+Math.abs(p).toFixed(2)+'%'; }
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmtWhen(idxUpdated,ltrDate){
+    var s=idxUpdated||ltrDate||''; var m=/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(s); if(!m)return '';
+    var y=+m[1],mo=+m[2],dd=+m[3],hh=m[4]!=null?+m[4]:null,mm=m[5]; var now=new Date();
+    var td=(now.getFullYear()===y&&now.getMonth()+1===mo&&now.getDate()===dd);
+    var ye=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1);
+    var yd=(ye.getFullYear()===y&&ye.getMonth()+1===mo&&ye.getDate()===dd);
+    var dl=td?'오늘':(yd?'어제':(mo+'월 '+dd+'일')); var tl='';
+    if(hh!=null){var ap=hh<12?'오전':'오후';var h=hh%12;if(!h)h=12;tl=' '+ap+' '+h+':'+mm;}
+    return dl+tl+' 발행';
+  }
+  /* 절제된 카운트업(정수, 1회) */
+  function countUp(el,to){ to=+to; if(RM||!el){if(el)el.textContent=num(to);return;} var t0=null,dur=1100;
+    function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=num(Math.floor(to*e));if(p<1)requestAnimationFrame(s);else el.textContent=num(to);}
+    requestAnimationFrame(s);
+  }
+  function onView(el,cbk){ if(RM||!('IntersectionObserver'in window)){cbk();return;} var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){cbk();o.disconnect();}});},{threshold:.5}); o.observe(el); }
+
+  /* ── KPI 칩(레터 룩) ── */
+  function kpiHTML(kpi){ if(!kpi||!kpi.length)return ''; var h='<div class="bbll-kpis">';
+    kpi.forEach(function(k){ var cls=k.d==='up'?'up':(k.d==='down'?'down':'flat');
+      h+='<span class="bbll-kpi '+cls+'"><span class="bbll-kk">'+esc(k.k)+'</span><span class="bbll-kv">'+esc(k.v)+'</span></span>'; });
+    return h+'</div>';
+  }
+  /* ── 오늘의 2카드(am/pm) ── */
+  function cardHTML(t,waiting){
+    if(waiting){ return '<article class="bbll-card is-wait"><div class="bbll-cbadge"><span class="bbll-cdot"></span>'+esc(waiting)+'</div>'+
+      '<div class="bbll-cwait">장이 마감되면 이 자리에 정리해 둘게요.</div></article>'; }
+    var href=edHref(t.edition);
+    return '<a class="bbll-card" href="'+href+'"><div class="bbll-cbadge"><span class="bbll-cdot"></span>'+edLabel(t.edition)+
+      '<span class="bbll-cwhen">'+esc(fmtWhen(null,t.date))+'</span></div>'+
+      '<div class="bbll-ctitle">'+esc(t.title)+'</div>'+
+      (t.teaser?'<div class="bbll-cteaser">'+esc(t.teaser)+'</div>':'')+ kpiHTML(t.kpi)+
+      '<span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>';
+  }
+  function hydrateCards(idx){
+    var host=d.getElementById('bbllCards'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;
+    var am=null,pm=null,i; for(i=0;i<L.length;i++){ if(!pm&&L[i].edition==='pm')pm=L[i]; if(!am&&L[i].edition==='am')am=L[i]; if(am&&pm)break; }
+    var order=[]; /* 최신 먼저: 저녁이 최신이면 pm,am / 아침이 최신이면 am,pm */
+    if(L[0].edition==='pm'){ if(pm)order.push(pm); if(am)order.push(am); } else { if(am)order.push(am); if(pm)order.push(pm); }
+    if(!order.length)return; var html='';
+    order.forEach(function(t){ html+=cardHTML(t); });
+    if(order.length===1){ html+=cardHTML(null, order[0].edition==='pm'?'아침 머니레터':'저녁 머니레터'); }
+    host.innerHTML=html; host.setAttribute('data-live-ok','1');
+  }
+  /* ── 상단 지표 스트립(history 최신행) ── */
+  function stripItem(nm,cur,prev,dec,pre){ if(cur==null||!isFinite(cur))return '';
+    var p=pctStr(cur,prev); var v=(pre||'')+(dec?dec2(cur):num(cur));
+    return '<span class="bbll-si"><span class="bbll-sn">'+esc(nm)+'</span><span class="bbll-sv">'+v+'</span>'+
+      (p!=null?'<span class="bbll-sc '+dirCls(p)+'">'+signPct(p)+'</span>':'')+'</span>';
+  }
+  function hydrateStrip(hist){
+    var host=d.getElementById('bbllStrip'); if(!host)return; var S=(hist&&hist.series)||[]; if(S.length<1)return;
+    var c=S[S.length-1],p=S.length>1?S[S.length-2]:{};
+    var h=''; h+=stripItem('코스피',c.kospi,p.kospi,false,'');
+    h+=stripItem('코스닥',c.kosdaq,p.kosdaq,false,'');
+    h+=stripItem('원/달러',c.usdkrw,p.usdkrw,false,'');
+    h+=stripItem('S&P500',c.spx,p.spx,false,'');
+    if(c.vix!=null)h+=stripItem('VIX',c.vix,p.vix,true,'');
+    /* 투자심리(VIX 기반 간이 판정) */
+    if(c.vix!=null){ var z=c.vix<20?'안정':(c.vix<30?'경계':'공포'); h+='<span class="bbll-si"><span class="bbll-sn">투자심리</span><span class="bbll-sv">'+z+'</span></span>'; }
+    if(h){ host.innerHTML=h; host.setAttribute('data-live-ok','1'); }
+    /* BTC는 series로 비동기 보강 */
+    getJSON(SB+'BTC.json').then(function(j){ if(!j||!j.daily||!j.daily.length)return; var dl=j.daily; var last=dl[dl.length-1][1],prev=dl.length>1?dl[dl.length-2][1]:null;
+      var p2=pctStr(last,prev); var el=d.createElement('span'); el.className='bbll-si';
+      el.innerHTML='<span class="bbll-sn">비트코인</span><span class="bbll-sv">$'+num(last)+'</span>'+(p2!=null?'<span class="bbll-sc '+dirCls(p2)+'">'+signPct(p2)+'</span>':'');
+      host.appendChild(el);
+    }).catch(function(){});
+  }
+  /* ── 누적 편수 + 오늘의 Why ── */
+  function hydrateCount(idx){ var el=d.getElementById('bbllCountN'); if(!el)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;
+    var n=L.length; var btn=d.getElementById('bbllTodayBtn'); if(btn){btn.setAttribute('href',edHref(L[0].edition));}
+    onView(el,function(){countUp(el,n);});
+  }
+  function hydrateWhy(idx){ var host=d.getElementById('bbllWhy'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return; var t=L[0];
+    var tt=host.querySelector('.bbll-whyt'), lk=host.querySelector('.bbll-whyl');
+    if(tt)tt.textContent=t.title; if(lk)lk.setAttribute('href',edHref(t.edition)); host.setAttribute('data-live-ok','1');
+  }
+  /* ── 딥링크 칩(레터 로더 해시 미지원 → 페이지 링크) ── */
+  function hydrateNav(idx){ var host=d.getElementById('bbllNav'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;
+    var href=edHref(L[0].edition); [].slice.call(host.querySelectorAll('a.bbll-navchip')).forEach(function(a){ a.setAttribute('href',href); });
+  }
+  /* ── 랜딩: 최근 레터 6건 목록 ── */
+  function hydrateList(idx){ var host=d.getElementById('bbllList'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;
+    var six=L.slice(0,6); var html='';
+    six.forEach(function(t){ var href=edHref(t.edition);
+      html+='<a class="bbll-lc" href="'+href+'"><div class="bbll-lctop"><span class="bbll-lcbadge '+(t.edition==='pm'?'pm':'am')+'">'+edLabel(t.edition)+'</span>'+
+        '<span class="bbll-lcdate">'+esc(fmtWhen(null,t.date))+'</span></div>'+
+        '<div class="bbll-lctitle">'+esc(t.title)+'</div>'+ kpiHTML(t.kpi)+
+        '<span class="bbll-lcgo">읽기 <span class="bbll-ar">→</span></span></a>';
+    });
+    host.innerHTML=html; host.setAttribute('data-live-ok','1');
+  }
+
+  /* ── 레터 mchart 이식(기간전환 인터랙티브 · 온디맨드 series fetch · 크로스헤어 · 패스 모핑) ── */
+  function initChart(host){
+    if(!host||!window.fetch)return;
+    var q=function(id){return host.querySelector('#'+id);};
+    var svg=q('bblmcSvg'),line=q('bblmcLine'),area=q('bblmcArea'),cross=q('bblmcCross'),dot=q('bblmcDot'),tip=q('bblmcTip'),fig=q('bblmcFig'),
+        elNow=q('bblmcNow'),elChg=q('bblmcChg'),elTitle=q('bblmcTitle'),elSpan=q('bblmcSpan'),elX0=q('bblmcX0'),elX1=q('bblmcX1');
+    if(!svg||!fig)return;
+    var syms=[].slice.call(host.querySelectorAll('.bblmc-sym')),ranges=[].slice.call(host.querySelectorAll('.bblmc-range'));
+    var cache={},K=72,morphRAF=null,shown=false;
+    var S={W:320,H:196,pad:11,padT:12,padB:16,draw:[],slice:[],lo:0,hi:1,days:90,meta:null,daily:null,revealed:false};
+    function meta(b){return{sym:b.getAttribute('data-sym'),label:b.getAttribute('data-label'),unit:b.getAttribute('data-unit')||'',pre:b.getAttribute('data-pre')||'',dec:b.getAttribute('data-dec')?+b.getAttribute('data-dec'):null,btn:b};}
+    function fmt(v,dec,pre){if(dec==null)dec=(Math.abs(v)>=1000?0:2);return (pre||'')+v.toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+    function measure(){var w=fig.clientWidth||320;S.W=Math.max(220,Math.round(w));svg.setAttribute('viewBox','0 0 '+S.W+' '+S.H);}
+    function spanDays(dl){return (Date.parse(dl[dl.length-1][0])-Date.parse(dl[0][0]))/864e5;}
+    function avail(dl,D){return D===0?dl.length>=2:(dl.length>=3&&spanDays(dl)>=D);}
+    function windowSlice(dl,days){if(!days)return dl.slice();var last=Date.parse(dl[dl.length-1][0]),st=last-days*864e5;var o=dl.filter(function(r){return Date.parse(r[0])>=st;});return o.length>=2?o:dl.slice(-Math.max(2,Math.min(dl.length,8)));}
+    function resample(v,k){if(v.length<=1)return v.slice();var o=[];for(var i=0;i<k;i++){var t=i/(k-1)*(v.length-1),a=Math.floor(t),b=Math.ceil(t);o.push(v[a]+(v[b]-v[a])*(t-a));}return o;}
+    function sx(i,n){return S.pad+i*(S.W-2*S.pad)/((n-1)||1);}
+    function sy(val){return S.padT+(1-(val-S.lo)/((S.hi-S.lo)||1))*(S.H-S.padT-S.padB);}
+    function pth(xs,ys){var s='';for(var i=0;i<xs.length;i++)s+=(i?'L':'M')+xs[i].toFixed(1)+' '+ys[i].toFixed(1);return s;}
+    function apth(xs,ys){if(!xs.length)return'';var bY=(S.H-S.padB).toFixed(1),s='M'+xs[0].toFixed(1)+' '+bY;for(var i=0;i<xs.length;i++)s+='L'+xs[i].toFixed(1)+' '+ys[i].toFixed(1);return s+'L'+xs[xs.length-1].toFixed(1)+' '+bY+'Z';}
+    function render(animate){
+      var sl=S.slice,vals=sl.map(function(r){return r[1];});if(vals.length<2)return;
+      S.lo=Math.min.apply(null,vals);S.hi=Math.max.apply(null,vals);
+      var rise=vals[vals.length-1]>=vals[0],col=rise?{s:'#E4483A',a:'rgba(228,72,58,.13)'}:{s:'#3B6FE0',a:'rgba(59,111,224,.13)'};
+      line.style.stroke=col.s;area.style.fill=col.a;dot.style.fill=col.s;cross.style.stroke=col.s;
+      var rv=resample(vals,K),xs=rv.map(function(_,i){return sx(i,K);}),ys=rv.map(function(v){return sy(v);});
+      var pts=xs.map(function(x,i){return [x,ys[i]];});
+      if(animate&&!RM&&S.draw.length===pts.length){
+        var from=S.draw.slice(),t0=null;if(morphRAF)cancelAnimationFrame(morphRAF);line.classList.remove('reveal');
+        (function(){function step(ts){if(t0==null)t0=ts;var k=Math.min(1,(ts-t0)/430),e=1-Math.pow(1-k,3),X=[],Y=[],i;for(i=0;i<pts.length;i++){X.push(from[i][0]+(pts[i][0]-from[i][0])*e);Y.push(from[i][1]+(pts[i][1]-from[i][1])*e);}line.setAttribute('d',pth(X,Y));area.setAttribute('d',apth(X,Y));if(k<1)morphRAF=requestAnimationFrame(step);else S.draw=pts;}morphRAF=requestAnimationFrame(step);})();
+      }else{
+        line.setAttribute('d',pth(xs,ys));area.setAttribute('d',apth(xs,ys));S.draw=pts;
+        if(!RM&&!S.revealed&&host.classList.contains('in')&&line.getTotalLength){void line.getBoundingClientRect();line.style.setProperty('--len',Math.ceil(line.getTotalLength()));line.classList.add('reveal');S.revealed=true;}
+      }
+      var first=vals[0],last=vals[vals.length-1],chg=first?((last-first)/first*100):0,m=S.meta;
+      elNow.innerHTML=fmt(last,m.dec,m.pre)+(m.unit?'<small>'+m.unit+'</small>':'');
+      elChg.textContent=(chg>=0?'▲ ':'▼ ')+Math.abs(chg).toFixed(2)+'%';elChg.style.color=chg>=0?'#C22E22':'#2A55C2';
+      elX0.textContent=sl[0][0].slice(2);elX1.textContent=sl[sl.length-1][0].slice(2);
+      elSpan.textContent=({7:'최근 7일',30:'최근 1개월',90:'최근 3개월',0:'전체'})[S.days]+' · '+sl.length+'거래일';
+    }
+    function syncRanges(){ranges.forEach(function(b){var D=+b.getAttribute('data-days'),ok=avail(S.daily,D);b.disabled=!ok;b.setAttribute('aria-selected',String(D===S.days&&ok));});}
+    function pickDays(dl){if(avail(dl,S.days))return S.days;var pref=[90,30,7,0];for(var i=0;i<pref.length;i++)if(avail(dl,pref[i]))return pref[i];return 0;}
+    function selectRange(days){S.days=days;S.slice=windowSlice(S.daily,days);syncRanges();measure();render(true);}
+    function apply(j,m,initial){
+      S.meta=m;S.daily=j.daily.slice();elTitle.textContent=m.label;
+      S.days=pickDays(S.daily);S.slice=windowSlice(S.daily,S.days);syncRanges();
+      if(!shown){shown=true;host.removeAttribute('hidden');
+        if(!RM&&'IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){host.classList.add('in');measure();render(false);io.disconnect();}});},{threshold:.18});io.observe(host);}
+        else{host.classList.add('in');}
+      }
+      measure();render(!initial);
+    }
+    function selectSym(m,initial){
+      syms.forEach(function(b){b.setAttribute('aria-selected',String(b===m.btn));});
+      if(cache[m.sym]){apply(cache[m.sym],m,initial);return;}
+      getJSON(SB+m.sym+'.json').then(function(j){
+        if(j&&j.daily&&j.daily.length>=2){cache[m.sym]=j;apply(j,m,initial);}else if(initial&&!shown){host.setAttribute('hidden','');}
+      }).catch(function(){if(initial&&!shown)host.setAttribute('hidden','');});
+    }
+    function moveAt(clientX){var sl=S.slice,n=sl.length;if(n<2)return;var r=svg.getBoundingClientRect();var frac=((clientX-r.left)/r.width*S.W-S.pad)/(S.W-2*S.pad);frac=Math.max(0,Math.min(1,frac));var idx=Math.round(frac*(n-1)),pt=sl[idx],x=sx(idx,n),y=sy(pt[1]),m=S.meta;cross.setAttribute('x1',x);cross.setAttribute('x2',x);cross.setAttribute('y1',S.padT-3);cross.setAttribute('y2',S.H-S.padB);dot.setAttribute('cx',x);dot.setAttribute('cy',y);svg.classList.add('act');tip.innerHTML='<b>'+pt[0].slice(2)+'</b>'+fmt(pt[1],m.dec,m.pre)+(m.unit?' '+m.unit:'');tip.style.left=(x/S.W*r.width)+'px';tip.style.top=(y/S.H*r.height)+'px';tip.classList.add('on');}
+    function leave(){svg.classList.remove('act');tip.classList.remove('on');}
+    fig.addEventListener('mousemove',function(e){moveAt(e.clientX);});
+    fig.addEventListener('mouseleave',leave);
+    fig.addEventListener('touchstart',function(e){if(e.touches[0])moveAt(e.touches[0].clientX);},{passive:true});
+    fig.addEventListener('touchmove',function(e){if(e.touches[0])moveAt(e.touches[0].clientX);},{passive:true});
+    fig.addEventListener('touchend',leave);
+    syms.forEach(function(b){b.addEventListener('click',function(){selectSym(meta(b),false);});});
+    ranges.forEach(function(b){b.addEventListener('click',function(){if(!b.disabled)selectRange(+b.getAttribute('data-days'));});});
+    var rt;addEventListener('resize',function(){if(S.daily){clearTimeout(rt);rt=setTimeout(function(){measure();render(false);},170);}},{passive:true});
+    selectSym(meta(syms[0]),true);
+  }
+
+  /* ── 부트: index + history 병렬, 실패 시 정적 폴백 유지(치환 안 함) ── */
+  function boot(){
+    var hasHome=d.getElementById('bblLetterLive'), hasList=d.getElementById('bbllList');
+    getJSON(RAW+'index.json').then(function(idx){
+      hydrateCards(idx); hydrateCount(idx); hydrateWhy(idx); hydrateNav(idx); hydrateList(idx);
+    }).catch(function(){});
+    getJSON(RAW+'history.json').then(function(h){ hydrateStrip(h); }).catch(function(){});
+    var mc=d.getElementById('bblmc'); if(mc)initChart(mc);
+    var mc2=d.getElementById('bblmc2'); if(mc2)initChart(mc2);
+  }
+  if(d.readyState!=='loading')boot(); else d.addEventListener('DOMContentLoaded',boot);
+})();
+</script>
+
+</body></html>

@@ -1,166 +1,137 @@
-<!-- [머니레터_랜딩_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 8개) -->
-<script>/*bblletterlanding*/
-  (function(){
-    var root=document.getElementById('bblLL');
-    if(!root||root.getAttribute('data-bblll'))return;
-    root.setAttribute('data-bblll','1');
-    function esc(s){var x=document.createElement('div');x.textContent=(s==null?'':String(s));return x.innerHTML;}
-    function ymd(dt){return String(dt).replace(/-/g,'');}
-    function shortD(s){var p=String(s).split('-');return (+p[1])+'.'+(+p[2]);}
-    function deeplink(e){return (e.edition==='pm'?'/letter-evening':'/letter-morning')+'?d='+ymd(e.date)+'&e='+e.edition;}
-    var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/letters/';
-    var TIMEOUT=8000;
-    function getJSON(url){
-      if(!window.fetch)return Promise.reject(new Error('no-fetch'));
-      var ctl=('AbortController'in window)?new AbortController():null;
-      var to=ctl?setTimeout(function(){if(ctl)ctl.abort();},TIMEOUT):null;
-      return fetch(url,{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){
-        if(to)clearTimeout(to);
-        if(!r.ok)throw new Error('HTTP '+r.status);
-        return r.json();
-      });
-    }
-    getJSON(RAW+'index.json?_t='+Date.now()).then(function(idx){
-      var L=(idx&&idx.letters)||[];var t=L[0];
-      if(!t||!t.title)throw new Error('no-letter');
-      var href=deeplink(t);
-      document.getElementById('bblllEd').textContent=(t.edition==='pm')?'저녁 머니레터':'아침 머니레터';
-      document.getElementById('bblllTitle').textContent=t.title;
-      document.getElementById('bblllTeaser').textContent=t.teaser||'';
-      document.getElementById('bblllLink').setAttribute('href',href);
-      document.getElementById('bblllRead').setAttribute('href',href);
-      var rest=L.slice(1,7),lh='',listEl=document.getElementById('bblllList');
-      for(var i=0;i<rest.length;i++){var e=rest[i];lh+='<a class="bblll-row" href="'+deeplink(e)+'"><span class="bblll-rd">'+shortD(e.date)+'</span><span class="bblll-rb '+(e.edition==='pm'?'pm':'am')+'">'+(e.edition==='pm'?'저녁':'아침')+'</span><span class="bblll-rt">'+esc(e.title)+'</span></a>';}
-      if(listEl){if(rest.length){listEl.innerHTML=lh;}else{listEl.style.display='none';}}
-      root.hidden=false;
-      void root.offsetWidth;
-      root.classList.add('on');
-    }).catch(function(){});
-  })();
-  </script>
-<script>
-(function(){var d=document;d.documentElement.classList.add('js');
-var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
-if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
-d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
-d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
-})();
-window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
-window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
-
-
-var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){window.countUp(e.target,+e.target.dataset.to,1100);co.unobserve(e.target);}});},{threshold:.6});
-document.querySelectorAll('.cnt').forEach(function(el){co.observe(el);});
-</script>
-<script>
-(function(){
- function tweenNeedle(el,to,dur){var from=-90,t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.setAttribute('transform','rotate('+(from+(to-from)*e)+' 120 132)');if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);}
- var done=false;
- function fire(){if(done)return;done=true;var n=document.querySelector('.fg-needle');var val=27;var ang=-90+val/100*180;if(n)tweenNeedle(n,ang,1300);var num=document.getElementById('fgnum');if(num&&window.countUp)window.countUp(num,val,1300);document.querySelectorAll('.ptab .tr .vv').forEach(function(el){var txt=(el.textContent||'').trim();if(!/^[0-9,]+(\.[0-9]+)?$/.test(txt))return;var raw=txt.replace(/,/g,'');var dec=(raw.split('.')[1]||'').length;var to=parseFloat(raw);var t0=null;function tw(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1100,1);var e=1-Math.pow(1-p,3);el.textContent=(to*e).toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec});if(p<1)requestAnimationFrame(tw);}requestAnimationFrame(tw);});}
- var g=document.querySelector('.gaugebox');
- if(g&&'IntersectionObserver'in window){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)fire();});},{threshold:.4});o.observe(g);}else{fire();}
-})();
-</script>
-<script>/*navmobjs*/
-(function(){
- var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
- var as=[].slice.call(hdr.querySelectorAll('.menu a'));
- var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
- var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
- var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
- (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
- var d=document.createElement('div'); d.className='navDrawer';
- d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
- document.body.appendChild(d);
- function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
- function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
- btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
- d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
- document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
-})();
-</script>
-<script>/*pagedynjs*/
-(function(){var d=document;if(d.querySelector('.scrollprog'))return;
-var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
-var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
-function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
-addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
-btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
-</script>
-<script>/*wowletter*/
-(function(){
-  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches; if(rm)return;
-  var pv=document.querySelector('.preview'), ps=document.querySelector('.preview-sec');
-  if(pv&&ps){
-    ps.addEventListener('mousemove',function(e){var r=pv.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;
-      pv.style.transform='perspective(1500px) rotateY('+(px*3).toFixed(2)+'deg) rotateX('+(-py*3).toFixed(2)+'deg)';},{passive:true});
-    ps.addEventListener('mouseleave',function(){pv.style.transform='';});
-  }
-  [].slice.call(document.querySelectorAll('.lcard,.plan')).forEach(function(c){
-    c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;
-      c.style.transform='perspective(820px) rotateY('+(px*4).toFixed(2)+'deg) rotateX('+(-py*4).toFixed(2)+'deg) translateY(-5px)';},{passive:true});
-    c.addEventListener('mouseleave',function(){c.style.transform='';});
-  });
-})();
-</script>
-<script>/*faqdevjs: FAQ는 한 번에 하나만 열려요*/
-(function(){
-  document.querySelectorAll('.faq').forEach(function(f){
-    f.addEventListener('toggle',function(e){
-      var t=e.target;
-      if(!t||t.tagName!=='DETAILS'||!t.open)return;
-      f.querySelectorAll('details[open]').forEach(function(d){if(d!==t)d.open=false;});
-    },true);
-  });
-})();
-</script>
-<script>/*wowkit*/
-(function(){
-  if(window.__bblWow)return;window.__bblWow=1;
-  var d=document;d.documentElement.classList.add('js');
-  var mm=function(q){return window.matchMedia?matchMedia(q).matches:false;};
-  var rm=mm('(prefers-reduced-motion: reduce)');
-  /* 스태거 딜레이 자동 부여(최대 560ms 캡) */
-  [].slice.call(d.querySelectorAll('.wstag')).forEach(function(g){
-    [].slice.call(g.children).forEach(function(c,i){c.style.transitionDelay=Math.min(i*70,560)+'ms';});
-  });
-  var els=[].slice.call(d.querySelectorAll('.wv,.wstag,.whl,.wline'));
-  function onin(e){e.classList.add('in');}
-  if(rm||!('IntersectionObserver' in window)){els.forEach(onin);}
-  else{
-    var io=new IntersectionObserver(function(es){es.forEach(function(en){
-      if(en.isIntersecting){onin(en.target);io.unobserve(en.target);}});},
-      {threshold:.14,rootMargin:'0px 0px -8% 0px'});
-    els.forEach(function(e){io.observe(e);});
-  }
-  if(!rm&&mm('(pointer:fine)')){
-    /* 마그네틱 CTA */
-    [].slice.call(d.querySelectorAll('.wmag')).forEach(function(b){
-      b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();
-        b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.14).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.18).toFixed(1)+'px)';},{passive:true});
-      b.addEventListener('mouseleave',function(){b.style.transform='';});
-    });
-    /* 3D 틸트(이미지·대표 카드, PC만) */
-    [].slice.call(d.querySelectorAll('.wtilt')).forEach(function(c){
-      c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect(),
-        px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
-        c.style.transform='perspective(840px) rotateY('+(px*5).toFixed(2)+'deg) rotateX('+(-py*5).toFixed(2)+'deg) translateY(-4px)';},{passive:true});
-      c.addEventListener('mouseleave',function(){c.style.transform='';});
-    });
-    /* 라이트 패럴랙스: data-wplx="0.08" (히어로 장식·이미지, PC만) */
-    var plx=[].slice.call(d.querySelectorAll('[data-wplx]'));
-    if(plx.length&&mm('(min-width:861px)')){
-      var tick=false;
-      function upd(){tick=false;var vh=innerHeight;
-        plx.forEach(function(el){var r=el.getBoundingClientRect();
-          var sp=parseFloat(el.getAttribute('data-wplx'))||.08;
-          el.style.transform='translateY('+(((r.top+r.height/2-vh/2)*sp*-1)).toFixed(1)+'px)';});}
-      addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});
-      upd();
-    }
-  }
-})();
-</script>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>머니레터 랜딩 라이브</title>
+<style>
+  body{margin:0;background:#FBF3EE;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:#2C201B;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:0 auto;padding:32px clamp(16px,4vw,40px)}
+  .pvhd{font-size:13px;font-weight:800;color:#B33A4C;letter-spacing:.04em}
+  .s-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.09em;color:#B33A4C;text-transform:uppercase;margin-top:8px}
+  .h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.3;margin:6px 0 4px}
+  .grad{background:linear-gradient(120deg,#B33A4C,#E08696);-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 4px}
+  .autobadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#877468;margin-left:6px}
+  .autobadge .dot{width:7px;height:7px;border-radius:50%;background:#B33A4C}
+  .fullcta{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,#B33A4C,#7C243B);color:#fff;border-radius:20px;padding:20px 22px;text-decoration:none;box-shadow:0 16px 30px -12px rgba(179,58,76,.5);flex-wrap:wrap}
+  .fullcta .fc-t{font-size:16px;font-weight:800}
+  .fullcta .fc-d{font-size:12.5px;opacity:.92;margin-top:5px;line-height:1.6;max-width:640px}
+  .fullcta .fc-go{font-size:13px;font-weight:800;white-space:nowrap}
+  .ndate{font-size:11px;color:#877468;font-weight:600;margin-top:12px}
+  .reveal{opacity:1} .note{font-size:12px;color:#877468;margin-top:22px;border-top:1px dashed #ECDAD5;padding-top:12px}
+</style></head><body><div class="wrap">
+<div class="pvhd">● 실데이터 미리보기(standalone) — letters/index·history·series 실시간 fetch · 머니레터 랜딩 라이브</div>
+<span class="s-eyebrow reveal">오늘의 머니레터</span>
+<div class="h2 reveal">오늘의 머니레터<span class="autobadge"><span class="dot"></span>자동 발행</span></div>
+<!-- ▼▼ BBL LANDING LIVE (runB) — 오늘 2카드 + 미니 코스피 차트 · 데이터원=파이프라인 JSON, 실패 시 정적 폴백 유지 ▼▼ -->
+<style>/*bbllive-css · .bbllive 루트로 스코프 격리(페이지 스타일과 충돌 없음)*/
+.bbllive{--bU:#E4483A;--bUT:#C22E22;--bD:#3B6FE0;--bDT:#2A55C2;--bRose:#B33A4C;--bDeep:#7C243B;--bPink:#E08696;--bInk:#2C201B;--bInk2:#57453D;--bMut:#877468;--bBd:#ECDAD5;--bBdS:#E4C8C2;--bBg2:#FBF3EE;--bPS:#F8E3E7;--bPS2:#FCEEF1;--bE:cubic-bezier(.16,1,.3,1);margin:26px 0 0;font-variant-numeric:tabular-nums}
+.bbllive *{box-sizing:border-box}
+.bbll-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px}
+.bbll-strip::-webkit-scrollbar{display:none}
+.bbll-si{flex:none;display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:8px 13px;box-shadow:0 2px 6px -3px rgba(150,70,80,.18)}
+.bbll-sn{font-size:11px;font-weight:800;color:var(--bMut)}
+.bbll-sv{font-size:13px;font-weight:900;color:var(--bInk)}
+.bbll-sc{font-size:10.5px;font-weight:800}
+.bbll-sc.up{color:var(--bUT)}.bbll-sc.down{color:var(--bDT)}.bbll-sc.flat{color:var(--bMut)}
+.bbll-count{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:16px;background:linear-gradient(150deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:18px;padding:16px 18px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.1)}
+.bbll-countl{font-size:14px;font-weight:800;color:var(--bInk2)}
+.bbll-countn{font-size:26px;font-weight:900;letter-spacing:-.02em;color:var(--bRose);margin:0 2px}
+.bbll-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bbll-btn{font-size:12.5px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:10px 15px;text-decoration:none;transition:.2s var(--bE);white-space:nowrap}
+.bbll-btn:hover{border-color:var(--bPink);color:var(--bRose);transform:translateY(-1px)}
+.bbll-btn.primary{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bbll-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:620px){.bbll-cards{grid-template-columns:1fr}}
+.bbll-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--bBd);border-radius:20px;padding:20px 20px 18px;text-decoration:none;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -10px rgba(150,70,80,.16);transition:transform .28s var(--bE),box-shadow .28s;position:relative;overflow:hidden}
+.bbll-card:hover{transform:translateY(-4px);box-shadow:0 6px 12px rgba(120,60,50,.09),0 24px 44px -14px rgba(179,58,76,.24)}
+.bbll-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--bRose),var(--bDeep))}
+.bbll-cbadge{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:var(--bRose)}
+.bbll-cdot{width:7px;height:7px;border-radius:50%;background:var(--bRose)}
+.bbll-cwhen{color:var(--bMut);font-weight:700;margin-left:auto}
+.bbll-ctitle{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--bInk);margin-top:11px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bbll-cteaser{font-size:12.5px;color:var(--bInk2);margin-top:7px;font-weight:600}
+.bbll-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.bbll-kpi{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:800;border-radius:999px;padding:5px 10px;border:1px solid var(--bBd);background:var(--bBg2)}
+.bbll-kpi .bbll-kk{color:var(--bMut)}
+.bbll-kpi.up{background:#FDEAE7;border-color:#F6CFC9}.bbll-kpi.up .bbll-kv{color:var(--bUT)}
+.bbll-kpi.down{background:#E7EFFD;border-color:#CFDDF6}.bbll-kpi.down .bbll-kv{color:var(--bDT)}
+.bbll-kpi.flat .bbll-kv{color:var(--bInk2)}
+.bbll-cgo{margin-top:auto;padding-top:13px;font-size:13px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:5px}
+.bbll-card:hover .bbll-ar{transform:translateX(3px)}
+.bbll-ar{transition:transform .2s var(--bE);display:inline-block}
+.bbll-card.is-wait{background:var(--bBg2);border-style:dashed}
+.bbll-card.is-wait::before{opacity:.4}
+.bbll-cwait{font-size:12.5px;color:var(--bMut);font-weight:700;margin-top:10px;line-height:1.6}
+.bbll-nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.bbll-navchip{font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;text-decoration:none;transition:.2s var(--bE)}
+.bbll-navchip:hover{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep))}
+.bbll-mc{margin:20px 0 0;background:linear-gradient(168deg,#fff,#FFFCFB);border:1px solid var(--bBd);border-radius:22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);padding:16px 17px 17px;position:relative;overflow:hidden}
+.bbll-mc[hidden]{display:none}
+.bblmc-syms{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.bblmc-syms::-webkit-scrollbar{display:none}
+.bblmc-sym{flex:none;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;transition:.2s var(--bE);touch-action:manipulation}
+.bblmc-sym:hover{border-color:var(--bPink);color:var(--bRose)}
+.bblmc-sym[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.bblmc-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:15px 3px 2px}
+.bblmc-title{font-size:14.5px;font-weight:800;color:var(--bInk)}
+.bblmc-now{font-size:21px;font-weight:900;letter-spacing:-.022em;color:var(--bInk);line-height:1}
+.bblmc-now small{font-size:.55em;font-weight:800;color:var(--bMut);margin-left:2px}
+.bblmc-chg{font-size:12.5px;font-weight:800}
+.bblmc-span{margin-left:auto;font-size:11px;font-weight:700;color:var(--bMut)}
+.bblmc-figwrap{position:relative;margin-top:7px;touch-action:pan-y}
+.bblmc-svg{width:100%;height:196px;display:block}
+.bblmc-svg .bblmc-area{stroke:none}
+.bblmc-svg .bblmc-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.bblmc-svg .bblmc-line.reveal{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);animation:bbldraw 1s var(--bE) .05s forwards}
+@keyframes bbldraw{to{stroke-dashoffset:0}}
+.bblmc-svg .bblmc-cross{stroke:var(--bMut);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.bblmc-svg .bblmc-dot{opacity:0}
+.bblmc-svg.act .bblmc-cross,.bblmc-svg.act .bblmc-dot{opacity:.9}
+.bblmc-tip{position:absolute;pointer-events:none;background:#fff;color:var(--bInk);font-size:11px;font-weight:800;padding:5px 9px;border-radius:9px;border:1px solid var(--bBdS);transform:translate(-50%,-134%);white-space:nowrap;opacity:0;transition:opacity .14s;box-shadow:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11);z-index:5}
+.bblmc-tip.on{opacity:1}
+.bblmc-tip b{color:var(--bRose);display:block;font-size:9.5px;font-weight:800;margin-bottom:1px}
+.bblmc-x{display:flex;justify-content:space-between;font-size:10px;color:var(--bMut);font-weight:700;margin-top:2px;padding:0 3px}
+.bblmc-ranges{display:flex;gap:6px;margin-top:13px}
+.bblmc-range{flex:1;font-size:12px;font-weight:800;color:var(--bInk2);background:#fff;border:1px solid var(--bBd);border-radius:11px;padding:9px 5px;cursor:pointer;transition:.2s var(--bE);touch-action:manipulation;text-align:center}
+.bblmc-range:hover:not([disabled]){border-color:var(--bPink);color:var(--bRose)}
+.bblmc-range[aria-selected="true"]{color:#fff;border-color:var(--bRose);background:linear-gradient(135deg,var(--bRose),var(--bDeep));box-shadow:0 6px 13px -6px rgba(179,58,76,.5)}
+.bblmc-range[disabled]{opacity:.45;cursor:default;color:var(--bMut);background:var(--bBg2)}
+.bblmc-foot{font-size:10.5px;color:var(--bMut);margin-top:11px;font-weight:600;line-height:1.5}
+.bblmc-foot b{color:var(--bInk2);font-weight:800}
+.bbll-why{margin-top:20px;background:linear-gradient(135deg,var(--bPS2),#fff);border:1px solid var(--bBd);border-radius:20px;padding:22px 22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -12px rgba(150,70,80,.14)}
+.bbll-whyk{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--bRose);text-transform:uppercase}
+.bbll-whyt{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--bInk);margin-top:9px}
+.bbll-whyl{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.bbll-whyl:hover .bbll-ar{transform:translateX(3px)}
+@media (prefers-reduced-motion:reduce){.bbll-card,.bbll-btn{transition:none}.bblmc-svg .bblmc-line.reveal{animation:none}}
+</style>
+<div class="bbllive" id="bblLandingLive" data-live="landing" style="max-width:880px;margin:26px auto 0">
+  <div class="bbll-cards" id="bbllCards">
+    <a class="bbll-card" href="/letter-evening"><div class="bbll-cbadge"><span class="bbll-cdot"></span>저녁 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">저녁 머니레터가 곧 도착해요</div><div class="bbll-cteaser">한국 증시 마감 정리 · 저녁 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+    <a class="bbll-card" href="/letter-morning"><div class="bbll-cbadge"><span class="bbll-cdot"></span>아침 머니레터<span class="bbll-cwhen">오늘 발행</span></div><div class="bbll-ctitle">아침 머니레터가 곧 도착해요</div><div class="bbll-cteaser">미국 증시 마감 정리 · 아침 브리핑</div><span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>
+  </div>
+  <figure class="bbll-mc" id="bblmc2" hidden aria-label="주요 지표 기간별 종가 추이" style="margin-top:16px">
+    <div class="bblmc-syms" role="tablist" aria-label="지표 선택">
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSPI" data-label="코스피" data-unit="pt">코스피</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="KOSDAQ" data-label="코스닥" data-unit="pt">코스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="SP500" data-label="S&amp;P500" data-unit="pt">S&amp;P500</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="NASDAQ" data-label="나스닥" data-unit="pt">나스닥</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="VIX" data-label="VIX" data-unit="" data-dec="2">VIX</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="USDKRW" data-label="원/달러" data-unit="원">원/달러</button>
+      <button class="bblmc-sym" role="tab" type="button" data-sym="BTC" data-label="비트코인" data-unit="" data-pre="$">비트코인</button>
+    </div>
+    <div class="bblmc-head"><span class="bblmc-title" id="bblmcTitle">코스피</span><span class="bblmc-now" id="bblmcNow" aria-live="polite">—</span><span class="bblmc-chg" id="bblmcChg"></span><span class="bblmc-span" id="bblmcSpan"></span></div>
+    <div class="bblmc-figwrap" id="bblmcFig"><svg class="bblmc-svg" id="bblmcSvg" role="img" aria-label="기간별 종가 추이"><path class="bblmc-area" id="bblmcArea" d=""></path><path class="bblmc-line reveal" id="bblmcLine" d=""></path><line class="bblmc-cross" id="bblmcCross" x1="0" y1="0" x2="0" y2="0"></line><circle class="bblmc-dot" id="bblmcDot" r="3.8"></circle></svg><div class="bblmc-tip" id="bblmcTip" role="status"></div></div>
+    <div class="bblmc-x"><span id="bblmcX0">—</span><span id="bblmcX1">—</span></div>
+    <div class="bblmc-ranges" role="tablist" aria-label="기간 선택">
+      <button class="bblmc-range" role="tab" type="button" data-days="7">7일</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="30">1개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="90">3개월</button>
+      <button class="bblmc-range" role="tab" type="button" data-days="0">전체</button>
+    </div>
+    <div class="bblmc-foot">일별 종가예요. <b>가용 범위</b>만 눌러지고, 데이터가 쌓이면 더 긴 기간이 저절로 열려요.</div>
+  </figure>
+</div>
+<!-- ▲▲ BBL LANDING LIVE 끝 ▲▲ -->
+<div class="note">이 파일은 QA/미리보기용 단독본이에요. fetch가 차단되면 위 정적 폴백 마크업이 그대로 유지돼요(틀은 데이터와 무관). 실제 홈·랜딩 위젯에는 동일 모듈이 인라인 주입돼요.</div>
+</div>
 <script>/*bbllive-core · 레터 라이브 모듈(홈·랜딩 공용) · 데이터원=파이프라인 JSON만 · 실패 시 정적 폴백 유지 · 외부 스크립트 의존 0*/
 (function(){
   if(window.__bblLive)return; window.__bblLive=1;
@@ -365,3 +336,5 @@ btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'
   if(d.readyState!=='loading')boot(); else d.addEventListener('DOMContentLoaded',boot);
 })();
 </script>
+
+</body></html>
