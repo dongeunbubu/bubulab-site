@@ -1,0 +1,389 @@
+{
+  "page": "story",
+  "target": "/tmp/bbfb/imweb_cdn/story__BODY.html",
+  "round": "R2",
+  "generated": "2026-07-12T00:24:39",
+  "sheet_total": 73,
+  "counts": {
+    "applied": 69,
+    "no_change": 2,
+    "attention": 2,
+    "total": 73
+  },
+  "items": [
+    {
+      "id": "STORY-S01-T01",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S01-T02",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S01-T03",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S01-T04",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S01-T05",
+      "status": "applied",
+      "note": "S01 스탯 결과어 카드 재설계·카운트업(.cnt) 제거"
+    },
+    {
+      "id": "STORY-S01-T08",
+      "status": "applied",
+      "note": "S01 스탯 결과어 카드 재설계·카운트업(.cnt) 제거"
+    },
+    {
+      "id": "STORY-S01-T11",
+      "status": "applied",
+      "note": "S01 스탯 결과어 카드 재설계·카운트업(.cnt) 제거"
+    },
+    {
+      "id": "STORY-S02-T02",
+      "status": "applied",
+      "note": "반칸방→단칸방 자판오타 교정"
+    },
+    {
+      "id": "STORY-S02-T03",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T04",
+      "status": "applied",
+      "note": "삭제 반영"
+    },
+    {
+      "id": "STORY-S02-T05",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T06",
+      "status": "applied",
+      "note": "삭제 반영"
+    },
+    {
+      "id": "STORY-S02-T07",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T09",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T10",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T11",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T12",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T13",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T14",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T16",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T17",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T18",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T19",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T20",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T21",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T22",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T23",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T25",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T26",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T27",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T28",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T29",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T30",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T32",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T33",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T34",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T35",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T36",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T37",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T39",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T40",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T41",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T42",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T43",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T44",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T45",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S02-T46",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T01",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T02",
+      "status": "no-change",
+      "note": "원문==수정안(무변경)"
+    },
+    {
+      "id": "STORY-S03-T03",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T04",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T05",
+      "status": "applied",
+      "note": "3년 정합, glab 교체"
+    },
+    {
+      "id": "STORY-S03-T06",
+      "status": "applied",
+      "note": "gbig 단위 배→배 이상"
+    },
+    {
+      "id": "STORY-S03-T07",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T08",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T10",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T13",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T14",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T15",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T16",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T17",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T18",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T19",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T20",
+      "status": "applied",
+      "note": "원하 가치→원화 가치 오타 교정, ,,ㅎㅎ 구어 보존"
+    },
+    {
+      "id": "STORY-S03-T21",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S03-T22",
+      "status": "applied",
+      "note": "높히는→높이는 오타 교정"
+    },
+    {
+      "id": "STORY-S03-T23",
+      "status": "attention",
+      "note": "CTA 문구/링크(/contents-columns)는 반영. 코멘트의 인터랙티브 시각화 네비(나무/줄기)는 별도 프로젝트로 미구현(지시)."
+    },
+    {
+      "id": "STORY-S04-D",
+      "status": "attention",
+      "note": "타임라인을 5단계 신혼서사로 재구성. '신혼 2년차'는 서수 표기로 의도적 유지, 성과기간 2년은 전부 3년 정합."
+    },
+    {
+      "id": "STORY-S04-T02",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S05-T01",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S05-T02",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S05-T03",
+      "status": "applied"
+    },
+    {
+      "id": "STORY-S05-T04",
+      "status": "no-change",
+      "note": "원문==수정안(무변경)"
+    }
+  ],
+  "redesign": {
+    "S01_stats": "숫자·단위·카운트업(.cnt/data-to) 제거→결과어 3문장 카드(돈 걱정 없는 삶/진짜 꿈의 여유/사랑 표현할 저녁). 공통 eyebrow '우리가 얻은 것', 아이콘칩 유지, 등분 그리드+세로중앙+자연 줄바꿈+카드높이 통일(grid stretch).",
+    "timeline_S04": "연도→신혼 시작/1년차/2년차/3년차/현재 5노드. 반지하 시작→돈공부·구조환경→투자·부수입 확장→내집마련·미래대비→연봉 이상 월급·새 꿈.",
+    "knowhow_S03": "3원칙→돈 모으기/지키기/불리기. 본문은 시트 수정안 그대로, 카드높이 자동(grid stretch)+문단 1~2문장 분할(.prin p+p 10px)."
+  },
+  "home_propagation": {
+    "file": "/tmp/bbfb/imweb_cdn/home__BODY.html",
+    "before_count": 1,
+    "change": "2년 만에 자산 10배 상승 → 3년 만에 자산 10배 상승 (히어로 성과칩 1건)",
+    "applied": true,
+    "home_2년_잔존_after": 0
+  },
+  "gates": {
+    "2년_잔존_스토리": {
+      "pass": true,
+      "detail": "2년=1, 신혼2년차=1 (허용 온톨: 신혼 2년차 서수)"
+    },
+    "저녁5시_0": {
+      "pass": true,
+      "detail": "count=0"
+    },
+    "9900_0": {
+      "pass": true,
+      "detail": ""
+    },
+    "아침7시_저녁6시_제거": {
+      "pass": true,
+      "detail": "잔존=0"
+    },
+    "cnt_카운트업_제거": {
+      "pass": true,
+      "detail": "class=cnt count=0"
+    },
+    "gmult_유지(성장카드)": {
+      "pass": true,
+      "detail": "S03 성장곡선 카운트업 보존"
+    },
+    "태그균형_div": {
+      "pass": true,
+      "detail": "open=78 close=78"
+    },
+    "태그균형_section": {
+      "pass": true,
+      "detail": "open=5 close=5"
+    },
+    "태그균형_span": {
+      "pass": true,
+      "detail": "open=26 close=26"
+    },
+    "태그균형_p": {
+      "pass": true,
+      "detail": "open=35 close=35"
+    },
+    "섹션_5개": {
+      "pass": true,
+      "detail": "section=5"
+    },
+    "3문장이상_p_0": {
+      "pass": true,
+      "detail": "위반=0"
+    },
+    "네임스페이스_sbx_sbnd": {
+      "pass": true,
+      "detail": "sb 접두 유지"
+    }
+  },
+  "all_pass": true,
+  "3문장위반_샘플": []
+}
