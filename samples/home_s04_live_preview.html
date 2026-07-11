@@ -46,7 +46,7 @@
 .bbll-cdot{width:7px;height:7px;border-radius:50%;background:var(--bRose)}
 .bbll-cwhen{color:var(--bMut);font-weight:700;margin-left:auto}
 .bbll-ctitle{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--bInk);margin-top:11px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.bbll-cteaser{font-size:12.5px;color:var(--bInk2);margin-top:7px;font-weight:600}
+.bbll-cteaser{font-size:12.5px;color:var(--bInk2);margin-top:7px;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .bbll-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .bbll-kpi{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:800;border-radius:999px;padding:5px 10px;border:1px solid var(--bBd);background:var(--bBg2)}
 .bbll-kpi .bbll-kk{color:var(--bMut)}
@@ -97,7 +97,7 @@
 .bblmc-foot b{color:var(--bInk2);font-weight:800}
 .bbll-why{margin-top:20px;background:linear-gradient(135deg,var(--bPS2),#fff);border:1px solid var(--bBd);border-radius:20px;padding:22px 22px;box-shadow:0 2px 4px rgba(120,60,50,.06),0 12px 24px -12px rgba(150,70,80,.14)}
 .bbll-whyk{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--bRose);text-transform:uppercase}
-.bbll-whyt{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--bInk);margin-top:9px}
+.bbll-whyt{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--bInk);margin-top:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .bbll-whyl{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--bRose);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
 .bbll-whyl:hover .bbll-ar{transform:translateX(3px)}
 @media (prefers-reduced-motion:reduce){.bbll-card,.bbll-btn{transition:none}.bblmc-svg .bblmc-line.reveal{animation:none}}
@@ -218,7 +218,7 @@
     return '<a class="bbll-card" href="'+href+'"><div class="bbll-cbadge"><span class="bbll-cdot"></span>'+edLabel(t.edition)+
       '<span class="bbll-cwhen">'+esc(fmtWhen(null,t.date))+'</span></div>'+
       '<div class="bbll-ctitle">'+esc(t.title)+'</div>'+
-      (t.teaser?'<div class="bbll-cteaser">'+esc(t.teaser)+'</div>':'')+ kpiHTML(t.kpi)+
+      (function(_pv){return _pv?'<div class="bbll-cteaser">'+esc(_pv)+'</div>':'';})(t.hook||t.teaser)+ kpiHTML(t.kpi)+
       '<span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>';
   }
   function hydrateCards(idx){
@@ -262,7 +262,7 @@
   }
   function hydrateWhy(idx){ var host=d.getElementById('bbllWhy'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return; var t=L[0];
     var tt=host.querySelector('.bbll-whyt'), lk=host.querySelector('.bbll-whyl');
-    if(tt)tt.textContent=t.title; if(lk)lk.setAttribute('href',edHref(t.edition)); host.setAttribute('data-live-ok','1');
+    if(tt)tt.textContent=(t.why_hook||t.title); if(lk)lk.setAttribute('href',edHref(t.edition)); host.setAttribute('data-live-ok','1');
   }
   /* ── 딥링크 칩(레터 로더 해시 미지원 → 페이지 링크) ── */
   function hydrateNav(idx){ var host=d.getElementById('bbllNav'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;

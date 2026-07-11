@@ -1,3 +1,4 @@
+<style>/*bbll-h3: 홈 S04 카드 서두·Why 딥다이브 본문 미리보기 3줄 클램프*/.bbll-cteaser{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.bbll-whyt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}</style>
 <!-- [머니레터_랜딩_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 8개) -->
 <script>/*bblletterlanding*/
   (function(){
@@ -217,7 +218,7 @@ btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'
     return '<a class="bbll-card" href="'+href+'"><div class="bbll-cbadge"><span class="bbll-cdot"></span>'+edLabel(t.edition)+
       '<span class="bbll-cwhen">'+esc(fmtWhen(null,t.date))+'</span></div>'+
       '<div class="bbll-ctitle">'+esc(t.title)+'</div>'+
-      (t.teaser?'<div class="bbll-cteaser">'+esc(t.teaser)+'</div>':'')+ kpiHTML(t.kpi)+
+      (function(_pv){return _pv?'<div class="bbll-cteaser">'+esc(_pv)+'</div>':'';})(t.hook||t.teaser)+ kpiHTML(t.kpi)+
       '<span class="bbll-cgo">읽기 <span class="bbll-ar">→</span></span></a>';
   }
   function hydrateCards(idx){
@@ -261,7 +262,7 @@ btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'
   }
   function hydrateWhy(idx){ var host=d.getElementById('bbllWhy'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return; var t=L[0];
     var tt=host.querySelector('.bbll-whyt'), lk=host.querySelector('.bbll-whyl');
-    if(tt)tt.textContent=t.title; if(lk)lk.setAttribute('href',edHref(t.edition)); host.setAttribute('data-live-ok','1');
+    if(tt)tt.textContent=(t.why_hook||t.title); if(lk)lk.setAttribute('href',edHref(t.edition)); host.setAttribute('data-live-ok','1');
   }
   /* ── 딥링크 칩(레터 로더 해시 미지원 → 페이지 링크) ── */
   function hydrateNav(idx){ var host=d.getElementById('bbllNav'); if(!host)return; var L=(idx&&idx.letters)||[]; if(!L.length)return;
