@@ -1,62 +1,64 @@
 {
- "updated": "2026-07-11T09:00:00",
+ "updated": "2026-07-12T02:00:00",
  "count": 29,
  "items": [
   {
    "slug": "bookcol-01",
    "type": "column",
    "no": 1,
-   "title": "근데 우리, 얼마나 모았더라?",
-   "hook": "우리 얼마나 모았는지부터 숫자로 마주해봐요 — 부끄러움이 아니라 출발선을 긋는 일이에요 :)",
-   "cat": "부부대화",
+   "title": "가만히 있으면 녹아내리는 내 돈",
+   "hook": "물가가 조용히 우리 돈을 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,",
+   "cat": "투자",
    "tags": [
-    "부부대화",
-    "목돈",
+    "투자",
+    "물가",
     "첫걸음"
    ],
    "premium": false,
-   "chapter": "들어가며·PART1 가",
-   "date": "2026-12-27",
-   "status": "soon",
-   "thumb": "💬",
+   "chapter": "PART2 가",
+   "date": "2026-07-12",
+   "status": "live",
+   "thumb": "🧊",
    "free_preview": "전문 공개",
    "connect": {
     "tools": [
-     "booktool-flexcost"
+     "booktool-portfolio"
     ],
     "kits": [
-     "kit-moneytalk"
+     "kit-investstart"
     ]
-   }
+   },
+   "sub": "물가상승률의 조용한 습격",
+   "read": 4
   },
   {
    "slug": "bookcol-02",
    "type": "column",
    "no": 2,
-   "title": "그거 아낀다고 되겠어?",
-   "hook": "티끌이 태산이 되는 건 의지가 아니라 새는 '구조'를 막을 때예요.",
+   "title": "7% 적금과 월 30만원의 비밀",
+   "hook": "티끌이 태산이 되는 건 의지가 아니라 새지 않는 '구조'를 만들 때예요.",
    "cat": "목돈",
    "tags": [
     "목돈",
-    "절약",
+    "적금",
     "구조"
    ],
-   "premium": false,
+   "premium": true,
    "chapter": "PART1 다",
-   "date": "2027-01-03",
-   "status": "soon",
-   "thumb": "💧",
-   "free_preview": "전문 공개",
+   "date": "2026-07-12",
+   "status": "live",
+   "thumb": "🌱",
+   "free_preview": "도입 공개 · 프리미엄",
    "connect": {
     "tools": [
-     "booktool-flexcost",
      "booktool-savingrule"
     ],
     "kits": [
-     "kit-leakcheck",
      "kit-savings"
     ]
-   }
+   },
+   "sub": "티끌이 태산이 되는 구조",
+   "read": 7
   },
   {
    "slug": "bookcol-03",

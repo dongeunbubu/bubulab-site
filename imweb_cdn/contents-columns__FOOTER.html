@@ -1,15 +1,34 @@
-<!-- contents-columns FOOTER = 탐색 페이지 하이드레이션 엔진 · contents_index.json rawcdn(main) fetch(cb+no-store+10s) · 실패 시 인라인 스냅샷 폴백 · 검색(제목+태그)·단일토글 칩·정렬 · 리빌 페이드(RM 존중) · 2026-07-11 -->
+<!-- contents-columns FOOTER = 해시 라우터(탐색# / #칼럼슬러그=리더) · 탐색 하이드레이션(contents_index.json rawcdn cb) + 인라인 cxSnap 폴백 · 리더: 본문 fetch(contents/columns/{slug}.html)·scene 리빌·용어 툴팁·구매력 슬라이더/비교카드/카운트업·프리미엄 블러 게이트(도입 후)·크로스링크·이전/다음·읽기 진행바 · cx- 네임스페이스 · kit 라우터(kx-)와 독립 · 2026-07-12 -->
 <script>
 (function(){
  var W=document.getElementById('cxRoot');if(!W)return;if(window.__cxhub)return;window.__cxhub=1;
  var d=document;W.classList.add('js');
  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
  var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/contents_index.json';
- var TYPES=["column", "tool"];
- var ST={q:'',f:'all',s:'new'},DATA=[];
+ var COL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/columns/';
+ var PREMIUM_URL='/premium';
+ var KIT_PAGE='/contents-kits';
+ var TYPES=["column","tool"];
+ var ST={q:'',f:'all',s:'new'},DATA=[],ALL=[],_route='';
+
  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
- function pad2(n){return (n<10?'0':'')+n;}
+ function pad2(n){n=parseInt(n,10)||0;return (n<10?'0':'')+n;}
  function typeRank(t){return t==='column'?0:t==='tool'?1:2;}
+ function fmtWon(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+ function roundk(n){return Math.round(n/1000)*1000;}
+ function easeOut(t){return 1-Math.pow(1-t,3);}
+
+ function reveal(scope,sel){
+  var root=scope||W;
+  var els=[].slice.call(root.querySelectorAll(sel||'.cx-rv')).filter(function(e){return !e.__r;});
+  if(!els.length)return;
+  if(rm||!('IntersectionObserver'in window)){els.forEach(function(e){e.__r=1;e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(e){e.__r=1;io.observe(e);});
+ }
+
+ /* ================= 탐색(카탈로그) ================= */
+ function itemHref(it){return it.type==='column'?('#'+it.slug):('/'+it.slug);}
  function card(it){
   var live=it.status==='live';
   var tp=it.type==='column'?'칼럼':'도구';
@@ -24,19 +43,12 @@
    +'<span class="cx-tags">'+tags+'</span></span>'
    +'<span class="cx-arr" aria-hidden="true">→</span>';
   var da='data-type="'+it.type+'"';
-  if(live)return '<a class="cx-tile cx-rv" href="/'+esc(it.slug)+'" '+da+'>'+inner+'</a>';
+  if(live)return '<a class="cx-tile cx-rv" href="'+itemHref(it)+'" '+da+'>'+inner+'</a>';
   return '<div class="cx-tile cx-soon cx-rv" '+da+'>'+inner+'</div>';
  }
  function passF(it){var f=ST.f;if(f==='all')return true;if(f==='free')return !it.premium;if(f==='premium')return !!it.premium;if(f.indexOf('type:')===0)return it.type===f.slice(5);if(f.indexOf('tag:')===0){var v=f.slice(4);return (it.tags||[]).indexOf(v)>=0||it.cat===v;}return true;}
  function passQ(it){if(!ST.q)return true;var q=ST.q;if(String(it.title).toLowerCase().indexOf(q)>=0)return true;return (it.tags||[]).join(' ').toLowerCase().indexOf(q)>=0;}
  function sortList(a){var arr=a.slice();if(ST.s==='no'){arr.sort(function(x,y){return typeRank(x.type)-typeRank(y.type)||x.no-y.no;});}else{arr.sort(function(x,y){return x.date<y.date?1:x.date>y.date?-1:(typeRank(x.type)-typeRank(y.type)||x.no-y.no);});}return arr;}
- function reveal(scope){
-  var els=[].slice.call((scope||W).querySelectorAll('.cx-rv')).filter(function(e){return !e.__r;});
-  if(!els.length)return;
-  if(rm||!('IntersectionObserver'in window)){els.forEach(function(e){e.__r=1;e.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -5% 0px'});
-  els.forEach(function(e){e.__r=1;io.observe(e);});
- }
  function render(){
   var list=sortList(DATA.filter(function(it){return passF(it)&&passQ(it);}));
   var host=d.getElementById('cxList'),emp=d.getElementById('cxEmpty'),cnt=d.getElementById('cxCount');
@@ -45,11 +57,213 @@
   if(!list.length){host.innerHTML='';if(emp)emp.hidden=false;return;}
   if(emp)emp.hidden=true;
   host.innerHTML=list.map(card).join('');
-  reveal(host);
+  reveal(host,'.cx-rv');
  }
- function useData(items){var arr=(items||[]).filter(function(it){return TYPES.indexOf(it.type)>=0;});if(arr.length){DATA=arr;render();}}
+ function useData(items){
+  ALL=(items||[]).slice();
+  var arr=ALL.filter(function(it){return TYPES.indexOf(it.type)>=0;});
+  if(arr.length){DATA=arr;render();}
+ }
  var snap=[];try{var sn=d.getElementById('cxSnap');if(sn)snap=JSON.parse(sn.textContent)||[];}catch(e){snap=[];}
  function failEmpty(){var host=d.getElementById('cxList'),emp=d.getElementById('cxEmpty');if(emp&&host&&!host.children.length)emp.hidden=false;}
+
+ /* ================= 리더 ================= */
+ function findItem(slug){for(var i=0;i<ALL.length;i++)if(ALL[i].slug===slug)return ALL[i];return null;}
+ function isColumn(slug){var it=findItem(slug);return !!(it&&it.type==='column');}
+ function liveColumns(){return ALL.filter(function(x){return x.type==='column'&&x.status==='live';}).sort(function(a,b){return a.no-b.no;});}
+ function readTime(it){if(it&&it.read)return it.read;return 3;}
+
+ function topHTML(it,mins){
+  var scope=it.premium?'도입 무료 공개':'전문 무료 공개';
+  return '<div class="cx-rd-top"><a class="cx-rd-back" href="#"><i aria-hidden="true">←</i> 칼럼 전체</a>'
+   +'<span class="cx-rd-time">📖 약 '+mins+'분 · '+scope+'</span></div>';
+ }
+ function heroHTML(it){
+  var badge=it.premium?'<span class="cx-b cx-b-prem">🔒 프리미엄</span>':'<span class="cx-b cx-b-free">🆓 무료</span>';
+  var sub=it.sub?'<div class="cx-rd-subt">'+esc(it.sub)+'</div>':'';
+  return '<div class="cx-rd-hero">'
+   +'<div class="cx-rd-eyebrow"><span class="cx-rd-kno">칼럼 No.'+pad2(it.no)+'</span><span class="cx-rd-cat">· '+esc(it.cat||'')+'</span>'+badge+'</div>'
+   +'<h1 class="cx-rd-h1">'+esc(it.title)+'</h1>'+sub+'</div>';
+ }
+ function gateHTML(){
+  var fake='';for(var i=0;i<6;i++)fake+='<span></span>';
+  return '<div class="cx-gate"><div class="cx-gate-fake">'+fake+'</div>'
+   +'<div class="cx-gate-mask"><div class="cx-gate-ic" aria-hidden="true">🔒</div>'
+   +'<div class="cx-gate-t">여기서부터는 프리미엄에서 열려요</div>'
+   +'<div class="cx-gate-d">도입까지 먼저 읽어보셨어요. 이어지는 본문은 칼럼·도구·자료를 모두 여는 접근권 안에서 만나요.</div>'
+   +'<a class="cx-cta" href="'+PREMIUM_URL+'">프리미엄 안내 <i aria-hidden="true">→</i></a>'
+   +'<div class="cx-gate-note">*프리미엄은 가격이 아니라, 모두 여는 접근권이에요.</div></div></div>';
+ }
+ function bandHTML(){
+  return '<section class="cx-rd-band"><div class="cx-bk">Premium</div>'
+   +'<h2>더 깊이 읽고 싶어지면,<br>프리미엄으로 이어가요</h2>'
+   +'<p>무료로 먼저 충분히 읽고, 마음이 움직이면 칼럼·도구를 모두 여는 접근권으로 이어가면 돼요.</p>'
+   +'<a class="cx-cta" href="'+PREMIUM_URL+'">프리미엄 안내 <i aria-hidden="true">→</i></a></section>';
+ }
+ function xcardHTML(slug,kind){
+  var it=findItem(slug);if(!it)return '';
+  var live=it.status==='live',href;
+  if(it.type==='column')href='#'+it.slug;
+  else if(it.type==='tool')href='/'+it.slug;
+  else href=KIT_PAGE+'#'+String(it.slug).replace(/^kit-/,'');
+  var badges=(it.premium?'<span class="cx-b cx-b-prem">🔒 프리미엄</span>':'<span class="cx-b cx-b-free">🆓 무료</span>')+(live?'':'<span class="cx-b cx-b-soon">곧 만나요</span>');
+  var body='<span class="cx-xk">'+esc(it.thumb||'🔗')+' '+kind+'</span>'
+   +'<span class="cx-xt">'+esc(it.title)+'</span>'
+   +'<span class="cx-xd">'+esc(it.hook||'')+'</span>'
+   +'<span class="cx-xbadges">'+badges+'</span>';
+  if(live)return '<a class="cx-xcard cx-rv" href="'+href+'">'+body+'</a>';
+  return '<div class="cx-xcard cx-xcard-soon cx-rv">'+body+'</div>';
+ }
+ function crossHTML(it){
+  var cn=it.connect||{},cards='';
+  (cn.tools||[]).forEach(function(s){cards+=xcardHTML(s,'적용 도구');});
+  (cn.kits||[]).forEach(function(s){cards+=xcardHTML(s,'실행 키트');});
+  (cn.columns||[]).forEach(function(s){cards+=xcardHTML(s,'이어 읽기');});
+  if(!cards)return '';
+  return '<section class="cx-x"><div class="cx-x-tag">함께 보면 좋아요</div>'
+   +'<h2 class="cx-x-h">읽고 · 적용하고 · 실행해요</h2>'
+   +'<div class="cx-x-grid">'+cards+'</div></section>';
+ }
+ function prevnextHTML(it){
+  var cols=liveColumns(),idx=-1,i;
+  for(i=0;i<cols.length;i++)if(cols[i].slug===it.slug){idx=i;break;}
+  var prev=idx>0?cols[idx-1]:null,next=(idx>=0&&idx<cols.length-1)?cols[idx+1]:null;
+  function side(c,dir){
+   var kprev=dir==='prev',klabel=kprev?'← 이전 칼럼':'다음 칼럼 →';
+   if(!c)return '<div class="cx-pnbtn cx-pnbtn-'+dir+' cx-pnbtn-empty"><span class="cx-pn-k">'+(kprev?'이전 칼럼':'다음 칼럼')+'</span><span class="cx-pn-t">'+(kprev?'첫 칼럼이에요':'가장 최근 칼럼이에요')+'</span></div>';
+   return '<a class="cx-pnbtn cx-pnbtn-'+dir+'" href="#'+c.slug+'"><span class="cx-pn-k">'+klabel+'</span><span class="cx-pn-t">'+esc(c.title)+'</span></a>';
+  }
+  return '<nav class="cx-pn" aria-label="칼럼 이동">'+side(prev,'prev')+side(next,'next')+'</nav>';
+ }
+ function fallbackHTML(){
+  return '<div class="cx-rd-fallback"><div class="fi" aria-hidden="true">🌙</div>'
+   +'<div class="ft">지금은 이 칼럼을 불러오지 못했어요</div>'
+   +'<div class="fd">인터넷 연결을 확인하고 잠시 뒤 다시 열어봐 주세요 :)</div>'
+   +'<a class="cx-cta" href="#">칼럼 전체로 돌아가기 <i aria-hidden="true">→</i></a></div>';
+ }
+
+ /* --- 인터랙티브 위젯 --- */
+ function wireErode(root){
+  [].slice.call(root.querySelectorAll('[data-cx-erode]')).forEach(function(box){
+   if(box.__w)return;box.__w=1;
+   var base=parseFloat(box.getAttribute('data-base'))||1000000;
+   var rate=(parseFloat(box.getAttribute('data-rate'))||3)/100;
+   var range=box.querySelector('.cx-erode-range');if(!range)return;
+   var yrEl=box.querySelector('[data-erode-yr]'),wonEl=box.querySelector('[data-erode-won]');
+   var fill=box.querySelector('[data-erode-fill]'),loss=box.querySelector('[data-erode-loss]');
+   function upd(){
+    var y=parseInt(range.value,10)||0;
+    var f=1/Math.pow(1+rate,y),worth=base*f,lost=base-worth;
+    if(yrEl)yrEl.textContent=y;
+    if(wonEl)wonEl.textContent=fmtWon(roundk(worth))+'원';
+    if(fill)fill.style.width=(f*100).toFixed(1)+'%';
+    if(loss)loss.textContent=(y===0?'아직 그대로예요':'약 '+fmtWon(roundk(lost))+'원어치 증발');
+    var p=(y/((parseInt(range.max,10)||30)))*100;
+    range.style.background='linear-gradient(90deg,var(--rose) '+p+'%,var(--border) '+p+'%)';
+   }
+   range.addEventListener('input',upd);upd();
+  });
+ }
+ function wireCompare(root){
+  [].slice.call(root.querySelectorAll('[data-cx-compare]')).forEach(function(box){
+   if(box.__w)return;box.__w=1;
+   var base=parseFloat(box.getAttribute('data-base'))||1000000;
+   var rate=(parseFloat(box.getAttribute('data-rate'))||3)/100;
+   var cashEl=box.querySelector('[data-cmp-cash]'),growEl=box.querySelector('[data-cmp-grow]');
+   var tabs=[].slice.call(box.querySelectorAll('.cx-cmp-tab'));
+   function set(y){var cash=base/Math.pow(1+rate,y);if(cashEl)cashEl.textContent=fmtWon(roundk(cash))+'원';if(growEl)growEl.textContent=fmtWon(roundk(base))+'원';}
+   tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.remove('on');});t.classList.add('on');set(parseInt(t.getAttribute('data-cmp'),10)||10);});});
+   var on=box.querySelector('.cx-cmp-tab.on')||tabs[0];
+   set(on?(parseInt(on.getAttribute('data-cmp'),10)||10):10);
+  });
+ }
+ function wireCount(root){
+  [].slice.call(root.querySelectorAll('[data-cx-count]')).forEach(function(el){
+   if(el.__w)return;el.__w=1;
+   var to=parseFloat(el.getAttribute('data-to'))||0,suf=el.getAttribute('data-suffix')||'';
+   if(rm||!('IntersectionObserver'in window)){el.textContent=to+suf;return;}
+   var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(!en.isIntersecting)return;io.unobserve(el);
+    var start=null,dur=1100;
+    function step(ts){if(start===null)start=ts;var p=Math.min(1,(ts-start)/dur);el.textContent=Math.round(to*easeOut(p))+suf;if(p<1)requestAnimationFrame(step);else el.textContent=to+suf;}
+    requestAnimationFrame(step);
+   });},{threshold:.6});
+   io.observe(el);
+  });
+ }
+ function wireTerms(root){
+  [].slice.call(root.querySelectorAll('.cx-term')).forEach(function(t){
+   if(t.__w)return;t.__w=1;
+   if(!t.getAttribute('tabindex'))t.setAttribute('tabindex','0');
+   t.setAttribute('role','button');
+   t.addEventListener('click',function(e){
+    e.stopPropagation();
+    var was=t.classList.contains('on');
+    [].slice.call(d.querySelectorAll('.cx-term.on')).forEach(function(x){x.classList.remove('on');});
+    if(!was)t.classList.add('on');
+   });
+  });
+  if(!W.__termdoc){W.__termdoc=1;d.addEventListener('click',function(){[].slice.call(d.querySelectorAll('.cx-term.on')).forEach(function(x){x.classList.remove('on');});});}
+ }
+ function wireWidgets(root){wireErode(root);wireCompare(root);wireCount(root);}
+
+ function fetchBody(slug,routeId,it){
+  function slot(){return d.getElementById('cxRdBody');}
+  if(!window.fetch){var el0=slot();if(el0)el0.innerHTML=fallbackHTML();return;}
+  var done=false,to=setTimeout(function(){if(done)return;done=true;if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();},10000);
+  fetch(COL_BASE+slug+'.html?cb='+Date.now(),{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw 0;return r.text();})
+   .then(function(t){
+    if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;
+    var el=slot();if(!el)return;
+    var html=String(t);
+    if(it&&it.premium)html=html.split('<!--PREMIUM_GATE-->')[0]+gateHTML();
+    el.innerHTML=html;
+    wireWidgets(el);wireTerms(el);
+    reveal(el,'.cx-sc');
+    updateProg();
+   })
+   .catch(function(){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();});
+ }
+ function renderReader(slug){
+  var host=d.getElementById('cxReader');if(!host)return;
+  var it=findItem(slug);
+  if(!it){host.innerHTML='<div class="cx-reader">'+fallbackHTML()+'</div>';return;}
+  var mins=readTime(it);
+  host.innerHTML='<div class="cx-reader">'
+   +topHTML(it,mins)+heroHTML(it)
+   +'<div class="cx-rd-body" id="cxRdBody"><div class="cx-rd-loading">불러오는 중…</div></div>'
+   +(it.premium?'':bandHTML())
+   +crossHTML(it)+prevnextHTML(it)+'</div>';
+  wireTerms(host);reveal(host,'.cx-rv');
+  fetchBody(slug,'reader:'+slug,it);
+ }
+
+ /* ================= 라우터 ================= */
+ function parseHash(){var h=(location.hash||'').replace(/^#/,'').trim();return h?{mode:'reader',slug:h}:{mode:'explore'};}
+ function showView(reader){
+  var ex=d.getElementById('cxExplore'),rd=d.getElementById('cxReader'),pg=d.getElementById('cxProg');
+  if(ex)ex.hidden=!!reader;if(rd)rd.hidden=!reader;if(pg)pg.classList.toggle('on',!!reader);
+  try{scrollTo({top:0,behavior:'auto'});}catch(e){try{scrollTo(0,0);}catch(e2){}}
+ }
+ function route(){
+  var p=parseHash();
+  if(p.mode==='reader'&&isColumn(p.slug)){_route='reader:'+p.slug;showView(true);renderReader(p.slug);}
+  else{_route='explore';showView(false);reveal(d.getElementById('cxExplore')||W,'.cx-rv');}
+  updateProg();
+ }
+
+ /* ================= 진행바 ================= */
+ var progTick=false;
+ function updateProg(){
+  var bar=d.getElementById('cxProgBar'),pg=d.getElementById('cxProg');if(!bar||!pg)return;
+  if(_route.indexOf('reader:')!==0){pg.classList.remove('on');return;}
+  pg.classList.add('on');
+  var doc=d.documentElement,st=doc.scrollTop||d.body.scrollTop||0,h=(doc.scrollHeight-doc.clientHeight)||1;
+  bar.style.width=Math.min(100,Math.max(0,st/h*100)).toFixed(2)+'%';
+ }
+
+ /* ================= 부트 ================= */
  function boot(){
   var chips=d.getElementById('cxChips');
   if(chips)chips.addEventListener('click',function(e){var b=e.target.closest('.cx-chip');if(!b||!chips.contains(b))return;[].slice.call(chips.querySelectorAll('.cx-chip')).forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});b.classList.add('on');b.setAttribute('aria-pressed','true');ST.f=b.getAttribute('data-f')||'all';render();});
@@ -57,18 +271,25 @@
   if(sort)sort.addEventListener('click',function(e){var b=e.target.closest('.cx-sortb');if(!b)return;[].slice.call(sort.querySelectorAll('.cx-sortb')).forEach(function(x){x.classList.remove('on');});b.classList.add('on');ST.s=b.getAttribute('data-s')||'new';render();});
   var se=d.getElementById('cxSearch');
   if(se){var t;se.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){ST.q=se.value.trim().toLowerCase();render();},160);});}
-  if(snap&&snap.length){useData(snap);}      /* 즉시: 인라인 스냅샷 렌더(폴백 겸 최초 페인트) */
-  if(!window.fetch){reveal(W);return;}
-  var done=false,ctrl=('AbortController'in window)?new AbortController():null;
-  var to=setTimeout(function(){if(done)return;done=true;if(ctrl){try{ctrl.abort();}catch(e){}}if(!DATA.length)failEmpty();},10000);
-  fetch(RAW+'?cb='+Date.now(),{cache:'no-store',signal:ctrl?ctrl.signal:undefined})
-   .then(function(r){if(!r.ok)throw 0;return r.json();})
-   .then(function(j){if(done)return;done=true;clearTimeout(to);var it=j&&j.items;if(it&&it.length)useData(it);else if(!DATA.length)failEmpty();})
-   .catch(function(){if(done)return;done=true;clearTimeout(to);if(!DATA.length)failEmpty();});
+  if(snap&&snap.length){useData(snap);}
+  route();
+  addEventListener('hashchange',route);
+  if(window.fetch){
+   var done=false,ctrl=('AbortController'in window)?new AbortController():null;
+   var to=setTimeout(function(){if(done)return;done=true;if(ctrl){try{ctrl.abort();}catch(e){}}if(!DATA.length)failEmpty();},10000);
+   fetch(RAW+'?cb='+Date.now(),{cache:'no-store',signal:ctrl?ctrl.signal:undefined})
+    .then(function(r){if(!r.ok)throw 0;return r.json();})
+    .then(function(j){if(done)return;done=true;clearTimeout(to);var it=j&&j.items;if(it&&it.length)useData(it);else if(!DATA.length)failEmpty();})
+    .catch(function(){if(done)return;done=true;clearTimeout(to);if(!DATA.length)failEmpty();});
+  }else{reveal(d.getElementById('cxExplore')||W,'.cx-rv');}
  }
  boot();
+
  var tp=d.getElementById('cxtop');
- addEventListener('scroll',function(){if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);},{passive:true});
+ addEventListener('scroll',function(){
+  if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);
+  if(!progTick){progTick=true;requestAnimationFrame(function(){progTick=false;updateProg();});}
+ },{passive:true});
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 })();
 </script>
