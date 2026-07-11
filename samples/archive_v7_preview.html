@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>동은부부 머니레터 — 시장 일기장 아카이브 (v7 미리보기)</title>
-<meta name="description" content="동은부부가 매일 아침·저녁 시장을 정리해온 기록 — 시장 일기장 아카이브 v7 미리보기(실 index.json 라이브 렌더).">
+<title>동은부부 머니레터 — 시장 일기장 아카이브 (v7.1 미리보기)</title>
+<meta name="description" content="동은부부가 매일 아침·저녁 시장을 정리해온 기록 — 시장 일기장 아카이브 v7.1 미리보기(실 index.json 라이브 렌더).">
 <meta name="robots" content="noindex">
 </head>
 <body style="margin:0;background:#FDFBF7">
-<!-- v7 preview = imweb_cdn/letter-archive__BODY.html + __FOOTER.html 결합(실 index.json fetch). 아임웹 주입본과 동일 코드. -->
-<!-- [letter-archive] BODY = 전체너비 코드위젯 · 머니레터 아카이브 로더 v7(G5) · 시장 일기장 · 오늘 아침/저녁 2판 동시 · 월별 아코디언+점진로드(더보기)+연도셀렉터 · 리치 모션(RM 존중) · index.json 라이브 렌더(실패 시 인라인 스냅샷 유지) · 2026-07-11 -->
+<!-- v7.1 preview = imweb_cdn/letter-archive__BODY.html + __FOOTER.html 결합(실 index.json fetch). 아임웹 주입본과 동일 코드. -->
+<!-- [letter-archive] BODY = 전체너비 코드위젯 · 머니레터 아카이브 로더 v7.1(G5·비주얼 폴리시) · 시장 일기장 · 오늘 아침/저녁 2판 동시 · 월별 아코디언+점진로드(더보기)+연도셀렉터 · 리치 모션(RM 존중) · index.json 라이브 렌더(실패 시 인라인 스냅샷 유지) · 2026-07-11 -->
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
@@ -79,7 +79,7 @@
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(179,58,76,.36)}55%{box-shadow:0 0 0 9px rgba(179,58,76,0)}}
 .bbl-arcv7 .brand .back{margin-left:auto;font-size:12px;font-weight:800;color:var(--rose)}
 .bbl-arcv7 .a-eyebrow{display:inline-flex;align-items:center;gap:9px;margin-top:22px;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 14px;box-shadow:0 6px 14px -6px rgba(124,36,59,.6)}
-.bbl-arcv7 h1.a-title{font-size:clamp(28px,5vw,54px);font-weight:900;letter-spacing:-.035em;line-height:1.05;margin-top:18px;color:var(--ink);background:linear-gradient(176deg,var(--ink),#6b4a44);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bbl-arcv7 h1.a-title{font-size:clamp(29px,5.1vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.03;margin-top:16px;color:var(--ink);background:linear-gradient(176deg,var(--ink),#5c3f39);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .bbl-arcv7 .a-sub{font-size:clamp(15px,2vw,18px);color:var(--ink2);font-weight:600;margin-top:16px;max-width:40ch;line-height:1.62}
 .bbl-arcv7 .a-sub b{color:var(--rose);font-weight:800}
 .bbl-arcv7 .astats{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
@@ -97,8 +97,8 @@
 .bbl-arcv7 .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,3.5vw,26px) 20px}
 .bbl-arcv7 .sec-lead{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin:6px 0 16px}
 .bbl-arcv7 .sec-lead .sl-k{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--rose);text-transform:uppercase}
-.bbl-arcv7 .sec-lead .sl-t{font-size:clamp(19px,2.5vw,25px);font-weight:800;letter-spacing:-.02em}
-.bbl-arcv7 .sec-lead .sl-d{font-size:12.5px;color:var(--mut);font-weight:600;width:100%;margin-top:2px}
+.bbl-arcv7 .sec-lead .sl-t{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;color:var(--ink)}
+.bbl-arcv7 .sec-lead .sl-d{font-size:13px;color:var(--ink2);font-weight:600;width:100%;margin-top:3px;line-height:1.55}
 /* ===== 커버카드 ===== */
 .bbl-arcv7 .cover{position:relative;display:block;background:linear-gradient(162deg,#fff,#FFFCFA);border:1px solid var(--border);border-radius:18px;padding:18px 20px 18px 24px;box-shadow:var(--sh1);overflow:hidden;transition:transform var(--dur-2) var(--ease-enter),box-shadow var(--dur-2) var(--ease-enter),border-color var(--dur-2)}
 .bbl-arcv7 .cover::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.22) 52%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity var(--dur-2)}
@@ -114,14 +114,14 @@
 .bbl-arcv7 .cover.flat .cv-spine{background:linear-gradient(180deg,#cbbdb4,var(--flat))}
 .bbl-arcv7 .cv-top{display:flex;align-items:center;gap:10px}
 .bbl-arcv7 .cv-date{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
-.bbl-arcv7 .cv-ed{font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 9px;letter-spacing:.01em}
-.bbl-arcv7 .cv-ed.pm{color:#fff;background:linear-gradient(135deg,#3C1D27,#7C243B)}
-.bbl-arcv7 .cv-ed.am{color:var(--sageInk);background:var(--sageSoft);border:1px solid #cfe4dc}
+.bbl-arcv7 .cv-ed{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;font-size:10.5px;font-weight:800;border-radius:999px;padding:3.5px 10px;letter-spacing:.02em}
+.bbl-arcv7 .cv-ed.pm{color:#fff;background:linear-gradient(135deg,#7C243B,#9E2F49);box-shadow:0 3px 8px -4px rgba(124,36,59,.5)}
+.bbl-arcv7 .cv-ed.am{color:var(--sageInk);background:var(--sageSoft);border:1px solid #c4ded4;box-shadow:0 2px 6px -4px rgba(78,133,119,.4)}
 .bbl-arcv7 .cv-hook{font-size:16px;font-weight:800;letter-spacing:-.018em;line-height:1.4;margin-top:11px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em}
 .bbl-arcv7 .cv-teaser{font-size:12px;color:var(--mut);font-weight:600;margin-top:8px}
 .bbl-arcv7 .cv-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
-.bbl-arcv7 .kchip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;border-radius:8px;padding:4px 8px;background:var(--flatSoft);color:var(--ink2)}
-.bbl-arcv7 .kchip .ka{font-size:9px}
+.bbl-arcv7 .kchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;line-height:1.3;letter-spacing:-.01em;border-radius:9px;padding:4px 9px;background:var(--flatSoft);color:var(--ink2);box-shadow:inset 0 0 0 1px rgba(120,60,50,.05)}
+.bbl-arcv7 .kchip .ka{font-size:8.5px;line-height:1;transform:translateY(.4px)}
 .bbl-arcv7 .kchip.up{background:var(--upSoft);color:var(--upT)}
 .bbl-arcv7 .kchip.down{background:var(--downSoft);color:var(--downT)}
 .bbl-arcv7 .kchip.flat{background:var(--flatSoft);color:var(--flat)}
@@ -129,7 +129,7 @@
 .bbl-arcv7 .cv-go{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;font-weight:800;color:var(--rose)}
 .bbl-arcv7 .cv-go i{font-style:normal;transition:transform var(--dur-1) var(--ease-enter)}
 .bbl-arcv7 .cover:hover .cv-go i{transform:translateX(4px)}
-.bbl-arcv7 .highlight{margin-bottom:10px}
+.bbl-arcv7 .highlight{position:relative;margin:2px 0 clamp(20px,3vw,30px);padding:clamp(18px,3vw,30px) clamp(15px,2.6vw,26px) clamp(20px,3vw,30px);border-radius:clamp(20px,3vw,26px);background:radial-gradient(120% 130% at 88% -20%,rgba(248,227,231,.92),rgba(252,238,241,.5) 46%,rgba(255,255,255,0) 72%),linear-gradient(158deg,#FFF8F5,#FDEEF1 58%,#FCE9EE);box-shadow:inset 0 0 0 1px rgba(224,134,150,.18),0 1px 2px rgba(120,60,50,.04),0 22px 46px -32px rgba(179,58,76,.32)}
 .bbl-arcv7 .cover.big{padding:26px 30px 26px 34px;border-radius:24px;box-shadow:var(--sh2);background:linear-gradient(150deg,#fff 46%,var(--pinkSoft2))}
 .bbl-arcv7 .cover.big.up{background:linear-gradient(150deg,#fff 46%,#FCE4E0)}
 .bbl-arcv7 .cover.big.down{background:linear-gradient(150deg,#fff 46%,#E4ECFC)}
@@ -147,19 +147,19 @@
 /* 월별 그리드 */
 .bbl-arcv7 .month{margin-top:8px}
 .bbl-arcv7 .month-h{position:sticky;top:64px;z-index:40;display:flex;align-items:center;gap:12px;padding:12px 2px;margin-top:14px;background:linear-gradient(180deg,rgba(253,251,247,.96),rgba(253,251,247,.82));backdrop-filter:blur(9px);border-bottom:1px solid var(--border)}
-.bbl-arcv7 .month-h .mh-title{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.bbl-arcv7 .month-h .mh-title{font-size:17px;font-weight:900;letter-spacing:-.025em;color:var(--ink)}
 .bbl-arcv7 .month-h .mh-title::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--rose);margin-right:9px;vertical-align:.06em}
 .bbl-arcv7 .month-h .mh-count{font-size:11.5px;font-weight:800;color:var(--mut);background:#fff;border:1px solid var(--border);border-radius:999px;padding:3px 10px}
-.bbl-arcv7 .cover-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:15px;margin-top:16px}
-.bbl-arcv7.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .66s var(--ease-enter),transform .66s var(--ease-enter)}
+.bbl-arcv7 .cover-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:16px;margin-top:16px}
+.bbl-arcv7.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .68s var(--ease-enter),transform .68s var(--ease-enter)}
 .bbl-arcv7.js .reveal.in{opacity:1;transform:none}
-.bbl-arcv7.js .cover-grid .reveal.in:nth-child(2){transition-delay:.06s}
-.bbl-arcv7.js .cover-grid .reveal.in:nth-child(3){transition-delay:.12s}
-.bbl-arcv7.js .cover-grid .reveal.in:nth-child(4){transition-delay:.18s}
-.bbl-arcv7.js .cover-grid .reveal.in:nth-child(5){transition-delay:.24s}
-.bbl-arcv7.js .cover-grid .reveal.in:nth-child(6){transition-delay:.3s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(2){transition-delay:.05s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(3){transition-delay:.10s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(4){transition-delay:.15s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(5){transition-delay:.20s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(6){transition-delay:.25s}
 /* ===== CTA 밴드 ===== */
-.bbl-arcv7 .cta{position:relative;margin-top:44px;padding:clamp(40px,5.5vw,64px) 0;overflow:hidden;text-align:center;color:#fff;background:radial-gradient(90% 140% at 86% -20%,rgba(255,255,255,.16),transparent 60%),linear-gradient(150deg,var(--rose),#A83350 48%,#3F6E62)}
+.bbl-arcv7 .cta{position:relative;margin-top:clamp(40px,6vw,64px);padding:clamp(40px,5.5vw,64px) 0;overflow:hidden;text-align:center;color:#fff;background:radial-gradient(90% 140% at 86% -20%,rgba(255,255,255,.16),transparent 60%),linear-gradient(150deg,var(--rose),#A83350 48%,#3F6E62)}
 .bbl-arcv7 .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 18% 120%,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
 .bbl-arcv7 .cta .cta-in{position:relative;max-width:720px;margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
 .bbl-arcv7 .cta .cta-k{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.92;text-transform:uppercase}
@@ -180,7 +180,7 @@
 .bbl-arcv7 .sk{position:relative;overflow:hidden;background:#F1E4E0;border-radius:16px}
 .bbl-arcv7 .sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:bblsh 1.45s infinite}
 @keyframes bblsh{100%{transform:translateX(100%)}}
-.bbl-arcv7 .arc-skgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:15px;margin-top:16px}
+.bbl-arcv7 .arc-skgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:16px;margin-top:16px}
 .bbl-arcv7 .bbl-err{max-width:520px;margin:20px auto;text-align:center;background:#fff;border:1px solid var(--border);border-radius:18px;padding:34px 26px;box-shadow:var(--sh1)}
 .bbl-arcv7 .bbl-err .ei{font-size:40px;line-height:1}
 .bbl-arcv7 .bbl-err .et{font-size:18px;font-weight:800;margin-top:14px;color:var(--ink)}
@@ -195,13 +195,13 @@
 .bbl-arcv7 .today-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
 .bbl-arcv7 .today-grid.one{grid-template-columns:1fr;max-width:660px}
 @media(max-width:760px){.bbl-arcv7 .today-grid{grid-template-columns:1fr}}
-.bbl-arcv7 .cover.today{padding:24px 26px 22px 30px;border-radius:22px;box-shadow:var(--sh2);background:linear-gradient(150deg,#fff 46%,var(--pinkSoft2))}
+.bbl-arcv7 .cover.today{padding:26px 28px 24px 32px;border-radius:22px;box-shadow:var(--sh2);background:linear-gradient(150deg,#fff 52%,var(--pinkSoft2))}
 .bbl-arcv7 .cover.today.up{background:linear-gradient(150deg,#fff 46%,#FCE4E0)}
 .bbl-arcv7 .cover.today.down{background:linear-gradient(150deg,#fff 46%,#E4ECFC)}
 .bbl-arcv7 .cover.today.flat{background:linear-gradient(150deg,#fff 46%,#F3EDE7)}
 .bbl-arcv7 .cover.today .cv-spine{width:8px}
 .bbl-arcv7 .cover.today .cv-date.big{font-size:22px}
-.bbl-arcv7 .cover.today .cv-hook.big{font-size:clamp(19px,2.5vw,25px);-webkit-line-clamp:3;min-height:0}
+.bbl-arcv7 .cover.today .cv-hook.big{font-size:clamp(20px,2.7vw,27px);letter-spacing:-.028em;line-height:1.26;-webkit-line-clamp:3;min-height:0}
 .bbl-arcv7 .cover.today .cv-go.big{margin-top:18px;font-size:13.5px}
 .bbl-arcv7 .cover.today.wait{background:linear-gradient(150deg,#fff,#FBF3EF);border-style:dashed;cursor:default}
 .bbl-arcv7 .cover.today.wait .cv-spine{background:linear-gradient(180deg,#ecd7d2,#dcbdb7)}
@@ -228,13 +228,13 @@
 /* 더 보기(점진 로드) */
 .bbl-arcv7 .morewrap{display:flex;justify-content:center;margin-top:22px}
 .bbl-arcv7 .morewrap:empty{margin:0}
-.bbl-arcv7 .morebtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--borderStrong);background:#fff;color:var(--ink);border-radius:14px;padding:14px 26px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:var(--sh1);transition:transform var(--dur-2) var(--ease2),box-shadow var(--dur-2),border-color var(--dur-1)}
+.bbl-arcv7 .morebtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--borderStrong);background:#fff;color:var(--ink);border-radius:14px;padding:14px 26px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:var(--sh1);transition:transform var(--dur-2) var(--ease-enter),box-shadow var(--dur-2),border-color var(--dur-1)}
 .bbl-arcv7 .morebtn:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--rose)}
 .bbl-arcv7 .morebtn:active{transform:scale(.97)}
 .bbl-arcv7 .morebtn b{color:var(--rose);font-weight:900}
 .bbl-arcv7 .morebtn i{font-style:normal}
 /* today-grid 리빌 스태거 */
-.bbl-arcv7.js .today-grid .reveal.in:nth-child(2){transition-delay:.08s}
+.bbl-arcv7.js .today-grid .reveal.in:nth-child(2){transition-delay:.07s}
 /* CTA 밴드 = 웜 분홍(라이트) · 다크 밴드 금지 */
 .bbl-arcv7 .cta{color:var(--ink)!important;background:radial-gradient(90% 130% at 84% -20%,var(--pinkSoft) 0%,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 58%,#FDEFF2)!important;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .bbl-arcv7 .cta::before{background:radial-gradient(60% 80% at 16% 120%,rgba(179,58,76,.08),transparent 60%)!important}
@@ -249,6 +249,15 @@
 .bbl-arcv7 .cta-btn2{display:inline-flex;align-items:center;gap:7px;min-height:54px;padding:16px 26px;border-radius:16px;background:#fff;color:var(--rose);border:1px solid var(--borderStrong);font-size:15px;font-weight:800;transition:transform var(--dur-2) var(--ease2),box-shadow var(--dur-2)}
 .bbl-arcv7 .cta-btn2:hover{transform:translateY(-2px);box-shadow:var(--sh1)}
 .bbl-arcv7 .cta-foot{color:var(--mut)!important;opacity:1}
+
+
+/* ===== v7.1 비주얼 폴리시 (H1 · 타이포 위계·오늘 무대·리듬) ===== */
+.bbl-arcv7 .highlight .sec-lead{margin-bottom:14px}
+.bbl-arcv7 .highlight .sl-k{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;padding:4px 11px;border-radius:999px;letter-spacing:.07em;box-shadow:0 6px 15px -8px rgba(179,58,76,.6)}
+.bbl-arcv7 .highlight .sl-t{color:var(--deep)}
+.bbl-arcv7 #archive{margin-top:clamp(10px,2.4vw,20px)}
+.bbl-arcv7 .astat .as-l{letter-spacing:.01em}
+@media(max-width:560px){.bbl-arcv7 .highlight{padding:16px 14px 18px}.bbl-arcv7 .cover-grid,.bbl-arcv7 .arc-skgrid{gap:13px}}
 
 </style>
 
@@ -313,8 +322,7 @@
  <noscript><div class="bbl-nojs">오늘 레터는 <a href="/letter-evening">여기</a>에서 볼 수 있어요.</div></noscript>
  <script type="application/json" id="bblArcSnap">{"updated": "2026-07-10T17:14:14", "letters": [{"date": "2026-07-10", "edition": "pm", "title": "코스피는 2.5% 급등했는데, 정작 반도체 대장주 SK하이닉스는 왜 혼자 반락했을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+2.52%", "d": "up"}, {"k": "코스닥", "v": "+5.47%", "d": "up"}, {"k": "S&P500", "v": "+0.81%", "d": "up"}], "body": "2026-07-10_pm__BODY.html", "footer": "2026-07-10_pm__FOOTER.html", "chars": 122484}, {"date": "2026-07-10", "edition": "am", "title": "간밤 뉴욕은 3대 지수가 일제히 올랐는데, 딱 한 곳, 에너지만 홀로 1% 넘게 빠졌어요. 왜 좋은 날에 에너지만 울었을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "+0.81%", "d": "up"}, {"k": "나스닥", "v": "+1.30%", "d": "up"}, {"k": "코스피", "v": "+3.85%", "d": "up"}], "body": "2026-07-10_am__BODY.html", "footer": "2026-07-10_am__FOOTER.html", "chars": 118601}, {"date": "2026-07-09", "edition": "pm", "title": "이틀 새 10% 가까이 무너졌는데, 오늘 반등은 왜 겨우 0.62%였을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+0.62%", "d": "up"}, {"k": "코스닥", "v": "+1.15%", "d": "up"}, {"k": "S&P500", "v": "-0.28%", "d": "down"}], "body": "2026-07-09_pm__BODY.html", "footer": "2026-07-09_pm__FOOTER.html", "chars": 119490}, {"date": "2026-07-09", "edition": "am", "title": "우리를 이틀 새 무너뜨린 반도체가 간밤엔 +2%대 반등했는데, 왜 다우는 되레 1% 넘게 빠졌을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "-0.28%", "d": "down"}, {"k": "나스닥", "v": "+0.20%", "d": "up"}, {"k": "코스피", "v": "+0.62%", "d": "up"}], "body": "2026-07-09_am__BODY.html", "footer": "2026-07-09_am__FOOTER.html", "chars": 117120}, {"date": "2026-07-08", "edition": "pm", "title": "간밤 뉴욕은 1.16% 내렸는데, 코스피는 왜 5.35%나 무너졌을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-5.35%", "d": "down"}, {"k": "코스닥", "v": "-5.56%", "d": "down"}, {"k": "S&P500", "v": "-0.45%", "d": "down"}], "body": "2026-07-08_pm__BODY.html", "footer": "2026-07-08_pm__FOOTER.html", "chars": 121182}, {"date": "2026-07-08", "edition": "am", "title": "다우는 0.25% 빠지는 데 그쳤는데, 반도체지수는 왜 4.65%나 무너졌을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "-0.45%", "d": "down"}, {"k": "나스닥", "v": "-1.16%", "d": "down"}, {"k": "코스피", "v": "-1.85%", "d": "down"}], "body": "2026-07-08_am__BODY.html", "footer": "2026-07-08_am__FOOTER.html", "chars": 118168}, {"date": "2026-07-07", "edition": "pm", "title": "삼성전자가 역대 최대 실적을 냈는데, 코스피는 왜 5% 가까이 무너졌을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-4.91%", "d": "down"}, {"k": "코스닥", "v": "-1.87%", "d": "down"}, {"k": "S&P500", "v": "+0.72%", "d": "up"}], "body": "2026-07-07_pm__BODY.html", "footer": "2026-07-07_pm__FOOTER.html", "chars": 119265}, {"date": "2026-07-07", "edition": "am", "title": "이틀 전 무너졌던 반도체가, 하룻밤 새 왜 앞장서 반등했을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "+0.72%", "d": "up"}, {"k": "나스닥", "v": "+1.12%", "d": "up"}, {"k": "코스피", "v": "-0.46%", "d": "down"}], "body": "2026-07-07_am__BODY.html", "footer": "2026-07-07_am__FOOTER.html", "chars": 118602}, {"date": "2026-07-06", "edition": "pm", "title": "코스피는 -0.46%인데, 코스닥은 왜 5배 넘게 밀렸을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-0.46%", "d": "down"}, {"k": "코스닥", "v": "-2.46%", "d": "down"}, {"k": "S&P500", "v": "0.00%", "d": "flat"}], "body": "2026-07-06_pm__BODY.html", "footer": "2026-07-06_pm__FOOTER.html", "chars": 112325}, {"date": "2026-07-03", "edition": "pm", "title": "개인도 외국인도 팔았는데, 코스피는 왜 5.76% 뛰었을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+5.76%", "d": "up"}, {"k": "코스닥", "v": "+0.19%", "d": "up"}, {"k": "S&P500", "v": "0.00%", "d": "flat"}], "body": "2026-07-03_pm__BODY.html", "footer": "2026-07-03_pm__FOOTER.html", "chars": 114052}, {"date": "2026-07-02", "edition": "pm", "title": "메타는 +8.8% 뛰고 코스피는 -7.9%, 남는 GPU 팝니다", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-7.89%", "d": "down"}, {"k": "코스닥", "v": "-6.74%", "d": "down"}, {"k": "S&P500", "v": "-0.22%", "d": "down"}], "body": "2026-07-02_pm__BODY.html", "footer": "2026-07-02_pm__FOOTER.html", "chars": 34186}]}</script>
 </div>
-
-<!-- [letter-archive] FOOTER = 페이지별 푸터 · 아카이브 로더 v7(G5) · 아침/저녁 머니레터 · 오늘 2판 동시 · 월별 아코디언+점진로드(더보기)+연도셀렉터 · 리치 모션(RM 존중) · index.json 라이브(cb+no-store+10s 타임아웃, 실패 시 인라인 스냅샷 폴백) · 딥링크 · 스케일 샤딩 훅 · 2026-07-11 -->
+<!-- [letter-archive] FOOTER = 페이지별 푸터 · 아카이브 로더 v7.1(G5·polish) · 아침/저녁 머니레터 · 오늘 2판 동시 · 월별 아코디언+점진로드(더보기)+연도셀렉터 · 리치 모션(RM 존중) · index.json 라이브(cb+no-store+10s 타임아웃, 실패 시 인라인 스냅샷 폴백) · 딥링크 · 스케일 샤딩 훅 · 2026-07-11 -->
 <script>
 (function(){
  var W=document.getElementById('bblArc');if(!W)return;
@@ -516,6 +524,5 @@
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 })();
 </script>
-
 </body>
 </html>
