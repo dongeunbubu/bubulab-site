@@ -1,0 +1,337 @@
+{
+  "meta": {
+    "generated": "2026-07-12T00:54:57",
+    "source": "story R2 73건 + 컨센서스 v1.2",
+    "basis": "_디자인텍스트_컨센서스_v1.md(v1.2), _스토리R2_보이스_심층분석_20260712.md",
+    "corpus_files": 151,
+    "note": "다음 에이전트 소비용. files는 imweb_cdn/<name>__BODY.html. evidence 60자 이내."
+  },
+  "fact_canon_updates": [
+    {
+      "field": "성과 기간",
+      "old": "2년",
+      "new": "3년"
+    },
+    {
+      "field": "자산 배수",
+      "old": "10배",
+      "new": "10배 이상"
+    },
+    {
+      "field": "수입 프레임",
+      "old": "월 수입 10배",
+      "new": "연봉 이상의 월급"
+    },
+    {
+      "field": "퇴근 시각",
+      "old": "평균 1~2시",
+      "new": "매일 새벽 1시 퇴근"
+    },
+    {
+      "field": "고생 디테일",
+      "old": "(없음)",
+      "new": "서울 임장 100번 이상 / 모유수유하며 콘텐츠"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "C1",
+      "title": "'구독하고 X 받기/시작' 설득 CTA → 프리미엄 접근권 프레임",
+      "rule_basis": [
+        "P3",
+        "B1",
+        "v1.2 페이지특칙"
+      ],
+      "priority": "high",
+      "pattern": "구독하고 {칼럼/리포트/시리즈} 받기 / 구독하고 시작하기",
+      "recommendation": "설득형 '구독하고 X 받기'를 접근권 프레임으로: '프리미엄에서 전체 보기' 또는 '프리미엄 안내 →'. 유료물은 '프리미엄 회원은…' 회색 주석(F4).",
+      "files": [
+        "class-b779",
+        "col-5392",
+        "col-561d",
+        "col-6a03",
+        "col-a331",
+        "col-cae7",
+        "col-e2bc",
+        "eco-5396",
+        "eco-630d",
+        "eco-etf-364f",
+        "eco-perpbrroe-18bd",
+        "goods-9972",
+        "kit-bcaf",
+        "report-3efe",
+        "report-87f1",
+        "report-ai-9970",
+        "report-d576",
+        "report-de46",
+        "report-ffe1",
+        "tool-1d83",
+        "tool-2f6a",
+        "tool-4a49",
+        "tool-4a72",
+        "tool-4d2e",
+        "tool-853a",
+        "tool-93f4",
+        "tool-a34d",
+        "tool-b7ab",
+        "tool-cbeb",
+        "tool-dfe4",
+        "tool-ea90",
+        "tool-isa-5c34",
+        "tool-pro-240b",
+        "tool-pro-39d5",
+        "tool-pro-438b",
+        "tool-pro-6aa3",
+        "tool-pro-8138",
+        "tool-pro-cc61",
+        "tool-pro-ec50",
+        "tool-pro-fdd1",
+        "tool-re-57f2",
+        "tool-re-ac3c",
+        "tool-re-f1e8",
+        "tool-vs-3ef9",
+        "tool-vs-489f"
+      ],
+      "evidence": "께 시작해요. 구독하고 함께 시작하기 → 부부연구소 상",
+      "count": 45
+    },
+    {
+      "id": "C2",
+      "title": "커머스 단건을 '구독'으로 오분류(키트·굿즈·클래스·도구)",
+      "rule_basis": [
+        "P3",
+        "P4"
+      ],
+      "priority": "high",
+      "pattern": "…구독으로 함께 시작해요 / 구독하고 함께 시작하기",
+      "recommendation": "커머스=단건 구매. '구독' 어휘 제거 → '함께 시작하기'/'담기'. 프리미엄 회원 특별 이벤트만 별도 주석.",
+      "files": [
+        "class-b779",
+        "goods-9972",
+        "kit-bcaf",
+        "tool-dfe4",
+        "tool-isa-5c34"
+      ],
+      "evidence": ". 부부연구소 구독으로 함께 시작해요. 구독하고",
+      "count": 5
+    },
+    {
+      "id": "C3",
+      "title": "저가 앵커링(약정없이·언제든해지·0원으로·하루 X원) → 가치 프레임",
+      "rule_basis": [
+        "P2"
+      ],
+      "priority": "high",
+      "pattern": "약정 없이·언제든 해지 / 0원으로 먼저 / 하루 X원 / 커피값",
+      "recommendation": "저가 안심 화법 제거. 무료는 '무료로 받아보세요', 전환은 가치·접근권으로. 가격 조건은 안내 페이지 소형 노트(L5).",
+      "files": [
+        "letter-8221",
+        "letter-archive",
+        "letter-ba2f",
+        "premium",
+        "sub-3a8b",
+        "sub-5a7f",
+        "sub-vs-fd47"
+      ],
+      "evidence": "은 값이에요. 언제든 해지 약정 없음 첫 7일",
+      "count": 7
+    },
+    {
+      "id": "C4",
+      "title": "설득형 영문 라벨(START TODAY/JOIN THE) → 안내 명사",
+      "rule_basis": [
+        "B1"
+      ],
+      "priority": "med",
+      "pattern": "START TODAY / JOIN THE …",
+      "recommendation": "홈 전례대로 안내 명사로: Contents/Premium/Focus on 계열, 또는 한글 안내 헤드.",
+      "files": [
+        "class-7389",
+        "goods-fd41",
+        "kit-842c"
+      ],
+      "evidence": "연구소 홈으로 JOIN THE 3RD COHORT",
+      "count": 3
+    },
+    {
+      "id": "C5",
+      "title": "산발 '전체 보기'/'카테고리 전체 보기' → 단일 콘텐츠 허브",
+      "rule_basis": [
+        "F7",
+        "F2",
+        "I3"
+      ],
+      "priority": "med",
+      "pattern": "… 카테고리 전체 보기 / X종 전체 보기",
+      "recommendation": "산발 링크를 '모든 콘텐츠 보러가기→' 단일 인터랙티브 허브(나무·줄기 은유)로 수렴. 기능상 필요한 back-link만 유지.",
+      "files": [
+        "class-7389",
+        "goods-fd41",
+        "home",
+        "kit-842c",
+        "moneyletter-landing",
+        "premium",
+        "tool-64bb",
+        "tool-re-6e94"
+      ],
+      "evidence": "강의 카테고리 전체 보기 부부연구소 홈으로 J",
+      "count": 8
+    },
+    {
+      "id": "C6",
+      "title": "미확정 '오픈 예정/알림' 배지 → F1 재검증",
+      "rule_basis": [
+        "F1"
+      ],
+      "priority": "med",
+      "pattern": "오픈 예정 · 오픈 알림 받기",
+      "recommendation": "확정 출시상태면 유지, 아니면 제거(홈 '결제 오픈 준비 중' 삭제 전례). 미확정 약속은 신뢰 훼손.",
+      "files": [
+        "class-b779",
+        "goods-9972",
+        "kit-bcaf"
+      ],
+      "evidence": "에 정리해요. 오픈 예정 오픈 알림 받기 →",
+      "count": 3
+    },
+    {
+      "id": "C7",
+      "title": "'모든 콘텐츠 보러가기' 단일 허브 CTA 미확산(추가 필요)",
+      "rule_basis": [
+        "F7",
+        "I3"
+      ],
+      "priority": "med",
+      "pattern": "(부재) — 현재 story에만 존재",
+      "recommendation": "랜딩·프리미엄·자료실·허브에 단일 콘텐츠 허브 CTA 시드. 인터랙티브 네비(애니메이션) 지향.",
+      "files": [
+        "moneyletter-landing",
+        "premium",
+        "library",
+        "contents-hub",
+        "contents-columns",
+        "contents-kits"
+      ],
+      "evidence": "story 전용: 모든 콘텐츠 보러가기→",
+      "count": 6
+    },
+    {
+      "id": "C8",
+      "title": "KNOWHOW 3분류(돈 모으기/지키기/불리기) 미확산",
+      "rule_basis": [
+        "F5"
+      ],
+      "priority": "med",
+      "pattern": "(부재) — kit/goods/class·story엔 존재",
+      "recommendation": "자료실·칼럼·허브의 콘텐츠 분류를 돈 모으기/지키기/불리기 3축으로 태깅·정렬. '불리기'=수입 증대 정의 유지.",
+      "files": [
+        "home",
+        "library",
+        "contents-columns",
+        "contents-hub",
+        "premium",
+        "report-hub"
+      ],
+      "evidence": "story: 돈 모으기·돈 지키기·돈 불리기",
+      "count": 6
+    },
+    {
+      "id": "C9",
+      "title": "핵심구 '구조'와 '환경' 미확산(브랜드 논리 뼈대)",
+      "rule_basis": [
+        "B2",
+        "B7"
+      ],
+      "priority": "low",
+      "pattern": "(부재) — home/story에만 존재",
+      "recommendation": "랜딩·프리미엄·자료실 브랜드 카피에 '구조'와 '환경'(따옴표 포함) + 구조강조 구문(B7) 시드.",
+      "files": [
+        "moneyletter-landing",
+        "premium",
+        "library",
+        "contents-hub"
+      ],
+      "evidence": "home/story: '구조'와 '환경'",
+      "count": 4
+    },
+    {
+      "id": "C10",
+      "title": "홈↔스토리 사실 정합(10배 이상 / 연봉 이상의 월급)",
+      "rule_basis": [
+        "N3",
+        "정본 갱신"
+      ],
+      "priority": "med",
+      "pattern": "홈: '10배 상승' · '월 수입 10배 이상 증가'",
+      "recommendation": "'10배 상승'→'10배 이상', '월 수입 10배 이상 증가'→'연봉 이상의 월급'으로 스토리 정본과 정합.",
+      "files": [
+        "home",
+        "home"
+      ],
+      "evidence": "…3년 만에 자산 10배 상승",
+      "count": 2
+    },
+    {
+      "id": "C11",
+      "title": "FAQ '언제든 해지' 답변(정보성, 저위험)",
+      "rule_basis": [
+        "P2(note)"
+      ],
+      "priority": "low",
+      "pattern": "해지는 자유로운가요? 네, 언제든 해지…",
+      "recommendation": "실제 질문 답변이므로 유지 가능. 단 배지·CTA 셀링 문구로는 쓰지 말 것.",
+      "files": [
+        "faq-v1"
+      ],
+      "evidence": "요? + 네, 언제든 해지할 수 있고 다음 결제",
+      "count": 1
+    }
+  ],
+  "stats": {
+    "total_candidate_groups": 11,
+    "total_files_touched": 65,
+    "by_priority": {
+      "high": 3,
+      "med": 6,
+      "low": 2
+    },
+    "by_page_type": {
+      "tool": 16,
+      "tool-pro": 8,
+      "col": 6,
+      "report": 6,
+      "class": 5,
+      "goods": 5,
+      "kit": 5,
+      "premium": 5,
+      "eco": 4,
+      "tool-re": 4,
+      "home": 4,
+      "moneyletter-landing": 3,
+      "library": 3,
+      "contents-hub": 3,
+      "tool-vs": 2,
+      "letter": 2,
+      "sub": 2,
+      "contents-columns": 2,
+      "letter-archive": 1,
+      "sub-vs": 1,
+      "contents-kits": 1,
+      "report-hub": 1,
+      "faq-v1": 1
+    },
+    "per_candidate": {
+      "C1": 45,
+      "C2": 5,
+      "C3": 7,
+      "C4": 3,
+      "C5": 8,
+      "C6": 3,
+      "C7": 6,
+      "C8": 6,
+      "C9": 4,
+      "C10": 2,
+      "C11": 1
+    }
+  }
+}

@@ -1,0 +1,41 @@
+
+### premium__BODY.html [C3] 6 edits
+    [re x1] (removed)
+    [re x1] (removed)
+    [x1] 0원으로 받아보세요. -> 무료로 받아보세요.
+    [x1] 0원으로 먼저 받아보세요. -> 무료로 먼저 받아보세요.
+    [x1] 무료로 충분히 써보고 결정하셔도 돼요. 약정이  -> 무료로 충분히 써보고 결정하셔도 돼요.
+    [x1] 잠금은 구독하면 풀려요. -> 잠금은 프리미엄으로 풀려요.
+
+### sub-5a7f__BODY.html [C3] 1 edits
+    [x1] 언제든 해지할 수 있어요 — 해지해도 다음 결제 -> 해지하시면 다음 결제일 전까지 그대로 보실 수 
+
+### letter-archive__BODY.html [C3] 2 edits
+    [x1] 머니레터는 늘 0원으로 열려 있어요. -> 머니레터는 늘 무료로 열려 있어요.
+    [x1] 약정 없이 언제든 해지 · 하루 두 번, 아침· -> 하루 두 번, 아침·저녁
+
+### class-7389__BODY.html [C4] 1 edits
+    [x1] >JOIN THE 3RD COHORT< -> >MONEY CLASS<
+
+### goods-fd41__BODY.html [C4] 1 edits
+    [x1] >START TODAY< -> >MONEY GOODS<
+
+### kit-842c__BODY.html [C4] 1 edits
+    [x1] >START TODAY< -> >MONEY KIT<
+
+### class-b779__BODY.html [C6] 4 edits
+    [re x4] (removed)
+
+### goods-9972__BODY.html [C6] 2 edits
+    [re x2] (removed)
+
+### kit-bcaf__BODY.html [C6] 2 edits
+    [re x2] (removed)
+
+### home__BODY.html [C10] 2 edits
+    [x1] 3년 만에 자산 10배 상승 -> 3년 만에 자산 10배 이상 성장
+    [x1] 월 수입 10배 이상 증가 -> 연봉 이상의 월급
+
+===== WARNINGS =====
+
+DRY=False  files=10  edits=22

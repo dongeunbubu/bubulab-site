@@ -1,0 +1,463 @@
+{
+ "meta": {
+  "executor": "voice_sweep v1.2",
+  "basis": "voice_sweep_candidates.json + 컨센서스 v1.2",
+  "note": "C1 후보 45 + 열거누락 13 확산=58 적용. C7=슬러그 주입용. href /premium 수렴(free레터 CTA는 오늘의 머니레터 유지). 제외:home(C10 2건 예외)·story·레터3종(evening/morning/viz)·moneyletter-landing.",
+  "hub_cta": "모든 콘텐츠 보러가기→ href=/contents-columns (slugs_to_inject 대상)"
+ },
+ "applied": [
+  {
+   "file": "class-b779__BODY.html",
+   "rule": "C2",
+   "n": 2
+  },
+  {
+   "file": "col-5392__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "col-561d__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "col-6a03__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "col-a331__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "col-cae7__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "col-e2bc__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "eco-5396__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "eco-630d__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "eco-etf-364f__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "eco-perpbrroe-18bd__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "goods-9972__BODY.html",
+   "rule": "C2",
+   "n": 3
+  },
+  {
+   "file": "kit-bcaf__BODY.html",
+   "rule": "C2",
+   "n": 3
+  },
+  {
+   "file": "report-3efe__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "report-87f1__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "report-ai-9970__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "report-d576__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "report-de46__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "report-ffe1__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-1d83__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-2f6a__BODY.html",
+   "rule": "C1",
+   "n": 3
+  },
+  {
+   "file": "tool-4a49__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-4a72__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-4d2e__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-853a__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-93f4__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-a34d__BODY.html",
+   "rule": "C1",
+   "n": 3
+  },
+  {
+   "file": "tool-b7ab__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-cbeb__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-dfe4__BODY.html",
+   "rule": "C1",
+   "n": 4
+  },
+  {
+   "file": "tool-ea90__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-isa-5c34__BODY.html",
+   "rule": "C1",
+   "n": 3
+  },
+  {
+   "file": "tool-pro-240b__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-pro-39d5__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-pro-438b__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-pro-6aa3__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-pro-8138__BODY.html",
+   "rule": "C1",
+   "n": 3
+  },
+  {
+   "file": "tool-pro-cc61__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-pro-ec50__BODY.html",
+   "rule": "C1",
+   "n": 3
+  },
+  {
+   "file": "tool-pro-fdd1__BODY.html",
+   "rule": "C1",
+   "n": 2
+  },
+  {
+   "file": "tool-re-57f2__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-re-ac3c__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-re-f1e8__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-vs-3ef9__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-vs-489f__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "premium__BODY.html",
+   "rule": "C3",
+   "n": 6
+  },
+  {
+   "file": "sub-5a7f__BODY.html",
+   "rule": "C3",
+   "n": 1
+  },
+  {
+   "file": "letter-archive__BODY.html",
+   "rule": "C3",
+   "n": 2
+  },
+  {
+   "file": "class-7389__BODY.html",
+   "rule": "C4",
+   "n": 1
+  },
+  {
+   "file": "goods-fd41__BODY.html",
+   "rule": "C4",
+   "n": 1
+  },
+  {
+   "file": "kit-842c__BODY.html",
+   "rule": "C4",
+   "n": 1
+  },
+  {
+   "file": "class-b779__BODY.html",
+   "rule": "C6",
+   "n": 4
+  },
+  {
+   "file": "goods-9972__BODY.html",
+   "rule": "C6",
+   "n": 2
+  },
+  {
+   "file": "kit-bcaf__BODY.html",
+   "rule": "C6",
+   "n": 2
+  },
+  {
+   "file": "home__BODY.html",
+   "rule": "C10",
+   "n": 2
+  },
+  {
+   "file": "tool-3dad__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-52-f1dd__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-568e__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-64bb__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-ac1c__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-af26__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-bc45__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-dsr-6e40__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-pro-1d9e__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-pro-3a11__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-pro-9b41__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-pro-fbcd__BODY.html",
+   "rule": "C1",
+   "n": 1
+  },
+  {
+   "file": "tool-vs-24fc__BODY.html",
+   "rule": "C1",
+   "n": 1
+  }
+ ],
+ "held": [
+  {
+   "file": "sub-3a8b__BODY.html",
+   "rule": "C3",
+   "reason": "레거시 월9,900원 모델 — P1정본(첫10만/월990) 재작성 수반, 스윕 범위 초과·9,900게이트 미충족"
+  },
+  {
+   "file": "sub-vs-fd47__BODY.html",
+   "rule": "C3",
+   "reason": "레거시 월9,900원 모델 — P1정본 재작성 수반, 범위 초과(잔존 구독하고/구독으로 1건 포함)"
+  },
+  {
+   "file": "letter-8221__BODY.html",
+   "rule": "C3",
+   "reason": "조각 위젯 레터샘플 내 레거시 9,900원 가격위젯·주석 — 위젯 구조 개편은 스윕 범위 초과"
+  },
+  {
+   "file": "letter-ba2f__BODY.html",
+   "rule": "C3",
+   "reason": "조각 위젯 레터샘플 내 9,900원 pricerow — 가격위젯 제거는 P1 재구성 수반, 범위 초과"
+  },
+  {
+   "file": "class-7389__BODY.html",
+   "rule": "C5",
+   "reason": "backhub 뒤로가기 링크 = 유일 동선, 유지(중복 네비 아님)"
+  },
+  {
+   "file": "goods-fd41__BODY.html",
+   "rule": "C5",
+   "reason": "backhub 뒤로가기 링크 = 유일 동선, 유지"
+  },
+  {
+   "file": "kit-842c__BODY.html",
+   "rule": "C5",
+   "reason": "backhub 뒤로가기 링크 = 유일 동선, 유지"
+  },
+  {
+   "file": "tool-64bb__BODY.html",
+   "rule": "C5",
+   "reason": "backhub 자료실 뒤로가기 = 유일 동선, 유지"
+  },
+  {
+   "file": "premium__BODY.html",
+   "rule": "C5",
+   "reason": "catmore 3개 = 칼럼/도구/기업분석 각 카테고리 유일 경로, 유지"
+  },
+  {
+   "file": "tool-re-6e94__BODY.html",
+   "rule": "C5",
+   "reason": "'법정 요율표 전체 보기'=콘텐츠 섹션 제목, 네비 아님, 유지"
+  },
+  {
+   "file": "library__BODY.html",
+   "rule": "C8",
+   "reason": "기존 3분류 라벨(선저축 등) 부재·상이 택소노미 — 3축 재태깅은 콘텐츠 작업, 범위 초과"
+  },
+  {
+   "file": "contents-columns__BODY.html",
+   "rule": "C8",
+   "reason": "기존 분류 라벨 부재 — 3축 시드는 콘텐츠 태깅 별도 작업, 보류"
+  },
+  {
+   "file": "contents-hub__BODY.html",
+   "rule": "C8",
+   "reason": "기존 분류 라벨 부재 — 3축 시드는 콘텐츠 태깅 별도 작업, 보류"
+  },
+  {
+   "file": "premium__BODY.html",
+   "rule": "C8",
+   "reason": "접근권 프레임 페이지, 3분류 라벨 슬롯 부재 — 보류"
+  },
+  {
+   "file": "report-hub__BODY.html",
+   "rule": "C8",
+   "reason": "기존 분류 라벨 부재 — 3축 시드는 별도 작업, 보류"
+  },
+  {
+   "file": "premium__BODY.html",
+   "rule": "C9",
+   "reason": "'구조'와 '환경' 대응 앵커 부재 — 강제 시드는 무리한 치환, 보류"
+  },
+  {
+   "file": "library__BODY.html",
+   "rule": "C9",
+   "reason": "'구조'는 세율/누진 구조 뜻 — 브랜드 '구조와 환경' 대응 아님, 보류"
+  },
+  {
+   "file": "contents-hub__BODY.html",
+   "rule": "C9",
+   "reason": "'구조'와 '환경' 앵커 부재 — 보류"
+  },
+  {
+   "file": "faq-v1__BODY.html",
+   "rule": "C11",
+   "reason": "실제 FAQ 답변(정보성) — 배지/CTA 셀링 아님, C11 지침대로 유지"
+  },
+  {
+   "file": "tool-dfe4__BODY.html",
+   "rule": "C2",
+   "reason": "단건 커머스 오분류 — 실제 프리미엄 게이트 도구('구독 전용' 락), C1 접근권으로 적용함"
+  },
+  {
+   "file": "tool-isa-5c34__BODY.html",
+   "rule": "C2",
+   "reason": "단건 커머스 오분류 — 실제 프리미엄 게이트 도구('구독자 전용' 락), C1 접근권으로 적용함"
+  }
+ ],
+ "slugs_to_inject": [
+  "premium",
+  "library",
+  "contents-hub",
+  "contents-kits"
+ ]
+}
