@@ -217,7 +217,7 @@
     if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;
     var el=slot();if(!el)return;
     var html=String(t);
-    if(it&&it.premium)html=html.split('<!--PREMIUM_GATE-->')[0]+gateHTML();
+    if(it&&it.premium)html=html.split('<'+'!--PREMIUM_GATE--'+'>')[0]+gateHTML();
     el.innerHTML=html;
     wireWidgets(el);wireTerms(el);
     reveal(el,'.cx-sc');
