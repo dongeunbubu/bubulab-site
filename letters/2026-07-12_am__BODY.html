@@ -1,0 +1,751 @@
+<!-- money-letter 2026-07-12 am · auto-published (publish_letters.py) · links: xletter=0 slug=0 · dcl-guarded=0 -->
+<style>:root{
+ --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
+ --ink:#2C201B;--ink2:#57453D;--mut:#877468;
+ --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --term-bg:rgba(135,116,104,.15);--term-bg-on:rgba(135,116,104,.26); /* E9: 용어 툴팁 공통 토큰 — 은은한 회색 음영, 전 페이지 재사용 */
+ --border:#ECDAD5;--borderStrong:#E4C8C2;
+ --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
+ /* 등락 — 자신감 있는 한국식(빨강↑ 파랑↓) */
+ --up:#E4483A;--upT:#C22E22;--upSoft:#FDEAE7;
+ --down:#3B6FE0;--downT:#2A55C2;--downSoft:#E7EFFD;
+ --flat:#8A7A70;
+ --maxw:1200px;--col:720px;--rail:312px;--gap:44px;
+ /* v6 공통 모션 토큰(T1) — 4접점 동일값 */
+ --ease-enter:cubic-bezier(.22,1,.36,1);--ease-morph:cubic-bezier(.65,0,.35,1);--ease-hover:ease;
+ --dur-1:240ms;--dur-2:480ms;--dur-press:150ms;--stagger:90ms;
+ --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.34,1.32,.42,1);
+ /* 틴티드 레이어드 섀도 (MengTo beautiful-shadows 웜 틴트 각색) */
+ --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
+ --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+ --shLift:0 3px 6px rgba(120,60,50,.07),0 16px 30px -6px rgba(150,70,80,.16),0 40px 70px -20px rgba(179,58,76,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+svg{max-width:100%;display:block}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.up{color:var(--upT)}.down{color:var(--downT)}.flat{color:var(--flat)}
+a{color:inherit}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:4px}
+#pg{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--pink),var(--rose),var(--deep));z-index:1200;border-radius:0 2px 2px 0;box-shadow:0 0 12px rgba(179,58,76,.5)}
+@keyframes pgGrow{to{transform:scaleX(1)}}
+@supports (animation-timeline:scroll()){#pg{animation:pgGrow linear both;animation-timeline:scroll(root block)}}
+html:not(.js) #pg{display:none}
+@supports (animation-timeline:scroll()){html:not(.js) #pg{display:block}}
+
+/* ==================== 마스트 (2단 · 오버사이즈 · 오로라) ==================== */
+.mast{position:relative;overflow:hidden;background:
+  radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),
+  radial-gradient(90% 80% at 8% 108%,#F7E7DE 0%,rgba(247,231,222,0) 60%),
+  linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
+.mast .grain{position:absolute;inset:0;opacity:.42;pointer-events:none;z-index:1}
+.mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(42px);will-change:transform}
+.m1{width:440px;height:440px;background:radial-gradient(circle at 40% 40%,#F7C9D0,#F4A9B6 70%);opacity:.5;top:-150px;right:-40px}
+.m2{width:340px;height:340px;background:radial-gradient(circle at 50% 50%,#F7D8CF,#F2BEC1 70%);opacity:.4;bottom:-160px;left:-60px}
+.m3{width:260px;height:260px;background:radial-gradient(circle at 50% 50%,#F8DEC7,#F1C79E 70%);opacity:.4;top:30%;left:46%}
+html.js .mesh{animation:aurora 20s var(--ease) infinite alternate}
+html.js .m2{animation-duration:26s;animation-delay:-6s}
+html.js .m3{animation-duration:23s;animation-delay:-11s}
+@keyframes aurora{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(30px,-26px,0)}100%{transform:translate3d(-24px,24px,0)}}
+.watermark{position:absolute;z-index:0;will-change:transform;right:-2%;top:24%;font-weight:900;font-size:min(38vw,520px);line-height:.8;letter-spacing:-.04em;color:rgba(179,58,76,.05);pointer-events:none;user-select:none;font-variant-numeric:tabular-nums}
+@media(max-width:1023px){.watermark{top:auto;bottom:-4%;right:-6%;font-size:62vw;opacity:.7}}
+.in1180{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
+.mastin{padding:clamp(34px,5.2vw,58px) 0 clamp(30px,4.4vw,50px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,54px);align-items:center}
+@media(min-width:1000px){.mastin{grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr)}}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--ink)}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);flex:none;box-shadow:0 0 0 0 rgba(179,58,76,.4)}
+html.js .brand .dot{animation:pulse 2.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(179,58,76,.36)}55%{box-shadow:0 0 0 9px rgba(179,58,76,0)}}
+@keyframes pulse2{0%,100%{opacity:1}50%{opacity:.35}}
+.eyebrow-ed{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:22px}
+.badge{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 13px;box-shadow:0 6px 14px -6px rgba(124,36,59,.6)}
+.ed-cadence{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft2);border:1px solid var(--borderStrong);border-radius:100px;padding:5px 11px}
+.ed-cadence .d{width:6px;height:6px;border-radius:50%;background:var(--rose)}
+html.js .ed-cadence .d{animation:pulse2 2s infinite}
+.bigdate{display:flex;align-items:flex-end;gap:10px;margin-top:6px;line-height:.9}
+.bigdate .dnum{font-size:clamp(52px,9vw,104px);font-weight:900;letter-spacing:-.04em;color:var(--ink);background:linear-gradient(180deg,var(--ink),#6b4a44);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bigdate .dwrap{display:flex;flex-direction:column;gap:3px;padding-bottom:9px}
+.bigdate .dday{font-size:clamp(20px,3vw,30px);font-weight:900;color:var(--rose);letter-spacing:-.02em;line-height:1}
+.bigdate .dyear{font-size:12.5px;font-weight:700;color:var(--mut);letter-spacing:.02em}
+h1.hook{font-size:clamp(27px,3.9vw,42px);font-weight:800;letter-spacing:-.022em;line-height:1.3;margin-top:20px;max-width:20ch;color:var(--ink)}
+h1.hook .w{display:inline-block;opacity:1;transform:none}
+html.js h1.hook .w{opacity:0;transform:translateY(18px) rotate(.5deg)}
+html.js h1.hook.in .w{animation:wup .7s var(--ease) forwards;animation-delay:calc(var(--i)*.05s)}
+@keyframes wup{to{opacity:1;transform:none}}
+h1.hook .key{position:relative;color:var(--deep);z-index:1;white-space:nowrap}
+h1.hook .key::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.06em;height:.42em;background:linear-gradient(90deg,#FBE38C,#F7C56B);z-index:-1;border-radius:3px;transform:scaleX(0);transform-origin:left;opacity:.85}
+html.js h1.hook.in .key::after{animation:hl .7s var(--ease) .5s forwards}
+@keyframes hl{to{transform:scaleX(1)}}
+.dek{font-size:clamp(16px,2vw,19px);color:var(--ink2);font-weight:600;margin-top:17px;max-width:34ch;line-height:1.62}
+.dek b{color:var(--rose);font-weight:800}
+
+/* 우측 히어로 카드 스택 (오늘의 핵심) */
+.heroviz{position:relative;z-index:2;min-height:250px;perspective:1200px}
+.hvhead{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--rose);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hvhead::before{content:"";width:20px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.hstack{position:relative}
+.hcard{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,255,255,.9));border:1px solid transparent;border-radius:22px;box-shadow:var(--sh2);
+  background-clip:padding-box}
+.hcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(214,92,110,.4) 46%,rgba(255,255,255,.15));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hcard.main{position:relative;padding:22px 24px 20px;z-index:3;transform:rotate(-1.2deg)}
+html.js .hcard.main{animation:floatA 7s ease-in-out infinite}
+.hcard.b1,.hcard.b2{position:absolute;left:0;right:0;padding:13px 18px;z-index:2}
+.hcard.b1{top:-30px;left:22%;right:-6%;transform:rotate(2.6deg) scale(.82);opacity:.96}
+.hcard.b2{bottom:-34px;left:-6%;right:26%;transform:rotate(-3.4deg) scale(.78)}
+html.js .hcard.b1{animation:floatB 8s ease-in-out infinite}
+html.js .hcard.b2{animation:floatC 9s ease-in-out infinite}
+@keyframes floatA{0%,100%{transform:rotate(-1.2deg) translateY(0)}50%{transform:rotate(-1.2deg) translateY(-9px)}}
+@keyframes floatB{0%,100%{transform:rotate(2.6deg) scale(.82) translateY(0)}50%{transform:rotate(2.6deg) scale(.82) translateY(-12px)}}
+@keyframes floatC{0%,100%{transform:rotate(-3.4deg) scale(.78) translateY(0)}50%{transform:rotate(-3.4deg) scale(.78) translateY(10px)}}
+.hcard .hl{font-size:12.5px;font-weight:800;color:var(--mut);display:flex;align-items:center;gap:7px}
+.hcard .htag{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--upSoft);color:var(--upT);letter-spacing:.02em}
+.hcard.main .hv{font-size:clamp(34px,4.4vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.02;margin-top:8px;color:var(--ink)}
+.hcard.main .hv small{font-size:.4em;font-weight:800;color:var(--mut);margin-left:3px}
+.hcard .hc{font-size:15px;font-weight:800;margin-top:5px}
+.hcard.main .hc{font-size:17px}
+.hcard .hn{font-size:11.5px;font-weight:600;color:var(--mut);margin-top:6px}
+.hcard.b1 .hv,.hcard.b2 .hv{font-size:24px;font-weight:900;letter-spacing:-.02em;margin-top:3px}
+.hcard.b1 .hc,.hcard.b2 .hc{font-size:13px;font-weight:800;margin-top:1px}
+.spark-mini{position:absolute;right:20px;top:22px;width:66px;height:26px;opacity:.85}
+@media(max-width:999px){.heroviz{min-height:auto;margin-top:6px}
+ .hcard.b1{top:-22px;left:26%;right:-2%}.hcard.b2{bottom:-24px;left:-2%;right:30%}}
+@media(max-width:520px){.hcard.b1,.hcard.b2{position:static;transform:none;opacity:1;margin-top:10px;width:100%;scale:1}
+ html.js .hcard.b1,html.js .hcard.b2{animation:none}.hstack{display:flex;flex-direction:column;gap:10px}
+ .hcard.main{transform:none}html.js .hcard.main{animation:none}}
+
+/* ==================== 풀블리드 마켓 히트바 ==================== */
+/* web.heat 자동선택: facts.kr(코스피·코스닥) + facts.fx.USDKRW + facts.us(S&P·나스닥·다우·필라) + facts.aux(VIX·BTC) 순.
+   각 셀 필드 부재 시 셀째 생략 · 등락 부호로 색/방향 자동(빨강↑ 파랑↓ 회색 보합) · 수치 창작 금지 */
+.heatband{position:relative;background:linear-gradient(180deg,#fff,#FBF2EE);border-bottom:1px solid var(--border);border-top:1px solid var(--border);overflow:hidden}
+.heatband::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 120% at 50% 0%,rgba(214,92,110,.06),transparent 70%);pointer-events:none}
+.heatin{position:relative;max-width:var(--maxw);margin:0 auto;padding:15px clamp(16px,3.5vw,26px) 17px}
+.heatlead{display:flex;align-items:center;gap:9px;font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--mut);margin-bottom:11px}
+.heatlead .hb-dot{width:7px;height:7px;border-radius:50%;background:var(--rose)}
+.heatlead b{color:var(--ink2)}
+.heatrow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(126px,1fr);gap:9px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.heatrow::-webkit-scrollbar{display:none}
+@media(max-width:900px){.heatrow{grid-auto-columns:minmax(140px,1fr)}}
+.heat{position:relative;background:#fff;border:1px solid var(--border);border-radius:13px;padding:11px 13px 12px;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s}
+.heat::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.heat.d::after{background:linear-gradient(180deg,#7fa0ee,var(--down))}
+.heat.u::after{background:linear-gradient(180deg,#ef8177,var(--up))}
+.heat.f::after{background:linear-gradient(180deg,#c9bcb3,var(--flat))}
+.heat.d{background:linear-gradient(180deg,#fff,var(--downSoft))}
+.heat.u{background:linear-gradient(180deg,#fff,var(--upSoft))}
+.heat:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--borderStrong)}
+.heat .hnm{font-size:11.5px;font-weight:800;color:var(--mut);display:flex;align-items:center;gap:5px}
+.heat .hvl{font-size:19px;font-weight:900;letter-spacing:-.02em;margin-top:4px;color:var(--ink);line-height:1.05}
+.heat .hvl small{font-size:11px;font-weight:700;color:var(--mut)}
+.heat .hcg{font-size:12px;font-weight:800;margin-top:2px}
+.heat .pin{font-size:9px;font-weight:800;padding:1px 6px;border-radius:5px;background:var(--upSoft);color:var(--upT);letter-spacing:.02em}
+
+/* ==================== 모바일 칩 네비 ==================== */
+.chipnav{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:var(--maxw);margin:0 auto;padding:12px clamp(16px,3.5vw,26px);scrollbar-width:none;border-bottom:1px solid var(--border);background:rgba(253,251,247,.92);position:sticky;top:0;z-index:900;backdrop-filter:blur(10px)}
+.chipnav::-webkit-scrollbar{display:none}
+.chipnav a{flex:none;font-size:12.5px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 13px;text-decoration:none;white-space:nowrap;transition:.2s var(--ease)}
+.chipnav a:hover,.chipnav a.on{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep));box-shadow:0 6px 14px -6px rgba(179,58,76,.6)}
+@media(min-width:1024px){.chipnav{display:none}}
+
+/* ==================== 리딩 그리드 ==================== */
+.reading{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
+.flow{min-width:0}
+.rail{display:none}
+@media(min-width:1024px){
+ .reading{display:grid;grid-template-columns:minmax(0,var(--col)) var(--rail);gap:var(--gap);justify-content:center;align-items:start}
+ .flow{grid-column:1}
+ .rail{grid-column:2;display:flex;flex-direction:column;gap:14px;position:sticky;top:18px;align-self:start;z-index:3}
+ /* v6.1 #2: 풀블리드 밴드가 레일을 침범/가리던 문제 해소 — 데스크톱에선 본문 칼럼 폭 안에서만(레일 공존) */
+ .flow>.band{width:100%}
+}
+/* 섹션 공통 */
+.sec{padding:clamp(48px,6vw,82px) 0 clamp(40px,5vw,64px);border-bottom:1px solid var(--border);scroll-margin-top:70px}
+.kicker{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--rose);text-transform:uppercase}
+.kicker::before{content:"";width:24px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--rose),transparent)}
+.kicker .kn{display:inline-flex;width:22px;height:22px;border-radius:8px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:11px;align-items:center;justify-content:center;letter-spacing:0;box-shadow:0 4px 10px -4px rgba(124,36,59,.6)}
+h2.sh{font-size:clamp(23px,3.6vw,32px);font-weight:800;letter-spacing:-.028em;margin:13px 0 0;line-height:1.26}
+h2.sh::after{content:"";display:block;width:48px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--rose),var(--deep));margin-top:14px}
+html.js h2.sh::after{width:0;transition:width .95s var(--ease) .2s}
+html.js .sec.in h2.sh::after,html.js .band.in h2.sh::after{width:48px}
+.when{color:var(--mut);font-size:12.5px;font-weight:600;margin-top:10px}
+.sec p{color:var(--ink2);font-size:clamp(15px,1.9vw,16.5px);margin:14px 0 0;max-width:36em}
+.sec p:first-of-type{margin-top:16px}
+h3.eyebrow{font-size:13.5px;font-weight:800;color:var(--mut);letter-spacing:.02em;margin:28px 0 0}
+.whl{background:linear-gradient(transparent 58%,#FBE0C9 58%) no-repeat 0 0/100% 100%;border-radius:2px;padding:0 2px;font-weight:600}
+html.js .whl{background-size:0% 100%;transition:background-size .9s var(--ease) .25s}
+html.js .in .whl,html.js .whl.in{background-size:100% 100%}
+.whl.sage{background-image:linear-gradient(transparent 58%,#CFE7DE 58%)}
+mark.whl{color:inherit}
+/* 콜아웃 */
+.callout{margin:24px 0 0;position:relative;background:linear-gradient(180deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:0 16px 16px 0;padding:16px 20px;box-shadow:var(--sh1);overflow:hidden}
+.callout::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--rose),var(--deep))}
+.callout .ct{font-size:12px;font-weight:800;color:var(--deep);letter-spacing:.04em}
+.callout p{margin-top:6px;font-size:15px;max-width:none}
+.callout a{color:var(--rose);font-weight:800;text-decoration:none;border-bottom:1.5px solid var(--pink)}
+/* 인용 브레이크 */
+.qbreak{margin:8px 0 0;padding:8px 0 0}
+.qbreak .qq{font-size:clamp(22px,3.1vw,31px);font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--ink)}
+.qbreak .qq .grad{background:linear-gradient(96deg,var(--rose),var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.qbreak .qc{font-size:12.5px;color:var(--mut);font-weight:700;margin-top:11px}
+
+/* 오늘 한눈에 */
+.glance{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 0}
+.gcard{position:relative;background:linear-gradient(160deg,#fff,#FFFCFA);border:1px solid var(--border);border-radius:18px;padding:18px 19px;box-shadow:var(--sh1);transition:transform .32s var(--ease),box-shadow .32s var(--ease),border-color .32s;overflow:hidden}
+.gcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.28) 50%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .32s}
+.gcard:hover{transform:translateY(-5px);box-shadow:var(--shLift);border-color:transparent}
+.gcard:hover::before{opacity:1}
+.gcard.lead{grid-column:1 / -1;background:linear-gradient(120deg,#fff 55%,var(--pinkSoft2))}
+.gcard .gi{font-size:22px;line-height:1;display:inline-flex;width:44px;height:44px;border-radius:12px;align-items:center;justify-content:center;background:linear-gradient(150deg,var(--pinkSoft),#fff);border:1px solid var(--border);box-shadow:var(--sh1)}
+.gcard .gt{font-size:14px;font-weight:800;color:var(--ink);margin-top:12px;letter-spacing:-.01em;line-height:1.4}
+.gcard .gd{font-size:13px;color:var(--ink2);margin-top:6px;line-height:1.64}
+.gcard .gd b{font-weight:800}
+.gcard.lead .gt{font-size:16px}
+@media(max-width:520px){.glance{grid-template-columns:1fr}.gcard.lead{grid-column:auto}}
+/* KPI 카드 */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin:20px 0 0}
+@media(max-width:560px){.mgrid{grid-template-columns:1fr 1fr}.mc .mv{font-size:20px}.mc .mv small{font-size:11px}}
+.mc{position:relative;background:linear-gradient(165deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:16px;padding:15px 16px 14px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;overflow:hidden;box-shadow:var(--sh1)}
+.mc::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;opacity:.9}
+.mc.dtop::after{background:linear-gradient(90deg,var(--down),#7fa0ee)}
+.mc.utop::after{background:linear-gradient(90deg,var(--up),#ef8177)}
+.mc.ftop::after{background:linear-gradient(90deg,var(--flat),#cbbdb4)}
+.mc:hover{transform:translateY(-5px);box-shadow:var(--shLift);border-color:var(--borderStrong)}
+.mc .ml{font-size:12px;font-weight:800;color:var(--mut);display:flex;align-items:center;gap:6px}
+.mc .mv{font-size:25px;font-weight:900;letter-spacing:-.025em;margin-top:5px;line-height:1.02;color:var(--ink)}
+.mc .mv small{font-size:12px;font-weight:800;color:var(--mut);margin-left:2px}
+.mc .mchg{font-size:13px;font-weight:800;margin-top:2px}
+.mc .mbar{height:6px;border-radius:5px;background:var(--pinkSoft2);margin-top:12px;overflow:hidden}
+.mc .mbar i{display:block;height:100%;border-radius:5px;width:var(--w)}
+.mc .mbar i.d{background:linear-gradient(90deg,#9db7ee,var(--down))}
+.mc .mbar i.u{background:linear-gradient(90deg,#f0a597,var(--up))}
+html.js .mc .mbar i{width:0;transition:width 1s var(--ease) .15s}
+html.js .sec.in .mc .mbar i{width:var(--w)}
+.mc .mnote{font-size:10.5px;color:var(--mut);margin-top:8px;font-weight:600}
+.mc.qual{background:linear-gradient(150deg,#fff,var(--bg2))}
+.mc.qual .qbig{font-size:17px;font-weight:900;color:var(--downT);margin-top:6px;display:flex;align-items:center;gap:6px}
+/* 수급 정성 스트립 (강등) */
+.flows{margin:18px 0 0;background:linear-gradient(180deg,#fff,#FEFAF8);border:1px dashed var(--borderStrong);border-radius:16px;padding:16px 18px;box-shadow:var(--sh1)}
+.flows .fh{font-size:12.5px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flows .fh .dchip{font-size:10px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border-radius:6px;padding:3px 8px;letter-spacing:.02em}
+.flows .frow{display:flex;align-items:center;gap:12px;margin-top:14px}
+.flows .fbar{flex:1;height:14px;border-radius:8px;background:linear-gradient(90deg,var(--down) 0%,#a9c0f0 34%,#ece4de 50%,#f2b3aa 66%,var(--up) 100%);position:relative;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+.flows .fbar::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--mut);opacity:.35}
+.flows .fmark{position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--down);border:3px solid #fff;box-shadow:0 3px 9px rgba(59,111,224,.5);left:33%}
+html.js .flows .fmark{left:50%;transition:left 1.05s var(--ease) .2s}
+html.js .sec.in .flows .fmark{left:33%}
+.flows .flab{display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-top:9px;color:var(--mut)}
+.flows .fnote{font-size:11.5px;color:var(--mut);margin-top:11px;line-height:1.62}
+.flows .fnote b{color:var(--ink2)}
+/* 체크포인트 */
+.chks{display:grid;gap:12px;margin:18px 0 0}
+@media(min-width:640px){.chks{grid-template-columns:repeat(3,1fr)}}
+.chk{position:relative;background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:16px 17px;transition:transform .3s var(--ease),box-shadow .3s var(--ease);box-shadow:var(--sh1)}
+.chk:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.chk .cn{display:inline-flex;width:26px;height:26px;border-radius:9px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:12px;font-weight:800;align-items:center;justify-content:center;box-shadow:0 5px 12px -5px rgba(124,36,59,.6)}
+.chk .ct{font-size:14px;font-weight:800;margin-top:11px;letter-spacing:-.01em}
+.chk .cd{font-size:12.8px;color:var(--ink2);margin-top:6px;line-height:1.6}
+/* 미국 타임라인 */
+.ntime{display:flex;gap:0;margin:18px 0 0;flex-wrap:wrap}
+.ntitem{flex:1 1 190px;position:relative;padding:15px 17px 15px 19px;background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:15px;margin:0 7px 9px 0;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.ntitem:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.ntitem .nl{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.03em;display:flex;align-items:center;gap:6px}
+.ntitem .nl .dt{width:7px;height:7px;border-radius:50%;background:var(--rose)}
+.ntitem .nt{font-size:13.5px;font-weight:800;margin-top:7px;letter-spacing:-.01em}
+.ntitem .nd{font-size:12.5px;color:var(--ink2);margin-top:5px;line-height:1.56}
+
+/* ==================== 풀블리드 밴드 공통 ==================== */
+.band{margin:clamp(48px,6vw,82px) 0;padding:clamp(38px,5vw,58px) 0;border-radius:0;position:relative}
+@media(max-width:1023px){.band{margin-left:calc(-1*clamp(16px,3.5vw,26px));margin-right:calc(-1*clamp(16px,3.5vw,26px));padding-left:clamp(16px,3.5vw,26px);padding-right:clamp(16px,3.5vw,26px)}}
+.band .bin{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
+@media(min-width:1024px){.band .bin{padding:0}.flow>.band{position:relative;z-index:1;border-radius:24px;overflow:hidden}.rail{z-index:3}}
+.band .bh{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+.band .bk{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--rose);text-transform:uppercase}
+.band .bt{font-size:clamp(20px,2.7vw,27px);font-weight:800;letter-spacing:-.02em}
+.band .bsub{font-size:13.5px;color:var(--ink2);margin-top:9px;max-width:52ch;line-height:1.62}
+
+/* ---- 투자심리: 홈 웜크림·분홍 팔레트 (라이트 리듬 밴드 · E1) ---- */
+.band.psy{background:
+  radial-gradient(90% 130% at 12% -10%,var(--pinkSoft2) 0%,rgba(252,238,241,0) 55%),
+  radial-gradient(80% 120% at 92% 110%,#FBF2EE 0%,rgba(251,242,238,0) 55%),
+  linear-gradient(120deg,rgba(253,251,247,.97) 0%,rgba(252,238,241,.92) 46%,rgba(224,134,150,.22) 100%);color:var(--ink);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding-top:clamp(54px,7vw,86px);padding-bottom:clamp(50px,6vw,74px)}
+@media(min-width:1024px){.flow>.band.psy{border-radius:0}}
+.band.psy .grain2{position:absolute;inset:0;opacity:.28;pointer-events:none;mix-blend-mode:soft-light}
+.band.psy .bk{color:var(--rose)}
+.band.psy .bt{color:var(--ink)}
+.band.psy h2.sh{color:var(--ink)}
+.band.psy h2.sh::after{background:linear-gradient(90deg,var(--rose),var(--deep))}
+.band.psy .bsub{color:var(--ink2)}
+.band.psy .bsub b{color:var(--ink)}
+.psygrid{display:grid;gap:26px;margin-top:40px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))} /* F1: 컨테이너 반응형 — 좁은 로더 폭(512px 등)에서도 카드 안 짤리게(뷰포트 미디어쿼리→auto-fit) */
+.pcard{position:relative;background:linear-gradient(160deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:20px;padding:26px 24px 30px;box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+.pcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.26) 50%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .3s}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--shLift);border-color:transparent}
+.pcard:hover::before{opacity:1}
+.pcard .pl{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.02em;margin-bottom:6px}
+.zlab{display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:var(--mut);margin-top:5px;padding:0 4px}
+/* 위험자산 */
+.coinpair{display:flex;flex-direction:column;gap:11px;margin-top:8px}
+.coin{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:11px}
+.coin .tk{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;flex:none;box-shadow:0 3px 9px -3px rgba(120,60,50,.4)}
+.coin .cmeta{min-width:0}
+.coin .cnm{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coin .cw{font-size:10px;color:var(--mut);font-weight:600;line-height:1.3;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.coin .cright{text-align:right;padding-left:6px;white-space:nowrap}
+.coin .cv{font-size:14.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);display:block;line-height:1.05}
+.coin .cc{font-size:11px;font-weight:800;display:block;margin-top:2px}
+.pcard .cc.down{color:var(--downT)}
+.fgslot{margin-top:14px;border-top:1px dashed var(--border);padding-top:11px;font-size:11px;color:var(--ink2);line-height:1.55}
+.fgslot .dchip{font-size:9.5px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border-radius:5px;padding:2px 7px;margin-right:5px}
+
+/* ==================== 딥다이브 ==================== */
+.dd{margin-top:8px}
+.chap{position:relative;padding:24px 0 8px 0;border-bottom:1px dashed var(--border)}
+.chap:last-of-type{border-bottom:0}
+.chh{display:flex;align-items:center;gap:11px;font-size:clamp(17px,2.4vw,20px);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.chh .chn{flex:none;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:9px;padding:5px 10px;box-shadow:0 5px 12px -5px rgba(124,36,59,.6)}
+.chap p{margin-top:12px}
+.counter{margin:24px 0 0;position:relative;background:linear-gradient(180deg,#fff,var(--sageSoft));border:1px solid #cfe4dc;border-radius:0 16px 16px 0;padding:17px 20px;box-shadow:var(--sh1);overflow:hidden}
+.counter::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--sage),#2f5a4d)}
+.counter .clab{font-size:12px;font-weight:800;color:var(--sageInk);letter-spacing:.03em;display:flex;align-items:center;gap:6px}
+.counter p{margin-top:8px;max-width:none;font-size:15px}
+.ddtl{margin:26px 0 0;padding:4px 0 0}
+.ddtl .dhl{font-size:12px;font-weight:800;color:var(--mut);margin-bottom:13px}
+.ddtl ol{list-style:none;display:flex;flex-wrap:wrap;gap:0;position:relative}
+.ddtl li{flex:1 1 150px;position:relative;padding:0 10px 18px 0}
+.ddtl li .tdot{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--rose);position:relative;z-index:2;box-shadow:0 2px 6px rgba(179,58,76,.3)}
+.ddtl li::before{content:"";position:absolute;left:6px;top:6px;right:-4px;height:2px;background:var(--border)}
+.ddtl li:last-child::before{display:none}
+.ddtl .tw{font-size:11px;font-weight:800;color:var(--rose);margin-top:10px}
+.ddtl .tt{font-size:12.8px;font-weight:700;color:var(--ink2);margin-top:2px;line-height:1.45;padding-right:8px}
+html.js .ddtl li .tdot{transform:scale(0);transition:transform .5s var(--ease2)}
+html.js .sec.in .ddtl li .tdot{transform:scale(1)}
+html.js .sec.in .ddtl li:nth-child(2) .tdot{transition-delay:.1s}
+html.js .sec.in .ddtl li:nth-child(3) .tdot{transition-delay:.2s}
+html.js .sec.in .ddtl li:nth-child(4) .tdot{transition-delay:.3s}
+html.js .sec.in .ddtl li:nth-child(5) .tdot{transition-delay:.4s}
+.lesson{margin:28px 0 0;position:relative;font-size:clamp(17px,2.4vw,21px);font-weight:800;line-height:1.55;letter-spacing:-.015em;color:var(--ink);padding-left:20px}
+.lesson::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:5px;border-radius:5px;background:linear-gradient(180deg,var(--rose),var(--deep))}
+/* 이어서 (강등) */
+.rel{display:grid;gap:13px;margin:20px 0 0}
+@media(min-width:620px){.rel{grid-template-columns:1fr 1fr}}
+.relcard{position:relative;background:#fff;border:1px dashed var(--borderStrong);border-radius:16px;padding:17px 18px;box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.relcard:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.relcard .rslot{position:absolute;top:11px;right:11px;font-size:9.5px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border-radius:5px;padding:2px 7px}
+.relcard .rkey{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.relcard .rtt{font-size:14.5px;font-weight:800;margin-top:8px;letter-spacing:-.01em;max-width:22ch}
+.relcard .rdd{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.55}
+.relcard .rgo{display:inline-block;margin-top:12px;font-size:12px;font-weight:800;color:var(--rose);text-decoration:none;border-bottom:1.5px solid var(--pink)}
+.relnote{font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.55}
+/* CTA 밴드 */
+/* E1: 웜다크 잉크 컨셉 폐기 — CTA는 브랜드 딥로즈 그라디언트(근검정 없음, 홈 분홍 계열). */
+.band.cta{background:
+  radial-gradient(100% 150% at 84% -24%,rgba(224,134,150,.4),transparent 58%),
+  radial-gradient(84% 120% at 10% 122%,rgba(124,36,59,.42),transparent 60%),
+  linear-gradient(158deg,var(--deep) 0%,var(--rose) 54%,var(--rose2) 100%);color:#fff;text-align:center;border:0;overflow:hidden}
+.band.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 22% 118%,rgba(255,255,255,.12),transparent 60%);pointer-events:none}
+.band.cta .bin{max-width:760px;position:relative}
+.band.cta .clbl{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.92;text-transform:uppercase}
+.band.cta h2{font-size:clamp(23px,3.5vw,32px);font-weight:800;letter-spacing:-.02em;margin-top:11px;line-height:1.3}
+.band.cta .csub{font-size:14.5px;opacity:.95;margin-top:12px;line-height:1.6}
+.rhythm{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:460px;margin:22px auto 0}
+.rcard{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:15px 16px;text-align:left;backdrop-filter:blur(6px);transition:transform .3s var(--ease),background .3s}
+.rcard:hover{transform:translateY(-3px);background:rgba(255,255,255,.24)}
+.rcard .re{font-size:20px}
+.rcard .rw{font-size:13.5px;font-weight:800;margin-top:7px}
+.rcard .rp{font-size:11.5px;opacity:.92;margin-top:3px;line-height:1.5}
+.cbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:24px;min-height:54px;padding:16px 34px;border-radius:16px;background:#fff;color:var(--rose);font-size:16px;font-weight:800;text-decoration:none;box-shadow:0 16px 34px -10px rgba(0,0,0,.34);transition:transform .28s var(--ease2),box-shadow .28s var(--ease)}
+.cbtn:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 22px 44px -10px rgba(0,0,0,.4)}
+.cfoot{font-size:12px;opacity:.92;margin-top:14px}
+/* 레일 */
+.railcard{position:relative;background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:18px;padding:16px 17px;box-shadow:var(--sh1)}
+.railcard .rt{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.08em}
+.rtoc{margin-top:10px;display:flex;flex-direction:column;gap:1px}
+.rtoc a{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:10px;font-size:12.5px;font-weight:700;color:var(--ink2);text-decoration:none;transition:background .25s,color .25s}
+.rtoc a .ic{width:7px;height:7px;border-radius:50%;background:var(--border);transition:.25s;flex:none}
+.rtoc a:hover{background:var(--pinkSoft2)}
+.rtoc a.on{background:linear-gradient(135deg,var(--pinkSoft),#fff);color:var(--rose)}
+.rtoc a.on .ic{background:var(--rose);transform:scale(1.4)}
+.snap .srow{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;gap:8px;padding:6px 0;border-bottom:1px dashed var(--border)}
+.snap .srow:last-child{border-bottom:0}
+.snap .sn2{color:var(--mut);font-weight:700;font-size:11.5px;white-space:nowrap}
+.snap .sv{font-weight:800;text-align:right}
+.snap .sc{font-size:10.5px;font-weight:800;margin-left:3px}
+.railsub{background:linear-gradient(150deg,rgba(255,255,255,.96),var(--pinkSoft2));text-align:center}
+.railsub .rs-t{font-size:13.5px;font-weight:800;line-height:1.45}
+.railsub .rs-d{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.6}
+.railsub a{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;min-height:44px;padding:11px 16px;border-radius:13px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;box-shadow:0 10px 22px -8px rgba(179,58,76,.6);transition:transform .25s var(--ease)}
+.railsub a:hover{transform:translateY(-2px)}
+/* ===== v6.3 (E8·E9·E11·E12) ===== */
+/* E8: 유료 연결 카드(구독 전용) — 부분 공개 티저 + 페이드아웃 마스크 */
+.premcard{position:relative;display:block;margin:16px 0 2px;background:linear-gradient(158deg,#fff,var(--pinkSoft2) 92%);border:1.5px solid var(--borderStrong);border-radius:18px;padding:18px 20px 20px;box-shadow:var(--sh2);overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+.premcard::before{content:"";position:absolute;top:0;bottom:0;left:0;width:4px;background:linear-gradient(180deg,var(--rose),var(--deep))}
+.premcard:hover{transform:translateY(-4px);box-shadow:var(--shLift);border-color:var(--pink)}
+.premcard:active{transform:scale(.985)}
+.pm-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pm-badge{font-size:10.5px;font-weight:800;letter-spacing:.02em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:7px;padding:4px 10px;box-shadow:0 4px 10px -3px rgba(179,58,76,.5)}
+.pm-key{font-size:11.5px;font-weight:800;color:var(--rose);letter-spacing:.01em}
+.pm-tt{font-size:16px;font-weight:800;margin-top:11px;letter-spacing:-.015em;line-height:1.4;color:var(--ink)}
+.pm-teaser{position:relative;margin-top:9px;max-height:118px;overflow:hidden}
+.pm-teaser p{font-size:13px;line-height:1.62;color:var(--ink2)}
+.pm-teaser p+p{margin-top:8px}
+.pm-teaser::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(180deg,rgba(252,238,241,0),var(--pinkSoft2) 82%);pointer-events:none}
+.pm-cta{position:relative;display:inline-flex;align-items:center;gap:6px;margin-top:14px;min-height:44px;padding:11px 20px;border-radius:13px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:13px;font-weight:800;box-shadow:0 12px 26px -10px rgba(179,58,76,.6);transition:transform .25s var(--ease2),box-shadow .25s var(--ease)}
+.premcard:hover .pm-cta{transform:translateY(-2px);box-shadow:0 18px 34px -10px rgba(179,58,76,.72)}
+.rel-lead{font-size:11.5px;font-weight:800;color:var(--sageInk);background:var(--sageSoft);border-radius:7px;padding:4px 10px;display:inline-block;margin:18px 0 2px;letter-spacing:.01em}
+/* G3: 이어서 보기 — 무료↔프리미엄 시각적 휴지 + 프리미엄 쇼케이스 그리드 */
+.rel-sep{margin:32px 0 0;height:1px;background:linear-gradient(90deg,transparent,var(--border) 18%,var(--border) 82%,transparent)}
+.premwrap{margin-top:20px}
+.prem-lead{font-size:11.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:7px;padding:4px 11px;display:inline-block;margin:0 0 4px;letter-spacing:.01em;box-shadow:0 6px 14px -6px rgba(179,58,76,.5)}
+.premgrid{display:grid;gap:14px;margin-top:8px}
+@media(min-width:620px){.premgrid{grid-template-columns:1fr 1fr}}
+.premgrid .premcard{margin:0}
+/* E12: 하단 전환 존(상세페이지형) — 6 카테고리 카드 · 데스크톱 3열/모바일 1열 · 진입 스태거 · 정적 링크(데이터 무관) */
+.hubzone{margin:34px 0 0}
+.hz-head{text-align:center;max-width:640px;margin:0 auto}
+.hz-sub{font-size:13.5px;color:var(--ink2);margin-top:10px;line-height:1.6}
+.hubgrid{display:grid;grid-template-columns:1fr;gap:13px;margin:22px 0 0}
+@media(min-width:640px){.hubgrid{grid-template-columns:1fr 1fr}}
+@media(min-width:920px){.hubgrid{grid-template-columns:1fr 1fr 1fr}}
+.hub-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--sh1);text-decoration:none;color:inherit;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+.hub-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--tint,var(--rose))}
+.hub-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--tint,var(--borderStrong))}
+.hub-card:active{transform:scale(.985)}
+.hub-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--tint,var(--rose));background:var(--tintSoft,var(--pinkSoft2))}
+.hub-ic svg{width:22px;height:22px}
+.hub-tt{font-size:15.5px;font-weight:800;margin-top:13px;letter-spacing:-.01em;color:var(--ink)}
+.hub-dd{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.55;flex:1}
+.hub-go{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12px;font-weight:800;color:var(--rose);transition:transform .25s var(--ease)}
+.hub-card:hover .hub-go{transform:translateX(4px)}
+html.js .hubzone .hub-card{opacity:0;transform:translateY(16px)}
+html.js .hubzone.in .hub-card{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease)}
+html.js .hubzone.in .hub-card:nth-child(2){transition-delay:.07s}
+html.js .hubzone.in .hub-card:nth-child(3){transition-delay:.14s}
+html.js .hubzone.in .hub-card:nth-child(4){transition-delay:.21s}
+html.js .hubzone.in .hub-card:nth-child(5){transition-delay:.28s}
+html.js .hubzone.in .hub-card:nth-child(6){transition-delay:.35s}
+@media(prefers-reduced-motion:reduce){html.js .hubzone .hub-card{opacity:1;transform:none;transition:none}}
+/* 푸터·고지 */
+.disc{margin:26px 0 0;font-size:11.5px;color:var(--mut);line-height:1.7;background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:14px 16px}
+footer{border-top:1px solid var(--border);margin-top:10px}
+footer .fin{max-width:var(--maxw);margin:0 auto;padding:28px clamp(16px,3.5vw,26px);display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--mut)}
+footer .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+/* F6: 사이트 공통 채움형 toTop(로즈 원형 배경+흰 화살표) — 아웃라인형에서 교체 */
+#top{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;border:0;background:var(--rose);cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(179,58,76,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+#top.on{opacity:1;visibility:visible;transform:none}
+#top:hover{background:var(--deep);transform:translateY(-2px)}
+#top svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){#top{right:14px;bottom:14px;width:42px;height:42px}}
+@media(max-width:560px){.rhythm{max-width:none}}
+/* ===== JS 스크롤/로드 리빌 (CSS·IO 전담 · GSAP 없이 완전 동작 = 이중경로 기저) ===== */
+html.js .mast .mrise{opacity:0;transform:translateY(20px);animation:mrise .78s var(--ease) both}
+@keyframes mrise{to{opacity:1;transform:none}}
+html.js .mast .m-d1{animation-delay:.06s}
+html.js .mast .m-d2{animation-delay:.14s}
+html.js .mast .m-d3{animation-delay:.30s}
+html.js .mast .m-d4{animation-delay:.38s}
+html.js .mast .m-d5{animation-delay:.22s}
+html.js .rvs>*{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+html.js .in .rvs>*{opacity:1;transform:none}
+html.js .in .rvs>*:nth-child(2){transition-delay:.07s}
+html.js .in .rvs>*:nth-child(3){transition-delay:.14s}
+html.js .in .rvs>*:nth-child(4){transition-delay:.21s}
+html.js .in .rvs>*:nth-child(5){transition-delay:.28s}
+html.js .in .rvs>*:nth-child(6){transition-delay:.35s}
+html.js .in .rvs>*:nth-child(7){transition-delay:.42s}
+html.js .in .rvs>*:nth-child(8){transition-delay:.49s}
+html.js .in .rvs>*:nth-child(9){transition-delay:.56s}
+/* 접근성: 모션 최소화 */
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ h1.hook .w{opacity:1!important;transform:none!important}
+ h1.hook .key::after{transform:scaleX(1)!important}
+ .mrise,.rvs>*{opacity:1!important;transform:none!important;animation:none!important}
+ .hcard.main,.hcard.b1,.hcard.b2{transform:none!important}
+ .mc .mbar i{width:var(--w)!important}
+ .flows .fmark{left:33%!important}
+ .whl{background-size:100% 100%!important}
+ .ddtl li .tdot{transform:scale(1)!important}
+ .rv{opacity:1!important;transform:none!important}
+ .dropviz .dvbar{width:var(--p)!important}
+}
+/* ===== v5.2 R1 상향 (플래그·게이지 글로우·미세 인터랙션) ===== */
+.flagi{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.55),0 1px 3px rgba(0,0,0,.28)}
+.gi.flag{padding:0;overflow:hidden}
+.gi.flag .flagi{width:30px;height:30px;vertical-align:0;box-shadow:0 0 0 1px var(--border)}
+.snap .srow{border-radius:8px;padding-left:7px;padding-right:7px;transition:background .22s var(--ease)}
+.snap .srow:hover{background:var(--pinkSoft2)}
+.gcard .gi{transition:transform .34s var(--ease2),box-shadow .34s var(--ease)}
+.gcard:hover .gi{transform:scale(1.08) rotate(-4deg);box-shadow:var(--sh2)}
+.relcard{background:linear-gradient(162deg,#fff,var(--pinkSoft2))}
+.relcard .rgo{transition:transform .25s var(--ease)}
+.relcard:hover .rgo{transform:translateX(4px)}
+/* ===== v5.2 R2 (스크롤 리빌·낙폭 비교·타임라인 격) ===== */
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .72s var(--ease),transform .72s var(--ease)}
+html.js .rv.rv-in{opacity:1;transform:none}
+.dropviz{margin:20px 0 4px;background:linear-gradient(165deg,#fff,var(--downSoft));border:1px solid var(--border);border-radius:18px;padding:17px 20px 18px;box-shadow:var(--sh1)}
+.dropviz figcaption{font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.dropviz .dvsub{font-size:11px;font-weight:700;color:var(--downT)}
+.dvrow{display:grid;grid-template-columns:78px 1fr 60px;align-items:center;gap:11px;margin-top:13px}
+.dvrow .dvlab{font-size:12px;font-weight:700;color:var(--ink2);line-height:1.25}
+.dvrow .dvlab b{font-weight:800;color:var(--ink)}
+.dvtrack{height:20px;border-radius:6px;background:rgba(42,80,170,.15);position:relative;overflow:hidden;box-shadow:inset 0 1px 2px rgba(42,80,170,.16)}
+.dvbar{position:absolute;left:0;top:0;bottom:0;width:var(--p);border-radius:6px;background:linear-gradient(90deg,#5f8ae8,var(--downT));box-shadow:0 1px 5px rgba(42,80,170,.4)}
+.dvbar.kr{background:linear-gradient(90deg,#4a76e0,#1e3f9e)}
+.dvval{font-size:12.5px;font-weight:800;text-align:right}
+.dvnote{font-size:12px;color:var(--ink2);margin-top:13px;line-height:1.6;border-top:1px dashed var(--border);padding-top:11px}
+.dvnote b{color:var(--downT);font-weight:800}
+html.js .dropviz .dvbar{width:0;transition:width 1.15s var(--ease) .15s}
+html.js .dropviz.rv-in .dvbar{width:var(--p)}
+.ntitem::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:15px 15px 0 0;background:linear-gradient(90deg,var(--rose),transparent);opacity:.72}
+@media(max-width:520px){.dvrow{grid-template-columns:64px 1fr 54px;gap:8px}}
+/* ===== v5.2 R3 (드롭바 대비·게이지 거리·챕터 hover) ===== */
+.dvbadge{font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--down),var(--downT));border-radius:999px;padding:3px 10px;letter-spacing:.01em;box-shadow:0 3px 8px -3px rgba(42,80,170,.6)}
+.gdist{margin-top:13px;border-top:1px dashed var(--border);padding-top:10px;font-size:11px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px;line-height:1.4}
+.gdist b{color:var(--upT);font-weight:800}
+.gdist .gdi{color:var(--upT);font-size:9px}
+.chh .chn{transition:transform .32s var(--ease2),box-shadow .3s var(--ease)}
+.chap:hover .chh .chn{transform:scale(1.12) rotate(-4deg);box-shadow:0 8px 18px -6px rgba(124,36,59,.7)}
+.dropviz{transition:transform .34s var(--ease),box-shadow .34s var(--ease)}
+.dropviz:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+
+/* ================= v6 신규 기법 CSS ================= */
+/* 레일 진행바(T2 연동) */
+.rprog{height:3px;border-radius:3px;background:var(--pinkSoft2);overflow:hidden;margin:9px 0 3px}
+.rprog i{display:block;height:100%;transform:scaleX(0);transform-origin:0 50%;border-radius:3px;background:linear-gradient(90deg,var(--rose),var(--deep))}
+@supports (animation-timeline:scroll()){.rprog i{animation:pgGrow linear both;animation-timeline:scroll(root block)}}
+/* 오도미터 롤링 숫자(T4) */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.cnt.odo{display:inline-flex;align-items:baseline}
+.cnt .od-col{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:baseline}
+.cnt .od-reel{display:block;will-change:transform}
+.cnt .od-reel>span{display:block;height:1em;line-height:1;text-align:center}
+.cnt .od-sep{display:inline-block}
+/* 히어로 인라인 스파크(T5) */
+.hcard.main .spark-mini{position:absolute;right:20px;top:20px;width:66px;height:26px;opacity:.9;pointer-events:none}
+/* 딥다이브 스티키-그래픽(T3) */
+.dd.scrolly{margin-top:8px}
+.dd-figure{position:relative;background:linear-gradient(165deg,#fff,var(--downSoft));border:1px solid var(--border);border-radius:20px;padding:17px 18px 15px;box-shadow:var(--sh2);margin:16px 0 6px;overflow:hidden}
+.dd-figure::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(74,118,224,.28) 55%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ddf-cap{font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.01em;display:flex;align-items:center;gap:7px}
+.ddf-cap .ddf-live{margin-left:auto;font-size:9.5px;font-weight:800;color:var(--downT);background:var(--downSoft);border:1px solid #cdddfb;border-radius:6px;padding:2px 6px;letter-spacing:.02em}
+.ddf-q{font-size:14.5px;font-weight:800;letter-spacing:-.015em;line-height:1.34;color:var(--ink);margin-top:9px;min-height:1.9em}
+.ddf-epi{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--downT);background:var(--downSoft);border:1px solid #cdddfb;border-radius:9px;padding:5px 10px;transition:transform var(--dur-2) var(--ease-enter),box-shadow var(--dur-2) var(--ease-enter)}
+.ddf-bars{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+.ddf-row{display:grid;grid-template-columns:56px 1fr 50px;align-items:center;gap:8px}
+.ddf-lab{font-size:11px;font-weight:700;color:var(--ink2);line-height:1.2}
+.ddf-lab b{color:var(--ink);font-weight:800}
+.ddf-track{position:relative;height:19px;border-radius:6px;background:rgba(42,80,170,.12);overflow:visible;box-shadow:inset 0 1px 2px rgba(42,80,170,.14)}
+.ddf-track i{position:absolute;left:0;top:0;bottom:0;width:var(--p);border-radius:6px;background:linear-gradient(90deg,#5f8ae8,var(--downT))}
+.ddf-track i.kr{background:linear-gradient(90deg,#4a76e0,#1e3f9e)}
+html.js .dd-figure .ddf-track i{width:0;transition:width 1.05s var(--ease-enter) .2s}
+html.js .sec.in .dd-figure .ddf-track i{width:var(--p)}
+.ddf-v{font-size:12px;font-weight:800;text-align:right}
+.ddf-hand{position:absolute;right:5px;top:50%;transform:translate(0,-50%) scale(.9);font-size:9px;font-weight:800;color:#fff;background:rgba(30,63,158,.9);border-radius:5px;padding:2px 6px;white-space:nowrap;opacity:0;transition:opacity var(--dur-2) var(--ease-enter),transform var(--dur-2) var(--ease-enter)}
+.ddf-cause{margin-top:12px;font-size:11.5px;font-weight:800;color:var(--deep);background:var(--pinkSoft2);border:1px dashed var(--borderStrong);border-radius:9px;padding:7px 10px;opacity:.28;transform:translateY(-4px);transition:opacity var(--dur-2) var(--ease-enter),transform var(--dur-2) var(--ease-enter)}
+.ddf-note{margin-top:12px;font-size:11.5px;color:var(--ink2);line-height:1.55;border-top:1px dashed var(--border);padding-top:10px;min-height:3.2em}
+.ddf-note b{color:var(--downT);font-weight:800}
+.dd-figure[data-step="1"] .ddf-epi{transform:scale(1.05);box-shadow:0 5px 14px -5px rgba(42,80,170,.5)}
+.dd-figure[data-step="2"] .ddf-cause{opacity:1;transform:none}
+.dd-figure[data-step="3"] .ddf-hand{opacity:1;transform:translate(0,-50%) scale(1)}
+@media(min-width:1024px){.dd.scrolly{display:grid;grid-template-columns:minmax(0,1fr) 258px;gap:30px;align-items:start}
+ .dd-main{grid-column:1;grid-row:1;min-width:0}.dd-figure{grid-column:2;grid-row:1;position:sticky;top:88px;align-self:start;margin:4px 0 0}}
+@media(max-width:1023px){.dd-figure .ddf-cause{opacity:1;transform:none}.dd-figure .ddf-hand{opacity:1;transform:translate(0,-50%) scale(1)}}
+/* conic 게이지(T7) */
+.cgauge{position:relative;width:min(206px,84%);aspect-ratio:2/1;margin:14px auto 4px;overflow:hidden}
+.cgauge-arc{position:absolute;left:0;top:0;width:100%;height:200%;border-radius:50%;
+ background:conic-gradient(from -90deg,var(--sage) 0 67.5deg,var(--gold) 67.5deg 90deg,var(--rose2) 90deg 135deg,var(--deep) 135deg 180deg,transparent 180deg 360deg);
+ -webkit-mask:radial-gradient(closest-side at 50% 50%,transparent 61%,#000 62%);mask:radial-gradient(closest-side at 50% 50%,transparent 61%,#000 62%)}
+.cgauge-thr{position:absolute;left:50%;top:1%;width:2px;height:40%;transform:translateX(-50%);background:repeating-linear-gradient(var(--ink2) 0 3px,transparent 3px 6px);opacity:.8}
+.cgauge-thr::after{content:"20";position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;color:var(--ink2);white-space:nowrap}
+.cgauge-needle{position:absolute;left:calc(50% - 1.5px);bottom:0;width:3px;height:80%;border-radius:3px;background:linear-gradient(var(--rose),var(--deep));transform-origin:bottom center;transform:rotate(calc((var(--v)/var(--vmax))*180deg - 90deg));box-shadow:0 1px 4px rgba(124,36,59,.45)}
+html.js .cgauge-needle{transform:rotate(-90deg);transition:transform 1.2s var(--ease2) .1s}
+html.js .band.in .cgauge-needle{transform:rotate(calc((var(--v)/var(--vmax))*180deg - 90deg))}
+.cgauge-read{text-align:center;line-height:1;margin:2px auto 6px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cg-v{font-size:30px;font-weight:900;letter-spacing:-.02em;color:var(--ink);display:block;font-variant-numeric:tabular-nums}
+.cg-c{font-size:11px;font-weight:800;color:var(--upT);background:var(--upSoft);border-radius:999px;padding:2px 9px;display:inline-block}
+.cg-c.down{color:var(--downT);background:var(--downSoft)}
+.cg-c.flat{color:var(--mut);background:var(--bg2)}
+/* 프레스/탭 마이크로 피드백(T8) */
+.cbtn,.railsub a,.chipnav a,.rtoc a,.relcard .rgo,#top,.callout a,.railsub a{touch-action:manipulation}
+.cbtn:active,.railsub a:active,.chipnav a:active,.rtoc a:active,#top:active,.callout a:active,.relcard .rgo:active{transform:scale(.96)}
+.gcard:active,.mc:active,.heat:active,.chk:active,.ntitem:active,.relcard:active,.rcard:active{transform:scale(.985)!important}
+@media(prefers-reduced-motion:reduce){
+ .cbtn:active,.railsub a:active,.chipnav a:active,.rtoc a:active,#top:active,.callout a:active,.relcard .rgo:active,.gcard:active,.mc:active,.heat:active,.chk:active,.ntitem:active,.relcard:active,.rcard:active{transform:none!important}
+ .ddf-track i{width:var(--p)!important}.ddf-cause{opacity:1!important;transform:none!important}.ddf-hand{opacity:1!important}
+ .cgauge-needle{transition:none!important}
+}
+
+/* ==================== v6.1 신규 컴포넌트 CSS ==================== */
+/* #3 레일 스냅샷 가로 클리핑 방지(비트코인 카드) */
+.railcard{overflow:visible}
+.snap .srow{gap:6px;min-width:0}
+.snap .sn2{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.snap .sv{white-space:nowrap;flex:none;text-align:right;display:flex;align-items:baseline;gap:3px;justify-content:flex-end}
+
+/* #6 용어 호버/탭 툴팁 (점선 밑줄 + 카드) */
+/* E9: 용어 표시 공통 스타일 — 은은한 회색 음영(하이라이트), 점선 없이 인지 · --term-bg 토큰(전 페이지 재사용) */
+.term{background:var(--term-bg);border-radius:4px;padding:.5px 4px;margin:0 -1px;cursor:help;font-weight:700;color:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .18s var(--ease)}
+.term:hover,.term:focus,.term.on{background:var(--term-bg-on)}
+#glosspop{position:fixed;z-index:1300;max-width:262px;background:linear-gradient(165deg,#fff,var(--pinkSoft2));color:var(--ink2);border:1px solid var(--borderStrong);border-radius:13px;padding:12px 14px;box-shadow:var(--shLift);opacity:0;transform:translateY(5px) scale(.98);transition:opacity .16s var(--ease),transform .16s var(--ease);pointer-events:none}
+#glosspop.on{opacity:1;transform:none}
+#glosspop .gp-t{font-weight:800;color:var(--rose);font-size:13px;letter-spacing:-.01em}
+#glosspop .gp-s{font-size:13px;line-height:1.5;margin-top:4px;color:var(--ink)}
+#glosspop .gp-c{font-size:11px;line-height:1.5;margin-top:7px;color:var(--mut);border-top:1px solid var(--border);padding-top:7px}
+#glosspop::after{content:"";position:absolute;left:var(--ax,50%);bottom:-6px;width:11px;height:11px;background:var(--pinkSoft2);border-right:1px solid var(--borderStrong);border-bottom:1px solid var(--borderStrong);transform:translateX(-50%) rotate(45deg)}
+#glosspop.below::after{bottom:auto;top:-6px;border:0;border-left:1px solid var(--borderStrong);border-top:1px solid var(--borderStrong);background:#fff}
+@media(prefers-reduced-motion:reduce){#glosspop{transition:none}}
+
+/* #5 기간 전환 인터랙티브 차트 */
+.mchart{margin:22px 0 0;background:linear-gradient(168deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:22px;box-shadow:var(--sh2);padding:16px 17px 17px;position:relative;overflow:hidden}
+.mchart::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.26) 52%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.mchart[hidden]{display:none}
+.mc-syms{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;position:relative}
+.mc-syms::-webkit-scrollbar{display:none}
+.mc-sym{flex:none;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;transition:.2s var(--ease);touch-action:manipulation}
+.mc-sym:hover{border-color:var(--pink);color:var(--rose)}
+.mc-sym[aria-selected="true"]{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep));box-shadow:0 6px 14px -6px rgba(179,58,76,.55)}
+.mc-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:15px 3px 2px}
+.mc-title{font-size:14.5px;font-weight:800;color:var(--ink)}
+.mc-now{font-size:21px;font-weight:900;letter-spacing:-.022em;color:var(--ink);line-height:1}
+.mc-now small{font-size:.55em;font-weight:800;color:var(--mut);margin-left:2px}
+.mc-chg{font-size:12.5px;font-weight:800}
+.mc-span{margin-left:auto;font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.01em}
+.mc-figwrap{position:relative;margin-top:7px;touch-action:pan-y}
+.mc-svg{width:100%;height:196px;display:block}
+.mc-svg .mc-area{stroke:none}
+.mc-svg .mc-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+html.js .mchart.in .mc-svg .mc-line.reveal{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);animation:draw 1s var(--ease) .05s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.mc-svg .mc-cross{stroke:var(--mut);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.mc-svg .mc-dot{opacity:0}
+.mc-svg.act .mc-cross,.mc-svg.act .mc-dot{opacity:.9}
+.mc-tip{position:absolute;pointer-events:none;background:#fff;color:var(--ink);font-size:11px;font-weight:800;padding:5px 9px;border-radius:9px;border:1px solid var(--borderStrong);transform:translate(-50%,-134%);white-space:nowrap;opacity:0;transition:opacity .14s;box-shadow:var(--sh2);z-index:5;font-variant-numeric:tabular-nums}
+.mc-tip.on{opacity:1}
+.mc-tip b{color:var(--rose);display:block;font-size:9.5px;font-weight:800;margin-bottom:1px}
+.mc-x{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);font-weight:700;margin-top:2px;padding:0 3px;font-variant-numeric:tabular-nums}
+.mc-ranges{display:flex;gap:6px;margin-top:13px}
+.mc-range{flex:1;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:11px;padding:9px 5px;cursor:pointer;transition:.2s var(--ease);touch-action:manipulation;text-align:center}
+.mc-range:hover:not([disabled]){border-color:var(--pink);color:var(--rose)}
+.mc-range[aria-selected="true"]{color:#fff;border-color:var(--rose);background:linear-gradient(135deg,var(--rose),var(--deep));box-shadow:0 6px 13px -6px rgba(179,58,76,.5)}
+.mc-range[disabled]{opacity:.45;cursor:default;color:var(--mut);background:var(--bg2)}
+.mc-foot{font-size:10.5px;color:var(--mut);margin-top:11px;font-weight:600;line-height:1.5}
+.mc-foot b{color:var(--ink2);font-weight:800}
+
+/* #7 딥다이브 논지 그래픽 (챕터 동기화 · 3 장면 오버레이) */
+.dds{position:relative;margin-top:13px}
+.dds svg{width:100%;height:auto;display:block;overflow:visible}
+.dds .dg{opacity:0;transition:opacity .5s var(--ease-enter),transform .5s var(--ease-enter)}
+.dd-figure[data-step="1"] .dds .dg1,.dd-figure[data-step="2"] .dds .dg2,.dd-figure[data-step="3"] .dds .dg3{opacity:1}
+.dds .dg2,.dds .dg3{transform:translateY(6px)}
+.dd-figure[data-step="2"] .dds .dg2,.dd-figure[data-step="3"] .dds .dg3{transform:none}
+.dds text{font-family:inherit}
+html.js .dd-figure[data-step="1"] .dds .rp{animation:ringp 3.2s ease-in-out infinite}
+html.js .dd-figure[data-step="1"] .dds .rp2{animation-delay:.5s}
+html.js .dd-figure[data-step="1"] .dds .rp3{animation-delay:1s}
+@keyframes ringp{0%,100%{opacity:.16}50%{opacity:.52}}
+@media(prefers-reduced-motion:reduce){.dds .dg{transition:none}html.js .dds .rp{animation:none}}
+
+/* #8 경제뉴스 우선순위 카드 (아코디언 제거·최소 7~최대 10슬롯) */
+.newsgrid{display:grid;gap:12px;margin:20px 0 0}
+.ncard{position:relative;background:linear-gradient(160deg,#fff,#FFFCFB);border:1px solid var(--border);border-radius:16px;padding:15px 17px 15px 19px;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;overflow:hidden}
+.ncard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border)}
+.ncard.pTOP::after{background:linear-gradient(180deg,var(--rose),var(--deep))}
+.ncard.pMAJ::after{background:linear-gradient(180deg,var(--pink),var(--rose))}
+.ncard:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--borderStrong)}
+.nc-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11px}
+.nc-badge{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:6px;padding:3px 8px;color:#fff}
+.nc-badge.top{background:linear-gradient(135deg,var(--rose),var(--deep))}
+.nc-badge.maj{background:var(--rose2)}
+.nc-badge.ref{background:var(--flat)}
+.nc-cat{font-size:9.5px;font-weight:800;border-radius:6px;padding:3px 8px;border:1px solid var(--border)}
+.nc-cat.kr{background:var(--pinkSoft2);color:var(--rose)}
+.nc-cat.us{background:var(--downSoft);color:var(--downT);border-color:#cdddfb}
+.nc-cat.glob{background:rgba(201,162,76,.16);color:#8a6a1c;border-color:#e7d6a8}
+.nc-cat.money{background:var(--sageSoft);color:var(--sageInk);border-color:#cfe4dc}
+.nc-src{font-weight:800;color:var(--mut)}
+.nc-date{color:var(--mut);font-weight:600}
+.nc-src-wrap{margin-left:auto;display:inline-flex;gap:7px;align-items:center}
+.nc-q{font-size:15px;font-weight:800;letter-spacing:-.015em;line-height:1.42;margin-top:11px;color:var(--ink)}
+.ncard.pTOP .nc-q{font-size:16.5px}
+.nc-c{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.62}
+.nc-link{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12px;font-weight:800;color:var(--rose);text-decoration:none}
+.nc-link:hover{text-decoration:underline}
+
+/* #10 관련 연결(키워드 → 실존 자료) + 인라인 관련글 마커 */
+.kwline{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 4px}
+.kwchip{font-size:12px;font-weight:800;color:var(--rose);background:var(--pinkSoft2);border:1px solid var(--borderStrong);border-radius:999px;padding:6px 12px;letter-spacing:-.01em}
+.kwchip .kh{opacity:.6;margin-right:2px}
+.rel{display:grid;gap:13px;margin:14px 0 0;grid-template-columns:1fr 1fr}
+@media(max-width:620px){.rel{grid-template-columns:1fr}}
+.relcard{position:relative;display:block;background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:16px 17px 15px;box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;text-decoration:none;color:inherit}
+.relcard:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--borderStrong)}
+.rel-type{position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:6px;padding:3px 8px;color:#fff}
+.rel-type.report{background:linear-gradient(135deg,var(--rose),var(--deep))}
+.rel-type.column{background:var(--rose2)}
+.rel-type.tool{background:var(--sageInk)}
+.rel-type.hub{background:var(--flat)}
+.relcard .rkey{font-size:11px;font-weight:800;color:var(--rose);letter-spacing:.01em}
+.relcard .rtt{font-size:14.5px;font-weight:800;margin-top:9px;letter-spacing:-.015em;line-height:1.4;max-width:24ch;color:var(--ink)}
+.relcard .rdd{font-size:12.5px;color:var(--ink2);margin-top:7px;line-height:1.56}
+.relcard .rgo{display:inline-flex;align-items:center;gap:4px;margin-top:12px;font-size:12px;font-weight:800;color:var(--rose);transition:transform .25s var(--ease)}
+.relcard:hover .rgo{transform:translateX(4px)}
+.relnote{font-size:11.5px;color:var(--mut);margin-top:14px;line-height:1.55}
+.relmark{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;color:var(--rose);text-decoration:none;background:var(--pinkSoft2);border:1px solid var(--borderStrong);border-radius:8px;padding:2px 9px;line-height:1.5;white-space:nowrap;transition:.2s var(--ease)}
+.relmark::before{content:"↗";font-size:11px;opacity:.8}
+.relmark:hover{border-color:var(--pink);background:var(--pinkSoft)}
+.relmark:active{transform:scale(.96)}
+
+/* #14 심리 신호 판정 카드(투자심리 밴드 3번째 칼럼 대체) */
+.psyverdict{display:flex;flex-direction:column;gap:9px;margin-top:8px}
+.pv-row{display:flex;align-items:flex-start;gap:9px}
+.pv-ic{flex:none;width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--pinkSoft2);border:1px solid var(--border);color:var(--ink)}
+.pv-ic.ok{color:var(--sageInk);background:var(--sageSoft);border-color:#cfe4dc}.pv-ic.warn{color:var(--upT);background:var(--upSoft);border-color:#f3c9c3}
+.pv-tx{font-size:12px;line-height:1.5;color:var(--ink2)}
+.pv-tx b{color:var(--ink);font-weight:800}
+.pv-foot{margin-top:12px;border-top:1px dashed var(--border);padding-top:10px;font-size:11px;color:var(--mut);line-height:1.55}
+.mc-sym:active,.mc-range:active,.relcard:active{transform:scale(.98)}</style>
+<div id="pg"></div>
+<header class="mast bleed" data-field="facts.meta"><svg class="grain" aria-hidden="true" preserveAspectRatio="none"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.72  0 0 0 0 0.55  0 0 0 0 0.5  0 0 0 0.045 0"/><rect width="100%" height="100%" filter="url(#gn)"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg><span class="mesh m1" aria-hidden="true"></span><span class="mesh m2" aria-hidden="true"></span><span class="mesh m3" aria-hidden="true"></span><div class="watermark tnum" aria-hidden="true">7.12</div><div class="in1180 mastin"><div class="mastleft"><div class="brand"><span class="dot"></span>동은부부 머니레터</div><div class="eyebrow-ed mrise m-d1"><span class="badge" data-field="facts.meta.edition"><svg class="flagi" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#fff"/><path fill="#c8102e" d="M18 0a18 18 0 0 1 0 36 9 9 0 0 1 0-18 9 9 0 0 0 0-18z"/><path fill="#0047a0" d="M18 36a18 18 0 0 1 0-36 9 9 0 0 0 0 18 9 9 0 0 1 0 18z"/></svg> 아침판 · AM BRIEF</span><span class="ed-cadence"><span class="d"></span>매일 발행</span></div><time class="bigdate tnum mrise m-d2" datetime="2026-07-12" data-field="facts.meta.date_label"><span class="dnum">7.12</span><span class="dwrap"><span class="dday">일요일</span><span class="dyear">2026년 7월</span></span></time><h1 class="hook" id="hook" data-field="web.hook"><span class="w">미국은</span> <span class="w tnum key">0.42%</span> <span class="w">올랐는데</span> <span class="w">코스피는</span> <span class="w tnum">2.52%,,</span> <span class="w">코스닥은</span> <span class="w tnum">5.47%나</span> <span class="w">뛰었어요.</span> <span class="w">왜</span> <span class="w">우리</span> <span class="w">시장만</span> <span class="w">이렇게</span> <span class="w">크게</span> <span class="w">움직일까요</span></h1></div><div class="heroviz mrise m-d5" data-field="web.kpi" data-rule="kospi|max-abs-move|vix"><div class="hvhead">오늘의 핵심</div><div class="hstack"><div class="hcard main" data-field="facts.us.SPX"><div class="hl">S&amp;P500</div><div class="hv tnum cnt" data-to="7,575.39">7,575.39<small>pt</small></div><div class="hc up tnum">▲ 0.42% · +31.75p</div><span class="spark-mini" data-series="spx" aria-hidden="true"></span></div><div class="hcard b1" data-field="facts.us.SPX"><div class="hl">S&amp;P500 <span class="htag" style="background:var(--upSoft);color:var(--upT)">오늘 최대 상승</span></div><div class="hv tnum">7,575.39</div><div class="hc up tnum">▲ 0.42%</div></div><div class="hcard b2" data-field="facts.aux.VIX"><div class="hl">VIX 공포지수</div><div class="hv tnum">15.03</div><div class="hc down tnum">▼ 5.11% · 경계</div></div></div></div></div></header>
+<section class="heatband" aria-label="오늘 시장 지표 한 줄 요약" data-field="web.heat" data-rule="kr+fx+us+aux|sign-color|omit-if-missing"><div class="heatin"><div class="heatlead"><span class="hb-dot"></span>2026.07.12 아침 · <b>시장 전체 온도</b></div><div class="heatrow rvs"><div class="heat u" data-field="facts.kr.KOSPI"><div class="hnm">코스피</div><div class="hvl tnum">7,475.94</div><div class="hcg up tnum">▲ 2.52%</div></div><div class="heat u" data-field="facts.kr.KOSDAQ"><div class="hnm">코스닥</div><div class="hvl tnum">837.43</div><div class="hcg up tnum">▲ 5.47%</div></div><div class="heat f" data-field="facts.fx.USDKRW"><div class="hnm">원/달러</div><div class="hvl tnum">1,504.92<small>원</small></div><div class="hcg flat tnum">고시</div></div><div class="heat u" data-field="facts.us.SPX"><div class="hnm">S&amp;P500</div><div class="hvl tnum">7,575.39</div><div class="hcg up tnum">▲ 0.42%</div></div><div class="heat u" data-field="facts.us.NDQ"><div class="hnm">나스닥</div><div class="hvl tnum">26,281.61</div><div class="hcg up tnum">▲ 0.29%</div></div><div class="heat u" data-field="facts.us.DJI"><div class="hnm">다우</div><div class="hvl tnum">52,637.01</div><div class="hcg up tnum">▲ 0.29%</div></div><div class="heat u" data-field="facts.us.SOX"><div class="hnm">필라반도체</div><div class="hvl tnum">12,967.16</div><div class="hcg up tnum">▲ 0.06%</div></div><div class="heat d" data-field="facts.aux.VIX"><div class="hnm">VIX</div><div class="hvl tnum">15.03</div><div class="hcg down tnum">▼ 5.11%</div></div><div class="heat u" data-field="facts.aux.BTC"><div class="hnm">비트코인</div><div class="hvl tnum">$64,336</div><div class="hcg up tnum">▲ 0.65%</div></div></div></div></section>
+<nav class="chipnav" aria-label="섹션 바로가기"><a href="#sg">한눈에</a><a href="#s01">미국·세계</a><a href="#s02">한국</a><a href="#schart">지표흐름</a><a href="#s04">투자심리</a><a href="#s05">딥다이브</a><a href="#s06">경제뉴스</a><a href="#s07">이어서</a><a href="#s08">구독</a></nav>
+<div class="reading">
+ <main class="flow">
+<section class="sec" id="sg" data-name="오늘 한눈에" data-field="web.tldr" data-rule="promote-or-extract-summary"><span class="kicker">✦ TODAY AT A GLANCE · 오늘 한눈에</span><h2 class="sh">오늘, 핵심만 먼저</h2><div class="glance rvs"><div class="gcard" data-field="facts.us"><div class="gi">🌗</div><div class="gt">간밤 뉴욕은 <span class="up tnum">+0.42%%</span></div><div class="gd">오늘은 일요일이라 간밤에 열린 뉴욕장이 없어요</div></div><div class="gcard" data-field="facts.aux.VIX"><div class="gi">🌡️</div><div class="gt">공포지수 <span class="tnum">15.03</span> · 경계 구간</div><div class="gd">VIX가 20선을 넘는지가 경계에서 공포로 가는 갈림길이에요.</div></div><div class="gcard" data-field="prose.insight_full.lesson"><div class="gi">✎</div><div class="gt">오늘 배워둘 한 가지</div><div class="gd">그런데 오늘은 시장이 문을 닫은 날이에요</div></div></div></section>
+<section class="sec" id="s01" data-name="미국·세계" data-field="facts.us"><span class="kicker"><span class="kn">01</span>US &amp; WORLD · 미국·세계</span><h2 class="sh">오늘은 일요일이라 간밤에 열린 뉴욕장이 없어요</h2><div class="when" data-field="facts.meta">26.07.10 금요일 마감 · 주말 휴장 · 오늘 12일 새벽 확인</div><div class="mgrid rvs"><div class="mc utop" data-field="facts"><div class="ml">S&amp;P500 지수</div><div class="mv tnum cnt" data-to="7575.39">7,575.39<small>pt</small></div><div class="mchg up tnum">+0.42% · +31.75p</div><div class="mbar"><i class="u" style="--w:4%"></i></div><div class="mnote"></div></div><div class="mc utop" data-field="facts"><div class="ml">나스닥 지수</div><div class="mv tnum cnt" data-to="26281.61">26,281.61<small>pt</small></div><div class="mchg up tnum">+0.29% · +74.72p</div><div class="mbar"><i class="u" style="--w:3%"></i></div><div class="mnote"></div></div><div class="mc utop" data-field="facts"><div class="ml">다우 지수</div><div class="mv tnum cnt" data-to="52637.01">52,637.01<small>pt</small></div><div class="mchg up tnum">+0.29% · +149.6p</div><div class="mbar"><i class="u" style="--w:3%"></i></div><div class="mnote"></div></div><div class="mc utop" data-field="facts"><div class="ml">필라델피아 반도체지수</div><div class="mv tnum cnt" data-to="12967.16">12,967.16<small>pt</small></div><div class="mchg up tnum">+0.06% · +7.16p</div><div class="mbar"><i class="u" style="--w:1%"></i></div><div class="mnote">사실상 제자리</div></div><div class="mc dtop" data-field="facts"><div class="ml">VIX</div><div class="mv tnum cnt" data-to="15.03">15.03<small>pt</small></div><div class="mchg down tnum">-5.11%</div><div class="mbar"><i class="d" style="--w:51%"></i></div><div class="mnote">15선까지 내려앉은 상태로 주말 진입</div></div></div><p data-field="prose.analysis">오늘은 일요일이라 간밤에 열린 뉴욕장이 없어요. 그래서 위 숫자는 지난 금요일(10일) 마감 그대로예요. 토요일·일요일에는 뉴욕 증시가 문을 닫거든요. 새 숫자가 없는 날엔 새 숫자를 만들어내는 대신, 멈춰 있는 숫자를 한 번 더 읽어보는 게 저희 방식이에요 :)</p><p data-field="prose.analysis">금요일 뉴욕은 3대 지수가 나란히 오른 강세 마감이었어요. <mark class="whl">S&amp;P500이 0.42% 오른 7,575.39, 나스닥이 0.29% 오른 26,281.61, 다우가 0.29% 오른 52,637.01이었거든요.</mark> 연합뉴스는 이날 장을 'SK하이닉스 첫날, 상승 마감·나스닥 0.3%↑'로, 조선비즈는 '美·이란 긴장감에도 소폭 상승 마감'으로 전했어요. 두 매체 제목이 같은 방향을 가리켰고, 실제 나스닥 등락률(+0.29%)과도 맞아떨어져요.</p><p data-field="prose.analysis">다만 이 상승의 주인공은 반도체가 아니었어요. <mark class="whl">필라델피아 반도체지수가 0.06% 오른 12,967.16으로 사실상 제자리였고, 미국 반도체 업종(<span class="term" data-g="ETF">ETF</span>)은 오히려 1.06% 뒷걸음쳤거든요.</mark> 대신 앞장선 건 소재(+1.25%)·에너지(+0.47%)·금융(+0.31%) 같은 다른 자리였어요. 주말 동안 이 '자리바꿈'이 그대로 이어질지, 아니면 월요일 밤에 반도체가 다시 앞줄로 나오는지가 이번 주의 첫 질문이에요.</p><p data-field="prose.analysis"><mark class="whl">공포지수 <span class="term" data-g="VIX">VIX</span>는 15.03으로 5.11% 더 내려앉은 채 주말에 들어갔어요.</mark> 시장이 지난주를 꽤 편안한 마음으로 마쳤다는 뜻인데요, 눈높이가 낮게 깔린 자리에선 작은 소식 하나에도 폭이 커질 수 있어서 마냥 안심할 자리는 아니에요.</p><h3 class="eyebrow">오늘 밤 미국시장 일정 · 체크포인트</h3><div class="ntime rvs" data-field="prose.checkpoints"><div class="ntitem"><div class="nl"><span class="dt"></span>오늘 밤</div><div class="nt">반도체가 다시 앞장서는지</div><div class="nd">금요일 하루 쉬어간 필라델피아 반도체지수(SOX)가 월요일 밤 다시 주도력을 찾는지가 첫 확인 지점이에요.</div></div><div class="ntitem"><div class="nl"><span class="dt"></span>실시간</div><div class="nt">순환매의 지속</div><div class="nd">소재·에너지·금융으로 옮겨간 온기가 이어지는지, 금요일 하루짜리 자리바꿈이었는지를 봐요.</div></div><div class="ntitem"><div class="nl"><span class="dt"></span>이어서</div><div class="nt">15선까지 내려온 VIX</div><div class="nd">주말 사이 지정학·정책 헤드라인이 나오면 낮아진 눈높이 탓에 월요일 반응이 커질 수 있는 자리예요.</div></div></div></section>
+<section class="sec" id="s02" data-name="한국시장" data-field="facts.kr"><span class="kicker"><span class="kn">02</span>KOREA · 한국시장</span><h2 class="sh">지난 금요일 우리 시장은 큰 폭으로 뛰었어요</h2><div class="when" data-field="facts.meta">26.07.10 금요일 마감 · 주말 휴장 · 13일 월요일 개장 전</div><p data-field="prose.analysis">지난 금요일 우리 시장은 큰 폭으로 뛰었어요. <mark class="whl">코스피가 2.52% 오른 7,475.94, 코스닥이 5.47% 오른 837.43에 마감하며 코스닥이 800선을 되찾았거든요(직전 종가 794.00pt).</mark> 눈여겨볼 건 이 상승이 반도체 한 곳이 아니라 통신장비(+10.00%)·핸드셋(+7.44%)·건설(+6.20%)까지 여러 업종이 함께 오른 '넓은' 반등이었다는 점이에요. 통신장비는 55개 종목 중 44개가 오르고 4개만 내렸을 만큼 한쪽으로 쏠린 하루였고요.</p><p data-field="prose.analysis">그리고 오늘은 일요일이라 우리 시장도 쉬어요. 지수는 금요일 자리에 그대로 멈춰 있고, 다음 숫자는 13일 월요일에 만들어져요. 그래서 오늘 아침은 '오늘 어떻게 될까'보다 '지난주에 무슨 일이 있었나'를 차분히 되짚어두기 좋은 시간이에요. <mark class="whl">왜 미국은 0%대인데 우리만 2~5%씩 움직였는지,, 그 질문 하나는 아래 Why 코너에서 함께 풀어볼게요 :)</mark></p><h3 class="eyebrow">내일 한국시장 체크포인트</h3><div class="chks rvs" data-field="prose.checkpoints"><div class="chk"><span class="cn">1</span><div class="ct">급등 다음 거래일의 체력</div><div class="cd">코스피 +2.52%·코스닥 +5.47%의 큰 반등이 월요일에도 이어지는지가 우리 시장 체력의 온도계예요.</div></div><div class="chk"><span class="cn">2</span><div class="ct">넓은 반등의 지속</div><div class="cd">통신장비·핸드셋·건설로 번졌던 온기가 월요일에도 남아 있는지, 아니면 하루짜리였는지를 봐요.</div></div><div class="chk"><span class="cn">3</span><div class="ct">1,500원선 환율</div><div class="cd">1,504.92원에서 주말을 맞은 원/달러가 월요일 어느 쪽으로 움직이는지를 함께 챙겨요.</div></div></div></section>
+<section class="sec" id="schart" data-name="지표 흐름" data-field="series" data-rule="ondemand-fetch|available-ranges-only|hide-if-fail"><span class="kicker"><span class="kn">03</span>CHART · 지표 흐름</span><h2 class="sh">지표, 기간을 바꿔가며 봐요</h2><p>오늘의 숫자 하나가 아니라, 그 숫자가 어디에서 와서 어디로 흘러가는지를 같이 봐요. 지표를 고르고 기간을 누르면, 선이 부드럽게 다시 그려져요.</p><figure class="mchart" id="mchart" hidden aria-label="주요 지표 기간별 종가 추이"><div class="mc-syms" role="tablist" aria-label="지표 선택" data-field="series.symbols"><button class="mc-sym" role="tab" type="button" data-sym="KOSPI" data-label="코스피" data-unit="pt">코스피</button><button class="mc-sym" role="tab" type="button" data-sym="KOSDAQ" data-label="코스닥" data-unit="pt">코스닥</button><button class="mc-sym" role="tab" type="button" data-sym="SP500" data-label="S&amp;P500" data-unit="pt">S&amp;P500</button><button class="mc-sym" role="tab" type="button" data-sym="NASDAQ" data-label="나스닥" data-unit="pt">나스닥</button><button class="mc-sym" role="tab" type="button" data-sym="VIX" data-label="VIX" data-unit="" data-dec="2">VIX</button><button class="mc-sym" role="tab" type="button" data-sym="USDKRW" data-label="원/달러" data-unit="원">원/달러</button><button class="mc-sym" role="tab" type="button" data-sym="BTC" data-label="비트코인" data-unit="" data-pre="$">비트코인</button></div><div class="mc-head"><span class="mc-title" id="mcTitle">코스피</span><span class="mc-now tnum" id="mcNow" aria-live="polite">—</span><span class="mc-chg tnum" id="mcChg"></span><span class="mc-span" id="mcSpan"></span></div><div class="mc-figwrap" id="mcFig"><svg class="mc-svg" id="mcSvg" role="img" aria-label="선택한 지표의 기간별 종가 추이 선그래프"><path class="mc-area" id="mcArea" d=""></path><path class="mc-line reveal" id="mcLine" d=""></path><line class="mc-cross" id="mcCross" x1="0" y1="0" x2="0" y2="0"></line><circle class="mc-dot" id="mcDot" r="3.8"></circle></svg><div class="mc-tip" id="mcTip" role="status"></div></div><div class="mc-x"><span id="mcX0">—</span><span id="mcX1">—</span></div><div class="mc-ranges" role="tablist" aria-label="기간 선택"><button class="mc-range" role="tab" type="button" data-days="7">7일</button><button class="mc-range" role="tab" type="button" data-days="30">1개월</button><button class="mc-range" role="tab" type="button" data-days="90">3개월</button><button class="mc-range" role="tab" type="button" data-days="0">전체</button></div><div class="mc-foot" id="mcFoot" data-field="series.meta">일별 종가예요. <b>가용 범위</b>만 눌러지고, 데이터가 쌓이면 더 긴 기간이 저절로 열려요.</div></figure></section>
+<section class="sec band psy" id="s04" data-name="투자심리" data-field="facts.aux"><svg class="grain2" aria-hidden="true" preserveAspectRatio="none"><rect width="100%" height="100%" filter="url(#gn)"/></svg><div class="bin"><div class="bh"><span class="bk">04 · SENTIMENT</span><span class="bt">공포가 20선을 넘는지, 먼저 봐요</span></div><p class="bsub">공포지수는 15.03으로 아직 20선 아래예요. 위험자산 전체가 투매되는 국면인지 아닌지, 온도를 먼저 재는 자리예요.</p><div class="psygrid rvs"><div class="pcard" data-field="facts.aux.VIX"><div class="pl">VIX 공포지수 · 0–40 스케일</div><div class="cgauge" style="--v:15.03;--vmax:40" role="img" aria-label="VIX 공포지수 15.03, 경계 구간"><div class="cgauge-arc"></div><div class="cgauge-thr"></div><div class="cgauge-needle"></div></div><div class="cgauge-read"><span class="cg-v tnum">15.03</span><span class="cg-c down tnum">-5.11%</span></div><div class="zlab"><span>안정</span><span>주의</span><span>경계</span><span>공포</span></div><div class="gs" style="text-align:center;font-size:11.5px;color:var(--mut);font-weight:700;margin-top:6px">20선 아래지만 경계가 상승</div><div class="gdist" data-field="derived.vix_gap20"><span class="gdi">▼</span>공포(20선)까지 <b class="tnum">4.97p</b> · 오늘 <b class="tnum">-0.81p</b> 변동</div></div><div class="pcard" data-field="facts.aux.BTC+facts.aux.ETH"><div class="pl">위험자산 스냅샷 · 24시간</div><div class="coinpair"><div class="coin" data-field="facts.aux.BTC"><span class="tk" style="background:#F7931A">₿</span><div class="cmeta"><div class="cnm">비트코인</div><div class="cw tnum">약 9,682만원 · 1,505원 기준</div></div><div class="cright"><span class="cv tnum">$64,336</span><span class="cc up tnum">▲ 0.65%</span></div></div><div class="coin" data-field="facts.aux.ETH"><span class="tk" style="background:#627EEA">Ξ</span><div class="cmeta"><div class="cnm">이더리움</div><div class="cw tnum">약 275만원</div></div><div class="cright"><span class="cv tnum">$1,826</span><span class="cc up tnum">▲ 1.93%</span></div></div></div><div class="fgslot"><span class="dchip">읽는 법</span>주식이 흔들리는 동안에도 코인이 잔잔하면 <span class="term" data-g="위험자산">위험자산</span> 전체가 투매되는 국면은 아직 아니라는 단서예요.</div></div><div class="pcard" data-field="prose.us.analysis" data-rule="sentiment-verdict"><div class="pl">오늘의 심리 판정</div><div class="psyverdict"><div class="pv-row"><span class="pv-ic ok" aria-hidden="true">✓</span><div class="pv-tx"><b><span class="term" data-g="VIX">VIX</span> 20선 아래</b> — 아직 ‘공포’ 아닌 ‘경계’ 단계예요.</div></div><div class="pv-row"><span class="pv-ic ok" aria-hidden="true">✓</span><div class="pv-tx"><b>코인 1~2%대</b> 하락 — 위험자산 전체 투매는 아니에요.</div></div></div><div class="pv-foot">그래서 지수보다 <b>VIX가 20선을 넘는지</b>를 먼저 봐요. 넘지 않으면 조정은 아직 업종 단위예요.</div></div></div></div></section>
+<section class="sec" id="s05" data-name="딥다이브" data-field="prose.insight_full"><span class="kicker"><span class="kn">05</span>DEEP DIVE · 딥다이브 — Why?</span><h2 class="sh">왜 우리 시장만 이렇게 크게 움직일까요</h2><div class="qbreak rv" data-field="web.quote"><div class="qq">“미국은 <span class="grad tnum">0.42%</span> 올랐는데 코스피는 <span class="grad tnum">2.52%</span>,, 코스닥은 <span class="grad tnum">5.47%</span>나 뛰었어요. 왜 우리 시장만 이렇게 크게 움직일까요”</div><div class="qc">주말이라 새 숫자가 없는 아침이니, 지난주가 남긴 질문 하나를 천천히 풀어볼게요</div></div><p data-field="prose.insight_full.intro">주말이라 새 숫자가 없는 아침이니, 지난주가 남긴 질문 하나를 천천히 풀어볼게요. <mark class="whl">같은 흐름 안에서 미국 S&amp;P500은 0.42%, 나스닥은 0.29% 올랐어요.</mark> 그런데 우리 코스피는 2.52%, 코스닥은 5.47% 뛰었거든요. 같은 '상승'인데 우리 쪽 눈금이 여섯 배, 열여덟 배씩 컸던 거예요. 이 차이는 어디서 오는 걸까요.</p><div class="dd"><article class="chap step rv" data-step="1" data-field="prose.insight_full.ch1"><h3 class="chh"><span class="chn">첫째</span>상승의 '폭'부터 체급이 달랐어요</h3><p><mark class="whl">지난 금요일 미국에서 가장 많이 오른 자리가 소재(+1.25%)였는데, 우리 시장에선 통신장비가 10.00%, 핸드셋이 7.44%, 건강관리기술이 7.37%, 건설이 6.20% 올랐거든요.</mark> 미국의 1등이 우리 시장에선 명함도 못 내미는 셈이에요. 오르는 날 크게 오르는 시장이라는 뜻인데, 이건 그대로 내리는 날 크게 내리는 시장이라는 뜻이기도 해요.</p></article><article class="chap step rv" data-step="2" data-field="prose.insight_full.ch2"><h3 class="chh"><span class="chn">둘째</span>우리 안에서도 코스닥이 코스피보다 두 배 넘게 움직였어요(+5</h3><p><mark class="whl">47% vs +2.52%).</mark> 코스닥엔 몸집이 작고 성장 기대가 큰 회사들이 많이 모여 있어요. 몸집이 가벼운 배일수록 같은 파도에 더 크게 흔들리듯, 같은 소식에도 반응 폭이 커지는 거예요. 시장에선 이렇게 '시장 전체가 1만큼 움직일 때 나는 몇만큼 움직이나'를 베타라고 불러요. 코스닥의 5.47%는 그 <span class="term" data-g="변동성·베타">베타</span>가 숫자로 드러난 장면이에요.</p></article><article class="chap step rv" data-step="3" data-field="prose.insight_full.ch3"><h3 class="chh"><span class="chn">셋째</span>환율도 배경에 있어요</h3><p><mark class="whl">원/달러는 1,504.92원, 여전히 1,500원대예요.</mark> 원화가 약한 구간에서는 외국인 투자자 입장에서 우리 자산의 가격표가 계속 흔들리는 셈이라, 들어오고 나가는 발걸음이 조금만 바뀌어도 지수 폭이 커지기 쉬워요. <span class="term" data-g="환율">환율</span> 하나로 모든 걸 설명할 순 없지만, 우리 시장의 흔들림을 키우는 배경 중 하나인 건 분명하거든요.</p></article></div><div class="counter rv" data-field="prose.insight_full.counterview"><div class="clab">◑ 다른 시각도 같이 적어둘게요 · 정직성</div><p>물론 반대편 이야기도 같이 적어둘게요. 큰 상승률은 자랑이 아니라 변동성의 다른 이름일 수 있어요. <mark class="whl">지난 금요일 미국 반도체 업종은 오히려 1.06% 내렸고 필라반도체지수는 0.06%, 사실상 제자리였어요.</mark> 우리 반등을 이어줄 바깥 동력이 아직 또렷하지 않다는 뜻이에요. 반대로 '넓은 반등'을 건강한 신호로 읽는 시각도 있어요. 통신장비 55종목 중 44개가 오른 것처럼 여러 업종이 함께 올랐다는 건, 한 종목의 사정이 아니라 시장 전체의 온도가 올라갔다는 해석이거든요. 지금은 어느 한쪽으로 단정하기 이른 자리예요.</p></div><p>파도와 배 이야기로 정리해볼게요. 큰 배와 작은 배가 같은 바다에 떠 있으면, 같은 파도에도 작은 배가 훨씬 크게 출렁여요. 그런데 크게 출렁였다고 그 배가 더 멀리 간 건 아니잖아요. 지난주 우리 시장의 큰 폭은 '더 멀리 갔다'가 아니라 '더 크게 흔들렸다'에 가까울 수 있어요. 그래서 상승률의 크기보다, 그 상승이 며칠을 버티는지를 보는 게 순서인 것 같아요.</p><p>달력에 확인 날짜를 적어둘게요. 먼저 13일 월요일, 우리 시장이 금요일의 급등을 이어가는지가 첫 신호예요. 그리고 월요일 밤 뉴욕에서 쉬어갔던 반도체지수(SOX)가 다시 앞장서는지를 봐요. 바깥에서 힘을 보태주면 넓은 반등이 한 주 더 걸을 수 있고, 그렇지 않으면 금요일의 큰 폭이 되돌려질 수도 있거든요. 이후로는 이어질 실적 발표들이 'AI 수요' 질문에 숫자로 답해줄 거예요.</p><p class="lesson rv" data-field="prose.insight_full.lesson">계좌가 크게 웃은 주의 끝자락이라 마음이 들뜨거나, 반대로 '이게 진짜일까' 조심스러울 수 있어요. <mark class="whl">그런데 오늘은 시장이 문을 닫은 날이에요</mark>. 오늘 할 수 있는 가장 좋은 투자는 숫자를 들여다보는 게 아니라, 확인할 날짜만 달력에 적어두고 커피 한 잔 천천히 마시는 일인 것 같아요. 흔들림이 큰 시장일수록 내 원칙의 크기가 더 중요해지거든요. 이번 주도 나눠서 차분하게 걸어보자구요 :)</p></section>
+<section class="sec" id="s06" data-name="경제뉴스" data-field="prose.news_list" data-rule="priority-sort|min-7|max-10|no-empty-slot"><span class="kicker"><span class="kn">06</span>NEWS · 경제뉴스</span><h2 class="sh">오늘의 경제뉴스, 중요한 순서로</h2><div class="newsgrid rvs"><article class="ncard pTOP rv" data-field="prose.news_list.0"><div class="nc-meta"><span class="nc-badge top">TOP</span><span class="nc-cat kr">한국</span><span class="nc-src-wrap"><span class="nc-src">연합뉴스</span><span class="nc-date">07.10</span></span></div><div class="nc-q"></div><div class="nc-c">(미국 · 지난 금요일)
+
+"뉴욕증시 'SK하이닉스 첫날' 상승 마감,, 나스닥은 0.3% 올랐어요"
+
+연합뉴스는 지난 금요일 뉴욕증시가 'SK하이닉스 첫날' 속에 상승 마감했고 나스닥이 0.3% 올랐다고 전했어요. 실제로 나스닥은 0.29% 오른 26,281.61에 마쳤거든요. 우리 대표 반도체 기업이 뉴욕 무대에 데뷔한 밤이었어요. 주말 휴장이라 이 숫자가 이번 주 월요일까지 이어져요.</div><a class="nc-link" href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE43eVNKRlBVYjd0TUNuc25MQWJPUHNRczk5djR5RFdQbnFkeDdqZU1jRlo3UFUwRGIwVjgwRlVEUHdjWTJ5N0Q0X3FxYWxlTlFPT0VkNjhuYTR4Q3dzUC01NdIBYEFVX3lxTE43eVNKRlBVYjd0TUNuc25MQWJPUHNRczk5djR5RFdQbnFkeDdqZU1jRlo3UFUwRGIwVjgwRlVEUHdjWTJ5N0Q0X3FxYWxlTlFPT0VkNjhuYTR4Q3dzUC01NQ?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a></article><article class="ncard pMAJ rv" data-field="prose.news_list.1"><div class="nc-meta"><span class="nc-badge maj">주요</span><span class="nc-cat kr">한국</span><span class="nc-src-wrap"><span class="nc-src">Chosunbiz</span><span class="nc-date">07.10</span></span></div><div class="nc-q"></div><div class="nc-c">(미국 · 지난 금요일)
+
+"美·이란 긴장감에도 소폭 상승 마감,, 걱정 헤드라인을 일단은 견뎠어요"
+
+조선비즈는 같은 날 뉴욕증시를 '美·이란 긴장감에도 소폭 상승 마감'으로 정리했어요. 앞선 연합뉴스 제목과 방향이 같고, 3대 지수 등락률(+0.42%/+0.29%/+0.29%)과도 맞아떨어져요. 걱정을 부르는 헤드라인에도 시장이 '일단'은 버텨낸 장이었어요.</div><a class="nc-link" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPMHlaYUVfeDhsWE96UkpHWUh4RVRJMFlZWXRQZFFoa3BWOXQ2blNSYjIybzVNNURJTnVoS3NfRVJZeVlyUzliZXlpaEJHRllyckZLOEhHRnhYMXJwaHp1UV8yUTVMdjltT0tyTnhUZUwtZmJ1SmlCZkJ3akFPYk9jMk44WndGMF9x0gGcAUFVX3lxTE14WXlHNHV2V0psRmxWNDZlUGEwSEc4V3FTUlFuZUFIOFRfSF85V2pxNnROYVdKQlZDcEVRdUZCN1lfVXlmMUJjdE1zV1R3M0MycTJJaDh5VjlXQ2tlc05mVl92OF9taF9CT3FpRTlEa0lnMkFlNzdqMkU5YVh4T2JocXJRQnpiTkVCRGo0UlBLeHcwSkZZdkZOTExyQg?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a></article><article class="ncard pMAJ rv" data-field="prose.news_list.2"><div class="nc-meta"><span class="nc-badge maj">주요</span><span class="nc-cat kr">한국</span><span class="nc-src-wrap"><span class="nc-src">연합인포맥스</span><span class="nc-date">07.09</span></span></div><div class="nc-q"></div><div class="nc-c">(글로벌 · 지난주)
+
+"'美·이란 충돌은 단발성' 기대감,, 지정학 걱정이 한 발 물러섰어요"
+
+연합인포맥스는 지난주 뉴욕장을 '美·이란 충돌은 단발성이라는 기대감 속 강세 마감'으로 짚었어요. 공포지수 VIX가 15.03까지 내려앉은 배경과도 결이 같아요. 다만 '단발성'은 아직 기대이지 확정이 아니라서, 주말 사이 헤드라인이 나오면 월요일 반응이 커질 수 있어요.</div><a class="nc-link" href="https://news.google.com/rss/articles/CBMicEFVX3lxTE1ORjVJckVsdWtBU3hoTUo0ZkFEX0J4bGpRTkhteHNKeEU4NVdaSDhHZm91aTNJcThCc3hqVERTWVlEbU9PYVp0TEJLcWlyMDlGQzJRajdoZU5aNHZMaVBKT3dmd0NVa2hicVBQLWJPSi0?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a></article><article class="ncard pREF rv" data-field="prose.news_list.3"><div class="nc-meta"><span class="nc-badge ref">참고</span><span class="nc-cat kr">한국</span><span class="nc-src-wrap"><span class="nc-src">글로벌이코노믹</span><span class="nc-date">07.09</span></span></div><div class="nc-q"></div><div class="nc-c">(한국 · 지난주)
+
+"지난주 삼성전자는 美 반도체주 상승에 4%대 강세를 보였어요"
+
+글로벌이코노믹은 지난 9일 삼성전자가 간밤 미국 반도체주 상승 영향으로 4%대 강세를 보였다고 전했어요. 지난주 우리 시장의 반등이 바깥 반도체 흐름과 맞물려 있었다는 걸 보여주는 장면이에요. 이번 주에도 이 연결고리가 이어지는지가 관전 포인트예요.</div><a class="nc-link" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxNSWZSS0Vza01fd01zR0ZNM2h2Q0Y2bkpFWVNFLVBBdHpaRXRId2hpSHNueTB3SENNanRsTHlzcE1fMEZYUHBPYUEtdGlWVXFUbHlBVlZrM1dBeW1fQTdlSWlJejdQSXQwV05rOVJnSU5UZXkyMVBmLWtiS0tualloRWtwN05pXzky?oc=5" target="_blank" rel="noopener">원문 기사 보기 →</a></article></div></section>
+<section class="sec" id="s07" data-name="이어서 보기" data-field="web.related" data-rule="keyword-match|real-slug-only|free-max-4|prem-3to4|showcase-rotation|omit-if-none"><span class="kicker"><span class="kn">07</span>NEXT · 이어서 보기</span><h2 class="sh">오늘 키워드로, 더 깊이 읽어요</h2><div class="kwline" data-field="web.keywords"><span class="kwchip"><span class="kh">#</span>반도체</span><span class="kwchip"><span class="kh">#</span>환율</span><span class="kwchip"><span class="kh">#</span>VIX</span></div><div class="rel-lead">무료로 바로 읽어요 · 오늘 키워드 매칭</div><div class="rel rvs" data-field="web.related.free" data-rule="keyword-match|real-slug-only|max-4|as-available"><a class="relcard" href="../../../상세페이지_템플릿/콘텐츠_경제공부_반도체밸류체인_샘플.html" target="_blank" rel="noopener" data-field="web.related"><span class="rel-type column">칼럼</span><div class="rkey"># 반도체</div><div class="rtt">반도체 밸류체인 지도</div><span class="rgo">이어서 읽기 →</span></a><a class="relcard" href="../../../상세페이지_템플릿/콘텐츠_딥칼럼_환헤지_샘플.html" target="_blank" rel="noopener" data-field="web.related"><span class="rel-type column">칼럼</span><div class="rkey"># 환율</div><div class="rtt">환헤지 vs 언헤지 — 환율이 수익률을 가르는 법</div><span class="rgo">이어서 읽기 →</span></a><a class="relcard" href="../../../상세페이지_템플릿/콘텐츠_경제공부_변동성베타_샘플.html" target="_blank" rel="noopener" data-field="web.related"><span class="rel-type column">칼럼</span><div class="rkey"># VIX</div><div class="rtt">변동성·베타·표준편차 — 흔들림을 숫자로</div><span class="rgo">이어서 읽기 →</span></a></div><div class="rel-sep" aria-hidden="true"></div><div class="premwrap"><div class="prem-lead" data-field="web.related.premium.lead">여기서부터는 프리미엄 · 구독자 전용이에요</div><div class="premgrid" data-field="web.related.premium" data-rule="manuscript+showcase|kw-match-then-date-rotate|min-3|max-4"><a class="premcard" href="https://bubulab.co.kr/moneyletter-landing" target="_blank" rel="noopener" data-field="web.related.premium" data-access="premium"><div class="pm-top"><span class="pm-badge">구독 전용</span><span class="pm-key"># 반도체 · 진앙</span></div><div class="pm-tt">반도체 3사 파헤치기 — 엔비디아·TSMC·브로드컴</div><div class="pm-teaser" data-field="web.related.premium.teaser" data-rule="auto-extract:first-2-sentences"><p>이번 조정의 진앙에 선 세 회사를 나란히 놓고 봤어요. AI 반도체 밸류체인에서 엔비디아·TSMC·브로드컴이 각각 어느 길목을 쥐고 있는지, 오늘 같은 급락이 세 회사에 똑같이 오지 않는 이유를 하나씩 짚어볼게요.</p></div><span class="pm-cta">구독하고 전체 읽기 →</span></a><a class="premcard" href="https://bubulab.co.kr/col-6a03" target="_blank" rel="noopener" data-field="web.related.premium" data-access="premium"><div class="pm-top"><span class="pm-badge">구독 전용</span><span class="pm-key"># 환율</span></div><div class="pm-tt">환율은 오르는데, 내 주식은 왜 빠질까?</div><div class="pm-teaser" data-field="web.related.premium.teaser" data-rule="showcase-catalog:premium_showcase.json"><p>'환율이 오르면 수출 기업이 웃는다'는데, 정작 환율 뛰는 날 내 계좌는 더 파랗게 질리죠. 같은 '원화 약세' 안에 정반대인 두 얼굴이 숨어 있어요.</p></div><span class="pm-cta">구독하고 전체 읽기 →</span></a><a class="premcard" href="https://bubulab.co.kr/report-ai-9970" target="_blank" rel="noopener" data-field="web.related.premium" data-access="premium"><div class="pm-top"><span class="pm-badge">구독 전용</span><span class="pm-key"># AI</span></div><div class="pm-tt">AI는 결국 '전기'를 먹고 자라요 — AI 전력 3사</div><div class="pm-teaser" data-field="web.related.premium.teaser" data-rule="showcase-catalog:premium_showcase.json"><p>제일 뜨거운 단어 'AI', 그런데 그걸 돌리는 데이터센터는 어마어마한 전기를 먹어요. 진짜 수혜는 칩이 아니라 전기를 만들고 실어 나르는 쪽일 수 있다 — 핵심 세 회사를 실제 재무 숫자로 파헤쳤어요.</p></div><span class="pm-cta">구독하고 전체 읽기 →</span></a></div></div></section>
+<section class="sec band cta" id="s08" data-name="구독 안내" data-field="web.rhythm"><div class="bin"><div class="clbl">08 · SUBSCRIBE</div><h2>이 정리, 매일 옆에서 받아보세요</h2><div class="csub">동은부부가 아침·저녁으로 시장을 정리해, 옆에서 말해주듯 보내드려요.</div><div class="rhythm"><div class="rcard" data-field="web.rhythm.am"><div class="re">🌅</div><div class="rw">아침 7시</div><div class="rp">간밤 미국시장 + 오늘의 관전 포인트</div></div><div class="rcard" data-field="web.rhythm.pm"><div class="re">🌙</div><div class="rw">저녁</div><div class="rp">한국시장 마감 + Why 딥다이브 + 내일 체크포인트</div></div></div><a class="cbtn" href="https://bubulab.co.kr/moneyletter-landing">데일리 레터 0원으로 시작하기 →</a><div class="cfoot">약정 없이 언제든 해지 · 스팸 없이 하루 2번만</div></div></section>
+ </main>
+ <aside class="rail" aria-label="읽기 도우미">
+<nav class="railcard" aria-label="이 레터 목차"><div class="rt">ON THIS LETTER</div><div class="rprog" aria-hidden="true"><i></i></div><div class="rtoc" id="rtoc"><a href="#sg"><span class="ic"></span>오늘 한눈에</a><a href="#s01"><span class="ic"></span>01 미국·세계</a><a href="#s02"><span class="ic"></span>02 한국시장</a><a href="#schart"><span class="ic"></span>03 지표 흐름</a><a href="#s04"><span class="ic"></span>04 투자심리</a><a href="#s05"><span class="ic"></span>05 딥다이브</a><a href="#s06"><span class="ic"></span>06 경제뉴스</a><a href="#s07"><span class="ic"></span>07 이어서 보기</a><a href="#s08"><span class="ic"></span>08 구독 안내</a></div></nav><div class="railcard snap" data-field="facts"><div class="rt">TODAY SNAPSHOT</div><div style="margin-top:10px"><div class="srow"><span class="sn2">코스피</span><span class="sv tnum">7,475.94<span class="sc up">+2.52%%</span></span></div><div class="srow"><span class="sn2">코스닥</span><span class="sv tnum">837.43<span class="sc up">+5.47%%</span></span></div><div class="srow"><span class="sn2">원/달러</span><span class="sv tnum">1,504.92<span class="sc flat">고시</span></span></div><div class="srow"><span class="sn2">VIX</span><span class="sv tnum">15.03<span class="sc down">-5.11%%</span></span></div><div class="srow"><span class="sn2">비트코인</span><span class="sv tnum">$64,336<span class="sc up">+0.65%%</span></span></div></div></div><div class="railcard railsub"><div class="rs-t">매일 이 정리를<br>받아보고 싶다면</div><div class="rs-d">데일리 레터는 0원,<br>약정 없이 언제든 해지돼요</div><a href="#s08">구독 안내 보기 →</a></div>
+ </aside>
+</div>
+<div class="reading" style="padding-top:0">
+<section class="sec hubzone" data-name="부부연구소에서 더 보기" data-field="static.explore" data-rule="static-links|data-independent"><div class="hz-head"><span class="kicker"><span class="kn">＋</span>MORE · 부부연구소</span><h2 class="sh">레터를 덮기 전에, 이런 것도 있어요</h2><p class="hz-sub">오늘 읽은 이야기에서 한 걸음 더 — 부부연구소의 칼럼·도구·레포트·클래스로 이어져요.</p></div><div class="hubgrid"><a class="hub-card" style="--tint:var(--rose2);--tintSoft:var(--pinkSoft2)" href="https://bubulab.co.kr/contents-hub" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h4"/></svg></span><div class="hub-tt">무료 칼럼</div><div class="hub-dd">경제·재테크 개념을 생활 언어로 풀어드려요</div><span class="hub-go">칼럼 보기 →</span></a><a class="hub-card" style="--tint:var(--sageInk);--tintSoft:var(--sageSoft)" href="https://bubulab.co.kr/library" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h9M18 7h1M5 12h1M10 12h9M5 17h6M15 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="13" cy="17" r="2"/></svg></span><div class="hub-tt">재테크 도구</div><div class="hub-dd">계산기·시트로 내 상황에 바로 대입해요</div><span class="hub-go">도구 열기 →</span></a><a class="hub-card" style="--tint:var(--deep);--tintSoft:var(--pinkSoft)" href="https://bubulab.co.kr/report-hub" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-5M12 20V8M17 20v-8"/></svg></span><div class="hub-tt">구독 레포트</div><div class="hub-dd">종목·업종을 깊게 파고든 심화 리포트</div><span class="hub-go">레포트 보기 →</span></a><a class="hub-card" style="--tint:#B5872A;--tintSoft:#F5EAD0" href="https://bubulab.co.kr/class-b779" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l5.5 3.5L10 15.5z"/></svg></span><div class="hub-tt">강의</div><div class="hub-dd">차근차근 따라 하는 재테크 클래스</div><span class="hub-go">클래스 보기 →</span></a><a class="hub-card" style="--tint:var(--pink);--tintSoft:var(--pinkSoft2)" href="https://bubulab.co.kr/goods-9972" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9.5" width="16" height="11" rx="1.4"/><path d="M4 13.5h16M12 9.5v11"/><path d="M12 9.5C11 6 7 6.4 7.5 8.8 7.9 10.2 10 9.7 12 9.5zM12 9.5C13 6 17 6.4 16.5 8.8 16.1 10.2 14 9.7 12 9.5z"/></svg></span><div class="hub-tt">굿즈</div><div class="hub-dd">부부연구소의 살림·문구 감성 아이템</div><span class="hub-go">굿즈 보기 →</span></a><a class="hub-card" style="--tint:var(--sage);--tintSoft:var(--sageSoft)" href="https://bubulab.co.kr/kit-bcaf" target="_blank" rel="noopener"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.3v9.4L12 21l-8-4.3V7.3z"/><path d="M4 7.3l8 4.3 8-4.3M12 11.6V21"/></svg></span><div class="hub-tt">키트</div><div class="hub-dd">바로 시작하는 재테크 실전 키트</div><span class="hub-go">키트 보기 →</span></a></div></section>
+</div>
+<footer>
+ <div class="fin"><span class="dot"></span>동은부부 머니레터</div>
+</footer>
+<button id="top" type="button" aria-label="맨 위로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
