@@ -50,8 +50,8 @@ window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
 window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
 
 
-var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){window.countUp(e.target,+e.target.dataset.to,1100);co.unobserve(e.target);}});},{threshold:.6});
-document.querySelectorAll('.cnt').forEach(function(el){co.observe(el);});
+if('IntersectionObserver'in window){var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(window.countUp)window.countUp(e.target,+e.target.dataset.to,1100);co.unobserve(e.target);}});},{threshold:.6});
+document.querySelectorAll('.cnt').forEach(function(el){co.observe(el);});}
 </script>
 <script>
 (function(){
@@ -90,7 +90,7 @@ btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'
 </script>
 <script>/*wowletter*/
 (function(){
-  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches; if(rm)return;
+  var rm=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||false; if(rm)return;
   var pv=document.querySelector('.preview'), ps=document.querySelector('.preview-sec');
   if(pv&&ps){
     ps.addEventListener('mousemove',function(e){var r=pv.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;
