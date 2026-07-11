@@ -76,15 +76,16 @@ footer .wrap{padding-top:30px;padding-bottom:34px}
 .shero{padding:clamp(40px,6vw,72px) 0 8px;text-align:center}
 .shero .quote{font-size:clamp(26px,4.6vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.22;max-width:760px;margin:16px auto 0}
 .shero .lead{margin:18px auto 0;text-align:center}
-.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.6vw,30px);margin-top:34px}
-@media(max-width:620px){.nums{grid-template-columns:1fr;gap:0}}
-.num{position:relative;text-align:center;padding:10px 10px}
-.num+.num{border-left:1px solid var(--border)}
-@media(max-width:620px){.num+.num{border-left:0;border-top:1px solid var(--border)}}
-.num .ndot{display:block;width:9px;height:9px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 5px #F8E8EA;margin:0 auto 15px}
-.num b{font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-.03em;color:var(--rose);font-variant-numeric:tabular-nums;display:block;line-height:1}
-.num .k{font-size:13.5px;color:var(--ink2);font-weight:700;margin-top:12px;white-space:nowrap}
-@media(max-width:620px){.num .k{white-space:normal}}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,20px);margin-top:clamp(30px,4vw,44px)}
+@media(max-width:620px){.nums{grid-template-columns:1fr;gap:12px}}
+.num{position:relative;text-align:center;padding:clamp(22px,3vw,32px) clamp(12px,2vw,18px);background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.num:hover{transform:translateY(-5px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.num .nic{width:46px;height:46px;margin:0 auto 15px;border-radius:15px;display:grid;place-items:center;background:radial-gradient(circle at 32% 26%,#fff,var(--pinkSoft));border:1px solid var(--border);box-shadow:0 6px 15px rgba(184,80,96,.10);transition:transform .35s var(--ease)}
+.num:hover .nic{transform:translateY(-2px) scale(1.06)}
+.num .nic svg{width:24px;height:24px;fill:none;stroke:var(--rose);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.num b{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.03em;color:var(--rose);font-variant-numeric:tabular-nums;display:block;line-height:1}
+.num b .u{font-size:.46em;font-weight:800;margin-left:2px;letter-spacing:.01em}
+.num .k{font-size:clamp(12.5px,1.4vw,13.5px);color:var(--ink2);font-weight:700;margin-top:12px;line-height:1.42}
 .chap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,46px);align-items:center;margin-top:clamp(40px,6vw,72px)}
 @media(max-width:780px){.chap{grid-template-columns:1fr;gap:22px}}
 .chap .fig{aspect-ratio:4/3;border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;box-shadow:var(--cardHi)}
@@ -204,8 +205,7 @@ html{overflow-x:hidden}
 .chap .fig .figimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .55s var(--ease)}
 .chap .fig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,30,28,.05) 0,transparent 38%,transparent 56%,rgba(40,30,28,.40));z-index:1;pointer-events:none}
 .chap .fig .cap{z-index:2}
-.num .ndot{transition:box-shadow .3s var(--ease),transform .3s var(--ease)}
-.num:hover .ndot{box-shadow:0 0 0 7px #F8E8EA;transform:scale(1.12)}
+/* stat 카드 아이콘 hover는 위 .num / .nic 규칙에서 처리 */
 @media(prefers-reduced-motion:reduce){.smesh{display:none}.grad{animation:none}.chap .fig .figimg{transition:none}}
 </style>
 <style>/* ===prinwow=== 원칙 3카드 hover 글로우+리프트(홈 #why 카드 동적언어 일관·죽어있던 transition 활성화·additive) */
@@ -273,17 +273,17 @@ html.js .wstag.in>*{opacity:1;transform:none}
 <section class="shero wrap">
   <div class="smesh" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div>
   <span class="s-eyebrow reveal" style="justify-content:center">OUR STORY · 부부연구소</span>
-  <div class="quote reveal">“버섯이 피던 반지하에서, <span class="grad">우리는 돈 공부를 시작했어요.</span>”</div>
-  <p class="lead reveal">통장 앞에서 한숨짓던 밤, 저희도 숱하게 보냈어요. 그 막막함을 잘 알아서, 지금은 예비·신혼부부 곁에서 매일 시장을 정리해 두는 사람이 되기로 했어요. 두 분께 우리가 걸어온 길을 들려드릴게요.</p>
+  <div class="quote reveal">“버섯이 피어나던 반지하에서, <span class="grad">우리는 돈 공부를 시작했어요.</span>”</div>
+  <p class="lead reveal">통장 앞에서 한숨짓던 밤을 저희도 숱하게 보냈어요. 그 막막함을 잘 알기에, 이제는 예비·신혼부부 곁에서 매일 아침·저녁 머니레터를 정리해 두는 사람이 되기로 했어요 :)</p>
   <div class="nums stag">
-    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="10">0</span>배</b><div class="k">2년 만에 함께 불린 자산</div></div>
-    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="2">0</span>회</b><div class="k">매일 아침·저녁 시장 레터</div></div>
-    <div class="num"><span class="ndot"></span><b><span class="cnt" data-to="4">0</span>개</b><div class="k">월급날 자동으로 나뉘는 통장</div></div>
+    <div class="num"><span class="nic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v1"/><rect x="3.5" y="7.5" width="17" height="12" rx="2.5"/><circle cx="16.4" cy="13.5" r="1.4"/></svg></span><b><span class="cnt" data-to="500">0</span><span class="u">만원</span></b><div class="k">반지하에서 시작한<br>부부합산 월 소득</div></div>
+    <div class="num"><span class="nic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15.5 7 21 7 21 12.5"/></svg></span><b><span class="cnt" data-to="10">0</span><span class="u">배</span></b><div class="k">2년 만에 함께<br>불린 자산</div></div>
+    <div class="num"><span class="nic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.7 7.5l8.3 5.6 8.3-5.6"/></svg></span><b><span class="cnt" data-to="2">0</span><span class="u">회</span></b><div class="k">아침 7시·저녁 6시<br>머니레터</div></div>
   </div>
 </section>
 
 <section class="wrap">
-  <div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 1</div><h2>월세, 그리고 버섯이 피던 반지하</h2><p>신혼을 반지하 단칸방에서 시작했어요. 부부합산 월 500만원을 벌었지만 이상하게 돈은 모이지 않았어요. 물을 끓여 먹고 같은 반찬을 돌려먹으면서도, <b>무엇부터 봐야 할지 몰라 막막했죠.</b> 그 답답함이, 지금의 부부연구소가 된 첫 문장이에요.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8899A,#C75E70)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/hero_couple.jpg" alt="2023년 신혼을 시작한 동은부부" loading="lazy"><span class="cap">2023 · 신혼의 시작</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 2</div><h2>닥치는 대로, 돈 공부에 올인</h2><p>퇴근하면 가계부를 켜고, 주말이면 통장 쪼개기·비과세·연금·분산투자를 공부했어요. 흩어진 정보를 <b>우리 부부의 언어로 다시 정리</b>하기 시작했고요. 둘이 같은 화면을 보며 돈 얘기를 하게 된 게, 돌아보면 가장 큰 변화였어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#86B6A8,#5E8C7F)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/study.jpg" alt="함께 책을 보며 돈 공부를 하는 동은부부" loading="lazy"><span class="cap">함께 공부하던 식탁</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 3</div><h2>의지가 아니라 ‘구조’였어요</h2><p>오래 못 갈 다짐 대신 <b>시스템</b>을 만들었어요. 월급이 들어오면 자동으로 4개 통장에 나뉘고, 먼저 저축하고, 새 자금은 분할로만 투자하는 구조. 한번 만들어 두니 의지와 상관없이 <b>저절로 모이기 시작</b>했어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#A982B5,#7E5790)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_family.jpg" alt="집에서 함께한 동은부부 가족" loading="lazy"><span class="cap">우리 집 통장 구조</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 4</div><h2>2년 만에 자산 10배, 반지하를 벗어나다</h2><p>그 구조를 묵묵히 지킨 결과, 함께 모은 자산이 <b>2년 만에 10배</b>가 됐고 마침내 반지하를 벗어나 서울 핵심지에 내 집을 마련했어요. 특별한 한 방이 아니라, 매일의 작은 원칙이 쌓인 결과였어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8C9A8,#C99C6A)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/closing_sunset.jpg" alt="노을 진 한강의 동은부부" loading="lazy"><span class="cap">2025 · 내 집 마련</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 5</div><h2>그래서, 매일 레터를 씁니다</h2><p>그때 누군가 시장을 쉽게 정리해 줬다면 얼마나 좋았을까 — 그 아쉬움이 컸어요. 그래서 지금은 <b>저희가 그 사람이 되기로</b> 했어요. 매일 아침·저녁, 예비·신혼부부의 하루 끝에 시장과 인사이트를 차분히 정리해 두고 가요.</p></div><div class="fig" style="background:linear-gradient(150deg,#D98AA0,#B85060)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_heart.jpg" alt="억새밭에서 하트를 만드는 동은부부 가족" loading="lazy"><span class="cap">매일의 머니레터</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 6</div><h2>부부연구소, 둘이라서 더 멀리</h2><p>전직 콘텐츠 마케터와 현직 크리에이터, 평범했던 한 부부예요. 돈 때문에 다투지 않고 <b>함께 모으는 법</b>을 연구하고 나눠요. 두 분의 속도대로, 정한 원칙대로 — 저희가 옆에서 같이 갈게요.</p></div><div class="fig" style="background:linear-gradient(150deg,#9DBBD0,#5E80A8)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/momkid_vertical.jpg" alt="아이와 함께한 동은부부 가족" loading="lazy" style="object-position:center 26%"><span class="cap">동은부부</span></div></div>
+  <div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 1</div><h2>월세, 그리고 버섯이 피던 반지하</h2><p>버섯이 피어나는 반지하 단칸방에서 신혼을 시작했어요. 부부합산 월 500만원을 벌었지만, 물도 끓여 먹고 똑같은 반찬을 한 주씩 돌려먹으며 생활비를 극한으로 줄였죠.</p><p>최대한의 투자재원을 만들려 허리띠를 졸라맸지만, <b>무엇부터 봐야 할지 몰라 막막했어요.</b> 그 답답함이, 지금의 부부연구소가 된 첫 문장이에요.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8899A,#C75E70)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/hero_couple.jpg" alt="2023년 신혼을 시작한 동은부부" loading="lazy"><span class="cap">2023 · 신혼의 시작</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 2</div><h2>닥치는 대로, 돈 공부에 올인</h2><p>스타트업에서 새벽 1~2시에 퇴근한 날에도, 매일 <b>새벽 4~5시까지 돈 공부</b>를 이어갔어요. 곰팡이 피는 방에서 무럭무럭 자라던 뱃속 아이를 위해, 우리 삶에 분명한 변화가 필요했거든요.</p><p>주말이면 부부워크숍을 열어 배운 걸 실제 투자에 적용하고, 온라인 부업도 함께했어요. 흩어진 정보를 우리 부부의 언어로 정리하며 같은 화면을 보게 된 게, 돌아보면 가장 큰 변화였어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#86B6A8,#5E8C7F)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/study.jpg" alt="함께 책을 보며 돈 공부를 하는 동은부부" loading="lazy"><span class="cap">함께 공부하던 식탁</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 3</div><h2>의지가 아니라 ‘구조’였어요</h2><p>오래 못 갈 다짐 대신, <b>바라는 삶이 될 수밖에 없는 ‘구조’와 ‘환경’</b>을 만들기로 했어요. 월급이 들어오면 자동으로 4개 통장에 나뉘고, 먼저 저축한 뒤 남은 돈으로만 생활하는 구조예요.</p><p>새 자금은 언제나 분할로만 투자했고요. 한번 만들어 두니, 의지와 상관없이 <b>목돈이 저절로 모이고 불려지기</b> 시작했어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#DDA1AE,#B85060)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_family.jpg" alt="집에서 함께한 동은부부 가족" loading="lazy"><span class="cap">우리 집 통장 구조</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 4</div><h2>2년 만에 자산 10배, 반지하를 벗어나다</h2><p>그 구조를 묵묵히 지킨 결과, 함께 모은 자산이 <b>2년 만에 10배</b>가 됐어요. 마침내 반지하를 벗어나 서울 핵심지에 내 집을 마련했고요.</p><p>이제는 자녀의 미래와 우리 부부의 노후까지 함께 그릴 수 있게 됐어요. 특별한 한 방이 아니라, 매일의 작은 원칙이 쌓인 결과였어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8C9A8,#C99C6A)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/closing_sunset.jpg" alt="노을 진 한강의 동은부부" loading="lazy"><span class="cap">2025 · 내 집 마련</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 5</div><h2>그래서, 매일 레터를 씁니다</h2><p>그때 누군가 시장을 쉽게 정리해 줬다면 얼마나 좋았을까 — 그 아쉬움이 오래 남았어요. 그래서 지금은 <b>저희가 그 사람이 되기로</b> 했어요.</p><p>매일 아침 7시와 저녁 6시, 예비·신혼부부의 하루에 맞춰 시장과 인사이트를 머니레터로 정리해 둬요. 막막했던 그 마음을 누구보다 잘 알기에, 곁에서 도움이 되고 싶었거든요.</p></div><div class="fig" style="background:linear-gradient(150deg,#D98AA0,#B85060)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_heart.jpg" alt="억새밭에서 하트를 만드는 동은부부 가족" loading="lazy"><span class="cap">매일의 머니레터</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 6</div><h2>부부연구소, 둘이라서 더 멀리</h2><p>돈 때문에 다투는 대신, 부부가 <b>함께 모으고 불리는 법</b>을 연구하고 나눠요. 누군가에게 의지하지 않고도 현명하게 가정을 꾸릴 수 있도록요.</p><p>재테크는 평생 하는 일이니까, 한 편의 정보보다 <b>평생 할 수 있는 지식과 습관</b>을 함께 만들어가요. 두 분의 속도대로, 정한 원칙대로 — 저희가 옆에서 같이 갈게요 :)</p></div><div class="fig" style="background:linear-gradient(150deg,#9DBBD0,#5E80A8)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/momkid_vertical.jpg" alt="아이와 함께한 동은부부 가족" loading="lazy" style="object-position:center 26%"><span class="cap">동은부부</span></div></div>
 </section>
 
 <section class="blk wrap" id="growth">
@@ -325,7 +325,7 @@ html.js .wstag.in>*{opacity:1;transform:none}
 <section class="blk wrap tlsec">
   <div class="sectit reveal"><span class="e">TIMELINE</span><h2>반지하에서 여기까지, 여섯 줄의 기록이에요</h2></div>
   <div class="tl stag wstag">
-    <div class="ti"><div class="y">2023</div><div class="x">반지하 단칸방에서 신혼 시작</div><div class="d">월 500만원, 그러나 모이지 않던 시절. 막막함에서 출발했어요.</div></div>
+    <div class="ti"><div class="y">2023</div><div class="x">반지하 단칸방에서 신혼 시작</div><div class="d">부부합산 월 500만원, 그러나 모이지 않던 시절. 막막함에서 출발했어요.</div></div>
     <div class="ti"><div class="y">2023–2024</div><div class="x">돈 공부 · 우리 식 정리 시작</div><div class="d">가계부·통장 쪼개기·비과세·분산투자를 부부의 언어로 정리.</div></div>
     <div class="ti"><div class="y">2024</div><div class="x">자동으로 모이는 ‘구조’ 완성</div><div class="d">선저축·자동분배·분할투자 시스템을 세웠어요.</div></div>
     <div class="ti"><div class="y">2025</div><div class="x">자산 10배 · 서울 내 집 마련</div><div class="d">원칙을 지킨 2년의 결과, 반지하를 벗어났어요.</div></div>
@@ -337,10 +337,10 @@ html.js .wstag.in>*{opacity:1;transform:none}
 <section class="blk wrap" style="padding-top:0">
   <div class="cta-band reveal">
     <h3>우리 이야기가 두 분의 이야기가 되도록.</h3>
-    <p>아침 7시, 저녁 6시 — 두 분의 하루에 맞춰 시장을 정리해 둘게요. 막막했던 돈 공부, 이번엔 옆에서 같이 가요 :)</p>
+    <p>아침 7시, 저녁 6시 — 두 분의 하루에 맞춰 머니레터를 정리해 둘게요. 막막했던 돈 공부, 이번엔 옆에서 같이 가요 :)</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-      <a class="btn btn-rose wmag wshine" href="/letter-evening">오늘의 레터, 0원으로 읽기 →</a>
-      <a class="btn btn-ghost" href="/home#subscribe">구독하고 시작하기</a>
+      <a class="btn btn-rose wmag wshine" href="/letter-evening">오늘의 머니레터 열어보기 →</a>
+      <a class="btn btn-ghost" href="/home#subscribe">프리미엄 안내 →</a>
     </div>
   </div>
 </section>
