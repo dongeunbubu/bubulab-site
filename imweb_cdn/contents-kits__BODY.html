@@ -1,0 +1,217 @@
+<!-- [contents-kits] BODY = 전체너비 코드위젯 · 키트 탐색(자료실) · contents_index.json 하이드레이션(rawcdn main·cb) · 실패 시 인라인 스냅샷/정적카드 폴백 · 단계별 워크북 · 클래스 kx- 접두사 · 2026-07-11 -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+ --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
+ --ink:#2C201B;--ink2:#57453D;--mut:#877468;
+ --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --border:#ECDAD5;--borderStrong:#E4C8C2;
+ --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
+ --lock:#8A6A50;--lockSoft:#F6EEE4;--lockBd:#EADFCE;
+ --maxw:1120px;
+ --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.22,1,.36,1);
+ --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
+ --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+}
+/* ===== 사이트 공통 헤더 (시각 CSS는 사이트 팔레트 고정값) ===== */
+.topbar{background:#B85060;color:#fff;font-size:13px;display:flex;align-items:center;gap:16px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;z-index:2;overflow:hidden}
+.topbar::before{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:bblshim 6s ease-in-out infinite}
+@keyframes bblshim{0%,60%{left:-30%}100%{left:130%}}
+.topbar span{position:relative;z-index:1}
+.topbar a{position:relative;z-index:1;background:#fff;color:#B85060;padding:5px 14px;border-radius:100px;font-weight:800;font-size:12.5px;text-decoration:none;transition:transform .2s}
+.topbar a:hover{transform:translateY(-1px)}
+#hdr{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.82);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid #EAD7D3}
+#hdr .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .nav>*{min-width:0}
+#hdr .logo{justify-self:start;font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;color:#3E2F29;white-space:nowrap}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:#D67A89;box-shadow:0 0 0 4px #F8E8EA}
+#hdr .menu-main{justify-self:center}
+#hdr .menu{display:flex;gap:22px;font-size:15px;font-weight:600;color:#5C4B43}
+#hdr .menu a{position:relative;padding:4px 0;text-decoration:none;color:inherit}
+#hdr .menu a:hover{color:#D67A89}
+#hdr .menu a[aria-current]{color:#B33A4C}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px;flex-wrap:nowrap}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:#8A7B72;font-weight:600}
+#hdr .menu-sub a:hover{color:#D67A89}
+#hdr .cta{background:#B85060;color:#fff;padding:10px 20px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:transform .2s,background .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+@media(max-width:1120px){#hdr .navright{gap:12px}#hdr .menu{gap:16px}}
+@media(max-width:860px){#hdr .menu-main,#hdr .menu-sub{display:none}}
+@media(max-width:700px){#hdr .wrap{padding:0 14px}}
+/* ===== kx 공통 ===== */
+.kx-page *{box-sizing:border-box;margin:0;padding:0}
+.kx-page{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.kx-page a{color:inherit;text-decoration:none}
+.kx-page :focus-visible{outline:2.5px solid var(--rose);outline-offset:3px;border-radius:8px}
+.kx-page .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.kx-in{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+/* 히어로 */
+.kx-hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
+.kx-heroin{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:clamp(44px,6vw,84px) clamp(22px,4.5vw,40px)}
+.kx-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 14px;text-transform:uppercase;box-shadow:0 6px 14px -6px rgba(124,36,59,.6)}
+.kx-h1{font-size:clamp(27px,5vw,50px);font-weight:900;letter-spacing:-.035em;line-height:1.14;margin-top:18px;color:var(--ink)}
+.kx-lead{margin-top:16px;max-width:48ch}
+.kx-lead p{font-size:clamp(15px,2vw,18px);color:var(--ink2);font-weight:600;line-height:1.66}
+.kx-lead p+p{margin-top:10px}
+.kx-lead b{color:var(--rose);font-weight:800}
+/* 컨트롤바(sticky, 헤더 아래) */
+.kx-controls{position:sticky;top:64px;z-index:40;background:rgba(253,251,247,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.kx-ctin{max-width:var(--maxw);margin:0 auto;padding:15px clamp(22px,4.5vw,40px)}
+.kx-search{position:relative}
+.kx-search input{width:100%;height:50px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:0 18px 0 44px;font:inherit;font-size:15px;color:var(--ink);box-shadow:var(--sh1)}
+.kx-search input::placeholder{color:var(--mut)}
+.kx-search input:focus{border-color:var(--pink);outline:none}
+.kx-search::before{content:"🔎";position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.7;pointer-events:none}
+.kx-chiprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.kx-chip{border:1px solid var(--border);background:#fff;color:var(--ink2);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:800;cursor:pointer;transition:transform .15s,background .2s,color .2s,border-color .2s}
+.kx-chip:hover{border-color:var(--borderStrong);color:var(--rose)}
+.kx-chip.on{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border-color:transparent}
+.kx-chip:active{transform:scale(.95)}
+.kx-chipdiv{width:1px;height:20px;background:var(--border);margin:0 3px;flex:none}
+.kx-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;flex-wrap:wrap}
+.kx-tbl{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.kx-tbt{font-size:13.5px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.kx-count{font-size:12.5px;font-weight:700;color:var(--mut)}
+.kx-count b{color:var(--rose);font-weight:900}
+.kx-sort{display:inline-flex;gap:4px;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:12px;padding:4px}
+.kx-sortb{border:0;background:transparent;color:var(--ink2);border-radius:9px;padding:7px 14px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}
+.kx-sortb.on{background:#fff;color:var(--rose);box-shadow:var(--sh1)}
+/* 리스트 */
+.kx-wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(24px,3.5vw,40px) clamp(22px,4.5vw,40px) clamp(30px,4vw,48px)}
+.kx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+/* 빈 상태 */
+.kx-empty{text-align:center;padding:56px 20px;color:var(--ink2)}
+.kx-empty .ei{font-size:38px;line-height:1}
+.kx-empty .et{font-size:16px;font-weight:800;margin-top:12px;color:var(--ink)}
+.kx-empty .ed{font-size:13.5px;margin-top:8px;color:var(--mut)}
+/* 리빌(페이드만) */
+.kx-page.js .kx-rv{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.kx-page.js .kx-rv.in{opacity:1;transform:none}
+.kx-grid .kx-rv.in:nth-child(3n+2){transition-delay:.05s}
+.kx-grid .kx-rv.in:nth-child(3n){transition-delay:.1s}
+/* 프리미엄 밴드(웜 라이트) */
+.kx-band{position:relative;margin-top:8px;padding:clamp(40px,5.5vw,64px) 0;overflow:hidden;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:radial-gradient(90% 130% at 84% -20%,var(--pinkSoft) 0%,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 58%,#FDEFF2)}
+.kx-bandin{position:relative;max-width:720px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+.kx-bk{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--rose);text-transform:uppercase}
+.kx-band h2{font-size:clamp(21px,3.2vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:11px;color:var(--ink);line-height:1.3}
+.kx-band p{font-size:14.5px;color:var(--ink2);margin-top:12px;line-height:1.66}
+.kx-cta{display:inline-flex;align-items:center;gap:8px;margin-top:22px;min-height:54px;padding:16px 30px;border-radius:16px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:16px;font-weight:800;box-shadow:0 16px 34px -12px rgba(179,58,76,.55);transition:transform .3s var(--ease2),box-shadow .3s}
+.kx-cta:hover{transform:translateY(-3px);box-shadow:0 22px 44px -12px rgba(179,58,76,.62)}
+.kx-cta:active{transform:scale(.97)}
+.kx-cta i{font-style:normal;transition:transform .25s}
+.kx-cta:hover i{transform:translateX(4px)}
+.kx-note{font-size:12px;color:var(--mut);margin-top:14px}
+/* 푸터 */
+.kx-foot{border-top:1px solid var(--border);background:var(--bg)}
+.kx-footin{max-width:var(--maxw);margin:0 auto;padding:22px clamp(22px,4.5vw,40px);font-size:12px;color:var(--mut);font-weight:700;display:flex;align-items:center;gap:8px}
+.kx-foot .dotf{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+/* 맨 위로 */
+.kx-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--rose);color:#fff;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 12px 26px -8px rgba(179,58,76,.5);opacity:0;transform:translateY(10px);transition:.3s var(--ease2);z-index:1100}
+.kx-top.on{opacity:1;transform:none}
+.kx-top:hover{background:#9E2E40}
+/* 반응형 */
+@media(max-width:640px){
+ .kx-grid{grid-template-columns:1fr}
+ .kx-chiprow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+ .kx-chip{flex:none}
+ .kx-controls{top:56px}
+}
+@media(prefers-reduced-motion:reduce){
+ .kx-page *,.kx-page *::before,.kx-page *::after{animation:none!important;transition:none!important}
+ .kx-page.js .kx-rv{opacity:1!important;transform:none!important}
+ .topbar::before{animation:none}
+}
+/* ===== kx 카드(키트, 세로형) + 소개블록 ===== */
+.kx-introwrap{border-bottom:1px solid var(--border);background:linear-gradient(180deg,#fff,var(--bg))}
+.kx-introin{max-width:var(--maxw);margin:0 auto;padding:clamp(22px,3vw,34px) clamp(22px,4.5vw,40px)}
+.kx-intro{background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:20px;padding:clamp(20px,3vw,28px);box-shadow:var(--sh1)}
+.kx-introh{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:900;letter-spacing:.02em;color:var(--rose)}
+.kx-introh::before{content:"🧰";font-size:16px}
+.kx-intro p{font-size:14.5px;color:var(--ink2);font-weight:600;line-height:1.66;margin-top:10px}
+.kx-intro p b{color:var(--rose);font-weight:800}
+.kx-flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.kx-fstep{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 13px}
+.kx-fstep b{color:var(--rose);font-weight:900}
+.kx-fstep.free{background:#E8F3EE;border-color:#cfe6da;color:#3F7A66}
+.kx-tile{position:relative;display:flex;flex-direction:column;padding:22px 22px 20px;border-radius:20px;border:1px solid var(--border);background:var(--paper);box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease2),box-shadow .3s var(--ease2),border-color .3s}
+a.kx-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--pink)}
+a.kx-tile:active{transform:scale(.99)}
+.kx-soon{cursor:default}
+.kx-side{position:absolute;left:0;top:0;right:0;height:5px;background:linear-gradient(90deg,var(--rose2),var(--rose) 55%,var(--gold))}
+.kx-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.kx-thumb{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--pinkSoft);box-shadow:inset 0 0 0 1px rgba(179,58,76,.06)}
+.kx-steps{font-size:11.5px;font-weight:800;color:var(--deep);background:#fff;border:1px solid var(--borderStrong);border-radius:999px;padding:6px 12px;white-space:nowrap}
+.kx-h3{font-size:18px;font-weight:900;letter-spacing:-.025em;line-height:1.3;color:var(--ink);margin-top:14px}
+.kx-problem{position:relative;font-size:13px;color:var(--ink2);font-weight:600;line-height:1.58;margin-top:12px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:11px 13px}
+.kx-plabel{display:block;font-size:10.5px;font-weight:800;color:var(--rose);letter-spacing:.03em;margin-bottom:4px}
+.kx-hook{font-size:13.5px;color:var(--ink);font-weight:700;line-height:1.55;margin-top:12px}
+.kx-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+.kx-b{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.01em}
+.kx-b-sell{background:var(--lockSoft);color:var(--lock);border:1px solid var(--lockBd)}
+.kx-b-soon{background:#FBEEF0;color:var(--rose);border:1px dashed var(--borderStrong)}
+.kx-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+.kx-tag{font-size:11px;font-weight:700;color:var(--mut);background:var(--bg2);border-radius:7px;padding:3px 8px}
+.kx-cta{margin-top:15px;padding-top:14px;border-top:1px solid var(--border);font-size:13.5px;font-weight:800;color:var(--rose);display:inline-flex;align-items:center;gap:6px}
+.kx-cta i{font-style:normal;transition:transform .25s}
+a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
+.kx-soon .kx-cta{color:var(--mut)}
+</style>
+<div class="topbar">
+  <span>매일 아침 7시·저녁 6시, 동은부부 머니레터가 두 분의 하루에 도착해요</span>
+  <a href="/letter-evening">오늘 레터 열어보기 →</a>
+</div>
+<header id="hdr">
+  <div class="wrap nav">
+    <div class="logo"><span class="dot"></span>부부연구소</div>
+    <nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents-columns">칼럼</a><a href="/contents-kits" aria-current="page">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+    <div class="navright">
+      <nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
+      <a href="/home#subscribe" class="cta">구독하기</a>
+    </div>
+  </div>
+</header>
+<div class="kx-page" id="kxRoot">
+ <header class="kx-hero">
+  <div class="kx-heroin">
+   <span class="kx-eyebrow">✦ Kits</span>
+   <h1 class="kx-h1">막막한 그 문제,<br>끝까지 함께 풀어가요</h1>
+   <div class="kx-lead"><p>'어디서부터, 어떻게, 뭐부터' 막막했던 순간을 위해 만들었어요.</p><p>한 키트가 하나의 문제를 <b>단계별로 끝까지</b> 함께 걸어드려요.</p></div>
+  </div>
+ </header>
+ <section class="kx-introwrap" aria-label="키트란">
+  <div class="kx-introin"><div class="kx-intro">
+   <div class="kx-introh">키트란?</div>
+   <p>키트는 하나의 문제를 <b>끝까지</b> 푸는 단계별 워크북이에요.</p>
+   <p>00 프롤로그는 늘 무료로 열려 있어, 부담 없이 첫 걸음을 떼어볼 수 있어요.</p>
+   <div class="kx-flow"><span class="kx-fstep free"><b>00</b> 프롤로그 · 무료</span><span class="kx-fstep free"><b>01</b> 맛보기</span><span class="kx-fstep"><b>02~</b> 순차 워크북</span><span class="kx-fstep">완주 · 다음으로</span></div>
+  </div></div>
+ </section>
+ <div class="kx-controls">
+  <div class="kx-ctin">
+   <div class="kx-search"><input id="kxSearch" type="search" autocomplete="off" placeholder="제목·태그로 찾아보기" aria-label="키트 검색"></div>
+   <div class="kx-chiprow" id="kxChips" role="group" aria-label="필터"><button class="kx-chip on" type="button" data-f="all" aria-pressed="true">전체</button><span class="kx-chipdiv" aria-hidden="true"></span><button class="kx-chip" type="button" data-f="tag:부부대화" aria-pressed="false">부부대화</button><button class="kx-chip" type="button" data-f="tag:목돈" aria-pressed="false">목돈</button><button class="kx-chip" type="button" data-f="tag:투자" aria-pressed="false">투자</button><button class="kx-chip" type="button" data-f="tag:부동산" aria-pressed="false">부동산</button><button class="kx-chip" type="button" data-f="tag:절세" aria-pressed="false">절세</button><button class="kx-chip" type="button" data-f="tag:수익화" aria-pressed="false">수익화</button></div>
+   <div class="kx-toolbar">
+    <div class="kx-tbl"><span class="kx-tbt">키트 자료실</span><span class="kx-count" id="kxCount"><b>10</b>개</span></div>
+    <div class="kx-sort" id="kxSort" role="group" aria-label="정렬"><button class="kx-sortb on" type="button" data-s="new">최신순</button><button class="kx-sortb" type="button" data-s="no">번호순</button></div>
+   </div>
+  </div>
+ </div>
+ <main class="kx-wrap">
+  <div class="kx-grid" id="kxList"><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🚀</span><span class="kx-steps">9단계 워크북</span></span><span class="kx-h3">월급 밖 수익 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.</span><span class="kx-hook">월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">공모주</span><span class="kx-tag">부업</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌙</span><span class="kx-steps">7단계 워크북</span></span><span class="kx-h3">배당·현금흐름 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.</span><span class="kx-hook">잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">배당</span><span class="kx-tag">절세</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗝️</span><span class="kx-steps">10단계 워크북</span></span><span class="kx-h3">내집마련 로드맵 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>내집마련이 막연하고 뭐부터 할지 모르겠어요.</span><span class="kx-hook">막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부동산</span><span class="kx-tag">내집마련</span><span class="kx-tag">청약</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🛟</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">절세계좌 3형제 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.</span><span class="kx-hook">버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">절세</span><span class="kx-tag">계좌</span><span class="kx-tag">연금</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧩</span><span class="kx-steps">9단계 워크북</span></span><span class="kx-h3">부부 포트폴리오 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.</span><span class="kx-hook">남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">포트폴리오</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌱</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">투자 첫걸음 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>투자가 무섭고 뭘 사야 할지 모르겠어요.</span><span class="kx-hook">투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">첫걸음</span><span class="kx-tag">분산</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🏦</span><span class="kx-steps">6단계 워크북</span></span><span class="kx-h3">모이는 구조 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>모으고 싶은데 구조가 없어 흐지부지돼요.</span><span class="kx-hook">의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">적금</span><span class="kx-tag">구조</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🔦</span><span class="kx-steps">7단계 워크북</span></span><span class="kx-h3">새는 돈 점검 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>분명 아끼는데 돈이 안 남아요.</span><span class="kx-hook">분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">절약</span><span class="kx-tag">진단</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧭</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">만다라트 목표 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>목표가 흐릿해서 돈이 안 모여요.</span><span class="kx-hook">둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">목표설계</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗣️</span><span class="kx-steps">10단계 워크북</span></span><span class="kx-h3">머니토크 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>돈 얘기만 나오면 어색하거나 다툼이 돼요.</span><span class="kx-hook">돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부부대화</span><span class="kx-tag">목돈</span><span class="kx-tag">첫걸음</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div></div>
+  <div class="kx-empty" id="kxEmpty" hidden><div class="ei">🔎</div><div class="et">그 조건의 키트는 아직 없어요</div><div class="ed">다른 주제로 둘러봐도 좋아요.</div></div>
+ </main>
+ <section class="kx-band" aria-label="프리미엄 안내">
+  <div class="kx-bandin">
+   <div class="kx-bk">Premium</div>
+   <h2>키트는 하나씩, 프리미엄은 전체를</h2>
+   <p>키트는 필요한 문제만 골라 개별로 만나요. 칼럼·도구를 폭넓게 쓰고 싶다면 프리미엄도 함께 살펴봐요.</p>
+   <a class="kx-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+   <div class="kx-note">*프리미엄 회원은 키트 특별 이벤트로 만나요.</div>
+  </div>
+ </section>
+ <footer class="kx-foot"><div class="kx-footin"><span class="dotf"></span>부부연구소 · 책 연계 키트 자료실</div></footer>
+ <button class="kx-top" id="kxtop" type="button" aria-label="맨 위로">↑</button>
+ <script type="application/json" id="kxSnap">[{"slug": "kit-moneytalk", "type": "kit", "no": 1, "title": "머니토크 키트", "hook": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "premium": false, "chapter": "PART1 가", "date": "2026-12-27", "status": "soon", "thumb": "🗣️", "free_preview": "00·01", "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.", "steps": 10, "connect": {"columns": ["bookcol-01"], "tools": ["booktool-flexcost"]}}, {"slug": "kit-mandala", "type": "kit", "no": 2, "title": "만다라트 목표 키트", "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": false, "chapter": "PART1 나", "date": "2027-01-10", "status": "soon", "thumb": "🧭", "free_preview": "00·01", "problem": "목표가 흐릿해서 돈이 안 모여요.", "steps": 8, "connect": {"columns": ["bookcol-03"], "tools": ["booktool-mandala"]}}, {"slug": "kit-leakcheck", "type": "kit", "no": 3, "title": "새는 돈 점검 키트", "hook": "분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2027-01-17", "status": "soon", "thumb": "🔦", "free_preview": "00·01", "problem": "분명 아끼는데 돈이 안 남아요.", "steps": 7, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-flexcost"]}}, {"slug": "kit-savings", "type": "kit", "no": 4, "title": "모이는 구조 키트", "hook": "의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.", "cat": "목돈", "tags": ["목돈", "적금", "구조"], "premium": false, "chapter": "PART1 다", "date": "2027-01-24", "status": "soon", "thumb": "🏦", "free_preview": "00·01", "problem": "모으고 싶은데 구조가 없어 흐지부지돼요.", "steps": 6, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-savingrule"]}}, {"slug": "kit-investstart", "type": "kit", "no": 5, "title": "투자 첫걸음 키트", "hook": "투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.", "cat": "투자", "tags": ["투자", "첫걸음", "분산"], "premium": false, "chapter": "PART2 가·나", "date": "2027-01-31", "status": "soon", "thumb": "🌱", "free_preview": "00·01", "problem": "투자가 무섭고 뭘 사야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-04", "bookcol-10"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-portfolio", "type": "kit", "no": 6, "title": "부부 포트폴리오 키트", "hook": "남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": false, "chapter": "PART2 나·아", "date": "2027-02-07", "status": "soon", "thumb": "🧩", "free_preview": "00·01", "problem": "남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.", "steps": 9, "connect": {"columns": ["bookcol-05", "bookcol-06", "bookcol-11"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-taxsaver", "type": "kit", "no": 7, "title": "절세계좌 3형제 키트", "hook": "버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.", "cat": "절세", "tags": ["절세", "계좌", "연금"], "premium": false, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🛟", "free_preview": "00·01", "problem": "절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-08"], "tools": ["booktool-taxaccount"]}}, {"slug": "kit-homebuy", "type": "kit", "no": 8, "title": "내집마련 로드맵 키트", "hook": "막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.", "cat": "부동산", "tags": ["부동산", "내집마련", "청약"], "premium": false, "chapter": "PART2 다", "date": "2027-02-21", "status": "soon", "thumb": "🗝️", "free_preview": "00·01", "problem": "내집마련이 막연하고 뭐부터 할지 모르겠어요.", "steps": 10, "connect": {"columns": ["bookcol-07"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-dividend", "type": "kit", "no": 9, "title": "배당·현금흐름 키트", "hook": "잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.", "cat": "수익화", "tags": ["수익화", "배당", "절세"], "premium": false, "chapter": "PART2 마", "date": "2027-02-28", "status": "soon", "thumb": "🌙", "free_preview": "00·01", "problem": "잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.", "steps": 7, "connect": {"columns": ["bookcol-09"], "tools": ["booktool-finincome"]}}, {"slug": "kit-sideincome", "type": "kit", "no": 10, "title": "월급 밖 수익 키트", "hook": "월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.", "cat": "수익화", "tags": ["수익화", "공모주", "부업"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "🚀", "free_preview": "00·01", "problem": "월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.", "steps": 9, "connect": {"columns": ["bookcol-12"], "tools": ["booktool-savingrule"]}}]</script>
+</div>

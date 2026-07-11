@@ -1,0 +1,822 @@
+{
+ "updated": "2026-07-11T09:00:00",
+ "count": 29,
+ "items": [
+  {
+   "slug": "bookcol-01",
+   "type": "column",
+   "no": 1,
+   "title": "근데 우리, 얼마나 모았더라?",
+   "hook": "우리 얼마나 모았는지부터 숫자로 마주해봐요 — 부끄러움이 아니라 출발선을 긋는 일이에요 :)",
+   "cat": "부부대화",
+   "tags": [
+    "부부대화",
+    "목돈",
+    "첫걸음"
+   ],
+   "premium": false,
+   "chapter": "들어가며·PART1 가",
+   "date": "2026-12-27",
+   "status": "soon",
+   "thumb": "💬",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-flexcost"
+    ],
+    "kits": [
+     "kit-moneytalk"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-02",
+   "type": "column",
+   "no": 2,
+   "title": "그거 아낀다고 되겠어?",
+   "hook": "티끌이 태산이 되는 건 의지가 아니라 새는 '구조'를 막을 때예요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "절약",
+    "구조"
+   ],
+   "premium": false,
+   "chapter": "PART1 다",
+   "date": "2027-01-03",
+   "status": "soon",
+   "thumb": "💧",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-flexcost",
+     "booktool-savingrule"
+    ],
+    "kits": [
+     "kit-leakcheck",
+     "kit-savings"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-03",
+   "type": "column",
+   "no": 3,
+   "title": "나는 멋진 할머니가 되고 싶어, 당신은?",
+   "hook": "흔들리지 않는 목표는 다짐이 아니라 '구조'로 세워요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "목표설계",
+    "부부대화"
+   ],
+   "premium": true,
+   "chapter": "PART1 나 · 만다라트",
+   "date": "2027-01-10",
+   "status": "soon",
+   "thumb": "🎯",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-mandala"
+    ],
+    "kits": [
+     "kit-mandala"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-04",
+   "type": "column",
+   "no": 4,
+   "title": "가만히 있으면 녹아내리는 우리 돈",
+   "hook": "가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "물가",
+    "첫걸음"
+   ],
+   "premium": false,
+   "chapter": "PART2 가",
+   "date": "2027-01-17",
+   "status": "soon",
+   "thumb": "🧊",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-portfolio"
+    ],
+    "kits": [
+     "kit-investstart"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-05",
+   "type": "column",
+   "no": 5,
+   "title": "몰빵의 반대말을 아세요?",
+   "hook": "덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "분산",
+    "포트폴리오"
+   ],
+   "premium": true,
+   "chapter": "PART2 나",
+   "date": "2027-01-24",
+   "status": "soon",
+   "thumb": "🧺",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-portfolio"
+    ],
+    "kits": [
+     "kit-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-06",
+   "type": "column",
+   "no": 6,
+   "title": "안전한 투자는 없다던데,,",
+   "hook": "위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "헷지",
+    "금리"
+   ],
+   "premium": true,
+   "chapter": "PART2 나",
+   "date": "2027-01-31",
+   "status": "soon",
+   "thumb": "🛡️",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-portfolio"
+    ],
+    "kits": [
+     "kit-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-07",
+   "type": "column",
+   "no": 7,
+   "title": "인구 줄면 집값 떨어지는 거 아니야?",
+   "hook": "인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요.",
+   "cat": "부동산",
+   "tags": [
+    "부동산",
+    "내집마련",
+    "투자"
+   ],
+   "premium": false,
+   "chapter": "PART2 다",
+   "date": "2027-02-07",
+   "status": "soon",
+   "thumb": "🏠",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-portfolio"
+    ],
+    "kits": [
+     "kit-homebuy"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-08",
+   "type": "column",
+   "no": 8,
+   "title": "절세계좌, 언제 써야 진짜 이득일까",
+   "hook": "절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요.",
+   "cat": "절세",
+   "tags": [
+    "절세",
+    "연금",
+    "계좌"
+   ],
+   "premium": true,
+   "chapter": "PART2 라",
+   "date": "2027-02-14",
+   "status": "soon",
+   "thumb": "🧾",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-taxaccount"
+    ],
+    "kits": [
+     "kit-taxsaver"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-09",
+   "type": "column",
+   "no": 9,
+   "title": "2천만 원의 벽 앞에서",
+   "hook": "배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요.",
+   "cat": "절세",
+   "tags": [
+    "절세",
+    "배당",
+    "수익화"
+   ],
+   "premium": true,
+   "chapter": "PART2 마",
+   "date": "2027-02-21",
+   "status": "soon",
+   "thumb": "🧱",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-finincome"
+    ],
+    "kits": [
+     "kit-dividend"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-10",
+   "type": "column",
+   "no": 10,
+   "title": "'싸다'는 감정의 실체",
+   "hook": "'싸다'는 감정의 실체를 알면 저평가가 보이기 시작해요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "가치평가",
+    "종목"
+   ],
+   "premium": true,
+   "chapter": "PART2 사",
+   "date": "2027-02-28",
+   "status": "soon",
+   "thumb": "🔍",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-valuation"
+    ],
+    "kits": [
+     "kit-investstart"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-11",
+   "type": "column",
+   "no": 11,
+   "title": "우리 부부만의 포트폴리오는 왜 달라야 할까",
+   "hook": "남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "포트폴리오",
+    "부부대화"
+   ],
+   "premium": true,
+   "chapter": "PART2 아",
+   "date": "2027-03-07",
+   "status": "soon",
+   "thumb": "⚖️",
+   "free_preview": "리드+첫 섹션",
+   "connect": {
+    "tools": [
+     "booktool-portfolio"
+    ],
+    "kits": [
+     "kit-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "bookcol-12",
+   "type": "column",
+   "no": 12,
+   "title": "월급 밖에서 돈이 들어오게 하라",
+   "hook": "월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요.",
+   "cat": "수익화",
+   "tags": [
+    "수익화",
+    "공모주",
+    "현금흐름"
+   ],
+   "premium": false,
+   "chapter": "PART3 가",
+   "date": "2027-03-14",
+   "status": "soon",
+   "thumb": "💸",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-savingrule"
+    ],
+    "kits": [
+     "kit-sideincome"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-mandala",
+   "type": "tool",
+   "no": 1,
+   "title": "우리 목표 만다라트",
+   "hook": "부부 공동 목표를 81칸 만다라트로 함께 설계해요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "목표설계"
+   ],
+   "premium": true,
+   "chapter": "PART1 나 · 만다라트",
+   "date": "2026-12-27",
+   "status": "soon",
+   "thumb": "🧩",
+   "free_preview": "작성 무료·저장 게이트",
+   "connect": {
+    "columns": [
+     "bookcol-03"
+    ],
+    "kits": [
+     "kit-mandala"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-flexcost",
+   "type": "tool",
+   "no": 2,
+   "title": "새는 돈 진단기",
+   "hook": "지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "절약",
+    "진단"
+   ],
+   "premium": false,
+   "chapter": "PART1 다",
+   "date": "2026-07-05",
+   "status": "live",
+   "thumb": "🩺",
+   "free_preview": "입력·결과 무료",
+   "connect": {
+    "columns": [
+     "bookcol-01",
+     "bookcol-02"
+    ],
+    "kits": [
+     "kit-moneytalk",
+     "kit-leakcheck"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-savingrule",
+   "type": "tool",
+   "no": 3,
+   "title": "우리 집 적금·절약 규칙 메이커",
+   "hook": "목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "적금",
+    "규칙"
+   ],
+   "premium": false,
+   "chapter": "PART1 다",
+   "date": "2027-01-03",
+   "status": "soon",
+   "thumb": "📏",
+   "free_preview": "입력·결과 무료",
+   "connect": {
+    "columns": [
+     "bookcol-02",
+     "bookcol-12"
+    ],
+    "kits": [
+     "kit-savings",
+     "kit-sideincome"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-portfolio",
+   "type": "tool",
+   "no": 4,
+   "title": "부부 포트폴리오 배분기",
+   "hook": "인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "포트폴리오",
+    "배분"
+   ],
+   "premium": true,
+   "chapter": "PART2 아",
+   "date": "2026-07-08",
+   "status": "live",
+   "thumb": "⚖️",
+   "free_preview": "간이 무료·정밀 게이트",
+   "connect": {
+    "columns": [
+     "bookcol-04",
+     "bookcol-05",
+     "bookcol-06",
+     "bookcol-07",
+     "bookcol-11"
+    ],
+    "kits": [
+     "kit-portfolio",
+     "kit-investstart",
+     "kit-homebuy"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-taxaccount",
+   "type": "tool",
+   "no": 5,
+   "title": "절세계좌 3형제 시뮬레이터",
+   "hook": "연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요.",
+   "cat": "절세",
+   "tags": [
+    "절세",
+    "계좌",
+    "시뮬레이터"
+   ],
+   "premium": true,
+   "chapter": "PART2 라",
+   "date": "2026-07-06",
+   "status": "live",
+   "thumb": "🧮",
+   "free_preview": "미리보기·정밀 게이트",
+   "connect": {
+    "columns": [
+     "bookcol-08"
+    ],
+    "kits": [
+     "kit-taxsaver"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-finincome",
+   "type": "tool",
+   "no": 6,
+   "title": "금융소득종합과세 가늠기",
+   "hook": "이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요.",
+   "cat": "절세",
+   "tags": [
+    "절세",
+    "배당",
+    "진단"
+   ],
+   "premium": true,
+   "chapter": "PART2 마",
+   "date": "2027-02-21",
+   "status": "soon",
+   "thumb": "📊",
+   "free_preview": "미리보기·정밀 게이트",
+   "connect": {
+    "columns": [
+     "bookcol-09"
+    ],
+    "kits": [
+     "kit-dividend"
+    ]
+   }
+  },
+  {
+   "slug": "booktool-valuation",
+   "type": "tool",
+   "no": 7,
+   "title": "가치평가 첫걸음",
+   "hook": "PER·PBR·ROE로 '싸다·비싸다'의 감을 처음부터 잡아드려요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "가치평가"
+   ],
+   "premium": true,
+   "chapter": "PART2 사",
+   "date": "2026-07-09",
+   "status": "live",
+   "thumb": "🔎",
+   "free_preview": "미리보기·정밀 게이트",
+   "connect": {
+    "columns": [
+     "bookcol-10"
+    ],
+    "kits": [
+     "kit-investstart"
+    ]
+   }
+  },
+  {
+   "slug": "kit-moneytalk",
+   "type": "kit",
+   "no": 1,
+   "title": "머니토크 키트",
+   "hook": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.",
+   "cat": "부부대화",
+   "tags": [
+    "부부대화",
+    "목돈",
+    "첫걸음"
+   ],
+   "premium": false,
+   "chapter": "PART1 가",
+   "date": "2026-12-27",
+   "status": "soon",
+   "thumb": "🗣️",
+   "free_preview": "00·01",
+   "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.",
+   "steps": 10,
+   "connect": {
+    "columns": [
+     "bookcol-01"
+    ],
+    "tools": [
+     "booktool-flexcost"
+    ]
+   }
+  },
+  {
+   "slug": "kit-mandala",
+   "type": "kit",
+   "no": 2,
+   "title": "만다라트 목표 키트",
+   "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "목표설계",
+    "부부대화"
+   ],
+   "premium": false,
+   "chapter": "PART1 나",
+   "date": "2027-01-10",
+   "status": "soon",
+   "thumb": "🧭",
+   "free_preview": "00·01",
+   "problem": "목표가 흐릿해서 돈이 안 모여요.",
+   "steps": 8,
+   "connect": {
+    "columns": [
+     "bookcol-03"
+    ],
+    "tools": [
+     "booktool-mandala"
+    ]
+   }
+  },
+  {
+   "slug": "kit-leakcheck",
+   "type": "kit",
+   "no": 3,
+   "title": "새는 돈 점검 키트",
+   "hook": "분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "절약",
+    "진단"
+   ],
+   "premium": false,
+   "chapter": "PART1 다",
+   "date": "2027-01-17",
+   "status": "soon",
+   "thumb": "🔦",
+   "free_preview": "00·01",
+   "problem": "분명 아끼는데 돈이 안 남아요.",
+   "steps": 7,
+   "connect": {
+    "columns": [
+     "bookcol-02"
+    ],
+    "tools": [
+     "booktool-flexcost"
+    ]
+   }
+  },
+  {
+   "slug": "kit-savings",
+   "type": "kit",
+   "no": 4,
+   "title": "모이는 구조 키트",
+   "hook": "의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.",
+   "cat": "목돈",
+   "tags": [
+    "목돈",
+    "적금",
+    "구조"
+   ],
+   "premium": false,
+   "chapter": "PART1 다",
+   "date": "2027-01-24",
+   "status": "soon",
+   "thumb": "🏦",
+   "free_preview": "00·01",
+   "problem": "모으고 싶은데 구조가 없어 흐지부지돼요.",
+   "steps": 6,
+   "connect": {
+    "columns": [
+     "bookcol-02"
+    ],
+    "tools": [
+     "booktool-savingrule"
+    ]
+   }
+  },
+  {
+   "slug": "kit-investstart",
+   "type": "kit",
+   "no": 5,
+   "title": "투자 첫걸음 키트",
+   "hook": "투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "첫걸음",
+    "분산"
+   ],
+   "premium": false,
+   "chapter": "PART2 가·나",
+   "date": "2027-01-31",
+   "status": "soon",
+   "thumb": "🌱",
+   "free_preview": "00·01",
+   "problem": "투자가 무섭고 뭘 사야 할지 모르겠어요.",
+   "steps": 8,
+   "connect": {
+    "columns": [
+     "bookcol-04",
+     "bookcol-10"
+    ],
+    "tools": [
+     "booktool-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "kit-portfolio",
+   "type": "kit",
+   "no": 6,
+   "title": "부부 포트폴리오 키트",
+   "hook": "남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.",
+   "cat": "투자",
+   "tags": [
+    "투자",
+    "포트폴리오",
+    "부부대화"
+   ],
+   "premium": false,
+   "chapter": "PART2 나·아",
+   "date": "2027-02-07",
+   "status": "soon",
+   "thumb": "🧩",
+   "free_preview": "00·01",
+   "problem": "남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.",
+   "steps": 9,
+   "connect": {
+    "columns": [
+     "bookcol-05",
+     "bookcol-06",
+     "bookcol-11"
+    ],
+    "tools": [
+     "booktool-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "kit-taxsaver",
+   "type": "kit",
+   "no": 7,
+   "title": "절세계좌 3형제 키트",
+   "hook": "버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.",
+   "cat": "절세",
+   "tags": [
+    "절세",
+    "계좌",
+    "연금"
+   ],
+   "premium": false,
+   "chapter": "PART2 라",
+   "date": "2027-02-14",
+   "status": "soon",
+   "thumb": "🛟",
+   "free_preview": "00·01",
+   "problem": "절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.",
+   "steps": 8,
+   "connect": {
+    "columns": [
+     "bookcol-08"
+    ],
+    "tools": [
+     "booktool-taxaccount"
+    ]
+   }
+  },
+  {
+   "slug": "kit-homebuy",
+   "type": "kit",
+   "no": 8,
+   "title": "내집마련 로드맵 키트",
+   "hook": "막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.",
+   "cat": "부동산",
+   "tags": [
+    "부동산",
+    "내집마련",
+    "청약"
+   ],
+   "premium": false,
+   "chapter": "PART2 다",
+   "date": "2027-02-21",
+   "status": "soon",
+   "thumb": "🗝️",
+   "free_preview": "00·01",
+   "problem": "내집마련이 막연하고 뭐부터 할지 모르겠어요.",
+   "steps": 10,
+   "connect": {
+    "columns": [
+     "bookcol-07"
+    ],
+    "tools": [
+     "booktool-portfolio"
+    ]
+   }
+  },
+  {
+   "slug": "kit-dividend",
+   "type": "kit",
+   "no": 9,
+   "title": "배당·현금흐름 키트",
+   "hook": "잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.",
+   "cat": "수익화",
+   "tags": [
+    "수익화",
+    "배당",
+    "절세"
+   ],
+   "premium": false,
+   "chapter": "PART2 마",
+   "date": "2027-02-28",
+   "status": "soon",
+   "thumb": "🌙",
+   "free_preview": "00·01",
+   "problem": "잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.",
+   "steps": 7,
+   "connect": {
+    "columns": [
+     "bookcol-09"
+    ],
+    "tools": [
+     "booktool-finincome"
+    ]
+   }
+  },
+  {
+   "slug": "kit-sideincome",
+   "type": "kit",
+   "no": 10,
+   "title": "월급 밖 수익 키트",
+   "hook": "월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.",
+   "cat": "수익화",
+   "tags": [
+    "수익화",
+    "공모주",
+    "부업"
+   ],
+   "premium": false,
+   "chapter": "PART3 가",
+   "date": "2027-03-14",
+   "status": "soon",
+   "thumb": "🚀",
+   "free_preview": "00·01",
+   "problem": "월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.",
+   "steps": 9,
+   "connect": {
+    "columns": [
+     "bookcol-12"
+    ],
+    "tools": [
+     "booktool-savingrule"
+    ]
+   }
+  }
+ ]
+}

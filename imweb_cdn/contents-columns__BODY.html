@@ -1,0 +1,203 @@
+<!-- [contents-columns] BODY = 전체너비 코드위젯 · 칼럼·도구 탐색(자료실) · contents_index.json 하이드레이션(rawcdn main·cb) · 실패 시 인라인 스냅샷/정적카드 폴백 · REcontent식 웜 분홍 · 클래스 cx- 접두사 · 2026-07-11 -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+ --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
+ --ink:#2C201B;--ink2:#57453D;--mut:#877468;
+ --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --border:#ECDAD5;--borderStrong:#E4C8C2;
+ --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
+ --lock:#8A6A50;--lockSoft:#F6EEE4;--lockBd:#EADFCE;
+ --maxw:1120px;
+ --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.22,1,.36,1);
+ --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
+ --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+}
+/* ===== 사이트 공통 헤더 (시각 CSS는 사이트 팔레트 고정값) ===== */
+.topbar{background:#B85060;color:#fff;font-size:13px;display:flex;align-items:center;gap:16px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;z-index:2;overflow:hidden}
+.topbar::before{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:bblshim 6s ease-in-out infinite}
+@keyframes bblshim{0%,60%{left:-30%}100%{left:130%}}
+.topbar span{position:relative;z-index:1}
+.topbar a{position:relative;z-index:1;background:#fff;color:#B85060;padding:5px 14px;border-radius:100px;font-weight:800;font-size:12.5px;text-decoration:none;transition:transform .2s}
+.topbar a:hover{transform:translateY(-1px)}
+#hdr{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.82);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid #EAD7D3}
+#hdr .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .nav>*{min-width:0}
+#hdr .logo{justify-self:start;font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;color:#3E2F29;white-space:nowrap}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:#D67A89;box-shadow:0 0 0 4px #F8E8EA}
+#hdr .menu-main{justify-self:center}
+#hdr .menu{display:flex;gap:22px;font-size:15px;font-weight:600;color:#5C4B43}
+#hdr .menu a{position:relative;padding:4px 0;text-decoration:none;color:inherit}
+#hdr .menu a:hover{color:#D67A89}
+#hdr .menu a[aria-current]{color:#B33A4C}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px;flex-wrap:nowrap}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:#8A7B72;font-weight:600}
+#hdr .menu-sub a:hover{color:#D67A89}
+#hdr .cta{background:#B85060;color:#fff;padding:10px 20px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:transform .2s,background .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+@media(max-width:1120px){#hdr .navright{gap:12px}#hdr .menu{gap:16px}}
+@media(max-width:860px){#hdr .menu-main,#hdr .menu-sub{display:none}}
+@media(max-width:700px){#hdr .wrap{padding:0 14px}}
+/* ===== cx 공통 ===== */
+.cx-page *{box-sizing:border-box;margin:0;padding:0}
+.cx-page{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.cx-page a{color:inherit;text-decoration:none}
+.cx-page :focus-visible{outline:2.5px solid var(--rose);outline-offset:3px;border-radius:8px}
+.cx-page .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.cx-in{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+/* 히어로 */
+.cx-hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
+.cx-heroin{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:clamp(44px,6vw,84px) clamp(22px,4.5vw,40px)}
+.cx-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 14px;text-transform:uppercase;box-shadow:0 6px 14px -6px rgba(124,36,59,.6)}
+.cx-h1{font-size:clamp(27px,5vw,50px);font-weight:900;letter-spacing:-.035em;line-height:1.14;margin-top:18px;color:var(--ink)}
+.cx-lead{margin-top:16px;max-width:48ch}
+.cx-lead p{font-size:clamp(15px,2vw,18px);color:var(--ink2);font-weight:600;line-height:1.66}
+.cx-lead p+p{margin-top:10px}
+.cx-lead b{color:var(--rose);font-weight:800}
+/* 컨트롤바(sticky, 헤더 아래) */
+.cx-controls{position:sticky;top:64px;z-index:40;background:rgba(253,251,247,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.cx-ctin{max-width:var(--maxw);margin:0 auto;padding:15px clamp(22px,4.5vw,40px)}
+.cx-search{position:relative}
+.cx-search input{width:100%;height:50px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:0 18px 0 44px;font:inherit;font-size:15px;color:var(--ink);box-shadow:var(--sh1)}
+.cx-search input::placeholder{color:var(--mut)}
+.cx-search input:focus{border-color:var(--pink);outline:none}
+.cx-search::before{content:"🔎";position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.7;pointer-events:none}
+.cx-chiprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.cx-chip{border:1px solid var(--border);background:#fff;color:var(--ink2);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:800;cursor:pointer;transition:transform .15s,background .2s,color .2s,border-color .2s}
+.cx-chip:hover{border-color:var(--borderStrong);color:var(--rose)}
+.cx-chip.on{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border-color:transparent}
+.cx-chip:active{transform:scale(.95)}
+.cx-chipdiv{width:1px;height:20px;background:var(--border);margin:0 3px;flex:none}
+.cx-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;flex-wrap:wrap}
+.cx-tbl{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.cx-tbt{font-size:13.5px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.cx-count{font-size:12.5px;font-weight:700;color:var(--mut)}
+.cx-count b{color:var(--rose);font-weight:900}
+.cx-sort{display:inline-flex;gap:4px;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:12px;padding:4px}
+.cx-sortb{border:0;background:transparent;color:var(--ink2);border-radius:9px;padding:7px 14px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}
+.cx-sortb.on{background:#fff;color:var(--rose);box-shadow:var(--sh1)}
+/* 리스트 */
+.cx-wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(24px,3.5vw,40px) clamp(22px,4.5vw,40px) clamp(30px,4vw,48px)}
+.cx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+/* 빈 상태 */
+.cx-empty{text-align:center;padding:56px 20px;color:var(--ink2)}
+.cx-empty .ei{font-size:38px;line-height:1}
+.cx-empty .et{font-size:16px;font-weight:800;margin-top:12px;color:var(--ink)}
+.cx-empty .ed{font-size:13.5px;margin-top:8px;color:var(--mut)}
+/* 리빌(페이드만) */
+.cx-page.js .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.cx-page.js .cx-rv.in{opacity:1;transform:none}
+.cx-grid .cx-rv.in:nth-child(3n+2){transition-delay:.05s}
+.cx-grid .cx-rv.in:nth-child(3n){transition-delay:.1s}
+/* 프리미엄 밴드(웜 라이트) */
+.cx-band{position:relative;margin-top:8px;padding:clamp(40px,5.5vw,64px) 0;overflow:hidden;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:radial-gradient(90% 130% at 84% -20%,var(--pinkSoft) 0%,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 58%,#FDEFF2)}
+.cx-bandin{position:relative;max-width:720px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+.cx-bk{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--rose);text-transform:uppercase}
+.cx-band h2{font-size:clamp(21px,3.2vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:11px;color:var(--ink);line-height:1.3}
+.cx-band p{font-size:14.5px;color:var(--ink2);margin-top:12px;line-height:1.66}
+.cx-cta{display:inline-flex;align-items:center;gap:8px;margin-top:22px;min-height:54px;padding:16px 30px;border-radius:16px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:16px;font-weight:800;box-shadow:0 16px 34px -12px rgba(179,58,76,.55);transition:transform .3s var(--ease2),box-shadow .3s}
+.cx-cta:hover{transform:translateY(-3px);box-shadow:0 22px 44px -12px rgba(179,58,76,.62)}
+.cx-cta:active{transform:scale(.97)}
+.cx-cta i{font-style:normal;transition:transform .25s}
+.cx-cta:hover i{transform:translateX(4px)}
+.cx-note{font-size:12px;color:var(--mut);margin-top:14px}
+/* 푸터 */
+.cx-foot{border-top:1px solid var(--border);background:var(--bg)}
+.cx-footin{max-width:var(--maxw);margin:0 auto;padding:22px clamp(22px,4.5vw,40px);font-size:12px;color:var(--mut);font-weight:700;display:flex;align-items:center;gap:8px}
+.cx-foot .dotf{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+/* 맨 위로 */
+.cx-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--rose);color:#fff;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 12px 26px -8px rgba(179,58,76,.5);opacity:0;transform:translateY(10px);transition:.3s var(--ease2);z-index:1100}
+.cx-top.on{opacity:1;transform:none}
+.cx-top:hover{background:#9E2E40}
+/* 반응형 */
+@media(max-width:640px){
+ .cx-grid{grid-template-columns:1fr}
+ .cx-chiprow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+ .cx-chip{flex:none}
+ .cx-controls{top:56px}
+}
+@media(prefers-reduced-motion:reduce){
+ .cx-page *,.cx-page *::before,.cx-page *::after{animation:none!important;transition:none!important}
+ .cx-page.js .cx-rv{opacity:1!important;transform:none!important}
+ .topbar::before{animation:none}
+}
+/* ===== cx 카드(칼럼·도구, 가로형) ===== */
+.cx-tile{position:relative;display:flex;gap:14px;align-items:flex-start;padding:18px 18px 30px 22px;border-radius:18px;border:1px solid var(--border);background:var(--paper);overflow:hidden;box-shadow:var(--sh1);transition:transform .3s var(--ease2),box-shadow .3s var(--ease2),border-color .3s}
+a.cx-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--pink)}
+a.cx-tile:active{transform:scale(.99)}
+.cx-soon{cursor:default;opacity:.95}
+.cx-soon .cx-h3{color:var(--ink2)}
+.cx-side{position:absolute;left:0;top:0;bottom:0;width:5px}
+.cx-side-col{background:linear-gradient(180deg,var(--rose2),var(--rose))}
+.cx-side-tool{background:linear-gradient(180deg,var(--sage),var(--sageInk))}
+.cx-thumb{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--pinkSoft);box-shadow:inset 0 0 0 1px rgba(179,58,76,.06)}
+.cx-tile[data-type=tool] .cx-thumb{background:var(--sageSoft)}
+.cx-body{min-width:0;flex:1;display:flex;flex-direction:column}
+.cx-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:8px}
+.cx-no{font-size:11px;font-weight:900;letter-spacing:.02em;color:var(--mut);background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:2px 7px;font-variant-numeric:tabular-nums}
+.cx-type{font-size:10.5px;font-weight:800;padding:2.5px 9px;border-radius:999px;letter-spacing:.02em}
+.cx-type-col{background:var(--pinkSoft);color:var(--rose)}
+.cx-type-tool{background:var(--sageSoft);color:var(--sageInk)}
+.cx-b{font-size:10.5px;font-weight:800;padding:2.5px 9px;border-radius:999px;letter-spacing:.01em}
+.cx-b-free{background:#E8F3EE;color:#3F7A66}
+.cx-b-prem{background:var(--lockSoft);color:var(--lock);border:1px solid var(--lockBd)}
+.cx-b-soon{background:#FBEEF0;color:var(--rose);border:1px dashed var(--borderStrong)}
+.cx-h3{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.34;color:var(--ink)}
+.cx-hook{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.6;margin-top:7px}
+.cx-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+.cx-tag{font-size:11px;font-weight:700;color:var(--mut);background:var(--bg2);border-radius:7px;padding:3px 8px}
+.cx-arr{position:absolute;right:16px;bottom:14px;color:var(--pink);font-weight:900;transition:transform .25s,color .25s}
+a.cx-tile:hover .cx-arr{color:var(--rose);transform:translateX(4px)}
+.cx-soon .cx-arr{display:none}
+</style>
+<div class="topbar">
+  <span>매일 아침 7시·저녁 6시, 동은부부 머니레터가 두 분의 하루에 도착해요</span>
+  <a href="/letter-evening">오늘 레터 열어보기 →</a>
+</div>
+<header id="hdr">
+  <div class="wrap nav">
+    <div class="logo"><span class="dot"></span>부부연구소</div>
+    <nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents-columns" aria-current="page">칼럼</a><a href="/contents-kits">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+    <div class="navright">
+      <nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
+      <a href="/home#subscribe" class="cta">구독하기</a>
+    </div>
+  </div>
+</header>
+<div class="cx-page" id="cxRoot">
+ <header class="cx-hero">
+  <div class="cx-heroin">
+   <span class="cx-eyebrow">✦ Contents</span>
+   <h1 class="cx-h1">어디서부터 읽을지 막막하다면,<br>여기서 골라 봐요</h1>
+   <div class="cx-lead"><p>무료 칼럼으로 먼저 공감하고 이해해요.</p><p>마음이 움직인 자리에서, 바로 우리 상황에 적용하는 <b>도구</b>까지 이어가요.</p></div>
+  </div>
+ </header>
+ <div class="cx-controls">
+  <div class="cx-ctin">
+   <div class="cx-search"><input id="cxSearch" type="search" autocomplete="off" placeholder="제목·태그로 찾아보기" aria-label="칼럼·도구 검색"></div>
+   <div class="cx-chiprow" id="cxChips" role="group" aria-label="필터"><button class="cx-chip on" type="button" data-f="all" aria-pressed="true">전체</button><button class="cx-chip" type="button" data-f="free" aria-pressed="false">무료</button><button class="cx-chip" type="button" data-f="premium" aria-pressed="false">프리미엄</button><span class="cx-chipdiv" aria-hidden="true"></span><button class="cx-chip" type="button" data-f="type:column" aria-pressed="false">칼럼</button><button class="cx-chip" type="button" data-f="type:tool" aria-pressed="false">도구</button><span class="cx-chipdiv" aria-hidden="true"></span><button class="cx-chip" type="button" data-f="tag:목돈" aria-pressed="false">목돈</button><button class="cx-chip" type="button" data-f="tag:투자" aria-pressed="false">투자</button><button class="cx-chip" type="button" data-f="tag:부동산" aria-pressed="false">부동산</button><button class="cx-chip" type="button" data-f="tag:절세" aria-pressed="false">절세</button><button class="cx-chip" type="button" data-f="tag:수익화" aria-pressed="false">수익화</button><button class="cx-chip" type="button" data-f="tag:부부대화" aria-pressed="false">부부대화</button></div>
+   <div class="cx-toolbar">
+    <div class="cx-tbl"><span class="cx-tbt">칼럼·도구 자료실</span><span class="cx-count" id="cxCount"><b>19</b>개</span></div>
+    <div class="cx-sort" id="cxSort" role="group" aria-label="정렬"><button class="cx-sortb on" type="button" data-s="new">최신순</button><button class="cx-sortb" type="button" data-s="no">번호순</button></div>
+   </div>
+  </div>
+ </div>
+ <main class="cx-wrap">
+  <div class="cx-grid" id="cxList"><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">💸</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">12</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">월급 밖에서 돈이 들어오게 하라</span><span class="cx-hook">월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요.</span><span class="cx-tags"><span class="cx-tag">수익화</span><span class="cx-tag">공모주</span><span class="cx-tag">현금흐름</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">⚖️</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">11</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">우리 부부만의 포트폴리오는 왜 달라야 할까</span><span class="cx-hook">남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">포트폴리오</span><span class="cx-tag">부부대화</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🔍</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">10</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">'싸다'는 감정의 실체</span><span class="cx-hook">'싸다'는 감정의 실체를 알면 저평가가 보이기 시작해요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">가치평가</span><span class="cx-tag">종목</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🧱</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">09</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">2천만 원의 벽 앞에서</span><span class="cx-hook">배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요.</span><span class="cx-tags"><span class="cx-tag">절세</span><span class="cx-tag">배당</span><span class="cx-tag">수익화</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">📊</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">06</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">금융소득종합과세 가늠기</span><span class="cx-hook">이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요.</span><span class="cx-tags"><span class="cx-tag">절세</span><span class="cx-tag">배당</span><span class="cx-tag">진단</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🧾</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">08</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">절세계좌, 언제 써야 진짜 이득일까</span><span class="cx-hook">절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요.</span><span class="cx-tags"><span class="cx-tag">절세</span><span class="cx-tag">연금</span><span class="cx-tag">계좌</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🏠</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">07</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">인구 줄면 집값 떨어지는 거 아니야?</span><span class="cx-hook">인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요.</span><span class="cx-tags"><span class="cx-tag">부동산</span><span class="cx-tag">내집마련</span><span class="cx-tag">투자</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🛡️</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">06</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">안전한 투자는 없다던데,,</span><span class="cx-hook">위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">헷지</span><span class="cx-tag">금리</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🧺</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">05</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">몰빵의 반대말을 아세요?</span><span class="cx-hook">덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">분산</span><span class="cx-tag">포트폴리오</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🧊</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">04</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">가만히 있으면 녹아내리는 우리 돈</span><span class="cx-hook">가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">물가</span><span class="cx-tag">첫걸음</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">🎯</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">03</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">나는 멋진 할머니가 되고 싶어, 당신은?</span><span class="cx-hook">흔들리지 않는 목표는 다짐이 아니라 '구조'로 세워요.</span><span class="cx-tags"><span class="cx-tag">목돈</span><span class="cx-tag">목표설계</span><span class="cx-tag">부부대화</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">💧</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">02</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">그거 아낀다고 되겠어?</span><span class="cx-hook">티끌이 태산이 되는 건 의지가 아니라 새는 '구조'를 막을 때예요.</span><span class="cx-tags"><span class="cx-tag">목돈</span><span class="cx-tag">절약</span><span class="cx-tag">구조</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">📏</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">03</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">우리 집 적금·절약 규칙 메이커</span><span class="cx-hook">목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요.</span><span class="cx-tags"><span class="cx-tag">목돈</span><span class="cx-tag">적금</span><span class="cx-tag">규칙</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="column"><span class="cx-side cx-side-col" aria-hidden="true"></span><span class="cx-thumb">💬</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">01</span><span class="cx-type cx-type-col">칼럼</span><span class="cx-b cx-b-free">🆓 무료</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">근데 우리, 얼마나 모았더라?</span><span class="cx-hook">우리 얼마나 모았는지부터 숫자로 마주해봐요 — 부끄러움이 아니라 출발선을 긋는 일이에요 :)</span><span class="cx-tags"><span class="cx-tag">부부대화</span><span class="cx-tag">목돈</span><span class="cx-tag">첫걸음</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><div class="cx-tile cx-soon cx-rv" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">🧩</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">01</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-prem">🔒 프리미엄</span><span class="cx-b cx-b-soon">곧 만나요</span></span><span class="cx-h3">우리 목표 만다라트</span><span class="cx-hook">부부 공동 목표를 81칸 만다라트로 함께 설계해요.</span><span class="cx-tags"><span class="cx-tag">목돈</span><span class="cx-tag">목표설계</span></span></span><span class="cx-arr" aria-hidden="true">→</span></div><a class="cx-tile cx-rv" href="/booktool-valuation" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">🔎</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">07</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-prem">🔒 프리미엄</span></span><span class="cx-h3">가치평가 첫걸음</span><span class="cx-hook">PER·PBR·ROE로 '싸다·비싸다'의 감을 처음부터 잡아드려요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">가치평가</span></span></span><span class="cx-arr" aria-hidden="true">→</span></a><a class="cx-tile cx-rv" href="/booktool-portfolio" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">⚖️</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">04</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-prem">🔒 프리미엄</span></span><span class="cx-h3">부부 포트폴리오 배분기</span><span class="cx-hook">인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요.</span><span class="cx-tags"><span class="cx-tag">투자</span><span class="cx-tag">포트폴리오</span><span class="cx-tag">배분</span></span></span><span class="cx-arr" aria-hidden="true">→</span></a><a class="cx-tile cx-rv" href="/booktool-taxaccount" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">🧮</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">05</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-prem">🔒 프리미엄</span></span><span class="cx-h3">절세계좌 3형제 시뮬레이터</span><span class="cx-hook">연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요.</span><span class="cx-tags"><span class="cx-tag">절세</span><span class="cx-tag">계좌</span><span class="cx-tag">시뮬레이터</span></span></span><span class="cx-arr" aria-hidden="true">→</span></a><a class="cx-tile cx-rv" href="/booktool-flexcost" data-type="tool"><span class="cx-side cx-side-tool" aria-hidden="true"></span><span class="cx-thumb">🩺</span><span class="cx-body"><span class="cx-meta"><span class="cx-no">02</span><span class="cx-type cx-type-tool">도구</span><span class="cx-b cx-b-free">🆓 무료</span></span><span class="cx-h3">새는 돈 진단기</span><span class="cx-hook">지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요.</span><span class="cx-tags"><span class="cx-tag">목돈</span><span class="cx-tag">절약</span><span class="cx-tag">진단</span></span></span><span class="cx-arr" aria-hidden="true">→</span></a></div>
+  <div class="cx-empty" id="cxEmpty" hidden><div class="ei">🔎</div><div class="et">찾는 조건에 맞는 글이 아직 없어요</div><div class="ed">검색어나 필터를 살짝 바꿔볼까요.</div></div>
+ </main>
+ <section class="cx-band" aria-label="프리미엄 안내">
+  <div class="cx-bandin">
+   <div class="cx-bk">Premium</div>
+   <h2>칼럼·도구를 모두 여는 접근권</h2>
+   <p>무료로 먼저 충분히 둘러보고, 더 깊이 읽고 싶어지면 프리미엄으로 이어가요.</p>
+   <a class="cx-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+   <div class="cx-note">*프리미엄은 칼럼·도구·자료를 모두 여는 접근권이에요.</div>
+  </div>
+ </section>
+ <footer class="cx-foot"><div class="cx-footin"><span class="dotf"></span>부부연구소 · 책 연계 칼럼·도구 자료실</div></footer>
+ <button class="cx-top" id="cxtop" type="button" aria-label="맨 위로">↑</button>
+ <script type="application/json" id="cxSnap">[{"slug": "bookcol-01", "type": "column", "no": 1, "title": "근데 우리, 얼마나 모았더라?", "hook": "우리 얼마나 모았는지부터 숫자로 마주해봐요 — 부끄러움이 아니라 출발선을 긋는 일이에요 :)", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "premium": false, "chapter": "들어가며·PART1 가", "date": "2026-12-27", "status": "soon", "thumb": "💬", "free_preview": "전문 공개", "connect": {"tools": ["booktool-flexcost"], "kits": ["kit-moneytalk"]}}, {"slug": "bookcol-02", "type": "column", "no": 2, "title": "그거 아낀다고 되겠어?", "hook": "티끌이 태산이 되는 건 의지가 아니라 새는 '구조'를 막을 때예요.", "cat": "목돈", "tags": ["목돈", "절약", "구조"], "premium": false, "chapter": "PART1 다", "date": "2027-01-03", "status": "soon", "thumb": "💧", "free_preview": "전문 공개", "connect": {"tools": ["booktool-flexcost", "booktool-savingrule"], "kits": ["kit-leakcheck", "kit-savings"]}}, {"slug": "bookcol-03", "type": "column", "no": 3, "title": "나는 멋진 할머니가 되고 싶어, 당신은?", "hook": "흔들리지 않는 목표는 다짐이 아니라 '구조'로 세워요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": true, "chapter": "PART1 나 · 만다라트", "date": "2027-01-10", "status": "soon", "thumb": "🎯", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-mandala"], "kits": ["kit-mandala"]}}, {"slug": "bookcol-04", "type": "column", "no": 4, "title": "가만히 있으면 녹아내리는 우리 돈", "hook": "가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,", "cat": "투자", "tags": ["투자", "물가", "첫걸음"], "premium": false, "chapter": "PART2 가", "date": "2027-01-17", "status": "soon", "thumb": "🧊", "free_preview": "전문 공개", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-investstart"]}}, {"slug": "bookcol-05", "type": "column", "no": 5, "title": "몰빵의 반대말을 아세요?", "hook": "덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요.", "cat": "투자", "tags": ["투자", "분산", "포트폴리오"], "premium": true, "chapter": "PART2 나", "date": "2027-01-24", "status": "soon", "thumb": "🧺", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}}, {"slug": "bookcol-06", "type": "column", "no": 6, "title": "안전한 투자는 없다던데,,", "hook": "위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요.", "cat": "투자", "tags": ["투자", "헷지", "금리"], "premium": true, "chapter": "PART2 나", "date": "2027-01-31", "status": "soon", "thumb": "🛡️", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}}, {"slug": "bookcol-07", "type": "column", "no": 7, "title": "인구 줄면 집값 떨어지는 거 아니야?", "hook": "인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요.", "cat": "부동산", "tags": ["부동산", "내집마련", "투자"], "premium": false, "chapter": "PART2 다", "date": "2027-02-07", "status": "soon", "thumb": "🏠", "free_preview": "전문 공개", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-homebuy"]}}, {"slug": "bookcol-08", "type": "column", "no": 8, "title": "절세계좌, 언제 써야 진짜 이득일까", "hook": "절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요.", "cat": "절세", "tags": ["절세", "연금", "계좌"], "premium": true, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🧾", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-taxaccount"], "kits": ["kit-taxsaver"]}}, {"slug": "bookcol-09", "type": "column", "no": 9, "title": "2천만 원의 벽 앞에서", "hook": "배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요.", "cat": "절세", "tags": ["절세", "배당", "수익화"], "premium": true, "chapter": "PART2 마", "date": "2027-02-21", "status": "soon", "thumb": "🧱", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-finincome"], "kits": ["kit-dividend"]}}, {"slug": "bookcol-10", "type": "column", "no": 10, "title": "'싸다'는 감정의 실체", "hook": "'싸다'는 감정의 실체를 알면 저평가가 보이기 시작해요.", "cat": "투자", "tags": ["투자", "가치평가", "종목"], "premium": true, "chapter": "PART2 사", "date": "2027-02-28", "status": "soon", "thumb": "🔍", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-valuation"], "kits": ["kit-investstart"]}}, {"slug": "bookcol-11", "type": "column", "no": 11, "title": "우리 부부만의 포트폴리오는 왜 달라야 할까", "hook": "남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": true, "chapter": "PART2 아", "date": "2027-03-07", "status": "soon", "thumb": "⚖️", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}}, {"slug": "bookcol-12", "type": "column", "no": 12, "title": "월급 밖에서 돈이 들어오게 하라", "hook": "월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요.", "cat": "수익화", "tags": ["수익화", "공모주", "현금흐름"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "💸", "free_preview": "전문 공개", "connect": {"tools": ["booktool-savingrule"], "kits": ["kit-sideincome"]}}, {"slug": "booktool-mandala", "type": "tool", "no": 1, "title": "우리 목표 만다라트", "hook": "부부 공동 목표를 81칸 만다라트로 함께 설계해요.", "cat": "목돈", "tags": ["목돈", "목표설계"], "premium": true, "chapter": "PART1 나 · 만다라트", "date": "2026-12-27", "status": "soon", "thumb": "🧩", "free_preview": "작성 무료·저장 게이트", "connect": {"columns": ["bookcol-03"], "kits": ["kit-mandala"]}}, {"slug": "booktool-flexcost", "type": "tool", "no": 2, "title": "새는 돈 진단기", "hook": "지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2026-07-05", "status": "live", "thumb": "🩺", "free_preview": "입력·결과 무료", "connect": {"columns": ["bookcol-01", "bookcol-02"], "kits": ["kit-moneytalk", "kit-leakcheck"]}}, {"slug": "booktool-savingrule", "type": "tool", "no": 3, "title": "우리 집 적금·절약 규칙 메이커", "hook": "목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요.", "cat": "목돈", "tags": ["목돈", "적금", "규칙"], "premium": false, "chapter": "PART1 다", "date": "2027-01-03", "status": "soon", "thumb": "📏", "free_preview": "입력·결과 무료", "connect": {"columns": ["bookcol-02", "bookcol-12"], "kits": ["kit-savings", "kit-sideincome"]}}, {"slug": "booktool-portfolio", "type": "tool", "no": 4, "title": "부부 포트폴리오 배분기", "hook": "인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요.", "cat": "투자", "tags": ["투자", "포트폴리오", "배분"], "premium": true, "chapter": "PART2 아", "date": "2026-07-08", "status": "live", "thumb": "⚖️", "free_preview": "간이 무료·정밀 게이트", "connect": {"columns": ["bookcol-04", "bookcol-05", "bookcol-06", "bookcol-07", "bookcol-11"], "kits": ["kit-portfolio", "kit-investstart", "kit-homebuy"]}}, {"slug": "booktool-taxaccount", "type": "tool", "no": 5, "title": "절세계좌 3형제 시뮬레이터", "hook": "연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요.", "cat": "절세", "tags": ["절세", "계좌", "시뮬레이터"], "premium": true, "chapter": "PART2 라", "date": "2026-07-06", "status": "live", "thumb": "🧮", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-08"], "kits": ["kit-taxsaver"]}}, {"slug": "booktool-finincome", "type": "tool", "no": 6, "title": "금융소득종합과세 가늠기", "hook": "이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요.", "cat": "절세", "tags": ["절세", "배당", "진단"], "premium": true, "chapter": "PART2 마", "date": "2027-02-21", "status": "soon", "thumb": "📊", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-09"], "kits": ["kit-dividend"]}}, {"slug": "booktool-valuation", "type": "tool", "no": 7, "title": "가치평가 첫걸음", "hook": "PER·PBR·ROE로 '싸다·비싸다'의 감을 처음부터 잡아드려요.", "cat": "투자", "tags": ["투자", "가치평가"], "premium": true, "chapter": "PART2 사", "date": "2026-07-09", "status": "live", "thumb": "🔎", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-10"], "kits": ["kit-investstart"]}}]</script>
+</div>

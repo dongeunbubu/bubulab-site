@@ -1,0 +1,76 @@
+<!-- contents-kits FOOTER = 탐색 페이지 하이드레이션 엔진 · contents_index.json rawcdn(main) fetch(cb+no-store+10s) · 실패 시 인라인 스냅샷 폴백 · 검색(제목+태그)·단일토글 칩·정렬 · 리빌 페이드(RM 존중) · 2026-07-11 -->
+<script>
+(function(){
+ var W=document.getElementById('kxRoot');if(!W)return;if(window.__kxhub)return;window.__kxhub=1;
+ var d=document;W.classList.add('js');
+ var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/contents_index.json';
+ var TYPES=["kit"];
+ var ST={q:'',f:'all',s:'new'},DATA=[];
+ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+ function pad2(n){return (n<10?'0':'')+n;}
+ function typeRank(t){return t==='column'?0:t==='tool'?1:2;}
+ function card(it){
+  var live=it.status==='live';
+  var problem=it.problem||it.hook||'';
+  var badges='<span class="kx-b kx-b-sell">개별 판매</span>'+(live?'':'<span class="kx-b kx-b-soon">곧 만나요</span>');
+  var tags=(it.tags||[]).map(function(t){return '<span class="kx-tag">'+esc(t)+'</span>';}).join('');
+  var steps=it.steps?('<span class="kx-steps">'+it.steps+'단계 워크북</span>'):'';
+  var cta=live?'무료 프롤로그 보기 <i aria-hidden="true">→</i>':'무료 프롤로그 · 곧 만나요';
+  var inner='<span class="kx-side" aria-hidden="true"></span>'
+   +'<span class="kx-top"><span class="kx-thumb">'+esc(it.thumb||'🧰')+'</span>'+steps+'</span>'
+   +'<span class="kx-h3">'+esc(it.title)+'</span>'
+   +'<span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>'+esc(problem)+'</span>'
+   +'<span class="kx-hook">'+esc(it.hook||'')+'</span>'
+   +'<span class="kx-badges">'+badges+'</span>'
+   +'<span class="kx-tags">'+tags+'</span>'
+   +'<span class="kx-cta">'+cta+'</span>';
+  var da='data-type="kit"';
+  if(live)return '<a class="kx-tile kx-rv" href="/'+esc(it.slug)+'-00" '+da+'>'+inner+'</a>';
+  return '<div class="kx-tile kx-soon kx-rv" '+da+'>'+inner+'</div>';
+ }
+ function passF(it){var f=ST.f;if(f==='all')return true;if(f==='free')return !it.premium;if(f==='premium')return !!it.premium;if(f.indexOf('type:')===0)return it.type===f.slice(5);if(f.indexOf('tag:')===0){var v=f.slice(4);return (it.tags||[]).indexOf(v)>=0||it.cat===v;}return true;}
+ function passQ(it){if(!ST.q)return true;var q=ST.q;if(String(it.title).toLowerCase().indexOf(q)>=0)return true;return (it.tags||[]).join(' ').toLowerCase().indexOf(q)>=0;}
+ function sortList(a){var arr=a.slice();if(ST.s==='no'){arr.sort(function(x,y){return typeRank(x.type)-typeRank(y.type)||x.no-y.no;});}else{arr.sort(function(x,y){return x.date<y.date?1:x.date>y.date?-1:(typeRank(x.type)-typeRank(y.type)||x.no-y.no);});}return arr;}
+ function reveal(scope){
+  var els=[].slice.call((scope||W).querySelectorAll('.kx-rv')).filter(function(e){return !e.__r;});
+  if(!els.length)return;
+  if(rm||!('IntersectionObserver'in window)){els.forEach(function(e){e.__r=1;e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+  els.forEach(function(e){e.__r=1;io.observe(e);});
+ }
+ function render(){
+  var list=sortList(DATA.filter(function(it){return passF(it)&&passQ(it);}));
+  var host=d.getElementById('kxList'),emp=d.getElementById('kxEmpty'),cnt=d.getElementById('kxCount');
+  if(cnt)cnt.innerHTML='<b>'+list.length+'</b>개';
+  if(!host)return;
+  if(!list.length){host.innerHTML='';if(emp)emp.hidden=false;return;}
+  if(emp)emp.hidden=true;
+  host.innerHTML=list.map(card).join('');
+  reveal(host);
+ }
+ function useData(items){var arr=(items||[]).filter(function(it){return TYPES.indexOf(it.type)>=0;});if(arr.length){DATA=arr;render();}}
+ var snap=[];try{var sn=d.getElementById('kxSnap');if(sn)snap=JSON.parse(sn.textContent)||[];}catch(e){snap=[];}
+ function failEmpty(){var host=d.getElementById('kxList'),emp=d.getElementById('kxEmpty');if(emp&&host&&!host.children.length)emp.hidden=false;}
+ function boot(){
+  var chips=d.getElementById('kxChips');
+  if(chips)chips.addEventListener('click',function(e){var b=e.target.closest('.kx-chip');if(!b||!chips.contains(b))return;[].slice.call(chips.querySelectorAll('.kx-chip')).forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});b.classList.add('on');b.setAttribute('aria-pressed','true');ST.f=b.getAttribute('data-f')||'all';render();});
+  var sort=d.getElementById('kxSort');
+  if(sort)sort.addEventListener('click',function(e){var b=e.target.closest('.kx-sortb');if(!b)return;[].slice.call(sort.querySelectorAll('.kx-sortb')).forEach(function(x){x.classList.remove('on');});b.classList.add('on');ST.s=b.getAttribute('data-s')||'new';render();});
+  var se=d.getElementById('kxSearch');
+  if(se){var t;se.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){ST.q=se.value.trim().toLowerCase();render();},160);});}
+  if(snap&&snap.length){useData(snap);}      /* 즉시: 인라인 스냅샷 렌더(폴백 겸 최초 페인트) */
+  if(!window.fetch){reveal(W);return;}
+  var done=false,ctrl=('AbortController'in window)?new AbortController():null;
+  var to=setTimeout(function(){if(done)return;done=true;if(ctrl){try{ctrl.abort();}catch(e){}}if(!DATA.length)failEmpty();},10000);
+  fetch(RAW+'?cb='+Date.now(),{cache:'no-store',signal:ctrl?ctrl.signal:undefined})
+   .then(function(r){if(!r.ok)throw 0;return r.json();})
+   .then(function(j){if(done)return;done=true;clearTimeout(to);var it=j&&j.items;if(it&&it.length)useData(it);else if(!DATA.length)failEmpty();})
+   .catch(function(){if(done)return;done=true;clearTimeout(to);if(!DATA.length)failEmpty();});
+ }
+ boot();
+ var tp=d.getElementById('kxtop');
+ addEventListener('scroll',function(){if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);},{passive:true});
+ if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
+})();
+</script>
