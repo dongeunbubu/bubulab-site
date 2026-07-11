@@ -3,13 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>부부연구소 프리미엄 v3 — 미리보기</title>
+<title>부부연구소 프리미엄 v3.1 — 미리보기</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
+<style>
+/* ── 프리뷰 전용: 아임웹 "전체너비 코드위젯" 슬롯 재현 (imweb_cdn 원본에는 없음) ──
+   실주입: 아임웹 페이지 본문 → 전체너비 코드위젯. 위젯 내부 .wrap 이 콘텐츠 폭(≤1120px)을
+   중앙 정렬하고, 풀블리드 섹션(.phero/.topbar/#hdr/.finalcta)은 슬롯 폭(100%)을 채웁니다.
+   컨테이너는 레이아웃 중립(width:100%, no max-width)이라 imweb과 동일 폭 컨텍스트를 재현합니다. */
+html,body{margin:0;padding:0}
+.imw-site{width:100%;margin:0}
+.imw-content{width:100%;margin:0 auto}      /* 사이트 콘텐츠 영역 */
+.imw-widget{width:100%}                       /* 아임웹 코드위젯 컨테이너(블록) */
+.imw-widget.fullwidth{max-width:none}         /* 전체너비 위젯: 폭 제한 없음 */
+</style>
 </head>
 <body>
-<!-- 미리보기용 자기완결 문서 (BODY+FOOTER 합본) · 실제 주입은 imweb_cdn 원본 사용 -->
-<!-- [부부연구소_프리미엄_v3] BODY = 전체너비 코드위젯에 붙여넣기 · 자기완결(BODY+FOOTER) · G4 전환 허브(/premium) · v3 히어로 재구축 + 유료 콘텐츠 카탈로그 -->
+<!-- 미리보기용 자기완결 문서 (BODY+FOOTER 합본) · 아임웹 전체너비 코드위젯 슬롯 재현 · 실제 주입은 imweb_cdn 원본 사용 -->
+<div class="imw-site"><div class="imw-content"><div class="imw-widget fullwidth">
+<!-- [부부연구소_프리미엄_v3.1] BODY = 전체너비 코드위젯에 붙여넣기 · 자기완결(BODY+FOOTER) · G4 전환 허브(/premium) · v3 히어로 재구축 + 유료 콘텐츠 카탈로그 · v3.1 가격카드 붕괴 수정(그리드 셀렉터 견고화+카드 자체방어) -->
 <style>
 :root{
   --greige:#F8F5F2;--bg:#FDFBF7;--bg2:#FBF3EE;--card:#FFFFFF;
@@ -113,9 +125,9 @@ section.blk{padding:clamp(72px,9vw,120px) 0;position:relative;z-index:2}
 .pmesh .m1{width:44vw;height:44vw;background:#F8D9DE;top:-8%;right:0}
 .pmesh .m2{width:38vw;height:38vw;background:#F3E7DE;bottom:-12%;left:-6%}
 .pmesh .m3{width:30vw;height:30vw;background:#ECE3F2;top:26%;left:30%}
-.phero .in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,32vw,380px);gap:clamp(32px,4vw,54px);align-items:center}
+.pherogrid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,32vw,380px);gap:clamp(32px,4vw,54px);align-items:center}
 .phero .htxt{min-width:0}
-@media(max-width:900px){.phero .in{grid-template-columns:1fr;gap:34px}.pricecard{max-width:480px}}
+@media(max-width:900px){.pherogrid{grid-template-columns:1fr;gap:34px}.pricecard{max-width:480px}}
 .pk{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.16em;color:var(--rose2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;text-transform:uppercase;box-shadow:var(--cardSh)}
 .pk .hs{width:15px;height:15px}
 .phero h1{margin-top:16px;font-size:clamp(28px,4.2vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.17;word-break:keep-all;text-wrap:balance}
@@ -127,7 +139,7 @@ section.blk{padding:clamp(72px,9vw,120px) 0;position:relative;z-index:2}
 .phero .hbtns{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
 .phero .free-hint{margin-top:14px;font-size:13px;color:var(--mut)}
 .phero .free-hint a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--pinkSoft)}
-.pricecard{position:relative;background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:26px;padding:30px 30px 26px;box-shadow:var(--lift)}
+.pricecard{position:relative;width:min(380px,100%);min-width:300px;word-break:keep-all;background:linear-gradient(160deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:26px;padding:30px 30px 26px;box-shadow:var(--lift)}
 .pricecard .rib{position:absolute;top:-13px;left:28px;background:var(--rose);color:#fff;font-weight:800;font-size:12px;padding:6px 14px;border-radius:100px;box-shadow:var(--cardSh)}
 .pricecard .pl{font-size:14px;font-weight:800;color:var(--ink2);letter-spacing:-.01em}
 .pricecard .pv{margin-top:6px;font-size:clamp(36px,5vw,46px);font-weight:800;letter-spacing:-.03em;color:var(--rose2)}
@@ -255,7 +267,7 @@ section.blk{padding:clamp(72px,9vw,120px) 0;position:relative;z-index:2}
 <!-- ① HERO — 가치 제안 한 줄 + 신뢰(누적 편수 라이브) + 주 CTA + 가격(월 9,900원 유지) -->
 <section class="phero">
   <div class="pmesh"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div>
-  <div class="wrap in">
+  <div class="wrap pherogrid">
     <div class="reveal htxt">
       <span class="pk"><svg class="hs" viewBox="0 0 24 24" fill="none" stroke="#B33A4C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.7 11 12 4.2l8.3 6.8"/><path d="M5.6 9.9V19a1.3 1.3 0 0 0 1.3 1.3h10.2A1.3 1.3 0 0 0 18.4 19V9.9"/></svg>PREMIUM · 부부연구소</span>
       <h1>매일 무료 레터는 그대로,<br><span class="grad">유료 콘텐츠는 전부 열어드려요.</span></h1>
@@ -445,7 +457,7 @@ section.blk{padding:clamp(72px,9vw,120px) 0;position:relative;z-index:2}
   </div>
 </section>
 
-<!-- [부부연구소_프리미엄_v3] FOOTER = 페이지별 푸터 HTML에 붙여넣기 · 점진향상·jsdom 무해 · 데이터원=파이프라인 JSON만 -->
+<!-- [부부연구소_프리미엄_v3.1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 · 점진향상·jsdom 무해 · 데이터원=파이프라인 JSON만 -->
 
 <!-- ═══════════════════════════════════════════════════════════════════
      [결제 단일 변경점] 결제 페이지가 아직 없어서, 임시로 무료 구독 섹션(/home#subscribe)으로 보내요.
@@ -522,6 +534,6 @@ function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;v
 addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
 btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
 </script>
-
+</div></div></div>
 </body>
 </html>
