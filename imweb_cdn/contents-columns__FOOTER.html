@@ -8,6 +8,8 @@
  var COL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/columns/';
  var PREMIUM_URL='/premium';
  var KIT_PAGE='/contents-kits';
+ var TOOL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/tools/';
+ var TOOL_FRAGS={'booktool-mandala':1};
  var TYPES=["column","tool"];
  var ST={q:'',f:'all',s:'new'},DATA=[],ALL=[],_route='';
 
@@ -28,7 +30,7 @@
  }
 
  /* ================= 탐색(카탈로그) ================= */
- function itemHref(it){return it.type==='column'?('#'+it.slug):('/'+it.slug);}
+ function itemHref(it){if(it.type==='column')return '#'+it.slug;if(it.type==='tool'&&TOOL_FRAGS[it.slug])return '#'+it.slug;return '/'+it.slug;}
  function card(it){
   var live=it.status==='live';
   var tp=it.type==='column'?'칼럼':'도구';
@@ -70,6 +72,7 @@
  /* ================= 리더 ================= */
  function findItem(slug){for(var i=0;i<ALL.length;i++)if(ALL[i].slug===slug)return ALL[i];return null;}
  function isColumn(slug){var it=findItem(slug);return !!(it&&it.type==='column');}
+ function isTool(slug){var it=findItem(slug);return !!(it&&it.type==='tool'&&TOOL_FRAGS[slug]);}
  function liveColumns(){return ALL.filter(function(x){return x.type==='column'&&x.status==='live';}).sort(function(a,b){return a.no-b.no;});}
  function readTime(it){if(it&&it.read)return it.read;return 3;}
 
@@ -104,7 +107,7 @@
   var it=findItem(slug);if(!it)return '';
   var live=it.status==='live',href;
   if(it.type==='column')href='#'+it.slug;
-  else if(it.type==='tool')href='/'+it.slug;
+  else if(it.type==='tool')href=TOOL_FRAGS[it.slug]?('#'+it.slug):('/'+it.slug);
   else href=KIT_PAGE+'#'+String(it.slug).replace(/^kit-/,'');
   var badges=(it.premium?'<span class="cx-b cx-b-prem">🔒 프리미엄</span>':'<span class="cx-b cx-b-free">🆓 무료</span>')+(live?'':'<span class="cx-b cx-b-soon">곧 만나요</span>');
   var body='<span class="cx-xk">'+esc(it.thumb||'🔗')+' '+kind+'</span>'
@@ -239,17 +242,113 @@
   fetchBody(slug,'reader:'+slug,it);
  }
 
+
+ /* ================= 도구: 우리 목표 만다라트(만다라트 9x9) ================= */
+ var MKEY='bbl_mandala_v1';
+ var MPRESET=['내집마련','목돈','투자','부수입','절약','노후','자녀','부부시간'];
+ var K2POS=[0,1,2,3,5,6,7,8];
+ var POS2K={'0':0,'1':1,'2':2,'3':3,'5':4,'6':5,'7':6,'8':7};
+ var MCHIPS={
+  core:['60대에도 손잡고 여행 다니는 부부','돈 걱정 없이 아이 키우는 삶','10년 안에 우리 이름의 집 한 채','서로에게 기대지 않아도 되는 노후'],
+  atitle:['내집마련','목돈','투자','부수입','절약','노후','자녀','부부시간','건강','배움','기부','창업'],
+  cell:['매달 50만원 자동이체','주 1회 가계부 데이트','비상금 6개월치 모으기','청약통장 매달 넣기','ETF 적립식 투자','외식 주 2회로 줄이기','안 쓰는 구독 3개 정리','연 1회 목표 점검하기']
+ };
+ function mBlank(){var a=[];for(var i=0;i<8;i++)a.push({title:MPRESET[i]||'',cells:['','','','','','','','']});return {center:'',areas:a};}
+ function mLoad(){try{var r=localStorage.getItem(MKEY);if(!r)return mBlank();var o=JSON.parse(r);if(!o||typeof o!=='object')return mBlank();var b=mBlank();if(typeof o.center==='string')b.center=o.center;if(o.areas&&o.areas.length){for(var i=0;i<8;i++){var x=o.areas[i];if(x&&typeof x==='object'){if(typeof x.title==='string')b.areas[i].title=x.title;if(x.cells&&x.cells.length){for(var j=0;j<8;j++){if(typeof x.cells[j]==='string')b.areas[i].cells[j]=x.cells[j];}}}}}return b;}catch(e){return mBlank();}}
+ var _mT=null;
+ function mSave(st){if(_mT)clearTimeout(_mT);_mT=setTimeout(function(){try{localStorage.setItem(MKEY,JSON.stringify({center:st.center,areas:st.areas}));}catch(e){}},200);}
+ function mFilled81(st){var n=st.center&&/\S/.test(st.center)?1:0;for(var i=0;i<8;i++){if(/\S/.test(st.areas[i].title||''))n+=2;for(var j=0;j<8;j++){if(/\S/.test(st.areas[i].cells[j]||''))n++;}}return n;}
+ function mCell(cls,ph,val,attrs){return '<div class="tx-cell'+(cls?' '+cls:'')+'" contenteditable="true" spellcheck="false" role="textbox" aria-label="'+esc(ph)+'" data-ph="'+esc(ph)+'"'+(attrs||'')+'>'+esc(val||'')+'</div>';}
+ function mCenterBlock(st){var h='<div class="tx-block tx-center">';for(var p=0;p<9;p++){if(p===4){h+=mCell('tx-core','핵심 목표를 한 문장으로',st.center,' data-tx-kind="core"');}else{var k=POS2K[p];h+=mCell('tx-atitle'+(k===st.focus?' on':''),'기둥 '+(k+1),st.areas[k].title,' data-tx-kind="atitle" data-tx-area="'+k+'" data-tx-sel="'+k+'"');}}h+='</div>';return h;}
+ function mDetail(st){var k=st.focus,a=st.areas[k];var t=a.title&&/\S/.test(a.title)?esc(a.title):'이 기둥';var hd='<div class="tx-dhd"><span class="tx-dbadge">기둥 '+(k+1)+'</span><h2 class="tx-dh2">'+t+' · 이루는 8칸</h2><p class="tx-dhint">이 기둥을 이루려면 매달·매주 뭘 하면 될까요? 여덟 칸을 구체적으로 채워봐요.</p></div>';var b='<div class="tx-block tx-focusblk">';for(var p=0;p<9;p++){if(p===4){b+=mCell('tx-atitle tx-echo','기둥 이름',a.title,' data-tx-kind="atitle" data-tx-area="'+k+'"');}else{var j=POS2K[p];b+=mCell('tx-act','실천 '+(j+1),a.cells[j],' data-tx-kind="cell" data-tx-area="'+k+'" data-tx-idx="'+j+'"');}}b+='</div>';return '<div class="tx-detail" id="txDetail">'+hd+b+'</div>';}
+ function mFull(st){var h='<div class="tx-full">';for(var bi=0;bi<9;bi++){var isC=(bi===4);h+='<div class="tx-block tx-fblk'+(isC?' tx-center':'')+'">';for(var p=0;p<9;p++){if(isC){if(p===4){h+=mCell('tx-core','핵심 목표',st.center,' data-tx-kind="core"');}else{var k=POS2K[p];h+=mCell('tx-atitle','기둥 '+(k+1),st.areas[k].title,' data-tx-kind="atitle" data-tx-area="'+k+'"');}}else{var area=POS2K[bi];if(p===4){h+=mCell('tx-atitle tx-echo','기둥 이름',st.areas[area].title,' data-tx-kind="atitle" data-tx-area="'+area+'"');}else{var jj=POS2K[p];h+=mCell('tx-act','실천',st.areas[area].cells[jj],' data-tx-kind="cell" data-tx-area="'+area+'" data-tx-idx="'+jj+'"');}}}h+='</div>';}h+='</div>';return h;}
+ function mUpd(root,st){var el=root.querySelector('[data-tx-filled]');if(el)el.textContent=mFilled81(st);}
+ function mBoard(root,st){var host=root.querySelector('#txBoard');if(!host)return;host.innerHTML=(st.mode==='full')?mFull(st):(mCenterBlock(st)+mDetail(st));mUpd(root,st);}
+
+ function wireMandala(root){
+  if(!root||root.__m)return;root.__m=1;
+  var st=mLoad();st.mode='focus';st.focus=0;var _active=null;
+  function chipLabel(kind){return kind==='core'?'핵심 목표 예시 — 눌러서 채워요':kind==='atitle'?'기둥 예시 — 눌러서 채워요':'실천 예시 — 눌러서 채워요';}
+  function renderChips(pool){var box=root.querySelector('#txChips');if(!box)return;box.innerHTML=(pool||MCHIPS.cell).map(function(c){return '<button type="button" class="tx-chip" data-tx-chip="'+esc(c)+'">'+esc(c)+'</button>';}).join('');}
+  function setCtx(el){_active=el||null;var kind=el&&el.getAttribute?el.getAttribute('data-tx-kind'):null;var lab=root.querySelector('[data-tx-chiplabel]');if(lab)lab.textContent=chipLabel(kind);renderChips(kind==='core'?MCHIPS.core:kind==='atitle'?MCHIPS.atitle:MCHIPS.cell);}
+  function syncTitle(area,val,except){[].slice.call(root.querySelectorAll('[data-tx-kind="atitle"][data-tx-area="'+area+'"]')).forEach(function(el){if(el!==except)el.textContent=val;});}
+  function highlight(){[].slice.call(root.querySelectorAll('.tx-atitle')).forEach(function(el){var sel=el.getAttribute('data-tx-sel');el.classList.toggle('on',sel!=null&&(+el.getAttribute('data-tx-area'))===st.focus);});}
+  function resetActive(){_active=null;var c=root.querySelector('.tx-core');if(c)setCtx(c);else renderChips(MCHIPS.cell);}
+
+  root.addEventListener('input',function(e){var el=e.target;if(!el||!el.getAttribute)return;var kind=el.getAttribute('data-tx-kind');if(!kind)return;var txt=el.textContent;if(!/\S/.test(txt)){txt='';if(el.innerHTML!=='')el.innerHTML='';}if(kind==='core'){st.center=txt;}else{var area=+el.getAttribute('data-tx-area');if(kind==='atitle'){st.areas[area].title=txt;syncTitle(area,txt,el);if(area===st.focus){var dh=root.querySelector('.tx-dh2');if(dh)dh.textContent=(/\S/.test(txt)?txt:'이 기둥')+' · 이루는 8칸';}}else{var idx=+el.getAttribute('data-tx-idx');st.areas[area].cells[idx]=txt;}}mSave(st);mUpd(root,st);});
+  root.addEventListener('focusin',function(e){var el=e.target;if(!el||!el.getAttribute||!el.getAttribute('data-tx-kind'))return;setCtx(el);var sel=el.getAttribute('data-tx-sel');if(sel!=null){var k=+sel;if(k!==st.focus){st.focus=k;var old=root.querySelector('#txDetail');if(old){var tmp=d.createElement('div');tmp.innerHTML=mDetail(st);var nn=tmp.firstChild;if(nn)old.parentNode.replaceChild(nn,old);}highlight();}}});
+  root.addEventListener('keydown',function(e){var el=e.target;if(el&&el.getAttribute&&el.getAttribute('data-tx-kind')&&(e.keyCode===13||e.which===13)){e.preventDefault();if(el.blur)el.blur();}});
+  root.addEventListener('paste',function(e){var el=e.target;if(!el||!el.getAttribute||!el.getAttribute('data-tx-kind'))return;var cd=e.clipboardData||window.clipboardData;if(!cd)return;e.preventDefault();var t=(cd.getData?cd.getData('text/plain'):cd.getData('Text'))||'';t=t.replace(/\s+/g,' ').replace(/^ | $/g,'');var ok=false;try{ok=d.execCommand&&d.execCommand('insertText',false,t);}catch(_e){ok=false;}if(!ok){el.textContent=(el.textContent||'')+t;}var ev;try{ev=new Event('input',{bubbles:true});}catch(_x){ev=d.createEvent('Event');ev.initEvent('input',true,true);}el.dispatchEvent(ev);});
+  root.addEventListener('click',function(e){
+   var chip=e.target.closest?e.target.closest('.tx-chip'):null;
+   if(chip){var v=chip.getAttribute('data-tx-chip')||chip.textContent;var tgt=_active&&root.contains(_active)?_active:root.querySelector('.tx-core');if(tgt){tgt.textContent=v;if(tgt.focus)tgt.focus();var ev;try{ev=new Event('input',{bubbles:true});}catch(_x){ev=d.createEvent('Event');ev.initEvent('input',true,true);}tgt.dispatchEvent(ev);}return;}
+   var seg=e.target.closest?e.target.closest('.tx-segb'):null;
+   if(seg){var m=seg.getAttribute('data-tx-mode')||'focus';st.mode=m;[].slice.call(root.querySelectorAll('.tx-segb')).forEach(function(x){x.classList.toggle('on',x===seg);});mBoard(root,st);highlight();resetActive();return;}
+   var act=e.target.closest?e.target.closest('[data-tx-act]'):null;
+   if(act){var a=act.getAttribute('data-tx-act');if(a==='reset'){var yes=true;try{yes=confirm('처음부터 다시 시작할까요? 지금까지 채운 내용은 사라져요.');}catch(_c){yes=true;}if(yes){var keep=st.mode;st=mBlank();st.mode=keep;st.focus=0;try{localStorage.removeItem(MKEY);}catch(_r){}mBoard(root,st);highlight();resetActive();}}else if(a==='save-img'){exportMandala(st);}return;}
+  });
+
+  mBoard(root,st);highlight();resetActive();
+ }
+
+ /* --- 캔버스 이미지 저장(냉장고용 목표판, B1 로고+타이틀 프레임) --- */
+ function rr(x,X,Y,Wd,Ht,r){r=Math.min(r,Wd/2,Ht/2);x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+Wd,Y,X+Wd,Y+Ht,r);x.arcTo(X+Wd,Y+Ht,X,Y+Ht,r);x.arcTo(X,Y+Ht,X,Y,r);x.arcTo(X,Y,X+Wd,Y,r);x.closePath();}
+ function wrapK(x,t,w){var lines=[],cur='';for(var i=0;i<t.length;i++){var ch=t.charAt(i);if(ch==='\n'){lines.push(cur);cur='';continue;}var test=cur+ch;if(x.measureText(test).width>w&&cur){lines.push(cur);cur=ch;}else{cur=test;}}if(cur)lines.push(cur);return lines;}
+ function drawCellText(x,t,cx,cy,w,h,color,bold){t=(t||'').replace(/\s+/g,' ').replace(/^ | $/g,'');if(!t)return;x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';for(var fs=14;fs>=9;fs--){x.font=(bold?'800 ':'600 ')+fs+'px Pretendard,sans-serif';var lines=wrapK(x,t,w);var lh=fs+3;var maxLines=Math.max(1,Math.floor(h/lh));if(lines.length<=maxLines||fs===9){if(lines.length>maxLines){lines=lines.slice(0,maxLines);var L=lines[maxLines-1];lines[maxLines-1]=L.replace(/.$/,'…');}var y0=cy-(lines.length-1)*lh/2;for(var i=0;i<lines.length;i++)x.fillText(lines[i],cx,y0+i*lh);return;}}}
+ function drawLogo(x,X,Y,s){x.save();x.translate(X,Y);var u=s/24;x.fillStyle='#B33A4C';x.beginPath();x.moveTo(2*u,10.2*u);x.lineTo(11.05*u,3.3*u);x.quadraticCurveTo(12*u,2.7*u,12.95*u,3.3*u);x.lineTo(22*u,10.2*u);x.quadraticCurveTo(22*u,11*u,21*u,11*u);x.lineTo(21*u,20*u);x.quadraticCurveTo(21*u,21.4*u,19.6*u,21.4*u);x.lineTo(4.4*u,21.4*u);x.quadraticCurveTo(3*u,21.4*u,3*u,20*u);x.lineTo(3*u,11*u);x.quadraticCurveTo(2*u,11*u,2*u,10.2*u);x.closePath();x.fill();x.fillStyle='#F7E6E2';x.beginPath();x.moveTo(9.9*u,21.4*u);x.lineTo(9.9*u,16.3*u);x.arc(12*u,16.3*u,2.1*u,Math.PI,0,false);x.lineTo(14.1*u,21.4*u);x.closePath();x.fill();x.fillStyle='#C9A84C';var hx=16.4*u,hy=6.0*u,hs=2.3*u;x.beginPath();x.moveTo(hx,hy+hs*0.30);x.bezierCurveTo(hx,hy,hx-hs*0.55,hy-hs*0.10,hx-hs*0.55,hy+hs*0.20);x.bezierCurveTo(hx-hs*0.55,hy+hs*0.52,hx,hy+hs*0.74,hx,hy+hs*0.92);x.bezierCurveTo(hx,hy+hs*0.74,hx+hs*0.55,hy+hs*0.52,hx+hs*0.55,hy+hs*0.20);x.bezierCurveTo(hx+hs*0.55,hy-hs*0.10,hx,hy,hx,hy+hs*0.30);x.closePath();x.fill();x.restore();}
+ function cellInfo(st,bi,p){var isC=(bi===4);if(isC){if(p===4)return {t:st.center,bg:'#B33A4C',c:'#fff',b:true};var k=POS2K[p];return {t:st.areas[k].title,bg:'#F6D9DF',c:'#7C243B',b:true};}var area=POS2K[bi];if(p===4)return {t:st.areas[area].title,bg:'#FCEEF1',c:'#B33A4C',b:true};var j=POS2K[p];return {t:st.areas[area].cells[j],bg:'#FFFFFF',c:'#57453D',b:false};}
+ function download(cvs){var name='우리부부-목표만다라트.png';function trig(url,rev){var a=d.createElement('a');a.href=url;a.download=name;d.body.appendChild(a);a.click();setTimeout(function(){try{d.body.removeChild(a);}catch(_e){}if(rev)try{URL.revokeObjectURL(url);}catch(_r){}},1400);}try{if(cvs.toBlob){cvs.toBlob(function(b){if(b&&window.URL&&URL.createObjectURL){trig(URL.createObjectURL(b),true);}else{trig(cvs.toDataURL('image/png'),false);}},'image/png');}else{trig(cvs.toDataURL('image/png'),false);}}catch(e){try{trig(cvs.toDataURL('image/png'),false);}catch(_x){}}}
+ function exportMandala(st){
+  var CELL=104,TGAP=2,BGAP=8,PAD=44,HEAD=196,FOOT=60;
+  var block=3*CELL+2*TGAP;var board=3*block+2*BGAP;var Wd=board+PAD*2;var Ht=HEAD+board+FOOT;
+  var scale=2;var cvs=d.createElement('canvas');cvs.width=Math.round(Wd*scale);cvs.height=Math.round(Ht*scale);
+  var x=cvs.getContext('2d');if(!x)return;x.scale(scale,scale);
+  x.fillStyle='#FDFBF7';x.fillRect(0,0,Wd,Ht);
+  var g=x.createLinearGradient(0,0,0,HEAD);g.addColorStop(0,'#FCE7E2');g.addColorStop(1,'#FDFBF7');x.fillStyle=g;x.fillRect(0,0,Wd,HEAD);
+  rr(x,14,14,Wd-28,Ht-28,26);x.lineWidth=2;x.strokeStyle='#E4C8C2';x.stroke();
+  drawLogo(x,PAD,40,46);
+  x.textAlign='left';x.textBaseline='alphabetic';x.fillStyle='#2C201B';x.font='800 29px Pretendard,sans-serif';x.fillText('우리 부부 목표 만다라트',PAD+62,62);
+  x.fillStyle='#B33A4C';x.font='700 15.5px Pretendard,sans-serif';var core=(st.center&&/\S/.test(st.center))?st.center.replace(/\s+/g,' '):'우리의 핵심 목표를 한 문장으로';var cl=core;if(x.measureText('핵심 목표 · '+cl).width>board-70){while(cl.length>4&&x.measureText('핵심 목표 · '+cl+'…').width>board-70)cl=cl.slice(0,-1);cl=cl+'…';}x.fillText('핵심 목표 · '+cl,PAD+62,88);
+  var ox=PAD,oy=HEAD;
+  for(var bi=0;bi<9;bi++){var brow=Math.floor(bi/3),bcol=bi%3;var bx=ox+bcol*(block+BGAP),by=oy+brow*(block+BGAP);for(var p=0;p<9;p++){var pr=Math.floor(p/3),pc=p%3;var cx=bx+pc*(CELL+TGAP),cy=by+pr*(CELL+TGAP);var info=cellInfo(st,bi,p);rr(x,cx,cy,CELL,CELL,10);x.fillStyle=info.bg;x.fill();x.lineWidth=1;x.strokeStyle=(bi===4)?'#E9B9C2':'#ECDAD5';x.stroke();drawCellText(x,info.t,cx+CELL/2,cy+CELL/2,CELL-16,CELL-14,info.c,info.b);}}
+  x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#877468';x.font='600 13px Pretendard,sans-serif';x.fillText('부부연구소 · 냉장고에 붙여두고 매일 함께 봐요 :)',Wd/2,Ht-24);
+  download(cvs);
+ }
+
+ function renderTool(slug){
+  var host=d.getElementById('cxTool');if(!host)return;
+  var it=findItem(slug)||{slug:slug,title:'우리 목표 만다라트',connect:{}};
+  host.innerHTML='<div class="cx-reader">'
+   +'<div class="cx-rd-top"><a class="cx-rd-back" href="#"><i aria-hidden="true">←</i> 칼럼·도구 전체</a>'
+   +'<span class="cx-rd-time">🧩 도구 · 무료로 열려 있어요</span></div>'
+   +'<div class="cx-tool-slot" id="cxToolBody"><div class="cx-rd-loading">불러오는 중…</div></div>'
+   +crossHTML(it)+'</div>';
+  reveal(host,'.cx-rv');
+  fetchToolBody(slug,'tool:'+slug);
+ }
+ function fetchToolBody(slug,routeId){
+  function slot(){return d.getElementById('cxToolBody');}
+  if(!window.fetch){var e0=slot();if(e0)e0.innerHTML=fallbackHTML();return;}
+  var done=false,to=setTimeout(function(){if(done)return;done=true;if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();},10000);
+  fetch(TOOL_BASE+slug+'.html?cb='+Date.now(),{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw 0;return r.text();})
+   .then(function(t){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(!el)return;el.innerHTML=String(t);wireMandala(el);reveal(el,'.cx-rv');})
+   .catch(function(){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();});
+ }
+
  /* ================= 라우터 ================= */
  function parseHash(){var h=(location.hash||'').replace(/^#/,'').trim();return h?{mode:'reader',slug:h}:{mode:'explore'};}
- function showView(reader){
-  var ex=d.getElementById('cxExplore'),rd=d.getElementById('cxReader'),pg=d.getElementById('cxProg');
-  if(ex)ex.hidden=!!reader;if(rd)rd.hidden=!reader;if(pg)pg.classList.toggle('on',!!reader);
+ function showView(mode){
+  var ex=d.getElementById('cxExplore'),rd=d.getElementById('cxReader'),tl=d.getElementById('cxTool'),pg=d.getElementById('cxProg');
+  if(ex)ex.hidden=(mode!=='explore');if(rd)rd.hidden=(mode!=='reader');if(tl)tl.hidden=(mode!=='tool');
+  if(pg)pg.classList.toggle('on',mode==='reader');
   try{scrollTo({top:0,behavior:'auto'});}catch(e){try{scrollTo(0,0);}catch(e2){}}
  }
  function route(){
   var p=parseHash();
-  if(p.mode==='reader'&&isColumn(p.slug)){_route='reader:'+p.slug;showView(true);renderReader(p.slug);}
-  else{_route='explore';showView(false);reveal(d.getElementById('cxExplore')||W,'.cx-rv');}
+  if(p.mode==='reader'&&isColumn(p.slug)){_route='reader:'+p.slug;showView('reader');renderReader(p.slug);}
+  else if(p.mode==='reader'&&isTool(p.slug)){_route='tool:'+p.slug;showView('tool');renderTool(p.slug);}
+  else{_route='explore';showView('explore');reveal(d.getElementById('cxExplore')||W,'.cx-rv');}
   updateProg();
  }
 

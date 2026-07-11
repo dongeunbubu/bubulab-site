@@ -1,0 +1,100 @@
+<!-- booktool-mandala · 우리 목표 만다라트 · 부부 공동 목표 9x9 설계 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireMandala) · tx- 네임스페이스 · localStorage 자동저장 · 캔버스 이미지 저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx-app{--tx-bg:#FDFBF7;--tx-bg2:#FBF3EE;--tx-paper:#FFF;--tx-ink:#2C201B;--tx-ink2:#57453D;--tx-mut:#877468;--tx-rose:#B33A4C;--tx-rose2:#D65C6E;--tx-pinkSoft:#F8E3E7;--tx-pinkSoft2:#FCEEF1;--tx-border:#ECDAD5;--tx-borderStrong:#E4C8C2;--tx-deep:#7C243B;--tx-gold:#C9A84C;--tx-ph:#BCA9A0;--tx-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx-app *{box-sizing:border-box}
+.tx-head{text-align:center;margin-bottom:clamp(18px,3vw,28px)}
+.tx-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx-rose),var(--tx-deep));border-radius:999px;padding:6px 14px;text-transform:uppercase}
+.tx-h1{font-size:clamp(24px,4.4vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:14px 0 0;color:var(--tx-ink)}
+.tx-lead{font-size:clamp(14px,1.9vw,16.5px);color:var(--tx-ink2);font-weight:600;line-height:1.66;margin:12px auto 0;max-width:640px}
+.tx-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:clamp(18px,2.6vw,30px);align-items:start}
+.tx-main{min-width:0}
+.tx-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.tx-seg{display:inline-flex;gap:4px;background:var(--tx-pinkSoft2);border:1px solid var(--tx-border);border-radius:12px;padding:4px}
+.tx-segb{border:0;background:transparent;color:var(--tx-ink2);border-radius:9px;padding:8px 15px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}
+.tx-segb.on{background:#fff;color:var(--tx-rose);box-shadow:var(--tx-sh)}
+.tx-fill{font-size:12.5px;font-weight:800;color:var(--tx-mut)}
+.tx-fill [data-tx-filled]{color:var(--tx-rose);font-variant-numeric:tabular-nums}
+.tx-board{margin:0}
+.tx-loading{padding:44px 0;text-align:center;color:var(--tx-mut);font-weight:700}
+.tx-block{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.tx-center{max-width:360px;margin:0 auto}
+.tx-cell{position:relative;min-height:72px;display:flex;align-items:center;justify-content:center;text-align:center;padding:9px 8px;border:1px solid var(--tx-border);border-radius:11px;background:var(--tx-paper);font-size:12.5px;font-weight:600;color:var(--tx-ink2);line-height:1.42;box-shadow:var(--tx-sh);outline:none;transition:border-color .18s,box-shadow .18s,background .18s;overflow-wrap:anywhere}
+.tx-cell:focus{border-color:var(--tx-rose);box-shadow:0 0 0 3px rgba(214,92,110,.22)}
+.tx-cell:empty::before{content:attr(data-ph);color:var(--tx-ph);font-weight:500}
+.tx-core{background:linear-gradient(150deg,var(--tx-rose),var(--tx-deep));color:#fff;font-weight:800;font-size:13px;border-color:transparent;min-height:80px}
+.tx-core:empty::before{color:rgba(255,255,255,.82)}
+.tx-atitle{background:var(--tx-pinkSoft2);color:var(--tx-deep);font-weight:800;cursor:pointer}
+.tx-atitle.on{background:var(--tx-pinkSoft);border-color:var(--tx-borderStrong);box-shadow:0 0 0 2px rgba(179,58,76,.28)}
+.tx-atitle.tx-echo{background:linear-gradient(150deg,var(--tx-pinkSoft),var(--tx-pinkSoft2));cursor:text}
+.tx-act{background:var(--tx-paper)}
+.tx-detail{margin-top:22px;border:1px dashed var(--tx-borderStrong);border-radius:18px;padding:clamp(14px,2.4vw,20px);background:linear-gradient(162deg,#fff,var(--tx-pinkSoft2))}
+.tx-dhd{margin-bottom:14px}
+.tx-dbadge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--tx-rose);border-radius:999px;padding:3px 11px}
+.tx-dh2{font-size:clamp(16px,2.3vw,20px);font-weight:900;letter-spacing:-.02em;color:var(--tx-ink);margin:10px 0 0;line-height:1.32}
+.tx-dhint{font-size:13px;color:var(--tx-ink2);font-weight:600;margin:7px 0 0;line-height:1.6}
+.tx-focusblk{max-width:400px;margin:0 auto}
+.tx-full{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.tx-fblk{padding:7px;border-radius:14px;background:var(--tx-bg2);border:1px solid var(--tx-border)}
+.tx-fblk.tx-center{max-width:none;background:linear-gradient(160deg,var(--tx-pinkSoft2),#fff);border-color:var(--tx-borderStrong)}
+.tx-fblk .tx-cell{min-height:58px;font-size:11.5px;border-radius:9px}
+.tx-chipwrap{margin-top:20px;padding:14px 15px;border:1px solid var(--tx-border);border-radius:16px;background:var(--tx-bg2)}
+.tx-chiplabel{font-size:12.5px;font-weight:800;color:var(--tx-ink);margin-bottom:10px}
+.tx-chips{display:flex;flex-wrap:wrap;gap:8px}
+.tx-chip{border:1px solid var(--tx-borderStrong);background:#fff;color:var(--tx-ink2);border-radius:999px;padding:7px 13px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:transform .14s,background .2s,color .2s}
+.tx-chip:hover{background:var(--tx-pinkSoft2);color:var(--tx-rose);transform:translateY(-1px)}
+.tx-chip:active{transform:translateY(0)}
+.tx-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.tx-btn{border:0;border-radius:14px;padding:14px 22px;font:inherit;font-size:15px;font-weight:800;cursor:pointer;min-height:52px;transition:transform .2s,box-shadow .2s,background .2s}
+.tx-btn-primary{background:linear-gradient(135deg,var(--tx-rose),var(--tx-deep));color:#fff;box-shadow:0 14px 30px -12px rgba(179,58,76,.55)}
+.tx-btn-primary:hover{transform:translateY(-2px)}
+.tx-btn-ghost{background:#fff;color:var(--tx-ink2);border:1px solid var(--tx-border)}
+.tx-btn-ghost:hover{color:var(--tx-rose);border-color:var(--tx-borderStrong)}
+.tx-note{margin-top:14px;font-size:12px;color:var(--tx-mut);font-weight:600;line-height:1.6}
+.tx-guide{position:sticky;top:78px;border:1px solid var(--tx-border);border-radius:18px;background:var(--tx-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx-sh)}
+.tx-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx-rose);text-transform:uppercase;margin-bottom:12px}
+.tx-steps{margin:0;padding:0;list-style:none;counter-reset:tx}
+.tx-steps li{position:relative;counter-increment:tx;padding:0 0 16px 40px;font-size:13.5px;color:var(--tx-ink2);font-weight:600;line-height:1.62}
+.tx-steps li:last-child{padding-bottom:0}
+.tx-steps li::before{content:counter(tx);position:absolute;left:0;top:-2px;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx-rose),var(--tx-deep));color:#fff;font-size:13px;font-weight:800}
+.tx-steps li b{color:var(--tx-ink);font-weight:800}
+@media(max-width:900px){.tx-layout{grid-template-columns:1fr}.tx-guide{position:static;order:-1}}
+@media(max-width:640px){.tx-full{grid-template-columns:1fr;max-width:400px;margin:0 auto}.tx-cell{min-height:66px}.tx-fblk .tx-cell{min-height:60px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){.tx-app *{transition:none!important}}
+</style>
+<div class="tx-app" id="txApp">
+  <div class="tx-head">
+    <div class="tx-kick">함께 그리는 목표판</div>
+    <h1 class="tx-h1">우리 부부 목표 만다라트</h1>
+    <p class="tx-lead">한가운데 핵심 목표 하나, 그걸 떠받치는 여덟 기둥, 기둥마다 여덟 실천. 막막하면 아래 예시부터 눌러봐요.</p>
+  </div>
+  <div class="tx-layout">
+    <main class="tx-main">
+      <div class="tx-toolbar">
+        <div class="tx-seg" role="group" aria-label="보기 전환">
+          <button type="button" class="tx-segb on" data-tx-mode="focus">설계 모드</button>
+          <button type="button" class="tx-segb" data-tx-mode="full">전체 9×9</button>
+        </div>
+        <div class="tx-fill"><span data-tx-filled>0</span> / 81칸 채움</div>
+      </div>
+      <div class="tx-board" id="txBoard"><div class="tx-loading">목표판을 준비하고 있어요…</div></div>
+      <div class="tx-chipwrap">
+        <div class="tx-chiplabel" data-tx-chiplabel>예시를 눌러 바로 채워요</div>
+        <div class="tx-chips" id="txChips"></div>
+      </div>
+      <div class="tx-acts">
+        <button type="button" class="tx-btn tx-btn-primary" data-tx-act="save-img">🖼️ 이미지로 저장</button>
+        <button type="button" class="tx-btn tx-btn-ghost" data-tx-act="reset">처음부터</button>
+      </div>
+      <p class="tx-note">입력한 내용은 이 기기(브라우저)에만 자동으로 저장돼요. 목표 설계를 돕는 교육용 도구예요.</p>
+    </main>
+    <aside class="tx-guide">
+      <div class="tx-gtag">이렇게 채우면 돼요</div>
+      <ol class="tx-steps">
+        <li><b>핵심 목표 한 칸부터.</b> 10년 뒤 두 분이 어떤 모습이면 좋을지 한 문장으로. 막연해도 괜찮아요, 일단 적어요.</li>
+        <li><b>여덟 기둥을 세워요.</b> 내집마련·목돈·투자… 우리 부부한테 안 맞으면 눌러서 바꾸세요.</li>
+        <li><b>기둥을 누르면 여덟 칸이 열려요.</b> 네, 그렇게까지 구체적으로 쓰셔야 해요. ‘돈 모으기’ 말고 ‘매달 50만원 자동이체’처럼요.</li>
+        <li><b>다 채웠으면 이미지로 저장.</b> 냉장고에 붙여두고 매일 봐요. 매일 보이는 목표가 진짜 목표예요 :)</li>
+      </ol>
+    </aside>
+  </div>
+</div>

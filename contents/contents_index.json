@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-12T03:00:00",
+ "updated": "2026-07-12T04:30:00",
  "count": 29,
  "items": [
   {
@@ -353,10 +353,10 @@
     "목돈",
     "목표설계"
    ],
-   "premium": true,
+   "premium": false,
    "chapter": "PART1 나 · 만다라트",
    "date": "2026-12-27",
-   "status": "soon",
+   "status": "live",
    "thumb": "🧩",
    "free_preview": "작성 무료·저장 게이트",
    "connect": {
