@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-12T02:00:00",
+ "updated": "2026-07-12T03:00:00",
  "count": 29,
  "items": [
   {
@@ -29,7 +29,8 @@
     ]
    },
    "sub": "물가상승률의 조용한 습격",
-   "read": 4
+   "read": 4,
+   "zone": "keep"
   },
   {
    "slug": "bookcol-02",
@@ -58,7 +59,8 @@
     ]
    },
    "sub": "티끌이 태산이 되는 구조",
-   "read": 7
+   "read": 7,
+   "zone": "gather"
   },
   {
    "slug": "bookcol-03",
@@ -85,7 +87,8 @@
     "kits": [
      "kit-mandala"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "bookcol-04",
@@ -112,7 +115,8 @@
     "kits": [
      "kit-investstart"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-05",
@@ -139,7 +143,8 @@
     "kits": [
      "kit-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-06",
@@ -166,7 +171,8 @@
     "kits": [
      "kit-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-07",
@@ -193,7 +199,8 @@
     "kits": [
      "kit-homebuy"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-08",
@@ -220,7 +227,8 @@
     "kits": [
      "kit-taxsaver"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-09",
@@ -247,7 +255,8 @@
     "kits": [
      "kit-dividend"
     ]
-   }
+   },
+   "zone": "grow"
   },
   {
    "slug": "bookcol-10",
@@ -274,7 +283,8 @@
     "kits": [
      "kit-investstart"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-11",
@@ -301,7 +311,8 @@
     "kits": [
      "kit-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "bookcol-12",
@@ -328,7 +339,8 @@
     "kits": [
      "kit-sideincome"
     ]
-   }
+   },
+   "zone": "grow"
   },
   {
    "slug": "booktool-mandala",
@@ -354,7 +366,8 @@
     "kits": [
      "kit-mandala"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "booktool-flexcost",
@@ -383,7 +396,8 @@
      "kit-moneytalk",
      "kit-leakcheck"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "booktool-savingrule",
@@ -412,7 +426,8 @@
      "kit-savings",
      "kit-sideincome"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "booktool-portfolio",
@@ -445,7 +460,8 @@
      "kit-investstart",
      "kit-homebuy"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "booktool-taxaccount",
@@ -472,7 +488,8 @@
     "kits": [
      "kit-taxsaver"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "booktool-finincome",
@@ -499,7 +516,8 @@
     "kits": [
      "kit-dividend"
     ]
-   }
+   },
+   "zone": "grow"
   },
   {
    "slug": "booktool-valuation",
@@ -525,7 +543,8 @@
     "kits": [
      "kit-investstart"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "kit-moneytalk",
@@ -555,7 +574,8 @@
      "booktool-flexcost"
     ]
    },
-   "name": "moneytalk"
+   "name": "moneytalk",
+   "zone": "gather"
   },
   {
    "slug": "kit-mandala",
@@ -584,7 +604,8 @@
     "tools": [
      "booktool-mandala"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "kit-leakcheck",
@@ -613,7 +634,8 @@
     "tools": [
      "booktool-flexcost"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "kit-savings",
@@ -642,7 +664,8 @@
     "tools": [
      "booktool-savingrule"
     ]
-   }
+   },
+   "zone": "gather"
   },
   {
    "slug": "kit-investstart",
@@ -672,7 +695,8 @@
     "tools": [
      "booktool-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "kit-portfolio",
@@ -703,7 +727,8 @@
     "tools": [
      "booktool-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "kit-taxsaver",
@@ -732,7 +757,8 @@
     "tools": [
      "booktool-taxaccount"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "kit-homebuy",
@@ -761,7 +787,8 @@
     "tools": [
      "booktool-portfolio"
     ]
-   }
+   },
+   "zone": "keep"
   },
   {
    "slug": "kit-dividend",
@@ -790,7 +817,8 @@
     "tools": [
      "booktool-finincome"
     ]
-   }
+   },
+   "zone": "grow"
   },
   {
    "slug": "kit-sideincome",
@@ -819,7 +847,8 @@
     "tools": [
      "booktool-savingrule"
     ]
-   }
+   },
+   "zone": "grow"
   }
  ]
 }

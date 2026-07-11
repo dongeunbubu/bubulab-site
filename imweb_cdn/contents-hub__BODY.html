@@ -1,361 +1,203 @@
-<!-- [콘텐츠_허브_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 60건 슬러그 치환 · v3(2026-06-11) -->
-<style>
-:root{
- --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
- --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
- --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
- --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
- --up:#D8584E; --down:#4A7DE8;
- --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
- --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
- --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+<!-- [부부의_여정_지도] contents-hub BODY = 전체너비 코드위젯 · SVG 여정 곡선 · 29정거장(zone 3구간) · jm- 네임스페이스 · 바닐라 · 2026-07-12 -->
+<div class="jm-scope"><style>
+/* [부부의 여정 지도] contents-hub — jm- 네임스페이스 · 웜 로즈 · 바닐라 SVG · 카운트업 없음 */
+.jm-scope{--jm-bg:#FBF3EE;--jm-bg2:#FDFBF7;--jm-card:#fff;
+ --jm-ink:#3E2F29;--jm-ink2:#5C4B43;--jm-mut:#8A7B72;
+ --jm-rose:#B33A4C;--jm-rose2:#D67A89;--jm-deep:#9A2F40;
+ --jm-sage:#5E8C7F;--jm-gold:#C0972F;
+ --jm-pinkSoft:#F8E8EA;--jm-pinkSoft2:#FCEEF1;--jm-sand:#F0DED8;--jm-border:#EAD7D3;
+ --jm-ease:cubic-bezier(.16,1,.3,1);--jm-maxw:1080px;
+ --jm-sh:0 1px 2px rgba(62,47,41,.04),0 6px 16px rgba(179,58,76,.06),0 18px 40px rgba(179,58,76,.07);
+ --jm-shi:0 2px 6px rgba(62,47,41,.06),0 14px 30px rgba(179,58,76,.12),0 30px 60px rgba(179,58,76,.16);
+ background:var(--jm-bg);color:var(--jm-ink);
+ font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;
+ line-height:1.72;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+.jm-scope *{box-sizing:border-box;margin:0;padding:0}
+.jm-scope a{color:inherit;text-decoration:none}
+.jm-wrap{max-width:var(--jm-maxw);margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+.jm-grad{background:linear-gradient(100deg,var(--jm-rose),var(--jm-rose2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#jmhdr{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+#jmhdr.jm-scrolled{border-color:var(--jm-border);box-shadow:0 4px 22px rgba(179,58,76,.07)}
+#jmhdr .jm-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;height:64px}
+#jmhdr .jm-logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+#jmhdr .jm-logo .jm-dot{width:11px;height:11px;border-radius:50%;background:var(--jm-rose2);box-shadow:0 0 0 4px var(--jm-pinkSoft)}
+#jmhdr .jm-menu{display:flex;gap:22px;font-size:15px;font-weight:600;color:var(--jm-ink2)}
+#jmhdr .jm-menu-main{justify-self:center}
+#jmhdr .jm-menu a{position:relative;padding:4px 0}
+#jmhdr .jm-menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-3px;height:2px;background:var(--jm-rose2);border-radius:2px;transition:right .3s var(--jm-ease)}
+#jmhdr .jm-menu a:hover{color:var(--jm-rose)}
+#jmhdr .jm-menu a:hover::after,#jmhdr .jm-menu a.jm-cur::after{right:0}
+#jmhdr .jm-menu a.jm-cur{color:var(--jm-ink);font-weight:700}
+#jmhdr .jm-navright{justify-self:end;display:flex;align-items:center;gap:16px}
+#jmhdr .jm-menu-sub{gap:15px}
+#jmhdr .jm-menu-sub a{font-size:13px;color:var(--jm-mut);font-weight:600}
+#jmhdr .jm-cta{background:var(--jm-rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .25s,background .2s}
+#jmhdr .jm-cta:hover{background:var(--jm-deep);transform:translateY(-1px);box-shadow:var(--jm-shi)}
+.jm-navbtn{display:none}
+@media(max-width:900px){#jmhdr .jm-menu-main,#jmhdr .jm-menu-sub,#jmhdr .jm-cta{display:none}
+ #jmhdr .jm-nav{grid-template-columns:1fr auto}
+ .jm-navbtn{display:inline-flex;flex-direction:column;gap:5px;justify-self:end;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:none;cursor:pointer}
+ .jm-navbtn span{width:22px;height:2px;background:var(--jm-ink);border-radius:2px;transition:transform .3s var(--jm-ease),opacity .2s}
+ .jm-navbtn.jm-on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+ .jm-navbtn.jm-on span:nth-child(2){opacity:0}
+ .jm-navbtn.jm-on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}}
+.jm-drawer{position:fixed;inset:0;z-index:80;background:rgba(62,47,41,.32);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.jm-drawer.jm-on{opacity:1;visibility:visible}
+.jm-drawer .jm-dpnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,320px);background:var(--jm-bg2);box-shadow:-10px 0 40px rgba(62,47,41,.16);transform:translateX(100%);transition:transform .34s var(--jm-ease);padding:22px 22px 30px;display:flex;flex-direction:column;gap:6px}
+.jm-drawer.jm-on .jm-dpnl{transform:none}
+.jm-drawer .jm-dclose{align-self:flex-end;font-size:26px;line-height:1;background:none;border:none;color:var(--jm-mut);cursor:pointer;padding:4px 8px}
+.jm-drawer .jm-dlogo{font-weight:800;display:flex;align-items:center;gap:9px;margin:2px 0 12px}
+.jm-drawer .jm-dlogo i{width:10px;height:10px;border-radius:50%;background:var(--jm-rose2)}
+.jm-drawer .jm-dnav a{padding:13px 8px;font-size:16px;font-weight:700;border-bottom:1px solid var(--jm-border);display:block}
+.jm-drawer .jm-dcta{margin-top:16px;background:var(--jm-rose);color:#fff;text-align:center;padding:14px;border-radius:14px;font-weight:800}
+.jm-reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--jm-ease),transform .8s var(--jm-ease)}
+.jm-reveal.jm-in{opacity:1;transform:none}
+.jm-hero{padding:clamp(48px,6.5vw,84px) 0 clamp(28px,4vw,46px);text-align:center}
+.jm-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--jm-rose);background:var(--jm-pinkSoft);padding:7px 15px;border-radius:100px}
+.jm-h1{font-size:clamp(30px,5.4vw,56px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin:18px auto 0;max-width:15em}
+.jm-lead{color:var(--jm-ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.75;max-width:600px;margin:16px auto 0}
+.jm-lead+.jm-lead{margin-top:11px}
+.jm-legend{display:inline-flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin:22px auto 0;padding:12px 20px;background:var(--jm-card);border:1px solid var(--jm-border);border-radius:16px;box-shadow:var(--jm-sh);font-size:13px;font-weight:600;color:var(--jm-ink2)}
+.jm-legend b{font-weight:800}
+.jm-legend span{display:inline-flex;align-items:center;gap:6px}
+.jm-filterbar{position:sticky;top:64px;z-index:40;display:flex;justify-content:center;padding:12px 0;margin-top:6px;background:linear-gradient(var(--jm-bg) 60%,rgba(251,243,238,0))}
+.jm-chiprow{display:inline-flex;gap:6px;padding:6px;background:var(--jm-card);border:1px solid var(--jm-border);border-radius:100px;box-shadow:var(--jm-sh)}
+.jm-chip{font-size:13.5px;font-weight:700;color:var(--jm-ink2);background:none;border:none;cursor:pointer;padding:8px 15px;border-radius:100px;transition:background .2s,color .2s;font-family:inherit}
+.jm-chip:hover{color:var(--jm-rose)}
+.jm-chip.jm-on{background:var(--jm-rose);color:#fff}
+.jm-mapwrap{padding:clamp(10px,2vw,24px) 0 clamp(34px,5vw,64px)}
+.jm-map{position:relative;max-width:940px;margin:0 auto}
+.jm-svg{display:block;width:100%;height:auto;overflow:visible}
+.jm-track{opacity:.5}
+.jm-draw{filter:drop-shadow(0 3px 8px rgba(179,58,76,.14))}
+.jm-zlabel{position:absolute;left:50%;transform:translate(-50%,calc(-50% + 20px));width:min(84%,440px);text-align:center;background:var(--jm-card);border:1px solid var(--jm-border);border-top:3px solid var(--jm-accent,var(--jm-rose));border-radius:18px;padding:15px 22px;box-shadow:var(--jm-sh);z-index:3;opacity:0;transition:opacity .7s var(--jm-ease),transform .7s var(--jm-ease)}
+.jm-zlabel.jm-in{opacity:1;transform:translate(-50%,-50%)}
+.jm-zl-gather{--jm-accent:var(--jm-sage)}.jm-zl-keep{--jm-accent:var(--jm-rose)}.jm-zl-grow{--jm-accent:var(--jm-gold)}
+.jm-zpart{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--jm-accent,var(--jm-rose))}
+.jm-zhead{display:flex;align-items:center;justify-content:center;gap:9px;font-size:clamp(20px,2.7vw,27px);font-weight:800;letter-spacing:-.02em;margin-top:5px}
+.jm-zemo{font-size:1.05em}
+.jm-zdesc{display:block;font-size:13.5px;color:var(--jm-ink2);margin-top:7px;line-height:1.6}
+.jm-zcount{display:inline-block;margin-top:9px;font-size:12px;color:var(--jm-mut)}
+.jm-zcount b{color:var(--jm-accent,var(--jm-rose));font-weight:800}
+.jm-mark{position:absolute;left:50%;transform:translate(-50%,calc(-50% + 16px));display:inline-flex;align-items:center;gap:8px;background:var(--jm-ink);color:#fff;padding:8px 16px;border-radius:100px;font-size:12.5px;font-weight:700;z-index:4;box-shadow:var(--jm-shi);opacity:0;transition:opacity .7s var(--jm-ease),transform .7s var(--jm-ease);white-space:nowrap}
+.jm-mark.jm-in{opacity:1;transform:translate(-50%,-50%)}
+.jm-mark-end{background:linear-gradient(120deg,var(--jm-rose),var(--jm-deep))}
+.jm-mkemo{font-size:15px}
+.jm-node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;z-index:5;font-family:inherit;
+ opacity:0;--jm-y:14px;transition:opacity .55s var(--jm-ease);transition-delay:calc(var(--jm-i,0)*.045s)}
+.jm-node.jm-in{opacity:1}
+.jm-node .jm-emo{display:flex;align-items:center;justify-content:center;background:var(--jm-card);border:2px solid var(--jm-border);box-shadow:var(--jm-sh);transition:transform .3s var(--jm-ease),box-shadow .3s,border-color .3s,opacity .3s;transform:translateY(var(--jm-y))}
+.jm-node.jm-in .jm-emo{transform:translateY(0)}
+.jm-n-col .jm-emo{width:52px;height:52px;border-radius:50% 50% 50% 12px;font-size:23px}
+.jm-n-tool .jm-emo{width:56px;height:56px;border-radius:15px;font-size:24px}
+.jm-n-kit .jm-emo{width:74px;height:74px;border-radius:20px;font-size:33px;border-color:var(--jm-rose2);box-shadow:var(--jm-shi)}
+.jm-node .jm-nlabel{display:none}
+.jm-node.jm-live:hover .jm-emo,.jm-node.jm-live:focus-visible .jm-emo{transform:translateY(-6px) scale(1.06);border-color:var(--jm-rose);box-shadow:var(--jm-shi)}
+.jm-node.jm-soon{cursor:default}
+.jm-node.jm-soon .jm-emo{opacity:.5;filter:saturate(.55);border-style:dashed}
+.jm-node.jm-soon:hover .jm-emo{opacity:.72}
+.jm-node.jm-live::after{content:"";position:absolute;left:50%;width:8px;height:8px;border-radius:50%;background:var(--jm-sage);transform:translate(-50%,-50%);animation:jm-pulse 2.6s var(--jm-ease) infinite;pointer-events:none}
+.jm-n-col.jm-live::after{top:14%}.jm-n-tool.jm-live::after{top:13%}.jm-n-kit.jm-live::after{top:11%}
+@keyframes jm-pulse{0%{box-shadow:0 0 0 0 rgba(94,140,127,.5)}70%{box-shadow:0 0 0 9px rgba(94,140,127,0)}100%{box-shadow:0 0 0 0 rgba(94,140,127,0)}}
+.jm-map.jm-f-column .jm-node:not(.jm-n-col),
+.jm-map.jm-f-tool .jm-node:not(.jm-n-tool),
+.jm-map.jm-f-kit .jm-node:not(.jm-n-kit){opacity:.2;filter:grayscale(.7)}
+.jm-map.jm-f-column .jm-node.jm-n-col .jm-emo,
+.jm-map.jm-f-tool .jm-node.jm-n-tool .jm-emo,
+.jm-map.jm-f-kit .jm-node.jm-n-kit .jm-emo{border-color:var(--jm-rose);box-shadow:var(--jm-shi)}
+.jm-pop{position:absolute;z-index:20;width:266px;background:var(--jm-card);border:1px solid var(--jm-border);border-radius:16px;box-shadow:var(--jm-shi);padding:15px 16px 14px;opacity:0;visibility:hidden;transition:opacity .22s var(--jm-ease);pointer-events:none;left:0;top:0}
+.jm-pop.jm-show{opacity:1;visibility:visible;pointer-events:auto}
+.jm-pop .jm-pmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jm-pop .jm-ptitle{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-top:9px;line-height:1.34}
+.jm-pop .jm-phook{font-size:13px;color:var(--jm-ink2);line-height:1.6;margin-top:7px}
+.jm-pop .jm-pgo{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:800;color:var(--jm-rose)}
+.jm-pop .jm-pgo .jm-ar{transition:transform .25s}
+.jm-pop.jm-show .jm-pgo .jm-ar{animation:jm-nudge 1.4s var(--jm-ease) infinite}
+@keyframes jm-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.jm-pop .jm-psoon{margin-top:11px;font-size:12.5px;font-weight:700;color:var(--jm-mut)}
+.jm-pop .jm-parrow{position:absolute;width:13px;height:13px;background:var(--jm-card);border-right:1px solid var(--jm-border);border-bottom:1px solid var(--jm-border);left:50%;bottom:-7px;transform:translateX(-50%) rotate(45deg)}
+.jm-pop.jm-below .jm-parrow{bottom:auto;top:-7px;transform:translateX(-50%) rotate(225deg)}
+.jm-b{font-size:10.5px;font-weight:800;letter-spacing:.02em;padding:3px 9px;border-radius:100px;display:inline-flex;align-items:center;gap:3px}
+.jm-b-free{background:#E7F3EC;color:#3F7C5C}
+.jm-b-prem{background:var(--jm-pinkSoft);color:var(--jm-rose)}
+.jm-b-soon{background:var(--jm-sand);color:var(--jm-mut)}
+.jm-lt{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:6px}
+.jm-lt-column,.jm-pt-column{background:rgba(94,140,127,.14);color:#3F7C5C}
+.jm-lt-tool,.jm-pt-tool{background:rgba(179,58,76,.12);color:var(--jm-rose)}
+.jm-lt-kit,.jm-pt-kit{background:rgba(192,151,47,.16);color:#997518}
+.jm-listsec{padding:clamp(28px,4vw,50px) 0 clamp(8px,2vw,20px)}
+.jm-lhead{text-align:center;margin-bottom:clamp(18px,2.4vw,26px)}
+.jm-lhead .jm-le{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--jm-rose)}
+.jm-lhead h2{font-size:clamp(21px,3vw,29px);font-weight:800;letter-spacing:-.025em;margin-top:8px}
+.jm-lhead p{font-size:14px;color:var(--jm-ink2);margin-top:9px}
+.jm-acc{background:var(--jm-card);border:1px solid var(--jm-border);border-radius:18px;box-shadow:var(--jm-sh);margin-bottom:14px;overflow:hidden}
+.jm-accsum{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:18px 22px;font-weight:800}
+.jm-accsum::-webkit-details-marker{display:none}
+.jm-accemo{font-size:21px}
+.jm-acctitle{font-size:17px;letter-spacing:-.02em}
+.jm-accn{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--jm-mut);background:var(--jm-bg);padding:4px 11px;border-radius:100px}
+.jm-accchev{font-size:20px;color:var(--jm-mut);transition:transform .3s var(--jm-ease)}
+.jm-acc[open] .jm-accchev{transform:rotate(180deg)}
+.jm-acclist{list-style:none;padding:0 12px 12px}
+.jm-lrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 12px;padding:13px 14px;border-radius:12px;transition:background .2s}
+a.jm-lrow:hover{background:var(--jm-pinkSoft2)}
+.jm-lm{display:inline-flex;gap:6px;align-items:center;grid-row:1;grid-column:1;flex-wrap:wrap}
+.jm-ltitle{font-size:14.5px;font-weight:700;grid-row:1;grid-column:2}
+.jm-lhook{font-size:12.5px;color:var(--jm-mut);grid-row:2;grid-column:2;line-height:1.55}
+.jm-larr{grid-row:1;grid-column:3;color:var(--jm-rose);font-weight:800;transition:transform .25s}
+a.jm-lrow:hover .jm-larr{transform:translateX(4px)}
+.jm-lrow-soon{opacity:.72}
+.jm-band2{position:relative;margin-top:clamp(28px,4vw,48px);padding:clamp(36px,5vw,58px) 0;text-align:center;border-top:1px solid var(--jm-border);
+ background:radial-gradient(90% 130% at 84% -20%,var(--jm-pinkSoft) 0,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--jm-pinkSoft2) 58%,#FDEFF2)}
+.jm-band2.jm-kitband{background:linear-gradient(160deg,#FCFAF7,var(--jm-bg) 70%)}
+.jm-bandin{max-width:640px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+.jm-bk{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--jm-rose);text-transform:uppercase}
+.jm-band2 h2{font-size:clamp(21px,3.2vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:11px;line-height:1.3}
+.jm-band2 p{font-size:14.5px;color:var(--jm-ink2);margin-top:12px;line-height:1.66}
+.jm-band2 p+p{margin-top:9px}
+.jm-bcta{display:inline-flex;align-items:center;gap:8px;margin-top:22px;min-height:52px;padding:15px 30px;border-radius:15px;background:linear-gradient(135deg,var(--jm-rose),var(--jm-deep));color:#fff;font-size:15.5px;font-weight:800;box-shadow:0 16px 34px -12px rgba(179,58,76,.55);transition:transform .3s var(--jm-ease),box-shadow .3s}
+.jm-bcta:hover{transform:translateY(-3px);box-shadow:0 22px 44px -12px rgba(179,58,76,.62)}
+.jm-bcta.jm-ghost{background:none;color:var(--jm-rose);border:1.5px solid var(--jm-border);box-shadow:none}
+.jm-bcta.jm-ghost:hover{border-color:var(--jm-rose);background:var(--jm-card)}
+.jm-bcta i{font-style:normal;transition:transform .25s}
+.jm-bcta:hover i{transform:translateX(4px)}
+.jm-bnote{margin-top:14px;font-size:12px;color:var(--jm-mut)}
+.jm-brow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.jm-foot{background:var(--jm-card);border-top:1px solid var(--jm-border);margin-top:12px}
+.jm-foot .jm-wrap{padding:32px clamp(22px,4.5vw,40px) 40px}
+.jm-flogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.jm-flogo i{width:10px;height:10px;border-radius:50%;background:var(--jm-rose2)}
+.jm-ftrow{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--jm-mut)}
+.jm-ftnote{margin-top:12px;font-size:12px;color:var(--jm-mut);line-height:1.6}
+.jm-prog{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--jm-rose),var(--jm-gold));z-index:90;transition:width .1s linear}
+.jm-totop{position:fixed;right:20px;bottom:22px;z-index:70;width:46px;height:46px;border-radius:50%;background:var(--jm-card);border:1px solid var(--jm-border);box-shadow:var(--jm-shi);color:var(--jm-rose);font-size:19px;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .3s,visibility .3s,transform .3s}
+.jm-totop.jm-on{opacity:1;visibility:visible;transform:none}
+@media(max-width:760px){
+ .jm-filterbar{top:56px}
+ .jm-svg{display:none}
+ .jm-map{max-width:520px;padding-left:6px}
+ .jm-map::before{content:"";position:absolute;left:34px;top:8px;bottom:8px;width:3px;border-radius:3px;background:linear-gradient(var(--jm-sage),var(--jm-rose) 52%,var(--jm-gold))}
+ .jm-node{position:relative!important;left:0!important;top:auto!important;transform:none!important;flex-direction:row;gap:14px;width:100%;padding:9px 0 9px 12px;justify-content:flex-start}
+ .jm-node .jm-emo{transform:none!important}
+ .jm-n-col .jm-emo,.jm-n-tool .jm-emo{width:44px;height:44px;font-size:20px}
+ .jm-n-kit .jm-emo{width:52px;height:52px;font-size:24px}
+ .jm-node .jm-nlabel{display:block;font-size:14.5px;font-weight:700;color:var(--jm-ink);text-align:left;line-height:1.4}
+ .jm-node.jm-soon .jm-nlabel{color:var(--jm-mut)}
+ .jm-node.jm-live::after{display:none}
+ .jm-zlabel{position:relative!important;left:0!important;top:auto!important;transform:translateY(20px);width:100%;margin:22px 0 6px;text-align:left}
+ .jm-zlabel.jm-in{transform:none}
+ .jm-zhead{justify-content:flex-start}
+ .jm-mark{position:relative!important;left:0!important;top:auto!important;transform:translateY(16px);margin:10px 0}
+ .jm-mark.jm-in{transform:none}
+ .jm-pop{display:none!important}
+ .jm-map.jm-f-column .jm-node:not(.jm-n-col),.jm-map.jm-f-tool .jm-node:not(.jm-n-tool),.jm-map.jm-f-kit .jm-node:not(.jm-n-kit){display:none}
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
-body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
-.blk{padding:clamp(96px,11vw,152px) 0;position:relative}
-/* header */
-header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
-header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
-.nav{display:flex;align-items:center;gap:18px;height:62px}
-.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
-.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
-.menu{margin-left:auto;display:flex;gap:3px}
-.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
-.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
-.menu a.cur{color:var(--rose);font-weight:800}
-.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
-.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
-@media(max-width:820px){.menu{display:none}}
-/* anim */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
-.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
-.scene.in{opacity:1;transform:none}
-.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.stag.in>*{opacity:1;transform:none}
-.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
-.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
-@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
-/* hero */
-.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
-.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
-.tool-h1{font-size:clamp(32px,5.6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
-.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
-.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
-.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
-.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
-.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
-.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
-.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
-.backlink:hover{color:var(--rose)}
-/* footer */
-footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
-footer .wrap{padding-top:30px;padding-bottom:34px}
-.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
-.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
-.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
-.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
-/* subscribe band */
-.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
-.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
-.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
-.cta-band .btn{margin-top:20px}
-/* lock */
-.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
-.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
-.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
-.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
-
-.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}
-@media(max-width:760px){.rgrid{grid-template-columns:1fr}}
-.tool{display:flex;gap:16px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;position:relative;overflow:hidden}
-.tool:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
-.tool .ico{width:54px;height:54px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.tool .ico svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.tool .tb{flex:1}
-.tool .badge{font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:100px;display:inline-block}
-.badge.free{background:#E8F4ED;color:#4A8060}.badge.sub{background:var(--pinkSoft);color:var(--rose)}
-.tool h3{font-size:17.5px;font-weight:800;letter-spacing:-.02em;margin:7px 0 5px}
-.tool p{font-size:13px;color:var(--ink2);line-height:1.55}
-.tool .go{margin-top:11px;font-size:13.5px;font-weight:800;color:var(--rose);display:inline-flex;gap:5px;align-items:center}
-.tool .go .ar{transition:transform .3s var(--ease)}.tool:hover .go .ar{transform:translateX(4px)}
-.tool.locked{opacity:.96}
-.tool.locked .ico{filter:saturate(.6)}
-.tool.locked .lockt{position:absolute;top:14px;right:14px;font-size:11px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:4px 10px;box-shadow:var(--cardSh)}
-.cathead2{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:40px}
-.cathead2 .e{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--rose);text-transform:uppercase}
-.cathead2 h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:6px}
-.cathead2 .d{font-size:13.5px;color:var(--ink2);margin-top:4px}
-
-/* ===navfix=== canonical nav (overrides toolgen) */
-#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
-#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
-#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
-#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
-#hdr .menu a:hover{color:var(--pink);background:none}
-#hdr .menu a:hover::after{right:0}
-#hdr .menu a.cur{color:var(--ink);font-weight:600}
-#hdr .menu a.cur::after{right:0}
-#hdr .menu-main{justify-self:center}
-#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
-#hdr .menu-sub{gap:16px}
-#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
-#hdr .menu-sub a:hover{color:var(--pink)}
-#hdr .menu-sub a.cur{color:var(--ink)}
-@media(max-width:940px){#hdr .menu{display:none}}
-</style>
-<style>
-/* ===surfacing hub=== */
-.hwrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,40px)}
-.hhero{padding:56px 0 18px;text-align:center}
-.hhero .eyebrow{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--rose);background:var(--pinkSoft);padding:7px 14px;border-radius:100px}
-.hhero h1{font-size:clamp(27px,4.4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.18;margin:16px 0 10px;color:var(--ink)}
-.hhero p{color:var(--ink2);font-size:15.5px;max-width:600px;margin:0 auto;line-height:1.7}
-.gateway{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0 6px}
-.gcard{display:flex;gap:14px;align-items:center;padding:18px 20px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(135deg,#fff,var(--pinkSoft2));text-decoration:none;transition:transform .2s,box-shadow .2s}
-.gcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi)}
-.gcard .gi{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--pinkSoft);flex:none}
-.gcard h3{font-size:16px;font-weight:800;color:var(--ink);margin:0 0 2px}
-.gcard p{font-size:13px;color:var(--mut);margin:0}
-.gcard .ga{margin-left:auto;color:var(--rose);font-weight:800;font-size:18px}
-.rcat{margin:40px 0 0}
-.rcat-h{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
-.rcat-h .ce{font-size:20px}
-.rcat-h h2{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0}
-.rcat-h .cn{font-size:12.5px;color:var(--mut);font-weight:700}
-.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
-.rcard{display:flex;gap:13px;align-items:flex-start;padding:16px 17px;border-radius:16px;border:1px solid var(--border);background:var(--card);text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
-.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
-.rcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none;background:var(--pinkSoft)}
-.rcard.t2 .ic{background:#E8F0EC}.rcard.t3 .ic{background:#F3ECF6}.rcard.t4 .ic{background:#FBF1DC}.rcard.t5 .ic{background:#EAF0FB}
-.rcard h4{font-size:14.5px;font-weight:800;color:var(--ink);margin:0 0 4px;line-height:1.3}
-.rcard p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.55}
-.rbadge{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:100px;margin-bottom:6px;letter-spacing:.02em}
-.rbadge.free{background:#E8F3EE;color:#3F7A66}
-.rbadge.lock{color:#8A6A50;background:#F6EEE4;border:1px solid #EADFCE}
-.rbadge.sub{background:var(--pinkSoft);color:var(--rose)}
-.rcard .arr{position:absolute;right:13px;top:16px;color:var(--sand);font-weight:800;transition:color .2s,transform .2s}
-.rcard:hover .arr{color:var(--rose);transform:translateX(3px)}
-.hnote{text-align:center;color:var(--mut);font-size:12.5px;margin:30px auto 0;max-width:640px;line-height:1.7}
-@media(max-width:640px){.gateway{grid-template-columns:1fr}}
-
-/* ===navmob=== mobile GNB drawer */
-#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
-#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
-#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-#hdr .navMobBtn.on span:nth-child(2){opacity:0}
-#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
-.navDrawer.on{opacity:1;visibility:visible}
-.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
-.navDrawer.on .pnl{transform:translateX(0)}
-.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
-.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
-.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
-.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
-.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
-.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
-.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
-@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
-</style>
-<style>/* ===pagedyn=== universal dynamics */
-.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
-.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
-.toTop.on{opacity:1;visibility:visible;transform:none}
-.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
-.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
-@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
-</style>
-<style>/* ===ofix=== mobile overflow guard */
-html{overflow-x:hidden}
-.navDrawer{overflow:hidden}
-@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
-</style>
-<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
-<style>/* resurface extra */
-.rcard.t6 .ic{background:#F3ECF6}
-.rcat-pro{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:22px;padding:clamp(20px,3vw,30px);margin-top:40px}
-.rcat-pro .rcat-h{margin-bottom:6px}
-.rcat-pro .pro-sub{font-size:13px;color:var(--ink2);margin:0 0 14px;line-height:1.6}
-</style>
-<style>/*wowkit-css*/
-/* ── 스크롤 등장(방향 변형) ── */
-html.js .wv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-html.js .wv.wv-l{transform:translateX(-34px)}
-html.js .wv.wv-r{transform:translateX(34px)}
-html.js .wv.wv-s{transform:scale(.94) translateY(14px)}
-html.js .wv.in{opacity:1;transform:none}
-/* ── 자식 스태거(카드 그리드·리스트) ── */
-html.js .wstag>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
-html.js .wstag.in>*{opacity:1;transform:none}
-/* ── 형광펜 밑줄 스윕(키 카피 1~2곳만) ── */
-.whl{background:linear-gradient(transparent 60%,#F8E8EA 60%) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.16,1,.3,1) .18s;border-radius:2px}
-.whl.in{background-size:100% 100%}
-/* ── 섹션 헤더 라인 드로우 ── */
-.wline{position:relative}
-.wline::after{content:"";display:block;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#D67A89,#B85060);margin-top:10px;transition:width .8s cubic-bezier(.16,1,.3,1) .15s}
-.wline.in::after{width:44px}
-.wline.wline-c::after{margin-left:auto;margin-right:auto}
-/* ── 카드 호버 리프트(+은은한 그림자) ── */
-.wlift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}
-.wlift:hover{transform:translateY(-5px);box-shadow:0 18px 40px -18px rgba(62,47,41,.22)}
-.wtilt{transition:transform .25s ease-out}
-/* ── CTA 샤인 스윕(주 CTA 1곳만) ── */
-.wshine{position:relative;overflow:hidden}
-.wshine::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.34),transparent);transform:skewX(-18deg);transition:left .75s ease}
-.wshine:hover::after{left:125%}
-/* ── 모션 최소화: 전부 정적 폴백 ── */
-@media (prefers-reduced-motion:reduce){
-  html.js .wv,html.js .wstag>*{opacity:1!important;transform:none!important;transition:none!important}
-  .whl{background-size:100% 100%!important;transition:none!important}
-  .wline::after{width:44px!important;transition:none!important}
-  .wlift,.wlift:hover{transform:none!important;transition:none!important}
-  .wshine::after{display:none!important}
+@media(prefers-reduced-motion:reduce){
+ .jm-scope *{animation:none!important}
+ .jm-reveal,.jm-node,.jm-zlabel,.jm-mark{opacity:1!important;transition:none!important}
+ .jm-zlabel,.jm-mark{transform:translate(-50%,-50%)!important}
+ .jm-node,.jm-node .jm-emo{transform:translate(-50%,-50%)!important}
+ .jm-node .jm-emo{transform:translateY(0)!important}
+ .jm-draw{stroke-dashoffset:0!important}
 }
-</style>
-<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
-@view-transition{navigation:auto}
-::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
-::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
-@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
-@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
-@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
-</style>
-<style>/* ===nextlane-hub=== ⑤다음 동선·⑦구독밴드 신설 · B레인 — 추가 전용(기존 블록 무접촉). wshine·wv는 기존 wowkit-css 재사용, 여기선 미정의 */
-.subsec{max-width:1080px;margin:0 auto;padding:46px clamp(20px,5vw,40px) 6px}
-.subband{background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(26px,4.5vw,40px);box-shadow:var(--cardHi);text-align:center}
-.subband .sb-k{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--rose);background:var(--pinkSoft);padding:6px 13px;border-radius:100px}
-.subband .sb-h{font-size:clamp(20px,3.2vw,26px);font-weight:800;letter-spacing:-.02em;line-height:1.32;margin-top:13px;color:var(--ink)}
-.subband .sb-d{font-size:14px;color:var(--ink2);line-height:1.7;margin-top:9px}
-.svm{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px auto 0;max-width:680px;text-align:left}
-@media(max-width:620px){.svm{grid-template-columns:1fr}}
-.svm .vm{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 18px;box-shadow:var(--cardSh)}
-.svm .vm.pro{border-color:var(--pink);background:linear-gradient(165deg,#fff,var(--pinkSoft2))}
-.svm .vmh{font-size:13.5px;font-weight:800;color:var(--ink)}
-.svm .vmp{font-size:12.5px;font-weight:800;color:var(--rose);margin-top:2px}
-.svm .inc{display:inline-block;font-size:11.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:100px;padding:4px 10px;margin-top:8px}
-.svm ul{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
-.svm li{position:relative;padding-left:16px;font-size:12.5px;color:var(--ink2);line-height:1.55}
-.svm li::before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--pink)}
-.sb-row{display:flex;flex-direction:column;align-items:center}
-.sb-cta{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:50px;padding:14px 28px;margin-top:20px;border-radius:14px;background:var(--rose);color:#fff;font-size:15px;font-weight:800;letter-spacing:-.01em;text-decoration:none;box-shadow:0 10px 26px rgba(184,80,96,.32);transition:box-shadow .3s,transform .25s var(--ease)}
-.sb-cta:hover{box-shadow:0 14px 32px rgba(184,80,96,.42)}
-.sb-cta .ar{transition:transform .3s var(--ease)}
-.sb-cta:hover .ar{transform:translateX(4px)}
-.sb-ghost{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 18px;margin-top:10px;border-radius:100px;color:var(--rose);font-size:13.5px;font-weight:800;text-decoration:none;border:1.5px solid var(--border);background:rgba(255,255,255,.8);transition:background .25s,border-color .25s}
-.sb-ghost:hover{background:var(--pinkSoft);border-color:var(--pink)}
-.sb-rsr{font-size:12px;color:var(--mut);line-height:1.6;margin-top:14px}
-.sb-rsr b{color:var(--ink2)}
-.nextrow{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px}
-.backhub{display:inline-flex;align-items:center;gap:7px;min-height:48px;padding:12px 22px;border-radius:100px;border:1.6px solid var(--pink);background:rgba(255,255,255,.85);color:var(--rose);font-weight:800;font-size:14px;text-decoration:none;transition:background .25s,box-shadow .3s}
-.backhub:hover{background:var(--pinkSoft);box-shadow:var(--cardSh)}
-@media (prefers-reduced-motion:reduce){
-.sb-cta,.sb-cta .ar,.sb-ghost,.backhub{transition:none!important}
-.sb-cta:hover .ar{transform:none!important}
-}
-</style>
-<header id="hdr"><div class="wrap nav">
-<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
-<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
-<div class="navright">
-<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
-<a class="cta wmag wshine" href="/home#subscribe">구독하기</a>
-</div>
-</div></header>
-<main>
-<section class="hhero hwrap"><span class="eyebrow">📘 경제공부 · 딥칼럼 · 부동산</span>
-<h1>경제 뉴스, 우리만 어려운 걸까요?</h1>
-<p>아니에요, 용어가 불친절했을 뿐이에요. 어려운 경제·투자 개념을 두 분이 같이 읽기 쉽게 풀었어요 — 실데이터로 <span class="whl">통념은 뒤집고</span>, 기초는 단단하게. 이미 <b class="cu" data-to="46" data-suf="편">46편</b>, 매주 늘어나요. 입문 15편은 늘 무료고, 심화 31편은 프리미엄에서 다 열려요.</p>
-<div class="gateway wv wv-s"><a class="gcard" href="/library"><span class="gi">🧰</span><div><h3>재테크 도구 58종</h3><p>진단·계획·실행·부동산·Pro</p></div><span class="ga">→</span></a>
-<a class="gcard" href="/report-hub"><span class="gi">🔥</span><div><h3>기업 파헤치기 레포트 15편</h3><p>한 기업씩 끝까지 깊게</p></div><span class="ga">→</span></a></div></section>
-<div class="hwrap">
-<section class="rcat reveal"><div class="rcat-h"><span class="ce">📈</span><h2 class="wline">경제공부 — 단어가 쉬워지면 시장이 보여요</h2><span class="cn cu" data-to="18" data-suf="편">18편</span></div><div class="rgrid wstag">
-<a class="rcard c" href="/eco-etf-364f"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>ETF 완전 정복</h4><p>ETF 하나면 분산투자 끝이라고들 해요. 맞는 말이에요. 그런데 같은 'ETF'라는 이름…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-630d"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>재무제표 3장, 한 회사로 30분에 끝내기</h4><p>재무제표가 어렵게 느껴지는 건 장이 셋이나 되고, 비슷한 숫자가 여기저기서 나와서예요. 그…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-perpbrroe-18bd"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>PER·PBR·ROE 3형제 한 번에 이해하기</h4><p>종목 분석 글을 읽다 보면 꼭 나오는 PER·PBR·ROE . 따로따로 외우면 헷갈리는데,…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-fcfvs-19e4"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>잉여현금흐름(FCF) vs 순이익</h4><p>아마존이 분기 사상 최대 순이익을 냈다는 뉴스가 나온 바로 그 분기에, 회사가 손에 쥔 잉…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-fcf-3b13"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>적자 회사는 PER이 안 나와요</h4><p>지난 「적자 회사가 왜 더 비쌀까」 편에서, 적자인데도 비싼 회사들을 봤죠. 그런데 적자면…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-ev-f752"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>기업가치(EV)</h4><p>시가총액(시총)은 '그 회사 주식을 다 사는 값'이에요. 그런데 회사를 통째로 인수하려면,…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-38cf"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>자사주 매입(Buyback)</h4><p>회사가 주주에게 돈을 돌려주는 길은 두 갈래예요. 하나는 배당 (현금을 직접 나눠줌), 다…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-5396"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>장단기 금리 역전(수익률 곡선)이 보내는 신호</h4><p>수익률 곡선이 역전됐다, 장단기 금리가 뒤집혔다 — 침체를 걱정하는 뉴스에 단골로 나오는…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-676e"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>변동성·베타·표준편차 — '얼마나 출렁이나'를 숫자로</h4><p>똑같이 좋은 종목이라고 불려도, 어떤 건 시장이 휘청일 때 두세 배로 출렁이고, 어떤 건…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-7ee1"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>샤프지수(Sharpe)</h4><p>두 사람이 똑같이 1년에 +20%를 벌었어요. 한 명은 잔잔하게, 한 명은 +60%와 −3…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-9e63"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>상관관계와 분산</h4><p>샤프지수 편 마지막에 분산은 공짜 점심이라고 적었죠. 오늘은 그 공짜 점심이 정말 공짜인지…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-vs-3479"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>환헤지(H) vs 언헤지</h4><p>미국 주식이나 ETF를 원화로 사면, 사실 두 가지에 동시에 베팅하는 거예요. 하나는 그…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-fomc-958f"><div class="ic">📘</div><div><span class="rbadge free">🆓 무료</span><h4>FOMC·점도표 5분 이해</h4><p>뉴스에 자꾸 나오는 FOMC , 점도표 , 매파·비둘기파 . 어렵게 느껴지지만, 핵심만 알…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-abc-c50f"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>금리가 오르면 왜 이미 산 채권이 손해일까</h4><p>표면금리·만기·듀레이션 세 부품을 뜯어요. 금리 1%p에 어떤 채권은 살짝, 어떤 건 −14%씩…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-2031"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>국채보다 회사채가 금리를 더 주는 이유</h4><p>똑같은 만기라도 정부보다 회사는 금리를 더 얹어줘야 팔려요. 그 '더 얹는 값'이 신용 스프레드…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-2af1"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>주주환원수익률 — 배당 0.3%인데 실제론 2.3%</h4><p>배당과 자사주 매입을 합친 게 주주환원수익률. 배당만 보면 짠물인 애플이 실제론 후하게…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-cf33"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>효율적 투자선 — 활처럼 휜 곡선</h4><p>모든 비율을 다 찍어보면 점들이 활처럼 휜 곡선이 돼요. 마코위츠가 노벨상을 받은 그 곡선…</p></div><span class="arr">→</span></a>
-<a class="rcard c" href="/eco-rpo-6696"><div class="ic">📘</div><div><span class="rbadge lock">🔒 구독</span><h4>매출 너머를 먼저 보는 신호 — 빌링과 RPO</h4><p>구독 소프트웨어(SaaS)에선 다음 분기 성장의 씨앗이 매출이 아니라 빌링·RPO에 먼저 적혀요…</p></div><span class="arr">→</span></a>
-</div></section>
-<section class="rcat reveal"><div class="rcat-h"><span class="ce">🪄</span><h2 class="wline">딥 칼럼 — 익숙한 그 말, 사실일까요?</h2><span class="cn cu" data-to="14" data-suf="편">14편</span></div><div class="rgrid wstag">
-<a class="rcard col" href="/col-a331"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>'존버'는 정말 이기는 전략일까</h4><p>주식은 안 팔면 손실이 아니다, 떨어지면 물타기해서 평단가 낮추면 된다. 너무 익숙한 말이…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-e2bc"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>손절의 기술</h4><p>사는 건 설레서 잘해요. 그런데 파는 건 늘 어려워요. 미련, 본전 생각, 조금만 더….…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-vs-a208"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>좋은 회사 ≠ 좋은 주식</h4><p>엔비디아 좋잖아, 코카콜라가 망하겠어? 다 맞는 말이에요. 그런데 좋은 회사를 안다고 좋은…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-bca7"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>적자 회사가 왜 더 비쌀까</h4><p>크라우드스트라이크는 작년에 회계상 적자 를 냈어요. 그런데 선행 PER 126배, 시가총액…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-561d"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>금리가 오르면 내 돈은?</h4><p>한국은행이 기준금리를 2.50%로 또 묶었어요. 그런데 물가는 3.1%, 유가는 들썩, 환…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-5fa2"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>실적은 좋았는데 왜 −32%였을까</h4><p>줌스케일러는 그 분기에 매출이 +25% 늘고 영업이익률은 분기 신기록 을 찍었어요. 누가…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-33ee"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>'배당주는 안전하다'는 착각</h4><p>따박따박 현금 주니까 마음이 편하다. 배당주를 고를 때 가장 많이 듣는 말이에요. 그런데…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-cae7"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>현금이 안전하다는 착각</h4><p>통장 잔액은 작년이랑 똑같은데, 장 보러 가면 자꾸 모자라요. 분명 돈을 안 썼는데 왜 가…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-6a03"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>환율의 두 얼굴</h4><p>환율이 오르면 수출 기업이 웃는다고들 하죠. 그런데 정작 환율이 뛰는 날, 내 계좌는 더…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-5392"><div class="ic">🪄</div><div><span class="rbadge free">🆓 무료</span><h4>금리 인하의 함정</h4><p>금리만 내리면 주식도 부동산도 오른다는 말, 너무 익숙하죠. 그런데 시장은 그렇게 단순하게…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-6b79"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>소문에 사서, 뉴스에 판다 — 컨센서스 게임</h4><p>주가는 '잘했나'가 아니라 '기대를 넘었나'에 반응해요. 역대급 실적에도 주가가 빠지는 이유…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-873e"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>빚내서 돌려주는 회사 — 주주환원의 그림자</h4><p>같은 환원율이라도 '벌어 남긴 현금'이면 건강한 환원, '빚'에서 나오면 빌린 환원이에요…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-d16b"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>흑자인데 망하고, 적자인데 버틴다</h4><p>장부에 찍힌 순이익과 통장에 들어온 영업현금은 자주 갈려요. 흑자인데 현금이 말라 망하기도…</p></div><span class="arr">→</span></a>
-<a class="rcard col" href="/col-1d8c"><div class="ic">🪄</div><div><span class="rbadge lock">🔒 구독</span><h4>곡괭이·삽의 함정 — 원자재주의 숨은 주인</h4><p>채굴주에는 회사 분석으로는 안 보이는 숨은 주인이 있어요. 바로 원자재 가격이에요…</p></div><span class="arr">→</span></a>
-</div></section>
-<section class="rcat reveal"><div class="rcat-h"><span class="ce">🏠</span><h2 class="wline">부동산 칼럼 — 계약하기 전에 읽어요</h2><span class="cn cu" data-to="14" data-suf="편">14편</span></div><div class="rgrid wstag">
-<a class="rcard re" href="/re-91aa"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>주택담보대출 기초 A to Z</h4><p>‘LTV가 50%면 얼마 나오는 거지?’, ‘DSR에서 막혔다는 게 무슨 말이야?’ 대출은…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-1a87"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>주택청약 기초 A to Z</h4><p>‘1순위’, ‘가점’, ‘특별공급’… 청약은 단어부터 외계어 같죠. 사실 청약은 딱 세 단…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-68e6"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 살 때·가질 때·팔 때 세금 한눈에</h4><p>내 집 마련의 가장 큰 복병은 집값이 아니라 세금 일 때가 많아요. 취득세·재산세·종합부동…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-e6d2"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>임대차 3법, 세입자·집주인 핵심 정리</h4><p>계약갱신요구권, 전월세상한제(5%), 전월세신고제. 이름은 들어봤지만 막상 내 계약에 뭐가…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-vs-2921"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>상가 임대차 vs 주택 임대차, 뭐가 다를까</h4><p>같은 '임대차'라도 적용되는 법이 달라요. 주택은 모든 계약이 주택임대차보호법 으로 보호받…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-6bcb"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>전세 보증금 안전 체크리스트</h4><p>평생 모은 목돈이 한 번에 묶이는 게 전세예요. 화려한 인테리어보다 먼저 봐야 할 건 등기…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-a0a2"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>전세사기·깡통전세 위험 신호 셀프 체크</h4><p>전세사기와 깡통전세는 대부분 등기부와 시세에 미리 적혀 있던 신호 를 놓쳐서 일어나요. 내…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-e0f1"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>부동산 계약서 '특약' 체크리스트 (전세·매매)</h4><p>표준계약서의 인쇄된 조항보다 강한 건, 직접 적어 넣는 특약사항 이에요. 민법의 많은 규정…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-440a"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>등기부등본 읽는 법</h4><p>전세 보증금도, 평생 모은 내집 자금도 결국 이 한 장에서 지켜져요. 등기부등본(등기사항증…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-50db"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>처음 집 사는 부부를 위한 부동산 용어사전</h4><p>전용면적·전세가율·근저당·대항력·LTV·가점제… 집을 알아보다 보면 모르는 말이 쏟아져요.…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-5d69"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 가지고 있을 때 내는 세금 — 재산세·종부세 기초</h4><p>보유세는 매년 6월 1일 기준 집 가진 사람에게 반복 부과돼요. 공시가격→과세표준→세율로…</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-vs-7b73"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>오피스텔 vs 생활숙박시설</h4><p>둘 다 집처럼 보여도 주택 수·취득세·전입·대출이 전혀 달라요. 사기 전에 꼭 구분해요.</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-c89d"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>전세보증금 반환보증 3사 비교</h4><p>HUG·HF·SGI — 가입 조건·보증료·한도가 달라요. 우리 전세에 맞는 곳을 골라요.</p></div><span class="arr">→</span></a>
-<a class="rcard re" href="/re-4870"><div class="ic">🏠</div><div><span class="rbadge lock">🔒 구독</span><h4>집 팔 때 세금 — 양도세 기초</h4><p>1세대 1주택 비과세부터 장기보유특별공제까지, 팔기 전에 알아야 손해가 없어요.</p></div><span class="arr">→</span></a>
-</div></section>
-</div>
-<!-- ===nextlane-hub=== ⑤다음 동선·⑦구독밴드 신설 (B레인 · 추가 전용 — wv/wmag/wshine 와이어는 기존 wowkit 스크립트가 담당, 신규 JS 없음) -->
-<section class="subsec" id="subscribe" aria-labelledby="subh">
-<div class="subband wv wv-s">
-<span class="sb-k">SUBSCRIBE · 내일도 같이</span>
-<h2 class="sb-h" id="subh">여기 글은 매주 늘고,<br><span class="grad">레터는 매일 찾아가요</span></h2>
-<p class="sb-d">다음 편 기다리는 동안 — 매일 아침 7시·저녁 6시, 그날 시장 정리를 보내드려요. 시작은 0원이에요.</p>
-<div class="svm">
-<div class="vm"><div class="vmh">데일리 레터</div><div class="vmp">0원</div><ul><li>매일 아침·저녁 시장 정리</li><li>지수 한눈에 표·등락·투자심리</li><li>경제뉴스 큐레이션·캘린더</li></ul></div>
-<div class="vm pro"><div class="vmh">프리미엄</div><div class="vmp">첫 결제 100,000원<br><span class="prnote" style="font-size:.72em;font-weight:400;opacity:.68">30일 모든 콘텐츠 · 이후 월 990원</span></div><span class="inc">데일리 레터 모든 것 그대로 +</span><ul><li>딥 분석·내일 체크포인트</li><li>Why 인사이트 칼럼</li><li>전 정보글 + 구독자 자료·할인</li></ul></div>
-</div>
-<div class="sb-row">
-<!-- TODO(사장님): 아래 href="#subscribe"를 실제 카카오 채널/구독 링크로 교체하세요 (예: https://pf.kakao.com/_xxxxx). 링크 연결 전에는 같은 섹션에 머물러 '맨 위로 튐'을 막아둡니다. -->
-<a href="#subscribe" data-cta="kakao-start" class="sb-cta wshine wmag"><span>내일 레터, 무료로 받아보기</span> <span class="ar">→</span></a>
-<a href="/home#subscribe" class="sb-ghost">프리미엄 안내 보기 <span class="ar">→</span></a>
-</div>
-<p class="sb-rsr">무료로 충분히 읽어보고, 더 깊이 필요할 때 프리미엄으로 이어가세요.</p>
-</div>
-<div class="nextrow wv" role="navigation" aria-label="다음 동선">
-<a class="backhub" href="/library">재테크 도구 자료실 보기</a>
-<a class="backhub" href="/report-hub">기업 레포트 허브 보기</a>
-<a class="backhub" href="/home">← 부부연구소 홈으로</a>
-</div>
-</section>
-</main>
-<footer><div class="wrap">
-<div class="ftlogo"><span class="dot"></span>부부연구소</div>
-<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
-<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
-</div></footer>
+</style><header id="jmhdr"><div class="jm-wrap jm-nav"><a class="jm-logo" href="/home"><span class="jm-dot"></span>부부연구소</a><nav class="jm-menu jm-menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents-columns">칼럼</a><a href="/contents-kits">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav><div class="jm-navright"><nav class="jm-menu jm-menu-sub"><a href="/story">스토리</a><a href="/contents-hub" class="jm-cur">자료실</a></nav><a class="jm-cta" href="/home#subscribe">구독하기</a></div><button class="jm-navbtn" type="button" aria-label="메뉴 열기"><span></span><span></span><span></span></button></div></header><main><section class="jm-hero jm-wrap"><span class="jm-eyebrow jm-reveal">🗺️ 부부의 여정 지도</span><h1 class="jm-h1 jm-reveal">반지하에서 여기까지,<br>이제 <span class="jm-grad">두 분 차례</span>예요</h1><p class="jm-lead jm-reveal">우리가 걸어온 길을 지도 한 장에 담았어요. 돈을 <b>모으고·지키고·불리는</b> 세 구간 위에, 칼럼과 도구와 키트를 정거장처럼 놓아뒀어요.</p><p class="jm-lead jm-reveal">급할 것 없어요. 맨 위에서부터 두 분의 속도로 천천히 따라오기만 하면 돼요,,ㅎㅎ</p><div class="jm-legend jm-reveal"><span><b>🌱 잎</b> 칼럼</span><span><b>🔧 연장</b> 도구</span><span><b>🚩 이정표</b> 키트</span><span>· 지금 열린 곳은 또렷하게, 곧 만날 곳은 은은하게</span></div></section><div class="jm-filterbar"><div class="jm-chiprow" id="jmChips" role="group" aria-label="콘텐츠 종류 필터"><button class="jm-chip jm-on" type="button" data-f="all" aria-pressed="true">전체</button><button class="jm-chip" type="button" data-f="column" aria-pressed="false">🌱 칼럼</button><button class="jm-chip" type="button" data-f="tool" aria-pressed="false">🔧 도구</button><button class="jm-chip" type="button" data-f="kit" aria-pressed="false">🚩 키트</button></div></div><section class="jm-mapwrap" aria-label="부부의 여정 지도"><div class="jm-map" id="jmMap"><svg class="jm-svg" viewBox="0 0 1000 4150" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><defs><linearGradient id="jmPathG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--jm-sage)"/><stop offset="0.5" stop-color="var(--jm-rose)"/><stop offset="1" stop-color="var(--jm-gold)"/></linearGradient></defs><rect class="jm-band" x="70" y="10.0" width="860" height="1332.5" rx="48" fill="rgba(94,140,127,.10)"/><rect class="jm-band" x="70" y="1362.5" width="860" height="1975.0" rx="48" fill="rgba(179,58,76,.08)"/><rect class="jm-band" x="70" y="3357.5" width="860" height="782.5" rx="48" fill="rgba(201,168,76,.13)"/><path class="jm-track" d="M735.0 230.0C745.3 250.8 789.1 313.3 796.6 355.0C804.1 396.7 797.7 438.3 779.8 480.0C761.9 521.7 727.6 563.3 689.0 605.0C650.4 646.7 597.3 688.3 548.3 730.0C499.2 771.7 441.3 813.3 394.8 855.0C348.2 896.7 300.8 938.3 269.1 980.0C237.4 1021.7 213.0 1063.3 204.4 1105.0C195.9 1146.7 201.0 1168.3 217.9 1230.0C234.9 1291.7 268.1 1413.3 306.0 1475.0C343.9 1536.7 396.5 1558.3 445.4 1600.0C494.2 1641.7 552.2 1683.3 599.1 1725.0C646.0 1766.7 694.2 1808.3 726.7 1850.0C759.3 1891.7 784.8 1933.3 794.4 1975.0C804.0 2016.7 800.1 2058.3 784.2 2100.0C768.3 2141.7 736.1 2183.3 698.9 2225.0C661.7 2266.7 609.7 2308.3 561.0 2350.0C512.4 2391.7 454.2 2433.3 407.0 2475.0C359.8 2516.7 310.9 2558.3 277.6 2600.0C244.2 2641.7 217.6 2683.3 206.9 2725.0C196.3 2766.7 198.9 2808.3 213.8 2850.0C228.7 2891.7 259.8 2933.3 296.3 2975.0C332.8 3016.7 384.2 3058.3 432.7 3100.0C481.1 3141.7 539.3 3163.3 586.8 3225.0C634.4 3286.7 683.9 3408.3 718.0 3470.0C752.2 3531.7 779.9 3553.3 791.6 3595.0C803.3 3636.7 801.9 3678.3 788.1 3720.0C774.2 3761.7 744.1 3803.3 708.4 3845.0C672.7 3886.7 596.1 3949.2 573.6 3970.0" fill="none" stroke="var(--jm-border)" stroke-width="7" stroke-linecap="round"/><path class="jm-draw" d="M735.0 230.0C745.3 250.8 789.1 313.3 796.6 355.0C804.1 396.7 797.7 438.3 779.8 480.0C761.9 521.7 727.6 563.3 689.0 605.0C650.4 646.7 597.3 688.3 548.3 730.0C499.2 771.7 441.3 813.3 394.8 855.0C348.2 896.7 300.8 938.3 269.1 980.0C237.4 1021.7 213.0 1063.3 204.4 1105.0C195.9 1146.7 201.0 1168.3 217.9 1230.0C234.9 1291.7 268.1 1413.3 306.0 1475.0C343.9 1536.7 396.5 1558.3 445.4 1600.0C494.2 1641.7 552.2 1683.3 599.1 1725.0C646.0 1766.7 694.2 1808.3 726.7 1850.0C759.3 1891.7 784.8 1933.3 794.4 1975.0C804.0 2016.7 800.1 2058.3 784.2 2100.0C768.3 2141.7 736.1 2183.3 698.9 2225.0C661.7 2266.7 609.7 2308.3 561.0 2350.0C512.4 2391.7 454.2 2433.3 407.0 2475.0C359.8 2516.7 310.9 2558.3 277.6 2600.0C244.2 2641.7 217.6 2683.3 206.9 2725.0C196.3 2766.7 198.9 2808.3 213.8 2850.0C228.7 2891.7 259.8 2933.3 296.3 2975.0C332.8 3016.7 384.2 3058.3 432.7 3100.0C481.1 3141.7 539.3 3163.3 586.8 3225.0C634.4 3286.7 683.9 3408.3 718.0 3470.0C752.2 3531.7 779.9 3553.3 791.6 3595.0C803.3 3636.7 801.9 3678.3 788.1 3720.0C774.2 3761.7 744.1 3803.3 708.4 3845.0C672.7 3886.7 596.1 3949.2 573.6 3970.0" fill="none" stroke="url(#jmPathG)" stroke-width="7" stroke-linecap="round"/><circle class="jm-knot" cx="735.0" cy="230.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="796.6" cy="355.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="779.8" cy="480.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="689.0" cy="605.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="548.3" cy="730.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="394.8" cy="855.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="269.1" cy="980.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="204.4" cy="1105.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="217.9" cy="1230.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="306.0" cy="1475.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="445.4" cy="1600.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="599.1" cy="1725.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="726.7" cy="1850.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="794.4" cy="1975.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="784.2" cy="2100.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="698.9" cy="2225.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="561.0" cy="2350.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="407.0" cy="2475.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="277.6" cy="2600.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="206.9" cy="2725.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="213.8" cy="2850.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="296.3" cy="2975.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="432.7" cy="3100.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="586.8" cy="3225.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="718.0" cy="3470.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="791.6" cy="3595.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="788.1" cy="3720.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="708.4" cy="3845.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/><circle class="jm-knot" cx="573.6" cy="3970.0" r="9" fill="var(--jm-card)" stroke="var(--jm-border)" stroke-width="3"/></svg><div class="jm-mark jm-mark-start jm-reveal" style="top:1.06%"><span class="jm-mkemo">🏠</span><span class="jm-mktext">반지하에서 출발</span></div><div class="jm-zlabel jm-zl-gather jm-reveal" style="top:3.18%" data-zone="gather"><span class="jm-zpart">PART 1</span><span class="jm-zhead"><span class="jm-zemo">🌱</span>돈 모으기</span><span class="jm-zdesc">지금 우리를 똑바로 보고, 목표와 계획을 세워요.</span><span class="jm-zcount">이 구간에 <b>9곳</b></span></div><a class="jm-node jm-n-kit jm-live" style="left:73.50%;top:5.54%;--jm-i:0" data-t="키트" data-tk="kit" data-title="머니토크 키트" data-hook="돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요." data-prem="0" data-live="1" href="/contents-kits#moneytalk" aria-label="머니토크 키트 · 키트"><span class="jm-emo">🗣️</span><span class="jm-nlabel">머니토크 키트</span></a><button class="jm-node jm-n-kit jm-soon" style="left:79.66%;top:8.55%;--jm-i:1" data-t="키트" data-tk="kit" data-title="만다라트 목표 키트" data-hook="둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요." data-prem="0" data-live="0" type="button" aria-label="만다라트 목표 키트 · 키트 · 곧 만나요"><span class="jm-emo">🧭</span><span class="jm-nlabel">만다라트 목표 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:77.98%;top:11.57%;--jm-i:2" data-t="칼럼" data-tk="column" data-title="나는 멋진 할머니가 되고 싶어, 당신은?" data-hook="흔들리지 않는 목표는 다짐이 아니라 &#x27;구조&#x27;로 세워요." data-prem="1" data-live="0" type="button" aria-label="나는 멋진 할머니가 되고 싶어, 당신은? · 칼럼 · 곧 만나요"><span class="jm-emo">🎯</span><span class="jm-nlabel">나는 멋진 할머니가 되고 싶어, 당신은?</span></button><button class="jm-node jm-n-tool jm-soon" style="left:68.90%;top:14.58%;--jm-i:3" data-t="도구" data-tk="tool" data-title="우리 목표 만다라트" data-hook="부부 공동 목표를 81칸 만다라트로 함께 설계해요." data-prem="1" data-live="0" type="button" aria-label="우리 목표 만다라트 · 도구 · 곧 만나요"><span class="jm-emo">🧩</span><span class="jm-nlabel">우리 목표 만다라트</span></button><a class="jm-node jm-n-column jm-live" style="left:54.83%;top:17.59%;--jm-i:4" data-t="칼럼" data-tk="column" data-title="7% 적금과 월 30만원의 비밀" data-hook="티끌이 태산이 되는 건 의지가 아니라 새지 않는 &#x27;구조&#x27;를 만들 때예요." data-prem="1" data-live="1" href="/contents-columns#bookcol-02" aria-label="7% 적금과 월 30만원의 비밀 · 칼럼"><span class="jm-emo">🌱</span><span class="jm-nlabel">7% 적금과 월 30만원의 비밀</span></a><a class="jm-node jm-n-tool jm-live" style="left:39.48%;top:20.60%;--jm-i:5" data-t="도구" data-tk="tool" data-title="새는 돈 진단기" data-hook="지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요." data-prem="0" data-live="1" href="/booktool-flexcost" aria-label="새는 돈 진단기 · 도구"><span class="jm-emo">🩺</span><span class="jm-nlabel">새는 돈 진단기</span></a><button class="jm-node jm-n-tool jm-soon" style="left:26.91%;top:23.61%;--jm-i:6" data-t="도구" data-tk="tool" data-title="우리 집 적금·절약 규칙 메이커" data-hook="목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요." data-prem="0" data-live="0" type="button" aria-label="우리 집 적금·절약 규칙 메이커 · 도구 · 곧 만나요"><span class="jm-emo">📏</span><span class="jm-nlabel">우리 집 적금·절약 규칙 메이커</span></button><button class="jm-node jm-n-kit jm-soon" style="left:20.44%;top:26.63%;--jm-i:7" data-t="키트" data-tk="kit" data-title="새는 돈 점검 키트" data-hook="분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요." data-prem="0" data-live="0" type="button" aria-label="새는 돈 점검 키트 · 키트 · 곧 만나요"><span class="jm-emo">🔦</span><span class="jm-nlabel">새는 돈 점검 키트</span></button><button class="jm-node jm-n-kit jm-soon" style="left:21.79%;top:29.64%;--jm-i:8" data-t="키트" data-tk="kit" data-title="모이는 구조 키트" data-hook="의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요." data-prem="0" data-live="0" type="button" aria-label="모이는 구조 키트 · 키트 · 곧 만나요"><span class="jm-emo">🏦</span><span class="jm-nlabel">모이는 구조 키트</span></button><div class="jm-zlabel jm-zl-keep jm-reveal" style="top:32.59%" data-zone="keep"><span class="jm-zpart">PART 2</span><span class="jm-zhead"><span class="jm-zemo">🛡️</span>돈 지키기</span><span class="jm-zdesc">인플레이션과 환율을 넘어서는 수익률로 지켜요.</span><span class="jm-zcount">이 구간에 <b>15곳</b></span></div><a class="jm-node jm-n-column jm-live" style="left:30.60%;top:35.54%;--jm-i:0" data-t="칼럼" data-tk="column" data-title="가만히 있으면 녹아내리는 내 돈" data-hook="물가가 조용히 우리 돈을 녹여요 — 안 하는 게 가장 위험한 투자랍니다,," data-prem="0" data-live="1" href="/contents-columns#bookcol-01" aria-label="가만히 있으면 녹아내리는 내 돈 · 칼럼"><span class="jm-emo">🧊</span><span class="jm-nlabel">가만히 있으면 녹아내리는 내 돈</span></a><button class="jm-node jm-n-column jm-soon" style="left:44.54%;top:38.55%;--jm-i:1" data-t="칼럼" data-tk="column" data-title="가만히 있으면 녹아내리는 우리 돈" data-hook="가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,," data-prem="0" data-live="0" type="button" aria-label="가만히 있으면 녹아내리는 우리 돈 · 칼럼 · 곧 만나요"><span class="jm-emo">🧊</span><span class="jm-nlabel">가만히 있으면 녹아내리는 우리 돈</span></button><button class="jm-node jm-n-kit jm-soon" style="left:59.91%;top:41.57%;--jm-i:2" data-t="키트" data-tk="kit" data-title="투자 첫걸음 키트" data-hook="투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요." data-prem="0" data-live="0" type="button" aria-label="투자 첫걸음 키트 · 키트 · 곧 만나요"><span class="jm-emo">🌱</span><span class="jm-nlabel">투자 첫걸음 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:72.67%;top:44.58%;--jm-i:3" data-t="칼럼" data-tk="column" data-title="몰빵의 반대말을 아세요?" data-hook="덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요." data-prem="1" data-live="0" type="button" aria-label="몰빵의 반대말을 아세요? · 칼럼 · 곧 만나요"><span class="jm-emo">🧺</span><span class="jm-nlabel">몰빵의 반대말을 아세요?</span></button><button class="jm-node jm-n-column jm-soon" style="left:79.44%;top:47.59%;--jm-i:4" data-t="칼럼" data-tk="column" data-title="안전한 투자는 없다던데,," data-hook="위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요." data-prem="1" data-live="0" type="button" aria-label="안전한 투자는 없다던데,, · 칼럼 · 곧 만나요"><span class="jm-emo">🛡️</span><span class="jm-nlabel">안전한 투자는 없다던데,,</span></button><button class="jm-node jm-n-kit jm-soon" style="left:78.42%;top:50.60%;--jm-i:5" data-t="키트" data-tk="kit" data-title="부부 포트폴리오 키트" data-hook="남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요." data-prem="0" data-live="0" type="button" aria-label="부부 포트폴리오 키트 · 키트 · 곧 만나요"><span class="jm-emo">🧩</span><span class="jm-nlabel">부부 포트폴리오 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:69.89%;top:53.61%;--jm-i:6" data-t="칼럼" data-tk="column" data-title="인구 줄면 집값 떨어지는 거 아니야?" data-hook="인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요." data-prem="0" data-live="0" type="button" aria-label="인구 줄면 집값 떨어지는 거 아니야? · 칼럼 · 곧 만나요"><span class="jm-emo">🏠</span><span class="jm-nlabel">인구 줄면 집값 떨어지는 거 아니야?</span></button><button class="jm-node jm-n-kit jm-soon" style="left:56.10%;top:56.63%;--jm-i:7" data-t="키트" data-tk="kit" data-title="내집마련 로드맵 키트" data-hook="막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요." data-prem="0" data-live="0" type="button" aria-label="내집마련 로드맵 키트 · 키트 · 곧 만나요"><span class="jm-emo">🗝️</span><span class="jm-nlabel">내집마련 로드맵 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:40.70%;top:59.64%;--jm-i:8" data-t="칼럼" data-tk="column" data-title="절세계좌, 언제 써야 진짜 이득일까" data-hook="절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요." data-prem="1" data-live="0" type="button" aria-label="절세계좌, 언제 써야 진짜 이득일까 · 칼럼 · 곧 만나요"><span class="jm-emo">🧾</span><span class="jm-nlabel">절세계좌, 언제 써야 진짜 이득일까</span></button><a class="jm-node jm-n-tool jm-live" style="left:27.76%;top:62.65%;--jm-i:9" data-t="도구" data-tk="tool" data-title="절세계좌 3형제 시뮬레이터" data-hook="연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요." data-prem="1" data-live="1" href="/booktool-taxaccount" aria-label="절세계좌 3형제 시뮬레이터 · 도구"><span class="jm-emo">🧮</span><span class="jm-nlabel">절세계좌 3형제 시뮬레이터</span></a><button class="jm-node jm-n-kit jm-soon" style="left:20.69%;top:65.66%;--jm-i:10" data-t="키트" data-tk="kit" data-title="절세계좌 3형제 키트" data-hook="버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요." data-prem="0" data-live="0" type="button" aria-label="절세계좌 3형제 키트 · 키트 · 곧 만나요"><span class="jm-emo">🛟</span><span class="jm-nlabel">절세계좌 3형제 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:21.38%;top:68.67%;--jm-i:11" data-t="칼럼" data-tk="column" data-title="&#x27;싸다&#x27;는 감정의 실체" data-hook="&#x27;싸다&#x27;는 감정의 실체를 알면 저평가가 보이기 시작해요." data-prem="1" data-live="0" type="button" aria-label="&#x27;싸다&#x27;는 감정의 실체 · 칼럼 · 곧 만나요"><span class="jm-emo">🔍</span><span class="jm-nlabel">&#x27;싸다&#x27;는 감정의 실체</span></button><a class="jm-node jm-n-tool jm-live" style="left:29.63%;top:71.69%;--jm-i:12" data-t="도구" data-tk="tool" data-title="가치평가 첫걸음" data-hook="PER·PBR·ROE로 &#x27;싸다·비싸다&#x27;의 감을 처음부터 잡아드려요." data-prem="1" data-live="1" href="/booktool-valuation" aria-label="가치평가 첫걸음 · 도구"><span class="jm-emo">🔎</span><span class="jm-nlabel">가치평가 첫걸음</span></a><button class="jm-node jm-n-column jm-soon" style="left:43.27%;top:74.70%;--jm-i:13" data-t="칼럼" data-tk="column" data-title="우리 부부만의 포트폴리오는 왜 달라야 할까" data-hook="남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요." data-prem="1" data-live="0" type="button" aria-label="우리 부부만의 포트폴리오는 왜 달라야 할까 · 칼럼 · 곧 만나요"><span class="jm-emo">⚖️</span><span class="jm-nlabel">우리 부부만의 포트폴리오는 왜 달라야 할까</span></button><a class="jm-node jm-n-tool jm-live" style="left:58.68%;top:77.71%;--jm-i:14" data-t="도구" data-tk="tool" data-title="부부 포트폴리오 배분기" data-hook="인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요." data-prem="1" data-live="1" href="/booktool-portfolio" aria-label="부부 포트폴리오 배분기 · 도구"><span class="jm-emo">⚖️</span><span class="jm-nlabel">부부 포트폴리오 배분기</span></a><div class="jm-zlabel jm-zl-grow jm-reveal" style="top:80.66%" data-zone="grow"><span class="jm-zpart">PART 3</span><span class="jm-zhead"><span class="jm-zemo">🌾</span>돈 불리기</span><span class="jm-zdesc">월급 밖에서 또 하나의 수입 파이를 키워요.</span><span class="jm-zcount">이 구간에 <b>5곳</b></span></div><button class="jm-node jm-n-column jm-soon" style="left:71.80%;top:83.61%;--jm-i:0" data-t="칼럼" data-tk="column" data-title="2천만 원의 벽 앞에서" data-hook="배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요." data-prem="1" data-live="0" type="button" aria-label="2천만 원의 벽 앞에서 · 칼럼 · 곧 만나요"><span class="jm-emo">🧱</span><span class="jm-nlabel">2천만 원의 벽 앞에서</span></button><button class="jm-node jm-n-tool jm-soon" style="left:79.16%;top:86.63%;--jm-i:1" data-t="도구" data-tk="tool" data-title="금융소득종합과세 가늠기" data-hook="이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요." data-prem="1" data-live="0" type="button" aria-label="금융소득종합과세 가늠기 · 도구 · 곧 만나요"><span class="jm-emo">📊</span><span class="jm-nlabel">금융소득종합과세 가늠기</span></button><button class="jm-node jm-n-kit jm-soon" style="left:78.81%;top:89.64%;--jm-i:2" data-t="키트" data-tk="kit" data-title="배당·현금흐름 키트" data-hook="잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요." data-prem="0" data-live="0" type="button" aria-label="배당·현금흐름 키트 · 키트 · 곧 만나요"><span class="jm-emo">🌙</span><span class="jm-nlabel">배당·현금흐름 키트</span></button><button class="jm-node jm-n-column jm-soon" style="left:70.84%;top:92.65%;--jm-i:3" data-t="칼럼" data-tk="column" data-title="월급 밖에서 돈이 들어오게 하라" data-hook="월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요." data-prem="0" data-live="0" type="button" aria-label="월급 밖에서 돈이 들어오게 하라 · 칼럼 · 곧 만나요"><span class="jm-emo">💸</span><span class="jm-nlabel">월급 밖에서 돈이 들어오게 하라</span></button><button class="jm-node jm-n-kit jm-soon" style="left:57.36%;top:95.66%;--jm-i:4" data-t="키트" data-tk="kit" data-title="월급 밖 수익 키트" data-hook="월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요." data-prem="0" data-live="0" type="button" aria-label="월급 밖 수익 키트 · 키트 · 곧 만나요"><span class="jm-emo">🚀</span><span class="jm-nlabel">월급 밖 수익 키트</span></button><div class="jm-mark jm-mark-end jm-reveal" style="top:98.41%"><span class="jm-mkemo">💗</span><span class="jm-mktext">두 분의 여정으로</span></div><div class="jm-pop" id="jmPop" role="dialog" aria-live="polite"><span class="jm-parrow" aria-hidden="true"></span><div class="jm-pmeta" id="jmPopMeta"></div><div class="jm-ptitle" id="jmPopTitle"></div><div class="jm-phook" id="jmPopHook"></div><div id="jmPopFoot"></div></div></div></section><section class="jm-listsec jm-wrap" id="jmList" aria-label="구간별 목록"><div class="jm-lhead jm-reveal"><span class="jm-le">ALL CONTENTS</span><h2>목록으로도 둘러봐요</h2><p>지도가 어렵다면 여기서 세 구간을 하나씩 펼쳐 봐도 좋아요.</p></div><details class="jm-acc" open><summary class="jm-accsum"><span class="jm-accemo">🌱</span><span class="jm-acctitle">돈 모으기</span><span class="jm-accn">9곳</span><span class="jm-accchev" aria-hidden="true">⌄</span></summary><ul class="jm-acclist"><li><a class="jm-lrow" href="/contents-kits#moneytalk"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span></span><span class="jm-ltitle">머니토크 키트</span><span class="jm-lhook">돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">만다라트 목표 키트</span><span class="jm-lhook">둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">나는 멋진 할머니가 되고 싶어, 당신은?</span><span class="jm-lhook">흔들리지 않는 목표는 다짐이 아니라 &#x27;구조&#x27;로 세워요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">우리 목표 만다라트</span><span class="jm-lhook">부부 공동 목표를 81칸 만다라트로 함께 설계해요.</span></span></li><li><a class="jm-lrow" href="/contents-columns#bookcol-02"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span></span><span class="jm-ltitle">7% 적금과 월 30만원의 비밀</span><span class="jm-lhook">티끌이 태산이 되는 건 의지가 아니라 새지 않는 &#x27;구조&#x27;를 만들 때예요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><a class="jm-lrow" href="/booktool-flexcost"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-free">🆓 무료</span></span><span class="jm-ltitle">새는 돈 진단기</span><span class="jm-lhook">지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">우리 집 적금·절약 규칙 메이커</span><span class="jm-lhook">목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">새는 돈 점검 키트</span><span class="jm-lhook">분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">모이는 구조 키트</span><span class="jm-lhook">의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.</span></span></li></ul></details><details class="jm-acc"><summary class="jm-accsum"><span class="jm-accemo">🛡️</span><span class="jm-acctitle">돈 지키기</span><span class="jm-accn">15곳</span><span class="jm-accchev" aria-hidden="true">⌄</span></summary><ul class="jm-acclist"><li><a class="jm-lrow" href="/contents-columns#bookcol-01"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-free">🆓 무료</span></span><span class="jm-ltitle">가만히 있으면 녹아내리는 내 돈</span><span class="jm-lhook">물가가 조용히 우리 돈을 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">가만히 있으면 녹아내리는 우리 돈</span><span class="jm-lhook">가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">투자 첫걸음 키트</span><span class="jm-lhook">투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">몰빵의 반대말을 아세요?</span><span class="jm-lhook">덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">안전한 투자는 없다던데,,</span><span class="jm-lhook">위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">부부 포트폴리오 키트</span><span class="jm-lhook">남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">인구 줄면 집값 떨어지는 거 아니야?</span><span class="jm-lhook">인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">내집마련 로드맵 키트</span><span class="jm-lhook">막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">절세계좌, 언제 써야 진짜 이득일까</span><span class="jm-lhook">절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요.</span></span></li><li><a class="jm-lrow" href="/booktool-taxaccount"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-prem">🔒 프리미엄</span></span><span class="jm-ltitle">절세계좌 3형제 시뮬레이터</span><span class="jm-lhook">연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">절세계좌 3형제 키트</span><span class="jm-lhook">버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">&#x27;싸다&#x27;는 감정의 실체</span><span class="jm-lhook">&#x27;싸다&#x27;는 감정의 실체를 알면 저평가가 보이기 시작해요.</span></span></li><li><a class="jm-lrow" href="/booktool-valuation"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-prem">🔒 프리미엄</span></span><span class="jm-ltitle">가치평가 첫걸음</span><span class="jm-lhook">PER·PBR·ROE로 &#x27;싸다·비싸다&#x27;의 감을 처음부터 잡아드려요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">우리 부부만의 포트폴리오는 왜 달라야 할까</span><span class="jm-lhook">남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요.</span></span></li><li><a class="jm-lrow" href="/booktool-portfolio"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-prem">🔒 프리미엄</span></span><span class="jm-ltitle">부부 포트폴리오 배분기</span><span class="jm-lhook">인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요.</span><span class="jm-larr" aria-hidden="true">→</span></a></li></ul></details><details class="jm-acc"><summary class="jm-accsum"><span class="jm-accemo">🌾</span><span class="jm-acctitle">돈 불리기</span><span class="jm-accn">5곳</span><span class="jm-accchev" aria-hidden="true">⌄</span></summary><ul class="jm-acclist"><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">2천만 원의 벽 앞에서</span><span class="jm-lhook">배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-tool">도구</span><span class="jm-b jm-b-prem">🔒 프리미엄</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">금융소득종합과세 가늠기</span><span class="jm-lhook">이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">배당·현금흐름 키트</span><span class="jm-lhook">잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-column">칼럼</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">월급 밖에서 돈이 들어오게 하라</span><span class="jm-lhook">월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요.</span></span></li><li><span class="jm-lrow jm-lrow-soon"><span class="jm-lm"><span class="jm-lt jm-lt-kit">키트</span><span class="jm-b jm-b-free">🆓 무료</span><span class="jm-b jm-b-soon">곧 만나요</span></span><span class="jm-ltitle">월급 밖 수익 키트</span><span class="jm-lhook">월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.</span></span></li></ul></details></section><section class="jm-band2" aria-label="프리미엄 안내"><div class="jm-bandin jm-reveal"><span class="jm-bk">Premium · 접근권</span><h2>칼럼·도구를 한 번에 여는 접근권</h2><p>무료로 먼저 충분히 둘러봐요. 더 깊이 읽고 싶어지면, 그때 프리미엄으로 이어가면 돼요.</p><a class="jm-bcta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a><div class="jm-bnote">*프리미엄 회원은 유료 칼럼·도구를 모두 활용하실 수 있어요.</div></div></section><section class="jm-band2 jm-kitband" aria-label="키트 안내"><div class="jm-bandin jm-reveal"><span class="jm-bk">Money Kit · 개별 구매</span><h2>키트는 필요한 문제만, 하나씩</h2><p>지금 겪는 고민 하나를 골라 워크북처럼 따라가요. 키트는 구독이 아니라 개별로 만나요.</p><div class="jm-brow"><a class="jm-bcta" href="/contents-kits">키트 자료실 <i aria-hidden="true">→</i></a><a class="jm-bcta jm-ghost" href="/story">우리 이야기 다시 보기 <i aria-hidden="true">→</i></a></div></div></section></main><footer class="jm-foot"><div class="jm-wrap"><div class="jm-flogo"><i></i>부부연구소</div><div class="jm-ftrow"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div><div class="jm-ftnote">자료실 콘텐츠·도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div></div></footer><script type="application/json" id="jmSnap">[{"slug": "bookcol-01", "type": "column", "no": 1, "title": "가만히 있으면 녹아내리는 내 돈", "hook": "물가가 조용히 우리 돈을 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,", "cat": "투자", "tags": ["투자", "물가", "첫걸음"], "premium": false, "chapter": "PART2 가", "date": "2026-07-12", "status": "live", "thumb": "🧊", "free_preview": "전문 공개", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-investstart"]}, "sub": "물가상승률의 조용한 습격", "read": 4, "zone": "keep"}, {"slug": "bookcol-02", "type": "column", "no": 2, "title": "7% 적금과 월 30만원의 비밀", "hook": "티끌이 태산이 되는 건 의지가 아니라 새지 않는 '구조'를 만들 때예요.", "cat": "목돈", "tags": ["목돈", "적금", "구조"], "premium": true, "chapter": "PART1 다", "date": "2026-07-12", "status": "live", "thumb": "🌱", "free_preview": "도입 공개 · 프리미엄", "connect": {"tools": ["booktool-savingrule"], "kits": ["kit-savings"]}, "sub": "티끌이 태산이 되는 구조", "read": 7, "zone": "gather"}, {"slug": "bookcol-03", "type": "column", "no": 3, "title": "나는 멋진 할머니가 되고 싶어, 당신은?", "hook": "흔들리지 않는 목표는 다짐이 아니라 '구조'로 세워요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": true, "chapter": "PART1 나 · 만다라트", "date": "2027-01-10", "status": "soon", "thumb": "🎯", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-mandala"], "kits": ["kit-mandala"]}, "zone": "gather"}, {"slug": "bookcol-04", "type": "column", "no": 4, "title": "가만히 있으면 녹아내리는 우리 돈", "hook": "가만히 있으면 물가가 우리 돈을 조용히 녹여요 — 안 하는 게 가장 위험한 투자랍니다,,", "cat": "투자", "tags": ["투자", "물가", "첫걸음"], "premium": false, "chapter": "PART2 가", "date": "2027-01-17", "status": "soon", "thumb": "🧊", "free_preview": "전문 공개", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-investstart"]}, "zone": "keep"}, {"slug": "bookcol-05", "type": "column", "no": 5, "title": "몰빵의 반대말을 아세요?", "hook": "덜 잃는 구조가 결국 더 버는 구조예요 — 몰빵의 반대말을 함께 배워봐요.", "cat": "투자", "tags": ["투자", "분산", "포트폴리오"], "premium": true, "chapter": "PART2 나", "date": "2027-01-24", "status": "soon", "thumb": "🧺", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}, "zone": "keep"}, {"slug": "bookcol-06", "type": "column", "no": 6, "title": "안전한 투자는 없다던데,,", "hook": "위기에도 살아남는 건 헷지의 기술이에요 — 금리가 움직이면 무엇이 춤추는지 볼까요.", "cat": "투자", "tags": ["투자", "헷지", "금리"], "premium": true, "chapter": "PART2 나", "date": "2027-01-31", "status": "soon", "thumb": "🛡️", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}, "zone": "keep"}, {"slug": "bookcol-07", "type": "column", "no": 7, "title": "인구 줄면 집값 떨어지는 거 아니야?", "hook": "인구가 줄면 집값은 정말 떨어질까요, 남들이 겁낼 때 봐야 할 것을 짚어봐요.", "cat": "부동산", "tags": ["부동산", "내집마련", "투자"], "premium": false, "chapter": "PART2 다", "date": "2027-02-07", "status": "soon", "thumb": "🏠", "free_preview": "전문 공개", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-homebuy"]}, "zone": "keep"}, {"slug": "bookcol-08", "type": "column", "no": 8, "title": "절세계좌, 언제 써야 진짜 이득일까", "hook": "절세는 타이밍이 절반이에요 — 세 계좌가 빛나는 순간이 저마다 달라요.", "cat": "절세", "tags": ["절세", "연금", "계좌"], "premium": true, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🧾", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-taxaccount"], "kits": ["kit-taxsaver"]}, "zone": "keep"}, {"slug": "bookcol-09", "type": "column", "no": 9, "title": "2천만 원의 벽 앞에서", "hook": "배당은 알고 먹으면 두 배예요 — 2천만 원의 벽을 함께 넘어봐요.", "cat": "절세", "tags": ["절세", "배당", "수익화"], "premium": true, "chapter": "PART2 마", "date": "2027-02-21", "status": "soon", "thumb": "🧱", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-finincome"], "kits": ["kit-dividend"]}, "zone": "grow"}, {"slug": "bookcol-10", "type": "column", "no": 10, "title": "'싸다'는 감정의 실체", "hook": "'싸다'는 감정의 실체를 알면 저평가가 보이기 시작해요.", "cat": "투자", "tags": ["투자", "가치평가", "종목"], "premium": true, "chapter": "PART2 사", "date": "2027-02-28", "status": "soon", "thumb": "🔍", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-valuation"], "kits": ["kit-investstart"]}, "zone": "keep"}, {"slug": "bookcol-11", "type": "column", "no": 11, "title": "우리 부부만의 포트폴리오는 왜 달라야 할까", "hook": "남의 정답은 우리 정답이 아니에요 — 우리 부부만의 배분을 찾아봐요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": true, "chapter": "PART2 아", "date": "2027-03-07", "status": "soon", "thumb": "⚖️", "free_preview": "리드+첫 섹션", "connect": {"tools": ["booktool-portfolio"], "kits": ["kit-portfolio"]}, "zone": "keep"}, {"slug": "bookcol-12", "type": "column", "no": 12, "title": "월급 밖에서 돈이 들어오게 하라", "hook": "월급 밖에서도 돈이 들어오게 만들어봐요 — 가장 낮은 문턱, 공모주부터예요.", "cat": "수익화", "tags": ["수익화", "공모주", "현금흐름"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "💸", "free_preview": "전문 공개", "connect": {"tools": ["booktool-savingrule"], "kits": ["kit-sideincome"]}, "zone": "grow"}, {"slug": "booktool-mandala", "type": "tool", "no": 1, "title": "우리 목표 만다라트", "hook": "부부 공동 목표를 81칸 만다라트로 함께 설계해요.", "cat": "목돈", "tags": ["목돈", "목표설계"], "premium": true, "chapter": "PART1 나 · 만다라트", "date": "2026-12-27", "status": "soon", "thumb": "🧩", "free_preview": "작성 무료·저장 게이트", "connect": {"columns": ["bookcol-03"], "kits": ["kit-mandala"]}, "zone": "gather"}, {"slug": "booktool-flexcost", "type": "tool", "no": 2, "title": "새는 돈 진단기", "hook": "지난달 지출을 고정·변동으로 갈라 어디서 새는지 짚어드려요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2026-07-05", "status": "live", "thumb": "🩺", "free_preview": "입력·결과 무료", "connect": {"columns": ["bookcol-01", "bookcol-02"], "kits": ["kit-moneytalk", "kit-leakcheck"]}, "zone": "gather"}, {"slug": "booktool-savingrule", "type": "tool", "no": 3, "title": "우리 집 적금·절약 규칙 메이커", "hook": "목표 금액에서 월 적금·절약 규칙을 거꾸로 계산해드려요.", "cat": "목돈", "tags": ["목돈", "적금", "규칙"], "premium": false, "chapter": "PART1 다", "date": "2027-01-03", "status": "soon", "thumb": "📏", "free_preview": "입력·결과 무료", "connect": {"columns": ["bookcol-02", "bookcol-12"], "kits": ["kit-savings", "kit-sideincome"]}, "zone": "gather"}, {"slug": "booktool-portfolio", "type": "tool", "no": 4, "title": "부부 포트폴리오 배분기", "hook": "인원과 소득 구간에 맞춰 우리 집 자산배분안을 그려드려요.", "cat": "투자", "tags": ["투자", "포트폴리오", "배분"], "premium": true, "chapter": "PART2 아", "date": "2026-07-08", "status": "live", "thumb": "⚖️", "free_preview": "간이 무료·정밀 게이트", "connect": {"columns": ["bookcol-04", "bookcol-05", "bookcol-06", "bookcol-07", "bookcol-11"], "kits": ["kit-portfolio", "kit-investstart", "kit-homebuy"]}, "zone": "keep"}, {"slug": "booktool-taxaccount", "type": "tool", "no": 5, "title": "절세계좌 3형제 시뮬레이터", "hook": "연금·ISA·IRP 납입을 배분해 절세액을 나란히 비교해드려요.", "cat": "절세", "tags": ["절세", "계좌", "시뮬레이터"], "premium": true, "chapter": "PART2 라", "date": "2026-07-06", "status": "live", "thumb": "🧮", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-08"], "kits": ["kit-taxsaver"]}, "zone": "keep"}, {"slug": "booktool-finincome", "type": "tool", "no": 6, "title": "금융소득종합과세 가늠기", "hook": "이자·배당이 2천만 원 벽에 얼마나 가까운지 가늠해드려요.", "cat": "절세", "tags": ["절세", "배당", "진단"], "premium": true, "chapter": "PART2 마", "date": "2027-02-21", "status": "soon", "thumb": "📊", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-09"], "kits": ["kit-dividend"]}, "zone": "grow"}, {"slug": "booktool-valuation", "type": "tool", "no": 7, "title": "가치평가 첫걸음", "hook": "PER·PBR·ROE로 '싸다·비싸다'의 감을 처음부터 잡아드려요.", "cat": "투자", "tags": ["투자", "가치평가"], "premium": true, "chapter": "PART2 사", "date": "2026-07-09", "status": "live", "thumb": "🔎", "free_preview": "미리보기·정밀 게이트", "connect": {"columns": ["bookcol-10"], "kits": ["kit-investstart"]}, "zone": "keep"}, {"slug": "kit-moneytalk", "type": "kit", "no": 1, "title": "머니토크 키트", "hook": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "premium": false, "chapter": "PART1 가", "date": "2026-12-27", "status": "live", "thumb": "🗣️", "free_preview": "00·01", "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.", "steps": 10, "connect": {"columns": ["bookcol-01"], "tools": ["booktool-flexcost"]}, "name": "moneytalk", "zone": "gather"}, {"slug": "kit-mandala", "type": "kit", "no": 2, "title": "만다라트 목표 키트", "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": false, "chapter": "PART1 나", "date": "2027-01-10", "status": "soon", "thumb": "🧭", "free_preview": "00·01", "problem": "목표가 흐릿해서 돈이 안 모여요.", "steps": 8, "connect": {"columns": ["bookcol-03"], "tools": ["booktool-mandala"]}, "zone": "gather"}, {"slug": "kit-leakcheck", "type": "kit", "no": 3, "title": "새는 돈 점검 키트", "hook": "분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2027-01-17", "status": "soon", "thumb": "🔦", "free_preview": "00·01", "problem": "분명 아끼는데 돈이 안 남아요.", "steps": 7, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-flexcost"]}, "zone": "gather"}, {"slug": "kit-savings", "type": "kit", "no": 4, "title": "모이는 구조 키트", "hook": "의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.", "cat": "목돈", "tags": ["목돈", "적금", "구조"], "premium": false, "chapter": "PART1 다", "date": "2027-01-24", "status": "soon", "thumb": "🏦", "free_preview": "00·01", "problem": "모으고 싶은데 구조가 없어 흐지부지돼요.", "steps": 6, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-savingrule"]}, "zone": "gather"}, {"slug": "kit-investstart", "type": "kit", "no": 5, "title": "투자 첫걸음 키트", "hook": "투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.", "cat": "투자", "tags": ["투자", "첫걸음", "분산"], "premium": false, "chapter": "PART2 가·나", "date": "2027-01-31", "status": "soon", "thumb": "🌱", "free_preview": "00·01", "problem": "투자가 무섭고 뭘 사야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-04", "bookcol-10"], "tools": ["booktool-portfolio"]}, "zone": "keep"}, {"slug": "kit-portfolio", "type": "kit", "no": 6, "title": "부부 포트폴리오 키트", "hook": "남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": false, "chapter": "PART2 나·아", "date": "2027-02-07", "status": "soon", "thumb": "🧩", "free_preview": "00·01", "problem": "남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.", "steps": 9, "connect": {"columns": ["bookcol-05", "bookcol-06", "bookcol-11"], "tools": ["booktool-portfolio"]}, "zone": "keep"}, {"slug": "kit-taxsaver", "type": "kit", "no": 7, "title": "절세계좌 3형제 키트", "hook": "버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.", "cat": "절세", "tags": ["절세", "계좌", "연금"], "premium": false, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🛟", "free_preview": "00·01", "problem": "절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-08"], "tools": ["booktool-taxaccount"]}, "zone": "keep"}, {"slug": "kit-homebuy", "type": "kit", "no": 8, "title": "내집마련 로드맵 키트", "hook": "막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.", "cat": "부동산", "tags": ["부동산", "내집마련", "청약"], "premium": false, "chapter": "PART2 다", "date": "2027-02-21", "status": "soon", "thumb": "🗝️", "free_preview": "00·01", "problem": "내집마련이 막연하고 뭐부터 할지 모르겠어요.", "steps": 10, "connect": {"columns": ["bookcol-07"], "tools": ["booktool-portfolio"]}, "zone": "keep"}, {"slug": "kit-dividend", "type": "kit", "no": 9, "title": "배당·현금흐름 키트", "hook": "잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.", "cat": "수익화", "tags": ["수익화", "배당", "절세"], "premium": false, "chapter": "PART2 마", "date": "2027-02-28", "status": "soon", "thumb": "🌙", "free_preview": "00·01", "problem": "잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.", "steps": 7, "connect": {"columns": ["bookcol-09"], "tools": ["booktool-finincome"]}, "zone": "grow"}, {"slug": "kit-sideincome", "type": "kit", "no": 10, "title": "월급 밖 수익 키트", "hook": "월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.", "cat": "수익화", "tags": ["수익화", "공모주", "부업"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "🚀", "free_preview": "00·01", "problem": "월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.", "steps": 9, "connect": {"columns": ["bookcol-12"], "tools": ["booktool-savingrule"]}, "zone": "grow"}]</script></div>
