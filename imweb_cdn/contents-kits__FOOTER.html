@@ -1,22 +1,61 @@
-<!-- contents-kits FOOTER = 탐색 페이지 하이드레이션 엔진 · contents_index.json rawcdn(main) fetch(cb+no-store+10s) · 실패 시 인라인 스냅샷 폴백 · 검색(제목+태그)·단일토글 칩·정렬 · 리빌 페이드(RM 존중) · 2026-07-11 -->
+<!-- contents-kits FOOTER = 3모드 해시 라우터(탐색#/허브#slug/스텝#slug-NN) · 탐색 카탈로그 하이드레이션(contents_index.json rawcdn cb) · 허브/스텝 kit.json+stepNN.html rawcdn cb fetch·인라인 kxKit 폴백·실패 폴백문구 · KIT_CHECKOUT_URL 단일 변경점(비면 안내 토스트) · 리빌 페이드(RM 존중) · kx- 네임스페이스 · 2026-07-11 -->
 <script>
 (function(){
  var W=document.getElementById('kxRoot');if(!W)return;if(window.__kxhub)return;window.__kxhub=1;
  var d=document;W.classList.add('js');
  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
- var RAW='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/contents_index.json';
+
+ /* ===== 단일 변경점: 키트 결제 주소 (여기 한 줄만 채우면 전 구매 CTA 연결) ===== */
+ var KIT_CHECKOUT_URL='';   /* 예: 'https://.../order/kit-moneytalk'. 비어 있으면 클릭 시 안내 토스트 */
+
+ var RAW_INDEX='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/contents_index.json';
+ var KIT_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/kits/';
  var TYPES=["kit"];
- var ST={q:'',f:'all',s:'new'},DATA=[];
+
  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
- function pad2(n){return (n<10?'0':'')+n;}
+ function pad2(n){n=parseInt(n,10)||0;return (n<10?'0':'')+n;}
+ function won(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
  function typeRank(t){return t==='column'?0:t==='tool'?1:2;}
+ function kitName(k){return (k&&k.name)||String((k&&k.slug)||'').replace(/^kit-/,'');}
+
+ /* 공통 리빌(페이드) */
+ function reveal(scope){
+  var root=scope||W;
+  var els=[].slice.call(root.querySelectorAll('.kx-rv')).filter(function(e){return !e.__r;});
+  if(!els.length)return;
+  if(rm||!('IntersectionObserver'in window)){els.forEach(function(e){e.__r=1;e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+  els.forEach(function(e){e.__r=1;io.observe(e);});
+ }
+
+ /* 토스트 */
+ var toastEl=d.getElementById('kxToast'),toastT;
+ function toast(msg){
+  if(!toastEl){alert(msg);return;}
+  toastEl.textContent=msg;toastEl.hidden=false;
+  toastEl.classList.remove('on');void toastEl.offsetWidth;toastEl.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');setTimeout(function(){toastEl.hidden=true;},320);},2600);
+ }
+
+ /* 구매 CTA 연결 — KIT_CHECKOUT_URL 있으면 이동, 없으면 준비중 토스트 */
+ function wireBuy(scope){
+  [].slice.call((scope||W).querySelectorAll('.kx-buy')).forEach(function(b){
+   if(b.__w)return;b.__w=1;
+   if(KIT_CHECKOUT_URL){b.setAttribute('href',KIT_CHECKOUT_URL);b.setAttribute('target','_blank');b.setAttribute('rel','noopener');}
+   else{b.addEventListener('click',function(e){e.preventDefault();toast('결제 연결 준비 중이에요');});}
+  });
+ }
+
+ /* ============ 탐색(카탈로그) 엔진 ============ */
+ var ST={q:'',f:'all',s:'new'},DATA=[];
  function card(it){
   var live=it.status==='live';
+  var nm=kitName(it);
   var problem=it.problem||it.hook||'';
   var badges='<span class="kx-b kx-b-sell">개별 판매</span>'+(live?'':'<span class="kx-b kx-b-soon">곧 만나요</span>');
   var tags=(it.tags||[]).map(function(t){return '<span class="kx-tag">'+esc(t)+'</span>';}).join('');
   var steps=it.steps?('<span class="kx-steps">'+it.steps+'단계 워크북</span>'):'';
-  var cta=live?'무료 프롤로그 보기 <i aria-hidden="true">→</i>':'무료 프롤로그 · 곧 만나요';
+  var cta=live?'키트 열어보기 <i aria-hidden="true">&rarr;</i>':'무료 프롤로그 · 곧 만나요';
   var inner='<span class="kx-side" aria-hidden="true"></span>'
    +'<span class="kx-top"><span class="kx-thumb">'+esc(it.thumb||'🧰')+'</span>'+steps+'</span>'
    +'<span class="kx-h3">'+esc(it.title)+'</span>'
@@ -25,21 +64,13 @@
    +'<span class="kx-badges">'+badges+'</span>'
    +'<span class="kx-tags">'+tags+'</span>'
    +'<span class="kx-cta">'+cta+'</span>';
-  var da='data-type="kit"';
-  if(live)return '<a class="kx-tile kx-rv" href="/'+esc(it.slug)+'-00" '+da+'>'+inner+'</a>';
-  return '<div class="kx-tile kx-soon kx-rv" '+da+'>'+inner+'</div>';
+  if(live)return '<a class="kx-tile kx-rv" href="#'+esc(nm)+'" data-type="kit">'+inner+'</a>';
+  return '<div class="kx-tile kx-soon kx-rv" data-type="kit">'+inner+'</div>';
  }
  function passF(it){var f=ST.f;if(f==='all')return true;if(f==='free')return !it.premium;if(f==='premium')return !!it.premium;if(f.indexOf('type:')===0)return it.type===f.slice(5);if(f.indexOf('tag:')===0){var v=f.slice(4);return (it.tags||[]).indexOf(v)>=0||it.cat===v;}return true;}
  function passQ(it){if(!ST.q)return true;var q=ST.q;if(String(it.title).toLowerCase().indexOf(q)>=0)return true;return (it.tags||[]).join(' ').toLowerCase().indexOf(q)>=0;}
  function sortList(a){var arr=a.slice();if(ST.s==='no'){arr.sort(function(x,y){return typeRank(x.type)-typeRank(y.type)||x.no-y.no;});}else{arr.sort(function(x,y){return x.date<y.date?1:x.date>y.date?-1:(typeRank(x.type)-typeRank(y.type)||x.no-y.no);});}return arr;}
- function reveal(scope){
-  var els=[].slice.call((scope||W).querySelectorAll('.kx-rv')).filter(function(e){return !e.__r;});
-  if(!els.length)return;
-  if(rm||!('IntersectionObserver'in window)){els.forEach(function(e){e.__r=1;e.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -5% 0px'});
-  els.forEach(function(e){e.__r=1;io.observe(e);});
- }
- function render(){
+ function renderList(){
   var list=sortList(DATA.filter(function(it){return passF(it)&&passQ(it);}));
   var host=d.getElementById('kxList'),emp=d.getElementById('kxEmpty'),cnt=d.getElementById('kxCount');
   if(cnt)cnt.innerHTML='<b>'+list.length+'</b>개';
@@ -49,26 +80,213 @@
   host.innerHTML=list.map(card).join('');
   reveal(host);
  }
- function useData(items){var arr=(items||[]).filter(function(it){return TYPES.indexOf(it.type)>=0;});if(arr.length){DATA=arr;render();}}
+ function useData(items){var arr=(items||[]).filter(function(it){return TYPES.indexOf(it.type)>=0;});if(arr.length){DATA=arr;renderList();}}
  var snap=[];try{var sn=d.getElementById('kxSnap');if(sn)snap=JSON.parse(sn.textContent)||[];}catch(e){snap=[];}
  function failEmpty(){var host=d.getElementById('kxList'),emp=d.getElementById('kxEmpty');if(emp&&host&&!host.children.length)emp.hidden=false;}
- function boot(){
+ function bootExplore(){
   var chips=d.getElementById('kxChips');
-  if(chips)chips.addEventListener('click',function(e){var b=e.target.closest('.kx-chip');if(!b||!chips.contains(b))return;[].slice.call(chips.querySelectorAll('.kx-chip')).forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});b.classList.add('on');b.setAttribute('aria-pressed','true');ST.f=b.getAttribute('data-f')||'all';render();});
+  if(chips)chips.addEventListener('click',function(e){var b=e.target.closest('.kx-chip');if(!b||!chips.contains(b))return;[].slice.call(chips.querySelectorAll('.kx-chip')).forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});b.classList.add('on');b.setAttribute('aria-pressed','true');ST.f=b.getAttribute('data-f')||'all';renderList();});
   var sort=d.getElementById('kxSort');
-  if(sort)sort.addEventListener('click',function(e){var b=e.target.closest('.kx-sortb');if(!b)return;[].slice.call(sort.querySelectorAll('.kx-sortb')).forEach(function(x){x.classList.remove('on');});b.classList.add('on');ST.s=b.getAttribute('data-s')||'new';render();});
+  if(sort)sort.addEventListener('click',function(e){var b=e.target.closest('.kx-sortb');if(!b)return;[].slice.call(sort.querySelectorAll('.kx-sortb')).forEach(function(x){x.classList.remove('on');});b.classList.add('on');ST.s=b.getAttribute('data-s')||'new';renderList();});
   var se=d.getElementById('kxSearch');
-  if(se){var t;se.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){ST.q=se.value.trim().toLowerCase();render();},160);});}
-  if(snap&&snap.length){useData(snap);}      /* 즉시: 인라인 스냅샷 렌더(폴백 겸 최초 페인트) */
-  if(!window.fetch){reveal(W);return;}
+  if(se){var t;se.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){ST.q=se.value.trim().toLowerCase();renderList();},160);});}
+  if(snap&&snap.length){useData(snap);}
+  if(!window.fetch){reveal(d.getElementById('kxExplore'));return;}
   var done=false,ctrl=('AbortController'in window)?new AbortController():null;
   var to=setTimeout(function(){if(done)return;done=true;if(ctrl){try{ctrl.abort();}catch(e){}}if(!DATA.length)failEmpty();},10000);
-  fetch(RAW+'?cb='+Date.now(),{cache:'no-store',signal:ctrl?ctrl.signal:undefined})
+  fetch(RAW_INDEX+'?cb='+Date.now(),{cache:'no-store',signal:ctrl?ctrl.signal:undefined})
    .then(function(r){if(!r.ok)throw 0;return r.json();})
    .then(function(j){if(done)return;done=true;clearTimeout(to);var it=j&&j.items;if(it&&it.length)useData(it);else if(!DATA.length)failEmpty();})
    .catch(function(){if(done)return;done=true;clearTimeout(to);if(!DATA.length)failEmpty();});
  }
- boot();
+
+ /* ============ 키트 데이터(허브/스텝 공용) ============ */
+ var KITS={};
+ try{var ke=d.getElementById('kxKit');if(ke){var k0=JSON.parse(ke.textContent);if(k0&&k0.slug)KITS[kitName(k0)]=k0;}}catch(e){}
+ function fetchKit(name,cb){
+  if(!window.fetch){cb(null);return;}
+  var done=false,to=setTimeout(function(){if(done)return;done=true;cb(null);},9000);
+  fetch(KIT_BASE+name+'/kit.json?cb='+Date.now(),{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw 0;return r.json();})
+   .then(function(j){if(done)return;done=true;clearTimeout(to);cb(j&&j.slug?j:null);})
+   .catch(function(){if(done)return;done=true;clearTimeout(to);cb(null);});
+ }
+
+ /* ---- 허브 마크업 ---- */
+ function whyCards(k){
+  var arr=k.why||[];if(!arr.length)return '';
+  var cards=arr.map(function(w){return '<div class="kx-whycard kx-rv"><div class="kx-whyq">'+esc(w.t)+'</div><div class="kx-whya">'+esc(w.d)+'</div></div>';}).join('');
+  return '<section class="kx-hsec"><div class="kx-in"><div class="kx-htag">이 키트가 필요한 이유</div><h2 class="kx-h2">막막함은 두 분 탓이 아니라,<br>대화의 순서가 없어서예요</h2><div class="kx-whygrid">'+cards+'</div></div></section>';
+ }
+ function currList(k,nm){
+  var rows=(k.steps||[]).map(function(s){
+   var no=pad2(s.no);
+   var free=!!s.free;
+   var badge=free?'<span class="kx-cbadge kx-cbadge-free">무료 공개</span>':'<span class="kx-cbadge kx-cbadge-lock">잠금</span>';
+   return '<a class="kx-crow kx-rv" href="#'+esc(nm)+'-'+no+'"><span class="kx-cno">'+no+'</span><span class="kx-cbody"><span class="kx-ctitle">'+esc(s.title)+'</span><span class="kx-chook">'+esc(s.hook||'')+'</span></span>'+badge+'</a>';
+  }).join('');
+  return '<section class="kx-hsec kx-hsec-alt"><div class="kx-in"><div class="kx-htag">10단계 커리큘럼</div><h2 class="kx-h2">한 걸음에 하나씩,<br>열 번의 대화로 완성해요</h2><div class="kx-currlist">'+rows+'</div></div></section>';
+ }
+ function outcomeBlock(k){
+  var arr=k.outcome||[];if(!arr.length)return '';
+  var items=arr.map(function(o){return '<li class="kx-rv">'+esc(o)+'</li>';}).join('');
+  return '<section class="kx-hsec"><div class="kx-in"><div class="kx-htag">완주하고 나면</div><h2 class="kx-h2">돈 얘기가 다툼이 아니라<br>우리만의 대화가 돼요</h2><ul class="kx-outlist">'+items+'</ul></div></section>';
+ }
+ function crossBlock(k){
+  var arr=k.crosslinks||[];if(!arr.length)return '';
+  var cards=arr.map(function(c){
+   var b=c.free?'<span class="kx-xbadge kx-free">무료</span>':'<span class="kx-xbadge">프리미엄</span>';
+   return '<a class="kx-xcard kx-rv" href="'+esc(c.href)+'"><span class="kx-xkind">'+esc(c.kind)+'</span><span class="kx-xtitle">'+esc(c.title)+'</span><span class="kx-xdesc">'+esc(c.desc)+'</span>'+b+'</a>';
+  }).join('');
+  return '<section class="kx-hsec kx-hsec-alt"><div class="kx-in"><div class="kx-htag">함께 보면 좋아요</div><h2 class="kx-h2">읽고 · 적용하고 · 실행해요</h2><div class="kx-xgrid">'+cards+'</div></div></section>';
+ }
+ function buyBar(k,nm,big){
+  var p=won(k.price||100000);
+  var cls=big?'kx-buybar kx-buybar-big':'kx-buybar';
+  return '<div class="'+cls+'">'
+   +'<a class="kx-btn kx-buy" href="#" role="button">구매하기 <i aria-hidden="true">&rarr;</i></a>'
+   +'<a class="kx-btn2" href="#'+esc(nm)+'-00">무료 프롤로그 보기 <i aria-hidden="true">&rarr;</i></a>'
+   +'<div class="kx-price">'+p+'원 <span class="kx-pnote">한 번 구매로 열 단계를 끝까지</span></div>'
+   +'</div>';
+ }
+ function hubHTML(k){
+  var nm=kitName(k);
+  var head='<div class="kx-hubhero"><div class="kx-in">'
+   +'<a class="kx-back" href="#"><i aria-hidden="true">&larr;</i> 키트 자료실</a>'
+   +'<div class="kx-hubkind"><span class="kx-hubthumb">'+esc(k.thumb||'🧰')+'</span> MONEY KIT · '+(k.steps?k.steps.length:10)+'단계</div>'
+   +'<h1 class="kx-hubh1">'+esc(k.title)+'</h1>'
+   +'<p class="kx-hubtag">'+esc(k.tagline||'')+'</p>'
+   +'<div class="kx-hubprob"><span class="kx-plabel">이런 고민, 있으셨죠</span>'+esc(k.problem||'')+'</div>'
+   +buyBar(k,nm,false)
+   +'</div></div>';
+  var audience='';
+  if(k.audience&&k.audience.length){
+   audience='<section class="kx-hsec"><div class="kx-in"><div class="kx-htag">이런 분께 권해요</div><ul class="kx-audlist">'+k.audience.map(function(a){return '<li class="kx-rv">'+esc(a)+'</li>';}).join('')+'</ul></div></section>';
+  }
+  var band='<section class="kx-hband"><div class="kx-in">'
+   +'<div class="kx-htag">지금 시작하기</div>'
+   +'<h2 class="kx-h2">첫 대화는 무료로,<br>나머지 아홉 걸음은 함께</h2>'
+   +'<p class="kx-bandp">00 프롤로그는 늘 열려 있어요. 마음이 준비되면 한 번의 구매로 열 단계를 끝까지 걸어봐요 :)</p>'
+   +buyBar(k,nm,true)
+   +'</div></section>';
+  return head+whyCards(k)+currList(k,nm)+outcomeBlock(k)+audience+crossBlock(k)+band;
+ }
+ function hubFallback(name){
+  return '<div class="kx-hubhero"><div class="kx-in"><a class="kx-back" href="#"><i aria-hidden="true">&larr;</i> 키트 자료실</a>'
+   +'<h1 class="kx-hubh1">이 키트는 곧 만나요</h1>'
+   +'<p class="kx-hubtag">지금은 소개를 불러오지 못했어요. 잠시 뒤 다시 열어봐 주세요.</p>'
+   +'<div class="kx-buybar"><a class="kx-btn2" href="#">키트 자료실로 돌아가기 <i aria-hidden="true">&rarr;</i></a></div></div></div>';
+ }
+ function renderHub(name){
+  var host=d.getElementById('kxHub');if(!host)return;
+  var k=KITS[name];
+  host.innerHTML=k?hubHTML(k):hubFallback(name);
+  wireBuy(host);reveal(host);
+  fetchKit(name,function(k2){
+   if(!k2)return;KITS[name]=k2;
+   if(_route==='hub:'+name){host.innerHTML=hubHTML(k2);wireBuy(host);reveal(host);}
+  });
+ }
+
+ /* ---- 스텝 마크업 ---- */
+ function progBar(k,nm,cur){
+  var dots=(k.steps||[]).map(function(s){
+   var no=pad2(s.no);
+   var on=(s.no===cur)?' on':'';
+   var lk=s.free?'':' kx-lk';
+   return '<a class="kx-pdot'+on+lk+'" href="#'+esc(nm)+'-'+no+'"'+(s.no===cur?' aria-current="step"':'')+'><span class="kx-pn">'+no+'</span></a>';
+  }).join('');
+  return '<div class="kx-prog"><div class="kx-progtrack">'+dots+'</div></div>';
+ }
+ function lockCard(k,nm){
+  return '<div class="kx-lockcard kx-rv"><div class="kx-lockic" aria-hidden="true">🔒</div>'
+   +'<div class="kx-locktitle">이 단계부터는 키트 구매 후 함께해요</div>'
+   +'<p class="kx-lockp">여기까지가 미리보기예요. 대화 스크립트와 워크시트, 체크리스트는 구매하면 바로 이어서 열려요.</p>'
+   +buyBar(k,nm,false)+'</div>';
+ }
+ function doneCard(k,nm){
+  var nk=k.next_kit;
+  var nkhtml='';
+  if(nk){
+   nkhtml='<div class="kx-nextkit"><div class="kx-nkkind">다음 걸음</div><div class="kx-nktitle">'+esc(nk.title)+'</div><div class="kx-nkhook">'+esc(nk.hook||'')+'</div><a class="kx-btn2" href="#'+esc(nk.hash||nk.name)+'">'+esc(nk.title)+' 보러 가기 <i aria-hidden="true">&rarr;</i></a></div>';
+  }
+  return '<div class="kx-done kx-rv"><div class="kx-doneic" aria-hidden="true">🎉</div>'
+   +'<div class="kx-donetitle">열 걸음을 함께 걸어온 두 분에게</div>'
+   +'<p class="kx-donep">이제 돈 얘기는 미루는 일이 아니라, 매달 돌아오는 우리만의 시간이 되었어요. 정말 수고 많았어요 :)</p>'
+   +nkhtml
+   +'<div class="kx-buybar"><a class="kx-btn2" href="#">다른 키트 둘러보기 <i aria-hidden="true">&rarr;</i></a></div></div>';
+ }
+ function stepNav(k,nm,no){
+  var last=(k.steps?k.steps.length:10)-1;
+  var prev=(no>0)?('<a class="kx-navbtn kx-navprev" href="#'+esc(nm)+'-'+pad2(no-1)+'"><i aria-hidden="true">&larr;</i> 이전 단계</a>')
+                 :('<a class="kx-navbtn kx-navprev" href="#'+esc(nm)+'"><i aria-hidden="true">&larr;</i> 허브로</a>');
+  var next=(no<last)?('<a class="kx-navbtn kx-navnext" href="#'+esc(nm)+'-'+pad2(no+1)+'">다음 단계 <i aria-hidden="true">&rarr;</i></a>')
+                    :('<a class="kx-navbtn kx-navnext" href="#'+esc(nm)+'">허브로 <i aria-hidden="true">&rarr;</i></a>');
+  return '<div class="kx-nav">'+prev+next+'</div>';
+ }
+ function stepFallback(){
+  return '<div class="kx-doc"><p>지금은 이 단계를 불러오지 못했어요. 인터넷 연결을 확인하고 잠시 뒤 다시 열어봐 주세요 :)</p></div>';
+ }
+ function fetchStepBody(name,no,slot,routeId){
+  var url=KIT_BASE+name+'/step'+pad2(no)+'.html?cb='+Date.now();
+  if(!window.fetch){slot.innerHTML=stepFallback();reveal(slot);return;}
+  var done=false,to=setTimeout(function(){if(done)return;done=true;if(_route===routeId){slot.innerHTML=stepFallback();reveal(slot);}},10000);
+  fetch(url,{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw 0;return r.text();})
+   .then(function(t){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;slot.innerHTML=t;reveal(slot);})
+   .catch(function(){if(done)return;done=true;clearTimeout(to);if(_route===routeId){slot.innerHTML=stepFallback();reveal(slot);}});
+ }
+ function renderStep(name,no){
+  var host=d.getElementById('kxStep');if(!host)return;
+  var k=KITS[name];
+  if(!k){host.innerHTML=hubFallback(name);wireBuy(host);reveal(host);
+   fetchKit(name,function(k2){if(k2){KITS[name]=k2;if(_route==='step:'+name+':'+no)renderStep(name,no);}});return;}
+  var steps=k.steps||[];var last=steps.length-1;
+  if(no<0)no=0;if(no>last)no=last;
+  var s=steps[no]||{no:no,title:'',free:no===0};
+  var nm=kitName(k);
+  var routeId='step:'+name+':'+no;
+  var head='<div class="kx-stephd"><div class="kx-in">'
+   +'<a class="kx-back" href="#'+esc(nm)+'"><i aria-hidden="true">&larr;</i> '+esc(k.title)+'</a>'
+   +progBar(k,nm,no)
+   +'<div class="kx-stepmeta"><span class="kx-stepno">STEP '+pad2(no)+'</span><span class="kx-stepof">'+pad2(no)+' / '+pad2(last)+'</span></div>'
+   +'<h1 class="kx-steph1">'+esc(s.title)+'</h1>'
+   +(s.hook?('<p class="kx-stephook">'+esc(s.hook)+'</p>'):'')
+   +'</div></div>';
+  var body='<div class="kx-stepbody"><div class="kx-in"><div class="kx-doc" id="kxBody"><div class="kx-loading">불러오는 중…</div></div>';
+  if(!s.free)body+=lockCard(k,nm);
+  if(no===last)body+=doneCard(k,nm);
+  body+=stepNav(k,nm,no)+'</div></div>';
+  host.innerHTML=head+body;
+  wireBuy(host);reveal(host);
+  fetchStepBody(name,no,d.getElementById('kxBody'),routeId);
+ }
+
+ /* ============ 라우터 ============ */
+ function parseHash(){
+  var h=(location.hash||'').replace(/^#/,'').trim();
+  if(!h)return {mode:'explore'};
+  var m=h.match(/^(.+?)-(\d{2})$/);
+  if(m)return {mode:'step',name:m[1],no:parseInt(m[2],10)};
+  return {mode:'hub',name:h};
+ }
+ var _route='';
+ function showView(id){
+  ['kxExplore','kxHub','kxStep'].forEach(function(v){var el=d.getElementById(v);if(el)el.hidden=(v!==id);});
+  var shown=d.getElementById(id);if(shown)reveal(shown);
+  try{scrollTo({top:0,behavior:rm?'auto':'smooth'});}catch(e){try{scrollTo(0,0);}catch(e2){}}
+ }
+ function route(){
+  var p=parseHash();
+  if(p.mode==='explore'){_route='explore';showView('kxExplore');}
+  else if(p.mode==='hub'){_route='hub:'+p.name;renderHub(p.name);showView('kxHub');}
+  else{_route='step:'+p.name+':'+p.no;renderStep(p.name,p.no);showView('kxStep');}
+ }
+
+ bootExplore();
+ route();
+ addEventListener('hashchange',route);
+
  var tp=d.getElementById('kxtop');
  addEventListener('scroll',function(){if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);},{passive:true});
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});

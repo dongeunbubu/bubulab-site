@@ -540,7 +540,7 @@
    "premium": false,
    "chapter": "PART1 가",
    "date": "2026-12-27",
-   "status": "soon",
+   "status": "live",
    "thumb": "🗣️",
    "free_preview": "00·01",
    "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.",
@@ -552,7 +552,8 @@
     "tools": [
      "booktool-flexcost"
     ]
-   }
+   },
+   "name": "moneytalk"
   },
   {
    "slug": "kit-mandala",

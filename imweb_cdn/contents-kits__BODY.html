@@ -157,6 +157,141 @@ a.kx-tile:active{transform:scale(.99)}
 .kx-cta i{font-style:normal;transition:transform .25s}
 a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
 .kx-soon .kx-cta{color:var(--mut)}
+
+/* ===================== 라우터 3모드 확장 (허브·스텝·토스트) ===================== */
+/* ===== kx 라우터 뷰 3모드 공통 ===== */
+.kx-page .kx-view[hidden]{display:none!important}
+.kx-h2{font-size:clamp(21px,3.4vw,32px);font-weight:900;letter-spacing:-.03em;line-height:1.24;color:var(--ink)}
+.kx-htag{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--rose);text-transform:uppercase;margin-bottom:12px}
+.kx-back{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:var(--mut);transition:color .2s}
+.kx-back:hover{color:var(--rose)}
+.kx-back i{font-style:normal}
+.kx-hsec{padding:clamp(120px,13vw,192px) 0}
+.kx-hsec-alt{background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+/* 공용 버튼 */
+.kx-btn{display:inline-flex;align-items:center;gap:8px;min-height:54px;padding:16px 28px;border-radius:16px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:16px;font-weight:800;box-shadow:0 16px 34px -12px rgba(179,58,76,.55);transition:transform .3s var(--ease2),box-shadow .3s;cursor:pointer}
+.kx-btn:hover{transform:translateY(-3px);box-shadow:0 22px 44px -12px rgba(179,58,76,.62)}
+.kx-btn:active{transform:scale(.97)}
+.kx-btn i,.kx-btn2 i{font-style:normal;transition:transform .25s}
+.kx-btn:hover i{transform:translateX(4px)}
+.kx-btn2{display:inline-flex;align-items:center;gap:7px;min-height:54px;padding:15px 24px;border-radius:16px;background:#fff;border:1px solid var(--borderStrong);color:var(--rose);font-size:15px;font-weight:800;transition:transform .25s var(--ease2),border-color .25s,background .25s;cursor:pointer}
+.kx-btn2:hover{transform:translateY(-2px);border-color:var(--pink);background:var(--pinkSoft2)}
+.kx-btn2:hover i{transform:translateX(4px)}
+/* ===== 허브 뷰 ===== */
+.kx-hubhero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border);padding:clamp(24px,4vw,40px) 0 clamp(44px,6vw,72px)}
+.kx-hubkind{display:inline-flex;align-items:center;gap:9px;margin-top:18px;font-size:12.5px;font-weight:900;letter-spacing:.02em;color:var(--deep)}
+.kx-hubthumb{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:20px;background:#fff;box-shadow:var(--sh1)}
+.kx-hubh1{font-size:clamp(28px,5.4vw,52px);font-weight:900;letter-spacing:-.035em;line-height:1.12;color:var(--ink);margin-top:14px}
+.kx-hubtag{margin-top:16px;max-width:40ch;font-size:clamp(15px,2vw,18px);font-weight:600;color:var(--ink2);line-height:1.6}
+.kx-hubprob{margin-top:22px;max-width:44ch;font-size:14px;font-weight:600;color:var(--ink2);line-height:1.6;background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.kx-hubprob .kx-plabel{display:block;font-size:10.5px;font-weight:800;color:var(--rose);letter-spacing:.03em;margin-bottom:5px}
+/* 구매 바 */
+.kx-buybar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:26px}
+.kx-buybar-big{justify-content:center}
+.kx-price{font-size:14px;font-weight:900;color:var(--ink);width:100%;margin-top:4px}
+.kx-buybar-big .kx-price{text-align:center}
+.kx-pnote{display:inline-block;font-size:12px;font-weight:700;color:var(--mut);margin-left:6px}
+/* Why 그리드 */
+.kx-whygrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.kx-whycard{background:var(--paper);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--sh1)}
+.kx-whyq{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.35}
+.kx-whyq::before{content:"“";color:var(--pink);font-weight:900;margin-right:2px}
+.kx-whyq::after{content:"”";color:var(--pink);font-weight:900;margin-left:1px}
+.kx-whya{font-size:14px;font-weight:600;color:var(--ink2);line-height:1.68;margin-top:11px}
+/* 커리큘럼 */
+.kx-currlist{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.kx-crow{display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--sh1);transition:transform .25s var(--ease2),box-shadow .25s,border-color .25s}
+.kx-crow:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--pink)}
+.kx-cno{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:15px;font-weight:900;color:var(--rose);background:var(--pinkSoft);letter-spacing:-.02em}
+.kx-cbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.kx-ctitle{font-size:15.5px;font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.35}
+.kx-chook{font-size:13px;font-weight:600;color:var(--mut);line-height:1.5}
+.kx-cbadge{flex:none;font-size:10.5px;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.01em}
+.kx-cbadge-free{background:#E8F3EE;color:#3F7A66;border:1px solid #cfe6da}
+.kx-cbadge-lock{background:var(--lockSoft);color:var(--lock);border:1px solid var(--lockBd)}
+/* 완주 후 리스트 */
+.kx-outlist,.kx-audlist{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:11px}
+.kx-outlist li,.kx-audlist li{position:relative;padding-left:30px;font-size:15.5px;font-weight:700;color:var(--ink2);line-height:1.6}
+.kx-outlist li::before{content:"✓";position:absolute;left:0;top:0;color:var(--sage);font-weight:900}
+.kx-audlist li::before{content:"·";position:absolute;left:8px;top:-2px;color:var(--rose);font-weight:900;font-size:22px}
+/* 크로스링크 */
+.kx-xgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.kx-xcard{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--sh1);transition:transform .25s var(--ease2),box-shadow .25s,border-color .25s}
+.kx-xcard:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--pink)}
+.kx-xkind{font-size:11px;font-weight:900;letter-spacing:.05em;color:var(--rose);text-transform:uppercase}
+.kx-xtitle{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.35}
+.kx-xdesc{font-size:13.5px;font-weight:600;color:var(--ink2);line-height:1.6}
+.kx-xbadge{align-self:flex-start;margin-top:4px;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--lockSoft);color:var(--lock);border:1px solid var(--lockBd)}
+.kx-xbadge.kx-free{background:#E8F3EE;color:#3F7A66;border-color:#cfe6da}
+/* 허브 최종 밴드 */
+.kx-hband{position:relative;text-align:center;padding:clamp(120px,13vw,192px) 0;background:radial-gradient(90% 130% at 84% -20%,var(--pinkSoft) 0%,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 58%,#FDEFF2);border-top:1px solid var(--border)}
+.kx-hband .kx-in{max-width:640px}
+.kx-bandp{font-size:15px;font-weight:600;color:var(--ink2);line-height:1.7;margin-top:14px}
+/* ===== 스텝 뷰 ===== */
+.kx-stephd{position:relative;overflow:hidden;background:linear-gradient(168deg,#FFFDFA 8%,#FDF4EF 60%,#FBECE9 100%);border-bottom:1px solid var(--border);padding:clamp(20px,3.5vw,34px) 0 clamp(30px,4.5vw,48px)}
+.kx-prog{margin-top:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.kx-progtrack{display:flex;align-items:center;gap:8px;min-width:min-content;padding-bottom:4px}
+.kx-pdot{flex:none;position:relative;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:#fff;border:1px solid var(--border);color:var(--mut);font-weight:900;box-shadow:var(--sh1);transition:transform .2s,border-color .2s,background .2s,color .2s}
+.kx-pdot .kx-pn{font-size:12.5px}
+.kx-pdot:hover{border-color:var(--pink);color:var(--rose);transform:translateY(-2px)}
+.kx-pdot.on{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border-color:transparent}
+.kx-pdot.kx-lk::after{content:"";position:absolute;right:-2px;top:-2px;width:9px;height:9px;border-radius:50%;background:var(--lock);box-shadow:0 0 0 2px var(--paper)}
+.kx-stepmeta{display:flex;align-items:center;gap:12px;margin-top:20px}
+.kx-stepno{font-size:11.5px;font-weight:900;letter-spacing:.08em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 13px}
+.kx-stepof{font-size:12.5px;font-weight:800;color:var(--mut)}
+.kx-steph1{font-size:clamp(24px,4.6vw,42px);font-weight:900;letter-spacing:-.035em;line-height:1.16;color:var(--ink);margin-top:14px}
+.kx-stephook{margin-top:13px;max-width:46ch;font-size:clamp(14.5px,1.9vw,17px);font-weight:600;color:var(--ink2);line-height:1.62}
+.kx-stepbody{padding:clamp(40px,5.5vw,64px) 0 clamp(80px,10vw,120px)}
+.kx-stepbody .kx-in{max-width:720px}
+.kx-loading{color:var(--mut);font-weight:700;font-size:14px;padding:20px 0}
+/* 본문 문서 타이포 (CDN 조각 주입) */
+.kx-doc{font-size:16px;color:var(--ink2);line-height:1.8}
+.kx-doc>*:first-child{margin-top:0}
+.kx-doc h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.025em;line-height:1.3;color:var(--ink);margin:34px 0 6px}
+.kx-doc h3{font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:28px 0 8px}
+.kx-doc p{margin:13px 0}
+.kx-doc p b,.kx-doc strong{color:var(--rose);font-weight:800}
+.kx-doc em{font-style:normal;background:linear-gradient(180deg,transparent 62%,var(--pinkSoft) 62%);font-weight:700;color:var(--ink)}
+.kx-doc ul{list-style:none;margin:14px 0}
+.kx-doc li{position:relative;padding-left:24px;margin:9px 0;line-height:1.72}
+.kx-doc li::before{content:"";position:absolute;left:6px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--rose)}
+.kx-doc blockquote{margin:18px 0;padding:16px 18px;background:var(--bg2);border-left:3px solid var(--pink);border-radius:0 12px 12px 0;font-weight:600;color:var(--ink)}
+.kx-callout{margin:20px 0;padding:18px 20px;background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;box-shadow:var(--sh1)}
+.kx-callout .kx-clabel{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.05em;color:var(--rose);text-transform:uppercase;margin-bottom:7px}
+/* 잠금 카드 */
+.kx-lockcard{margin-top:34px;text-align:center;background:linear-gradient(160deg,var(--lockSoft),#fff);border:1px solid var(--lockBd);border-radius:20px;padding:clamp(28px,4vw,40px);box-shadow:var(--sh1)}
+.kx-lockic{font-size:30px;line-height:1}
+.kx-locktitle{font-size:clamp(18px,2.6vw,22px);font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-top:12px}
+.kx-lockp{font-size:14.5px;font-weight:600;color:var(--ink2);line-height:1.66;margin-top:11px;max-width:42ch;margin-left:auto;margin-right:auto}
+.kx-lockcard .kx-buybar{justify-content:center}
+/* 완주 카드 */
+.kx-done{margin-top:30px;text-align:center;background:linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 60%,#FDEFF2);border:1px solid var(--borderStrong);border-radius:22px;padding:clamp(30px,4.5vw,48px);box-shadow:var(--sh1)}
+.kx-doneic{font-size:40px;line-height:1}
+.kx-donetitle{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.025em;color:var(--ink);margin-top:12px}
+.kx-donep{font-size:15px;font-weight:600;color:var(--ink2);line-height:1.72;margin-top:12px;max-width:40ch;margin-left:auto;margin-right:auto}
+.kx-nextkit{margin-top:24px;background:var(--paper);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--sh1)}
+.kx-nkkind{font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--rose);text-transform:uppercase}
+.kx-nktitle{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-top:8px}
+.kx-nkhook{font-size:13.5px;font-weight:600;color:var(--ink2);line-height:1.6;margin-top:6px;margin-bottom:16px}
+/* 스텝 하단 네비 */
+.kx-nav{display:flex;justify-content:space-between;gap:12px;margin-top:38px;padding-top:24px;border-top:1px solid var(--border)}
+.kx-navbtn{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:13px 20px;border-radius:14px;background:#fff;border:1px solid var(--border);color:var(--ink);font-size:14px;font-weight:800;transition:transform .25s var(--ease2),border-color .25s,background .25s}
+.kx-navbtn:hover{transform:translateY(-2px);border-color:var(--pink);background:var(--pinkSoft2);color:var(--rose)}
+.kx-navbtn i{font-style:normal}
+.kx-navnext{margin-left:auto}
+/* ===== 토스트 ===== */
+.kx-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,14px);z-index:1200;background:var(--ink);color:#fff;font-size:14px;font-weight:800;padding:13px 20px;border-radius:14px;box-shadow:0 18px 40px -12px rgba(44,32,27,.5);opacity:0;pointer-events:none;transition:opacity .3s var(--ease2),transform .3s var(--ease2);max-width:calc(100% - 40px)}
+.kx-toast.on{opacity:1;transform:translate(-50%,0)}
+/* ===== 라우터 뷰 모바일 ===== */
+@media(max-width:640px){
+ .kx-whygrid,.kx-xgrid{grid-template-columns:1fr}
+ .kx-crow{gap:12px;padding:14px}
+ .kx-cno{width:38px;height:38px}
+ .kx-buybar .kx-btn,.kx-buybar .kx-btn2{width:100%;justify-content:center}
+ .kx-nav{flex-direction:column}
+ .kx-navnext{margin-left:0}
+ .kx-navbtn{justify-content:center}
+}
 </style>
 <div class="topbar">
   <span>매일 아침 7시·저녁 6시, 동은부부 머니레터가 두 분의 하루에 도착해요</span>
@@ -173,6 +308,7 @@ a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
   </div>
 </header>
 <div class="kx-page" id="kxRoot">
+ <div id="kxExplore" class="kx-view">
  <header class="kx-hero">
   <div class="kx-heroin">
    <span class="kx-eyebrow">✦ Kits</span>
@@ -212,6 +348,11 @@ a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
   </div>
  </section>
  <footer class="kx-foot"><div class="kx-footin"><span class="dotf"></span>부부연구소 · 책 연계 키트 자료실</div></footer>
+ </div><!-- /kxExplore -->
+ <section id="kxHub" class="kx-view" hidden aria-label="키트 허브"></section>
+ <section id="kxStep" class="kx-view" hidden aria-label="키트 단계"></section>
+ <div class="kx-toast" id="kxToast" role="status" aria-live="polite" hidden></div>
  <button class="kx-top" id="kxtop" type="button" aria-label="맨 위로">↑</button>
- <script type="application/json" id="kxSnap">[{"slug": "kit-moneytalk", "type": "kit", "no": 1, "title": "머니토크 키트", "hook": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "premium": false, "chapter": "PART1 가", "date": "2026-12-27", "status": "soon", "thumb": "🗣️", "free_preview": "00·01", "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.", "steps": 10, "connect": {"columns": ["bookcol-01"], "tools": ["booktool-flexcost"]}}, {"slug": "kit-mandala", "type": "kit", "no": 2, "title": "만다라트 목표 키트", "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": false, "chapter": "PART1 나", "date": "2027-01-10", "status": "soon", "thumb": "🧭", "free_preview": "00·01", "problem": "목표가 흐릿해서 돈이 안 모여요.", "steps": 8, "connect": {"columns": ["bookcol-03"], "tools": ["booktool-mandala"]}}, {"slug": "kit-leakcheck", "type": "kit", "no": 3, "title": "새는 돈 점검 키트", "hook": "분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2027-01-17", "status": "soon", "thumb": "🔦", "free_preview": "00·01", "problem": "분명 아끼는데 돈이 안 남아요.", "steps": 7, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-flexcost"]}}, {"slug": "kit-savings", "type": "kit", "no": 4, "title": "모이는 구조 키트", "hook": "의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.", "cat": "목돈", "tags": ["목돈", "적금", "구조"], "premium": false, "chapter": "PART1 다", "date": "2027-01-24", "status": "soon", "thumb": "🏦", "free_preview": "00·01", "problem": "모으고 싶은데 구조가 없어 흐지부지돼요.", "steps": 6, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-savingrule"]}}, {"slug": "kit-investstart", "type": "kit", "no": 5, "title": "투자 첫걸음 키트", "hook": "투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.", "cat": "투자", "tags": ["투자", "첫걸음", "분산"], "premium": false, "chapter": "PART2 가·나", "date": "2027-01-31", "status": "soon", "thumb": "🌱", "free_preview": "00·01", "problem": "투자가 무섭고 뭘 사야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-04", "bookcol-10"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-portfolio", "type": "kit", "no": 6, "title": "부부 포트폴리오 키트", "hook": "남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": false, "chapter": "PART2 나·아", "date": "2027-02-07", "status": "soon", "thumb": "🧩", "free_preview": "00·01", "problem": "남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.", "steps": 9, "connect": {"columns": ["bookcol-05", "bookcol-06", "bookcol-11"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-taxsaver", "type": "kit", "no": 7, "title": "절세계좌 3형제 키트", "hook": "버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.", "cat": "절세", "tags": ["절세", "계좌", "연금"], "premium": false, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🛟", "free_preview": "00·01", "problem": "절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-08"], "tools": ["booktool-taxaccount"]}}, {"slug": "kit-homebuy", "type": "kit", "no": 8, "title": "내집마련 로드맵 키트", "hook": "막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.", "cat": "부동산", "tags": ["부동산", "내집마련", "청약"], "premium": false, "chapter": "PART2 다", "date": "2027-02-21", "status": "soon", "thumb": "🗝️", "free_preview": "00·01", "problem": "내집마련이 막연하고 뭐부터 할지 모르겠어요.", "steps": 10, "connect": {"columns": ["bookcol-07"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-dividend", "type": "kit", "no": 9, "title": "배당·현금흐름 키트", "hook": "잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.", "cat": "수익화", "tags": ["수익화", "배당", "절세"], "premium": false, "chapter": "PART2 마", "date": "2027-02-28", "status": "soon", "thumb": "🌙", "free_preview": "00·01", "problem": "잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.", "steps": 7, "connect": {"columns": ["bookcol-09"], "tools": ["booktool-finincome"]}}, {"slug": "kit-sideincome", "type": "kit", "no": 10, "title": "월급 밖 수익 키트", "hook": "월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.", "cat": "수익화", "tags": ["수익화", "공모주", "부업"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "🚀", "free_preview": "00·01", "problem": "월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.", "steps": 9, "connect": {"columns": ["bookcol-12"], "tools": ["booktool-savingrule"]}}]</script>
+ <script type="application/json" id="kxSnap">[{"slug": "kit-moneytalk", "type": "kit", "no": 1, "title": "머니토크 키트", "hook": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "premium": false, "chapter": "PART1 가", "date": "2026-12-27", "status": "live", "thumb": "🗣️", "free_preview": "00·01", "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요.", "steps": 10, "connect": {"columns": ["bookcol-01"], "tools": ["booktool-flexcost"]}, "name": "moneytalk"}, {"slug": "kit-mandala", "type": "kit", "no": 2, "title": "만다라트 목표 키트", "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.", "cat": "목돈", "tags": ["목돈", "목표설계", "부부대화"], "premium": false, "chapter": "PART1 나", "date": "2027-01-10", "status": "soon", "thumb": "🧭", "free_preview": "00·01", "problem": "목표가 흐릿해서 돈이 안 모여요.", "steps": 8, "connect": {"columns": ["bookcol-03"], "tools": ["booktool-mandala"]}}, {"slug": "kit-leakcheck", "type": "kit", "no": 3, "title": "새는 돈 점검 키트", "hook": "분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.", "cat": "목돈", "tags": ["목돈", "절약", "진단"], "premium": false, "chapter": "PART1 다", "date": "2027-01-17", "status": "soon", "thumb": "🔦", "free_preview": "00·01", "problem": "분명 아끼는데 돈이 안 남아요.", "steps": 7, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-flexcost"]}}, {"slug": "kit-savings", "type": "kit", "no": 4, "title": "모이는 구조 키트", "hook": "의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.", "cat": "목돈", "tags": ["목돈", "적금", "구조"], "premium": false, "chapter": "PART1 다", "date": "2027-01-24", "status": "soon", "thumb": "🏦", "free_preview": "00·01", "problem": "모으고 싶은데 구조가 없어 흐지부지돼요.", "steps": 6, "connect": {"columns": ["bookcol-02"], "tools": ["booktool-savingrule"]}}, {"slug": "kit-investstart", "type": "kit", "no": 5, "title": "투자 첫걸음 키트", "hook": "투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.", "cat": "투자", "tags": ["투자", "첫걸음", "분산"], "premium": false, "chapter": "PART2 가·나", "date": "2027-01-31", "status": "soon", "thumb": "🌱", "free_preview": "00·01", "problem": "투자가 무섭고 뭘 사야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-04", "bookcol-10"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-portfolio", "type": "kit", "no": 6, "title": "부부 포트폴리오 키트", "hook": "남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.", "cat": "투자", "tags": ["투자", "포트폴리오", "부부대화"], "premium": false, "chapter": "PART2 나·아", "date": "2027-02-07", "status": "soon", "thumb": "🧩", "free_preview": "00·01", "problem": "남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.", "steps": 9, "connect": {"columns": ["bookcol-05", "bookcol-06", "bookcol-11"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-taxsaver", "type": "kit", "no": 7, "title": "절세계좌 3형제 키트", "hook": "버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.", "cat": "절세", "tags": ["절세", "계좌", "연금"], "premium": false, "chapter": "PART2 라", "date": "2027-02-14", "status": "soon", "thumb": "🛟", "free_preview": "00·01", "problem": "절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.", "steps": 8, "connect": {"columns": ["bookcol-08"], "tools": ["booktool-taxaccount"]}}, {"slug": "kit-homebuy", "type": "kit", "no": 8, "title": "내집마련 로드맵 키트", "hook": "막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.", "cat": "부동산", "tags": ["부동산", "내집마련", "청약"], "premium": false, "chapter": "PART2 다", "date": "2027-02-21", "status": "soon", "thumb": "🗝️", "free_preview": "00·01", "problem": "내집마련이 막연하고 뭐부터 할지 모르겠어요.", "steps": 10, "connect": {"columns": ["bookcol-07"], "tools": ["booktool-portfolio"]}}, {"slug": "kit-dividend", "type": "kit", "no": 9, "title": "배당·현금흐름 키트", "hook": "잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.", "cat": "수익화", "tags": ["수익화", "배당", "절세"], "premium": false, "chapter": "PART2 마", "date": "2027-02-28", "status": "soon", "thumb": "🌙", "free_preview": "00·01", "problem": "잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.", "steps": 7, "connect": {"columns": ["bookcol-09"], "tools": ["booktool-finincome"]}}, {"slug": "kit-sideincome", "type": "kit", "no": 10, "title": "월급 밖 수익 키트", "hook": "월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.", "cat": "수익화", "tags": ["수익화", "공모주", "부업"], "premium": false, "chapter": "PART3 가", "date": "2027-03-14", "status": "soon", "thumb": "🚀", "free_preview": "00·01", "problem": "월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.", "steps": 9, "connect": {"columns": ["bookcol-12"], "tools": ["booktool-savingrule"]}}]</script>
+ <script type="application/json" id="kxKit">{"slug": "kit-moneytalk", "name": "moneytalk", "type": "kit", "title": "머니토크 키트", "tagline": "돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.", "problem": "돈 얘기만 나오면 어색하거나 다툼이 돼요. 어디서부터 꺼낼지 막막해서 자꾸 미루게 돼요.", "price": 100000, "thumb": "🗣️", "cat": "부부대화", "tags": ["부부대화", "목돈", "첫걸음"], "why": [{"t": "돈 얘기가 자꾸 다툼이 돼요", "d": "문제는 두 사람이 아니라, 대화의 순서가 없어서예요. 순서가 생기면 감정이 아니라 사실로 이야기하게 돼요."}, {"t": "어디서부터 꺼낼지 막막해요", "d": "'얼마 있어?'부터 '어떻게 정할까?'까지, 열 개의 질문을 차례로 건네드려요. 그냥 따라오기만 하면 돼요."}, {"t": "한 번 하고 흐지부지돼요", "d": "큰 결심 대신, 매달 10분 머니 데이트라는 작은 리듬을 남겨드려요. 구조가 대화를 지켜줘요."}, {"t": "우리 상황에 맞는 얘기가 필요해요", "d": "남의 정답이 아니라, 우리 두 사람의 통장과 목표에서 출발해요. 그래서 오래가요."}], "outcome": ["돈 얘기를 먼저, 편하게 꺼낼 수 있게 돼요.", "숫자 앞에서 서로를 탓하지 않게 돼요.", "매달 돌아오는 우리만의 점검 시간이 생겨요."], "audience": ["아직 제대로 된 돈 대화를 나눠본 적 없는 예비·신혼 부부", "돈 얘기만 나오면 분위기가 굳어버리던 두 분", "시작하고 싶은데 뭐부터 꺼낼지 막막한 분"], "steps": [{"no": 0, "title": "여보, 우리 돈 얘기 좀 할까?", "hook": "왜 지금 이 대화가 우리 두 사람을 지키는지, 반지하에서 시작된 이야기로 함께 열어봐요.", "free": true}, {"no": 1, "title": "오늘 우리 통장엔 얼마 있어?", "hook": "각자의 자산과 빚을 부끄럼 없이 펼쳐놓는, 가장 정직한 첫걸음이에요.", "free": false}, {"no": 2, "title": "혹시 나한테 숨기는 거 없지?", "hook": "숨겨온 과오와 약점을, 서로를 더 믿게 하는 강점으로 바꿔봐요.", "free": false}, {"no": 3, "title": "우리 돈은 어디로 새고 있을까", "hook": "지난달 지출을 함께 들여다보며, 새는 곳을 다정하게 찾아봐요.", "free": false}, {"no": 4, "title": "나는 멋진 할머니가 되고 싶어", "hook": "각자 바라는 먼 미래를 그림처럼 그려, 돈의 방향을 맞춰봐요.", "free": false}, {"no": 5, "title": "우리가 함께 걷고 싶은 5년", "hook": "여러 바람을 공동 목표 세 개로 좁혀, 흔들리지 않는 구조로 세워요.", "free": false}, {"no": 6, "title": "싸우지 않는 우리 집 규칙", "hook": "돈을 어떻게 정할지 미리 약속해두면, 다툼이 대화로 바뀌어요.", "free": false}, {"no": 7, "title": "매달 10분, 머니 데이트", "hook": "한 달에 한 번, 부담 없이 돈을 점검하는 우리만의 리듬을 만들어요.", "free": false}, {"no": 8, "title": "우리만의 돈 언어", "hook": "용돈·공동비·비상금, 서로 다르게 쓰던 말의 뜻부터 맞춰봐요.", "free": false}, {"no": 9, "title": "첫 대화를 끝낸 우리에게", "hook": "열 걸음을 걸어온 두 분에게 완주의 축하를, 그리고 다음 걸음을 건네요.", "free": false}], "connect": {"columns": ["bookcol-01"], "tools": ["booktool-flexcost"]}, "crosslinks": [{"kind": "배경 칼럼", "title": "근데 우리, 얼마나 모았더라?", "desc": "숫자로 우리를 직시하는 첫 이야기예요.", "href": "/bookcol-01", "free": true}, {"kind": "실습 도구", "title": "새는 돈 진단기", "desc": "지난달 지출에서 새는 곳을 함께 찾아봐요.", "href": "/booktool-flexcost", "free": true}], "next_kit": {"name": "mandala", "title": "만다라트 목표 키트", "hook": "둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.", "hash": "mandala"}}</script>
 </div>
