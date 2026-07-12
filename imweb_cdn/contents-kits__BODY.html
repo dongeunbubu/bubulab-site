@@ -2,16 +2,29 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
- --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
- --ink:#2C201B;--ink2:#57453D;--mut:#877468;
- --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
- --border:#ECDAD5;--borderStrong:#E4C8C2;
- --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
+ /* --cx-* 디자인 토큰 승계 (홈·칼럼 팔레트/타이포 사다리/여백 L7/모션과 통일) */
+ --cx-bg:#FDFBF7;--cx-bg2:#FBF3EE;--cx-card:#FFFFFF;
+ --cx-ink:#3E2F29;--cx-ink2:#5C4B43;--cx-mut:#8A7B72;--cx-border:#EAD7D3;
+ --cx-rose:#B33A4C;--cx-rose2:#B85060;--cx-deep:#7C243B;--cx-pink:#D67A89;
+ --cx-pinkSoft:#F8E8EA;--cx-pinkSoft2:#FCEEF1;--cx-sage:#5E8C7F;--cx-gold:#C9A84C;--cx-lav:#9C6BA8;--cx-sand:#F0DED8;
+ --cx-seed:#7FB08A;--cx-bud:#E08696;--cx-bloom:#B33A4C;--cx-pollen:#C9A84C;
+ --cx-zone-gather:rgba(94,140,127,.10);--cx-zone-keep:rgba(179,58,76,.08);--cx-zone-grow:rgba(201,168,76,.13);
+ --cx-fs-cap:clamp(12px,1.4vw,13px);--cx-fs-body:clamp(15px,1.6vw,17px);--cx-fs-lead:clamp(17px,2vw,19.5px);
+ --cx-fs-h3:clamp(18px,2.3vw,23px);--cx-fs-h2:clamp(23px,3.4vw,34px);--cx-fs-h1:clamp(27px,4vw,42px);
+ --cx-r:22px;--cx-r-sm:14px;--cx-pad-sec:clamp(120px,13vw,192px);--cx-pad-x:clamp(22px,4.5vw,40px);
+ --cx-ease:cubic-bezier(.16,1,.3,1);--cx-dur:.6s;
+ --cx-sh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cx-shi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ /* kx- 레거시 별칭 -> cx 토큰 승계 (색·모션 통일) */
+ --bg:var(--cx-bg);--bg2:var(--cx-bg2);--paper:var(--cx-card);
+ --ink:var(--cx-ink);--ink2:var(--cx-ink2);--mut:var(--cx-mut);
+ --rose:var(--cx-rose);--rose2:var(--cx-rose2);--pink:var(--cx-pink);--pinkSoft:var(--cx-pinkSoft);--pinkSoft2:var(--cx-pinkSoft2);
+ --border:var(--cx-border);--borderStrong:#E4C8C2;
+ --sage:var(--cx-sage);--sageSoft:#E6F0EC;--sageInk:#356356;--gold:var(--cx-gold);--deep:var(--cx-deep);
  --lock:#8A6A50;--lockSoft:#F6EEE4;--lockBd:#EADFCE;
  --maxw:1120px;
- --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.22,1,.36,1);
- --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
- --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+ --ease:var(--cx-ease);--ease2:cubic-bezier(.22,1,.36,1);
+ --sh1:var(--cx-sh);--sh2:var(--cx-shi);
 }
 /* ===== 사이트 공통 헤더 (시각 CSS는 사이트 팔레트 고정값) ===== */
 .topbar{background:#B85060;color:#fff;font-size:13px;display:flex;align-items:center;gap:16px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;z-index:2;overflow:hidden}
@@ -294,6 +307,129 @@ a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
  .kx-navnext{margin-left:0}
  .kx-navbtn{justify-content:center}
 }
+/* ===================== 개화(줄기 미니맵·완주) 시스템 ===================== */
+.kx-sprite{position:absolute;width:0;height:0;overflow:hidden}
+.kx-nm{fill:currentColor;display:block}
+.kx-stemwrap{margin-top:6px}
+.kx-stemhead{display:flex;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:wrap}
+.kx-stemmeta{display:flex;flex-direction:column;gap:4px}
+.kx-remain{font-size:14px;font-weight:700;color:var(--cx-ink2)}
+.kx-remain b{color:var(--cx-rose);font-weight:900}
+.kx-bloomring{position:relative;width:66px;height:66px;flex:none}
+.kx-bloomring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.kx-ringbg{fill:none;stroke:var(--cx-border);stroke-width:5}
+.kx-ringfg{fill:none;stroke:var(--cx-bloom);stroke-width:5;stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:calc(var(--c) - var(--c) * var(--p));transition:stroke-dashoffset 1.1s var(--cx-ease)}
+.kx-ringtxt{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:900;color:var(--cx-bloom)}
+.kx-ringtxt i{font-style:normal;font-size:.62em;margin-left:1px;color:var(--cx-mut)}
+.kx-stem{position:relative;list-style:none;margin:0;padding:2px 0}
+.kx-stem::before{content:"";position:absolute;left:26px;top:22px;bottom:22px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--cx-seed),var(--cx-bud) 55%,var(--cx-bloom));opacity:.22}
+.kx-stemgrow{position:absolute;left:26px;top:22px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--cx-seed),var(--cx-bloom));transition:height 1.1s var(--cx-ease)}
+.kx-node{position:relative;display:flex;align-items:center;gap:15px;padding:9px 14px 9px 0;border-radius:16px;text-decoration:none;transition:transform .25s var(--cx-ease),background .25s}
+.kx-node+.kx-node{margin-top:4px}
+a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
+.kx-nodemark{position:relative;z-index:1;flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--cx-card);border:1px solid var(--cx-border);box-shadow:var(--cx-sh);color:var(--cx-seed)}
+.kx-nodemark .kx-nm{width:30px;height:30px}
+.kx-node-seed .kx-nodemark{color:var(--cx-seed)}
+.kx-node-bud .kx-nodemark{color:var(--cx-bud);background:var(--cx-pinkSoft2)}
+.kx-node-bloom .kx-nodemark{color:var(--cx-bloom);box-shadow:0 0 0 4px var(--cx-pinkSoft),var(--cx-sh)}
+.kx-nodebody{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.kx-nodeno{font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--cx-mut)}
+.kx-nodetitle{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--cx-ink);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kx-nodebadge{flex:none;font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:999px}
+.kx-badge-free{background:#E8F3EE;color:#3F7A66;border:1px solid #cfe6da}
+.kx-badge-lock{background:var(--lockSoft);color:var(--lock);border:1px solid var(--lockBd)}
+.kx-badge-done{background:var(--cx-pinkSoft);color:var(--cx-bloom);border:1px solid var(--cx-border)}
+.kx-stem-h{display:flex;align-items:flex-start;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 2px 8px}
+.kx-hnode{flex:none;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px;text-decoration:none}
+.kx-hnode::before{content:"";position:absolute;left:-50%;top:19px;width:100%;height:3px;background:var(--cx-border);z-index:0}
+.kx-hnode:first-child::before{display:none}
+.kx-hnode.done::before,.kx-hnode.on::before{background:linear-gradient(90deg,var(--cx-seed),var(--cx-bloom))}
+.kx-hmark{position:relative;z-index:1;width:40px;height:40px;border-radius:50%;background:var(--cx-card);border:1px solid var(--cx-border);display:grid;place-items:center;box-shadow:var(--cx-sh);color:var(--cx-seed);transition:transform .25s var(--cx-ease),box-shadow .25s}
+.kx-hmark .kx-nm{width:23px;height:23px}
+.kx-hnode-seed .kx-hmark{color:var(--cx-seed)}
+.kx-hnode-bud .kx-hmark{color:var(--cx-bud)}
+.kx-hnode-bloom .kx-hmark{color:var(--cx-bloom)}
+.kx-hnode.on .kx-hmark{transform:scale(1.14);box-shadow:0 0 0 4px var(--cx-pinkSoft2),0 8px 18px -5px rgba(179,58,76,.5)}
+.kx-hnum{font-size:10.5px;font-weight:900;color:var(--cx-mut)}
+.kx-hnode.on .kx-hnum{color:var(--cx-rose)}
+@keyframes kxbloom{0%{transform:scale(.4);opacity:.25}60%{transform:scale(1.16)}100%{transform:scale(1);opacity:1}}
+.kx-justbloom .kx-nm{animation:kxbloom .7s var(--cx-ease)}
+.kx-stepdone{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:13px;text-align:center;padding:26px 22px;border:1px dashed var(--cx-border);border-radius:18px;background:linear-gradient(160deg,#fff,var(--cx-pinkSoft2))}
+.kx-stepdone-q{font-size:15.5px;font-weight:800;color:var(--cx-ink)}
+.kx-markbtn{display:inline-flex;align-items:center;gap:9px;min-height:52px;padding:13px 26px;border-radius:14px;border:1px solid var(--cx-border);background:#fff;color:var(--cx-rose);font:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:var(--cx-sh);transition:transform .25s var(--cx-ease),background .25s,color .25s,border-color .25s}
+.kx-markbtn:hover{transform:translateY(-2px);border-color:var(--cx-pink)}
+.kx-markbtn .kx-markic,.kx-markbtn .kx-markic .kx-nm{width:26px;height:26px}
+.kx-markbtn .kx-markic{color:var(--cx-bud)}
+.kx-markbtn.done{background:#F3F8F5;border-color:#cfe6da;color:#3F7A66;cursor:default}
+.kx-markbtn.done .kx-markic{color:var(--cx-bloom)}
+.kx-nextnudge{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--cx-rose)}
+.kx-nextnudge[hidden]{display:none}
+.kx-nextnudge i{font-style:normal;transition:transform .25s}
+.kx-nextnudge:hover i{transform:translateX(4px)}
+.kx-savenote{font-size:11.5px;font-weight:600;color:var(--cx-mut);line-height:1.5}
+.kx-bloomcard{margin-top:30px;text-align:center;background:linear-gradient(160deg,#FFF7F4,var(--cx-pinkSoft2) 60%,#FDEFF2);border:1px solid var(--borderStrong);border-radius:22px;padding:clamp(30px,4.5vw,50px);box-shadow:var(--cx-sh)}
+.kx-bloomcard[hidden]{display:none}
+.kx-bloomart{width:118px;height:118px;margin:0 auto 6px;color:var(--cx-bloom)}
+.kx-bloomart .kx-nm{width:118px;height:118px}
+.kx-bloomkicker{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--cx-rose);text-transform:uppercase}
+.kx-engrave{margin:16px auto 0;max-width:34ch;font-size:14px;font-weight:800;color:var(--cx-ink2);background:rgba(255,255,255,.6);border:1px solid var(--cx-border);border-radius:12px;padding:11px 14px}
+.kx-engnames{color:var(--cx-rose);outline:none;border-bottom:1px dashed var(--cx-pink)}
+.kx-engnames:focus{background:#fff}
+.kx-bloomacts{margin-top:18px}
+.kx-topmeta{display:inline-flex;align-items:center;gap:9px}
+.kx-stageic{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--cx-card);border:1px solid var(--cx-border);color:var(--cx-seed)}
+.kx-stageic .kx-nm{width:17px;height:17px}
+.kx-stage-seed{color:var(--cx-seed)}
+.kx-stage-bud{color:var(--cx-bud)}
+.kx-stage-bloom{color:var(--cx-bloom)}
+/* ===== CXW 경량 서브셋(스텝 조각 공용): reveal-steps · counter-bar · checklist ===== */
+.cxw-steps{list-style:none;counter-reset:cxs;padding:0;margin:16px 0 6px}
+.cxw-step{position:relative;padding:16px 18px 16px 52px;border:1px solid var(--cx-border);border-radius:14px;background:var(--cx-card);box-shadow:var(--cx-sh);font-size:14.5px;font-weight:600;color:var(--cx-ink2);line-height:1.62}
+.cxw-step+.cxw-step{margin-top:10px}
+.cxw-step::before{counter-increment:cxs;content:counter(cxs);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;background:var(--cx-pinkSoft);color:var(--cx-rose);font-size:13px;font-weight:900;display:grid;place-items:center}
+.cxw-step b{color:var(--cx-rose);font-weight:800}
+.cxw-step .cxw-step-t{display:block;font-weight:800;color:var(--cx-ink);margin-bottom:3px}
+.cxw-step[data-step]{display:none}
+.cxw-step.on{display:block;animation:cxwfade .5s var(--cx-ease)}
+.cxw-steps-foot{display:flex;align-items:center;gap:13px;margin-top:12px;flex-wrap:wrap}
+.cxw-dots{display:inline-flex;gap:6px}
+.cxw-dot{width:8px;height:8px;border-radius:50%;background:var(--cx-border);transition:background .3s}
+.cxw-dot.on{background:var(--cx-rose)}
+.cxw-next{border:0;background:linear-gradient(135deg,var(--cx-rose),var(--cx-deep));color:#fff;border-radius:11px;padding:11px 20px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:var(--cx-sh)}
+.cxw-next[hidden]{display:none}
+.cxw-steps-sum{margin-top:12px;padding:14px 16px;border-radius:13px;background:var(--cx-pinkSoft2);border:1px solid var(--cx-border);font-size:13.5px;font-weight:700;color:var(--cx-deep);line-height:1.6;display:none}
+.cxw-steps-sum.show{display:block}
+.cxw-counter{padding:clamp(16px,2.6vw,22px);border:1px solid var(--cx-border);border-radius:18px;background:linear-gradient(162deg,#fff,var(--cx-pinkSoft2));box-shadow:var(--cx-sh)}
+.cxw-counter-hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.cxw-counter-lab{font-size:13px;font-weight:800;color:var(--cx-ink2)}
+.cxw-counter-num{font-size:clamp(22px,3.6vw,30px);font-weight:900;color:var(--cx-rose);font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
+.cxw-counter-num em{font-style:normal;font-size:.58em;font-weight:800;color:var(--cx-mut);margin-left:3px}
+.cxw-counter-track{position:relative;height:26px;border-radius:999px;background:var(--cx-bg2);border:1px solid var(--cx-border);overflow:visible;margin-top:20px}
+.cxw-counter-bar{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--cx-seed),var(--cx-bloom));border-radius:999px;transition:width 1s var(--cx-ease)}
+.cxw-counter-mark{position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--cx-deep)}
+.cxw-counter-mark span{position:absolute;bottom:-19px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:800;color:var(--cx-deep)}
+.cxw-checklist{margin:16px 0 6px}
+.cxw-chk{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--cx-border);border-radius:13px;background:var(--cx-card);box-shadow:var(--cx-sh);font-size:14.5px;font-weight:600;color:var(--cx-ink2);line-height:1.55;cursor:pointer;transition:border-color .2s,background .2s}
+.cxw-chk+.cxw-chk{margin-top:9px}
+.cxw-chk input{margin-top:2px;width:20px;height:20px;accent-color:var(--cx-rose);flex:none;cursor:pointer}
+.cxw-chk:has(input:checked){border-color:var(--cx-sage);background:#F3F8F5}
+.cxw-chk b{color:var(--cx-rose);font-weight:800}
+.cxw-chk-foot{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13px;font-weight:800;color:var(--cx-ink2);flex-wrap:wrap}
+.cxw-chk-foot .cxw-chk-n{color:var(--cx-rose);font-size:1.15em}
+.cxw-chk-done{font-weight:800;color:var(--cx-sage)}
+.cxw-chk-done[hidden]{display:none}
+.cxw-cap{font-size:var(--cx-fs-cap);font-weight:800;color:var(--cx-rose);margin-bottom:14px;line-height:1.5}
+@keyframes cxwfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:640px){
+ .kx-stemhead{gap:14px}
+ .kx-nodetitle{white-space:normal}
+ .kx-bloomart,.kx-bloomart .kx-nm{width:96px;height:96px}
+}
+@media(prefers-reduced-motion:reduce){
+ .kx-justbloom .kx-nm{animation:none!important}
+ .kx-ringfg,.kx-stemgrow,.cxw-counter-bar{transition:none!important}
+ .cxw-step.on{animation:none!important}
+}
 </style>
 <div class="topbar">
   <span>매일 아침 7시·저녁 6시, 동은부부 머니레터가 두 분의 하루에 도착해요</span>
@@ -310,6 +446,7 @@ a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
   </div>
 </header>
 <div class="kx-page" id="kxRoot">
+<svg class="kx-sprite" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="cxPetal" viewBox="0 0 48 48"><path d="M24 24C18.6 20 18.6 9.6 24 4C29.4 9.6 29.4 20 24 24Z"></path></symbol><symbol id="cxSeed" viewBox="0 0 48 48"><path d="M24 40V23" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"></path><path d="M24 25C19 25.4 13 22 11 15.4C18 14.4 23 17.6 24 24Z"></path><path d="M24 25C29 25.4 35 22 37 15.4C30 14.4 25 17.6 24 24Z"></path></symbol><symbol id="cxBud" viewBox="0 0 48 48"><path d="M24 42V28" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"></path><path d="M24 30C18.5 30 16.5 20.5 24 14C31.5 20.5 29.5 30 24 30Z"></path></symbol><symbol id="cxBloom" viewBox="0 0 48 48"><use href="#cxPetal" transform="rotate(0 24 24)"></use><use href="#cxPetal" transform="rotate(72 24 24)"></use><use href="#cxPetal" transform="rotate(144 24 24)"></use><use href="#cxPetal" transform="rotate(216 24 24)"></use><use href="#cxPetal" transform="rotate(288 24 24)"></use><circle cx="24" cy="24" r="4.2" fill="var(--cx-pollen)"></circle></symbol></defs></svg>
  <div id="kxExplore" class="kx-view">
  <header class="kx-hero">
   <div class="kx-heroin">
@@ -337,7 +474,7 @@ a.kx-tile:hover .kx-cta i{transform:translateX(4px)}
   </div>
  </div>
  <main class="kx-wrap">
-  <div class="kx-grid" id="kxList"><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🚀</span><span class="kx-steps">9단계 워크북</span></span><span class="kx-h3">월급 밖 수익 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.</span><span class="kx-hook">월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">공모주</span><span class="kx-tag">부업</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌙</span><span class="kx-steps">7단계 워크북</span></span><span class="kx-h3">배당·현금흐름 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.</span><span class="kx-hook">잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">배당</span><span class="kx-tag">절세</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗝️</span><span class="kx-steps">10단계 워크북</span></span><span class="kx-h3">내집마련 로드맵 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>내집마련이 막연하고 뭐부터 할지 모르겠어요.</span><span class="kx-hook">막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부동산</span><span class="kx-tag">내집마련</span><span class="kx-tag">청약</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🛟</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">절세계좌 3형제 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.</span><span class="kx-hook">버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">절세</span><span class="kx-tag">계좌</span><span class="kx-tag">연금</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧩</span><span class="kx-steps">9단계 워크북</span></span><span class="kx-h3">부부 포트폴리오 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.</span><span class="kx-hook">남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">포트폴리오</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌱</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">투자 첫걸음 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>투자가 무섭고 뭘 사야 할지 모르겠어요.</span><span class="kx-hook">투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">첫걸음</span><span class="kx-tag">분산</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🏦</span><span class="kx-steps">6단계 워크북</span></span><span class="kx-h3">모이는 구조 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>모으고 싶은데 구조가 없어 흐지부지돼요.</span><span class="kx-hook">의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">적금</span><span class="kx-tag">구조</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🔦</span><span class="kx-steps">7단계 워크북</span></span><span class="kx-h3">새는 돈 점검 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>분명 아끼는데 돈이 안 남아요.</span><span class="kx-hook">분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">절약</span><span class="kx-tag">진단</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧭</span><span class="kx-steps">8단계 워크북</span></span><span class="kx-h3">만다라트 목표 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>목표가 흐릿해서 돈이 안 모여요.</span><span class="kx-hook">둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">목표설계</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗣️</span><span class="kx-steps">10단계 워크북</span></span><span class="kx-h3">머니토크 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>돈 얘기만 나오면 어색하거나 다툼이 돼요.</span><span class="kx-hook">돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부부대화</span><span class="kx-tag">목돈</span><span class="kx-tag">첫걸음</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div></div>
+  <div class="kx-grid" id="kxList"><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🚀</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">9단계 워크북</span></span></span><span class="kx-h3">월급 밖 수익 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.</span><span class="kx-hook">월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">공모주</span><span class="kx-tag">부업</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌙</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">7단계 워크북</span></span></span><span class="kx-h3">배당·현금흐름 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.</span><span class="kx-hook">잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">배당</span><span class="kx-tag">절세</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗝️</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">10단계 워크북</span></span></span><span class="kx-h3">내집마련 로드맵 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>내집마련이 막연하고 뭐부터 할지 모르겠어요.</span><span class="kx-hook">막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부동산</span><span class="kx-tag">내집마련</span><span class="kx-tag">청약</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🛟</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bud" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBud"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">절세계좌 3형제 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.</span><span class="kx-hook">버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">절세</span><span class="kx-tag">계좌</span><span class="kx-tag">연금</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧩</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">9단계 워크북</span></span></span><span class="kx-h3">부부 포트폴리오 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.</span><span class="kx-hook">남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">포트폴리오</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌱</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">투자 첫걸음 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>투자가 무섭고 뭘 사야 할지 모르겠어요.</span><span class="kx-hook">투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">첫걸음</span><span class="kx-tag">분산</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🏦</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">6단계 워크북</span></span></span><span class="kx-h3">모이는 구조 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>모으고 싶은데 구조가 없어 흐지부지돼요.</span><span class="kx-hook">의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">적금</span><span class="kx-tag">구조</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🔦</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">7단계 워크북</span></span></span><span class="kx-h3">새는 돈 점검 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>분명 아끼는데 돈이 안 남아요.</span><span class="kx-hook">분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">절약</span><span class="kx-tag">진단</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧭</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">만다라트 목표 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>목표가 흐릿해서 돈이 안 모여요.</span><span class="kx-hook">둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">목표설계</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗣️</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">10단계 워크북</span></span></span><span class="kx-h3">머니토크 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>돈 얘기만 나오면 어색하거나 다툼이 돼요.</span><span class="kx-hook">돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부부대화</span><span class="kx-tag">목돈</span><span class="kx-tag">첫걸음</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div></div>
   <div class="kx-empty" id="kxEmpty" hidden><div class="ei">🔎</div><div class="et">그 조건의 키트는 아직 없어요</div><div class="ed">다른 주제로 둘러봐도 좋아요.</div></div>
  </main>
  <section class="kx-band" aria-label="프리미엄 안내">
