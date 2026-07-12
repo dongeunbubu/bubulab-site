@@ -1,0 +1,600 @@
+{
+  "meta": {
+    "title": "quality500_plan",
+    "version": "v1",
+    "generated": "2026-07-12 16:18",
+    "audit_scope": {
+      "columns": 12,
+      "tools_indexed": 7,
+      "tools_built": 3,
+      "kits": 10,
+      "kit_steps_total": 82,
+      "hub_nodes": 29
+    },
+    "baselines": [
+      "home__BODY tokens",
+      "consensus_v1.2",
+      "beginner_3q(need/place/wow)"
+    ],
+    "constraints": [
+      "atomic_write(.tmp->replace)",
+      "no_git",
+      "bash+python",
+      "warm_pink_palette_only",
+      "no_dark_band/purple/pure_black",
+      "free_first/premium=access_frame",
+      "counting_only_on_growth_metrics"
+    ]
+  },
+  "diagnosis": {
+    "reader": {
+      "good": [
+        "voice top-tier(',,':)'ㅎㅎ, coaching)",
+        "bookcol-01 = complete interactive reference",
+        "filter/sort chips + premium gate matches free-first"
+      ],
+      "weak": [
+        "two markup generations(new data-cx-sc vs old cx-doc)",
+        "interactivity concentrated in col-01 only",
+        "no declarative data-cx-w widget contract",
+        "premium teasers too thin(1.5-2.5KB), C0 missing",
+        "cold-open hook weak on advanced topics(06/08/09/10)",
+        "paragraph rhythm L8/L9/L10 residue in old fragments"
+      ]
+    },
+    "kit": {
+      "good": [
+        "mature kit.json schema(why/outcome/steps.free)",
+        "step00 prologue free + narrative-aligned",
+        "single-purchase(P4) framing consistent"
+      ],
+      "weak": [
+        "no completion momentum(localStorage=0)",
+        "no curriculum visualization",
+        "kx-soon(12) risks F1 'coming-soon' exposure",
+        "step widgets isolated(kx- namespace) not reusable",
+        "visual drift from home tokens"
+      ]
+    },
+    "tool": {
+      "good": [
+        "existing 3 tools slider-number sync + presets solid",
+        "input device-only/no server(trust)",
+        "save/precision gate matches free-paid"
+      ],
+      "weak": [
+        "4 of 7 tools NOT BUILT(flexcost/portfolio/taxaccount/valuation) but linked live=1",
+        "namespace fragmentation tx/tx2/tx3",
+        "weak shareable result asset",
+        "off home-token styling",
+        "hydration audit incomplete(L2/X3)"
+      ]
+    },
+    "hub": {
+      "good": [
+        "S-curve map + 29 nodes + 3 zone bands + hover popup already interactive",
+        "jmSnap data-driven + counts/filter/list fallback",
+        "gradient/pulse/reveal aligned to home motion"
+      ],
+      "weak": [
+        "metaphor stuck at 'map', no sprout->bud->bloom growth",
+        "no bloom/season animation",
+        "no visited/completion growth persistence",
+        "mobile viewBox 1000x4150 too tall/label overlap",
+        "legend(leaf/tool/flag) mismatched with per-item emojis",
+        "hero copy can rise to bloom framing"
+      ]
+    }
+  },
+  "design_tokens": {
+    "color": {
+      "--cx-bg": "#FDFBF7",
+      "--cx-bg2": "#FBF3EE",
+      "--cx-card": "#FFFFFF",
+      "--cx-ink": "#3E2F29",
+      "--cx-ink2": "#5C4B43",
+      "--cx-mut": "#8A7B72",
+      "--cx-border": "#EAD7D3",
+      "--cx-rose": "#B33A4C",
+      "--cx-rose2": "#B85060",
+      "--cx-deep": "#7C243B",
+      "--cx-pink": "#D67A89",
+      "--cx-pinkSoft": "#F8E8EA",
+      "--cx-pinkSoft2": "#FCEEF1",
+      "--cx-sage": "#5E8C7F",
+      "--cx-gold": "#C9A84C",
+      "--cx-lav": "#9C6BA8",
+      "--cx-sand": "#F0DED8",
+      "--cx-up": "#D8584E",
+      "--cx-down": "#4A7DE8"
+    },
+    "growth_season": {
+      "--cx-seed": "#7FB08A",
+      "--cx-bud": "#E08696",
+      "--cx-bloom": "#B33A4C",
+      "--cx-pollen": "#C9A84C",
+      "--cx-zone-gather": "rgba(94,140,127,.10)",
+      "--cx-zone-keep": "rgba(179,58,76,.08)",
+      "--cx-zone-grow": "rgba(201,168,76,.13)"
+    },
+    "type_scale": {
+      "font": "'Pretendard Variable',Pretendard,-apple-system,sans-serif",
+      "--cx-fs-cap": "clamp(12px,1.4vw,13px)",
+      "--cx-fs-body": "clamp(15px,1.6vw,17px)",
+      "--cx-fs-lead": "clamp(17px,2vw,19.5px)",
+      "--cx-fs-h3": "clamp(18px,2.3vw,23px)",
+      "--cx-fs-h2": "clamp(23px,3.4vw,34px)",
+      "--cx-fs-h1": "clamp(27px,4vw,42px)",
+      "--cx-fs-hero": "clamp(34px,5.4vw,68px)",
+      "lh_body": 1.75,
+      "lh_head": 1.3,
+      "tracking_head": "-0.02em"
+    },
+    "layout": {
+      "--cx-r": "22px",
+      "--cx-r-sm": "14px",
+      "--cx-maxw": "1180px",
+      "--cx-read": "720px",
+      "--cx-pad-sec": "clamp(120px,13vw,192px)",
+      "--cx-pad-hero": "clamp(44px,6vw,84px)",
+      "--cx-pad-x": "clamp(22px,4.5vw,40px)"
+    },
+    "shadow": {
+      "--cx-sh": "0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07)",
+      "--cx-shi": "0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15)"
+    },
+    "motion": {
+      "--cx-ease": "cubic-bezier(.16,1,.3,1)",
+      "--cx-dur": ".6s",
+      "reveal": "IntersectionObserver -> .cx-in",
+      "countup_scope": "growth/neutral metrics only(V2/B11)",
+      "reduced_motion": "freeze bloom/drift, show final state",
+      "reuse_keyframes": [
+        "bob",
+        "drift",
+        "shimmer",
+        "pulse"
+      ]
+    },
+    "typography_rules": [
+      "card-title 1 line(L11)",
+      "lead max-width+center(L12)",
+      "emphasis span pad(L9)",
+      "headline break by meaning(L10)",
+      "paragraph 1-2 sentences(L8)",
+      "section symmetric vspace(L1)",
+      "equal grid(L6)"
+    ]
+  },
+  "widget_library": {
+    "router": {
+      "api": "CXW.mount(root)",
+      "scan": "root.querySelectorAll('[data-cx-w]')",
+      "ready_flag": "data-cx-ready=1",
+      "base_class": ".cxw + .cxw-<type>",
+      "progressive_enhancement": true,
+      "shared_by": [
+        "contents-columns__BODY",
+        "contents-kits__BODY"
+      ],
+      "calc_core": "CXW.calc registry(unify tx/tx2/tx3)"
+    },
+    "widgets": [
+      {
+        "name": "slider",
+        "attr": "data-cx-w=slider",
+        "markup": "[data-min][data-max][data-step][data-unit] > input[type=range] + [data-out] + optional [data-formula=erode|compound|gap] + [data-fill]",
+        "behavior": "range->formula->update [data-out], fill width%, scale labels"
+      },
+      {
+        "name": "tabs",
+        "attr": "data-cx-w=tabs",
+        "markup": "[role=tablist] button[data-tab=key] + [data-panel=key]",
+        "behavior": "click->show panel, aria-selected, arrow-key nav"
+      },
+      {
+        "name": "quiz",
+        "attr": "data-cx-w=quiz",
+        "markup": "[data-q] > button[data-opt][data-correct?] + [data-feedback]",
+        "behavior": "select->reveal answer/explain, score, final result card(shareable), retry"
+      },
+      {
+        "name": "reveal-steps",
+        "attr": "data-cx-w=reveal-steps",
+        "markup": "li[data-step] + [data-next]",
+        "behavior": "click/scroll->fade next, progress dots, summary on complete"
+      },
+      {
+        "name": "counter-bar",
+        "attr": "data-cx-w=counter-bar",
+        "markup": "[data-to][data-goal?][data-unit] + [data-num] + [data-track]",
+        "behavior": "in-view countup(growth only), goal proximity%, threshold marker"
+      },
+      {
+        "name": "compare",
+        "attr": "data-cx-w=compare",
+        "markup": "2x[data-side](kind/num/sub) + optional [data-cmp-tabs]",
+        "behavior": "tab/toggle updates both, winner color rose/sage"
+      },
+      {
+        "name": "checklist",
+        "attr": "data-cx-w=checklist",
+        "markup": "label>input[type=checkbox][data-chk] + [data-count]",
+        "behavior": "tally+localStorage, all-done celebrate+share card"
+      }
+    ],
+    "inline_hooks": [
+      {
+        "name": "cx-term",
+        "attr": ".cx-term[data-tip]",
+        "behavior": "gray hover/focus tooltip(consensus seed)"
+      },
+      {
+        "name": "cx-count",
+        "attr": ".cx-count[data-to][data-suffix]",
+        "behavior": "growth countup mini"
+      },
+      {
+        "name": "cx-pull/cx-hl",
+        "behavior": "quote emphasis / rose underline-bold (no neon)"
+      }
+    ]
+  },
+  "columns": [
+    {
+      "slug": "bookcol-01",
+      "title": "가만히 있으면 녹아내리는 내 돈",
+      "zone": "keep",
+      "premium": false,
+      "hook_score": 8,
+      "good": "구매력 슬라이더+비교탭 이미 탑재(모범 기준). 카운트업 절제 양호.",
+      "add": "슬라이더 값→내 월급 대입 입력칸 1개 추가(개인화 후킹). 마무리 '사랑의 실천' 문장은 본문 유지하되 리더 추가 맺음말 금지.",
+      "structure_fix": "이미 data-cx-sc 신형. 위젯 라이브러리 표준 레퍼런스로 승격."
+    },
+    {
+      "slug": "bookcol-02",
+      "title": "7% 적금과 월 30만원의 비밀",
+      "zone": "gather",
+      "premium": true,
+      "hook_score": 7,
+      "good": "'7%'+'비밀' 숫자·호기심 훅 강함. 도입 티저 문장 리듬 좋음.",
+      "add": "티저에 reveal-steps(구조 3단계) 1개 미리보기. 게이트 위 '무료 계산 맛보기'로 savingrule 도구 임베드.",
+      "structure_fix": "PREMIUM_GATE 위 도입만 노출. 게이트 직전 counter-bar로 '월30→태산' 시각 훅 1개."
+    },
+    {
+      "slug": "bookcol-03",
+      "title": "나는 멋진 할머니가 되고 싶어, 당신은?",
+      "zone": "gather",
+      "premium": true,
+      "hook_score": 8,
+      "good": "정체성·부부 지향 훅 매우 차별적. 감정 진입점 우수.",
+      "add": "checklist 위젯으로 '우리가 되고 싶은 노년' 3문 셀프체크(공유형). 만다라트 도구 딥링크.",
+      "structure_fix": "리드+첫섹션 무료. 티저에 quiz 1문(가벼운 자기발견)로 스크롤 유인."
+    },
+    {
+      "slug": "bookcol-04",
+      "title": "5년만 미뤄도, 이만큼 벌어져요",
+      "zone": "keep",
+      "premium": false,
+      "hook_score": 8,
+      "good": "손실회피 훅 강력. 은퇴자산 막대 비교 시각화 보유.",
+      "add": "정적 cx-bar→slider 위젯(미룬 햇수 0~10년→격차 실시간). counter-bar로 격차액 카운트업(성장지표 허용).",
+      "structure_fix": "구형 cx-doc→신형 data-cx-sc 마이그레이션(통일 1순위)."
+    },
+    {
+      "slug": "bookcol-05",
+      "title": "몰빵의 반대말을 아세요?",
+      "zone": "keep",
+      "premium": true,
+      "hook_score": 7,
+      "good": "질문형 훅+반대말 호기심 좋음. 분산 개념 명확.",
+      "add": "compare 위젯(몰빵 vs 분산 최악의 해). reveal-steps로 분산 3원칙 단계 공개.",
+      "structure_fix": "리드+첫섹션 무료. 도넛형 배분 미니 시각화 1개(포트폴리오 도구 티저)."
+    },
+    {
+      "slug": "bookcol-06",
+      "title": "안전한 투자는 없다던데,,",
+      "zone": "keep",
+      "premium": true,
+      "hook_score": 6,
+      "good": "',,' 보이스 살아있음. 위기 생존 프레임 매력.",
+      "add": "금리↔자산 seesaw 인터랙션(slider: 금리↑→무엇이 춤추나). 초심자 3문 '왜 나에게' 콜드오픈 리드 보강.",
+      "structure_fix": "헷지·금리 난도 높음→비유(시소·우산) 먼저, 용어는 뒤. tabs로 상승기/하락기 분리."
+    },
+    {
+      "slug": "bookcol-07",
+      "title": "인구 줄면 집값 떨어지는 거 아니야?",
+      "zone": "keep",
+      "premium": false,
+      "hook_score": 8,
+      "good": "통념반박 훅 클릭률 높음. 내집마련 보편성. 표 데이터 보유.",
+      "add": "정적 table→compare/tabs 위젯(지역·연령 시나리오 전환). 지도형 미니 인포그래픽 1개.",
+      "structure_fix": "전문 공개 무료의 강점 살려 상단에 '3줄 결론' 요약 박스 추가."
+    },
+    {
+      "slug": "bookcol-08",
+      "title": "절세계좌, 언제 써야 진짜 이득일까",
+      "zone": "keep",
+      "premium": true,
+      "hook_score": 6,
+      "good": "'타이밍이 절반' 실용 훅. 실생활 밀착.",
+      "add": "세 계좌 compare 탭(연금/ISA/IRP 빛나는 순간). reveal-steps로 소득구간별 우선순위.",
+      "structure_fix": "'절세계좌'가 낯선 독자용 한 줄 정의 리드 선행. taxaccount 도구 임베드."
+    },
+    {
+      "slug": "bookcol-09",
+      "title": "2천만 원의 벽 앞에서",
+      "zone": "grow",
+      "premium": true,
+      "hook_score": 6,
+      "good": "'2천만 원의 벽' 서사 장치 흥미. 배당 수익화 매력.",
+      "add": "counter-bar 게이지(내 이자·배당→2천만 벽 근접도). quiz 1문 '나는 벽에 얼마나?'.",
+      "structure_fix": "금융소득종합과세 맥락 3줄 선설명 필요. finincome 도구 딥링크 강화."
+    },
+    {
+      "slug": "bookcol-10",
+      "title": "'싸다'는 감정의 실체",
+      "zone": "keep",
+      "premium": true,
+      "hook_score": 6,
+      "good": "철학적·차별적 훅. '감정의 실체' 카피 좋음.",
+      "add": "quiz 위젯(두 종목 지표 제시→'싸다/비싸다' 맞히기). compare로 PER/PBR/ROE 나란히.",
+      "structure_fix": "가치평가 난도 완화: 저울 비유 시각화 먼저. valuation 도구 연결."
+    },
+    {
+      "slug": "bookcol-11",
+      "title": "우리 부부만의 포트폴리오는 왜 달라야 할까",
+      "zone": "keep",
+      "premium": true,
+      "hook_score": 7,
+      "good": "부부 개인화·온브랜드 훅. '남의 정답 아님' 공감.",
+      "add": "slider 위젯(나이·자녀·소득→배분 실시간 변화). compare(신혼 vs 자녀家 예시).",
+      "structure_fix": "리드+첫섹션 무료. portfolio 도구를 본문 임베드(체험형)."
+    },
+    {
+      "slug": "bookcol-12",
+      "title": "월급 밖에서 돈이 들어오게 하라",
+      "zone": "grow",
+      "premium": false,
+      "hook_score": 8,
+      "good": "월급 밖·낮은 문턱(공모주) 훅 강함. 열망 자극.",
+      "add": "checklist(파이프라인 5종 셀프체크). reveal-steps로 공모주 첫 청약 절차.",
+      "structure_fix": "전문 공개 강점. counter-bar로 '파이프라인 개수→현금흐름' 시각 훅."
+    }
+  ],
+  "columns_common_rx": [
+    "migrate old->new data-cx-sc markup",
+    "1-2 data-cx-w widgets per column",
+    "cold-open(beginner 3q)+analogy on advanced 06/08/09/10",
+    "premium teaser: 1 free widget + C0 continue-reading",
+    "bottom connect.tools/kits cards(C0/C3)"
+  ],
+  "kit_plan": {
+    "curriculum_viz": "stem mini-map(cxPetal shared): free=sprout, locked=bud, done=bloom; current highlight; 'N steps left'",
+    "step_widgets": "replace kx- with CXW; dialog=tabs/reveal-steps, self-check=quiz/checklist, calc=slider; localStorage save",
+    "completion_momentum": "cxKitProgress[slug] -> bloom% ring; per-step petal micro-bloom; finish=bloom card(couple names+kit, save/share)",
+    "compliance": [
+      "kx-soon steps: F1 hide if unbuilt",
+      "countup only neutral growth(V2)"
+    ]
+  },
+  "tools": [
+    {
+      "slug": "booktool-mandala",
+      "title": "우리 목표 만다라트",
+      "status": "present",
+      "fix": "저장 게이트 유지·양호. 81칸 자동 배치·포커스 모드 UX 유지. 완성 시 공유 이미지에 브랜드 로고·부부 이름 각인 추가."
+    },
+    {
+      "slug": "booktool-flexcost",
+      "title": "새는 돈 진단기",
+      "status": "MISSING",
+      "fix": "HTML 미제작(인덱스만 존재)—신규 빌드 필요. 고정·변동 분리 도넛+'새는 항목 top3' 결과 카드. 무료."
+    },
+    {
+      "slug": "booktool-savingrule",
+      "title": "우리 집 적금·절약 규칙 메이커",
+      "status": "present",
+      "fix": "역산 UX 좋음. 슬라이더-숫자 동기화 유지. 결과에 '월 규칙 카드' 저장/공유 1개 추가. 통일 네임스페이스로 이관."
+    },
+    {
+      "slug": "booktool-portfolio",
+      "title": "부부 포트폴리오 배분기",
+      "status": "MISSING",
+      "fix": "HTML 미제작—신규 빌드. 인원·소득→도넛 배분+'우리집 한 줄 코멘트'. 간이 무료·정밀 게이트."
+    },
+    {
+      "slug": "booktool-taxaccount",
+      "title": "절세계좌 3형제 시뮬레이터",
+      "status": "MISSING",
+      "fix": "HTML 미제작—신규 빌드. 연금/ISA/IRP 배분 슬라이더→절세액 나란히 막대. 미리보기 무료·정밀 게이트."
+    },
+    {
+      "slug": "booktool-finincome",
+      "title": "금융소득종합과세 가늠기",
+      "status": "present",
+      "fix": "게이지 UX 좋음. 2천만 벽 근접도 시각화 유지. 하이드레이션 대상 값 없음 확인(정적 세율 주석 최신화)."
+    },
+    {
+      "slug": "booktool-valuation",
+      "title": "가치평가 첫걸음",
+      "status": "MISSING",
+      "fix": "HTML 미제작—신규 빌드. PER·PBR·ROE 입력→'싸다/보통/비싸다' 신호등+또래 비교. 미리보기 무료·정밀 게이트."
+    }
+  ],
+  "tools_priority": "BUILD 4 missing first(nodes link live=1 -> broken on arrival), then unify CXW.calc + tokens + share card",
+  "hub_bloom": {
+    "concept": "reframe S-curve map into a growing stem/money-tree: blooms more as journey climbs; data model(zone/type/prem/live) unchanged",
+    "stage_mapping": {
+      "primary_axis": "zone -> bloom stage",
+      "gather": "seed(새싹) lower stem, sage/spring",
+      "keep": "bud(꽃봉오리) mid stem, rose/early-summer",
+      "grow": "bloom(만개) upper stem, gold/harvest + seeds dispersing",
+      "secondary_axis": "type -> flower motif/color (column=leaf-vein petal, tool=gear calyx, kit=ribbon core)",
+      "state_axis": "premium=closed bud+dew-lock(hover teaser bloom); live=wired; visited/complete(localStorage)=stay bloomed+glow",
+      "rejected_alt": "type->stage(tool=seed/column=bud/kit=bloom): breaks climb-the-stem narrative; type already shown by legend/chips"
+    },
+    "animation": {
+      "growth": "stroke-dashoffset draw bottom->top; nodes bloom sequentially via IntersectionObserver(sprout leaves->bud->5 petals)",
+      "hover_bloom": "petals open(scale+micro-rotate) + gold pollen particle; show jm-pop",
+      "component": "<symbol id=cxPetal> 5-petal path, currentColor stage tint; shared with kit mini-map",
+      "restraint": "V2 + reduced-motion final-state static"
+    },
+    "season": "zone bands as seasonal gradient(spring sage / summer rose / autumn gold; reuse existing tints); minimal particles(spring seed-fluff, summer 1 butterfly, autumn falling seeds) via drift/bob",
+    "hero_copy": {
+      "A_recommended": {
+        "eyebrow": "🌱 우리 돈이 피어나는 지도",
+        "h1": "심은 대로 피어나요, 두 분의 돈나무"
+      },
+      "B": {
+        "eyebrow": "🌸 반지하에서 만개까지",
+        "h1": "우리가 걸어온 길에 꽃이 피기 시작했어요"
+      },
+      "C": "keep current h1 + add bloom-frame lead sentence"
+    }
+  },
+  "new_content": [
+    {
+      "rank": 1,
+      "title": "우리 부부 돈 궁합 테스트",
+      "format": "reader quiz(data-cx-w=quiz), free, 6-8 Q, 4-6 result types",
+      "why_hook": "self-discovery+couple+share triple hook; top-of-funnel magnet; result routes to kits/columns(funnel); hits beginner-3q WOW",
+      "spec": "axes=spend/save/invest; result card=type+one-line coaching+2kits/2columns deeplink+share image(logo+couple names); hub 'seed' entry node; hardcoded text no market data",
+      "files": [
+        "contents/quiz/money-match.html"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "빚부터 갚을까, 모으면서 갚을까",
+      "format": "interactive column + slider/compare",
+      "why_hook": "debt topic ABSENT in 12(real gap); newlywed/home-buying reality(jeonse/mortgage); 'payoff vs grow' dilemma high search/empathy; strengthens keep zone",
+      "spec": "slider=rate/balance/surplus -> payoff-first vs parallel total-interest/net-worth compare cards; coaching lead(beginner 3q); link finincome/savingrule; free full-open magnet",
+      "files": [
+        "contents/columns/bookcol-13.html"
+      ]
+    }
+  ],
+  "build_order": [
+    {
+      "phase": "P0",
+      "name": "tokens+router(prereq, blocks all)",
+      "files": [
+        "imweb_cdn/contents-columns__BODY.html",
+        "imweb_cdn/contents-kits__BODY.html",
+        "imweb_cdn/contents-hub__BODY.html",
+        "contents/tools/*.html"
+      ],
+      "tasks": [
+        "inject --cx-* tokens(single source)",
+        "implement CXW router+7 widgets+inline hooks+calc registry"
+      ]
+    },
+    {
+      "phase": "P1",
+      "name": "reader/columns unify",
+      "depends_on": [
+        "P0"
+      ],
+      "files": [
+        "contents/columns/bookcol-01..12.html",
+        "imweb_cdn/contents-columns__BODY.html"
+      ],
+      "tasks": [
+        "old->new markup migration(04/07/12..)",
+        "insert data-cx-w per D-rx",
+        "cold-open advanced 4",
+        "premium teaser widget+C0",
+        "add .cxw-* styles"
+      ]
+    },
+    {
+      "phase": "P2",
+      "name": "hub bloom renewal(largest)",
+      "depends_on": [
+        "P0"
+      ],
+      "files": [
+        "imweb_cdn/contents-hub__BODY.html"
+      ],
+      "tasks": [
+        "node render -> bloom system(zone->stage,type->motif,cxPetal)",
+        "stem growth+hover bloom+season bands+particles",
+        "hero copy A + legend align",
+        "localStorage bloom persistence",
+        "mobile viewBox+reduced-motion"
+      ]
+    },
+    {
+      "phase": "P3",
+      "name": "kit view",
+      "depends_on": [
+        "P0"
+      ],
+      "files": [
+        "imweb_cdn/contents-kits__BODY.html"
+      ],
+      "tasks": [
+        "stem step mini-map(cxPetal)",
+        "step CXW widgets",
+        "cxKitProgress momentum+bloom card",
+        "kx-soon F1 cleanup"
+      ]
+    },
+    {
+      "phase": "P4",
+      "name": "tools",
+      "depends_on": [
+        "P0"
+      ],
+      "files": [
+        "contents/tools/booktool-flexcost.html",
+        "contents/tools/booktool-portfolio.html",
+        "contents/tools/booktool-taxaccount.html",
+        "contents/tools/booktool-valuation.html",
+        "contents/tools/booktool-mandala.html",
+        "contents/tools/booktool-savingrule.html",
+        "contents/tools/booktool-finincome.html"
+      ],
+      "tasks": [
+        "build 4 missing(F spec)",
+        "unify CXW.calc+tokens+share card"
+      ]
+    },
+    {
+      "phase": "P5",
+      "name": "new content x2",
+      "depends_on": [
+        "P0"
+      ],
+      "files": [
+        "contents/quiz/money-match.html",
+        "contents/columns/bookcol-13.html"
+      ],
+      "tasks": [
+        "build quiz + debt column, wire widgets"
+      ]
+    },
+    {
+      "phase": "P6",
+      "name": "index+snapshot sync(atomic, last)",
+      "depends_on": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "files": [
+        "contents/contents_index.json",
+        "imweb_cdn/contents-hub__BODY.html(jmSnap)",
+        "imweb_cdn/contents-columns__BODY.html(cxSnap)"
+      ],
+      "tasks": [
+        "add 2 new + zone/stage meta, bump count",
+        "regen jmSnap/cxSnap from index",
+        "gate verify + live smoke(node links/widget mount/bloom render)"
+      ]
+    }
+  ]
+}

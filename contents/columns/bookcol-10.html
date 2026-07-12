@@ -1,45 +1,55 @@
-<style>
-/* bookcol-10 · cx- namespace · CSS-only, no script · 프리미엄 도입(게이트) */
-.cx-doc{--cx-ink:#2b2124;--cx-rose:#b33a4c;--cx-mut:#8a7a7e;--cx-soft:#f6e7ea;color:var(--cx-ink);line-height:1.78;font-size:1.02rem;word-break:keep-all}
-.cx-doc .cx-sc{margin:1.4em 0}
-.cx-doc p{margin:.5em 0}
-.cx-doc .cx-quote{margin:.1em 0 1em;padding:.15em 0 .2em .85em;border-left:3px solid var(--cx-rose);font-size:1.2rem;line-height:1.55;color:#3f3033;font-weight:600}
-.cx-doc .cx-hl{background:linear-gradient(transparent 58%,#fbdde3 58%);padding:0 .05em;font-weight:600}
-.cx-doc .cx-term{border-bottom:1px dashed #d6a9b1;cursor:help;position:relative;white-space:nowrap}
-.cx-doc .cx-term:hover::after,.cx-doc .cx-term:focus::after{content:attr(data-tip);position:absolute;left:0;top:1.75em;z-index:6;width:min(20rem,76vw);background:#2b2124;color:#fff;font-size:.82rem;font-weight:400;line-height:1.55;white-space:normal;padding:.7em .85em;border-radius:.6em;box-shadow:0 .5em 1.4em rgba(60,20,30,.24)}
-.cx-doc .cx-fig{margin:1.5em 0 .3em;padding:1.15em 1.2em 1.3em;background:var(--cx-soft);border-radius:.9em}
-.cx-doc .cx-fig-t{font-weight:700;font-size:1rem;margin-bottom:.15em}
-.cx-doc .cx-fig-s{font-size:.82rem;color:var(--cx-mut);margin-bottom:.95em}
-.cx-doc .cx-bar{display:grid;grid-template-columns:6.2em 1fr auto;align-items:center;gap:.6em;margin:.5em 0}
-.cx-doc .cx-bar-l{font-size:.85rem;color:#6b585c;text-align:right}
-.cx-doc .cx-bar-track{background:#fff;border-radius:.5em;height:1.55em;overflow:hidden;box-shadow:inset 0 0 0 1px #f0d3d9}
-.cx-doc .cx-bar-fill{display:block;height:100%;background:linear-gradient(90deg,#e58997,#b33a4c);border-radius:.5em}
-.cx-doc .cx-bar-v{font-size:.85rem;font-weight:700;color:var(--cx-rose);font-variant-numeric:tabular-nums}
-.cx-doc .cx-note{font-size:.82rem;color:var(--cx-mut);margin-top:.95em;line-height:1.6}
-@media(max-width:560px){.cx-doc .cx-bar{grid-template-columns:5.2em 1fr auto}}
-</style>
-<article class="cx-doc">
-  <p class="cx-quote">"이거 만 원인데, 싼 거야 비싼 거야?"</p>
-  <section class="cx-sc">
-    <p>주식 가격표를 보다 보면, 이런 질문에 늘 막히시죠.</p>
-    <p>만 원짜리는 싸고, 이십만 원짜리는 비싼 걸까요.</p>
-  </section>
-  <section class="cx-sc">
-    <p>사실 가격표의 숫자만으로는, 싼지 비싼지 절대 알 수 없어요.</p>
-    <p>&lsquo;싸다&rsquo;는 건 절대 금액이 아니라, 비교에서 태어나는 감각이거든요.</p>
-  </section>
-  <section class="cx-sc">
-    <p>그 비교의 잣대가 <span class="cx-term" tabindex="0" data-tip="주가수익비율. 지금 주가가 그 회사가 한 해 버는 이익의 몇 배에 팔리는지 보는 지표예요. 같은 업종이면 낮을수록 이익 대비 싸요.">PER</span>, <span class="cx-term" tabindex="0" data-tip="주가순자산비율. 주가가 회사가 가진 순자산의 몇 배인지 보는 지표예요. 1보다 낮으면 가진 것보다 싸게 팔린다는 뜻이에요.">PBR</span> 같은 지표예요.</p>
-    <p>옆집, 그러니까 같은 업종 회사와 나란히 놓고 봐야 비로소 보이고요.</p>
-    <p>그 잣대를 읽는 기본 체력을, 오늘 함께 길러볼게요.</p>
-  </section>
-  <div class="cx-fig" role="img" aria-label="같은 업종 세 회사의 PER을 비교한 막대그래프. 가 회사가 가장 낮아요.">
-    <div class="cx-fig-t">같은 업종, 세 회사의 PER</div>
-    <div class="cx-fig-s">혼자선 모르고, 나란히 둬야 보이는 &lsquo;싸다&rsquo;의 예시예요</div>
-    <div class="cx-bar"><span class="cx-bar-l">가 회사</span><span class="cx-bar-track"><span class="cx-bar-fill" style="width:27%"></span></span><span class="cx-bar-v">8배</span></div>
-    <div class="cx-bar"><span class="cx-bar-l">나 회사</span><span class="cx-bar-track"><span class="cx-bar-fill" style="width:50%"></span></span><span class="cx-bar-v">15배</span></div>
-    <div class="cx-bar"><span class="cx-bar-l">다 회사</span><span class="cx-bar-track"><span class="cx-bar-fill" style="width:100%"></span></span><span class="cx-bar-v">30배</span></div>
-    <div class="cx-note">가 회사가 가장 싸 보이죠. 다만 낮은 데는 이유가 있을 수 있어, 본문에서 함께 봐요.</div>
+<!-- bookcol-10 · 프리미엄 · 도입 공개(게이트) · 책 PART2-사 · 가치평가 첫걸음 · 콜드오픈 재작성 · CXW: quiz(정답)+compare(지표) -->
+<section class="cx-sc" data-cx-sc>
+  <p class="cx-rd-lead">“이거 만 원인데, 싼 거야 비싼 거야?” — 주식 가격표를 보다 늘 막히는 질문이죠.</p>
+  <p class="cx-rd-p">종목 하나 골라보고 싶은데, 어디서부터 봐야 할지 막막하시죠.</p>
+  <p class="cx-rd-p">만 원짜리는 싸고, 이십만 원짜리는 비싼 걸까요.</p>
+  <p class="cx-rd-p">걱정마세요. 저울 하나만 있으면, ‘싸다’는 감각이 눈에 보이기 시작해요.</p>
+</section>
+
+<section class="cx-sc" data-cx-sc>
+  <h2 class="cx-rd-h2">가격표 말고,<br>저울에 올려봐요</h2>
+  <p class="cx-rd-p">‘싸다’는 절대 금액이 아니라, 비교에서 태어나는 감각이에요.</p>
+  <p class="cx-rd-p">가격을 그 회사가 버는 이익이나 가진 재산과 견줘봐야 비로소 보이거든요.</p>
+  <p class="cx-rd-p">그 저울의 눈금이 <span class="cx-term" data-tip="주가수익비율. 지금 주가가 그 회사가 한 해 버는 이익의 몇 배에 팔리는지 보는 지표예요. 같은 업종이면 낮을수록 이익 대비 싸요.">PER</span>, <span class="cx-term" data-tip="주가순자산비율. 주가가 회사가 가진 순자산의 몇 배인지 보는 지표예요. 1보다 낮으면 가진 것보다 싸게 팔린다는 뜻이에요.">PBR</span> 같은 지표예요.</p>
+</section>
+
+<section class="cx-sc" data-cx-sc>
+  <h2 class="cx-rd-h2">가볍게<br>맞혀볼까요</h2>
+  <p class="cx-rd-p">저울에 올리면 이렇게 보여요. 같은 업종의 두 회사 중 골라봐요.</p>
+  <div class="cxw cxw-quiz" data-cx-w="quiz">
+    <div class="cxw-q" data-q>
+      <div class="cxw-q-txt">같은 업종의 두 회사예요. 이익 대비 더 ‘싸’ 보이는 쪽은?</div>
+      <div class="cxw-opts">
+        <button type="button" class="cxw-opt" data-opt data-correct>가 회사 · PER 8배</button>
+        <button type="button" class="cxw-opt" data-opt>나 회사 · PER 25배</button>
+      </div>
+      <div class="cxw-fb" data-feedback data-ok="맞아요! PER이 낮을수록 이익 대비 싸게 팔리는 셈이에요. 8배가 25배보다 싸죠." data-no="같은 이익이라면 PER이 낮은 쪽이 싸요. 8배인 가 회사가 이익 대비 더 저렴해요."></div>
+    </div>
   </div>
-</article>
+</section>
+
+<section class="cx-sc" data-cx-sc>
+  <h2 class="cx-rd-h2">세 눈금을<br>나란히 놓고 봐요</h2>
+  <p class="cx-rd-p">지표 하나만 보면 착시가 생겨요. 세 눈금을 나란히 두면 그림이 또렷해져요.</p>
+  <div class="cxw cxw-compare" data-cx-w="compare">
+    <div class="cxw-cmp-tabs" role="group" aria-label="지표 선택">
+      <button class="cxw-cmp-tab" data-cmp="per" aria-selected="true">PER</button>
+      <button class="cxw-cmp-tab" data-cmp="pbr" aria-selected="false">PBR</button>
+      <button class="cxw-cmp-tab" data-cmp="roe" aria-selected="false">ROE</button>
+    </div>
+    <div class="cxw-cmp-grid">
+      <div class="cxw-cmp-card" data-side="a" data-tone="grow" data-vals='{"per":{"num":"8배","sub":"이익 대비 싸 보여요"},"pbr":{"num":"0.9배","sub":"가진 것보다 싸요"},"roe":{"num":"14%","sub":"돈을 잘 벌어요"}}'>
+        <div class="cxw-cmp-kind">가 회사</div>
+        <div class="cxw-cmp-num" data-out>8배</div>
+        <div class="cxw-cmp-sub" data-sub>이익 대비 싸 보여요</div>
+      </div>
+      <div class="cxw-cmp-card" data-side="b" data-tone="rose" data-vals='{"per":{"num":"25배","sub":"이익 대비 비싸요"},"pbr":{"num":"3.2배","sub":"자산보다 훨씬 비싸요"},"roe":{"num":"7%","sub":"수익성은 평범해요"}}'>
+        <div class="cxw-cmp-kind">나 회사</div>
+        <div class="cxw-cmp-num" data-out>25배</div>
+        <div class="cxw-cmp-sub" data-sub>이익 대비 비싸요</div>
+      </div>
+    </div>
+  </div>
+  <p class="cxw-note">가 회사가 싸 보이죠. 다만 <span class="cx-term" data-tip="자기자본이익률. 회사가 가진 돈으로 한 해 얼마를 벌었는지 보는 지표예요. 높을수록 돈을 잘 굴린다는 뜻이에요.">ROE</span>까지 봐야, 싼 데는 이유가 있는지 가려낼 수 있어요.</p>
+</section>
 <!--PREMIUM_GATE-->
