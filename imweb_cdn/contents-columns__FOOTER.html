@@ -18,7 +18,7 @@
  var PREMIUM_URL='/premium';
  var KIT_PAGE='/contents-kits';
  var TOOL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/tools/';
- var TOOL_FRAGS={'booktool-mandala':1,'booktool-savingrule':1,'booktool-finincome':1,'booktool-flexcost':1,'booktool-portfolio':1,'booktool-taxaccount':1,'booktool-valuation':1};
+ var TOOL_FRAGS={'booktool-mandala':1,'booktool-savingrule':1,'booktool-finincome':1,'booktool-flexcost':1,'booktool-portfolio':1,'booktool-taxaccount':1,'booktool-valuation':1,'booktool-couplecheck':1};
  var TYPES=["column","tool"];
  var ST={q:'',f:'all',s:'new'},DATA=[],ALL=[],_route='';
 
@@ -445,7 +445,7 @@
  function drawCellText(x,t,cx,cy,w,h,color,bold){t=(t||'').replace(/\s+/g,' ').replace(/^ | $/g,'');if(!t)return;x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';for(var fs=14;fs>=9;fs--){x.font=(bold?'800 ':'600 ')+fs+'px Pretendard,sans-serif';var lines=wrapK(x,t,w);var lh=fs+3;var maxLines=Math.max(1,Math.floor(h/lh));if(lines.length<=maxLines||fs===9){if(lines.length>maxLines){lines=lines.slice(0,maxLines);var L=lines[maxLines-1];lines[maxLines-1]=L.replace(/.$/,'…');}var y0=cy-(lines.length-1)*lh/2;for(var i=0;i<lines.length;i++)x.fillText(lines[i],cx,y0+i*lh);return;}}}
  function drawLogo(x,X,Y,s){x.save();x.translate(X,Y);var u=s/24;x.fillStyle='#B33A4C';x.beginPath();x.moveTo(2*u,10.2*u);x.lineTo(11.05*u,3.3*u);x.quadraticCurveTo(12*u,2.7*u,12.95*u,3.3*u);x.lineTo(22*u,10.2*u);x.quadraticCurveTo(22*u,11*u,21*u,11*u);x.lineTo(21*u,20*u);x.quadraticCurveTo(21*u,21.4*u,19.6*u,21.4*u);x.lineTo(4.4*u,21.4*u);x.quadraticCurveTo(3*u,21.4*u,3*u,20*u);x.lineTo(3*u,11*u);x.quadraticCurveTo(2*u,11*u,2*u,10.2*u);x.closePath();x.fill();x.fillStyle='#F7E6E2';x.beginPath();x.moveTo(9.9*u,21.4*u);x.lineTo(9.9*u,16.3*u);x.arc(12*u,16.3*u,2.1*u,Math.PI,0,false);x.lineTo(14.1*u,21.4*u);x.closePath();x.fill();x.fillStyle='#C9A84C';var hx=16.4*u,hy=6.0*u,hs=2.3*u;x.beginPath();x.moveTo(hx,hy+hs*0.30);x.bezierCurveTo(hx,hy,hx-hs*0.55,hy-hs*0.10,hx-hs*0.55,hy+hs*0.20);x.bezierCurveTo(hx-hs*0.55,hy+hs*0.52,hx,hy+hs*0.74,hx,hy+hs*0.92);x.bezierCurveTo(hx,hy+hs*0.74,hx+hs*0.55,hy+hs*0.52,hx+hs*0.55,hy+hs*0.20);x.bezierCurveTo(hx+hs*0.55,hy-hs*0.10,hx,hy,hx,hy+hs*0.30);x.closePath();x.fill();x.restore();}
  function cellInfo(st,bi,p){var isC=(bi===4);if(isC){if(p===4)return {t:st.center,bg:'#B33A4C',c:'#fff',b:true};var k=POS2K[p];return {t:st.areas[k].title,bg:'#F6D9DF',c:'#7C243B',b:true};}var area=POS2K[bi];if(p===4)return {t:st.areas[area].title,bg:'#FCEEF1',c:'#B33A4C',b:true};var j=POS2K[p];return {t:st.areas[area].cells[j],bg:'#FFFFFF',c:'#57453D',b:false};}
- function download(cvs){var name='우리부부-목표만다라트.png';function trig(url,rev){var a=d.createElement('a');a.href=url;a.download=name;d.body.appendChild(a);a.click();setTimeout(function(){try{d.body.removeChild(a);}catch(_e){}if(rev)try{URL.revokeObjectURL(url);}catch(_r){}},1400);}try{if(cvs.toBlob){cvs.toBlob(function(b){if(b&&window.URL&&URL.createObjectURL){trig(URL.createObjectURL(b),true);}else{trig(cvs.toDataURL('image/png'),false);}},'image/png');}else{trig(cvs.toDataURL('image/png'),false);}}catch(e){try{trig(cvs.toDataURL('image/png'),false);}catch(_x){}}}
+ function download(cvs,nm){var name=nm||'우리부부-목표만다라트.png';function trig(url,rev){var a=d.createElement('a');a.href=url;a.download=name;d.body.appendChild(a);a.click();setTimeout(function(){try{d.body.removeChild(a);}catch(_e){}if(rev)try{URL.revokeObjectURL(url);}catch(_r){}},1400);}try{if(cvs.toBlob){cvs.toBlob(function(b){if(b&&window.URL&&URL.createObjectURL){trig(URL.createObjectURL(b),true);}else{trig(cvs.toDataURL('image/png'),false);}},'image/png');}else{trig(cvs.toDataURL('image/png'),false);}}catch(e){try{trig(cvs.toDataURL('image/png'),false);}catch(_x){}}}
  function exportMandala(st){
   var CELL=104,TGAP=2,BGAP=8,PAD=44,HEAD=196,FOOT=60;
   var block=3*CELL+2*TGAP;var board=3*block+2*BGAP;var Wd=board+PAD*2;var Ht=HEAD+board+FOOT;
@@ -601,7 +601,74 @@
  function x7SetSeg(root,st){var grp=root.querySelector('[data-tx7-seg="growth"]');if(grp)[].slice.call(grp.querySelectorAll('.tx7-sgb')).forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-v')===st.growth?'true':'false');});['per','ind'].forEach(function(k){var rg=root.querySelector('[data-tx7-range="'+k+'"]'),nm=root.querySelector('[data-tx7="'+k+'"]'),L=X7LIM[k];if(rg)rg.value=st[k];if(nm)nm.value=st[k];setP(rg,L[0],L[1],st[k]);});}
  function wireVal(root){if(!root||root.__tx7)return;root.__tx7=1;var st=x7Load();['per','ind'].forEach(function(k){var rg=root.querySelector('[data-tx7-range="'+k+'"]'),nm=root.querySelector('[data-tx7="'+k+'"]'),L=X7LIM[k];if(rg)rg.addEventListener('input',function(){var v=x7Clamp(k,rg.value);st[k]=v;if(nm)nm.value=v;setP(rg,L[0],L[1],v);x7Save(st);x7Render(root,st);});if(nm){nm.addEventListener('input',function(){var v=parseFloat(nm.value);if(isNaN(v))return;v=x7Clamp(k,v);st[k]=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);x7Save(st);x7Render(root,st);});nm.addEventListener('change',function(){var v=x7Clamp(k,nm.value);st[k]=v;nm.value=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);x7Save(st);x7Render(root,st);});}});root.addEventListener('click',function(e){var sg=e.target.closest?e.target.closest('.tx7-sgb'):null;if(sg){st.growth=sg.getAttribute('data-v');x7SetSeg(root,st);x7Save(st);x7Render(root,st);return;}var tp=e.target.closest?e.target.closest('[data-tx7-trap]'):null;if(tp){var i=parseInt(tp.getAttribute('data-tx7-trap'),10);st.traps[i]=st.traps[i]?0:1;x7Save(st);x7Render(root,st);return;}var rs=e.target.closest?e.target.closest('[data-tx7-act="reset"]'):null;if(rs){st={per:X7DEF.per,ind:X7DEF.ind,growth:X7DEF.growth,traps:[0,0,0]};try{localStorage.removeItem(X7KEY);}catch(_e){}x7SetSeg(root,st);x7Save(st);x7Render(root,st);}});x7SetSeg(root,st);x7Render(root,st);}
 
- function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);else if(slug==='booktool-flexcost')wireFlex(el);else if(slug==='booktool-portfolio')wirePort(el);else if(slug==='booktool-taxaccount')wireTax(el);else if(slug==='booktool-valuation')wireVal(el);}
+
+ /* --- 부부 돈 궁합 테스트(couplecheck tx8) · 무료·퍼널 자석 · 계획성P×대화개방성O 2축 --- */
+ var X8KEY='bbl_tool_couplecheck_v1';
+ var X8T={
+  HH:{e:'🏛️',n:'신중한 건축가 부부',d:'설계도를 함께 그리고, 그 위에 하나씩 쌓아 올리는 두 분이에요.',s:['계획도 대화도 탄탄해, 큰 결정 앞에서 잘 흔들리지 않아요.','같은 그림을 보고 있어, 돈이 한 방향으로 모여요.'],w:'설계가 촘촘한 만큼, 가끔은 계획에 없던 작은 즐거움도 서로 허락해 주세요.',L:[['#booktool-mandala','🗺️','목표 만다라트로 큰 그림 그리기'],['/contents-kits#moneytalk','💬','돈 대화 키트로 이어가기']]},
+  HL:{e:'🌾',n:'든든한 농부 부부',d:'말수가 많지 않아도, 각자 묵묵히 제 몫을 일구는 성실한 두 분이에요.',s:['계획이 몸에 배어 있어, 예상 못 한 일에도 잘 버텨요.','요란하지 않아도, 그 꾸준함이 가장 큰 자산이에요.'],w:'가끔은 통장 이야기를 소리 내어 나눠보세요. 서로의 노력이 더 잘 보여요.',L:[['#booktool-savingrule','🏷️','우리 집 적금 규칙 만들기'],['/contents-kits#moneytalk','💬','돈 대화 키트로 마음 열기']]},
+  LH:{e:'🧭',n:'설레는 탐험가 부부',d:'정해두기보다, 함께 새로운 길을 떠나며 이야기 나누길 좋아하는 두 분이에요.',s:['대화가 활발해, 서로의 마음을 놓치지 않아요.','유연해서, 기회가 오면 가볍게 함께 움직여요.'],w:'설렘에 작은 계획 하나만 더해보세요. 비상금 한 칸이면 마음이 한결 가벼워요.',L:[['#bookcol-12','💸','월급 밖 물길 트는 법 읽기'],['/contents-kits#moneytalk','💬','돈 대화 키트로 이어가기']]},
+  LL:{e:'🌱',n:'따뜻한 정원사 부부',d:'서두르지 않고, 서로의 속도를 존중하며 천천히 함께 키워가는 두 분이에요.',s:['서로를 재촉하지 않아, 돈 이야기가 편안해요.','작은 변화도 자연스럽게 받아들여, 오래 이어가요.'],w:'한 달에 한 번, 짧게라도 돈 이야기 시간을 정해두면 새싹이 더 빨리 자라요.',L:[['#bookcol-13','⚖️','빚부터 갚을까, 저축부터 할까'],['/contents-kits#moneytalk','💬','돈 대화 키트 시작하기']]}
+ };
+ function x8Load(){var a=[null,null,null,null,null,null,null,null,null,null];try{var r=localStorage.getItem(X8KEY);if(r){var j=JSON.parse(r);if(j&&j.length===10)for(var i=0;i<10;i++){a[i]=(j[i]===0||j[i]===1)?j[i]:null;}}}catch(e){}return a;}
+ function x8Save(a){try{localStorage.setItem(X8KEY,JSON.stringify(a));}catch(e){}}
+ function x8Score(root,a){var P=0,O=0,qs=[].slice.call(root.querySelectorAll('[data-tx8-q]'));qs.forEach(function(q){var idx=parseInt(q.getAttribute('data-tx8-q'),10);if(a[idx]!==1)return;if(q.getAttribute('data-ax')==='p')P++;else O++;});return {P:P,O:O};}
+ function x8Key(sc){return (sc.P>=3?'H':'L')+(sc.O>=3?'H':'L');}
+ function x8Temp(sc){return (36.5+(sc.P+sc.O)/10*2);}
+ function x8Msg(t){return t>=38.1?'서로에게 아주 뜨겁게 잘 통하는 사이예요.':(t>=37.5?'이미 따뜻하게, 잘 통하고 있어요.':(t>=36.9?'은은하게 데워지는 중인, 다정한 사이예요.':'이제 막 데우기 시작한, 가능성 가득한 사이예요.'));}
+ function x8Prog(root,a){var n=0;for(var i=0;i<10;i++)if(a[i]!==null)n++;var c=root.querySelector('[data-tx8-count]'),f=root.querySelector('[data-tx8-fill]');if(c)c.textContent=n;if(f)f.style.width=(n/10*100)+'%';return n;}
+ function x8Render(root,a){var box=root.querySelector('#tx8Out');if(!box)return;var sc=x8Score(root,a),k=x8Key(sc),T=X8T[k],t=x8Temp(sc),tot=sc.P+sc.O;
+  var str=T.s.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var links=T.L.map(function(o){return '<a class="tx8-link" href="'+o[0]+'"><span aria-hidden="true">'+o[1]+'</span>'+o[2]+'<i aria-hidden="true">→</i></a>';}).join('');
+  box.innerHTML='<div class="tx8-res"><div class="tx8-rcard" data-tx8-name="'+esc(T.n)+'"><div class="tx8-remoji" aria-hidden="true">'+T.e+'</div><div class="tx8-rname">'+T.n+'</div><div class="tx8-rdef">'+T.d+'</div></div>'
+   +'<div class="tx8-temp"><div class="tx8-tlab">우리 부부 머니 대화 온도<b>'+t.toFixed(1)+'°C</b></div><div class="tx8-gauge"><span class="tx8-gknob" style="left:'+(tot/10*100).toFixed(0)+'%"></span></div><div class="tx8-tmsg">'+x8Msg(t)+'</div></div>'
+   +'<div class="tx8-axes"><div class="tx8-ax"><div class="tx8-axh"><span>계획성</span><b>'+sc.P+'/5</b></div><div class="tx8-axtr"><i style="width:'+(sc.P/5*100).toFixed(0)+'%"></i></div></div><div class="tx8-ax"><div class="tx8-axh"><span>대화 개방성</span><b>'+sc.O+'/5</b></div><div class="tx8-axtr"><i style="width:'+(sc.O/5*100).toFixed(0)+'%"></i></div></div></div>'
+   +'<div class="tx8-block"><div class="tx8-blab">이런 점이 강점이에요</div><ul class="tx8-str">'+str+'</ul></div>'
+   +'<div class="tx8-block tx8-warn"><div class="tx8-blab">살짝 마음 써볼 점</div><p><span aria-hidden="true">🌷</span>'+T.w+'</p></div>'
+   +'<div class="tx8-block"><div class="tx8-blab">오늘, 함께 뗄 첫걸음</div><div class="tx8-steps2">'+links+'</div></div>'
+   +'<div class="tx8-cta"><button type="button" class="tx8-btn" data-tx8-act="save-img">결과 카드 저장</button><button type="button" class="tx8-reset" data-tx8-act="redo">배우자와 함께 다시 하기</button></div>'
+   +'<p class="tx8-together">이 결과를 배우자에게도 같은 질문으로 건네보세요. 두 사람의 답을 나란히 놓는 그 순간이, 진짜 대화의 시작이에요 :)</p></div>';
+ }
+ function x8Reset(root,a){for(var i=0;i<10;i++)a[i]=null;try{localStorage.removeItem(X8KEY);}catch(e){}[].slice.call(root.querySelectorAll('.tx8-opt.on')).forEach(function(o){o.classList.remove('on');});[].slice.call(root.querySelectorAll('.tx8-q.done')).forEach(function(q){q.classList.remove('done');});x8Prog(root,a);var box=root.querySelector('#tx8Out');if(box)box.innerHTML='<div class="tx8-load">열 개 질문에 모두 답하면, 우리 부부의 돈 궁합 유형이 여기에 나와요 :)</div>';}
+ function x8Restore(root,a){[].slice.call(root.querySelectorAll('[data-tx8-q]')).forEach(function(q){var idx=parseInt(q.getAttribute('data-tx8-q'),10),v=a[idx];if(v===null)return;[].slice.call(q.querySelectorAll('.tx8-opt')).forEach(function(o){if(parseInt(o.getAttribute('data-v'),10)===v)o.classList.add('on');});q.classList.add('done');});var n=x8Prog(root,a);if(n===10)x8Render(root,a);}
+ function exportCouple(root){
+  var card=root.querySelector('.tx8-rcard');if(!card)return;
+  var nm=card.getAttribute('data-tx8-name')||'우리 부부';
+  var emEl=card.querySelector('.tx8-remoji'),em=emEl?emEl.textContent:'';
+  var defEl=card.querySelector('.tx8-rdef'),def=defEl?defEl.textContent:'';
+  var tEl=root.querySelector('.tx8-tlab b'),temp=tEl?tEl.textContent:'';
+  var axb=[].slice.call(root.querySelectorAll('.tx8-axh b')).map(function(x){return x.textContent;});
+  var Wd=600,Ht=560,PAD=44,HEAD=150,scale=2;
+  var cvs=d.createElement('canvas');cvs.width=Wd*scale;cvs.height=Ht*scale;var x=cvs.getContext('2d');if(!x)return;x.scale(scale,scale);
+  x.fillStyle='#FDFBF7';x.fillRect(0,0,Wd,Ht);
+  var g=x.createLinearGradient(0,0,0,HEAD);g.addColorStop(0,'#FCE7E2');g.addColorStop(1,'#FDFBF7');x.fillStyle=g;x.fillRect(0,0,Wd,HEAD);
+  rr(x,14,14,Wd-28,Ht-28,26);x.lineWidth=2;x.strokeStyle='#E4C8C2';x.stroke();
+  drawLogo(x,PAD,38,44);
+  x.textAlign='left';x.textBaseline='alphabetic';x.fillStyle='#2C201B';x.font='800 26px Pretendard,sans-serif';x.fillText('부부 돈 궁합 테스트',PAD+60,60);
+  x.fillStyle='#B33A4C';x.font='700 14px Pretendard,sans-serif';x.fillText('우리 두 사람의 결과',PAD+60,84);
+  x.textAlign='center';
+  x.font='72px Pretendard,"Apple Color Emoji","Segoe UI Emoji",sans-serif';x.fillText(em,Wd/2,HEAD+80);
+  x.fillStyle='#7C243B';x.font='900 32px Pretendard,sans-serif';x.fillText(nm,Wd/2,HEAD+132);
+  x.fillStyle='#57453D';x.font='600 15px Pretendard,sans-serif';var dl=wrapK(x,def,Wd-140);var dy=HEAD+166;for(var i=0;i<dl.length;i++)x.fillText(dl[i],Wd/2,dy+i*23);
+  var oy=dy+dl.length*23+22;
+  x.fillStyle='#2C201B';x.font='800 15px Pretendard,sans-serif';x.fillText('머니 대화 온도  '+temp,Wd/2,oy);
+  var gx=PAD+22,gw=Wd-2*(PAD+22),gy=oy+16;
+  var gg=x.createLinearGradient(gx,0,gx+gw,0);gg.addColorStop(0,'#B9CFC7');gg.addColorStop(.55,'#C9A84C');gg.addColorStop(1,'#B33A4C');
+  rr(x,gx,gy,gw,12,6);x.fillStyle=gg;x.fill();
+  x.fillStyle='#57453D';x.font='700 14px Pretendard,sans-serif';x.fillText('계획성 '+(axb[0]||'')+'    ·    대화 개방성 '+(axb[1]||''),Wd/2,gy+44);
+  x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#877468';x.font='600 13px Pretendard,sans-serif';x.fillText('부부연구소 · 배우자에게도 같은 질문을 건네보세요 :)',Wd/2,Ht-30);
+  download(cvs,'우리부부-돈궁합.png');
+ }
+ function wireCouple(root){if(!root||root.__tx8)return;root.__tx8=1;var a=x8Load();
+  root.addEventListener('click',function(e){
+   var opt=e.target.closest?e.target.closest('.tx8-opt'):null;
+   if(opt){var q=opt.closest('[data-tx8-q]');if(!q)return;var idx=parseInt(q.getAttribute('data-tx8-q'),10),v=parseInt(opt.getAttribute('data-v'),10);a[idx]=v;[].slice.call(q.querySelectorAll('.tx8-opt')).forEach(function(o){o.classList.remove('on');});opt.classList.add('on');q.classList.add('done');x8Save(a);var n=x8Prog(root,a);if(n===10){x8Render(root,a);var out=root.querySelector('#tx8Out');if(out&&out.scrollIntoView){try{out.scrollIntoView({behavior:'smooth',block:'start'});}catch(_s){}}}return;}
+   var act=e.target.closest?e.target.closest('[data-tx8-act]'):null;
+   if(act){var kk=act.getAttribute('data-tx8-act');if(kk==='reset'||kk==='redo'){x8Reset(root,a);if(kk==='redo'){var qs0=root.querySelector('#tx8Qs');if(qs0&&qs0.scrollIntoView){try{qs0.scrollIntoView({behavior:'smooth',block:'start'});}catch(_r){}}}}else if(kk==='save-img'){exportCouple(root);}return;}
+  });
+  x8Restore(root,a);
+ }
+ function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);else if(slug==='booktool-flexcost')wireFlex(el);else if(slug==='booktool-portfolio')wirePort(el);else if(slug==='booktool-taxaccount')wireTax(el);else if(slug==='booktool-valuation')wireVal(el);else if(slug==='booktool-couplecheck')wireCouple(el);}
 
  /* ================= 라우터 ================= */
  function parseHash(){var h=(location.hash||'').replace(/^#/,'').trim();return h?{mode:'reader',slug:h}:{mode:'explore'};}

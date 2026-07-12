@@ -1,0 +1,116 @@
+<!-- booktool-couplecheck · 부부 돈 궁합 테스트 · 10문항 2지선다(계획성×대화 개방성 2축)→4유형 결과 카드·궁합 온도 게이지·결과 이미지 저장(B1 로고 캔버스)·배우자와 다시하기 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireCouple) · tx8 네임스페이스 · 전체 공개(무료·퍼널 자석) · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx8-app{--tx8-bg:#FDFBF7;--tx8-paper:#FFF;--tx8-ink:#2C201B;--tx8-ink2:#57453D;--tx8-mut:#877468;--tx8-rose:#B33A4C;--tx8-deep:#7C243B;--tx8-gold:#C9A84C;--tx8-sage:#5E8C7F;--tx8-soft:#FCEEF1;--tx8-soft2:#F8E3E7;--tx8-border:#ECDAD5;--tx8-bstrong:#E4C8C2;--tx8-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx8-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx8-app *{box-sizing:border-box}
+.tx8-head{text-align:center;margin-bottom:clamp(16px,2.6vw,24px)}
+.tx8-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx8-rose),var(--tx8-deep));border-radius:999px;padding:6px 14px}
+.tx8-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx8-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx8-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:600px}
+.tx8-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx8-main{min-width:0}
+.tx8-prog{position:sticky;top:64px;z-index:3;background:var(--tx8-bg);border:1px solid var(--tx8-border);border-radius:14px;padding:11px 14px;margin-bottom:15px;box-shadow:var(--tx8-sh)}
+.tx8-prow{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--tx8-ink2);margin-bottom:8px}
+.tx8-prow b{color:var(--tx8-deep);font-variant-numeric:tabular-nums}
+.tx8-ptr{height:9px;border-radius:999px;background:var(--tx8-soft2);overflow:hidden}
+.tx8-ptr i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--tx8-rose),var(--tx8-deep));transition:width .35s ease}
+.tx8-qs{display:grid;gap:12px}
+.tx8-q{border:1px solid var(--tx8-border);border-radius:16px;background:var(--tx8-paper);padding:clamp(14px,2.1vw,18px);box-shadow:var(--tx8-sh)}
+.tx8-q.done{border-color:var(--tx8-bstrong)}
+.tx8-qh{display:flex;gap:9px;align-items:baseline;margin-bottom:12px}
+.tx8-qnum{flex:none;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--tx8-rose),var(--tx8-deep));border-radius:999px;padding:3px 9px;letter-spacing:.03em}
+.tx8-qt{font-size:14.5px;font-weight:800;color:var(--tx8-ink);line-height:1.5}
+.tx8-opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tx8-opt{text-align:left;border:1px solid var(--tx8-bstrong);background:#fff;color:var(--tx8-ink2);border-radius:12px;padding:12px 13px;font:inherit;font-size:13px;font-weight:700;line-height:1.5;cursor:pointer;transition:background .18s,color .18s,border-color .18s,transform .12s}
+.tx8-opt:hover{background:var(--tx8-soft);color:var(--tx8-rose);transform:translateY(-1px)}
+.tx8-opt.on{background:linear-gradient(160deg,#fff,var(--tx8-soft));border-color:var(--tx8-rose);color:var(--tx8-deep);box-shadow:0 0 0 3px rgba(214,92,110,.16)}
+.tx8-opt .k{display:block;font-size:10.5px;font-weight:800;color:var(--tx8-mut);margin-bottom:4px;letter-spacing:.04em}
+.tx8-opt.on .k{color:var(--tx8-rose)}
+.tx8-out{margin-top:18px;scroll-margin-top:80px}
+.tx8-load{border:1px dashed var(--tx8-bstrong);border-radius:16px;background:rgba(94,140,127,.07);padding:26px 18px;text-align:center;color:#4A6B60;font-size:13.5px;font-weight:700;line-height:1.6}
+.tx8-res{border:1px solid var(--tx8-border);border-radius:18px;background:var(--tx8-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx8-sh)}
+.tx8-rcard{border:1px solid var(--tx8-bstrong);border-radius:16px;padding:clamp(18px,2.6vw,26px) 18px;text-align:center;background:linear-gradient(160deg,#fff,var(--tx8-soft))}
+.tx8-remoji{font-size:44px;line-height:1.1}
+.tx8-rname{font-size:clamp(20px,3.6vw,27px);font-weight:900;letter-spacing:-.03em;color:var(--tx8-deep);margin:8px 0 0}
+.tx8-rdef{font-size:13.5px;font-weight:600;color:var(--tx8-ink2);line-height:1.65;margin:10px auto 0;max-width:440px}
+.tx8-temp{margin-top:18px;border:1px solid var(--tx8-border);border-radius:14px;background:var(--tx8-bg);padding:15px 16px}
+.tx8-tlab{text-align:center;font-size:13px;font-weight:800;color:var(--tx8-ink)}
+.tx8-tlab b{color:var(--tx8-deep);font-size:16px;font-variant-numeric:tabular-nums;margin-left:4px}
+.tx8-gauge{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#B9CFC7,var(--tx8-gold) 55%,var(--tx8-rose));margin:16px 0 0}
+.tx8-gknob{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tx8-deep);box-shadow:var(--tx8-sh);transform:translate(-50%,-50%);transition:left .4s ease}
+.tx8-tmsg{text-align:center;font-size:12.5px;font-weight:700;color:var(--tx8-ink2);margin-top:13px;line-height:1.55}
+.tx8-axes{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px}
+.tx8-ax{border:1px solid var(--tx8-border);border-radius:13px;background:var(--tx8-bg);padding:12px 13px}
+.tx8-axh{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:800;color:var(--tx8-ink);margin-bottom:8px}
+.tx8-axh b{color:var(--tx8-deep);font-variant-numeric:tabular-nums}
+.tx8-axtr{height:9px;border-radius:999px;background:var(--tx8-soft2);overflow:hidden}
+.tx8-axtr i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--tx8-sage),#4C7466)}
+.tx8-block{margin-top:16px}
+.tx8-blab{font-size:12.5px;font-weight:800;color:var(--tx8-ink);margin-bottom:9px}
+.tx8-str{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.tx8-str li{position:relative;padding:11px 13px 11px 38px;border-radius:12px;background:var(--tx8-soft);font-size:12.8px;font-weight:700;color:var(--tx8-ink2);line-height:1.55}
+.tx8-str li::before{content:'✓';position:absolute;left:13px;top:11px;font-weight:900;color:var(--tx8-rose)}
+.tx8-warn p{margin:0;display:flex;gap:10px;border-radius:12px;padding:12px 14px;background:linear-gradient(160deg,#FBF3E7,#FDF9F2);border:1px solid #EAD9B6;color:#5C4A2A;font-size:12.8px;font-weight:600;line-height:1.6}
+.tx8-warn p span{font-size:17px;line-height:1.2;flex:none}
+.tx8-steps2{margin-top:16px;display:grid;gap:9px}
+.tx8-link{display:flex;align-items:center;gap:10px;border:1px solid var(--tx8-bstrong);border-radius:13px;background:linear-gradient(160deg,#fff,var(--tx8-soft));padding:13px 15px;text-decoration:none;color:var(--tx8-ink);font-size:13px;font-weight:800;transition:transform .14s,border-color .18s}
+.tx8-link:hover{transform:translateY(-1px);border-color:var(--tx8-rose)}
+.tx8-link span{flex:none;font-size:17px}
+.tx8-link i{margin-left:auto;font-style:normal;color:var(--tx8-rose);font-weight:900}
+.tx8-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.tx8-btn{flex:1 1 auto;border:none;border-radius:12px;padding:13px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--tx8-rose),var(--tx8-deep));color:#fff;transition:transform .14s,filter .18s}
+.tx8-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.tx8-reset{flex:1 1 auto;border:1px solid var(--tx8-bstrong);background:#fff;color:var(--tx8-ink2);border-radius:12px;padding:13px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .18s,border-color .18s}
+.tx8-reset:hover{color:var(--tx8-rose);border-color:var(--tx8-rose)}
+.tx8-together{margin-top:14px;border-radius:13px;background:var(--tx8-soft2);padding:13px 15px;font-size:12.5px;font-weight:600;color:var(--tx8-ink2);line-height:1.6}
+.tx8-acts{margin-top:16px}
+.tx8-note{margin-top:13px;font-size:11.5px;color:var(--tx8-mut);font-weight:600;line-height:1.6}
+.tx8-guide{position:sticky;top:64px;border:1px solid var(--tx8-border);border-radius:18px;background:var(--tx8-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx8-sh)}
+.tx8-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx8-rose);text-transform:uppercase;margin-bottom:12px}
+.tx8-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx8-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx8-ink2);font-weight:600;line-height:1.6}
+.tx8-steps li:last-child{padding-bottom:0}
+.tx8-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx8-rose),var(--tx8-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx8-steps li b{color:var(--tx8-ink);font-weight:800}
+@media(max-width:900px){.tx8-layout{grid-template-columns:1fr}.tx8-guide{position:static;order:-1}.tx8-prog{top:56px}}
+@media(max-width:520px){.tx8-opts{grid-template-columns:1fr}.tx8-axes{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.tx8-app *{transition:none!important}}
+</style>
+<div class="tx8-app" id="tx8App">
+  <div class="tx8-head">
+    <div class="tx8-kick">두 사람의 돈, 얼마나 통할까</div>
+    <h1 class="tx8-h1">부부 돈 궁합 테스트</h1>
+    <p class="tx8-lead">돈을 대하는 방식엔 정답이 없어요. 열 개 질문에 답하면, 우리 두 사람이 어떤 결로 잘 맞는지 따뜻하게 짚어드려요.</p>
+  </div>
+  <div class="tx8-layout">
+    <main class="tx8-main">
+      <div class="tx8-prog">
+        <div class="tx8-prow"><span>답한 질문</span><span><b class="tx8-prog-n" data-tx8-count>0</b> / 10</span></div>
+        <div class="tx8-ptr"><i data-tx8-fill></i></div>
+      </div>
+      <div class="tx8-qs" id="tx8Qs">
+        <div class="tx8-q" data-tx8-q="0" data-ax="p"><div class="tx8-qh"><span class="tx8-qnum">Q1</span><span class="tx8-qt">큰 지출을 앞두면, 우리는</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>미리 알아보고 계획을 세워요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>마음이 동하면 그때 정해요</button></div></div>
+        <div class="tx8-q" data-tx8-q="1" data-ax="p"><div class="tx8-qh"><span class="tx8-qnum">Q2</span><span class="tx8-qt">갑자기 목돈 쓸 일이 생기면</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>준비해 둔 비상금으로 대비해요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>그때그때 융통해서 메워요</button></div></div>
+        <div class="tx8-q" data-tx8-q="2" data-ax="p"><div class="tx8-qh"><span class="tx8-qnum">Q3</span><span class="tx8-qt">매달 저축은</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>정해둔 금액이 자동으로 빠져요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>쓰고 남으면 그때 모아요</button></div></div>
+        <div class="tx8-q" data-tx8-q="3" data-ax="p"><div class="tx8-qh"><span class="tx8-qnum">Q4</span><span class="tx8-qt">1년 뒤 우리 돈 계획은</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>대강이라도 그림이 그려져 있어요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>흐름에 맡기는 편이에요</button></div></div>
+        <div class="tx8-q" data-tx8-q="4" data-ax="p"><div class="tx8-qh"><span class="tx8-qnum">Q5</span><span class="tx8-qt">가계 관리는</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>담당과 규칙이 정해져 있어요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>그때 편한 사람이 해요</button></div></div>
+        <div class="tx8-q" data-tx8-q="5" data-ax="o"><div class="tx8-qh"><span class="tx8-qnum">Q6</span><span class="tx8-qt">돈 이야기를</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>평소에 자주 편하게 나눠요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>꼭 필요할 때만 짧게 해요</button></div></div>
+        <div class="tx8-q" data-tx8-q="6" data-ax="o"><div class="tx8-qh"><span class="tx8-qnum">Q7</span><span class="tx8-qt">서로의 돈 목표를</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>서로 잘 알고 있어요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>각자 마음에 담아두는 편이에요</button></div></div>
+        <div class="tx8-q" data-tx8-q="7" data-ax="o"><div class="tx8-qh"><span class="tx8-qnum">Q8</span><span class="tx8-qt">각자 쓴 돈은</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>자연스럽게 서로 공유해요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>웬만하면 각자 알아서 해요</button></div></div>
+        <div class="tx8-q" data-tx8-q="8" data-ax="o"><div class="tx8-qh"><span class="tx8-qnum">Q9</span><span class="tx8-qt">돈 문제로 생각이 다를 때</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>그 자리에서 이야기로 풀어요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>각자 삭이고 넘어가는 편이에요</button></div></div>
+        <div class="tx8-q" data-tx8-q="9" data-ax="o"><div class="tx8-qh"><span class="tx8-qnum">Q10</span><span class="tx8-qt">집·노후 같은 미래 이야기를</span></div><div class="tx8-opts"><button type="button" class="tx8-opt" data-tx8-opt data-v="1"><span class="k">A</span>종종 함께 상상하며 얘기해요</button><button type="button" class="tx8-opt" data-tx8-opt data-v="0"><span class="k">B</span>아직 구체적으론 잘 안 해요</button></div></div>
+      </div>
+      <div class="tx8-out" id="tx8Out"><div class="tx8-load">열 개 질문에 모두 답하면, 우리 부부의 돈 궁합 유형이 여기에 나와요 :)</div></div>
+      <div class="tx8-acts"><button type="button" class="tx8-reset" data-tx8-act="reset">처음부터 다시</button></div>
+      <p class="tx8-note">답은 이 브라우저에만 저장돼요. 좋고 나쁨을 가르는 진단이 아니라, 두 사람의 결을 비춰보는 교육용 도구예요. 특정 상품을 추천하지 않아요.</p>
+    </main>
+    <aside class="tx8-guide">
+      <div class="tx8-gtag">이렇게 해요</div>
+      <ol class="tx8-steps">
+        <li><b>지금 우리 모습대로 골라요.</b> 정답도 이상형도 없어요. 요즘 두 사람을 떠올리며 편하게 답하면 돼요.</li>
+        <li><b>열 개면 끝이에요.</b> 계획성과 대화, 두 결을 읽어 우리 부부의 돈 궁합 유형을 찾아드려요.</li>
+        <li><b>혼자 말고, 함께.</b> 배우자에게도 같은 질문을 건네보세요. 두 답을 나란히 두면 대화가 시작돼요.</li>
+        <li><b>결과는 출발점.</b> 유형마다 오늘 뗄 첫걸음 하나를 골라, 이번 주에 같이 해봐요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>
