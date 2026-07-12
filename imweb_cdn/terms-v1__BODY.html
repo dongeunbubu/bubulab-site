@@ -19,7 +19,7 @@ a{color:inherit;text-decoration:none}
 /* header */
 header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
 header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
-.nav{display:flex;align-items:center;gap:18px;height:62px}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
 .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
 .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
 .menu{margin-left:auto;display:flex;gap:3px}
@@ -96,7 +96,7 @@ footer .wrap{padding-top:30px;padding-bottom:34px}
 .crosslinks a.cur{background:var(--rose);color:#fff;border-color:var(--rose)}
 
 /* ===navfix=== canonical nav (overrides toolgen) */
-#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
 #hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
 #hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
 #hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
@@ -163,7 +163,7 @@ html{overflow-x:hidden}
 }
 </style>
 <header id="hdr"><div class="wrap nav">
-<a class="logo" href="/home"><span class="dot"></span>부부연구소</a>
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
 <nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
 <div class="navright">
 <nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
@@ -172,7 +172,7 @@ html{overflow-x:hidden}
 </div></header>
 <section class="blk wrap"><div class="legal"><a class="backlink" href="/home">← 홈</a><span class="s-eyebrow reveal" style="margin-top:8px">부부연구소 · 정책</span><h1 class="tool-h1 reveal" style="font-size:clamp(26px,4vw,38px)">이용약관</h1><div class="draftbanner reveal"><b>※ 표준 템플릿 기반 초안이에요.</b> 실제 운영 전 변호사/전문가 검토와 사실 확인(보유기간·위탁/PG사·주소·고객센터 등)이 필요해요. 빈 항목(○○)은 실제 값으로 채워주세요.</div><div class="eff reveal">시행일: 2026년 6월 1일 · 최종 개정: 2026년 6월 1일 (예시)</div><div class="bizbox"><b>상호</b> 부부연구소 &nbsp;·&nbsp; <b>대표</b> 김동엽 &nbsp;·&nbsp; <b>사업자등록번호</b> 387-52-00871 &nbsp;·&nbsp; <b>통신판매업</b> 2026-별내-1152 &nbsp;·&nbsp; <b>이메일</b> dongeunbubu@gmail.com<br><span style="color:var(--mut)">※ 주소·고객센터 전화번호는 실제 정보로 교체해 주세요.</span></div><div class="reveal" style="margin-top:8px"><h2>제1조 (목적)</h2><p>본 약관은 부부연구소(이하 '회사')가 제공하는 머니레터·콘텐츠·상품·강의 등 일체의 서비스 이용에 관한 회사와 이용자 간 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p><h2>제2조 (정의)</h2><ul><li>'서비스'란 회사가 제공하는 머니레터(무료·유료), 자료실 도구, 키트·굿즈·강의 등을 말합니다.</li><li>'구독'이란 유료 머니레터를 정기적으로 이용하는 계약을 말합니다.</li><li>'콘텐츠'란 회사가 제공하는 글·데이터·도구·영상 등 일체의 디지털/실물 산출물을 말합니다.</li></ul><h2>제3조 (약관의 게시와 개정)</h2><p>회사는 본 약관을 홈페이지에 게시합니다. 회사는 관련 법령을 위배하지 않는 범위에서 약관을 개정할 수 있으며, 개정 시 적용일자 7일 전(이용자에게 불리한 변경은 30일 전)부터 공지합니다.</p><h2>제4조 (가입 및 구독)</h2><ul><li>이용자는 회사가 정한 절차에 따라 가입·구독할 수 있습니다.</li><li>유료 구독은 월 정기결제로 갱신되며, 이용자는 다음 결제일 전 언제든 해지할 수 있습니다.</li><li>해지 시 다음 회차부터 청구되지 않으며, 이미 결제된 기간 동안은 서비스가 유지됩니다.</li></ul><h2>제5조 (결제)</h2><p>유료 서비스 요금·결제수단은 결제 화면에 표시된 바에 따릅니다. 결제는 회사가 위탁한 결제대행사를 통해 처리됩니다.</p><h2>제6조 (콘텐츠 이용 및 저작권)</h2><p>회사가 제공하는 모든 콘텐츠의 저작권은 회사에 귀속됩니다. 이용자는 개인적·비상업적 용도로만 이용할 수 있으며, 무단 복제·배포·재판매·공유를 금지합니다.</p><h2>제7조 (면책 및 투자 유의)</h2><p><b>머니레터·강의·도구·레포트 등 회사의 모든 콘텐츠는 정보 제공·교육 목적이며, 특정 종목·상품의 매수·매도를 권유하는 투자 자문이 아닙니다.</b> 투자·재무 판단과 그 결과에 대한 책임은 전적으로 이용자 본인에게 있습니다. 회사는 데이터의 정확성을 위해 노력하나 시장 수치는 제공 시점 기준으로 오차가 있을 수 있습니다.</p><h2>제8조 (분쟁 해결 및 관할)</h2><p>본 약관은 대한민국 법령에 따르며, 서비스 이용으로 발생한 분쟁은 관련 법령 및 상관례에 따릅니다. 분쟁은 우선 협의로 해결하며, 협의가 어려운 경우 관할 법원은 민사소송법에 따릅니다.</p></div><div class="crosslinks"><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1" class="cur">이용약관</a><a href="/refund-v1">환불정책</a><a href="/faq-v1">문의 · FAQ</a></div></div></section>
 <footer><div class="wrap">
-<div class="ftlogo"><span class="dot"></span>부부연구소</div>
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
 <div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
 <div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
 </div></footer>

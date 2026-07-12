@@ -21,7 +21,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdro
 header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
 .logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
 .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
-#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
 #hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
 #hdr .menu a{position:relative;padding:4px 0}
 #hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
@@ -158,7 +158,7 @@ footer .wrap{padding-top:30px;padding-bottom:34px}
 .ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
 
 /* ===navfix=== canonical nav (overrides toolgen) */
-#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;gap:16px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
 #hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
 #hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
 #hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
@@ -236,22 +236,14 @@ html{overflow-x:hidden}
   }
 }
 </style>
-<header id="hdr">
- <div class="wrap">
-  <nav class="nav">
-   <a class="logo" href="#top"><span class="dot"></span>부부연구소</a>
-   <div class="menu menu-main">
-    <a href="#how">작동 원리</a>
-    <a href="#cards">카드 미리보기</a>
-    <a href="#metrics">지표 정의</a>
-    <a href="#design">데이터 설계</a>
-   </div>
-   <div class="navright">
-    <a class="cta" href="#subscribe">머니레터 구독</a>
-   </div>
-  </nav>
- </div>
-</header>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library" class="cur">자료실</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
 
 <main id="top">
 
@@ -429,7 +421,7 @@ html{overflow-x:hidden}
 
 <footer>
  <div class="wrap">
-  <div class="ftlogo"><span class="dot"></span>부부연구소 머니레터</div>
+  <div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소 머니레터</div>
   <div class="ft"><span>학군·교통 카드 UI · 예시·목업</span><span>합법 공개데이터 기반 설계</span><span>투자·매수 권유 아님</span></div>
   <div class="ftnote"><b>면책</b> — © 2026 부부연구소. 이 페이지의 단지·학원·역·거리·비율은 모두 가상의 예시(목업)이며 정보·교육 목적의 설계 데모입니다. 실제 데이터는 국토부·교육부 공개 표준데이터로 교체되며, 어떤 지역·단지의 투자 판단이나 매수 권유도 아닙니다. 학원·역사 정보는 시설 공개정보만 사용하고 민간 부동산 플랫폼 데이터는 크롤링·재배포하지 않습니다.</div>
  </div>
