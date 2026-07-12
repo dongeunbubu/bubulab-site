@@ -146,7 +146,7 @@
   return '<div class="'+cls+'">'
    +'<a class="kx-btn kx-buy" href="#" role="button">구매하기 <i aria-hidden="true">&rarr;</i></a>'
    +'<a class="kx-btn2" href="#'+esc(nm)+'-00">무료 프롤로그 보기 <i aria-hidden="true">&rarr;</i></a>'
-   +'<div class="kx-price">'+p+'원 <span class="kx-pnote">한 번 구매로 열 단계를 끝까지</span></div>'
+   +'<div class="kx-price">'+p+'원 <span class="kx-pnote">한 번 구매로 '+(k.steps?k.steps.length:10)+'단계를 끝까지</span></div>'
    +'</div>';
  }
  function hubHTML(k){
@@ -166,7 +166,7 @@
   var band='<section class="kx-hband"><div class="kx-in">'
    +'<div class="kx-htag">지금 시작하기</div>'
    +'<h2 class="kx-h2">첫 대화는 무료로,<br>나머지 아홉 걸음은 함께</h2>'
-   +'<p class="kx-bandp">00 프롤로그는 늘 열려 있어요. 마음이 준비되면 한 번의 구매로 열 단계를 끝까지 걸어봐요 :)</p>'
+   +'<p class="kx-bandp">00 프롤로그는 늘 열려 있어요. 마음이 준비되면 한 번의 구매로 '+(k.steps?k.steps.length:10)+'단계를 끝까지 걸어봐요 :)</p>'
    +buyBar(k,nm,true)
    +'</div></section>';
   return head+whyCards(k)+currList(k,nm)+outcomeBlock(k)+audience+crossBlock(k)+band;
