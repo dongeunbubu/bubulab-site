@@ -44,6 +44,19 @@
   nodes.forEach(function(e){nio.observe(e);});
  }
 
+ (function(){
+  var KEY='bbf_hub_bloom', seen={};
+  try{ seen=JSON.parse(w.localStorage.getItem(KEY)||'{}')||{}; }catch(e){ seen={}; }
+  nodes.forEach(function(n){
+   var slug=n.getAttribute('data-slug');
+   if(slug&&seen[slug]) n.classList.add('jm-visited');
+   n.addEventListener('click',function(){
+    if(!slug) return; seen[slug]=1; n.classList.add('jm-visited');
+    try{ w.localStorage.setItem(KEY, JSON.stringify(seen)); }catch(e){}
+   });
+  });
+ })();
+
  var draw=scope.querySelector('.jm-draw');
  var map=d.getElementById('jmMap');
  if(draw&&map&&!reduce){
@@ -68,6 +81,8 @@
   function badges(node){
    var tk=node.getAttribute('data-tk'), t=node.getAttribute('data-t');
    var s='<span class="jm-lt jm-pt-'+tk+'">'+t+'</span>';
+   var st=node.getAttribute('data-stage'), sm={seed:'🌱 새싹',bud:'🌸 봉오리',bloom:'🌺 만개'};
+   if(st&&sm[st]) s+='<span class="jm-b jm-b-stage">'+sm[st]+'</span>';
    s+= node.getAttribute('data-prem')==='1'
      ? '<span class="jm-b jm-b-prem">🔒 프리미엄</span>' : '<span class="jm-b jm-b-free">🆓 무료</span>';
    if(node.getAttribute('data-live')!=='1') s+='<span class="jm-b jm-b-soon">곧 만나요</span>';
