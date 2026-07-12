@@ -1,0 +1,148 @@
+<!-- booktool-portfolio · 부부 포트폴리오 배분기 · 나이대·가족구성·위험성향·월투자액 입력→예시 자산배분(주식·채권·현금·대체) 도넛+생애주기 설명+리밸런싱 팁 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wirePort) · tx5- 네임스페이스 · 결과영역 프리미엄 게이트(입력·간이 배분 미리보기 무료) · 특정 종목 미추천·예시 배분 · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx5-app{--tx5-bg:#FDFBF7;--tx5-paper:#FFF;--tx5-ink:#2C201B;--tx5-ink2:#57453D;--tx5-mut:#877468;--tx5-rose:#B33A4C;--tx5-deep:#7C243B;--tx5-gold:#C9A84C;--tx5-sage:#5E8C7F;--tx5-lav:#9C6BA8;--tx5-soft:#FCEEF1;--tx5-soft2:#F8E3E7;--tx5-border:#ECDAD5;--tx5-bstrong:#E4C8C2;--tx5-stock:#B33A4C;--tx5-bond:#5E8C7F;--tx5-cash:#C9A84C;--tx5-alt:#9C6BA8;--tx5-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx5-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx5-app *{box-sizing:border-box}
+.tx5-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx5-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx5-rose),var(--tx5-deep));border-radius:999px;padding:6px 14px}
+.tx5-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx5-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx5-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:620px}
+.tx5-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx5-main{min-width:0}
+.tx5-fields{display:grid;gap:16px;border:1px solid var(--tx5-border);border-radius:18px;background:var(--tx5-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx5-sh)}
+.tx5-field{min-width:0}
+.tx5-flab{display:block;font-size:13px;font-weight:800;color:var(--tx5-ink);margin-bottom:9px}
+.tx5-seg{display:flex;gap:7px;flex-wrap:wrap}
+.tx5-sgb{flex:1 1 0;min-width:74px;border:1px solid var(--tx5-bstrong);background:#fff;color:var(--tx5-ink2);border-radius:12px;padding:10px 8px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:background .18s,color .18s,border-color .18s;text-align:center;line-height:1.3}
+.tx5-sgb small{display:block;font-size:10.5px;font-weight:700;color:var(--tx5-mut);margin-top:2px}
+.tx5-sgb[aria-pressed=true]{background:linear-gradient(135deg,var(--tx5-rose),var(--tx5-deep));color:#fff;border-color:transparent}
+.tx5-sgb[aria-pressed=true] small{color:rgba(255,255,255,.85)}
+.tx5-frow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tx5-fin{display:inline-flex;align-items:center;gap:5px}
+.tx5-num{width:96px;text-align:right;font:inherit;font-size:15px;font-weight:800;color:var(--tx5-deep);border:1px solid var(--tx5-bstrong);border-radius:10px;padding:7px 9px;background:var(--tx5-soft);-moz-appearance:textfield}
+.tx5-num::-webkit-outer-spin-button,.tx5-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx5-num:focus{outline:none;border-color:var(--tx5-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx5-unit{font-size:12.5px;font-weight:700;color:var(--tx5-mut)}
+.tx5-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx5-rose) var(--p,0%),var(--tx5-border) var(--p,0%));outline:none;cursor:pointer;margin-top:11px}
+.tx5-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--tx5-rose);box-shadow:var(--tx5-sh);cursor:pointer}
+.tx5-range::-moz-range-thumb{width:22px;height:22px;border:3px solid var(--tx5-rose);border-radius:50%;background:#fff;box-shadow:var(--tx5-sh);cursor:pointer}
+.tx5-preview{margin-top:18px;border:1px dashed var(--tx5-bstrong);border-radius:18px;padding:clamp(15px,2.3vw,20px);background:linear-gradient(160deg,#fff,var(--tx5-soft))}
+.tx5-plab{font-size:12px;font-weight:800;color:var(--tx5-rose);text-align:center}
+.tx5-mix{display:flex;height:26px;border-radius:999px;overflow:hidden;margin:12px 0 10px;box-shadow:inset 0 0 0 1px rgba(124,36,59,.06)}
+.tx5-mix i{height:100%;transition:width .35s ease;min-width:0}
+.tx5-mlegend{display:flex;flex-wrap:wrap;justify-content:center;gap:9px 15px;margin-top:4px}
+.tx5-lg{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--tx5-ink2);font-variant-numeric:tabular-nums}
+.tx5-dot{width:11px;height:11px;border-radius:3px;flex:none}
+.tx5-oneline{text-align:center;font-size:13px;font-weight:700;color:var(--tx5-ink2);margin-top:12px;line-height:1.55}
+.tx5-oneline b{font-weight:900;color:var(--tx5-deep)}
+.tx5-locked{position:relative;margin-top:14px;border:1px solid var(--tx5-border);border-radius:18px;overflow:hidden;background:var(--tx5-paper)}
+.tx5-results{padding:clamp(15px,2.3vw,20px)}
+.tx5-locked .tx5-results{filter:blur(6px);opacity:.6;pointer-events:none;user-select:none;-webkit-user-select:none}
+.tx5-load{padding:60px 0;text-align:center;color:var(--tx5-mut);font-weight:700}
+.tx5-donutwrap{display:flex;gap:clamp(14px,3vw,26px);align-items:center;flex-wrap:wrap;justify-content:center}
+.tx5-donut{position:relative;width:150px;height:150px;border-radius:50%;flex:none}
+.tx5-donut::before{content:"";position:absolute;inset:26px;background:var(--tx5-paper);border-radius:50%}
+.tx5-dctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.tx5-dctr b{font-size:22px;font-weight:900;color:var(--tx5-deep);line-height:1}
+.tx5-dctr span{font-size:10.5px;font-weight:800;color:var(--tx5-mut);margin-top:3px}
+.tx5-legend{flex:1;min-width:190px;display:grid;gap:8px}
+.tx5-lrow{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--tx5-ink2)}
+.tx5-lrow b{font-weight:900;color:var(--tx5-ink);font-variant-numeric:tabular-nums;margin-left:auto}
+.tx5-lrow em{font-style:normal;font-size:11px;color:var(--tx5-mut);font-weight:700}
+.tx5-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.tx5-ac{border:1px solid var(--tx5-border);border-radius:13px;background:var(--tx5-bg);padding:12px 13px}
+.tx5-ac h4{margin:0;font-size:12.8px;font-weight:900;color:var(--tx5-ink);display:flex;align-items:center;gap:6px}
+.tx5-ac h4 .tx5-dot{width:10px;height:10px}
+.tx5-ac b{display:block;font-size:17px;font-weight:900;color:var(--tx5-deep);font-variant-numeric:tabular-nums;margin:5px 0 2px}
+.tx5-ac p{margin:0;font-size:11.3px;font-weight:600;color:var(--tx5-mut);line-height:1.5}
+.tx5-life{display:flex;gap:11px;margin-top:14px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6;background:var(--tx5-soft2);color:var(--tx5-ink2)}
+.tx5-life span{font-size:19px;line-height:1.2;flex:none}
+.tx5-life b{font-weight:800;color:var(--tx5-deep)}
+.tx5-reb{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6;background:linear-gradient(160deg,#fff,var(--tx5-soft));border:1px solid var(--tx5-bstrong);color:var(--tx5-ink2)}
+.tx5-reb span{font-size:19px;line-height:1.2;flex:none}
+.tx5-reb b{font-weight:800}
+.tx5-reb i{font-style:normal;display:block;margin-top:4px;font-size:11px;color:var(--tx5-mut)}
+.tx5-gate{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:24px;background:linear-gradient(180deg,rgba(253,251,247,.62),rgba(253,251,247,.93))}
+.tx5-gate-ic{font-size:30px}
+.tx5-gate-t{font-size:clamp(15px,2.4vw,18px);font-weight:900;color:var(--tx5-ink);letter-spacing:-.02em;line-height:1.35;max-width:390px}
+.tx5-gate-d{font-size:12.8px;font-weight:600;color:var(--tx5-ink2);max-width:370px;line-height:1.6}
+.tx5-cta{display:inline-flex;align-items:center;gap:7px;margin-top:4px;background:linear-gradient(135deg,var(--tx5-rose),var(--tx5-deep));color:#fff;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 22px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(179,58,76,.55);transition:transform .2s}
+.tx5-cta:hover{transform:translateY(-2px)}
+.tx5-gate-note{font-size:11px;color:var(--tx5-mut);font-weight:600}
+.tx5-acts{margin-top:16px}
+.tx5-reset{border:1px solid var(--tx5-border);background:#fff;color:var(--tx5-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx5-reset:hover{color:var(--tx5-rose);border-color:var(--tx5-bstrong)}
+.tx5-note{margin-top:13px;font-size:11.5px;color:var(--tx5-mut);font-weight:600;line-height:1.6}
+.tx5-guide{position:sticky;top:78px;border:1px solid var(--tx5-border);border-radius:18px;background:var(--tx5-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx5-sh)}
+.tx5-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx5-rose);text-transform:uppercase;margin-bottom:12px}
+.tx5-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx5-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx5-ink2);font-weight:600;line-height:1.6}
+.tx5-steps li:last-child{padding-bottom:0}
+.tx5-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx5-rose),var(--tx5-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx5-steps li b{color:var(--tx5-ink);font-weight:800}
+@media(max-width:900px){.tx5-layout{grid-template-columns:1fr}.tx5-guide{position:static;order:-1}}
+@media(max-width:520px){.tx5-cards{grid-template-columns:1fr}.tx5-num{width:88px}}
+@media(prefers-reduced-motion:reduce){.tx5-app *{transition:none!important}}
+</style>
+<div class="tx5-app" id="tx5App">
+  <div class="tx5-head">
+    <div class="tx5-kick">남의 정답 말고, 우리 배분</div>
+    <h1 class="tx5-h1">부부 포트폴리오 배분기</h1>
+    <p class="tx5-lead">나이대와 가족 구성, 감당할 위험만 정하면 우리 집에 맞는 예시 자산배분을 그려드려요. 종목이 아니라 ‘비율’의 지도예요.</p>
+  </div>
+  <div class="tx5-layout">
+    <main class="tx5-main">
+      <div class="tx5-fields">
+        <div class="tx5-field">
+          <label class="tx5-flab">나이대 (가장 어린 배우자 기준)</label>
+          <div class="tx5-seg" data-tx5-seg="age">
+            <button type="button" class="tx5-sgb" data-v="young">20·30대<small>모으는 시기</small></button>
+            <button type="button" class="tx5-sgb" data-v="mid">40대<small>불리는 시기</small></button>
+            <button type="button" class="tx5-sgb" data-v="old">50대+<small>지키는 시기</small></button>
+          </div>
+        </div>
+        <div class="tx5-field">
+          <label class="tx5-flab">가족 구성</label>
+          <div class="tx5-seg" data-tx5-seg="fam">
+            <button type="button" class="tx5-sgb" data-v="p2">부부 2인<small>둘이서</small></button>
+            <button type="button" class="tx5-sgb" data-v="p3">3인 이상<small>자녀와 함께</small></button>
+          </div>
+        </div>
+        <div class="tx5-field">
+          <label class="tx5-flab">위험 성향 (하락장을 견디는 힘)</label>
+          <div class="tx5-seg" data-tx5-seg="risk">
+            <button type="button" class="tx5-sgb" data-v="stable">안정형<small>덜 잃고 싶어요</small></button>
+            <button type="button" class="tx5-sgb" data-v="neutral">중립형<small>적당히</small></button>
+            <button type="button" class="tx5-sgb" data-v="aggr">공격형<small>더 벌고 싶어요</small></button>
+          </div>
+        </div>
+        <div class="tx5-field">
+          <div class="tx5-frow"><label class="tx5-flab" style="margin:0" for="tx5-mon">월 투자액</label>
+            <span class="tx5-fin"><input id="tx5-mon" class="tx5-num" type="number" inputmode="numeric" data-tx5="mon" min="0" max="1000" step="10" value="100"><span class="tx5-unit">만원</span></span></div>
+          <input class="tx5-range" type="range" data-tx5-range="mon" min="0" max="1000" step="10" value="100" aria-label="월 투자액(만원)">
+        </div>
+      </div>
+      <div class="tx5-preview" id="tx5Prev"><div class="tx5-plab">계산하고 있어요…</div></div>
+      <div class="tx5-locked">
+        <div class="tx5-results" id="tx5Out"><div class="tx5-load">우리 집 배분 도넛을 그리는 중…</div></div>
+        <div class="tx5-gate">
+          <div class="tx5-gate-ic" aria-hidden="true">🔒</div>
+          <div class="tx5-gate-t">배분 도넛·자산별 역할·리밸런싱 주기는 프리미엄에서 열려요</div>
+          <div class="tx5-gate-d">입력과 간이 배분 미리보기는 무료예요. 자산별 역할 카드와 생애주기 해석, 되돌리는 주기 팁은 접근권 안에서 만나요.</div>
+          <a class="tx5-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+          <div class="tx5-gate-note">*프리미엄은 가격이 아니라, 모두 여는 접근권이에요.</div>
+        </div>
+      </div>
+      <div class="tx5-acts"><button type="button" class="tx5-reset" data-tx5-act="reset">처음값으로</button></div>
+      <p class="tx5-note">모든 수치는 특정 상품·종목이 아닌 ‘예시 배분’이에요. 실제 투자 결과와 세금은 다를 수 있고, 정답이 아니라 부부 대화의 출발점으로 쓰는 교육용 도구예요.</p>
+    </main>
+    <aside class="tx5-guide">
+      <div class="tx5-gtag">이렇게 읽어요</div>
+      <ol class="tx5-steps">
+        <li><b>비율이 먼저, 종목은 나중.</b> 뭘 살지보다 주식·채권·현금을 몇 대 몇으로 둘지가 수익의 대부분을 정해요.</li>
+        <li><b>나이가 들수록 주식을 줄여요.</b> 회복할 시간이 줄기 때문이에요. 우리 부부의 시간표에 맞춰요.</li>
+        <li><b>현금은 패배가 아니라 실탄이에요.</b> 하락장에서 살 수 있는 힘, 급한 일에 안 흔들리는 여유가 여기서 나와요.</li>
+        <li><b>1년에 한 번은 되돌려요.</b> 오른 걸 조금 팔아 빠진 걸 채우는 ‘리밸런싱’이 결국 싸게 사고 비싸게 파는 습관이 돼요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>

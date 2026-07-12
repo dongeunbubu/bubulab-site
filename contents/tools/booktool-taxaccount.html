@@ -1,0 +1,145 @@
+<!-- booktool-taxaccount · 절세계좌 3형제 시뮬레이터 · 연소득 구간·연금저축/IRP 연납입 입력→세액공제 환급액(16.5%/13.2%·한도 600/900 클램프) 나란히 막대+ISA 병행 팁+연말정산 환급 강조 카드 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireTax) · tx6- 네임스페이스 · 결과영역 프리미엄 게이트(입력·환급 미리보기 무료) · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx6-app{--tx6-bg:#FDFBF7;--tx6-paper:#FFF;--tx6-ink:#2C201B;--tx6-ink2:#57453D;--tx6-mut:#877468;--tx6-rose:#B33A4C;--tx6-deep:#7C243B;--tx6-gold:#C9A84C;--tx6-sage:#5E8C7F;--tx6-soft:#FCEEF1;--tx6-soft2:#F8E3E7;--tx6-border:#ECDAD5;--tx6-bstrong:#E4C8C2;--tx6-ps:#B33A4C;--tx6-irp:#5E8C7F;--tx6-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx6-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx6-app *{box-sizing:border-box}
+.tx6-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx6-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx6-rose),var(--tx6-deep));border-radius:999px;padding:6px 14px}
+.tx6-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx6-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx6-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:620px}
+.tx6-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx6-main{min-width:0}
+.tx6-fields{display:grid;gap:16px;border:1px solid var(--tx6-border);border-radius:18px;background:var(--tx6-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx6-sh)}
+.tx6-field{min-width:0}
+.tx6-flab{display:block;font-size:13px;font-weight:800;color:var(--tx6-ink);margin-bottom:9px}
+.tx6-flab em{font-style:normal;font-size:11px;font-weight:700;color:var(--tx6-mut);margin-left:6px}
+.tx6-seg{display:flex;gap:7px;flex-wrap:wrap}
+.tx6-sgb{flex:1 1 0;min-width:120px;border:1px solid var(--tx6-bstrong);background:#fff;color:var(--tx6-ink2);border-radius:12px;padding:10px 8px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:background .18s,color .18s,border-color .18s;text-align:center;line-height:1.3}
+.tx6-sgb small{display:block;font-size:10.5px;font-weight:700;color:var(--tx6-mut);margin-top:2px}
+.tx6-sgb[aria-pressed=true]{background:linear-gradient(135deg,var(--tx6-rose),var(--tx6-deep));color:#fff;border-color:transparent}
+.tx6-sgb[aria-pressed=true] small{color:rgba(255,255,255,.85)}
+.tx6-frow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tx6-fin{display:inline-flex;align-items:center;gap:5px}
+.tx6-num{width:96px;text-align:right;font:inherit;font-size:15px;font-weight:800;color:var(--tx6-deep);border:1px solid var(--tx6-bstrong);border-radius:10px;padding:7px 9px;background:var(--tx6-soft);-moz-appearance:textfield}
+.tx6-num::-webkit-outer-spin-button,.tx6-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx6-num:focus{outline:none;border-color:var(--tx6-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx6-unit{font-size:12.5px;font-weight:700;color:var(--tx6-mut)}
+.tx6-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx6-rose) var(--p,0%),var(--tx6-border) var(--p,0%));outline:none;cursor:pointer;margin-top:11px}
+.tx6-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--tx6-rose);box-shadow:var(--tx6-sh);cursor:pointer}
+.tx6-range::-moz-range-thumb{width:22px;height:22px;border:3px solid var(--tx6-rose);border-radius:50%;background:#fff;box-shadow:var(--tx6-sh);cursor:pointer}
+.tx6-preview{margin-top:18px;border:1px dashed var(--tx6-bstrong);border-radius:18px;padding:clamp(15px,2.3vw,20px);background:linear-gradient(160deg,#fff,var(--tx6-soft));text-align:center}
+.tx6-preview .tx6-plab{font-size:12px;font-weight:800;color:var(--tx6-rose)}
+.tx6-pval{font-size:clamp(28px,5.6vw,42px);font-weight:900;letter-spacing:-.04em;color:var(--tx6-deep);line-height:1.1;margin:5px 0 4px;font-variant-numeric:tabular-nums}
+.tx6-pval span{font-size:.42em;font-weight:800;margin-left:3px}
+.tx6-psub{font-size:12.5px;font-weight:600;color:var(--tx6-ink2)}
+.tx6-psub b{font-weight:800;color:var(--tx6-deep)}
+.tx6-locked{position:relative;margin-top:14px;border:1px solid var(--tx6-border);border-radius:18px;overflow:hidden;background:var(--tx6-paper)}
+.tx6-results{padding:clamp(15px,2.3vw,20px)}
+.tx6-locked .tx6-results{filter:blur(6px);opacity:.6;pointer-events:none;user-select:none;-webkit-user-select:none}
+.tx6-load{padding:60px 0;text-align:center;color:var(--tx6-mut);font-weight:700}
+.tx6-hero{border:1px solid #EAD9B6;border-radius:16px;background:linear-gradient(160deg,#FBF3E7,#FDF9F2);padding:15px 16px;display:flex;gap:12px;align-items:center}
+.tx6-hero span{font-size:26px;flex:none}
+.tx6-hero .t{font-size:12.5px;font-weight:800;color:#8A6A18}
+.tx6-hero .v{font-size:clamp(22px,4.6vw,30px);font-weight:900;color:var(--tx6-deep);font-variant-numeric:tabular-nums;line-height:1.15}
+.tx6-bars{margin-top:15px;border:1px solid var(--tx6-border);border-radius:16px;background:var(--tx6-bg);padding:16px 15px}
+.tx6-blabel{font-size:12.5px;font-weight:800;color:var(--tx6-ink);margin-bottom:14px}
+.tx6-bar{margin-top:15px}
+.tx6-bar:first-of-type{margin-top:0}
+.tx6-bhd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:800;color:var(--tx6-ink2);margin-bottom:5px}
+.tx6-bhd b{font-weight:900;color:var(--tx6-ink);font-variant-numeric:tabular-nums}
+.tx6-btr{position:relative;height:15px;border-radius:999px;background:var(--tx6-soft2);overflow:visible}
+.tx6-btr i{display:block;height:100%;border-radius:999px;transition:width .35s ease}
+.tx6-btr.ps i{background:linear-gradient(90deg,var(--tx6-ps),var(--tx6-deep))}
+.tx6-btr.irp i{background:linear-gradient(90deg,var(--tx6-irp),#3F6E5F)}
+.tx6-cap{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--tx6-ink);opacity:.5;z-index:2}
+.tx6-cap span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9.5px;font-weight:800;color:var(--tx6-ink2);white-space:nowrap}
+.tx6-bsub{font-size:10.5px;font-weight:700;color:var(--tx6-mut);margin-top:6px}
+.tx6-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.tx6-st{border:1px solid var(--tx6-border);border-radius:12px;background:var(--tx6-bg);padding:11px 10px;text-align:center}
+.tx6-st span{display:block;font-size:11px;font-weight:700;color:var(--tx6-mut);line-height:1.35;margin-bottom:5px}
+.tx6-st b{font-size:14.5px;font-weight:900;color:var(--tx6-ink);font-variant-numeric:tabular-nums}
+.tx6-warn{display:flex;gap:11px;margin-top:13px;border-radius:14px;padding:12px 15px;font-size:12.5px;font-weight:600;line-height:1.6}
+.tx6-warn span{font-size:18px;line-height:1.2;flex:none}
+.tx6-warn b{font-weight:800}
+.tx6-warn.clamp{background:#FCE9E4;border:1px solid #F0B7A8;color:#8A2A16}
+.tx6-warn.full{background:var(--tx6-soft);border:1px solid var(--tx6-bstrong);color:var(--tx6-ink2)}
+.tx6-isa{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.5px;font-weight:600;line-height:1.6;background:linear-gradient(160deg,#fff,var(--tx6-soft));border:1px solid var(--tx6-bstrong);color:var(--tx6-ink2)}
+.tx6-isa span{font-size:19px;line-height:1.2;flex:none}
+.tx6-isa b{font-weight:800;color:var(--tx6-deep)}
+.tx6-call{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.5px;font-weight:600;line-height:1.6;background:var(--tx6-soft2);color:var(--tx6-ink2)}
+.tx6-call span{font-size:19px;line-height:1.2;flex:none}
+.tx6-call b{font-weight:800}
+.tx6-call i{font-style:normal;display:block;margin-top:4px;font-size:11px;color:var(--tx6-mut)}
+.tx6-gate{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:24px;background:linear-gradient(180deg,rgba(253,251,247,.62),rgba(253,251,247,.93))}
+.tx6-gate-ic{font-size:30px}
+.tx6-gate-t{font-size:clamp(15px,2.4vw,18px);font-weight:900;color:var(--tx6-ink);letter-spacing:-.02em;line-height:1.35;max-width:390px}
+.tx6-gate-d{font-size:12.8px;font-weight:600;color:var(--tx6-ink2);max-width:370px;line-height:1.6}
+.tx6-cta{display:inline-flex;align-items:center;gap:7px;margin-top:4px;background:linear-gradient(135deg,var(--tx6-rose),var(--tx6-deep));color:#fff;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 22px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(179,58,76,.55);transition:transform .2s}
+.tx6-cta:hover{transform:translateY(-2px)}
+.tx6-gate-note{font-size:11px;color:var(--tx6-mut);font-weight:600}
+.tx6-acts{margin-top:16px}
+.tx6-reset{border:1px solid var(--tx6-border);background:#fff;color:var(--tx6-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx6-reset:hover{color:var(--tx6-rose);border-color:var(--tx6-bstrong)}
+.tx6-note{margin-top:13px;font-size:11.5px;color:var(--tx6-mut);font-weight:600;line-height:1.6}
+.tx6-guide{position:sticky;top:78px;border:1px solid var(--tx6-border);border-radius:18px;background:var(--tx6-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx6-sh)}
+.tx6-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx6-rose);text-transform:uppercase;margin-bottom:12px}
+.tx6-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx6-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx6-ink2);font-weight:600;line-height:1.6}
+.tx6-steps li:last-child{padding-bottom:0}
+.tx6-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx6-rose),var(--tx6-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx6-steps li b{color:var(--tx6-ink);font-weight:800}
+@media(max-width:900px){.tx6-layout{grid-template-columns:1fr}.tx6-guide{position:static;order:-1}}
+@media(max-width:520px){.tx6-stats{grid-template-columns:1fr}.tx6-num{width:88px}}
+@media(prefers-reduced-motion:reduce){.tx6-app *{transition:none!important}}
+</style>
+<div class="tx6-app" id="tx6App">
+  <div class="tx6-head">
+    <div class="tx6-kick">버는 것만큼, 돌려받기</div>
+    <h1 class="tx6-h1">절세계좌 3형제 시뮬레이터</h1>
+    <p class="tx6-lead">연금저축과 IRP에 올해 얼마를 넣을지만 정하면, 연말정산에서 돌려받을 세액공제 환급액을 계산해드려요. ISA 병행 팁까지 함께요.</p>
+  </div>
+  <div class="tx6-layout">
+    <main class="tx6-main">
+      <div class="tx6-fields">
+        <div class="tx6-field">
+          <label class="tx6-flab">연소득 구간<em>총급여 기준 · 공제율이 갈려요</em></label>
+          <div class="tx6-seg" data-tx6-seg="band">
+            <button type="button" class="tx6-sgb" data-v="low">5,500만원 이하<small>공제율 16.5%</small></button>
+            <button type="button" class="tx6-sgb" data-v="high">5,500만원 초과<small>공제율 13.2%</small></button>
+          </div>
+        </div>
+        <div class="tx6-field">
+          <div class="tx6-frow"><label class="tx6-flab" style="margin:0" for="tx6-ps">연금저축 연 납입<em>공제한도 600만</em></label>
+            <span class="tx6-fin"><input id="tx6-ps" class="tx6-num" type="number" inputmode="numeric" data-tx6="ps" min="0" max="900" step="10" value="300"><span class="tx6-unit">만원</span></span></div>
+          <input class="tx6-range" type="range" data-tx6-range="ps" min="0" max="900" step="10" value="300" aria-label="연금저축 연 납입액(만원)">
+        </div>
+        <div class="tx6-field">
+          <div class="tx6-frow"><label class="tx6-flab" style="margin:0" for="tx6-irp">IRP 연 납입<em>합산한도 900만</em></label>
+            <span class="tx6-fin"><input id="tx6-irp" class="tx6-num" type="number" inputmode="numeric" data-tx6="irp" min="0" max="900" step="10" value="300"><span class="tx6-unit">만원</span></span></div>
+          <input class="tx6-range" type="range" data-tx6-range="irp" min="0" max="900" step="10" value="300" aria-label="IRP 연 납입액(만원)">
+        </div>
+      </div>
+      <div class="tx6-preview" id="tx6Prev"><div class="tx6-plab">계산하고 있어요…</div></div>
+      <div class="tx6-locked">
+        <div class="tx6-results" id="tx6Out"><div class="tx6-load">공제 인정액을 계산하는 중…</div></div>
+        <div class="tx6-gate">
+          <div class="tx6-gate-ic" aria-hidden="true">🔒</div>
+          <div class="tx6-gate-t">공제 인정액·나란히 막대·ISA 병행 전략은 프리미엄에서 열려요</div>
+          <div class="tx6-gate-d">입력과 환급액 미리보기는 무료예요. 600·900 한도 클램프 해설과 부부 합산 전략, ISA 병행 팁은 접근권 안에서 만나요.</div>
+          <a class="tx6-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+          <div class="tx6-gate-note">*프리미엄은 가격이 아니라, 모두 여는 접근권이에요.</div>
+        </div>
+      </div>
+      <div class="tx6-acts"><button type="button" class="tx6-reset" data-tx6-act="reset">처음값으로</button></div>
+      <p class="tx6-note">세액공제율(16.5%·13.2%)과 한도(연금저축 600만·IRP 합산 900만)는 현행 기준이에요. 개인 상황(소득·부양)에 따라 실제 환급은 달라질 수 있는 교육용 계산이며, 특정 상품을 추천하지 않아요.</p>
+    </main>
+    <aside class="tx6-guide">
+      <div class="tx6-gtag">이렇게 써요</div>
+      <ol class="tx6-steps">
+        <li><b>연소득 구간부터 골라요.</b> 총급여 5,500만원 이하면 공제율 16.5%, 넘으면 13.2%. 같은 돈을 넣어도 돌려받는 게 달라요.</li>
+        <li><b>연금저축은 600만원까지만 공제.</b> 그 위로 넣으면 노후엔 좋아도 올해 환급은 안 늘어요. 초과분은 IRP로 옮겨요.</li>
+        <li><b>합쳐서 900만원이 상한.</b> 연금저축 600 + IRP 300이면 딱 900. 여기서 환급이 최대가 돼요.</li>
+        <li><b>부부는 각자 900만원.</b> 둘이 나눠 채우면 합산 최대 1,800만원까지 공제 대상이에요. 한 사람에게 몰지 마세요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>

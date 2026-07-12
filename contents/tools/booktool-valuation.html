@@ -1,0 +1,145 @@
+<!-- booktool-valuation · 가치평가 첫걸음 · 관심종목 PER·업종평균 PER·성장률 감각 입력→상대평가 저울(비싸다↔싸다)+신호등 판정+가치함정 경고 체크 3문+감이 아니라 저울로 코칭 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireVal) · tx7- 네임스페이스 · 결과영역 프리미엄 게이트(입력·신호등 미리보기 무료) · 교육용 · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx7-app{--tx7-bg:#FDFBF7;--tx7-paper:#FFF;--tx7-ink:#2C201B;--tx7-ink2:#57453D;--tx7-mut:#877468;--tx7-rose:#B33A4C;--tx7-deep:#7C243B;--tx7-gold:#C9A84C;--tx7-sage:#5E8C7F;--tx7-soft:#FCEEF1;--tx7-soft2:#F8E3E7;--tx7-border:#ECDAD5;--tx7-bstrong:#E4C8C2;--tx7-cheap:#5E8C7F;--tx7-fair:#C9A84C;--tx7-rich:#B33A4C;--tx7-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx7-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx7-app *{box-sizing:border-box}
+.tx7-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx7-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx7-rose),var(--tx7-deep));border-radius:999px;padding:6px 14px}
+.tx7-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx7-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx7-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:620px}
+.tx7-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx7-main{min-width:0}
+.tx7-fields{display:grid;gap:16px;border:1px solid var(--tx7-border);border-radius:18px;background:var(--tx7-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx7-sh)}
+.tx7-field{min-width:0}
+.tx7-flab{display:block;font-size:13px;font-weight:800;color:var(--tx7-ink);margin-bottom:9px}
+.tx7-flab em{font-style:normal;font-size:11px;font-weight:700;color:var(--tx7-mut);margin-left:6px}
+.tx7-seg{display:flex;gap:7px;flex-wrap:wrap}
+.tx7-sgb{flex:1 1 0;min-width:78px;border:1px solid var(--tx7-bstrong);background:#fff;color:var(--tx7-ink2);border-radius:12px;padding:10px 8px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:background .18s,color .18s,border-color .18s;text-align:center;line-height:1.3}
+.tx7-sgb small{display:block;font-size:10.5px;font-weight:700;color:var(--tx7-mut);margin-top:2px}
+.tx7-sgb[aria-pressed=true]{background:linear-gradient(135deg,var(--tx7-rose),var(--tx7-deep));color:#fff;border-color:transparent}
+.tx7-sgb[aria-pressed=true] small{color:rgba(255,255,255,.85)}
+.tx7-frow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tx7-fin{display:inline-flex;align-items:center;gap:5px}
+.tx7-num{width:92px;text-align:right;font:inherit;font-size:15px;font-weight:800;color:var(--tx7-deep);border:1px solid var(--tx7-bstrong);border-radius:10px;padding:7px 9px;background:var(--tx7-soft);-moz-appearance:textfield}
+.tx7-num::-webkit-outer-spin-button,.tx7-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx7-num:focus{outline:none;border-color:var(--tx7-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx7-unit{font-size:12.5px;font-weight:700;color:var(--tx7-mut)}
+.tx7-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx7-rose) var(--p,0%),var(--tx7-border) var(--p,0%));outline:none;cursor:pointer;margin-top:11px}
+.tx7-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--tx7-rose);box-shadow:var(--tx7-sh);cursor:pointer}
+.tx7-range::-moz-range-thumb{width:22px;height:22px;border:3px solid var(--tx7-rose);border-radius:50%;background:#fff;box-shadow:var(--tx7-sh);cursor:pointer}
+.tx7-preview{margin-top:18px;border:1px dashed var(--tx7-bstrong);border-radius:18px;padding:clamp(15px,2.3vw,20px);background:linear-gradient(160deg,#fff,var(--tx7-soft));text-align:center}
+.tx7-preview .tx7-plab{font-size:12px;font-weight:800;color:var(--tx7-rose)}
+.tx7-verdict{display:inline-flex;align-items:center;gap:8px;font-size:clamp(20px,4vw,26px);font-weight:900;letter-spacing:-.02em;padding:6px 20px;border-radius:999px;margin:9px 0 6px;line-height:1.25}
+.tx7-verdict.v-cheap{color:#33604F;background:rgba(94,140,127,.16)}
+.tx7-verdict.v-fair{color:#8A6A18;background:rgba(201,168,76,.2)}
+.tx7-verdict.v-rich{color:#8A2A16;background:#FCE0DA}
+.tx7-psub{font-size:12.8px;font-weight:600;color:var(--tx7-ink2)}
+.tx7-psub b{font-weight:800;color:var(--tx7-deep);font-variant-numeric:tabular-nums}
+.tx7-lights{display:flex;justify-content:center;gap:14px;margin-top:11px}
+.tx7-lt{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.32;transition:opacity .3s}
+.tx7-lt .b{width:16px;height:16px;border-radius:50%}
+.tx7-lt.on{opacity:1}
+.tx7-lt span{font-size:10px;font-weight:800;color:var(--tx7-ink2)}
+.tx7-lt.c .b{background:var(--tx7-cheap)}.tx7-lt.f .b{background:var(--tx7-fair)}.tx7-lt.r .b{background:var(--tx7-rich)}
+.tx7-locked{position:relative;margin-top:14px;border:1px solid var(--tx7-border);border-radius:18px;overflow:hidden;background:var(--tx7-paper)}
+.tx7-results{padding:clamp(15px,2.3vw,20px)}
+.tx7-locked .tx7-results{filter:blur(6px);opacity:.6;pointer-events:none;user-select:none;-webkit-user-select:none}
+.tx7-load{padding:60px 0;text-align:center;color:var(--tx7-mut);font-weight:700}
+.tx7-scale{border:1px solid var(--tx7-border);border-radius:16px;background:var(--tx7-bg);padding:8px 12px 6px}
+.tx7-scale svg{display:block;width:100%;height:auto}
+.tx7-scap{text-align:center;font-size:12.8px;font-weight:700;color:var(--tx7-ink2);margin-top:2px;line-height:1.5}
+.tx7-scap b{font-weight:900;color:var(--tx7-deep)}
+.tx7-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.tx7-st{border:1px solid var(--tx7-border);border-radius:12px;background:var(--tx7-bg);padding:11px 10px;text-align:center}
+.tx7-st span{display:block;font-size:11px;font-weight:700;color:var(--tx7-mut);line-height:1.35;margin-bottom:5px}
+.tx7-st b{font-size:14.5px;font-weight:900;color:var(--tx7-ink);font-variant-numeric:tabular-nums}
+.tx7-trap{margin-top:14px;border:1px solid var(--tx7-bstrong);border-radius:16px;background:linear-gradient(160deg,#fff,var(--tx7-soft));padding:15px 16px}
+.tx7-tlab{font-size:12.8px;font-weight:900;color:var(--tx7-ink);margin-bottom:4px}
+.tx7-tsub{font-size:11.5px;font-weight:600;color:var(--tx7-mut);margin-bottom:11px;line-height:1.5}
+.tx7-tq{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;border:1px solid var(--tx7-border);background:#fff;border-radius:11px;padding:10px 12px;font:inherit;font-size:12.5px;font-weight:700;color:var(--tx7-ink2);cursor:pointer;margin-top:8px;transition:border-color .18s,background .18s}
+.tx7-tq:first-of-type{margin-top:0}
+.tx7-tq .bx{width:19px;height:19px;border-radius:6px;border:2px solid var(--tx7-bstrong);flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:background .18s,border-color .18s}
+.tx7-tq[aria-pressed=true]{border-color:var(--tx7-rose);background:var(--tx7-soft)}
+.tx7-tq[aria-pressed=true] .bx{background:var(--tx7-rose);border-color:var(--tx7-rose)}
+.tx7-tverd{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:12.5px;font-weight:700;line-height:1.6}
+.tx7-tverd.warn{background:#FCE9E4;border:1px solid #F0B7A8;color:#8A2A16}
+.tx7-tverd.safe{background:rgba(94,140,127,.1);border:1px solid rgba(94,140,127,.35);color:#33604F}
+.tx7-tverd b{font-weight:900}
+.tx7-call{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.5px;font-weight:600;line-height:1.6;background:var(--tx7-soft2);color:var(--tx7-ink2)}
+.tx7-call span{font-size:19px;line-height:1.2;flex:none}
+.tx7-call b{font-weight:800;color:var(--tx7-deep)}
+.tx7-call i{font-style:normal;display:block;margin-top:4px;font-size:11px;color:var(--tx7-mut)}
+.tx7-gate{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:24px;background:linear-gradient(180deg,rgba(253,251,247,.62),rgba(253,251,247,.93))}
+.tx7-gate-ic{font-size:30px}
+.tx7-gate-t{font-size:clamp(15px,2.4vw,18px);font-weight:900;color:var(--tx7-ink);letter-spacing:-.02em;line-height:1.35;max-width:390px}
+.tx7-gate-d{font-size:12.8px;font-weight:600;color:var(--tx7-ink2);max-width:370px;line-height:1.6}
+.tx7-cta{display:inline-flex;align-items:center;gap:7px;margin-top:4px;background:linear-gradient(135deg,var(--tx7-rose),var(--tx7-deep));color:#fff;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 22px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(179,58,76,.55);transition:transform .2s}
+.tx7-cta:hover{transform:translateY(-2px)}
+.tx7-gate-note{font-size:11px;color:var(--tx7-mut);font-weight:600}
+.tx7-acts{margin-top:16px}
+.tx7-reset{border:1px solid var(--tx7-border);background:#fff;color:var(--tx7-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx7-reset:hover{color:var(--tx7-rose);border-color:var(--tx7-bstrong)}
+.tx7-note{margin-top:13px;font-size:11.5px;color:var(--tx7-mut);font-weight:600;line-height:1.6}
+.tx7-guide{position:sticky;top:78px;border:1px solid var(--tx7-border);border-radius:18px;background:var(--tx7-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx7-sh)}
+.tx7-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx7-rose);text-transform:uppercase;margin-bottom:12px}
+.tx7-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx7-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx7-ink2);font-weight:600;line-height:1.6}
+.tx7-steps li:last-child{padding-bottom:0}
+.tx7-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx7-rose),var(--tx7-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx7-steps li b{color:var(--tx7-ink);font-weight:800}
+@media(max-width:900px){.tx7-layout{grid-template-columns:1fr}.tx7-guide{position:static;order:-1}}
+@media(max-width:520px){.tx7-stats{grid-template-columns:1fr}.tx7-num{width:84px}}
+@media(prefers-reduced-motion:reduce){.tx7-app *{transition:none!important}}
+</style>
+<div class="tx7-app" id="tx7App">
+  <div class="tx7-head">
+    <div class="tx7-kick">감이 아니라, 저울로</div>
+    <h1 class="tx7-h1">가치평가 첫걸음</h1>
+    <p class="tx7-lead">관심 종목의 PER을 업종 평균, 그리고 기대 성장과 나란히 올려두면 ‘싸다·비싸다’가 저울로 보여요. 정답이 아니라 판단의 기준을 잡는 연습이에요.</p>
+  </div>
+  <div class="tx7-layout">
+    <main class="tx7-main">
+      <div class="tx7-fields">
+        <div class="tx7-field">
+          <div class="tx7-frow"><label class="tx7-flab" style="margin:0" for="tx7-per">관심 종목 PER<em>주가 ÷ 주당순이익</em></label>
+            <span class="tx7-fin"><input id="tx7-per" class="tx7-num" type="number" inputmode="decimal" data-tx7="per" min="3" max="60" step="0.5" value="12"><span class="tx7-unit">배</span></span></div>
+          <input class="tx7-range" type="range" data-tx7-range="per" min="3" max="60" step="0.5" value="12" aria-label="관심 종목 PER(배)">
+        </div>
+        <div class="tx7-field">
+          <div class="tx7-frow"><label class="tx7-flab" style="margin:0" for="tx7-ind">업종 평균 PER<em>같은 업종의 또래</em></label>
+            <span class="tx7-fin"><input id="tx7-ind" class="tx7-num" type="number" inputmode="decimal" data-tx7="ind" min="3" max="60" step="0.5" value="15"><span class="tx7-unit">배</span></span></div>
+          <input class="tx7-range" type="range" data-tx7-range="ind" min="3" max="60" step="0.5" value="15" aria-label="업종 평균 PER(배)">
+        </div>
+        <div class="tx7-field">
+          <label class="tx7-flab">기대 성장 감각<em>이 회사, 얼마나 클까요</em></label>
+          <div class="tx7-seg" data-tx7-seg="growth">
+            <button type="button" class="tx7-sgb" data-v="low">낮음<small>정체·둔화</small></button>
+            <button type="button" class="tx7-sgb" data-v="mid">보통<small>업종 수준</small></button>
+            <button type="button" class="tx7-sgb" data-v="high">높음<small>빠른 성장</small></button>
+          </div>
+        </div>
+      </div>
+      <div class="tx7-preview" id="tx7Prev"><div class="tx7-plab">계산하고 있어요…</div></div>
+      <div class="tx7-locked">
+        <div class="tx7-results" id="tx7Out"><div class="tx7-load">상대평가 저울을 그리는 중…</div></div>
+        <div class="tx7-gate">
+          <div class="tx7-gate-ic" aria-hidden="true">🔒</div>
+          <div class="tx7-gate-t">상대평가 저울·가치함정 체크·성장 반영 해석은 프리미엄에서 열려요</div>
+          <div class="tx7-gate-d">입력과 신호등 판정 미리보기는 무료예요. 저울 시각화와 가치함정 경고 3문, ‘감이 아니라 저울로’ 코칭은 접근권 안에서 만나요.</div>
+          <a class="tx7-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+          <div class="tx7-gate-note">*프리미엄은 가격이 아니라, 모두 여는 접근권이에요.</div>
+        </div>
+      </div>
+      <div class="tx7-acts"><button type="button" class="tx7-reset" data-tx7-act="reset">처음값으로</button></div>
+      <p class="tx7-note">PER은 가치평가의 한 조각일 뿐이에요. 성장·부채·업종 특성에 따라 적정 배수는 크게 달라지며, 이 도구는 특정 종목을 추천하지 않는 교육용 상대평가 연습이에요.</p>
+    </main>
+    <aside class="tx7-guide">
+      <div class="tx7-gtag">이렇게 읽어요</div>
+      <ol class="tx7-steps">
+        <li><b>PER은 혼자선 의미가 약해요.</b> 반드시 ‘업종 평균’과 견줘요. 10배가 싼지 비싼지는 또래를 봐야 알아요.</li>
+        <li><b>성장이 높으면 비싸도 정당해요.</b> 빨리 크는 회사는 높은 PER을 받아요. 성장 감각을 함께 넣는 이유예요.</li>
+        <li><b>싸 보이면 함정부터 의심해요.</b> 실적이 뒷걸음질 치거나 사양산업이면, 싼 게 아니라 싸질 이유가 있는 거예요.</li>
+        <li><b>저울은 출발점, 결론이 아니에요.</b> 여기서 ‘공부할 후보’를 추리고, 사업·재무를 더 파고든 뒤 결정해요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>

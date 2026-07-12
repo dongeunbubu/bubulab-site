@@ -1,0 +1,142 @@
+<!-- booktool-flexcost · 새는 돈 진단기(변동비 진단) · 5개 변동비 카테고리 입력→새는 돈 등급(양호/주의/위험) 게이지·또래 가이드라인 대비 바·새는 항목 top3·월 절약 시나리오 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireFlex) · tx4- 네임스페이스 · 전체 공개(무료) · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx4-app{--tx4-bg:#FDFBF7;--tx4-paper:#FFF;--tx4-ink:#2C201B;--tx4-ink2:#57453D;--tx4-mut:#877468;--tx4-rose:#B33A4C;--tx4-deep:#7C243B;--tx4-gold:#C9A84C;--tx4-sage:#5E8C7F;--tx4-soft:#FCEEF1;--tx4-soft2:#F8E3E7;--tx4-border:#ECDAD5;--tx4-bstrong:#E4C8C2;--tx4-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx4-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx4-app *{box-sizing:border-box}
+.tx4-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx4-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx4-rose),var(--tx4-deep));border-radius:999px;padding:6px 14px}
+.tx4-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx4-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx4-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:600px}
+.tx4-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx4-main{min-width:0}
+.tx4-fields{display:grid;gap:15px;border:1px solid var(--tx4-border);border-radius:18px;background:var(--tx4-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx4-sh)}
+.tx4-field{min-width:0}
+.tx4-frow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tx4-flab{font-size:13.5px;font-weight:800;color:var(--tx4-ink)}
+.tx4-flab em{font-style:normal;font-size:11px;font-weight:700;color:var(--tx4-mut);margin-left:6px}
+.tx4-fin{display:inline-flex;align-items:center;gap:5px}
+.tx4-num{width:92px;text-align:right;font:inherit;font-size:15px;font-weight:800;color:var(--tx4-deep);border:1px solid var(--tx4-bstrong);border-radius:10px;padding:7px 9px;background:var(--tx4-soft);-moz-appearance:textfield}
+.tx4-num::-webkit-outer-spin-button,.tx4-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx4-num:focus{outline:none;border-color:var(--tx4-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx4-unit{font-size:12.5px;font-weight:700;color:var(--tx4-mut)}
+.tx4-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx4-rose) var(--p,0%),var(--tx4-border) var(--p,0%));outline:none;cursor:pointer;margin-top:10px}
+.tx4-range::-webkit-slider-thumb{-webkit-appearance:none;width:21px;height:21px;border-radius:50%;background:#fff;border:3px solid var(--tx4-rose);box-shadow:var(--tx4-sh);cursor:pointer}
+.tx4-range::-moz-range-thumb{width:21px;height:21px;border:3px solid var(--tx4-rose);border-radius:50%;background:#fff;box-shadow:var(--tx4-sh);cursor:pointer}
+.tx4-preset{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.tx4-plab{font-size:12px;font-weight:800;color:var(--tx4-mut)}
+.tx4-chip{border:1px solid var(--tx4-bstrong);background:#fff;color:var(--tx4-ink2);border-radius:999px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,transform .14s}
+.tx4-chip:hover{background:var(--tx4-soft);color:var(--tx4-rose);transform:translateY(-1px)}
+.tx4-out{margin-top:18px}
+.tx4-load{padding:34px 0;text-align:center;color:var(--tx4-mut);font-weight:700}
+.tx4-hero{border:1px solid var(--tx4-border);border-radius:18px;padding:clamp(16px,2.4vw,22px);background:linear-gradient(160deg,#fff,var(--tx4-soft))}
+.tx4-hgrade{display:flex;align-items:center;gap:11px;justify-content:center}
+.tx4-badge{font-size:clamp(20px,4vw,28px);font-weight:900;letter-spacing:-.03em;padding:4px 16px;border-radius:999px;line-height:1.25}
+.tx4-badge.g-ok{color:#33604F;background:rgba(94,140,127,.16)}
+.tx4-badge.g-warn{color:#8A6A18;background:rgba(201,168,76,.2)}
+.tx4-badge.g-bad{color:#8A2A16;background:#FCE0DA}
+.tx4-hsub{text-align:center;font-size:12.8px;font-weight:600;color:var(--tx4-ink2);margin-top:9px;line-height:1.55}
+.tx4-hsub b{font-weight:900;color:var(--tx4-deep);font-variant-numeric:tabular-nums}
+.tx4-gauge{position:relative;height:15px;border-radius:999px;background:linear-gradient(90deg,var(--tx4-sage),var(--tx4-gold) 62.5%,var(--tx4-rose));margin-top:16px;overflow:visible}
+.tx4-gknob{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tx4-deep);box-shadow:var(--tx4-sh);transform:translate(-50%,-50%);transition:left .35s ease}
+.tx4-gmark{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--tx4-ink);opacity:.55}
+.tx4-gmark span{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--tx4-ink2);white-space:nowrap}
+.tx4-glab{display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;color:var(--tx4-mut);margin-top:13px}
+.tx4-cmp{margin-top:18px;border:1px solid var(--tx4-border);border-radius:16px;background:var(--tx4-bg);padding:16px 15px}
+.tx4-clabel{font-size:12.5px;font-weight:800;color:var(--tx4-ink);margin-bottom:13px}
+.tx4-cbar{margin-top:13px}
+.tx4-cbar:first-of-type{margin-top:0}
+.tx4-chd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:700;color:var(--tx4-ink2);margin-bottom:5px}
+.tx4-chd b{font-weight:900;color:var(--tx4-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tx4-chd em{font-style:normal;font-size:11px;font-weight:700;margin-left:2px}
+.tx4-chd em.over{color:var(--tx4-rose)}
+.tx4-chd em.under{color:var(--tx4-sage)}
+.tx4-ctr{position:relative;height:13px;border-radius:999px;background:var(--tx4-soft2);overflow:hidden}
+.tx4-ctr i{display:block;height:100%;border-radius:999px;transition:width .35s ease}
+.tx4-ctr i.ok{background:linear-gradient(90deg,var(--tx4-sage),#4C7466)}
+.tx4-ctr i.over{background:linear-gradient(90deg,var(--tx4-rose),var(--tx4-deep))}
+.tx4-cg{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx4-ink);opacity:.45;z-index:2}
+.tx4-cnote{font-size:10.5px;font-weight:700;color:var(--tx4-mut);margin-top:9px}
+.tx4-top{margin-top:16px}
+.tx4-tlab{font-size:12.5px;font-weight:800;color:var(--tx4-ink);margin-bottom:10px}
+.tx4-tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.tx4-tcard{border:1px solid var(--tx4-bstrong);border-radius:13px;background:linear-gradient(160deg,#fff,var(--tx4-soft));padding:12px 11px;text-align:center}
+.tx4-trank{font-size:10.5px;font-weight:800;color:var(--tx4-rose);letter-spacing:.04em}
+.tx4-tname{font-size:13.5px;font-weight:900;color:var(--tx4-ink);margin:4px 0 3px}
+.tx4-tover{font-size:12px;font-weight:800;color:var(--tx4-deep);font-variant-numeric:tabular-nums}
+.tx4-tempty{border:1px dashed var(--tx4-bstrong);border-radius:13px;background:rgba(94,140,127,.08);padding:15px;text-align:center;font-size:12.8px;font-weight:700;color:#33604F}
+.tx4-scn{display:flex;gap:12px;margin-top:16px;border-radius:16px;padding:15px 16px;background:linear-gradient(160deg,#FBF3E7,#FDF9F2);border:1px solid #EAD9B6;color:#5C4A2A;align-items:flex-start}
+.tx4-scn span{font-size:22px;line-height:1.15;flex:none}
+.tx4-scn b{font-weight:900;color:var(--tx4-deep);font-variant-numeric:tabular-nums}
+.tx4-scn i{font-style:normal;display:block;margin-top:5px;font-size:11px;color:var(--tx4-mut);line-height:1.55}
+.tx4-call{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6;background:var(--tx4-soft2);color:var(--tx4-ink2)}
+.tx4-call span{font-size:19px;line-height:1.2;flex:none}
+.tx4-call b{font-weight:800}
+.tx4-acts{margin-top:16px}
+.tx4-reset{border:1px solid var(--tx4-border);background:#fff;color:var(--tx4-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx4-reset:hover{color:var(--tx4-rose);border-color:var(--tx4-bstrong)}
+.tx4-note{margin-top:13px;font-size:11.5px;color:var(--tx4-mut);font-weight:600;line-height:1.6}
+.tx4-guide{position:sticky;top:78px;border:1px solid var(--tx4-border);border-radius:18px;background:var(--tx4-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx4-sh)}
+.tx4-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx4-rose);text-transform:uppercase;margin-bottom:12px}
+.tx4-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx4-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx4-ink2);font-weight:600;line-height:1.6}
+.tx4-steps li:last-child{padding-bottom:0}
+.tx4-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx4-rose),var(--tx4-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx4-steps li b{color:var(--tx4-ink);font-weight:800}
+@media(max-width:900px){.tx4-layout{grid-template-columns:1fr}.tx4-guide{position:static;order:-1}}
+@media(max-width:520px){.tx4-num{width:84px}.tx4-tgrid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.tx4-app *{transition:none!important}}
+</style>
+<div class="tx4-app" id="tx4App">
+  <div class="tx4-head">
+    <div class="tx4-kick">지난달, 어디서 샜을까</div>
+    <h1 class="tx4-h1">새는 돈 진단기</h1>
+    <p class="tx4-lead">지난달 변동비 다섯 칸만 채우면, 또래 가이드라인과 견줘 어디서 새는지 짚어드려요. 아끼면 1년 뒤 얼마가 남는지도 함께요.</p>
+  </div>
+  <div class="tx4-layout">
+    <main class="tx4-main">
+      <div class="tx4-fields">
+        <div class="tx4-field">
+          <div class="tx4-frow"><label class="tx4-flab" for="tx4-sik">식비<em>장보기·식료품</em></label>
+            <span class="tx4-fin"><input id="tx4-sik" class="tx4-num" type="number" inputmode="numeric" data-tx4="sik" min="0" max="150" step="1" value="50"><span class="tx4-unit">만원</span></span></div>
+          <input class="tx4-range" type="range" data-tx4-range="sik" min="0" max="150" step="1" value="50" aria-label="식비(만원)">
+        </div>
+        <div class="tx4-field">
+          <div class="tx4-frow"><label class="tx4-flab" for="tx4-oesik">외식·배달<em>카페 포함</em></label>
+            <span class="tx4-fin"><input id="tx4-oesik" class="tx4-num" type="number" inputmode="numeric" data-tx4="oesik" min="0" max="100" step="1" value="25"><span class="tx4-unit">만원</span></span></div>
+          <input class="tx4-range" type="range" data-tx4-range="oesik" min="0" max="100" step="1" value="25" aria-label="외식·배달(만원)">
+        </div>
+        <div class="tx4-field">
+          <div class="tx4-frow"><label class="tx4-flab" for="tx4-shop">쇼핑<em>의류·생활용품</em></label>
+            <span class="tx4-fin"><input id="tx4-shop" class="tx4-num" type="number" inputmode="numeric" data-tx4="shop" min="0" max="120" step="1" value="20"><span class="tx4-unit">만원</span></span></div>
+          <input class="tx4-range" type="range" data-tx4-range="shop" min="0" max="120" step="1" value="20" aria-label="쇼핑(만원)">
+        </div>
+        <div class="tx4-field">
+          <div class="tx4-frow"><label class="tx4-flab" for="tx4-sub">구독류<em>OTT·멤버십</em></label>
+            <span class="tx4-fin"><input id="tx4-sub" class="tx4-num" type="number" inputmode="numeric" data-tx4="sub" min="0" max="50" step="1" value="5"><span class="tx4-unit">만원</span></span></div>
+          <input class="tx4-range" type="range" data-tx4-range="sub" min="0" max="50" step="1" value="5" aria-label="구독류(만원)">
+        </div>
+        <div class="tx4-field">
+          <div class="tx4-frow"><label class="tx4-flab" for="tx4-etc">기타<em>취미·기타소비</em></label>
+            <span class="tx4-fin"><input id="tx4-etc" class="tx4-num" type="number" inputmode="numeric" data-tx4="etc" min="0" max="120" step="1" value="20"><span class="tx4-unit">만원</span></span></div>
+          <input class="tx4-range" type="range" data-tx4-range="etc" min="0" max="120" step="1" value="20" aria-label="기타(만원)">
+        </div>
+      </div>
+      <div class="tx4-preset"><span class="tx4-plab">예시로 채우기</span>
+        <button type="button" class="tx4-chip" data-tx4-preset="50,25,20,5,20">평범한 2인</button>
+        <button type="button" class="tx4-chip" data-tx4-preset="80,60,50,20,50">좀 새는 편</button>
+        <button type="button" class="tx4-chip" data-tx4-preset="35,10,10,3,10">알뜰 2인</button>
+      </div>
+      <div class="tx4-out" id="tx4Out"><div class="tx4-load">진단하고 있어요…</div></div>
+      <div class="tx4-acts"><button type="button" class="tx4-reset" data-tx4-act="reset">처음값으로</button></div>
+      <p class="tx4-note">입력값은 이 브라우저에만 저장돼요. 가이드라인은 2인 가구 참고용 평균이라 정답이 아니며, 가구마다 적정선은 달라요. 특정 상품·서비스를 추천하지 않는 교육용 도구예요.</p>
+    </main>
+    <aside class="tx4-guide">
+      <div class="tx4-gtag">이렇게 써요</div>
+      <ol class="tx4-steps">
+        <li><b>고정비 말고 변동비만 넣어요.</b> 월세·보험처럼 못 줄이는 건 빼요. 손댈 수 있는 다섯 칸이 진짜 승부처예요.</li>
+        <li><b>가이드라인 넘긴 칸이 ‘새는 곳’.</b> 빨간 막대와 top3부터 봐요. 다 줄일 순 없어도 한 곳은 오늘 줄일 수 있어요.</li>
+        <li><b>0원 만들기 말고, 한 단계만.</b> 외식 10만·구독 3만처럼 작게. 티 안 나야 오래가요.</li>
+        <li><b>아낀 돈은 통장을 옮겨요.</b> 그냥 두면 다시 새요. 나오는 즉시 저축·투자 계좌로 자동이체.</li>
+      </ol>
+    </aside>
+  </div>
+</div>
