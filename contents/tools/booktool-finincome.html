@@ -1,0 +1,140 @@
+<!-- booktool-finincome · 배당 현금흐름 플래너(금융소득종합과세 가늠기) · 원금·수익률·성장률·월추가→10년 배당 추이·세후(15.4%)·2천만원 벽 경고 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireFin) · tx3- 네임스페이스 · 결과영역 프리미엄 게이트(입력·1년차 미리보기 무료) · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx3-app{--tx3-bg:#FDFBF7;--tx3-paper:#FFF;--tx3-ink:#2C201B;--tx3-ink2:#57453D;--tx3-mut:#877468;--tx3-rose:#B33A4C;--tx3-deep:#7C243B;--tx3-gold:#C9A84C;--tx3-soft:#FCEEF1;--tx3-soft2:#F8E3E7;--tx3-border:#ECDAD5;--tx3-bstrong:#E4C8C2;--tx3-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx3-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx3-app *{box-sizing:border-box}
+.tx3-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx3-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx3-rose),var(--tx3-deep));border-radius:999px;padding:6px 14px}
+.tx3-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx3-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx3-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:620px}
+.tx3-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx3-main{min-width:0}
+.tx3-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;border:1px solid var(--tx3-border);border-radius:18px;background:var(--tx3-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx3-sh)}
+.tx3-field{min-width:0}
+.tx3-frow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tx3-flab{font-size:13px;font-weight:800;color:var(--tx3-ink)}
+.tx3-fin{display:inline-flex;align-items:center;gap:5px}
+.tx3-num{width:82px;text-align:right;font:inherit;font-size:14.5px;font-weight:800;color:var(--tx3-deep);border:1px solid var(--tx3-bstrong);border-radius:10px;padding:7px 8px;background:var(--tx3-soft);-moz-appearance:textfield}
+.tx3-num::-webkit-outer-spin-button,.tx3-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx3-num:focus{outline:none;border-color:var(--tx3-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx3-unit{font-size:12px;font-weight:700;color:var(--tx3-mut)}
+.tx3-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx3-rose) var(--p,0%),var(--tx3-border) var(--p,0%));outline:none;cursor:pointer;margin-top:10px}
+.tx3-range::-webkit-slider-thumb{-webkit-appearance:none;width:21px;height:21px;border-radius:50%;background:#fff;border:3px solid var(--tx3-rose);box-shadow:var(--tx3-sh);cursor:pointer}
+.tx3-range::-moz-range-thumb{width:21px;height:21px;border:3px solid var(--tx3-rose);border-radius:50%;background:#fff;box-shadow:var(--tx3-sh);cursor:pointer}
+.tx3-preset{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.tx3-plab{font-size:12px;font-weight:800;color:var(--tx3-mut)}
+.tx3-chip{border:1px solid var(--tx3-bstrong);background:#fff;color:var(--tx3-ink2);border-radius:999px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,transform .14s}
+.tx3-chip:hover{background:var(--tx3-soft);color:var(--tx3-rose);transform:translateY(-1px)}
+.tx3-preview{margin-top:18px;border:1px dashed var(--tx3-bstrong);border-radius:18px;padding:clamp(15px,2.3vw,20px);background:linear-gradient(160deg,#fff,var(--tx3-soft));text-align:center}
+.tx3-plab2,.tx3-plab{}
+.tx3-preview .tx3-plab{font-size:12px;font-weight:800;color:var(--tx3-rose)}
+.tx3-pval{font-size:clamp(28px,5.6vw,42px);font-weight:900;letter-spacing:-.04em;color:var(--tx3-deep);line-height:1.1;margin:5px 0 4px;font-variant-numeric:tabular-nums}
+.tx3-pval span{font-size:.42em;font-weight:800;margin-left:3px}
+.tx3-psub{font-size:12.5px;font-weight:600;color:var(--tx3-ink2)}
+.tx3-locked{position:relative;margin-top:14px;border:1px solid var(--tx3-border);border-radius:18px;overflow:hidden;background:var(--tx3-paper)}
+.tx3-results{padding:clamp(15px,2.3vw,20px)}
+.tx3-locked .tx3-results{filter:blur(6px);opacity:.6;pointer-events:none;user-select:none;-webkit-user-select:none}
+.tx3-load{padding:60px 0;text-align:center;color:var(--tx3-mut);font-weight:700}
+.tx3-chart{position:relative;height:230px;margin:2px 0 4px}
+.tx3-cols{position:absolute;inset:0;display:flex;align-items:flex-end;gap:1.5%}
+.tx3-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0}
+.tx3-ctr{width:100%;height:100%;display:flex;align-items:flex-end;justify-content:center}
+.tx3-cbar{width:64%;max-width:26px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--tx3-rose),var(--tx3-deep));transition:height .35s ease}
+.tx3-cbar.tx3-over{background:linear-gradient(180deg,#E4573A,#B4231C)}
+.tx3-cx{font-size:10px;font-weight:700;color:var(--tx3-mut);margin-top:6px;white-space:nowrap}
+.tx3-wall{position:absolute;left:0;right:0;border-top:2px dashed var(--tx3-deep);z-index:2}
+.tx3-wall span{position:absolute;right:0;top:-9px;font-size:10px;font-weight:800;color:var(--tx3-deep);background:var(--tx3-bg);padding:1px 6px;border-radius:6px}
+.tx3-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.tx3-st{border:1px solid var(--tx3-border);border-radius:12px;background:var(--tx3-bg);padding:11px 10px;text-align:center}
+.tx3-st span{display:block;font-size:11px;font-weight:700;color:var(--tx3-mut);line-height:1.35;margin-bottom:5px}
+.tx3-st b{font-size:14.5px;font-weight:900;color:var(--tx3-ink);font-variant-numeric:tabular-nums}
+.tx3-warn{display:flex;gap:11px;margin-top:14px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6}
+.tx3-warn span{font-size:19px;line-height:1.2;flex:none}
+.tx3-warn b{font-weight:800}
+.tx3-warn.hot{background:#FCE9E4;border:1px solid #F0B7A8;color:#8A2A16}
+.tx3-warn.ok{background:var(--tx3-soft);border:1px solid var(--tx3-bstrong);color:var(--tx3-ink2)}
+.tx3-call{display:flex;gap:11px;margin-top:12px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6;background:var(--tx3-soft2);color:var(--tx3-ink2)}
+.tx3-call span{font-size:19px;line-height:1.2;flex:none}
+.tx3-call b{font-weight:800}
+.tx3-call i{font-style:normal;display:block;margin-top:4px;font-size:11px;color:var(--tx3-mut)}
+.tx3-gate{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:24px;background:linear-gradient(180deg,rgba(253,251,247,.62),rgba(253,251,247,.93))}
+.tx3-gate-ic{font-size:30px}
+.tx3-gate-t{font-size:clamp(15px,2.4vw,18px);font-weight:900;color:var(--tx3-ink);letter-spacing:-.02em;line-height:1.35;max-width:380px}
+.tx3-gate-d{font-size:12.8px;font-weight:600;color:var(--tx3-ink2);max-width:370px;line-height:1.6}
+.tx3-cta{display:inline-flex;align-items:center;gap:7px;margin-top:4px;background:linear-gradient(135deg,var(--tx3-rose),var(--tx3-deep));color:#fff;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 22px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(179,58,76,.55);transition:transform .2s}
+.tx3-cta:hover{transform:translateY(-2px)}
+.tx3-gate-note{font-size:11px;color:var(--tx3-mut);font-weight:600}
+.tx3-acts{margin-top:16px}
+.tx3-reset{border:1px solid var(--tx3-border);background:#fff;color:var(--tx3-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx3-reset:hover{color:var(--tx3-rose);border-color:var(--tx3-bstrong)}
+.tx3-note{margin-top:13px;font-size:11.5px;color:var(--tx3-mut);font-weight:600;line-height:1.6}
+.tx3-guide{position:sticky;top:78px;border:1px solid var(--tx3-border);border-radius:18px;background:var(--tx3-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx3-sh)}
+.tx3-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx3-rose);text-transform:uppercase;margin-bottom:12px}
+.tx3-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx3-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx3-ink2);font-weight:600;line-height:1.6}
+.tx3-steps li:last-child{padding-bottom:0}
+.tx3-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx3-rose),var(--tx3-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx3-steps li b{color:var(--tx3-ink);font-weight:800}
+@media(max-width:900px){.tx3-layout{grid-template-columns:1fr}.tx3-guide{position:static;order:-1}}
+@media(max-width:520px){.tx3-fields{grid-template-columns:1fr}.tx3-stats{grid-template-columns:1fr}.tx3-num{width:92px}}
+@media(prefers-reduced-motion:reduce){.tx3-app *{transition:none!important}}
+</style>
+<div class="tx3-app" id="tx3App">
+  <div class="tx3-head">
+    <div class="tx3-kick">두 번째 월급</div>
+    <h1 class="tx3-h1">배당 현금흐름 플래너</h1>
+    <p class="tx3-lead">원금과 배당이 10년 뒤 얼마의 현금흐름이 될지, 그리고 2천만원 세금 벽(금융소득종합과세)에 언제 닿는지 함께 가늠해요.</p>
+  </div>
+  <div class="tx3-layout">
+    <main class="tx3-main">
+      <div class="tx3-fields">
+        <div class="tx3-field">
+          <div class="tx3-frow"><label class="tx3-flab" for="tx3-pr">투자 원금</label>
+            <span class="tx3-fin"><input id="tx3-pr" class="tx3-num" type="number" inputmode="numeric" data-tx3="pr" min="0" max="100000" step="100" value="5000"><span class="tx3-unit">만원</span></span></div>
+          <input class="tx3-range" type="range" data-tx3-range="pr" min="0" max="100000" step="100" value="5000" aria-label="투자 원금(만원)">
+        </div>
+        <div class="tx3-field">
+          <div class="tx3-frow"><label class="tx3-flab" for="tx3-yld">배당수익률</label>
+            <span class="tx3-fin"><input id="tx3-yld" class="tx3-num" type="number" inputmode="decimal" data-tx3="yld" min="0" max="15" step="0.1" value="4"><span class="tx3-unit">%</span></span></div>
+          <input class="tx3-range" type="range" data-tx3-range="yld" min="0" max="15" step="0.1" value="4" aria-label="연 배당수익률(%)">
+        </div>
+        <div class="tx3-field">
+          <div class="tx3-frow"><label class="tx3-flab" for="tx3-gr">배당성장률</label>
+            <span class="tx3-fin"><input id="tx3-gr" class="tx3-num" type="number" inputmode="decimal" data-tx3="gr" min="0" max="20" step="0.5" value="5"><span class="tx3-unit">%</span></span></div>
+          <input class="tx3-range" type="range" data-tx3-range="gr" min="0" max="20" step="0.5" value="5" aria-label="연 배당성장률(%)">
+        </div>
+        <div class="tx3-field">
+          <div class="tx3-frow"><label class="tx3-flab" for="tx3-add">월 추가 투자</label>
+            <span class="tx3-fin"><input id="tx3-add" class="tx3-num" type="number" inputmode="numeric" data-tx3="add" min="0" max="1000" step="10" value="50"><span class="tx3-unit">만원</span></span></div>
+          <input class="tx3-range" type="range" data-tx3-range="add" min="0" max="1000" step="10" value="50" aria-label="월 추가 투자(만원)">
+        </div>
+      </div>
+      <div class="tx3-preset"><span class="tx3-plab">예시로 채우기</span>
+        <button type="button" class="tx3-chip" data-tx3-preset="5000,4,5,50">5천만·4%·+50</button>
+        <button type="button" class="tx3-chip" data-tx3-preset="10000,5,7,100">1억·5%·+100</button>
+        <button type="button" class="tx3-chip" data-tx3-preset="40000,5,5,100">벽 체험 4억·5%</button>
+      </div>
+      <div class="tx3-preview" id="tx3Prev"><div class="tx3-plab">계산하고 있어요…</div></div>
+      <div class="tx3-locked">
+        <div class="tx3-results" id="tx3Out"><div class="tx3-load">연도별 배당 추이를 그리는 중…</div></div>
+        <div class="tx3-gate">
+          <div class="tx3-gate-ic" aria-hidden="true">🔒</div>
+          <div class="tx3-gate-t">10년 추이·세후 금액·2천만원 벽은 프리미엄에서 열려요</div>
+          <div class="tx3-gate-d">입력과 1년차 미리보기는 무료예요. 연도별 배당 추이와 종합과세 경고선, 부부 분산 전략은 접근권 안에서 만나요.</div>
+          <a class="tx3-cta" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+          <div class="tx3-gate-note">*프리미엄은 가격이 아니라, 모두 여는 접근권이에요.</div>
+        </div>
+      </div>
+      <div class="tx3-acts"><button type="button" class="tx3-reset" data-tx3-act="reset">처음값으로</button></div>
+      <p class="tx3-note">입력값은 이 브라우저에만 저장돼요. 배당 재투자는 빼고 보수적으로 계산한 교육용 도구이며, 실제 수익률·세금은 다를 수 있고 특정 상품·종목을 추천하지 않아요.</p>
+    </main>
+    <aside class="tx3-guide">
+      <div class="tx3-gtag">이렇게 읽어요</div>
+      <ol class="tx3-steps">
+        <li><b>원금과 수익률만 넣어도 1년차 배당이 나와요.</b> 이게 ‘두 번째 월급’의 씨앗이에요.</li>
+        <li><b>배당은 성장이 핵심.</b> 매년 배당을 올려주는 회사라야 곡선이 살아나요. 성장률을 조금만 올려보세요.</li>
+        <li><b>월 추가 투자가 눈덩이를 굴려요.</b> 받은 배당까지 다시 넣으면 실제론 더 가팔라져요.</li>
+        <li><b>연 2천만원은 부부 각자 기준이에요.</b> 넘칠 것 같으면 명의를 나눠 미리 분산하세요. 벽을 넘기면 세금 규칙이 바뀌어요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>

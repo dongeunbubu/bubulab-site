@@ -1,0 +1,112 @@
+<!-- booktool-savingrule · 우리 집 적금·절약 규칙 메이커 · 목표액→월 납입 역산(단리/월복리)·정부정책적금 팁 · 마크업+스타일 조각(도구 JS는 contents-columns FOOTER 엔진 wireSaving) · tx2- 네임스페이스 · localStorage 자동저장 · 외부 라이브러리 0 · 2026-07-12 -->
+<style>
+.tx2-app{--tx2-bg:#FDFBF7;--tx2-paper:#FFF;--tx2-ink:#2C201B;--tx2-ink2:#57453D;--tx2-mut:#877468;--tx2-rose:#B33A4C;--tx2-deep:#7C243B;--tx2-gold:#C9A84C;--tx2-soft:#FCEEF1;--tx2-soft2:#F8E3E7;--tx2-border:#ECDAD5;--tx2-bstrong:#E4C8C2;--tx2-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--tx2-ink);line-height:1.7;word-break:keep-all;max-width:1080px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 40px}
+.tx2-app *{box-sizing:border-box}
+.tx2-head{text-align:center;margin-bottom:clamp(18px,3vw,26px)}
+.tx2-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--tx2-rose),var(--tx2-deep));border-radius:999px;padding:6px 14px}
+.tx2-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.tx2-lead{font-size:clamp(14px,1.9vw,16px);color:var(--tx2-ink2);font-weight:600;line-height:1.64;margin:11px auto 0;max-width:600px}
+.tx2-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(18px,2.6vw,28px);align-items:start}
+.tx2-main{min-width:0}
+.tx2-fields{display:grid;gap:16px;border:1px solid var(--tx2-border);border-radius:18px;background:var(--tx2-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx2-sh)}
+.tx2-field{min-width:0}
+.tx2-frow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tx2-flab{font-size:13.5px;font-weight:800;color:var(--tx2-ink)}
+.tx2-fin{display:inline-flex;align-items:center;gap:5px}
+.tx2-num{width:98px;text-align:right;font:inherit;font-size:15px;font-weight:800;color:var(--tx2-deep);border:1px solid var(--tx2-bstrong);border-radius:10px;padding:7px 9px;background:var(--tx2-soft);-moz-appearance:textfield}
+.tx2-num::-webkit-outer-spin-button,.tx2-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tx2-num:focus{outline:none;border-color:var(--tx2-rose);box-shadow:0 0 0 3px rgba(214,92,110,.2)}
+.tx2-unit{font-size:12.5px;font-weight:700;color:var(--tx2-mut)}
+.tx2-range{-webkit-appearance:none;appearance:none;width:100%;height:9px;border-radius:999px;background:linear-gradient(90deg,var(--tx2-rose) var(--p,0%),var(--tx2-border) var(--p,0%));outline:none;cursor:pointer;margin-top:11px}
+.tx2-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--tx2-rose);box-shadow:var(--tx2-sh);cursor:pointer}
+.tx2-range::-moz-range-thumb{width:22px;height:22px;border:3px solid var(--tx2-rose);border-radius:50%;background:#fff;box-shadow:var(--tx2-sh);cursor:pointer}
+.tx2-preset{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.tx2-plab{font-size:12px;font-weight:800;color:var(--tx2-mut)}
+.tx2-chip{border:1px solid var(--tx2-bstrong);background:#fff;color:var(--tx2-ink2);border-radius:999px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,transform .14s}
+.tx2-chip:hover{background:var(--tx2-soft);color:var(--tx2-rose);transform:translateY(-1px)}
+.tx2-out{margin-top:18px}
+.tx2-load{padding:34px 0;text-align:center;color:var(--tx2-mut);font-weight:700}
+.tx2-hero{border:1px dashed var(--tx2-bstrong);border-radius:18px;padding:clamp(16px,2.4vw,22px);background:linear-gradient(160deg,#fff,var(--tx2-soft));text-align:center}
+.tx2-hlab{font-size:12.5px;font-weight:800;color:var(--tx2-rose);letter-spacing:.02em}
+.tx2-hval{font-size:clamp(30px,6vw,44px);font-weight:900;letter-spacing:-.04em;color:var(--tx2-deep);line-height:1.1;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.tx2-hval span{font-size:.42em;font-weight:800;margin-left:3px}
+.tx2-hsub{font-size:12.5px;font-weight:600;color:var(--tx2-ink2);line-height:1.55}
+.tx2-bars{margin-top:18px;border:1px solid var(--tx2-border);border-radius:16px;background:var(--tx2-bg);padding:16px 15px}
+.tx2-blabel{font-size:12.5px;font-weight:800;color:var(--tx2-ink);margin-bottom:12px}
+.tx2-bar{margin-top:12px}
+.tx2-bar:first-of-type{margin-top:0}
+.tx2-bhd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:700;color:var(--tx2-ink2);margin-bottom:5px}
+.tx2-bhd b{font-weight:900;color:var(--tx2-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tx2-bhd em{font-style:normal;font-size:11px;font-weight:700;color:var(--tx2-mut);margin-left:1px}
+.tx2-btr{height:13px;border-radius:999px;background:var(--tx2-soft2);overflow:hidden}
+.tx2-btr i{display:block;height:100%;border-radius:999px;transition:width .35s ease}
+.tx2-mut .tx2-btr i{background:linear-gradient(90deg,#D8C4BC,#C6ADA4)}
+.tx2-rose .tx2-btr i{background:linear-gradient(90deg,var(--tx2-rose),var(--tx2-deep))}
+.tx2-gold .tx2-btr i{background:linear-gradient(90deg,var(--tx2-gold),#B7912F)}
+.tx2-bsub{font-size:11px;font-weight:600;color:var(--tx2-mut);margin-top:4px}
+.tx2-call{display:flex;gap:11px;margin-top:14px;border-radius:14px;padding:13px 15px;font-size:12.8px;font-weight:600;line-height:1.6}
+.tx2-call span{font-size:19px;line-height:1.2;flex:none}
+.tx2-call b{font-weight:800}
+.tx2-call i{font-style:normal;display:block;margin-top:4px;font-size:11px;color:var(--tx2-mut)}
+.tx2-eff{background:var(--tx2-soft2);color:var(--tx2-ink2)}
+.tx2-gov{background:linear-gradient(160deg,#FBF3E7,#FDF9F2);border:1px solid #EAD9B6;color:#5C4A2A}
+.tx2-acts{margin-top:16px}
+.tx2-reset{border:1px solid var(--tx2-border);background:#fff;color:var(--tx2-ink2);border-radius:12px;padding:11px 18px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:color .2s,border-color .2s}
+.tx2-reset:hover{color:var(--tx2-rose);border-color:var(--tx2-bstrong)}
+.tx2-note{margin-top:13px;font-size:11.5px;color:var(--tx2-mut);font-weight:600;line-height:1.6}
+.tx2-guide{position:sticky;top:78px;border:1px solid var(--tx2-border);border-radius:18px;background:var(--tx2-paper);padding:clamp(16px,2.4vw,22px);box-shadow:var(--tx2-sh)}
+.tx2-gtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--tx2-rose);text-transform:uppercase;margin-bottom:12px}
+.tx2-steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.tx2-steps li{position:relative;counter-increment:s;padding:0 0 15px 38px;font-size:13px;color:var(--tx2-ink2);font-weight:600;line-height:1.6}
+.tx2-steps li:last-child{padding-bottom:0}
+.tx2-steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--tx2-rose),var(--tx2-deep));color:#fff;font-size:12.5px;font-weight:800}
+.tx2-steps li b{color:var(--tx2-ink);font-weight:800}
+@media(max-width:900px){.tx2-layout{grid-template-columns:1fr}.tx2-guide{position:static;order:-1}}
+@media(max-width:520px){.tx2-num{width:84px}}
+@media(prefers-reduced-motion:reduce){.tx2-app *{transition:none!important}}
+</style>
+<div class="tx2-app" id="tx2App">
+  <div class="tx2-head">
+    <div class="tx2-kick">목표에서 거꾸로</div>
+    <h1 class="tx2-h1">우리 집 적금·절약 규칙 메이커</h1>
+    <p class="tx2-lead">얼마를, 언제까지 모을지만 정하면 매달 넣을 돈을 거꾸로 계산해드려요. 이자가 얼마나 보태주는지도 함께 봐요.</p>
+  </div>
+  <div class="tx2-layout">
+    <main class="tx2-main">
+      <div class="tx2-fields">
+        <div class="tx2-field">
+          <div class="tx2-frow"><label class="tx2-flab" for="tx2-goal">목표 금액</label>
+            <span class="tx2-fin"><input id="tx2-goal" class="tx2-num" type="number" inputmode="numeric" data-tx2="goal" min="100" max="10000" step="50" value="1000"><span class="tx2-unit">만원</span></span></div>
+          <input class="tx2-range" type="range" data-tx2-range="goal" min="100" max="10000" step="50" value="1000" aria-label="목표 금액(만원)">
+        </div>
+        <div class="tx2-field">
+          <div class="tx2-frow"><label class="tx2-flab" for="tx2-months">모으는 기간</label>
+            <span class="tx2-fin"><input id="tx2-months" class="tx2-num" type="number" inputmode="numeric" data-tx2="months" min="6" max="120" step="1" value="24"><span class="tx2-unit">개월</span></span></div>
+          <input class="tx2-range" type="range" data-tx2-range="months" min="6" max="120" step="1" value="24" aria-label="모으는 기간(개월)">
+        </div>
+        <div class="tx2-field">
+          <div class="tx2-frow"><label class="tx2-flab" for="tx2-rate">연 금리</label>
+            <span class="tx2-fin"><input id="tx2-rate" class="tx2-num" type="number" inputmode="decimal" data-tx2="rate" min="0" max="10" step="0.1" value="4"><span class="tx2-unit">%</span></span></div>
+          <input class="tx2-range" type="range" data-tx2-range="rate" min="0" max="10" step="0.1" value="4" aria-label="연 금리(%)">
+        </div>
+      </div>
+      <div class="tx2-preset"><span class="tx2-plab">예시로 채우기</span>
+        <button type="button" class="tx2-chip" data-tx2-preset="1000,24,4">1천만원·2년·4%</button>
+        <button type="button" class="tx2-chip" data-tx2-preset="3000,60,5">3천만원·5년·5%</button>
+        <button type="button" class="tx2-chip" data-tx2-preset="5000,120,7">5천만원·10년·7%</button>
+      </div>
+      <div class="tx2-out" id="tx2Out"><div class="tx2-load">계산하고 있어요…</div></div>
+      <div class="tx2-acts"><button type="button" class="tx2-reset" data-tx2-act="reset">처음값으로</button></div>
+      <p class="tx2-note">입력값은 이 브라우저에만 저장돼요. 실제 상품·금리·세금은 다를 수 있는 교육용 계산이며, 특정 상품·종목을 추천하지 않아요.</p>
+    </main>
+    <aside class="tx2-guide">
+      <div class="tx2-gtag">이렇게 써요</div>
+      <ol class="tx2-steps">
+        <li><b>목표부터 숫자로 못 박아요.</b> ‘많이’는 안 모여요. 얼마를, 언제까지인지만 정하면 끝.</li>
+        <li><b>매달 넣을 돈이 자동으로 나와요.</b> 이 금액이 우리 집 ‘적금 규칙’이에요. 나오는 즉시 자동이체를 걸어요.</li>
+        <li><b>이자가 얼마를 대신 부어주는지 봐요.</b> 그래도 8할은 원금이에요. 금리 쇼핑보다 안 새는 구조가 먼저예요.</li>
+        <li><b>정부 정책형 적금 자격이 되면 무조건 먼저.</b> 실질 이율이 다른 게임이에요.</li>
+      </ol>
+    </aside>
+  </div>
+</div>

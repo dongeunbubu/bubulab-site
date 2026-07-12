@@ -9,7 +9,7 @@
  var PREMIUM_URL='/premium';
  var KIT_PAGE='/contents-kits';
  var TOOL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/tools/';
- var TOOL_FRAGS={'booktool-mandala':1};
+ var TOOL_FRAGS={'booktool-mandala':1,'booktool-savingrule':1,'booktool-finincome':1};
  var TYPES=["column","tool"];
  var ST={q:'',f:'all',s:'new'},DATA=[],ALL=[],_route='';
 
@@ -317,10 +317,11 @@
 
  function renderTool(slug){
   var host=d.getElementById('cxTool');if(!host)return;
-  var it=findItem(slug)||{slug:slug,title:'우리 목표 만다라트',connect:{}};
+  var it=findItem(slug)||{slug:slug,title:'도구',connect:{}};
+  var tline=it.premium?(esc(it.thumb||'🔒')+' 도구 · 미리보기 무료 · 정밀은 프리미엄'):(esc(it.thumb||'🧩')+' 도구 · 무료로 열려 있어요');
   host.innerHTML='<div class="cx-reader">'
    +'<div class="cx-rd-top"><a class="cx-rd-back" href="#"><i aria-hidden="true">←</i> 칼럼·도구 전체</a>'
-   +'<span class="cx-rd-time">🧩 도구 · 무료로 열려 있어요</span></div>'
+   +'<span class="cx-rd-time">'+tline+'</span></div>'
    +'<div class="cx-tool-slot" id="cxToolBody"><div class="cx-rd-loading">불러오는 중…</div></div>'
    +crossHTML(it)+'</div>';
   reveal(host,'.cx-rv');
@@ -332,9 +333,76 @@
   var done=false,to=setTimeout(function(){if(done)return;done=true;if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();},10000);
   fetch(TOOL_BASE+slug+'.html?cb='+Date.now(),{cache:'no-store'})
    .then(function(r){if(!r.ok)throw 0;return r.text();})
-   .then(function(t){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(!el)return;el.innerHTML=String(t);wireMandala(el);reveal(el,'.cx-rv');})
+   .then(function(t){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(!el)return;el.innerHTML=String(t);wireTool(slug,el);reveal(el,'.cx-rv');})
    .catch(function(){if(done)return;done=true;clearTimeout(to);if(_route!==routeId)return;var el=slot();if(el)el.innerHTML=fallbackHTML();});
  }
+
+ /* ================= 도구: 적금·배당 플래너 (savingrule tx2 / finincome tx3) ================= */
+ function man(n){return fmtWon(Math.round((n||0)/10000))+'만원';}
+ function setP(rg,lo,hi,v){if(rg){var p=Math.max(0,Math.min(100,(v-lo)/((hi-lo)||1)*100));rg.style.setProperty('--p',p.toFixed(1)+'%');}}
+
+ /* --- 우리 집 적금·절약 규칙 메이커(savingrule) --- */
+ var SKEY='bbl_saving_v1',SDEF={goal:1000,months:24,rate:4},SLIM={goal:[100,10000,50],months:[6,120,1],rate:[0,10,0.1]};
+ function sClamp(k,v){var L=SLIM[k];v=parseFloat(v);if(isNaN(v))v=SDEF[k];if(v<L[0])v=L[0];if(v>L[1])v=L[1];if(k==='months')v=Math.round(v);return v;}
+ function sLoad(){var o={goal:SDEF.goal,months:SDEF.months,rate:SDEF.rate};try{var r=localStorage.getItem(SKEY);if(r){var j=JSON.parse(r);if(j&&typeof j==='object'){['goal','months','rate'].forEach(function(k){if(typeof j[k]==='number'&&isFinite(j[k]))o[k]=sClamp(k,j[k]);});}}}catch(e){}return o;}
+ var _sT=null;function sSave(st){if(_sT)clearTimeout(_sT);_sT=setTimeout(function(){try{localStorage.setItem(SKEY,JSON.stringify({goal:st.goal,months:st.months,rate:st.rate}));}catch(e){}},220);}
+ function sCalc(st){var T=st.goal*10000,n=Math.max(1,Math.round(st.months)),i=st.rate/100/12;var p0=T/n;var ps=(i>0)?(T/(n+i*n*(n+1)/2)):p0;var af=(i>0)?((Math.pow(1+i,n)-1)/i*(1+i)):n;var pc=(i>0)?(T/af):p0;var prin=ps*n;return {T:T,n:n,p0:p0,ps:ps,pc:pc,prin:prin,intr:Math.max(0,T-prin)};}
+ function sBar(lab,sub,val,max,cls){var w=max>0?Math.max(5,Math.min(100,val/max*100)):0;return '<div class="tx2-bar '+(cls||'')+'"><div class="tx2-bhd"><span>'+lab+'</span><b>'+fmtWon(roundk(val))+'<em>원/월</em></b></div><div class="tx2-btr"><i style="width:'+w.toFixed(1)+'%"></i></div>'+(sub?'<div class="tx2-bsub">'+sub+'</div>':'')+'</div>';}
+ function sRender(root,st){var box=root.querySelector('#tx2Out');if(!box)return;var c=sCalc(st);var save=Math.max(0,c.p0-c.ps);
+  box.innerHTML='<div class="tx2-hero"><div class="tx2-hlab">단리 적금 기준 · 매달 넣을 돈</div><div class="tx2-hval">'+fmtWon(roundk(c.ps))+'<span>원</span></div><div class="tx2-hsub">'+st.months+'개월 넣으면 목표 '+man(c.T)+' 달성 · 원금 '+man(c.prin)+' + 세전이자 '+man(c.intr)+'</div></div>'
+   +'<div class="tx2-bars"><div class="tx2-blabel">매달 넣을 돈, 이자가 이만큼 깎아줘요</div>'
+   +sBar('이자 없이 (원금만)','목표를 개월수로 그냥 나눈 값',c.p0,c.p0,'tx2-mut')
+   +sBar('단리 적금 (연 '+st.rate+'%)','일반 정기적금 방식',c.ps,c.p0,'tx2-rose')
+   +sBar('월복리로 굴리면 (연 '+st.rate+'%)','매달 이자에 이자가 붙는 경우',c.pc,c.p0,'tx2-gold')
+   +'</div>'
+   +'<div class="tx2-call tx2-eff"><span aria-hidden="true">📈</span><div>이자가 매달 약 <b>'+fmtWon(roundk(save))+'원</b>을 대신 부어줘요. 적금 구간에선 단리·복리 차이가 크지 않아요 — 목돈은 결국 <b>원금</b>이 만듭니다. 복리의 진짜 힘은 이 목돈을 투자로 옮길 때 터져요.</div></div>'
+   +'<div class="tx2-call tx2-gov"><span aria-hidden="true">🏛️</span><div><b>정부 정책형 적금부터 확인해요.</b> 청년도약계좌처럼 정부기여금·비과세가 붙는 상품은 같은 돈을 넣어도 실질 이율이 확 올라가요. 자격이 되면 1순위로. <i>*일반 적금 이자에는 15.4% 이자소득세가 붙어요.</i></div></div>';
+ }
+ function sSet(root,st){['goal','months','rate'].forEach(function(k){var rg=root.querySelector('[data-tx2-range="'+k+'"]'),nm=root.querySelector('[data-tx2="'+k+'"]'),L=SLIM[k];if(rg)rg.value=st[k];if(nm)nm.value=st[k];setP(rg,L[0],L[1],st[k]);});}
+ function wireSaving(root){
+  if(!root||root.__tx2)return;root.__tx2=1;var st=sLoad();
+  ['goal','months','rate'].forEach(function(k){var rg=root.querySelector('[data-tx2-range="'+k+'"]'),nm=root.querySelector('[data-tx2="'+k+'"]'),L=SLIM[k];
+   if(rg)rg.addEventListener('input',function(){var v=sClamp(k,rg.value);st[k]=v;if(nm)nm.value=v;setP(rg,L[0],L[1],v);sSave(st);sRender(root,st);});
+   if(nm){nm.addEventListener('input',function(){var v=parseFloat(nm.value);if(isNaN(v))return;v=sClamp(k,v);st[k]=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);sSave(st);sRender(root,st);});
+    nm.addEventListener('change',function(){var v=sClamp(k,nm.value);st[k]=v;nm.value=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);sSave(st);sRender(root,st);});}});
+  root.addEventListener('click',function(e){var pz=e.target.closest?e.target.closest('[data-tx2-preset]'):null;
+   if(pz){var a=pz.getAttribute('data-tx2-preset').split(',');st.goal=sClamp('goal',a[0]);st.months=sClamp('months',a[1]);st.rate=sClamp('rate',a[2]);sSet(root,st);sSave(st);sRender(root,st);return;}
+   var rs=e.target.closest?e.target.closest('[data-tx2-act="reset"]'):null;
+   if(rs){st={goal:SDEF.goal,months:SDEF.months,rate:SDEF.rate};try{localStorage.removeItem(SKEY);}catch(_e){}sSet(root,st);sSave(st);sRender(root,st);}});
+  sSet(root,st);sRender(root,st);
+ }
+
+ /* --- 배당 현금흐름 플래너(finincome) · 결과영역 프리미엄 게이트 --- */
+ var FKEY='bbl_finincome_v1',FDEF={pr:5000,yld:4,gr:5,add:50},FLIM={pr:[0,100000,100],yld:[0,15,0.1],gr:[0,20,0.5],add:[0,1000,10]},FWALL=20000000;
+ function fClamp(k,v){var L=FLIM[k];v=parseFloat(v);if(isNaN(v))v=FDEF[k];if(v<L[0])v=L[0];if(v>L[1])v=L[1];return v;}
+ function fLoad(){var o={pr:FDEF.pr,yld:FDEF.yld,gr:FDEF.gr,add:FDEF.add};try{var r=localStorage.getItem(FKEY);if(r){var j=JSON.parse(r);if(j&&typeof j==='object'){['pr','yld','gr','add'].forEach(function(k){if(typeof j[k]==='number'&&isFinite(j[k]))o[k]=fClamp(k,j[k]);});}}}catch(e){}return o;}
+ var _fT=null;function fSave(st){if(_fT)clearTimeout(_fT);_fT=setTimeout(function(){try{localStorage.setItem(FKEY,JSON.stringify({pr:st.pr,yld:st.yld,gr:st.gr,add:st.add}));}catch(e){}},220);}
+ function fCalc(st){var P0=st.pr*10000,m=st.add*10000,y=st.yld/100,g=st.gr/100,rows=[],maxD=0,cross=0,sumNet=0;for(var t=1;t<=10;t++){var Ps=P0+m*12*(t-1);var ye=y*Math.pow(1+g,t-1);var dg=Ps*ye;var dn=dg*(1-0.154);if(dg>maxD)maxD=dg;if(!cross&&dg>=FWALL)cross=t;sumNet+=dn;rows.push({t:t,prin:Ps,gross:dg,net:dn});}return {rows:rows,maxD:maxD,cross:cross,sumNet:sumNet};}
+ function fChart(c){var scale=Math.max(c.maxD*1.06,FWALL*1.15)||1;var wp=FWALL/scale*100;var bars='';c.rows.forEach(function(r){var h=Math.max(2,r.gross/scale*100);var over=r.gross>=FWALL;bars+='<div class="tx3-col"><div class="tx3-ctr"><div class="tx3-cbar'+(over?' tx3-over':'')+'" style="height:'+h.toFixed(1)+'%"></div></div><div class="tx3-cx">'+r.t+'년</div></div>';});
+  return '<div class="tx3-chart"><div class="tx3-wall" style="bottom:'+wp.toFixed(1)+'%"><span>2천만원 벽 · 종합과세 경계</span></div><div class="tx3-cols">'+bars+'</div></div>';}
+ function fRender(root,st){var c=fCalc(st);var prev=root.querySelector('#tx3Prev');var out=root.querySelector('#tx3Out');var r1=c.rows[0],r10=c.rows[9];
+  if(prev){prev.innerHTML='<div class="tx3-plab">지금 시작하면, 1년차 예상 배당금 (세전)</div><div class="tx3-pval">'+fmtWon(roundk(r1.gross))+'<span>원</span></div><div class="tx3-psub">월 평균 약 '+fmtWon(roundk(r1.gross/12))+'원 · 세후(15.4%) 약 '+fmtWon(roundk(r1.net))+'원/년</div>';}
+  if(out){var warn=c.cross?('<div class="tx3-warn hot"><span aria-hidden="true">🧱</span><div><b>'+c.cross+'년차에 연 배당이 2천만원 벽을 넘어서요.</b> 이 구간부터 이자·배당이 다른 소득과 합산돼 세율이 뛸 수 있어요(금융소득종합과세).</div></div>'):('<div class="tx3-warn ok"><span aria-hidden="true">🛡️</span><div><b>10년차에도 2천만원 벽까지 약 '+man(Math.max(0,FWALL-r10.gross))+' 여유</b>가 있어요. 아직은 15.4% 분리과세로 깔끔하게 끝나요.</div></div>');
+   out.innerHTML=fChart(c)
+    +'<div class="tx3-stats"><div class="tx3-st"><span>10년차 연 배당 · 세전</span><b>'+fmtWon(roundk(r10.gross))+'원</b></div><div class="tx3-st"><span>10년차 세후 · 15.4%</span><b>'+fmtWon(roundk(r10.net))+'원</b></div><div class="tx3-st"><span>10년간 세후 배당 합계</span><b>'+fmtWon(roundk(c.sumNet))+'원</b></div></div>'
+    +warn
+    +'<div class="tx3-call"><span aria-hidden="true">👫</span><div><b>2천만원은 한 사람 기준이에요.</b> 부부가 명의를 나눠 각자 2천만원 아래로 두면 합쳐 최대 4천만원까지 종합과세를 피할 수 있어요. 한쪽에 몰아두지 마세요. <i>*배당 재투자는 빼고 보수적으로 계산했어요.</i></div></div>';}
+ }
+ function fSet(root,st){['pr','yld','gr','add'].forEach(function(k){var rg=root.querySelector('[data-tx3-range="'+k+'"]'),nm=root.querySelector('[data-tx3="'+k+'"]'),L=FLIM[k];if(rg)rg.value=st[k];if(nm)nm.value=st[k];setP(rg,L[0],L[1],st[k]);});}
+ function wireFin(root){
+  if(!root||root.__tx3)return;root.__tx3=1;var st=fLoad();
+  ['pr','yld','gr','add'].forEach(function(k){var rg=root.querySelector('[data-tx3-range="'+k+'"]'),nm=root.querySelector('[data-tx3="'+k+'"]'),L=FLIM[k];
+   if(rg)rg.addEventListener('input',function(){var v=fClamp(k,rg.value);st[k]=v;if(nm)nm.value=v;setP(rg,L[0],L[1],v);fSave(st);fRender(root,st);});
+   if(nm){nm.addEventListener('input',function(){var v=parseFloat(nm.value);if(isNaN(v))return;v=fClamp(k,v);st[k]=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);fSave(st);fRender(root,st);});
+    nm.addEventListener('change',function(){var v=fClamp(k,nm.value);st[k]=v;nm.value=v;if(rg)rg.value=v;setP(rg,L[0],L[1],v);fSave(st);fRender(root,st);});}});
+  root.addEventListener('click',function(e){var pz=e.target.closest?e.target.closest('[data-tx3-preset]'):null;
+   if(pz){var a=pz.getAttribute('data-tx3-preset').split(',');st.pr=fClamp('pr',a[0]);st.yld=fClamp('yld',a[1]);st.gr=fClamp('gr',a[2]);st.add=fClamp('add',a[3]);fSet(root,st);fSave(st);fRender(root,st);return;}
+   var rs=e.target.closest?e.target.closest('[data-tx3-act="reset"]'):null;
+   if(rs){st={pr:FDEF.pr,yld:FDEF.yld,gr:FDEF.gr,add:FDEF.add};try{localStorage.removeItem(FKEY);}catch(_e){}fSet(root,st);fSave(st);fRender(root,st);}});
+  fSet(root,st);fRender(root,st);
+ }
+
+ function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);}
 
  /* ================= 라우터 ================= */
  function parseHash(){var h=(location.hash||'').replace(/^#/,'').trim();return h?{mode:'reader',slug:h}:{mode:'explore'};}
