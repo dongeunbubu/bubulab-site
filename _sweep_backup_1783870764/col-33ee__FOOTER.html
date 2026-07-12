@@ -1,0 +1,120 @@
+<!-- [콘텐츠_딥칼럼_배당의함정_2026-06] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 4개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+function countUp(el,to,dur,pre,suf){to=+to;dur=dur||1000;pre=pre||'';suf=suf||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);}
+function runStats(box){box.querySelectorAll('[data-count]').forEach(function(el){countUp(el,el.getAttribute('data-count'),1100,el.getAttribute('data-pre')||'',el.getAttribute('data-suf')||'');});}
+function runBars(box){box.querySelectorAll('.rfill').forEach(function(el){el.style.width=el.getAttribute('data-w')+'%';});}
+if('IntersectionObserver'in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');
+   if(e.target.classList.contains('hstats')&&!e.target.dataset.done){e.target.dataset.done=1;runStats(e.target);}
+   if(e.target.classList.contains('recov')&&!e.target.dataset.done){e.target.dataset.done=1;runBars(e.target);}
+ }else{e.target.classList.remove('in');}});},{threshold:.14});
+ d.querySelectorAll('.reveal,.stag').forEach(function(el){io.observe(el);});
+}else{d.querySelectorAll('.reveal,.stag').forEach(function(el){el.classList.add('in');});d.querySelectorAll('.hstats').forEach(runStats);d.querySelectorAll('.recov').forEach(runBars);}
+})();
+/* 배당수익률 함정 계산기 */
+(function(){var d=document;var P=d.getElementById('yp'),out=d.getElementById('yv'),bar=d.getElementById('ybar'),cm=d.getElementById('ycm'),pv=d.getElementById('ypv');
+var DIV=2.83;if(!P)return;
+function upd(){var price=+P.value;var y=DIV/price*100;pv.textContent='$'+price.toFixed(2);out.textContent=y.toFixed(2)+'%';
+var w=Math.max(5,Math.min(100,(y-4.4)/(9.5-4.4)*100));bar.style.width=w+'%';var msg;
+if(price>=53){msg='주가가 높을 땐 수익률이 낮아 보여요. 하지만 그건 시장이 회사를 믿고 있다는 신호일 수도 있어요.';bar.style.background='linear-gradient(90deg,var(--sage),#3f6e60)';}
+else if(price<=40){msg='수익률이 6%를 훌쩍 넘었어요. 배당이 늘어서가 아니라 주가가 빠져서라면, 이게 바로 고배당의 함정이에요.';bar.style.background='linear-gradient(90deg,var(--pink),var(--rose))';}
+else{msg='배당금은 그대로인데 주가만 움직여도 수익률이 출렁여요. 수익률 숫자 하나만 보면 안 되는 이유예요.';bar.style.background='linear-gradient(90deg,#E0A64E,var(--gold))';}
+cm.textContent=msg;}
+P.addEventListener('input',upd);upd();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*fxkrw*//*fxkrw-v2*/
+(function(){
+  if(document.documentElement.getAttribute('data-fxk'))return;
+  document.documentElement.setAttribute('data-fxk','1');
+  var FALLBACK=1525, rate=FALLBACK, live=false;
+  try{var _c=JSON.parse(sessionStorage.getItem('bblfx')||'0');if(_c&&_c.r&&(Date.now()-_c.t)<43200000){rate=_c.r;live=true;}}catch(e){}
+  function f(x){return x>=100?Math.round(x).toLocaleString('ko-KR'):(Math.round(x*10)/10).toLocaleString('ko-KR');}
+  function fmt(won){
+    if(won>=1e12)return f(won/1e12)+'조원';
+    if(won>=1e8)return f(won/1e8)+'억원';
+    if(won>=1e4)return f(won/1e4)+'만원';
+    return Math.round(won).toLocaleString('ko-KR')+'원';
+  }
+  var MU={'십억':1e9,'백만':1e6,'조':1e12,'억':1e8,'만':1e4,'bn':1e9,'mn':1e6,'B':1e9,'M':1e6,'T':1e12};
+  var RE=/\$([0-9][0-9,]*(?:\.[0-9]+)?)(십억|백만|조|억|만|bn|mn|B|M|T)?/;
+  function mag(str,suf){var n=parseFloat(str.replace(/,/g,''));return n*(suf&&MU[suf]?MU[suf]:1);}
+  function wrap(){
+    var sk={SCRIPT:1,STYLE:1,NOSCRIPT:1,TEXTAREA:1};
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(node){
+      if(!node.nodeValue||node.nodeValue.indexOf('$')<0)return 2;
+      var p=node.parentNode;
+      while(p&&p!==document.body){
+        if(sk[p.nodeName])return 2;
+        var c=p.className?(''+p.className):'';
+        if(c.indexOf('fxk')>=0||c.indexOf('fxbadge')>=0)return 2;
+        p=p.parentNode;
+      }
+      return RE.test(node.nodeValue)?1:2;
+    }});
+    var nodes=[],n;while(n=w.nextNode())nodes.push(n);
+    var G=new RegExp(RE.source,'g');
+    nodes.forEach(function(node){
+      var txt=node.nodeValue, frag=document.createDocumentFragment(), last=0, m; G.lastIndex=0;
+      while(m=G.exec(txt)){
+        frag.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));
+        var usd=mag(m[1],m[2]);
+        var sp=document.createElement('span'); sp.className='fxk'; sp.setAttribute('data-usd',usd);
+        sp.textContent='(약 '+fmt(usd*rate)+')';
+        frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    });
+  }
+  function apply(){
+    var els=document.querySelectorAll('.fxk[data-usd]');
+    for(var i=0;i<els.length;i++){var u=parseFloat(els[i].getAttribute('data-usd'));els[i].textContent='(약 '+fmt(u*rate)+')';}
+    var b=document.getElementById('fxbadge');
+    if(b){b.querySelector('.rt').textContent='$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원';
+          b.querySelector('.lb').textContent=live?'실시간':'기준';}
+  }
+  function badge(){
+    var d=document.createElement('div'); d.id='fxbadge'; d.className='fxbadge';
+    d.innerHTML='<span class="dot"></span><span class="rt">$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원</span><span class="lb">기준</span>';
+    document.body.appendChild(d);
+  }
+  function start(){
+    wrap(); badge();
+    try{fetch('https://api.frankfurter.dev/v1/latest?from=USD&to=KRW')
+      .then(function(r){return r.json();})
+      .then(function(j){if(j&&j.rates&&j.rates.KRW){rate=j.rates.KRW;live=true;apply();try{sessionStorage.setItem('bblfx',JSON.stringify({r:rate,t:Date.now()}))}catch(e){}}})
+      .catch(function(){});}catch(e){}
+  }
+  if(document.readyState!=='loading')start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>

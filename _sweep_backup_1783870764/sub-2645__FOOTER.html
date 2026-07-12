@@ -1,0 +1,47 @@
+<!-- [구독_해지_윈백카드_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 1개) -->
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  /* ── 테마 토글(자동/밝게/어둡게) ── */
+  var seg = document.querySelector('.democtl .seg');
+  if(seg){
+    seg.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if(!b) return;
+      var mode = b.getAttribute('data-mode');
+      var btns = seg.querySelectorAll('button');
+      for(var i=0;i<btns.length;i++){ btns[i].setAttribute('aria-pressed', btns[i]===b ? 'true' : 'false'); }
+      if(mode === 'auto'){ root.removeAttribute('data-theme'); }
+      else { root.setAttribute('data-theme', mode); }
+    });
+  }
+
+  /* ── (선택) 해지 이유 단일 선택 — 같은 감사 인사만, 붙잡는 제안 없음 ── */
+  var reasons = document.querySelector('.reasons');
+  var fbnote = document.querySelector('.fbnote');
+  if(reasons){
+    reasons.addEventListener('click', function(e){
+      var b = e.target.closest('.rchip');
+      if(!b) return;
+      var chips = reasons.querySelectorAll('.rchip');
+      for(var i=0;i<chips.length;i++){ chips[i].setAttribute('aria-pressed', chips[i]===b ? 'true' : 'false'); }
+      if(fbnote){ fbnote.classList.add('show'); }
+    });
+  }
+
+  /* ── 반복형 스크롤 리빌 (내려도 올려도 매번 재생 · unobserve 안 함) ── */
+  var revs = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        en.target.classList.toggle('in', en.isIntersecting);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    for(var i=0;i<revs.length;i++){ io.observe(revs[i]); }
+  } else {
+    for(var j=0;j<revs.length;j++){ revs[j].classList.add('in'); }
+  }
+})();
+</script>

@@ -1,0 +1,217 @@
+<!-- [도구_연봉협상세후역산기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtMan=function(n){return Math.round(n/10000).toLocaleString('ko-KR')+'만';};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+/* ===== 2026 rates (정방향 실수령 로직과 동일) ===== */
+var NP_RATE=0.0475, HI_RATE=0.03595, LTC_RATE=0.1314, EI_RATE=0.009;
+var NP_CAP=6370000, NP_MIN=400000;
+var f10=function(x){return Math.floor(x/10)*10;};
+function earnedDeduction(g){var d;if(g<=5000000)d=g*0.7;else if(g<=15000000)d=3500000+(g-5000000)*0.4;else if(g<=45000000)d=7500000+(g-15000000)*0.15;else if(g<=100000000)d=12000000+(g-45000000)*0.05;else d=14750000+(g-100000000)*0.02;return Math.min(d,20000000);}
+function progTax(b){if(b<=14000000)return b*0.06;if(b<=50000000)return b*0.15-1260000;if(b<=88000000)return b*0.24-5760000;if(b<=150000000)return b*0.35-15440000;if(b<=300000000)return b*0.38-19940000;if(b<=500000000)return b*0.40-25940000;if(b<=1000000000)return b*0.42-35940000;return b*0.45-65940000;}
+function laborCredit(gross,g){var c=gross<=1300000?gross*0.55:(715000+(gross-1300000)*0.30);var lim;if(g<=33000000)lim=740000;else if(g<=70000000)lim=Math.max(660000,740000-(g-33000000)*0.008);else if(g<=120000000)lim=Math.max(500000,660000-(g-70000000)*0.5);else lim=Math.max(200000,500000-(g-120000000)*0.5);return Math.min(c,lim);}
+function calcPerson(annual,nonTaxMo,deps){
+ annual=Math.max(0,annual);
+ var taxableY=Math.max(0,annual-nonTaxMo*12);
+ var bo=taxableY/12;
+ var np=f10(Math.min(Math.max(bo,NP_MIN),NP_CAP)*NP_RATE);
+ var hi=f10(bo*HI_RATE);
+ var ltc=f10(hi*LTC_RATE);
+ var ei=f10(bo*EI_RATE);
+ var ins=np+hi+ltc+ei;
+ var eInc=taxableY-earnedDeduction(taxableY);
+ var personal=(1+deps)*1500000;
+ var pension=np*12;
+ var special=(hi+ltc+ei)*12;
+ var base=Math.max(0,eInc-personal-pension-special);
+ var gross=Math.max(0,progTax(base));
+ var credit=laborCredit(gross,taxableY);
+ var decided=Math.max(0,gross-credit);
+ var local=Math.round(decided*0.1);
+ var itM=Math.round(decided/12), loM=Math.round(local/12);
+ var grossM=annual/12;
+ var dedM=ins+itM+loM;
+ var takeM=grossM-dedM;
+ return {annual:annual,grossM:grossM,np:np,hi:hi,ltc:ltc,ei:ei,it:itM,lo:loM,
+         dedM:dedM,takeM:takeM,rate:grossM>0?dedM/grossM*100:0};
+}
+
+/* ===== 역산: 목표 월 실수령 → 필요 세전 연봉 (이분탐색, 만원 올림) ===== */
+function requiredGross(targetTakeM,nt,deps){
+ targetTakeM=Math.max(0,targetTakeM);
+ if(targetTakeM<=0)return 0;
+ var lo=targetTakeM*12;                                  // 세전 ≥ 실수령*12 항상 성립
+ var hi=Math.max(targetTakeM*12*1.2,12000000);
+ while(calcPerson(hi,nt,deps).takeM<targetTakeM&&hi<5e10)hi*=1.7;
+ for(var i=0;i<64;i++){var mid=(lo+hi)/2;if(calcPerson(mid,nt,deps).takeM<targetTakeM)lo=mid;else hi=mid;}
+ return Math.ceil(hi/10000)*10000;                       // 만 원 단위 올림(목표 이상 보장)
+}
+
+/* ===== UI ===== */
+var $=function(id){return document.getElementById(id);};
+var mode='solo', deps=0;
+var tgtA=$('tgtA'),tgtAR=$('tgtAR'),tgtB=$('tgtB'),tgtBR=$('tgtBR'),nontax=$('nontax');
+function parseNum(el){return Math.max(0,+(el.value.replace(/[^0-9]/g,''))||0);}
+function clampR(r,v){return Math.min(Math.max(v,+r.min),+r.max);}
+
+function fillBreak(o,animate){
+ var items=[['np',o.np],['hi',o.hi],['ltc',o.ltc],['ei',o.ei],['it',o.it],['lo',o.lo]];
+ var maxv=Math.max(1,o.np,o.hi,o.ltc,o.ei,o.it,o.lo);
+ items.forEach(function(it){var bar=$('bar-'+it[0]);if(bar)bar.style.width=(it[1]/maxv*100)+'%';var v=$('v-'+it[0]);if(v){if(animate)window.countUp(v,it[1],850);else v.textContent=window.fmtWon(it[1]);}});
+ if(animate)window.countUp($('v-tot'),o.dedM,850);else $('v-tot').textContent=window.fmtWon(o.dedM);
+}
+
+function renderLadder(baseTarget,nt){
+ var rungs=[0,100000,200000,300000];
+ var grosses=rungs.map(function(d){return requiredGross(baseTarget+d,nt,deps);});
+ var maxg=Math.max.apply(null,grosses)||1;
+ var html='';
+ rungs.forEach(function(d,i){
+   var net=baseTarget+d, g=grosses[i], delta=g-grosses[0];
+   var label=(d===0?'목표':'+'+window.fmtMan(d));
+   var deltaTxt=(d===0?'기준':'+'+window.fmtMan(delta)+' 더');
+   html+='<div class="rung'+(d===0?' base':'')+'">'
+       +'<div class="rn">월 '+window.fmtMan(net)+'<small>실수령</small></div>'
+       +'<div class="rtrack"><b data-w="'+(g/maxg*100)+'"></b></div>'
+       +'<div class="rv">'+window.fmtMan(g)+'<small>'+deltaTxt+'</small></div>'
+       +'</div>';
+ });
+ $('ladderRows').innerHTML=html;
+ // draw 애니메이션
+ requestAnimationFrame(function(){$('ladderRows').querySelectorAll('.rtrack b').forEach(function(b){b.style.width=b.getAttribute('data-w')+'%';});});
+}
+
+function compute(animate){
+ var nt=parseNum(nontax);
+ var couple=mode==='couple';
+ var targA=parseNum(tgtA);
+ var gA=requiredGross(targA,nt,deps);
+ var aObj=calcPerson(gA,nt,deps);            // 실제 결과 (목표 이상)
+ var T;
+ if(couple){
+   var targB=parseNum(tgtB);
+   var gB=requiredGross(targB,nt,0);
+   var bObj=calcPerson(gB,nt,0);
+   T={grossM:aObj.grossM+bObj.grossM,np:aObj.np+bObj.np,hi:aObj.hi+bObj.hi,ltc:aObj.ltc+bObj.ltc,ei:aObj.ei+bObj.ei,it:aObj.it+bObj.it,lo:aObj.lo+bObj.lo,dedM:aObj.dedM+bObj.dedM,takeM:aObj.takeM+bObj.takeM,gross:gA+gB,tgt:targA+targB};
+ }else{
+   T={grossM:aObj.grossM,np:aObj.np,hi:aObj.hi,ltc:aObj.ltc,ei:aObj.ei,it:aObj.it,lo:aObj.lo,dedM:aObj.dedM,takeM:aObj.takeM,gross:gA,tgt:targA};
+ }
+ var rate=T.grossM>0?T.dedM/T.grossM*100:0;
+
+ // hero
+ $('heroCap').textContent=couple?'부부 합산 · 불러야 할 세전 연봉':'불러야 할 세전 연봉';
+ var bg=$('bigGross');
+ if(animate){bg.innerHTML='<span></span><small>원</small>';window.countUp(bg.firstChild,T.gross,950);}
+ else{bg.innerHTML=window.fmtWon(T.gross)+'<small>원</small>';}
+ $('subMo').textContent=window.fmtWon(T.grossM)+'원';
+ $('subTgt').textContent=window.fmtWon(T.tgt)+'원';
+ $('heroSub').innerHTML=couple?'둘이 합쳐 월 세전 <b>'+window.fmtWon(T.grossM)+'원</b> · 통장 목표 <b>'+window.fmtWon(T.tgt)+'원</b>':'월 세전 <b>'+window.fmtWon(T.grossM)+'원</b> · 통장 목표 <b>'+window.fmtWon(T.tgt)+'원</b>';
+
+ // mini cards
+ if(animate){window.countUp($('mMo'),T.grossM,900);window.countUp($('mDed'),T.dedM,900);}
+ else{$('mMo').textContent=window.fmtWon(T.grossM);$('mDed').textContent=window.fmtWon(T.dedM);}
+ $('mRate').textContent=rate.toFixed(1)+'%';
+
+ // split bar
+ var takePct=T.grossM>0?Math.max(0,T.takeM)/T.grossM*100:0;
+ var dedPct=T.grossM>0?T.dedM/T.grossM*100:0;
+ $('segTake').style.width=takePct+'%';
+ $('segDed').style.width=dedPct+'%';
+ $('segTake').textContent=takePct>14?Math.round(takePct)+'%':'';
+ $('segDed').textContent=dedPct>14?Math.round(dedPct)+'%':'';
+ $('legTake').textContent=takePct.toFixed(0)+'%';
+ $('legDed').textContent=dedPct.toFixed(0)+'%';
+ $('splitSub').textContent='세전 '+window.fmtWon(T.grossM)+'원 기준';
+
+ // breakdown
+ fillBreak(T,animate);
+ $('breakWho').textContent=couple?'2026년 요율 · 부부 합산 공제 (막대=항목 비중)':'2026년 요율 적용 · 막대는 가장 큰 항목 대비 비중';
+
+ // 레버리지 + 사다리 (solo만)
+ if(couple){
+   $('leverWrap').classList.add('hidden');
+   $('ladderWrap').classList.add('hidden');
+   $('persons').classList.remove('hidden');
+   if(animate){window.countUp($('pA'),gA,900);window.countUp($('pB'),gB,900);}
+   else{$('pA').textContent=window.fmtWon(gA);$('pB').textContent=window.fmtWon(gB);}
+   $('ppA').textContent='목표 실수령 월 '+window.fmtWon(targA)+'원';
+   $('ppB').textContent='목표 실수령 월 '+window.fmtWon(targB)+'원';
+ }else{
+   $('persons').classList.add('hidden');
+   $('leverWrap').classList.remove('hidden');
+   $('ladderWrap').classList.remove('hidden');
+   var g1=requiredGross(targA+100000,nt,deps);
+   var margin=g1-gA;                                    // 통장 +10만/월에 필요한 세전 연봉 증분
+   var leak=margin>0?Math.max(0,(margin-1200000)/margin*100):0;
+   $('leverBig').innerHTML='통장에 매달 <b>10만 원</b>을 더 받으려면, 세전 연봉을 약 <b>'+window.fmtMan(margin)+' 원</b> 더 불러야 해요.';
+   $('leverSub').innerHTML='이 구간에선 늘어난 세전의 약 <b>'+leak.toFixed(0)+'%</b>가 세금·4대보험으로 빠져나가요. 연봉이 높아질수록 같은 ‘통장 +10만’에 더 큰 세전 인상이 필요해요.';
+   renderLadder(targA,nt);
+ }
+}
+
+/* inputs */
+function bindTgt(inp,rng){
+ inp.addEventListener('input',function(){var v=parseNum(inp);inp.value=v?v.toLocaleString('ko-KR'):'';rng.value=clampR(rng,v);compute(false);});
+ inp.addEventListener('blur',function(){compute(true);});
+ rng.addEventListener('input',function(){inp.value=(+rng.value).toLocaleString('ko-KR');compute(false);});
+}
+bindTgt(tgtA,tgtAR);bindTgt(tgtB,tgtBR);
+nontax.addEventListener('input',function(){var v=parseNum(nontax);nontax.value=v?v.toLocaleString('ko-KR'):'';compute(false);});
+nontax.addEventListener('blur',function(){compute(true);});
+document.querySelectorAll('#chipsA .chip').forEach(function(c){c.addEventListener('click',function(){tgtA.value=(+c.dataset.v).toLocaleString('ko-KR');tgtAR.value=clampR(tgtAR,+c.dataset.v);compute(true);});});
+document.querySelectorAll('#chipsB .chip').forEach(function(c){c.addEventListener('click',function(){tgtB.value=(+c.dataset.v).toLocaleString('ko-KR');tgtBR.value=clampR(tgtBR,+c.dataset.v);compute(true);});});
+
+/* dependents stepper */
+function setDep(n){deps=Math.min(8,Math.max(0,n));$('depV').textContent=deps;compute(true);}
+$('depMinus').addEventListener('click',function(){setDep(deps-1);});
+$('depPlus').addEventListener('click',function(){setDep(deps+1);});
+
+/* mode toggle */
+function setMode(m){
+ mode=m;var couple=m==='couple';
+ $('m-solo').setAttribute('aria-pressed',String(!couple));
+ $('m-couple').setAttribute('aria-pressed',String(couple));
+ $('blockB').classList.toggle('hidden',!couple);
+ $('whoA').textContent=couple?'나':'목표';
+ $('labA').textContent=couple?'내 목표 월 실수령액':'원하는 월 실수령액';
+ $('depHint').textContent=couple?'본인에게 귀속해 계산해요':'배우자·자녀 등 인적공제 대상';
+ compute(true);
+}
+$('m-solo').addEventListener('click',function(){setMode('solo');});
+$('m-couple').addEventListener('click',function(){setMode('couple');});
+
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

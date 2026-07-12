@@ -1,0 +1,547 @@
+<!-- [도구_부부영끌한도DSR_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 10건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(38px,5vw,64px) 0;position:relative}
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px;align-items:center}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.menu .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.menu .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:760px){.menu a:not(.cta){display:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.gb i,#gArc,#gArcBg,.barfill{transition:none!important}}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17px);line-height:1.72;max-width:720px;margin-top:15px}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:16px}
+.backlink:hover{color:var(--rose)}
+.livechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip b{color:var(--rose);font-variant-numeric:tabular-nums}
+.livechip .ld{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(94,140,127,.18)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--rose);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.panelhd{font-size:clamp(18px,2.3vw,22px);font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.panelsub{font-size:13.5px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.6}
+.calc{margin-top:24px}
+.field{margin-bottom:20px}
+.field>label{font-size:14px;font-weight:800;display:block;margin-bottom:9px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+.incrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.incfield{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.incfield input{border:0;background:transparent;font-family:inherit;font-size:19px;font-weight:800;width:104px;text-align:right;color:var(--ink)}
+.incfield span{font-size:13.5px;color:var(--mut);font-weight:700}
+.incfield:focus-within{border-color:var(--rose)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:130px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.bigv{font-size:17px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums;min-width:66px;text-align:right}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.55}
+.hint b{color:var(--rose)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{border-color:var(--rose);background:var(--pinkSoft2);color:var(--rose)}
+.seg{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px;flex-wrap:wrap}
+.seg button{flex:1;min-width:72px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:9px;padding:9px 8px;cursor:pointer;transition:background .2s,color .2s;line-height:1.3}
+.seg button small{display:block;font-size:10.5px;font-weight:600;color:var(--mut);margin-top:2px}
+.seg button.on{background:#fff;color:var(--rose);box-shadow:var(--cardSh)}
+.seg button.on small{color:var(--rose)}
+.wbox{margin-top:6px;background:linear-gradient(135deg,var(--pinkSoft2),#fff);border:1.5px solid var(--pink);border-radius:16px;padding:18px 20px}
+.wbox .wl{font-size:13px;font-weight:800;color:var(--rose);display:flex;align-items:center;gap:7px}
+.wbox .wrow{display:flex;align-items:center;gap:14px;margin-top:12px}
+.recoband{margin-top:6px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:22px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;transition:background .4s}
+.recoband.good{background:linear-gradient(135deg,#fff,#E9F2EE)}
+.recoband.warn{background:linear-gradient(135deg,#fff,#FBEAE7)}
+.recoband .crown{font-size:34px;line-height:1}
+.recoband .rt{flex:1;min-width:220px}
+.recoband .rt .k{font-size:12.5px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.recoband.good .rt .k{color:var(--sage)}
+.recoband .rt .g{font-size:clamp(18px,2.4vw,25px);font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.28}
+.recoband .rt p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;max-width:680px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:680px){.kpis{grid-template-columns:1fr}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.kpi.k1{border-top-color:var(--rose)} .kpi.k2{border-top-color:var(--sage)} .kpi.k3{border-top-color:var(--lav)}
+.kpi .kl{font-size:12px;font-weight:800;color:var(--mut)}
+.kpi .kv{font-size:clamp(19px,2.6vw,25px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:7px;letter-spacing:-.02em;line-height:1.15}
+.kpi .ks{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:5px;line-height:1.45}
+.barwrap{margin-top:8px}
+.barrow{display:grid;grid-template-columns:128px 1fr;align-items:center;gap:13px;margin-bottom:14px}
+@media(max-width:560px){.barrow{grid-template-columns:92px 1fr}}
+.barrow .bl{font-size:12.5px;font-weight:800;display:flex;flex-direction:column;gap:2px;line-height:1.25}
+.barrow .bl small{font-size:10.5px;color:var(--mut);font-weight:700}
+.barbox{height:30px;border-radius:9px;background:var(--bg);border:1px solid var(--border);position:relative;overflow:hidden}
+.barfill{height:100%;width:0;border-radius:9px;transition:width 1.2s var(--ease);display:flex;align-items:center;justify-content:flex-end;padding-right:11px}
+.barfill b{font-size:12.5px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.barfill.off{background:linear-gradient(90deg,#C8AFA9,#A98C85)}
+.barfill.on{background:linear-gradient(90deg,var(--rose),var(--lav))}
+.cutpill{display:inline-flex;align-items:center;gap:8px;background:var(--pinkSoft2);color:var(--rose);font-size:13px;font-weight:800;border-radius:100px;padding:9px 16px;margin-top:4px}
+.cutpill b{font-variant-numeric:tabular-nums}
+.gaugewrap{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.gaugebox{flex:0 0 auto;width:min(330px,100%);margin:0 auto}
+#gauge{width:100%;height:auto;display:block;overflow:visible}
+#gArc{transition:stroke-dashoffset 1.3s var(--ease)}
+.gcenter{text-align:center;margin-top:-26px}
+.gcenter .gp{font-size:clamp(34px,8vw,46px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.03em;line-height:1}
+.gcenter .gl{font-size:12px;font-weight:800;color:var(--mut);margin-top:2px}
+.gside{flex:1;min-width:240px}
+.gverdict{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:800;border-radius:100px;padding:9px 16px}
+.gverdict.ok{background:#E9F2EE;color:var(--sage)} .gverdict.no{background:var(--pinkSoft2);color:var(--rose)}
+.gdual{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:480px){.gdual{grid-template-columns:1fr}}
+.gdual .gd{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px 15px}
+.gdual .gd .t{font-size:11.5px;font-weight:800;color:var(--mut);line-height:1.4}
+.gdual .gd .v{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:5px}
+.gdual .gd.reg .v{color:var(--rose)} .gdual .gd.real .v{color:var(--sage)}
+.gb i{height:100%;width:0;display:block;border-radius:7px;transition:width 1.1s var(--ease)}
+.tbar{display:grid;grid-template-columns:78px 1fr auto;align-items:center;gap:12px;margin-bottom:12px}
+@media(max-width:560px){.tbar{grid-template-columns:64px 1fr}}
+.tbar .tl{font-size:13px;font-weight:800}
+.tbar .tbox{height:22px;border-radius:7px;background:var(--bg);border:1px solid var(--border);overflow:hidden}
+.tbar .tbox i{display:block;height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,var(--sage),#7BA99B);transition:width 1.1s var(--ease)}
+.tbar .tv{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;line-height:1.3}
+.tbar .tv small{display:block;font-size:10.5px;color:var(--mut);font-weight:700}
+@media(max-width:560px){.tbar .tv{grid-column:2/3;text-align:left;padding-left:2px}}
+.note{margin-top:16px;background:var(--pinkSoft2);border-radius:14px;padding:15px 18px;font-size:13px;color:var(--ink2);font-weight:600;line-height:1.7}
+.note b{color:var(--rose)}
+.savebox{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px}
+.savebox .sh{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.savebox .ss{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px;line-height:1.5}
+.saverow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saverow input{flex:1;min-width:160px;border:1.5px solid var(--border);background:#fff;border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink)}
+.saverow input:focus{outline:none;border-color:var(--rose)}
+.saverow .btn{padding:11px 18px;font-size:13.5px}
+.savelist{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.saveitem{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 14px}
+.saveitem .si-n{font-weight:800;font-size:13.5px}
+.saveitem .si-m{font-size:11.5px;color:var(--mut);font-weight:600;margin-left:auto;text-align:right;line-height:1.4}
+.saveitem .si-x{cursor:pointer;color:var(--mut);font-weight:800;padding:4px 8px;border-radius:8px;font-size:12px}
+.saveitem .si-x:hover{background:var(--pinkSoft);color:var(--rose)}
+.lock{margin-top:24px;background:linear-gradient(135deg,#2C2230,#43303B);border-radius:20px;padding:clamp(24px,3.4vw,36px);color:#F6ECEA;position:relative;overflow:hidden}
+.lock::before{content:"🔒";position:absolute;top:-14px;right:8px;font-size:104px;opacity:.07}
+.lock .lk{font-size:12px;font-weight:800;letter-spacing:.14em;color:#E7A6B0;text-transform:uppercase}
+.lock h3{font-size:clamp(19px,2.5vw,25px);font-weight:800;margin-top:9px;letter-spacing:-.02em;line-height:1.3}
+.lock p{font-size:13.5px;color:#D8C5C2;margin-top:10px;line-height:1.66;max-width:640px}
+.lkfeat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+@media(max-width:560px){.lkfeat{grid-template-columns:1fr}}
+.lkfeat div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 15px;font-size:12.5px;font-weight:600;color:#EBD9D6;line-height:1.5}
+.lkfeat div b{color:#fff;font-weight:800}
+.lock .btn{margin-top:20px;background:#fff;color:var(--rose)}
+.whygrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+@media(max-width:680px){.whygrid{grid-template-columns:1fr}}
+.whyc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--cardSh)}
+.whyc .wi{font-size:25px;line-height:1}
+.whyc h4{font-size:15px;font-weight:800;margin-top:10px;letter-spacing:-.01em}
+.whyc p{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.7;margin-top:8px}
+.whyc p b{color:var(--rose)}
+details.calcm{margin-top:20px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:4px 18px}
+details.calcm summary{cursor:pointer;font-size:13.5px;font-weight:800;padding:14px 0;list-style:none;display:flex;align-items:center;gap:8px}
+details.calcm summary::-webkit-details-marker{display:none}
+details.calcm summary::before{content:"＋";color:var(--rose);font-weight:800}
+details.calcm[open] summary::before{content:"－"}
+details.calcm .cm-body{font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.75;padding:4px 0 18px}
+details.calcm .cm-body b{color:var(--rose)}
+details.calcm .cm-body code{background:var(--pinkSoft2);color:var(--rose);padding:1px 6px;border-radius:5px;font-size:12px;font-weight:700}
+.disc{margin-top:18px;font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.7;background:var(--pinkSoft2);border-radius:13px;padding:16px 18px}
+.disc b{color:var(--rose)}
+footer{background:#2C2230;color:#C9B8B4;padding:40px 0 54px;margin-top:10px}
+footer .fwrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+footer .flogo{font-weight:800;color:#fff;font-size:16px;display:inline-flex;align-items:center;gap:8px}
+footer .flogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+footer .ftnote{font-size:12px;color:#9C8B87;line-height:1.7;margin-top:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--pinkSoft);color:var(--rose);font-size:12px;font-weight:800;border-radius:100px;padding:6px 13px}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<!-- HERO -->
+<section class="blk" style="padding-top:clamp(30px,4vw,52px)">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">우리 부부 영끌 한도 · PRO</span>
+  <h1 class="tool-h1">은행이 빌려주는 <span class="grad">진짜 한도</span>는<br>얼마일까요?</h1>
+  <p class="lead">집을 사려고 마음먹으면 가장 먼저 막히는 게 <b>"우리 부부 소득으로 대출이 얼마나 나올까?"</b>예요. 2025년 7월부터 <b>3단계 스트레스 DSR</b>이 전면 시행되면서, 같은 소득이라도 한도가 수천만 원씩 줄었어요. 부부 합산 소득과 금리·만기를 넣으면, 최대 한도·실제 월 상환액·스트레스로 깎인 금액·DSR 통과 여부를 같이 굴려 봐요.</p>
+  <div class="livechips">
+   <span class="livechip"><span class="ld"></span>3단계 스트레스DSR · <b>2025.7 전면시행</b></span>
+   <span class="livechip">스트레스 가산 <b>1.5~3.0%p</b></span>
+   <span class="livechip">4월 신규 주담대 <b>연 4.31%</b></span>
+   <span class="livechip">DSR 한도 은행 <b>40%</b></span>
+  </div>
+  <a class="backlink" href="/contents">← 자료실의 다른 도구도 보기</a>
+ </div>
+</section>
+
+<!-- INPUT -->
+<section class="blk" id="calc" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">🏡 우리 부부 소득과 대출 조건</div>
+   <p class="panelsub">DSR은 <b>"한 해 갚는 원리금이 연소득의 몇 %냐"</b>를 보는 규제예요. 부부가 함께 대출받으면 <b>두 사람 소득을 합쳐</b> 한도를 계산할 수 있어요(공동명의·공동차주 기준). 세전 연소득으로 넣어 주세요.</p>
+
+   <div class="calc">
+    <div class="grid2">
+     <div class="field">
+      <label>① 부부 합산 연소득 (세전)</label>
+      <div class="incrow"><div class="incfield"><input id="income" type="text" inputmode="decimal" value="8000"><span>만원</span></div></div>
+      <div class="chips" id="chInc">
+       <button class="chip" data-v="6000">6천만</button>
+       <button class="chip on" data-v="8000">8천만</button>
+       <button class="chip" data-v="10000">1억</button>
+       <button class="chip" data-v="15000">1.5억</button>
+      </div>
+      <div class="hint">맞벌이면 두 사람 세전 연봉을 더해서요. 성과급·임대소득 등은 은행이 인정하는 범위가 달라요.</div>
+     </div>
+     <div class="field">
+      <label>② 기존 대출 월 상환액</label>
+      <div class="incrow"><div class="incfield"><input id="exist" type="text" inputmode="decimal" value="0"><span>만원 / 월</span></div></div>
+      <div class="chips" id="chExist">
+       <button class="chip on" data-v="0">없음</button>
+       <button class="chip" data-v="30">30만</button>
+       <button class="chip" data-v="50">50만</button>
+       <button class="chip" data-v="100">100만</button>
+      </div>
+      <div class="hint">신용대출·자동차할부·학자금 등 <b>이미 갚고 있는</b> 월 원리금이에요. DSR은 이 기존 빚까지 합쳐서 봐요(많을수록 주담대 한도↓).</div>
+     </div>
+    </div>
+
+    <div class="grid2">
+     <div class="field">
+      <label>③ 주택담보대출 금리 (실제)</label>
+      <div class="incrow">
+       <input id="rate" type="range" min="3" max="7" step="0.1" value="4.3">
+       <span class="bigv" id="rateV">4.3%</span>
+      </div>
+      <div class="chips" id="chRate">
+       <button class="chip" data-v="3.5">3.5%</button>
+       <button class="chip on" data-v="4.3">4.3% 평균</button>
+       <button class="chip" data-v="5.0">5.0%</button>
+       <button class="chip" data-v="6.0">6.0%</button>
+      </div>
+      <div class="hint">실제로 <b>내 통장에서 빠질</b> 금리예요(2026년 4월 신규 주담대 가중평균 연 4.31%). 스트레스 가산은 아래 ⑤에서 따로 더해요.</div>
+     </div>
+     <div class="field">
+      <label>④ 만기 (상환 기간)</label>
+      <div class="seg" id="segTerm">
+       <button data-v="20">20년<small>이자 적게</small></button>
+       <button class="on" data-v="30">30년<small>보통</small></button>
+       <button data-v="40">40년<small>한도 크게</small></button>
+      </div>
+      <div class="field" style="margin-top:16px;margin-bottom:0">
+       <label>⑥ DSR 한도</label>
+       <div class="seg" id="segDsr">
+        <button class="on" data-v="40">은행 40%<small>1금융권</small></button>
+        <button data-v="50">2금융 50%<small>저축은행 등</small></button>
+       </div>
+      </div>
+     </div>
+    </div>
+
+    <div class="field" style="margin-bottom:0">
+     <label>⑤ 대출 유형 → 스트레스 가산금리</label>
+     <div class="seg" id="segStress">
+      <button data-v="0">고정(주기형)<small>가산 0%p</small></button>
+      <button data-v="0.75">지방 한시<small>0.75%p</small></button>
+      <button class="on" data-v="1.5">변동 표준<small>1.5%p</small></button>
+      <button data-v="3.0">규제·상한<small>3.0%p</small></button>
+     </div>
+     <div class="hint">스트레스 DSR은 한도를 잴 때 <b>실제 금리에 가산금리를 얹어</b> "금리가 올라도 갚을 수 있나"를 봐요. 변동금리는 표준 <b>1.5%p</b>(하한), 규제지역·상한은 <b>3.0%p</b>까지. 순수 고정(주기형)은 가산이 작거나 없어요. <span style="color:var(--rose);font-weight:800">→ 이 가산이 한도를 깎는 핵심이에요.</span></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- RESULT HERO -->
+<section class="blk" id="result" style="padding-top:0">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">우리 부부 최대 한도</span>
+  <h2 class="tool-h1" style="font-size:clamp(24px,4vw,38px)">스트레스 DSR을 반영하면,<br><span class="grad" id="maxLoan">—</span> 까지</h2>
+
+  <div class="recoband" id="recoBand" style="margin-top:22px">
+   <div class="crown" id="rbCrown">🏦</div>
+   <div class="rt">
+    <div class="k" id="rbK">최대 대출 가능액 (추정)</div>
+    <div class="g" id="rbG">—</div>
+    <p id="rbP">—</p>
+   </div>
+  </div>
+
+  <div class="kpis">
+   <div class="kpi k1">
+    <div class="kl">월 상환여력 (DSR 한도)</div>
+    <div class="kv" id="kCap">—</div>
+    <div class="ks">연소득 × DSR한도 − 기존 빚. 이 한도 안에서만 빌려줘요.</div>
+   </div>
+   <div class="kpi k2">
+    <div class="kl">실제 첫 월 상환액</div>
+    <div class="kv" id="kPay">—</div>
+    <div class="ks" id="kPaySub">한도를 다 빌렸을 때 실제 금리로 내는 돈.</div>
+   </div>
+   <div class="kpi k3">
+    <div class="kl">스트레스로 깎인 한도</div>
+    <div class="kv" id="kCut">—</div>
+    <div class="ks">가산금리가 없었다면 더 빌렸을 금액이에요.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- STRESS EFFECT -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">✂️ 스트레스 DSR이 한도를 얼마나 깎았나</div>
+   <p class="panelsub">같은 소득·같은 금리인데, <b>스트레스 가산금리</b> 하나로 빌릴 수 있는 돈이 이만큼 달라져요. 위가 가산이 없을 때, 아래가 실제 적용(스트레스 반영)이에요.</p>
+   <div class="barwrap" style="margin-top:20px">
+    <div class="barrow">
+     <div class="bl">가산 없을 때<small>실제 금리만</small></div>
+     <div class="barbox"><div class="barfill off" id="barOff"><b id="barOffV">—</b></div></div>
+    </div>
+    <div class="barrow">
+     <div class="bl">스트레스 반영<small>실제 적용 한도</small></div>
+     <div class="barbox"><div class="barfill on" id="barOn"><b id="barOnV">—</b></div></div>
+    </div>
+   </div>
+   <div style="margin-top:6px"><span class="cutpill">✂️ 스트레스 DSR로 한도 <b id="cutV">—</b> 감소</span></div>
+   <div class="note" id="cutNote">—</div>
+  </div>
+ </div>
+</section>
+
+<!-- DSR GAUGE -->
+<section class="blk" id="dsr" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">🎯 내가 OO억 받으면 DSR 몇 %?</div>
+   <p class="panelsub">받고 싶은 대출액을 움직여 보세요. 은행은 <b>스트레스 금리 기준 DSR</b>이 한도(<span id="limLbl">40%</span>) 이하일 때만 승인해요. 실제로 체감하는 부담(실제 금리 기준)은 그보다 낮아요.</p>
+
+   <div class="field" style="margin-top:18px;margin-bottom:6px">
+    <label>받고 싶은 주택담보대출액</label>
+    <div class="incrow">
+     <input id="wish" type="range" min="0" max="12" step="0.1" value="4">
+     <span class="bigv" id="wishV">4.0억</span>
+    </div>
+    <div class="chips" id="chWish">
+     <button class="chip" data-v="fit">한도 딱 맞게</button>
+     <button class="chip" data-v="3">3억</button>
+     <button class="chip" data-v="5">5억</button>
+     <button class="chip" data-v="7">7억</button>
+    </div>
+   </div>
+
+   <div class="gaugewrap">
+    <div class="gaugebox">
+     <svg id="gauge" viewBox="0 0 320 184" role="img" aria-label="DSR 게이지">
+      <path id="gArcBg" d="M 36 168 A 124 124 0 0 1 284 168" fill="none" stroke="#F0DED8" stroke-width="20" stroke-linecap="round"/>
+      <path id="gArc" d="M 36 168 A 124 124 0 0 1 284 168" fill="none" stroke="#B85060" stroke-width="20" stroke-linecap="round"/>
+      <line id="gTick" x1="160" y1="32" x2="160" y2="60" stroke="#3E2F29" stroke-width="3" stroke-linecap="round"/>
+      <text id="gTickT" x="160" y="22" text-anchor="middle" font-size="11" font-weight="800" fill="#3E2F29">한도</text>
+     </svg>
+     <div class="gcenter">
+      <div class="gp" id="dsrPct">—</div>
+      <div class="gl">스트레스 DSR (규제 판정)</div>
+     </div>
+    </div>
+    <div class="gside">
+     <span class="gverdict ok" id="gVerdict">—</span>
+     <div class="gdual">
+      <div class="gd reg"><div class="t">규제 판정 DSR<br>(스트레스 금리)</div><div class="v" id="dsrStressV">—</div></div>
+      <div class="gd real"><div class="t">체감 부담 DSR<br>(실제 금리)</div><div class="v" id="dsrRealV">—</div></div>
+     </div>
+     <div class="note" id="dsrNote" style="margin-top:14px">—</div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TERM SENSITIVITY -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">⏳ 만기를 늘리면 한도는 늘지만…</div>
+   <p class="panelsub">만기가 길수록 월 상환액이 줄어 <b>한도는 커져요</b>. 대신 <b>갚는 총이자</b>가 불어나요. 같은 조건에서 만기별 한도와 총이자를 비교해 봐요(현재 금리·스트레스 기준).</p>
+   <div style="margin-top:20px">
+    <div class="tbar">
+     <div class="tl">20년</div>
+     <div class="tbox"><i id="t20bar"></i></div>
+     <div class="tv" id="t20v">—<small>총이자 —</small></div>
+    </div>
+    <div class="tbar">
+     <div class="tl">30년</div>
+     <div class="tbox"><i id="t30bar"></i></div>
+     <div class="tv" id="t30v">—<small>총이자 —</small></div>
+    </div>
+    <div class="tbar">
+     <div class="tl">40년</div>
+     <div class="tbox"><i id="t40bar"></i></div>
+     <div class="tv" id="t40v">—<small>총이자 —</small></div>
+    </div>
+   </div>
+   <div class="note" id="termNote">—</div>
+  </div>
+ </div>
+</section>
+
+<!-- SAVE + LOCK + WHY -->
+<section class="blk" id="lock" style="padding-top:0">
+ <div class="wrap reveal">
+
+  <div class="savebox">
+   <div class="sh">💾 우리 부부 시나리오 저장</div>
+   <div class="ss">조건을 바꿔 가며 비교해 보세요. 저장한 값은 <b>이 브라우저(기기)에만</b> 남고 어디로도 전송되지 않아요.</div>
+   <div class="saverow">
+    <input id="saveName" type="text" placeholder="예: 8천만·5억·30년·변동" maxlength="28">
+    <button class="btn btn-rose" id="saveBtn">저장</button>
+   </div>
+   <div class="savelist" id="saveList"></div>
+  </div>
+
+  <div class="lock">
+   <div class="lk">구독자 전용 미리보기</div>
+   <h3>한도는 시작일 뿐, '우리에게 맞는 대출'은 따로 있어요 🔒</h3>
+   <p>같은 한도라도 어떤 상품을 고르느냐로 수천만 원이 갈려요. 프리미엄에서 우리 부부 조건에 맞는 정책·상품을 자동으로 비교해 드려요.</p>
+   <div class="lkfeat">
+    <div><b>신생아 특례·보금자리론</b> 자격·한도 자동 비교(부부합산 소득 구간)</div>
+    <div><b>고정 vs 변동 vs 혼합형</b> 스트레스 가산 시뮬 + 총비용 비교</div>
+    <div><b>금리·규제 변동 알림</b> — 스트레스 금리 재산정(6·12월)·정책 바뀌면 한도 자동 갱신</div>
+    <div><b>부부 합산 대시보드</b> — 생활비를 누르지 않는 '적정 대출' 코칭</div>
+   </div>
+   <a class="btn" href="/premium">프리미엄으로 모두 열기 →</a>
+  </div>
+
+  <div style="margin-top:30px" class="reveal">
+   <span class="s-eyebrow">왜 이렇게 봐야 할까요</span>
+   <div class="whygrid" style="margin-top:16px">
+    <div class="whyc">
+     <div class="wi">🛡️</div>
+     <h4>스트레스 DSR은 '미래의 나'를 지키는 안전벨트</h4>
+     <p>지금 금리가 낮아도 변동금리는 언젠가 오를 수 있어요. 가산금리를 미리 얹어 한도를 줄이는 건, <b>금리가 올라도 우리가 못 버티지 않게</b> 하려는 장치예요. 답답하지만 '영끌 후 이자 폭탄'을 막아 줘요.</p>
+    </div>
+    <div class="whyc">
+     <div class="wi">⚖️</div>
+     <h4>'빌릴 수 있는 돈' ≠ '갚을 수 있는 돈'</h4>
+     <p>한도가 5억이라고 5억을 다 빌릴 필요는 없어요. 진짜 봐야 할 건 <b>월 상환액이 우리 생활비를 누르지 않는지</b>예요. 한도의 70~80% 선에서 시작해 비상금을 남겨 두는 부부가 오래 버텨요.</p>
+    </div>
+   </div>
+  </div>
+
+  <details class="calcm">
+   <summary>계산 방법과 데이터 출처</summary>
+   <div class="cm-body">
+    <b>DSR(총부채원리금상환비율)</b> = (한 해 갚는 모든 대출 원리금 ÷ 연소득). 은행권은 <code>DSR ≤ 40%</code>, 제2금융권은 <code>≤ 50%</code> 안에서만 대출해 줘요.<br><br>
+    <b>월 상환여력</b> = (연소득 × DSR한도) ÷ 12 − 기존 대출 월상환액.<br>
+    <b>원리금균등 월상환</b> = <code>P·i(1+i)ⁿ ÷ ((1+i)ⁿ−1)</code> (i=월이자, n=개월).<br>
+    <b>최대 한도</b>는 이 식을 거꾸로 풀어요: <code>P = M·((1+i)ⁿ−1) ÷ (i(1+i)ⁿ)</code>.<br>
+    <b>스트레스 DSR</b>: 한도를 잴 때만 <code>적용금리 = 실제금리 + 스트레스 가산</code>으로 계산해요(실제 월 상환액은 실제 금리로 냄). 스트레스 가산금리는 과거 5년 최고금리−현재금리로 산정하되 <b>하한 1.5%·상한 3.0%</b>, 연 2회(6·12월) 갱신돼요. 2025년 7월부터 <b>3단계</b>가 전 지역·은행+2금융·주담대+신용대출에 100% 적용 중이에요.<br><br>
+    <b>데이터(2026-06-03 기준, NaverSearch 실시간 확인)</b>: 2026년 4월 신규취급 주담대 가중평균 연 4.31%(한국은행)·은행채 5년물 4.28%(5/28)·고정형 상단 일부 7%대 보도. 3단계 스트레스 DSR 2025.7.1 전면시행, 가산금리 1.5%(표준)~3.0%(규제·상한), 지방주택 한시 완화 0.75%(~2026.6.30). 신생아 특례·보금자리론 등 정책대출은 별도 기준.<br><br>
+    ※ 이 도구는 <b>원리금균등·단일 주담대 단순 가정</b>이에요. 실제 한도는 LTV·방공제(소액임차보증금)·신용점수·소득증빙·중도금/잔금 구조·보증조건 등으로 달라져요. 정확한 한도는 은행·정책기관에 확인하세요.
+   </div>
+  </details>
+
+  <div class="disc">
+   <b>투자·대출 권유가 아니에요.</b> 본 도구는 일반적인 정보·교육 목적으로, 특정 대출 실행을 권하지 않아요. 스트레스 DSR·금리·규제는 정부 정책에 따라 <b>수시로 바뀌며</b> 표시된 수치는 2026년 6월 기준 추정이에요. 실제 대출 가능 여부·한도·금리는 금융기관 심사 결과에 따릅니다. 모든 입력값은 <b>사용자 기기(브라우저)에만</b> 저장돼요.
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="fwrap">
+  <div class="flogo"><span class="dot"></span>부부연구소</div>
+  <p class="ftnote">우리 부부의 돈 이야기를 함께 연구해요. 본 도구는 정보·교육용이며 투자·세무·대출 자문이 아니에요. DSR·스트레스 금리·규제는 2026년 6월 기준이며 정책에 따라 달라질 수 있어요. 실제 한도는 은행·정책기관 심사(LTV·방공제·신용점수·소득증빙 등)에 따라 다를 수 있습니다. 모든 입력값은 사용자의 기기(브라우저 localStorage)에만 저장되고 외부로 전송되지 않습니다. © 부부연구소</p>
+ </div>
+</footer>

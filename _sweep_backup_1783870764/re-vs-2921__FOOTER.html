@@ -1,0 +1,109 @@
+<!-- [콘텐츠_부동산_상가임대차vs주택임대차_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 2개) -->
+<script>
+(function(){
+ "use strict";
+ // (죽은 크롬 제거: 숨김 readbar·hd 더미만 갱신하던 onScroll — 개선39. 진행바·맨위로는 아래 자체 scrollprog/toTop 블록 담당)
+
+ // reveal
+ var rev=[].slice.call(document.querySelectorAll('.reveal'));
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+   es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  rev.forEach(function(el){ io.observe(el); });
+ } else { rev.forEach(function(el){ el.classList.add('in'); }); }
+
+ // 환산보증금 계산기
+ var selRegion=document.getElementById('selRegion'),
+     inDep=document.getElementById('inDep'),
+     inRent=document.getElementById('inRent'),
+     outHwan=document.getElementById('outHwan'),
+     outVs=document.getElementById('outVs');
+
+ function fmtWon(manwon){ // manwon(만원) → "X억 Y만원"
+  manwon=Math.max(0,Math.round(manwon));
+  if(manwon>=10000){
+   var eok=Math.floor(manwon/10000), rest=manwon%10000;
+   return eok+'억'+(rest? ' '+rest.toLocaleString()+'만원':' 원').replace(' 원','');
+  }
+  return manwon.toLocaleString()+'만원';
+ }
+ function fmtEok(manwon){ // 기준금액(만원) → "9억" 형태
+  var eok=manwon/10000;
+  return (Number.isInteger(eok)? eok : eok.toFixed(1))+'억 원';
+ }
+
+ function setVC(n,state,word,desc){
+  var vc=document.getElementById('vc'+n),
+      b=document.getElementById('b'+n),
+      s=document.getElementById('s'+n),
+      d=document.getElementById('d'+n);
+  vc.classList.remove('on','off','cond');
+  vc.classList.add(state);
+  b.textContent = state==='on' ? '★' : (state==='off' ? '✓' : '∼');
+  s.textContent=word;
+  d.textContent=desc;
+ }
+
+ function render(){
+  var thr=parseInt(selRegion.value,10)||0;            // 기준(만원)
+  var dep=Math.max(0,parseFloat(inDep.value)||0);     // 보증금(만원)
+  var rent=Math.max(0,parseFloat(inRent.value)||0);   // 월세(만원)
+  var hwan=dep+rent*100;                               // 환산보증금(만원)
+
+  outHwan.textContent=fmtWon(hwan);
+  var within=(hwan<=thr);
+  outVs.textContent='지역 기준 '+fmtEok(thr)+' — '+(within?'기준 이내':'기준 초과');
+
+  // VC1 적용 범위
+  if(within){
+   setVC(1,'off','전부 적용','환산보증금이 기준 이내라 상가건물임대차보호법 보호를 전부 받아요.');
+  } else {
+   setVC(1,'cond','일부만 적용','기준을 넘어 일부 보호(우선변제·5% 상한 등)에서 빠지지만, 핵심 권리는 유지돼요.');
+  }
+  // VC2 우선변제·5% 상한
+  if(within){
+   setVC(2,'off','적용','확정일자 우선변제권과 차임 5% 증액 상한이 적용돼요.');
+  } else {
+   setVC(2,'on','제외','우선변제권·최우선변제·5% 상한은 빠지고, 증감은 제반사정을 고려해 청구해요.');
+  }
+  // VC3 갱신·권리금 (항상 적용)
+  setVC(3,'on','초과해도 적용','계약갱신요구권(최장 10년)·대항력·권리금 회수기회 보호는 환산보증금과 무관하게 적용돼요.');
+ }
+
+ selRegion.addEventListener('change',render);
+ inDep.addEventListener('input',render);
+ inRent.addEventListener('input',render);
+
+ document.getElementById('resetBtn').addEventListener('click',function(){
+  selRegion.value='90000'; inDep.value='8000'; inRent.value='300'; render();
+ });
+
+ render();
+
+ // 맨 위로 버튼
+ var d=document;
+ var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+ var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');
+ btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+ function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+ addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+ btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>

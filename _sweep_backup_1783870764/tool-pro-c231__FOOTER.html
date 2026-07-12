@@ -1,0 +1,300 @@
+<!-- [도구_은퇴인출전략Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+
+/* ---------- state ---------- */
+var S={p0:5e8, retAge:60, life:90, r:0.045, g:0.025, rate:0.04};
+
+/* ---------- helpers ---------- */
+function fmtEokMan(won){
+ won=Math.round(won);
+ if(won<=0) return "0원";
+ var eok=Math.floor(won/1e8);
+ var man=Math.round((won-eok*1e8)/1e4);
+ if(eok>0){ return eok+"억"+(man>0?(" "+man.toLocaleString()+"만"):""); }
+ return man.toLocaleString()+"만원";
+}
+function fmtMonMan(wonYear){
+ var m=wonYear/12/1e4;
+ m=Math.round(m*10)/10;
+ return m.toLocaleString()+"만원";
+}
+function fmtAge(a){ return (Math.round(a*10)/10).toLocaleString()+"세"; }
+
+/* ---------- core simulation (annual, withdraw at start of year) ---------- */
+/* type: "real" (4%rule), "pct", "nom"; returns optional array length N */
+function sim(p0,N,r,g,rate,type,returns){
+ var W1=rate*p0, bal=p0;
+ var bals=[p0]; var wdNom=[]; var wdReal=[]; var deplAge=null;
+ for(var t=1;t<=N;t++){
+  var ri = returns? returns[t-1] : r;
+  var w;
+  if(type==="real") w=W1*Math.pow(1+g,t-1);
+  else if(type==="nom") w=W1;
+  else w=rate*bal;
+  if(bal<w){
+   if(deplAge===null){ var frac=(w>0?bal/w:0); deplAge=S.retAge+(t-1)+frac; }
+   w=bal;
+  }
+  wdNom.push(w);
+  wdReal.push(w/Math.pow(1+g,t-1));
+  bal=(bal-w)*(1+ri);
+  if(bal<0) bal=0;
+  bals.push(bal);
+ }
+ return {bals:bals, wdNom:wdNom, wdReal:wdReal, deplAge:deplAge, endBal:bal, W1:W1};
+}
+
+/* same-multiset reordered return sequences for sequence-risk demo */
+function seqReturns(N,r){
+ if(N<=3) return null;
+ var bad=[-0.10,-0.08,-0.05];
+ var sumBad=bad[0]+bad[1]+bad[2];
+ var radj=(N*r-sumBad)/(N-3);
+ var arrBad=bad.slice();
+ for(var i=3;i<N;i++) arrBad.push(radj);
+ var arrGood=arrBad.slice().reverse();
+ return {bad:arrBad, good:arrGood, radj:radj};
+}
+
+/* ---------- countUp ---------- */
+function countUp(el,target,fmt,dur){
+ if(!el) return;
+ var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var from=el._cv||0, start=null; dur=reduce?0:(dur||850);
+ if(el._raf) cancelAnimationFrame(el._raf);
+ function step(ts){ if(start===null) start=ts; var p=dur?Math.min((ts-start)/dur,1):1; var e=1-Math.pow(1-p,3);
+  var cur=from+(target-from)*e; el.textContent=fmt(cur); if(p<1){el._raf=requestAnimationFrame(step);}else{el._cv=target;el.textContent=fmt(target);} }
+ el._raf=requestAnimationFrame(step);
+}
+
+/* ---------- balance chart ---------- */
+function drawChart(rA,rB,rC){
+ var W=720,H=320,padL=58,padR=18,padT=18,padB=40;
+ var svg=$("balChart"); if(!svg) return;
+ var N=S.life-S.retAge;
+ var ages=[]; for(var i=0;i<=N;i++) ages.push(S.retAge+i);
+ var ymax=S.p0;
+ [rA,rB,rC].forEach(function(R){ R.bals.forEach(function(b){ if(b>ymax) ymax=b; }); });
+ ymax=ymax*1.06; if(ymax<=0) ymax=1;
+ function X(age){ return padL+(age-S.retAge)/(N||1)*(W-padL-padR); }
+ function Y(v){ return padT+(1-v/ymax)*(H-padT-padB); }
+ var g="";
+ /* gridlines (y) */
+ var steps=4;
+ for(var s=0;s<=steps;s++){
+  var val=ymax*s/steps, yy=Y(val);
+  g+='<line x1="'+padL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yy.toFixed(1)+'" stroke="'+(s===0?"#C9B7B1":"#EFE3DF")+'" stroke-width="'+(s===0?1.3:1)+'"/>';
+  g+='<text x="'+(padL-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+fmtEokMan(val)+'</text>';
+ }
+ /* x labels: retire, mid, life */
+ var xticks=[S.retAge, Math.round((S.retAge+S.life)/2), S.life];
+ xticks.forEach(function(a){ g+='<text x="'+X(a).toFixed(1)+'" y="'+(H-padB+22)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+a+'세</text>'; });
+ /* retirement start vertical */
+ g+='<line x1="'+X(S.retAge).toFixed(1)+'" y1="'+padT+'" x2="'+X(S.retAge).toFixed(1)+'" y2="'+(H-padB)+'" stroke="#EAD7D3" stroke-width="1" stroke-dasharray="3 4"/>';
+ svg.innerHTML=g;
+ /* paths group (animated) */
+ var ns="http://www.w3.org/2000/svg";
+ var pg=document.createElementNS(ns,"g"); pg.setAttribute("id","balPaths"); pg.setAttribute("fill","none");
+ var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function addPath(R,color,wd,dash){
+  var d="", started=false;
+  for(var i=0;i<R.bals.length;i++){
+   var px=X(S.retAge+i), py=Y(R.bals[i]);
+   d+=(started?"L":"M")+px.toFixed(1)+","+py.toFixed(1)+" "; started=true;
+  }
+  var p=document.createElementNS(ns,"path");
+  p.setAttribute("d",d.trim()); p.setAttribute("stroke",color); p.setAttribute("stroke-width",wd);
+  p.setAttribute("stroke-linecap","round"); p.setAttribute("stroke-linejoin","round");
+  if(dash) p.setAttribute("stroke-dasharray",dash);
+  pg.appendChild(p);
+  if(!dash){ var L=p.getTotalLength(); p.style.strokeDasharray=L; p.style.strokeDashoffset=reduce?0:L;
+   if(!reduce){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ p.style.strokeDashoffset=0; }); }); } }
+  return p;
+ }
+ addPath(rC,"#9C6BA8",2.4,"5 5");
+ addPath(rB,"#5E8C7F",2.6,null);
+ addPath(rA,"#B85060",3,null);
+ svg.appendChild(pg);
+ /* depletion dots */
+ function dot(R){ if(R.deplAge!==null && R.deplAge<=S.life){ var c=document.createElementNS(ns,"circle");
+  c.setAttribute("cx",X(R.deplAge).toFixed(1)); c.setAttribute("cy",Y(0).toFixed(1)); c.setAttribute("r","5.5");
+  c.setAttribute("fill","#D8584E"); c.setAttribute("stroke","#fff"); c.setAttribute("stroke-width","2"); svg.appendChild(c); } }
+ dot(rA); dot(rC);
+ /* dynamic aria-label (결과 반영) */
+ (function(){
+  function dsc(R){ if(R.deplAge!==null && R.deplAge<=S.life) return "약 "+fmtAge(R.deplAge)+"에 잔액이 0이 돼 바닥나요"; return S.life+"세까지 버티고 끝에 약 "+fmtEokMan(R.endBal)+" 남아요"; }
+  svg.setAttribute("aria-label","은퇴 "+S.retAge+"세부터 기대수명 "+S.life+"세까지, 시작 자금 약 "+fmtEokMan(S.p0)+"으로 세 인출전략의 노후자금 잔액 곡선이에요. 🅰 정액·물가연동은 "+dsc(rA)+". 🅱 정률은 잔액에 비례해 꺼내 평생 바닥나지 않고 끝에 약 "+fmtEokMan(rB.endBal)+" 남아요. 🅲 정액·고정은 "+dsc(rC)+". 빨간 점은 자금이 0이 되는 시점이에요.");
+ })();
+}
+
+/* ---------- real-income bars ---------- */
+function lastRealIdx(R,N){ var idx=N-1; if(R.deplAge!==null){ var dy=Math.floor(R.deplAge-S.retAge); if(dy<idx) idx=Math.max(0,dy-1); } return idx; }
+function drawIncomeBars(rA,rB,rC){
+ var N=S.life-S.retAge;
+ var rows=[
+  {l:"🅰 정액·물가연동", cls:"ga", first:rA.wdReal[0], last:rA.wdReal[lastRealIdx(rA,N)]},
+  {l:"🅱 정률", cls:"gb2", first:rB.wdReal[0], last:rB.wdReal[Math.min(N-1,Math.floor(N/2))]},
+  {l:"🅲 정액·고정", cls:"gc", first:rC.wdReal[0], last:rC.wdReal[lastRealIdx(rC,N)]}
+ ];
+ var mx=0; rows.forEach(function(r){ if(r.first>mx)mx=r.first; if(r.last>mx)mx=r.last; }); if(mx<=0)mx=1;
+ var html="";
+ rows.forEach(function(r){
+  html+='<div class="gbrow"><div class="gbl">'+r.l+'</div><div class="gbset gb">'+
+   '<div class="gbline"><span class="gbtag">첫 해</span><div class="gbbox"><i class="'+r.cls+'" data-w="'+(r.first/mx*100).toFixed(1)+'"></i></div><span class="gbv">'+fmtMonMan(r.first*12)+'</span></div>'+
+   '<div class="gbline"><span class="gbtag">'+(r.cls==="gb2"?"20년 차":"끝 무렵")+'</span><div class="gbbox"><i class="'+r.cls+'" data-w="'+(r.last/mx*100).toFixed(1)+'"></i></div><span class="gbv">'+fmtMonMan(r.last*12)+'</span></div>'+
+   '</div></div>';
+ });
+ var wrap=$("gbWrap"); wrap.innerHTML=html;
+ requestAnimationFrame(function(){ requestAnimationFrame(function(){
+  Array.prototype.forEach.call(wrap.querySelectorAll(".gb i"),function(el){ el.style.width=el.getAttribute("data-w")+"%"; }); }); });
+ var aFlat=Math.abs(rA.wdReal[0]-rA.wdReal[lastRealIdx(rA,N)])<1000;
+ $("incNote").innerHTML="🅰는 오늘 돈 기준으로 <b>평생 거의 평탄</b>해요(생활수준 유지). 🅲는 같은 명목인데 물가에 눌려 <b>실질가치가 쪼그라들어요</b>. 🅱는 시장 따라 <b>오르내려요</b> — 안 바닥나는 대신 그해 형편을 받아들이는 방식이에요.";
+}
+
+/* ---------- main compute ---------- */
+function compute(){
+ var N=S.life-S.retAge; if(N<1) N=1;
+ var rA=sim(S.p0,N,S.r,S.g,S.rate,"real",null);
+ var rB=sim(S.p0,N,S.r,S.g,S.rate,"pct",null);
+ var rC=sim(S.p0,N,S.r,S.g,S.rate,"nom",null);
+
+ /* cards */
+ function badge(R,el){
+  var e=$(el);
+  if(R.deplAge===null||R.deplAge>S.life){ e.className="sbadge ok"; e.textContent="✓ "+S.life+"세까지 버텨요"; }
+  else{ e.className="sbadge no"; e.textContent="⚠ "+fmtAge(R.deplAge)+"에 바닥"; }
+ }
+ function bigText(R){ return (R.deplAge!==null&&R.deplAge<=S.life)? fmtAge(R.deplAge)+" 소진" : S.life+"세까지 ✓"; }
+ $("aBig").textContent=bigText(rA); badge(rA,"aBadge");
+ $("bBig").textContent="평생 안 바닥 ✓"; $("bBadge").className="sbadge flex"; $("bBadge").textContent="↕ 생활비는 시장 따라";
+ $("cBig").textContent=bigText(rC); badge(rC,"cBadge");
+ $("aWd1").textContent=fmtMonMan(rA.wdNom[0]);
+ $("bWd1").textContent=fmtMonMan(rB.wdNom[0]);
+ $("cWd1").textContent=fmtMonMan(rC.wdNom[0]);
+ $("aEnd").textContent=fmtEokMan(rA.endBal);
+ var midIdx=Math.min(N-1,Math.floor(N/2)); $("bMid").textContent=fmtMonMan(rB.wdReal[midIdx]*12);
+ $("cEnd").textContent=fmtMonMan(rC.wdReal[lastRealIdx(rC,N)]*12);
+
+ /* recoband */
+ var rb=$("recoBand");
+ if(rA.deplAge===null||rA.deplAge>S.life){
+  rb.className="recoband good"; $("recoCrown").textContent="🎉";
+  $("recoK").textContent="이 인출률이면 (4%룰 기준)";
+  $("recoG").innerHTML="4%룰로도 <b>"+S.life+"세까지</b> 버텨요";
+  $("recoP").innerHTML="여유가 있네요. 그래도 시장은 매년 달라지니, 아래 <b>'초반 폭락'</b>도 꼭 확인해 보세요 — 평균이 같아도 순서가 나쁘면 결과가 달라져요.";
+ }else{
+  var early=Math.round((S.life-rA.deplAge)*10)/10;
+  rb.className="recoband"; $("recoCrown").textContent="🧭";
+  $("recoK").textContent="이 인출률이면 (4%룰 기준)";
+  $("recoG").innerHTML="4%룰이면 <b>"+fmtAge(rA.deplAge)+"</b>에 바닥 — 기대수명보다 <b>"+early+"년</b> 일찍이에요";
+  $("recoP").innerHTML="인출률을 낮추거나, 정률로 바꾸면 바닥은 피해요(대신 생활비가 출렁여요). 세 전략은 정답이 아니라 <b>맞바꿈</b>이에요.";
+ }
+
+ drawChart(rA,rB,rC);
+ drawIncomeBars(rA,rB,rC);
+
+ /* sequence risk */
+ var seq=seqReturns(N,S.r);
+ if(seq){
+  var sBad=sim(S.p0,N,S.r,S.g,S.rate,"real",seq.bad);
+  var sGood=sim(S.p0,N,S.r,S.g,S.rate,"real",seq.good);
+  $("seqBadV").textContent=(sBad.deplAge!==null&&sBad.deplAge<=S.life)? fmtAge(sBad.deplAge)+" 소진" : S.life+"세까지 ✓";
+  $("seqGoodV").textContent=(sGood.deplAge!==null&&sGood.deplAge<=S.life)? fmtAge(sGood.deplAge)+" 소진" : S.life+"세까지 ✓";
+  var diffTxt="";
+  if(sBad.deplAge!==null&&sGood.deplAge!==null){ var d=Math.round((sGood.deplAge-sBad.deplAge)*10)/10;
+   diffTxt="순서만 바꿨을 뿐인데 <b>"+d+"년</b>이나 차이가 나요."; }
+  else if(sBad.deplAge!==null&&sGood.deplAge===null){ diffTxt="좋은 초반이면 기대수명까지 버티지만, 나쁜 초반이면 <b>"+fmtAge(sBad.deplAge)+"</b>에 바닥나요."; }
+  else{ var de=Math.round((sGood.endBal-sBad.endBal)/1e4); diffTxt="둘 다 버티지만, 좋은 초반이 잔액 <b>"+fmtEokMan(sGood.endBal-sBad.endBal)+"</b>만큼 더 남아요."; }
+  $("seqNote").innerHTML="두 칸은 <b>같은 수익률 묶음(평균 "+(S.r*100).toFixed(1)+"%)</b>이에요 — 순서만 달라요. "+diffTxt+" 그래서 은퇴 직전·직후 몇 년이 평생을 좌우해요.";
+ }else{
+  $("seqBadV").textContent="—"; $("seqGoodV").textContent="—";
+  $("seqNote").innerHTML="인출 기간이 너무 짧아 순서 비교는 생략했어요(기대수명을 더 길게 잡아 보세요).";
+ }
+}
+
+/* ---------- inputs wiring ---------- */
+function parseP0(){ var v=parseFloat(($("p0").value||"").replace(/[^0-9.]/g,"")); if(isNaN(v)||v<=0) v=0.01; if(v>100)v=100; S.p0=v*1e8; }
+function setSeg(id,val){ var seg=$(id); Array.prototype.forEach.call(seg.children,function(b){ b.classList.toggle("on", parseFloat(b.getAttribute("data-v"))===val); }); }
+function syncFirstWd(){ var w=S.rate*S.p0; $("firstWd").textContent="월 "+fmtMonMan(w); }
+
+$("p0").addEventListener("input",function(){ parseP0(); Array.prototype.forEach.call($("chP0").children,function(b){ b.classList.remove("on"); }); syncFirstWd(); compute(); });
+Array.prototype.forEach.call($("chP0").children,function(b){ b.addEventListener("click",function(){ $("p0").value=b.getAttribute("data-v"); parseP0(); Array.prototype.forEach.call($("chP0").children,function(x){x.classList.toggle("on",x===b);}); syncFirstWd(); compute(); }); });
+
+Array.prototype.forEach.call($("segRet").children,function(b){ b.addEventListener("click",function(){ S.retAge=parseInt(b.getAttribute("data-v"),10); setSeg("segRet",S.retAge);
+ if(S.life<=S.retAge+1){ S.life=S.retAge+10; $("life").value=S.life; $("lifeV").textContent=S.life+"세"; }
+ $("nYears").textContent=(S.life-S.retAge)+"년"; compute(); }); });
+
+$("life").addEventListener("input",function(){ S.life=parseInt(this.value,10); $("lifeV").textContent=S.life+"세"; $("nYears").textContent=(S.life-S.retAge)+"년"; compute(); });
+
+Array.prototype.forEach.call($("segR").children,function(b){ b.addEventListener("click",function(){ S.r=parseFloat(b.getAttribute("data-v"))/100; setSeg("segR",S.r*100); compute(); }); });
+Array.prototype.forEach.call($("segG").children,function(b){ b.addEventListener("click",function(){ S.g=parseFloat(b.getAttribute("data-v"))/100; setSeg("segG",S.g*100); compute(); }); });
+
+$("rate").addEventListener("input",function(){ S.rate=parseFloat(this.value)/100; $("rateV").textContent=(S.rate*100).toFixed(1)+"%"; Array.prototype.forEach.call($("chRate").children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-S.rate*100)<0.01); }); syncFirstWd(); compute(); });
+Array.prototype.forEach.call($("chRate").children,function(b){ b.addEventListener("click",function(){ S.rate=parseFloat(b.getAttribute("data-v"))/100; $("rate").value=(S.rate*100); $("rateV").textContent=(S.rate*100).toFixed(1)+"%"; Array.prototype.forEach.call($("chRate").children,function(x){x.classList.toggle("on",x===b);}); syncFirstWd(); compute(); }); });
+
+/* ---------- localStorage ---------- */
+var LSKEY="bbWithdrawPro_v1";
+function loadStore(){ try{var r=localStorage.getItem(LSKEY); return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveStore(a){ try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){} }
+function renderSaves(){
+ var arr=loadStore(), box=$("saveList");
+ if(!arr.length){ box.innerHTML='<div style="font-size:12.5px;color:var(--mut);font-weight:600">아직 저장한 시나리오가 없어요.</div>'; return; }
+ box.innerHTML="";
+ arr.forEach(function(it,idx){
+  var d=document.createElement("div"); d.className="saveitem";
+  d.innerHTML='<span class="si-n">'+(it.name||"시나리오")+'</span><span class="si-m">'+it.retAge+'세 은퇴·'+(it.p0/1e8)+'억<br>인출 '+(it.rate*100).toFixed(1)+'% / 수익 '+(it.r*100).toFixed(1)+'%</span><span class="si-x" data-i="'+idx+'">✕ 삭제</span>';
+  d.addEventListener("click",function(e){ if(e.target.classList.contains("si-x")) return;
+   S.p0=it.p0; S.retAge=it.retAge; S.life=it.life; S.r=it.r; S.g=it.g; S.rate=it.rate;
+   $("p0").value=(it.p0/1e8); setSeg("segRet",it.retAge); $("life").value=it.life; $("lifeV").textContent=it.life+"세"; $("nYears").textContent=(it.life-it.retAge)+"년";
+   setSeg("segR",it.r*100); setSeg("segG",it.g*100); $("rate").value=(it.rate*100); $("rateV").textContent=(it.rate*100).toFixed(1)+"%";
+   Array.prototype.forEach.call($("chP0").children,function(x){x.classList.toggle("on",parseFloat(x.getAttribute("data-v"))===it.p0/1e8);});
+   Array.prototype.forEach.call($("chRate").children,function(x){x.classList.toggle("on",Math.abs(parseFloat(x.getAttribute("data-v"))-it.rate*100)<0.01);});
+   syncFirstWd(); compute(); window.scrollTo({top:$("result").offsetTop-60,behavior:"smooth"});
+  });
+  box.appendChild(d);
+ });
+ Array.prototype.forEach.call(box.querySelectorAll(".si-x"),function(x){ x.addEventListener("click",function(){ var arr2=loadStore(); arr2.splice(parseInt(this.getAttribute("data-i"),10),1); saveStore(arr2); renderSaves(); }); });
+}
+$("saveBtn").addEventListener("click",function(){
+ var arr=loadStore();
+ var nm=($("saveName").value||"").trim()||((S.retAge)+"세·"+(S.rate*100).toFixed(1)+"% 인출");
+ arr.unshift({name:nm,p0:S.p0,retAge:S.retAge,life:S.life,r:S.r,g:S.g,rate:S.rate});
+ saveStore(arr); $("saveName").value=""; renderSaves();
+});
+
+/* ---------- reveal + header ---------- */
+var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); },{threshold:.12});
+Array.prototype.forEach.call(document.querySelectorAll(".reveal"),function(el){ io.observe(el); });
+window.addEventListener("scroll",function(){ $("hdr").classList.toggle("scrolled",window.scrollY>10); });
+
+/* ---------- init ---------- */
+parseP0(); syncFirstWd(); renderSaves(); compute();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

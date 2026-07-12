@@ -1,0 +1,313 @@
+<!-- [letter-archive] BODY = 전체너비 코드위젯 · 머니레터 아카이브 로더 v7.1(G5·비주얼 폴리시) · 시장 일기장 · 오늘 아침/저녁 2판 동시 · 월별 아코디언+점진로드(더보기)+연도셀렉터 · 리치 모션(RM 존중) · index.json 라이브 렌더(실패 시 인라인 스냅샷 유지) · 2026-07-11 -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+ --bg:#FDFBF7;--bg2:#FBF3EE;--paper:#FFFFFF;
+ --ink:#2C201B;--ink2:#57453D;--mut:#877468;
+ --rose:#B33A4C;--rose2:#D65C6E;--pink:#E08696;--pinkSoft:#F8E3E7;--pinkSoft2:#FCEEF1;
+ --border:#ECDAD5;--borderStrong:#E4C8C2;
+ --sage:#4E8577;--sageSoft:#E6F0EC;--sageInk:#356356;--gold:#C9A24C;--deep:#7C243B;
+ --up:#E4483A;--upT:#C22E22;--upSoft:#FDEAE7;
+ --down:#3B6FE0;--downT:#2A55C2;--downSoft:#E7EFFD;
+ --flat:#8A7A70;--flatSoft:#F1ECE7;
+ --maxw:1180px;
+ --ease-enter:cubic-bezier(.22,1,.36,1);--ease-morph:cubic-bezier(.65,0,.35,1);--ease-hover:ease;
+ --dur-1:240ms;--dur-2:480ms;--dur-press:150ms;--stagger:90ms;
+ --ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(.34,1.32,.42,1);
+ --sh1:0 1px 2px rgba(120,60,50,.05),0 4px 8px -2px rgba(150,70,80,.07),0 12px 22px -8px rgba(179,58,76,.12);
+ --sh2:0 2px 4px rgba(120,60,50,.06),0 10px 20px -4px rgba(150,70,80,.11),0 28px 50px -16px rgba(179,58,76,.20);
+ --shLift:0 3px 6px rgba(120,60,50,.07),0 16px 30px -6px rgba(150,70,80,.16),0 40px 70px -20px rgba(179,58,76,.28);
+}
+.bbl-arcv7 *{box-sizing:border-box;margin:0;padding:0}
+.bbl-arcv7{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.bbl-arcv7 svg{max-width:100%;display:block}
+.bbl-arcv7 a{color:inherit;text-decoration:none}
+.bbl-arcv7 .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.bbl-arcv7 :focus-visible{outline:2.5px solid var(--rose);outline-offset:3px;border-radius:8px}
+.bbl-arcv7 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.bbl-arcv7 .in1180{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
+/* ===== 사이트 공통 헤더 (home #hdr · 시각 CSS는 사이트 팔레트 고정값) ===== */
+.topbar{background:#B85060;color:#fff;font-size:13px;display:flex;align-items:center;gap:16px;justify-content:center;padding:9px 16px;flex-wrap:wrap;position:relative;z-index:2;overflow:hidden}
+.topbar::before{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:bblshim 6s ease-in-out infinite}
+@keyframes bblshim{0%,60%{left:-30%}100%{left:130%}}
+.topbar span{position:relative;z-index:1}
+.topbar a{position:relative;z-index:1;background:#fff;color:#B85060;padding:5px 14px;border-radius:100px;font-weight:800;font-size:12.5px;text-decoration:none;transition:transform .2s}
+.topbar a:hover{transform:translateY(-1px)}
+#hdr{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.82);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid #EAD7D3}
+#hdr .wrap{max-width:var(--maxw,1180px);margin:0 auto;padding:0 22px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .nav>*{min-width:0}
+#hdr .logo{justify-self:start;font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;color:#3E2F29;white-space:nowrap}
+#hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:#D67A89;box-shadow:0 0 0 4px #F8E8EA}
+#hdr .menu-main{justify-self:center}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:#5C4B43}
+#hdr .menu a{position:relative;padding:4px 0;text-decoration:none;color:inherit}
+#hdr .menu a:hover{color:#D67A89}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px;flex-wrap:nowrap}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:#8A7B72;font-weight:600}
+#hdr .menu-sub a:hover{color:#D67A89}
+#hdr .cta{background:#B85060;color:#fff;padding:10px 20px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:transform .2s,background .2s}
+#hdr .cta:hover{background:#A03F4D;transform:translateY(-1px)}
+@media(max-width:1180px){#hdr .navright{gap:12px}#hdr .menu{gap:18px}}
+@media(max-width:860px){#hdr .menu-main,#hdr .menu-sub{display:none}}
+@media(max-width:700px){#hdr .wrap{padding:0 14px}}
+/* ===== 마스트 ===== */
+.bbl-arcv7 .mast{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 88% -10%,#FCE1DC 0%,rgba(252,225,220,0) 55%),radial-gradient(90% 80% at 8% 108%,#EAF1EE 0%,rgba(234,241,238,0) 60%),linear-gradient(168deg,#FFFDFA 8%,#FDF1EC 52%,#F7E7DC 100%);border-bottom:1px solid var(--border)}
+.bbl-arcv7 .mast .grain{position:absolute;inset:0;opacity:.4;pointer-events:none;z-index:1}
+.bbl-arcv7 .mesh{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(46px);will-change:transform}
+.bbl-arcv7 .m1{width:460px;height:460px;background:radial-gradient(circle at 40% 40%,#F7C9D0,#F4A9B6 70%);opacity:.46;top:-170px;right:-50px}
+.bbl-arcv7 .m2{width:360px;height:360px;background:radial-gradient(circle at 50% 50%,#CFE5DC,#AFD3C6 70%);opacity:.4;bottom:-180px;left:-70px}
+.bbl-arcv7.js .mesh{animation:aurora 22s var(--ease) infinite alternate}
+.bbl-arcv7.js .m2{animation-duration:28s;animation-delay:-7s}
+@keyframes aurora{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(28px,-22px,0)}100%{transform:translate3d(-22px,22px,0)}}
+.bbl-arcv7 .mastin{position:relative;z-index:2;padding:clamp(28px,4.4vw,50px) 0 clamp(24px,3.4vw,40px)}
+.bbl-arcv7 .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--ink)}
+.bbl-arcv7 .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);flex:none}
+.bbl-arcv7.js .brand .dot{animation:pulse 2.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(179,58,76,.36)}55%{box-shadow:0 0 0 9px rgba(179,58,76,0)}}
+.bbl-arcv7 .brand .back{margin-left:auto;font-size:12px;font-weight:800;color:var(--rose)}
+.bbl-arcv7 .a-eyebrow{display:inline-flex;align-items:center;gap:9px;margin-top:22px;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--rose),var(--deep));border-radius:999px;padding:6px 14px;box-shadow:0 6px 14px -6px rgba(124,36,59,.6)}
+.bbl-arcv7 h1.a-title{font-size:clamp(29px,5.1vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.03;margin-top:16px;color:var(--ink);background:linear-gradient(176deg,var(--ink),#5c3f39);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bbl-arcv7 .a-sub{font-size:clamp(15px,2vw,18px);color:var(--ink2);font-weight:600;margin-top:16px;max-width:40ch;line-height:1.62}
+.bbl-arcv7 .a-sub b{color:var(--rose);font-weight:800}
+.bbl-arcv7 .astats{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.bbl-arcv7 .astat{background:rgba(255,255,255,.82);border:1px solid var(--border);border-radius:14px;padding:12px 17px;box-shadow:var(--sh1);min-width:112px}
+.bbl-arcv7 .astat .as-n{font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--ink);display:block;line-height:1.05}
+.bbl-arcv7 .astat .as-n small{font-size:13px;font-weight:800;color:var(--mut);margin-left:2px}
+.bbl-arcv7 .astat .as-l{font-size:11.5px;font-weight:700;color:var(--mut);margin-top:3px;display:block;letter-spacing:.02em}
+.bbl-arcv7 .astat.accent{background:linear-gradient(150deg,#fff,var(--pinkSoft2))}
+.bbl-arcv7 .astat.accent .as-n{color:var(--rose)}
+.bbl-arcv7 .as-n.odo{display:inline-flex;align-items:baseline}
+.bbl-arcv7 .od-col{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:baseline}
+.bbl-arcv7 .od-reel{display:block;will-change:transform}.bbl-arcv7 .od-reel>span{display:block;height:1em;line-height:1;text-align:center}
+.bbl-arcv7 .od-sep{display:inline-block}
+/* ===== 본문 컨테이너 ===== */
+.bbl-arcv7 .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,3.5vw,26px) 20px}
+.bbl-arcv7 .sec-lead{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin:6px 0 16px}
+.bbl-arcv7 .sec-lead .sl-k{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--rose);text-transform:uppercase}
+.bbl-arcv7 .sec-lead .sl-t{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;color:var(--ink)}
+.bbl-arcv7 .sec-lead .sl-d{font-size:13px;color:var(--ink2);font-weight:600;width:100%;margin-top:3px;line-height:1.55}
+/* ===== 커버카드 ===== */
+.bbl-arcv7 .cover{position:relative;display:block;background:linear-gradient(162deg,#fff,#FFFCFA);border:1px solid var(--border);border-radius:18px;padding:18px 20px 18px 24px;box-shadow:var(--sh1);overflow:hidden;transition:transform var(--dur-2) var(--ease-enter),box-shadow var(--dur-2) var(--ease-enter),border-color var(--dur-2)}
+.bbl-arcv7 .cover::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(224,134,150,.22) 52%,rgba(255,255,255,0));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity var(--dur-2)}
+.bbl-arcv7 .cover:hover{transform:translateY(-6px);box-shadow:var(--shLift);border-color:transparent}
+.bbl-arcv7 .cover:hover::after{opacity:1}
+.bbl-arcv7 .cover:active{transform:scale(.99)!important}
+.bbl-arcv7 .cover .cv-spine{position:absolute;left:0;top:0;bottom:0;width:6px;border-radius:6px 0 0 6px}
+.bbl-arcv7 .cover.up{background:linear-gradient(162deg,#fff 60%,#FDECE9)}
+.bbl-arcv7 .cover.down{background:linear-gradient(162deg,#fff 60%,#EAF0FD)}
+.bbl-arcv7 .cover.flat{background:linear-gradient(162deg,#fff 60%,#F6F1EC)}
+.bbl-arcv7 .cover.up .cv-spine{background:linear-gradient(180deg,#ef8177,var(--up))}
+.bbl-arcv7 .cover.down .cv-spine{background:linear-gradient(180deg,#7fa0ee,var(--down))}
+.bbl-arcv7 .cover.flat .cv-spine{background:linear-gradient(180deg,#cbbdb4,var(--flat))}
+.bbl-arcv7 .cv-top{display:flex;align-items:center;gap:10px}
+.bbl-arcv7 .cv-date{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.bbl-arcv7 .cv-ed{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;font-size:10.5px;font-weight:800;border-radius:999px;padding:3.5px 10px;letter-spacing:.02em}
+.bbl-arcv7 .cv-ed.pm{color:#fff;background:linear-gradient(135deg,#7C243B,#9E2F49);box-shadow:0 3px 8px -4px rgba(124,36,59,.5)}
+.bbl-arcv7 .cv-ed.am{color:var(--sageInk);background:var(--sageSoft);border:1px solid #c4ded4;box-shadow:0 2px 6px -4px rgba(78,133,119,.4)}
+.bbl-arcv7 .cv-hook{font-size:16px;font-weight:800;letter-spacing:-.018em;line-height:1.4;margin-top:11px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em}
+.bbl-arcv7 .cv-teaser{font-size:12px;color:var(--mut);font-weight:600;margin-top:8px}
+.bbl-arcv7 .cv-kpis{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+.bbl-arcv7 .kchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;line-height:1.3;letter-spacing:-.01em;border-radius:9px;padding:4px 9px;background:var(--flatSoft);color:var(--ink2);box-shadow:inset 0 0 0 1px rgba(120,60,50,.05)}
+.bbl-arcv7 .kchip .ka{font-size:8.5px;line-height:1;transform:translateY(.4px)}
+.bbl-arcv7 .kchip.up{background:var(--upSoft);color:var(--upT)}
+.bbl-arcv7 .kchip.down{background:var(--downSoft);color:var(--downT)}
+.bbl-arcv7 .kchip.flat{background:var(--flatSoft);color:var(--flat)}
+.bbl-arcv7 .kchip b{font-weight:900}
+.bbl-arcv7 .cv-go{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;font-weight:800;color:var(--rose)}
+.bbl-arcv7 .cv-go i{font-style:normal;transition:transform var(--dur-1) var(--ease-enter)}
+.bbl-arcv7 .cover:hover .cv-go i{transform:translateX(4px)}
+.bbl-arcv7 .highlight{position:relative;margin:2px 0 clamp(20px,3vw,30px);padding:clamp(18px,3vw,30px) clamp(15px,2.6vw,26px) clamp(20px,3vw,30px);border-radius:clamp(20px,3vw,26px);background:radial-gradient(120% 130% at 88% -20%,rgba(248,227,231,.92),rgba(252,238,241,.5) 46%,rgba(255,255,255,0) 72%),linear-gradient(158deg,#FFF8F5,#FDEEF1 58%,#FCE9EE);box-shadow:inset 0 0 0 1px rgba(224,134,150,.18),0 1px 2px rgba(120,60,50,.04),0 22px 46px -32px rgba(179,58,76,.32)}
+.bbl-arcv7 .cover.big{padding:26px 30px 26px 34px;border-radius:24px;box-shadow:var(--sh2);background:linear-gradient(150deg,#fff 46%,var(--pinkSoft2))}
+.bbl-arcv7 .cover.big.up{background:linear-gradient(150deg,#fff 46%,#FCE4E0)}
+.bbl-arcv7 .cover.big.down{background:linear-gradient(150deg,#fff 46%,#E4ECFC)}
+.bbl-arcv7 .cover.big.flat{background:linear-gradient(150deg,#fff 46%,#F3EDE7)}
+.bbl-arcv7 .cover.big .cv-spine{width:9px}
+.bbl-arcv7 .cv-flag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--deep);text-transform:uppercase;margin-bottom:13px}
+.bbl-arcv7 .cv-flag::before{content:"";width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--rose),transparent)}
+.bbl-arcv7 .cv-date.big{font-size:28px}
+.bbl-arcv7 .cv-hook.big{font-size:clamp(22px,3.4vw,34px);font-weight:900;letter-spacing:-.028em;line-height:1.24;margin-top:13px;-webkit-line-clamp:3;min-height:0;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.bbl-arcv7 .cv-teaser.big{font-size:13.5px;margin-top:12px}
+.bbl-arcv7 .cv-kpis.big{margin-top:18px;gap:8px}
+.bbl-arcv7 .cover.big .kchip{font-size:12.5px;padding:6px 12px}
+.bbl-arcv7 .cv-go.big{margin-top:20px;font-size:14px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;padding:11px 20px;border-radius:13px;box-shadow:0 12px 26px -10px rgba(179,58,76,.6)}
+.bbl-arcv7 .cover.big:hover .cv-go.big i{transform:translateX(5px)}
+/* 월별 그리드 */
+.bbl-arcv7 .month{margin-top:8px}
+.bbl-arcv7 .month-h{position:sticky;top:64px;z-index:40;display:flex;align-items:center;gap:12px;padding:12px 2px;margin-top:14px;background:linear-gradient(180deg,rgba(253,251,247,.96),rgba(253,251,247,.82));backdrop-filter:blur(9px);border-bottom:1px solid var(--border)}
+.bbl-arcv7 .month-h .mh-title{font-size:17px;font-weight:900;letter-spacing:-.025em;color:var(--ink)}
+.bbl-arcv7 .month-h .mh-title::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--rose);margin-right:9px;vertical-align:.06em}
+.bbl-arcv7 .month-h .mh-count{font-size:11.5px;font-weight:800;color:var(--mut);background:#fff;border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+.bbl-arcv7 .cover-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:16px;margin-top:16px}
+.bbl-arcv7.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .68s var(--ease-enter),transform .68s var(--ease-enter)}
+.bbl-arcv7.js .reveal.in{opacity:1;transform:none}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(2){transition-delay:.05s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(3){transition-delay:.10s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(4){transition-delay:.15s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(5){transition-delay:.20s}
+.bbl-arcv7.js .cover-grid .reveal.in:nth-child(6){transition-delay:.25s}
+/* ===== CTA 밴드 ===== */
+.bbl-arcv7 .cta{position:relative;margin-top:clamp(40px,6vw,64px);padding:clamp(40px,5.5vw,64px) 0;overflow:hidden;text-align:center;color:#fff;background:radial-gradient(90% 140% at 86% -20%,rgba(255,255,255,.16),transparent 60%),linear-gradient(150deg,var(--rose),#A83350 48%,#3F6E62)}
+.bbl-arcv7 .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 18% 120%,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+.bbl-arcv7 .cta .cta-in{position:relative;max-width:720px;margin:0 auto;padding:0 clamp(16px,3.5vw,26px)}
+.bbl-arcv7 .cta .cta-k{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.92;text-transform:uppercase}
+.bbl-arcv7 .cta h2{font-size:clamp(22px,3.4vw,31px);font-weight:800;letter-spacing:-.02em;margin-top:11px;line-height:1.3}
+.bbl-arcv7 .cta p{font-size:14.5px;opacity:.95;margin-top:12px;line-height:1.6}
+.bbl-arcv7 .cta-btn{display:inline-flex;align-items:center;gap:8px;margin-top:24px;min-height:54px;padding:16px 32px;border-radius:16px;background:#fff;color:var(--rose);font-size:16px;font-weight:800;box-shadow:0 16px 34px -10px rgba(0,0,0,.34);transition:transform var(--dur-2) var(--ease2),box-shadow var(--dur-2)}
+.bbl-arcv7 .cta-btn:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 22px 44px -10px rgba(0,0,0,.4)}
+.bbl-arcv7 .cta-btn:active{transform:scale(.97)}
+.bbl-arcv7 .cta-foot{font-size:12px;opacity:.92;margin-top:14px}
+.bbl-arcv7 footer.afoot{border-top:1px solid var(--border)}
+.bbl-arcv7 footer.afoot .fin{max-width:var(--maxw);margin:0 auto;padding:22px clamp(16px,3.5vw,26px);font-size:12px;color:var(--mut);font-weight:600;line-height:1.7}
+.bbl-arcv7 footer.afoot .brandline{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--mut)}
+.bbl-arcv7 footer.afoot .brandline .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+.bbl-arcv7 #bblTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;border:0;background:var(--rose);color:#fff;font-size:19px;font-weight:800;cursor:pointer;box-shadow:0 12px 26px -8px rgba(179,58,76,.5);opacity:0;transform:translateY(10px) scale(.9);transition:.3s var(--ease2);z-index:1100}
+.bbl-arcv7 #bblTop.on{opacity:1;transform:none}
+.bbl-arcv7 #bblTop:hover{transform:translateY(-2px);background:#9E2E40}.bbl-arcv7 #bblTop:active{transform:scale(.94)}
+/* 스켈레톤 / 에러 */
+.bbl-arcv7 .sk{position:relative;overflow:hidden;background:#F1E4E0;border-radius:16px}
+.bbl-arcv7 .sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:bblsh 1.45s infinite}
+@keyframes bblsh{100%{transform:translateX(100%)}}
+.bbl-arcv7 .arc-skgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:16px;margin-top:16px}
+.bbl-arcv7 .bbl-err{max-width:520px;margin:20px auto;text-align:center;background:#fff;border:1px solid var(--border);border-radius:18px;padding:34px 26px;box-shadow:var(--sh1)}
+.bbl-arcv7 .bbl-err .ei{font-size:40px;line-height:1}
+.bbl-arcv7 .bbl-err .et{font-size:18px;font-weight:800;margin-top:14px;color:var(--ink)}
+.bbl-arcv7 .bbl-err .ed{font-size:14px;color:var(--ink2);margin-top:9px;line-height:1.7}
+.bbl-arcv7 .bbl-err .ebtn{display:inline-flex;align-items:center;gap:6px;margin-top:18px;min-height:46px;padding:12px 22px;border-radius:12px;background:var(--rose);color:#fff;font-size:14px;font-weight:800;text-decoration:none}
+.bbl-arcv7 .bbl-nojs{max-width:520px;margin:20px auto;text-align:center;background:#fff;border:1px dashed var(--border);border-radius:16px;padding:26px 22px;font-size:14px;color:var(--ink2);line-height:1.7}
+.bbl-arcv7 .bbl-nojs a{color:var(--rose);font-weight:800}
+@media(max-width:560px){.bbl-arcv7 .cover-grid,.bbl-arcv7 .arc-skgrid{grid-template-columns:1fr}.bbl-arcv7 .astat{flex:1 1 46%;min-width:0}}
+@media(prefers-reduced-motion:reduce){.bbl-arcv7 *,.bbl-arcv7 *::before,.bbl-arcv7 *::after{animation:none!important;transition:none!important}.bbl-arcv7.js .reveal{opacity:1!important;transform:none!important}.bbl-arcv7 .mesh{animation:none!important}.topbar::before{animation:none}}
+
+/* ===== v7 additions (G5 · 아침/저녁 머니레터 · 오늘 2판 · 아코디언·연도·더보기 · 웜 CTA) ===== */
+.bbl-arcv7 .today-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+.bbl-arcv7 .today-grid.one{grid-template-columns:1fr;max-width:660px}
+@media(max-width:760px){.bbl-arcv7 .today-grid{grid-template-columns:1fr}}
+.bbl-arcv7 .cover.today{padding:26px 28px 24px 32px;border-radius:22px;box-shadow:var(--sh2);background:linear-gradient(150deg,#fff 52%,var(--pinkSoft2))}
+.bbl-arcv7 .cover.today.up{background:linear-gradient(150deg,#fff 46%,#FCE4E0)}
+.bbl-arcv7 .cover.today.down{background:linear-gradient(150deg,#fff 46%,#E4ECFC)}
+.bbl-arcv7 .cover.today.flat{background:linear-gradient(150deg,#fff 46%,#F3EDE7)}
+.bbl-arcv7 .cover.today .cv-spine{width:8px}
+.bbl-arcv7 .cover.today .cv-date.big{font-size:22px}
+.bbl-arcv7 .cover.today .cv-hook.big{font-size:clamp(20px,2.7vw,27px);letter-spacing:-.028em;line-height:1.26;-webkit-line-clamp:3;min-height:0}
+.bbl-arcv7 .cover.today .cv-go.big{margin-top:18px;font-size:13.5px}
+.bbl-arcv7 .cover.today.wait{background:linear-gradient(150deg,#fff,#FBF3EF);border-style:dashed;cursor:default}
+.bbl-arcv7 .cover.today.wait .cv-spine{background:linear-gradient(180deg,#ecd7d2,#dcbdb7)}
+.bbl-arcv7 .cover.today.wait:hover{transform:none;box-shadow:var(--sh1);border-color:var(--border)}
+.bbl-arcv7 .cover.today.wait:hover::after{opacity:0}
+.bbl-arcv7 .wait-h{color:var(--ink2)!important}
+.bbl-arcv7 .wait-go{color:var(--mut)!important}
+/* 월 헤더 = 아코디언 버튼 */
+.bbl-arcv7 .month-h{width:100%;border:0;cursor:pointer;font:inherit;color:inherit;gap:12px}
+.bbl-arcv7 .month-h .mh-count{margin-left:auto}
+.bbl-arcv7 .month-h .mh-chev{margin-left:10px;color:var(--mut);font-size:15px;font-weight:900;transition:transform var(--dur-1) var(--ease-enter)}
+.bbl-arcv7.js .month:not(.op) .month-h .mh-chev{transform:rotate(-90deg)}
+.bbl-arcv7 .month-h:hover .mh-title{color:var(--rose)}
+.bbl-arcv7 .month-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--dur-2) var(--ease-morph),opacity var(--dur-2)}
+.bbl-arcv7.js .month:not(.op) .month-body{grid-template-rows:0fr;opacity:.3}
+.bbl-arcv7 .mbi{min-height:0;overflow:hidden}
+/* 연도 셀렉터 */
+.bbl-arcv7 .yearsel{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 8px}
+.bbl-arcv7 .yearsel:empty{display:none}
+.bbl-arcv7 .ychip{border:1px solid var(--border);background:#fff;color:var(--ink2);border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:800;cursor:pointer;transition:transform var(--dur-press),background var(--dur-1),color var(--dur-1),border-color var(--dur-1)}
+.bbl-arcv7 .ychip:hover{border-color:var(--borderStrong);color:var(--rose)}
+.bbl-arcv7 .ychip.on{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border-color:transparent}
+.bbl-arcv7 .ychip:active{transform:scale(.95)}
+/* 더 보기(점진 로드) */
+.bbl-arcv7 .morewrap{display:flex;justify-content:center;margin-top:22px}
+.bbl-arcv7 .morewrap:empty{margin:0}
+.bbl-arcv7 .morebtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--borderStrong);background:#fff;color:var(--ink);border-radius:14px;padding:14px 26px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:var(--sh1);transition:transform var(--dur-2) var(--ease-enter),box-shadow var(--dur-2),border-color var(--dur-1)}
+.bbl-arcv7 .morebtn:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--rose)}
+.bbl-arcv7 .morebtn:active{transform:scale(.97)}
+.bbl-arcv7 .morebtn b{color:var(--rose);font-weight:900}
+.bbl-arcv7 .morebtn i{font-style:normal}
+/* today-grid 리빌 스태거 */
+.bbl-arcv7.js .today-grid .reveal.in:nth-child(2){transition-delay:.07s}
+/* CTA 밴드 = 웜 분홍(라이트) · 다크 밴드 금지 */
+.bbl-arcv7 .cta{color:var(--ink)!important;background:radial-gradient(90% 130% at 84% -20%,var(--pinkSoft) 0%,transparent 60%),linear-gradient(160deg,#FFF7F4,var(--pinkSoft2) 58%,#FDEFF2)!important;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.bbl-arcv7 .cta::before{background:radial-gradient(60% 80% at 16% 120%,rgba(179,58,76,.08),transparent 60%)!important}
+.bbl-arcv7 .cta .cta-k{color:var(--rose);opacity:1}
+.bbl-arcv7 .cta h2{color:var(--ink)}
+.bbl-arcv7 .cta p{color:var(--ink2);opacity:1}
+.bbl-arcv7 .cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-top:24px}
+.bbl-arcv7 .cta-btn{margin-top:0;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;box-shadow:0 16px 34px -12px rgba(179,58,76,.55)}
+.bbl-arcv7 .cta-btn:hover{box-shadow:0 22px 44px -12px rgba(179,58,76,.62)}
+.bbl-arcv7 .cta-btn i{font-style:normal;transition:transform var(--dur-1) var(--ease-enter)}
+.bbl-arcv7 .cta-btn:hover i{transform:translateX(4px)}
+.bbl-arcv7 .cta-btn2{display:inline-flex;align-items:center;gap:7px;min-height:54px;padding:16px 26px;border-radius:16px;background:#fff;color:var(--rose);border:1px solid var(--borderStrong);font-size:15px;font-weight:800;transition:transform var(--dur-2) var(--ease2),box-shadow var(--dur-2)}
+.bbl-arcv7 .cta-btn2:hover{transform:translateY(-2px);box-shadow:var(--sh1)}
+.bbl-arcv7 .cta-foot{color:var(--mut)!important;opacity:1}
+
+
+/* ===== v7.1 비주얼 폴리시 (H1 · 타이포 위계·오늘 무대·리듬) ===== */
+.bbl-arcv7 .highlight .sec-lead{margin-bottom:14px}
+.bbl-arcv7 .highlight .sl-k{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;padding:4px 11px;border-radius:999px;letter-spacing:.07em;box-shadow:0 6px 15px -8px rgba(179,58,76,.6)}
+.bbl-arcv7 .highlight .sl-t{color:var(--deep)}
+.bbl-arcv7 #archive{margin-top:clamp(10px,2.4vw,20px)}
+.bbl-arcv7 .astat .as-l{letter-spacing:.01em}
+@media(max-width:560px){.bbl-arcv7 .highlight{padding:16px 14px 18px}.bbl-arcv7 .cover-grid,.bbl-arcv7 .arc-skgrid{gap:13px}}
+
+</style>
+
+<div class="topbar">
+  <span>매일 아침 7시·저녁 6시, 동은부부 머니레터가 두 분의 하루에 도착해요</span>
+  <a href="/letter-evening">오늘 레터 열어보기 →</a>
+</div>
+<header id="hdr">
+  <div class="wrap nav">
+    <div class="logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+    <nav class="menu menu-main">
+      <a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a>
+    </nav>
+    <div class="navright">
+      <nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+      <a href="#subscribe" class="cta">구독하기</a>
+    </div>
+  </div>
+</header>
+<div class="bbl-arcv7" id="bblArc">
+ <header class="mast">
+  <svg class="grain" aria-hidden="true" preserveAspectRatio="none"><filter id="agn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.72  0 0 0 0 0.55  0 0 0 0 0.5  0 0 0 0.045 0"/></filter><rect width="100%" height="100%" filter="url(#agn)"/></svg>
+  <span class="mesh m1" aria-hidden="true"></span><span class="mesh m2" aria-hidden="true"></span>
+  <div class="in1180 mastin">
+   <div class="brand"><span class="dot"></span><a href="/" style="color:inherit;text-decoration:none">동은부부 머니레터</a><a class="back" href="#subscribe">구독 안내 →</a></div>
+   <span class="a-eyebrow">✦ ARCHIVE · 시장 일기장</span>
+   <h1 class="a-title">우리 부부의<br>시장 일기장</h1>
+   <p class="a-sub">동은부부가 매일 <b>아침·저녁</b> 시장을 옆에서 정리해온 기록이에요. 표지만 넘겨봐도 그날의 온도가 보이도록, 그날의 훅을 표지 제목처럼 담았어요.</p>
+   <div class="astats">
+    <div class="astat accent"><span class="as-n odo cnt" id="bblArcN" data-to="11">11<small>통</small></span><span class="as-l">지금까지 쌓인 레터</span></div>
+    <div class="astat"><span class="as-n tnum" id="bblArcPeriod">7.2 ~ 7.10</span><span class="as-l">기록하고 있는 기간</span></div>
+    <div class="astat"><span class="as-n">아침·저녁</span><span class="as-l">하루 두 번 발행 리듬</span></div>
+   </div>
+  </div>
+ </header>
+ <main class="wrap">
+  <section class="highlight" id="highlight" aria-label="오늘의 레터">
+   <div class="sec-lead"><span class="sl-k">✦ TODAY</span><span class="sl-t">오늘의 레터</span><span class="sl-d">가장 최근 발행된 아침·저녁 머니레터예요 — 표지를 눌러 펼쳐 읽어보세요.</span></div>
+   <div class="today-grid"><a class="cover today up reveal" href="/letter-morning?d=20260710&amp;e=am" data-dir="up"><span class="cv-spine" aria-hidden="true"></span><span class="cv-flag">오늘 아침 · 미국장 마감</span><div class="cv-top"><time class="cv-date big tnum" datetime="2026-07-10">7.10</time><span class="cv-ed am">🌅 아침 머니레터</span></div><h3 class="cv-hook big">간밤 뉴욕은 3대 지수가 일제히 올랐는데, 딱 한 곳, 에너지만 홀로 1% 넘게 빠졌어요. 왜 좋은 날에 에너지만 울었을까요</h3><div class="cv-teaser big">미국 증시 마감 정리 · 아침 브리핑</div><div class="cv-kpis big"><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>S&amp;P500 <b class="tnum">+0.81%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>나스닥 <b class="tnum">+1.30%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스피 <b class="tnum">+3.85%</b></span></div><span class="cv-go big">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover today up reveal" href="/letter-evening?d=20260710&amp;e=pm" data-dir="up"><span class="cv-spine" aria-hidden="true"></span><span class="cv-flag">오늘 저녁 · 한국장 마감</span><div class="cv-top"><time class="cv-date big tnum" datetime="2026-07-10">7.10</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><h3 class="cv-hook big">코스피는 2.5% 급등했는데, 정작 반도체 대장주 SK하이닉스는 왜 혼자 반락했을까요</h3><div class="cv-teaser big">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis big"><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스피 <b class="tnum">+2.52%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스닥 <b class="tnum">+5.47%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>S&amp;P500 <b class="tnum">+0.81%</b></span></div><span class="cv-go big">펼쳐 읽기 <i aria-hidden="true">→</i></span></a></div>
+  </section>
+  <section id="archive" aria-label="월별 아카이브">
+   <div class="sec-lead"><span class="sl-k">✦ ALL LETTERS</span><span class="sl-t">전체 기록</span><span class="sl-d">월별로 쌓인 레터예요 — 등락에 따라 표지의 표정(색)이 달라져요. 지난 달은 눌러서 펼쳐볼 수 있어요.</span></div>
+   <div class="yearsel" id="bblArcYears" style="display:none"></div><div id="bblArcMonths"><section class="month op" data-key="2026-07"><button class="month-h" type="button" aria-expanded="true" aria-controls="mg-s0"><span class="mh-title">2026년 7월</span><span class="mh-count tnum">9통</span><span class="mh-chev" aria-hidden="true">⌄</span></button><div class="month-body" id="mg-s0"><div class="mbi"><div class="cover-grid"><a class="cover up reveal" href="/letter-evening?d=20260709&amp;e=pm" data-dir="up"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-09">7.09</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">이틀 새 10% 가까이 무너졌는데, 오늘 반등은 왜 겨우 0.62%였을까요</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스피 <b class="tnum">+0.62%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스닥 <b class="tnum">+1.15%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>S&amp;P500 <b class="tnum">-0.28%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-morning?d=20260709&amp;e=am" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-09">7.09</time><span class="cv-ed am">🌅 아침 머니레터</span></div><div class="cv-hook">우리를 이틀 새 무너뜨린 반도체가 간밤엔 +2%대 반등했는데, 왜 다우는 되레 1% 넘게 빠졌을까요</div><div class="cv-teaser">미국 증시 마감 정리 · 아침 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>S&amp;P500 <b class="tnum">-0.28%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>나스닥 <b class="tnum">+0.20%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스피 <b class="tnum">+0.62%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-evening?d=20260708&amp;e=pm" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-08">7.08</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">간밤 뉴욕은 1.16% 내렸는데, 코스피는 왜 5.35%나 무너졌을까요</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-5.35%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스닥 <b class="tnum">-5.56%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>S&amp;P500 <b class="tnum">-0.45%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-morning?d=20260708&amp;e=am" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-08">7.08</time><span class="cv-ed am">🌅 아침 머니레터</span></div><div class="cv-hook">다우는 0.25% 빠지는 데 그쳤는데, 반도체지수는 왜 4.65%나 무너졌을까요</div><div class="cv-teaser">미국 증시 마감 정리 · 아침 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>S&amp;P500 <b class="tnum">-0.45%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>나스닥 <b class="tnum">-1.16%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-1.85%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-evening?d=20260707&amp;e=pm" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-07">7.07</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">삼성전자가 역대 최대 실적을 냈는데, 코스피는 왜 5% 가까이 무너졌을까요</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-4.91%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스닥 <b class="tnum">-1.87%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>S&amp;P500 <b class="tnum">+0.72%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover up reveal" href="/letter-morning?d=20260707&amp;e=am" data-dir="up"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-07">7.07</time><span class="cv-ed am">🌅 아침 머니레터</span></div><div class="cv-hook">이틀 전 무너졌던 반도체가, 하룻밤 새 왜 앞장서 반등했을까요</div><div class="cv-teaser">미국 증시 마감 정리 · 아침 브리핑</div><div class="cv-kpis"><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>S&amp;P500 <b class="tnum">+0.72%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>나스닥 <b class="tnum">+1.12%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-0.46%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-evening?d=20260706&amp;e=pm" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-06">7.06</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">코스피는 -0.46%인데, 코스닥은 왜 5배 넘게 밀렸을까요</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-0.46%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스닥 <b class="tnum">-2.46%</b></span><span class="kchip flat"><span class="ka" aria-hidden="true">—</span>S&amp;P500 <b class="tnum">0.00%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover up reveal" href="/letter-evening?d=20260703&amp;e=pm" data-dir="up"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-03">7.03</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">개인도 외국인도 팔았는데, 코스피는 왜 5.76% 뛰었을까요</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스피 <b class="tnum">+5.76%</b></span><span class="kchip up"><span class="ka" aria-hidden="true">▲</span>코스닥 <b class="tnum">+0.19%</b></span><span class="kchip flat"><span class="ka" aria-hidden="true">—</span>S&amp;P500 <b class="tnum">0.00%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a><a class="cover down reveal" href="/letter-evening?d=20260702&amp;e=pm" data-dir="down"><span class="cv-spine" aria-hidden="true"></span><div class="cv-top"><time class="cv-date tnum" datetime="2026-07-02">7.02</time><span class="cv-ed pm">🌙 저녁 머니레터</span></div><div class="cv-hook">메타는 +8.8% 뛰고 코스피는 -7.9%, 남는 GPU 팝니다</div><div class="cv-teaser">한국 증시 마감 정리 · 저녁 브리핑</div><div class="cv-kpis"><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스피 <b class="tnum">-7.89%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>코스닥 <b class="tnum">-6.74%</b></span><span class="kchip down"><span class="ka" aria-hidden="true">▼</span>S&amp;P500 <b class="tnum">-0.22%</b></span></div><span class="cv-go">펼쳐 읽기 <i aria-hidden="true">→</i></span></a></div></div></div></section></div><div class="morewrap" id="bblArcMore"></div>
+  </section>
+ </main>
+ <section class="cta" id="subscribe">
+  <div class="cta-in">
+   <div class="cta-k">PREMIUM · 프리미엄 안내</div>
+   <h2>매일의 시장을, 더 깊이 읽고 싶다면</h2>
+   <p>동은부부의 아침·저녁 머니레터는 늘 무료로 열려 있어요. 여기에 더해 유료 칼럼·투자 도구·기업 분석까지 이어지는 프리미엄을 준비했어요.</p>
+   <div class="cta-row">
+    <a class="cta-btn" href="/premium">프리미엄 안내 <i aria-hidden="true">→</i></a>
+    <a class="cta-btn2" href="/moneyletter-landing">무료 구독부터 시작하기</a>
+   </div>
+   <div class="cta-foot">하루 두 번, 아침·저녁</div>
+  </div>
+ </section>
+ <footer class="afoot">
+  <div class="fin"><div class="brandline"><span class="dot"></span>동은부부 머니레터 — 시장 일기장</div></div>
+ </footer>
+ <button id="bblTop" aria-label="맨 위로">↑</button>
+ <noscript><div class="bbl-nojs">오늘 레터는 <a href="/letter-evening">여기</a>에서 볼 수 있어요.</div></noscript>
+ <script type="application/json" id="bblArcSnap">{"updated": "2026-07-10T17:14:14", "letters": [{"date": "2026-07-10", "edition": "pm", "title": "코스피는 2.5% 급등했는데, 정작 반도체 대장주 SK하이닉스는 왜 혼자 반락했을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+2.52%", "d": "up"}, {"k": "코스닥", "v": "+5.47%", "d": "up"}, {"k": "S&P500", "v": "+0.81%", "d": "up"}], "body": "2026-07-10_pm__BODY.html", "footer": "2026-07-10_pm__FOOTER.html", "chars": 122484}, {"date": "2026-07-10", "edition": "am", "title": "간밤 뉴욕은 3대 지수가 일제히 올랐는데, 딱 한 곳, 에너지만 홀로 1% 넘게 빠졌어요. 왜 좋은 날에 에너지만 울었을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "+0.81%", "d": "up"}, {"k": "나스닥", "v": "+1.30%", "d": "up"}, {"k": "코스피", "v": "+3.85%", "d": "up"}], "body": "2026-07-10_am__BODY.html", "footer": "2026-07-10_am__FOOTER.html", "chars": 118601}, {"date": "2026-07-09", "edition": "pm", "title": "이틀 새 10% 가까이 무너졌는데, 오늘 반등은 왜 겨우 0.62%였을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+0.62%", "d": "up"}, {"k": "코스닥", "v": "+1.15%", "d": "up"}, {"k": "S&P500", "v": "-0.28%", "d": "down"}], "body": "2026-07-09_pm__BODY.html", "footer": "2026-07-09_pm__FOOTER.html", "chars": 119490}, {"date": "2026-07-09", "edition": "am", "title": "우리를 이틀 새 무너뜨린 반도체가 간밤엔 +2%대 반등했는데, 왜 다우는 되레 1% 넘게 빠졌을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "-0.28%", "d": "down"}, {"k": "나스닥", "v": "+0.20%", "d": "up"}, {"k": "코스피", "v": "+0.62%", "d": "up"}], "body": "2026-07-09_am__BODY.html", "footer": "2026-07-09_am__FOOTER.html", "chars": 117120}, {"date": "2026-07-08", "edition": "pm", "title": "간밤 뉴욕은 1.16% 내렸는데, 코스피는 왜 5.35%나 무너졌을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-5.35%", "d": "down"}, {"k": "코스닥", "v": "-5.56%", "d": "down"}, {"k": "S&P500", "v": "-0.45%", "d": "down"}], "body": "2026-07-08_pm__BODY.html", "footer": "2026-07-08_pm__FOOTER.html", "chars": 121182}, {"date": "2026-07-08", "edition": "am", "title": "다우는 0.25% 빠지는 데 그쳤는데, 반도체지수는 왜 4.65%나 무너졌을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "-0.45%", "d": "down"}, {"k": "나스닥", "v": "-1.16%", "d": "down"}, {"k": "코스피", "v": "-1.85%", "d": "down"}], "body": "2026-07-08_am__BODY.html", "footer": "2026-07-08_am__FOOTER.html", "chars": 118168}, {"date": "2026-07-07", "edition": "pm", "title": "삼성전자가 역대 최대 실적을 냈는데, 코스피는 왜 5% 가까이 무너졌을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-4.91%", "d": "down"}, {"k": "코스닥", "v": "-1.87%", "d": "down"}, {"k": "S&P500", "v": "+0.72%", "d": "up"}], "body": "2026-07-07_pm__BODY.html", "footer": "2026-07-07_pm__FOOTER.html", "chars": 119265}, {"date": "2026-07-07", "edition": "am", "title": "이틀 전 무너졌던 반도체가, 하룻밤 새 왜 앞장서 반등했을까요", "teaser": "미국 증시 마감 정리 · 아침 브리핑", "kpi": [{"k": "S&P500", "v": "+0.72%", "d": "up"}, {"k": "나스닥", "v": "+1.12%", "d": "up"}, {"k": "코스피", "v": "-0.46%", "d": "down"}], "body": "2026-07-07_am__BODY.html", "footer": "2026-07-07_am__FOOTER.html", "chars": 118602}, {"date": "2026-07-06", "edition": "pm", "title": "코스피는 -0.46%인데, 코스닥은 왜 5배 넘게 밀렸을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-0.46%", "d": "down"}, {"k": "코스닥", "v": "-2.46%", "d": "down"}, {"k": "S&P500", "v": "0.00%", "d": "flat"}], "body": "2026-07-06_pm__BODY.html", "footer": "2026-07-06_pm__FOOTER.html", "chars": 112325}, {"date": "2026-07-03", "edition": "pm", "title": "개인도 외국인도 팔았는데, 코스피는 왜 5.76% 뛰었을까요", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "+5.76%", "d": "up"}, {"k": "코스닥", "v": "+0.19%", "d": "up"}, {"k": "S&P500", "v": "0.00%", "d": "flat"}], "body": "2026-07-03_pm__BODY.html", "footer": "2026-07-03_pm__FOOTER.html", "chars": 114052}, {"date": "2026-07-02", "edition": "pm", "title": "메타는 +8.8% 뛰고 코스피는 -7.9%, 남는 GPU 팝니다", "teaser": "한국 증시 마감 정리 · 저녁 브리핑", "kpi": [{"k": "코스피", "v": "-7.89%", "d": "down"}, {"k": "코스닥", "v": "-6.74%", "d": "down"}, {"k": "S&P500", "v": "-0.22%", "d": "down"}], "body": "2026-07-02_pm__BODY.html", "footer": "2026-07-02_pm__FOOTER.html", "chars": 34186}]}</script>
+</div>

@@ -1,0 +1,170 @@
+<!-- [머니레터_마감_구독안내카드_v2] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#766962;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+  --rose:#B85060; --roseText:#A03F4D; --roseDeep:#8E3344;
+  --sage:#5E8C7F; --sageDeep:#3F6B5E; --sageSoft:#EAF1EE; --sageBd:#D4E6DF;
+  --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+  --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.78;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding:clamp(20px,5vw,46px) clamp(14px,4vw,22px)}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* 반복형 리빌(toggle) · no-JS면 그대로 보임 */
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+html.js .stag>*{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .stag.in>*{opacity:1;transform:none}
+html.js .stag.in>*:nth-child(2){transition-delay:.08s}
+html.js .stag.in>*:nth-child(3){transition-delay:.16s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal,.stag>*{opacity:1!important;transform:none!important}}
+
+/* 카드 외피 */
+.card{background:linear-gradient(168deg,#fff 0%,var(--pinkSoft2) 100%);border:1px solid var(--border);border-radius:24px;box-shadow:var(--cardHi);overflow:hidden}
+.inner{padding:clamp(24px,5.4vw,40px)}
+
+/* 1) 감사 마커 (페이월 아님 — 부드러운 경계) */
+.thanks{text-align:center}
+.seal{width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(120% 120% at 30% 25%,#fff,var(--pinkSoft));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--cardSh)}
+.seal svg{width:30px;height:30px;fill:var(--pink)}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--roseText);text-transform:uppercase}
+.kick::before,.kick::after{content:"";width:18px;height:1.5px;background:linear-gradient(90deg,transparent,var(--rose))}
+.kick::after{transform:scaleX(-1)}
+.thanks h2{font-size:clamp(22px,4.4vw,29px);font-weight:800;letter-spacing:-.02em;line-height:1.28;margin-top:12px}
+.thanks p{font-size:14.5px;color:var(--ink2);line-height:1.82;margin:12px auto 0;max-width:30em}
+
+/* 2) 가치 회수 (오늘 담긴 것 / 구독에 더해지는 것) */
+.recap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+@media(max-width:560px){.recap{grid-template-columns:1fr}}
+.vcol{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh)}
+.vcol.pro{background:linear-gradient(166deg,#fff,var(--pinkSoft));border-color:#E3C7CC}
+.vhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+.vhead .t{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.tag{font-size:11.5px;font-weight:800;border-radius:100px;padding:3px 9px;white-space:nowrap}
+.tag.free{color:var(--sageDeep);background:var(--sageSoft);border:1px solid var(--sageBd)}
+.tag.paid{color:#fff;background:linear-gradient(135deg,var(--roseText),var(--roseDeep))}
+.vlist{list-style:none;display:flex;flex-direction:column;gap:9px}
+.vlist li{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink2);line-height:1.55}
+.vlist li svg{width:17px;height:17px;flex:none;margin-top:1.5px;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.vlist.f li svg{stroke:var(--sageDeep)}
+.vlist.p li svg{stroke:var(--roseText)}
+
+/* 3) 초대 + 가격 */
+.invite{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:clamp(18px,4vw,24px);box-shadow:var(--cardSh);text-align:center}
+.invite .lead{font-size:14.5px;color:var(--ink2);line-height:1.8}
+.invite .lead b{color:var(--ink);font-weight:800}
+.price{margin-top:12px;display:flex;align-items:baseline;justify-content:center;gap:6px}
+.price .num{font-size:34px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.price .won{font-size:15px;font-weight:700;color:var(--mut)}
+.daycost{margin-top:5px;font-size:13px;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:6px 11px}
+.chip svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--sage);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.reassure{margin-top:14px;font-size:13px;color:var(--ink2);line-height:1.7;max-width:28em;margin-left:auto;margin-right:auto}
+
+/* CTA 2갈래 (동일 무게) */
+.ctas{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:14px 20px;border-radius:14px;font-size:15px;font-weight:800;letter-spacing:-.01em;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.btn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn-primary{color:#fff;background:linear-gradient(135deg,var(--roseText),var(--roseDeep));box-shadow:0 8px 20px rgba(142,51,68,.26)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(142,51,68,.32)}
+.btn-ghost{color:var(--roseText);background:#fff;border-color:#E6CDD2}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:var(--cardSh)}
+/* a11y(일꾼A Q36): 키보드 가시 포커스 링 — WCAG 2.4.7 (기존 누락 보강 · :root hex 불변) */
+.btn:focus-visible{outline:3px solid var(--roseText);outline-offset:3px}
+
+/* 면책 */
+.disc{margin-top:18px;font-size:12px;color:var(--mut);line-height:1.7;background:var(--bg2);border:1px dashed var(--border);border-radius:12px;padding:13px 15px}
+.disc b{color:var(--ink2);font-weight:700}
+
+/* AA 자가검증 패널 */
+details.aa{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
+details.aa summary{cursor:pointer;list-style:none;padding:12px 15px;font-size:12.5px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px;min-height:44px}
+details.aa summary::-webkit-details-marker{display:none}
+details.aa summary .mk{width:16px;height:16px;flex:none;fill:none;stroke:var(--sage);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease)}
+details.aa[open] summary .mk{transform:rotate(90deg)}
+details.aa .body{padding:0 15px 14px;font-size:12px;color:var(--mut);line-height:1.75}
+details.aa .body code{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:1px 5px;color:var(--ink2);font-size:11.5px}
+</style>
+<div class="wrap">
+  <article class="card reveal">
+    <div class="inner">
+
+      <!-- 1) 감사 마커 -->
+      <div class="thanks">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6S3.4 15.5 3.4 9.7c0-2.7 2.2-4.3 4.5-4.1 1.7.2 3 1.3 4.1 2.8 1.1-1.5 2.4-2.6 4.1-2.8 2.3-.2 4.5 1.4 4.5 4.1 0 5.8-8.6 10.9-8.6 10.9z"/></svg>
+        </div>
+        <span class="kick">레터를 닫으며</span>
+        <h2>오늘도 끝까지<br>읽어주셔서 고마워요</h2>
+        <p>오늘 시장, 저희랑 같이 차근차근 정리해보셨네요,, 이 자리에서 매일 아침엔 미국·세계를, 저녁엔 한국시장을 짚어드릴게요. 혹시 오늘 레터를 곁에 두고 싶은 마음이 드셨다면, 잠깐만 더 들려드릴게요:)</p>
+      </div>
+
+      <!-- 2) 가치 회수: 오늘 담긴 것 / 구독에 더해지는 것 -->
+      <div class="recap stag reveal">
+        <div class="vcol">
+          <div class="vhead"><span class="t">오늘 데일리 레터에 담겼어요</span><span class="tag free">0원</span></div>
+          <ul class="vlist f">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>한국·미국 시장 핵심 정리</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>지수·환율·코인·투자심리 한눈에</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>경제뉴스 큐레이션 · 이번 주 캘린더</li>
+          </ul>
+        </div>
+        <div class="vcol pro">
+          <div class="vhead"><span class="t">딥 레터 구독에 더해져요</span><span class="tag paid"><span class="tnum">9,900</span>원/월</span></div>
+          <ul class="vlist p">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'그래서 내 돈은?' 딥 분석</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Why 인사이트 칼럼 (매일 1편)</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>내일의 체크포인트 + 구독자 자료</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3) 초대 + 가격 + CTA -->
+      <div class="invite reveal">
+        <p class="lead">더 깊은 분석과 <b>'Why'</b>를 매일 곁에 두고 싶다면요.</p>
+        <div class="price"><span class="num tnum">9,900</span><span class="won">원 / 월</span></div>
+        <!-- 카피 일관성(B Q72 · Q55 감사 §3 P2): 원문 "하루로 치면 약 330원, 커피 두 잔이 안 되는 값이에요." → '커피 두 잔'은 브랜드 표준상 월 9,900원에 붙는 비유(홈 v10 L792 "한 달 9,900원, 커피 두 잔 값이에요. 하루로 치면 약 330원이고요."). 하루 약 330원은 가치카드 L263 표준대로 '커피 한 잔보다 적은'으로 통일. 의미보존·가격값(330원·9,900원) 불변 -->
+        <div class="daycost">하루로 치면 약 <span class="tnum">330</span>원, 커피 한 잔보다 적은 값이에요.</div>
+        <div class="chips">
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>언제든 해지</span>
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>약정 없음</span>
+          <!-- 리스크 리버설 칩 신설 (B Q23) — 값은 SSOT §2.1 확정("첫 결제 7일 내 100% 환불"). 마감=결정지점이라 가장 강한 환불 보장을 노출. 신규 칩이라 원문 덮어쓰기 아님 -->
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>첫 7일 100% 환불</span>
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>매일 아침 7시·저녁 6시 발행</span>
+        </div>
+        <!-- 원문 보존(B Q23 · 사장님이 칩만 두고 이 문장은 현행 유지하려면 아래로 복원):
+             "매일의 레터로 충분히 함께해보고, 마음이 닿을 때 결정하셔도 돼요. 천천히요:)"
+             ↓ 제안: 7일 환불을 prose로도 짧게 녹여 안심 강화(09 §6 정직한 안심). 칩과 중복이면 사장님이 원문으로. -->
+        <p class="reassure">매일의 레터로 충분히 함께해보고, 마음이 닿을 때 결정하셔도 돼요. 혹시 구독해보고 아니다 싶으면 첫 7일 안엔 100% 돌려드리니, 부담 없이요. 천천히요:)</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#subscribe">카카오로 시작하고 구독하기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="#letter">데일리 레터로 계속 받아볼게요</a>
+        </div>
+      </div>
+
+      <!-- 면책 -->
+      <div class="disc reveal">
+        <b>투자 권유가 아니에요.</b> 이 레터는 시장과 경제뉴스를 같이 정리해 본 정보예요. 최종 판단과 책임은 투자자 본인에게 있어요. 지수·시세는 직전 거래일 종가 기준이고요.
+      </div>
+
+      <!-- AA 자가검증 -->
+      <details class="aa reveal">
+        <summary><svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>접근성 · 정직성 자가검증 (열기)</summary>
+        <div class="body">
+          색 대비는 본문·라벨 모두 WCAG AA(<code>4.5:1</code> 이상)로 맞췄어요. 화살표·체크·하트는 전부 인라인 SVG라 이모지 의존이 없고, 자바스크립트가 막혀도 모든 내용이 그대로 보여요(리빌은 '들어오면 켜고 나가면 끄는' 반복형). 가격(<code>월 9,900원</code>)·발행시각(<code>매일 아침 7시·저녁 6시</code>)·해지 조건은 홈/레터 정본과 같은 값이에요. 특정 종목·수치·외부 링크는 넣지 않았어요(<code>#subscribe</code>·<code>#letter</code>는 붙일 때 실제 주소로 연결하는 자리표시자예요).
+        </div>
+      </details>
+
+    </div>
+  </article>
+</div>
+
+<!-- ▼▼▼ 아임웹: 이 스크립트 블록만 '푸터(FOOTER)'에 넣어주세요 (코드위젯 아님) ▼▼▼ -->

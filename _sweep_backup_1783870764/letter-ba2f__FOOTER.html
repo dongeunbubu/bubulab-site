@@ -1,0 +1,12 @@
+<!-- [머니레터_마감_구독카드_v2] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 1개) -->
+<script>(function(){
+  document.documentElement.classList.add('js');
+  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!rm){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}
+  else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+  if(rm)return;
+  document.querySelectorAll('.magnet').forEach(function(b){
+    b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();var x=e.clientX-r.left-r.width/2;var y=e.clientY-r.top-r.height/2;b.style.transform='translate('+(x*0.18)+'px,'+(y*0.26)+'px)';});
+    b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();</script>

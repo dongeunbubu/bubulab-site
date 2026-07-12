@@ -1,0 +1,357 @@
+<!-- [도구_전세자금대출비교_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+
+/* ---------- state ---------- */
+var S={deposit:3, cash:0.5, income:7500, networth:3, region:1, first:1, baby:0, term:2, mkt:0.0407};
+var LSKEY="bbJeonseLoanCompare_v1";
+
+/* ---------- program config (2026-06, 신혼 기준 추정 · 6·27 반영) ---------- */
+var PROG=[
+ {id:"butt", cls:"didim", name:"버팀목 전세", emoji:"🌱", rate:0.027, rateLbl:"연 2.1~3.3%", incomeCap:7500, nwCap:5.11, depCapM:3, depCapL:2, maxLoanM:2.5, maxLoanL:1.6, needBaby:false, ltv:0.80, isMkt:false},
+ {id:"sin", cls:"sin", name:"신생아 특례 전세", emoji:"👶", rate:0.022, rateLbl:"연 1.1~3.0%", incomeCap:25000, nwCap:3.45, depCapM:5, depCapL:4, maxLoanM:2.4, maxLoanL:2.4, needBaby:true, ltv:0.80, isMkt:false},
+ {id:"mkt", cls:"bog", name:"시중 전세대출", emoji:"🏦", rate:0.0407, rateLbl:"연 3.7~5.1%", incomeCap:999999, nwCap:999, depCapM:999, depCapL:999, maxLoanM:999, maxLoanL:999, needBaby:false, ltv:0.80, isMkt:true}
+];
+
+/* ---------- helpers ---------- */
+function fmtEokMan(won){
+ won=Math.round(won);
+ if(won<=0) return "0원";
+ var eok=Math.floor(won/1e8);
+ var man=Math.round((won-eok*1e8)/1e4);
+ if(eok>0){ return eok+"억"+(man>0?(" "+man.toLocaleString()+"만"):""); }
+ return man.toLocaleString()+"만원";
+}
+function fmtMan(won){ return Math.round(won/1e4).toLocaleString()+"만원"; }
+function fmtMon(won){ var m=Math.round(won/1e4*10)/10; return m.toLocaleString()+"만원"; }
+function fmtEok1(won){ return (Math.round(won/1e7)/10).toLocaleString()+"억"; }
+
+/* ---------- core loan math (전세 = interest-only) ---------- */
+function monthInterest(P,iA){ if(P<=0||iA<=0) return 0; return P*iA/12; }
+function totInterest(P,iA,years){ if(P<=0||iA<=0||years<=0) return 0; return P*iA*years; }
+/* cumulative interest by month, sampled every 2 months for a smooth line */
+function cumInterestSeries(P,iA,years){
+ var n=Math.round(years*12), out=[], mInt=P*iA/12;
+ for(var m=2;m<=n;m+=2){ out.push({x:m/12, y:mInt*m}); }
+ if(out.length===0 || Math.abs(out[out.length-1].x-years)>1e-9){ out.push({x:years, y:mInt*n}); }
+ return out;
+}
+
+/* ---------- evaluate one program ---------- */
+function evalProg(p){
+ var r={p:p, elig:true, reasons:[]};
+ var metro = S.region===1;
+ var depCap = metro? p.depCapM : p.depCapL;
+ var maxLoan = metro? p.maxLoanM : p.maxLoanL;
+ var rate = p.isMkt ? S.mkt : p.rate;
+ if(!p.isMkt){
+  if(!S.first){ r.elig=false; r.reasons.push("무주택·세대주가 아니에요"); }
+  if(p.needBaby && !S.baby){ r.elig=false; r.reasons.push("2년 내 출산 가구만 가능"); }
+  if(S.income>p.incomeCap){ r.elig=false; r.reasons.push("소득 "+fmtMan(p.incomeCap*1e4)+" 초과"); }
+  if(S.networth>p.nwCap){ r.elig=false; r.reasons.push("순자산 "+p.nwCap+"억 초과"); }
+  if(S.deposit>depCap){ r.elig=false; r.reasons.push("보증금 "+depCap+"억 초과"); }
+ }
+ var need = Math.max(0, S.deposit - S.cash);
+ var byLtv = p.ltv * S.deposit;
+ var loanEok = Math.min(need, byLtv, maxLoan);
+ if(loanEok<0) loanEok=0;
+ r.rate=rate; r.metro=metro; r.depCap=depCap; r.maxLoan=maxLoan;
+ r.need=need*1e8; r.loan=loanEok*1e8; r.years=S.term;
+ r.monthInt=monthInterest(r.loan, rate);
+ r.totInt=totInterest(r.loan, rate, S.term);
+ r.mktMonthInt=monthInterest(r.loan, S.mkt);
+ r.mktTotInt=totInterest(r.loan, S.mkt, S.term);
+ r.save = p.isMkt ? 0 : (r.mktTotInt - r.totInt);
+ return r;
+}
+
+/* ---------- countUp ---------- */
+function countUp(el,target,fmt,dur){
+ if(!el) return;
+ var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var from=el._cv||0, start=null; dur=reduce?0:(dur||850);
+ if(el._raf) cancelAnimationFrame(el._raf);
+ function step(ts){ if(start===null) start=ts; var p=dur?Math.min((ts-start)/dur,1):1; var e=1-Math.pow(1-p,3);
+  var cur=from+(target-from)*e; el.textContent=fmt(cur); if(p<1){el._raf=requestAnimationFrame(step);}else{el._cv=target;el.textContent=fmt(target);} }
+ el._raf=requestAnimationFrame(step);
+}
+
+/* ---------- render program card ---------- */
+function renderCard(r, isBest){
+ var p=r.p, id=p.id;
+ var card=$("pc_"+id), bd=$("bd_"+id);
+ $("crown_"+id).style.display = isBest ? "block" : "none";
+ card.classList.toggle("best", !!isBest);
+ var capTxt = p.isMkt
+  ? ("자격 제한 적음 · 보증금×80% · 금리 "+p.rateLbl+" · 비교 기준")
+  : ("소득≤"+fmtMan(p.incomeCap*1e4)+" · 보증금≤"+r.depCap+"억 · 한도≤"+r.maxLoan+"억 · 순자산≤"+p.nwCap+"억");
+ if(r.elig && r.loan>0){
+  card.classList.remove("dim");
+  if(p.isMkt){ bd.className="pcbadge base"; bd.textContent="기준"; }
+  else { bd.className="pcbadge ok"; bd.textContent="자격 ○"; }
+  $("rt_"+id).textContent="적용 금리 "+p.rateLbl+" · 예시 "+(r.rate*100).toFixed(1)+"%";
+  $("lo_"+id).innerHTML=fmtEokMan(r.loan)+"<small>최대</small>";
+  $("sv_"+id).innerHTML = p.isMkt ? "비교 기준 (절감 0)" : ("시중보다 이자 <b>"+fmtEokMan(r.save)+"</b> 절감");
+  $("pay_"+id).textContent=fmtMon(r.monthInt)+" / 월";
+  $("int_"+id).textContent=fmtEokMan(r.totInt);
+  $("cap_"+id).textContent=capTxt;
+  $("no_"+id).style.display="none";
+ } else {
+  card.classList.add("dim");
+  bd.className="pcbadge no"; bd.textContent="자격 ✕";
+  $("rt_"+id).textContent="적용 금리 "+p.rateLbl;
+  $("lo_"+id).innerHTML="—";
+  $("sv_"+id).innerHTML="조건 충족 시 비교돼요";
+  $("pay_"+id).textContent="—";
+  $("int_"+id).textContent="—";
+  $("cap_"+id).textContent=capTxt;
+  var no=$("no_"+id); no.style.display="block";
+  no.textContent="✕ "+(r.reasons.length?r.reasons.join(" · "):"조건 미충족");
+ }
+}
+
+/* ---------- cumulative interest chart ---------- */
+var PX={x0:74, x1:688, y0:262, y1:26};
+function buildPath(arr, ymax, xmax){
+ var d="M "+PX.x0+" "+PX.y0;
+ for(var k=0;k<arr.length;k++){
+  var x=PX.x0+(PX.x1-PX.x0)*(arr[k].x/xmax);
+  var y=PX.y0-(PX.y0-PX.y1)*(arr[k].y/ymax);
+  d+=" L "+x.toFixed(1)+" "+y.toFixed(1);
+ }
+ return d;
+}
+function renderChart(best){
+ var grid=$("ivGrid"), xlab=$("ivXlab");
+ grid.innerHTML=""; xlab.innerHTML="";
+ var area=$("ivArea"), pMkt=$("ivMkt"), pPol=$("ivPol");
+ var dotM=$("ivMktDot"), dotP=$("ivPolDot");
+ if(!best || best.loan<=0 || best.p.isMkt){
+  area.setAttribute("d",""); pMkt.setAttribute("d",""); pPol.setAttribute("d","");
+  dotM.style.opacity=0; dotP.style.opacity=0;
+  $("chProg").textContent="—";
+  $("chNote").innerHTML = (best && best.p.isMkt)
+   ? "지금은 정책 전세대출 자격이 없어 <b>시중대출만</b> 가능해요. 위 조건(소득·보증금·순자산·출산)을 조정하면 절감 비교가 켜져요."
+   : "자격이 되는 전세대출이 없어요. 위 조건을 조정해 보세요.";
+  return;
+ }
+ var p=best.p, yrs=best.years;
+ var polC=cumInterestSeries(best.loan, p.rate, yrs);
+ var mktC=cumInterestSeries(best.loan, S.mkt, yrs);
+ var ymax=Math.max(mktC[mktC.length-1].y, 1);
+ for(var g=1;g<=4;g++){
+  var gv=ymax*g/4;
+  var gy=PX.y0-(PX.y0-PX.y1)*(g/4);
+  var ln=document.createElementNS("http://www.w3.org/2000/svg","line");
+  ln.setAttribute("x1",PX.x0); ln.setAttribute("y1",gy.toFixed(1)); ln.setAttribute("x2",PX.x1); ln.setAttribute("y2",gy.toFixed(1));
+  ln.setAttribute("stroke","#F0DED8"); ln.setAttribute("stroke-width","1"); ln.setAttribute("stroke-dasharray","3 5");
+  grid.appendChild(ln);
+  var tx=document.createElementNS("http://www.w3.org/2000/svg","text");
+  tx.setAttribute("x",PX.x0-8); tx.setAttribute("y",(gy+4).toFixed(1)); tx.setAttribute("text-anchor","end");
+  tx.setAttribute("font-size","11"); tx.setAttribute("font-weight","700"); tx.setAttribute("fill","#8A7B72");
+  tx.textContent=fmtEok1(gv);
+  grid.appendChild(tx);
+ }
+ var marks=[]; for(var yy=1; yy<=yrs; yy++){ marks.push(yy); }
+ marks.forEach(function(yr){
+  var x=PX.x0+(PX.x1-PX.x0)*(yr/yrs);
+  var tx=document.createElementNS("http://www.w3.org/2000/svg","text");
+  tx.setAttribute("x",x.toFixed(1)); tx.setAttribute("y",PX.y0+18); tx.setAttribute("text-anchor","middle");
+  tx.setAttribute("font-size","11"); tx.setAttribute("font-weight","700"); tx.setAttribute("fill","#8A7B72");
+  tx.textContent=yr+"년";
+  xlab.appendChild(tx);
+ });
+ var dMkt=buildPath(mktC, ymax, yrs);
+ var dPol=buildPath(polC, ymax, yrs);
+ pMkt.setAttribute("d",dMkt); pPol.setAttribute("d",dPol);
+ var areaD=dMkt;
+ for(var k=polC.length-1;k>=0;k--){
+  var x=PX.x0+(PX.x1-PX.x0)*(polC[k].x/yrs), y=PX.y0-(PX.y0-PX.y1)*(polC[k].y/ymax);
+  areaD+=" L "+x.toFixed(1)+" "+y.toFixed(1);
+ }
+ areaD+=" L "+PX.x0+" "+PX.y0+" Z";
+ area.setAttribute("d",areaD);
+ [pMkt,pPol].forEach(function(pp){
+  var len=pp.getTotalLength?pp.getTotalLength():1400;
+  pp.style.transition="none"; pp.style.strokeDasharray=len; pp.style.strokeDashoffset=len;
+  void pp.getBoundingClientRect();
+  pp.style.transition=""; pp.style.strokeDashoffset=0;
+ });
+ var ex=PX.x1;
+ var eyM=PX.y0-(PX.y0-PX.y1)*(mktC[mktC.length-1].y/ymax);
+ var eyP=PX.y0-(PX.y0-PX.y1)*(polC[polC.length-1].y/ymax);
+ dotM.setAttribute("cx",ex); dotM.setAttribute("cy",eyM.toFixed(1));
+ dotP.setAttribute("cx",ex); dotP.setAttribute("cy",eyP.toFixed(1));
+ setTimeout(function(){ dotM.style.opacity=1; dotP.style.opacity=1; },600);
+ $("chProg").textContent=p.name;
+ $("chNote").innerHTML=p.name+"으로 "+fmtEokMan(best.loan)+"을 "+yrs+"년 빌리면 누적 이자는 <b>"+fmtEokMan(best.totInt)+"</b>예요. 시중("+(S.mkt*100).toFixed(1)+"%)이었다면 <b>"+fmtEokMan(best.mktTotInt)+"</b> — "+yrs+"년 동안 <b>"+fmtEokMan(best.save)+"</b>를 아끼는 셈이에요(분홍 영역).";
+}
+
+/* ---------- main compute ---------- */
+function compute(){
+ var results=PROG.map(evalProg);
+ var eligPol=results.filter(function(r){return !r.p.isMkt && r.elig && r.loan>0;});
+ var mktR=null; results.forEach(function(r){ if(r.p.isMkt) mktR=r; });
+ var best=null;
+ eligPol.forEach(function(r){ if(!best || r.save>best.save) best=r; });
+ var heroR = best || mktR;
+
+ if(best){
+  countUp($("kLoan"), best.loan, fmtEokMan);
+  countUp($("kPay"), best.monthInt, fmtMon);
+  countUp($("kSave"), best.save, fmtEokMan);
+  $("kSaveL").textContent=best.years+"년간 아낀 이자";
+  var rb=$("recoBand"); rb.classList.remove("warn"); rb.classList.add("good");
+  $("rbCrown").textContent=best.p.emoji;
+  $("rbK").textContent="추천 상품 (예상)";
+  $("rbG").textContent=best.p.name+" · "+fmtEokMan(best.loan);
+  var others=eligPol.length-1;
+  $("rbP").innerHTML="우리 부부 조건이면 <b>"+best.p.name+"</b>이(가) 가장 유리해요(예시 금리 "+(best.rate*100).toFixed(1)+"%). 최대 <b>"+fmtEokMan(best.loan)+"</b>까지, 매달 이자 <b>"+fmtMon(best.monthInt)+"</b>로, 시중("+(S.mkt*100).toFixed(1)+"%) 대비 "+best.years+"년 동안 <b>"+fmtEokMan(best.save)+"</b>를 아껴요."+(others>0?(" 자격 상품이 "+eligPol.length+"개라 아래에서 나란히 비교해 보세요."):"");
+ } else {
+  countUp($("kLoan"), mktR.loan, fmtEokMan);
+  countUp($("kPay"), mktR.monthInt, fmtMon);
+  $("kSave").textContent="—"; $("kSave")._cv=0; $("kSaveL").textContent="거주기간 아낀 이자";
+  var rb2=$("recoBand"); rb2.classList.remove("good"); rb2.classList.add("warn");
+  $("rbCrown").textContent="⚠️";
+  $("rbK").textContent="정책 전세대출 자격이 없어요";
+  $("rbG").textContent="지금은 시중대출만 가능";
+  $("rbP").innerHTML="현재 조건으로는 버팀목·신생아 특례 전세 자격에 걸려요. 아래 카드의 '✕ 사유'를 보고 소득·보증금·순자산·출산 여부를 바꿔 보세요. 시중대출 기준 매달 이자는 <b>"+fmtMon(mktR.monthInt)+"</b>예요.";
+ }
+
+ results.forEach(function(r){ renderCard(r, best && r.p.id===best.p.id); });
+ var eligNames=eligPol.map(function(r){return r.p.name;});
+ $("cardNote").innerHTML = eligPol.length
+  ? ("자격 예상 상품: <b>"+eligNames.join(" · ")+"</b>. 같은 전셋집이라도 어떤 상품을 쓰느냐로 매달 이자가 확 달라져요. 금리가 가장 낮은 신생아 특례가 보통 유리하지만, 보증금 상한·출산 요건이 있어 늘 1등은 아니에요.")
+  : "지금 조건으로는 정책 전세대출 자격이 없어요. 시중대출(기준)과 비교만 보여드려요. 위 입력을 조정하면 정책 카드가 켜져요.";
+
+ var baseLoan = heroR.loan>0 ? heroR.loan : Math.min(0.8*S.deposit, Math.max(0,S.deposit-S.cash))*1e8;
+ if(baseLoan<=0) baseLoan=0.8*S.deposit*1e8;
+ var rows=[
+  {id:"mkt", rate:S.mkt, lbl:(S.mkt*100).toFixed(1)+"%"},
+  {id:"butt", rate:0.027, lbl:"예시 2.7%"},
+  {id:"sin", rate:0.022, lbl:"예시 2.2%"}
+ ];
+ rows.forEach(function(rw){ rw.pay=monthInterest(baseLoan, rw.rate); });
+ var mxPay=Math.max(rows[0].pay,rows[1].pay,rows[2].pay,1);
+ rows.forEach(function(rw){
+  $("bar_"+rw.id).style.width=(Math.max(6,rw.pay/mxPay*100))+"%";
+  $("barv_"+rw.id).innerHTML=fmtMon(rw.pay)+"<small>/월</small>";
+  $("barR"+rw.id).textContent=rw.lbl;
+ });
+ $("barLoan").textContent=fmtEokMan(baseLoan);
+ var diffSin=rows[0].pay-rows[2].pay;
+ $("barNote").innerHTML="같은 "+fmtEokMan(baseLoan)+"이라도 시중 "+(S.mkt*100).toFixed(1)+"%(월 "+fmtMon(rows[0].pay)+")와 신생아 특례 예시 2.2%(월 "+fmtMon(rows[2].pay)+")는 매달 <b>"+fmtMon(diffSin)+"</b> 차이예요. 그 돈이면 우리 부부 외식 두어 번, 아이 책값이 돼요.";
+
+ renderChart(best);
+}
+
+/* ---------- input wiring ---------- */
+function parseNum(el,fallback){ var v=parseFloat((el.value||"").toString().replace(/[, ]/g,"")); return isNaN(v)?fallback:v; }
+function setSeg(id,val){ Array.prototype.forEach.call($(id).children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-val)<1e-9); }); }
+function syncChips(boxId,val){ Array.prototype.forEach.call($(boxId).children,function(b){ b.classList.toggle("on", Math.abs(parseFloat(b.getAttribute("data-v"))-val)<1e-9); }); }
+
+$("deposit").addEventListener("input",function(){ S.deposit=Math.max(0,parseNum(this,0)); syncChips("chDep",S.deposit); compute(); });
+Array.prototype.forEach.call($("chDep").children,function(b){ b.addEventListener("click",function(){ S.deposit=parseFloat(b.getAttribute("data-v")); $("deposit").value=S.deposit; syncChips("chDep",S.deposit); compute(); }); });
+
+$("cash").addEventListener("input",function(){ S.cash=Math.max(0,parseNum(this,0)); syncChips("chCash",S.cash); compute(); });
+Array.prototype.forEach.call($("chCash").children,function(b){ b.addEventListener("click",function(){ S.cash=parseFloat(b.getAttribute("data-v")); $("cash").value=S.cash; syncChips("chCash",S.cash); compute(); }); });
+
+$("income").addEventListener("input",function(){ S.income=Math.max(0,parseNum(this,0)); syncChips("chInc",S.income); compute(); });
+Array.prototype.forEach.call($("chInc").children,function(b){ b.addEventListener("click",function(){ S.income=parseFloat(b.getAttribute("data-v")); $("income").value=S.income; syncChips("chInc",S.income); compute(); }); });
+
+$("networth").addEventListener("input",function(){ S.networth=Math.max(0,parseNum(this,0)); syncChips("chNw",S.networth); compute(); });
+Array.prototype.forEach.call($("chNw").children,function(b){ b.addEventListener("click",function(){ S.networth=parseFloat(b.getAttribute("data-v")); $("networth").value=S.networth; syncChips("chNw",S.networth); compute(); }); });
+
+Array.prototype.forEach.call($("segRegion").children,function(b){ b.addEventListener("click",function(){ S.region=parseInt(b.getAttribute("data-v"),10); setSeg("segRegion",S.region); compute(); }); });
+Array.prototype.forEach.call($("segFirst").children,function(b){ b.addEventListener("click",function(){ S.first=parseInt(b.getAttribute("data-v"),10); setSeg("segFirst",S.first); compute(); }); });
+Array.prototype.forEach.call($("segBaby").children,function(b){ b.addEventListener("click",function(){ S.baby=parseInt(b.getAttribute("data-v"),10); setSeg("segBaby",S.baby); compute(); }); });
+Array.prototype.forEach.call($("segTerm").children,function(b){ b.addEventListener("click",function(){ S.term=parseInt(b.getAttribute("data-v"),10); setSeg("segTerm",S.term); compute(); }); });
+
+$("mkt").addEventListener("input",function(){ S.mkt=parseFloat(this.value)/100; $("mktV").textContent=(S.mkt*100).toFixed(1)+"%"; compute(); });
+
+/* ---------- localStorage ---------- */
+function loadStore(){ try{var r=localStorage.getItem(LSKEY); return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveStore(a){ try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){} }
+function applyState(it){
+ S.deposit=it.deposit; S.cash=it.cash; S.income=it.income; S.networth=it.networth; S.region=it.region; S.first=it.first; S.baby=it.baby; S.term=it.term; S.mkt=it.mkt;
+ $("deposit").value=S.deposit; $("cash").value=S.cash; $("income").value=S.income; $("networth").value=S.networth;
+ $("mkt").value=S.mkt*100; $("mktV").textContent=(S.mkt*100).toFixed(1)+"%";
+ syncChips("chDep",S.deposit); syncChips("chCash",S.cash); syncChips("chInc",S.income); syncChips("chNw",S.networth);
+ setSeg("segRegion",S.region); setSeg("segFirst",S.first); setSeg("segBaby",S.baby); setSeg("segTerm",S.term);
+}
+function renderSaves(){
+ var box=$("saveList"); var arr=loadStore(); box.innerHTML="";
+ arr.forEach(function(it,i){
+  var d=document.createElement("div"); d.className="saveitem";
+  d.innerHTML='<span class="si-n">'+(it.name||"시나리오").replace(/</g,"&lt;")+'</span><span class="si-m">'+it.meta+'</span><span class="si-x" data-i="'+i+'">✕</span>';
+  d.addEventListener("click",function(e){ if(e.target.classList.contains("si-x")) return;
+   applyState(it); compute(); window.scrollTo({top:0,behavior:"smooth"});
+  });
+  box.appendChild(d);
+ });
+ Array.prototype.forEach.call(box.querySelectorAll(".si-x"),function(x){ x.addEventListener("click",function(){ var arr2=loadStore(); arr2.splice(parseInt(this.getAttribute("data-i"),10),1); saveStore(arr2); renderSaves(); }); });
+}
+$("saveBtn").addEventListener("click",function(){
+ var results=PROG.map(evalProg);
+ var eligPol=results.filter(function(r){return !r.p.isMkt && r.elig && r.loan>0;});
+ var best=null; eligPol.forEach(function(r){ if(!best||r.save>best.save) best=r; });
+ var nm=($("saveName").value||"").trim() || (S.deposit+"억 전세·"+fmtMan(S.income*1e4)+(S.baby?"·출산":"")+"·"+S.term+"년");
+ var meta= best? (best.p.name+" "+fmtEokMan(best.loan)+" · 절감 "+fmtEokMan(best.save)) : "정책 자격 없음(시중만)";
+ var arr=loadStore(); arr.unshift({name:nm,meta:meta,deposit:S.deposit,cash:S.cash,income:S.income,networth:S.networth,region:S.region,first:S.first,baby:S.baby,term:S.term,mkt:S.mkt});
+ saveStore(arr); $("saveName").value=""; renderSaves();
+});
+
+/* ---------- reveal + header ---------- */
+var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); },{threshold:.12});
+Array.prototype.forEach.call(document.querySelectorAll(".reveal"),function(el){ io.observe(el); });
+window.addEventListener("scroll",function(){ $("hdr").classList.toggle("scrolled",window.scrollY>10); });
+
+/* ---------- chip builders ---------- */
+function buildChips(boxId, vals, unit){
+ var box=$(boxId); if(!box) return;
+ vals.forEach(function(v){
+  var b=document.createElement("button"); b.className="chip"; b.setAttribute("data-v",v.v); b.textContent=v.t;
+  box.appendChild(b);
+ });
+}
+buildChips("chDep",[{v:2,t:"2억"},{v:3,t:"3억"},{v:4,t:"4억"},{v:5,t:"5억"}]);
+buildChips("chCash",[{v:0,t:"0"},{v:0.5,t:"5천만"},{v:1,t:"1억"},{v:2,t:"2억"}]);
+buildChips("chInc",[{v:5000,t:"5천만"},{v:7500,t:"7.5천만"},{v:13000,t:"1.3억"},{v:25000,t:"2.5억"}]);
+buildChips("chNw",[{v:1,t:"1억"},{v:3,t:"3억"},{v:3.45,t:"3.45억"},{v:5,t:"5억"}]);
+Array.prototype.forEach.call($("chDep").children,function(b){ b.addEventListener("click",function(){ S.deposit=parseFloat(b.getAttribute("data-v")); $("deposit").value=S.deposit; syncChips("chDep",S.deposit); compute(); }); });
+Array.prototype.forEach.call($("chCash").children,function(b){ b.addEventListener("click",function(){ S.cash=parseFloat(b.getAttribute("data-v")); $("cash").value=S.cash; syncChips("chCash",S.cash); compute(); }); });
+Array.prototype.forEach.call($("chInc").children,function(b){ b.addEventListener("click",function(){ S.income=parseFloat(b.getAttribute("data-v")); $("income").value=S.income; syncChips("chInc",S.income); compute(); }); });
+Array.prototype.forEach.call($("chNw").children,function(b){ b.addEventListener("click",function(){ S.networth=parseFloat(b.getAttribute("data-v")); $("networth").value=S.networth; syncChips("chNw",S.networth); compute(); }); });
+
+/* ---------- init ---------- */
+syncChips("chDep",S.deposit); syncChips("chCash",S.cash); syncChips("chInc",S.income); syncChips("chNw",S.networth);
+renderSaves();
+compute();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

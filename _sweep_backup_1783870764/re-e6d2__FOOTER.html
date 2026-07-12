@@ -1,0 +1,93 @@
+<!-- [콘텐츠_부동산_임대차3법_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+ "use strict";
+ /* 죽은 크롬 onScroll 제거(개선37): #hd 더미·숨김 readbar 갱신뿐이었음 — 진행바·toTop은 하단 pagedynjs 단독 생성 */
+
+ // reveal (IO + 폴백)
+ var rev=[].slice.call(document.querySelectorAll('.reveal'));
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+   es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  rev.forEach(function(el){ io.observe(el); });
+ } else { rev.forEach(function(el){ el.classList.add('in'); }); }
+
+ // 셀프 진단기
+ var selType=document.getElementById('selType'),
+     selDep=document.getElementById('selDep'),
+     selRent=document.getElementById('selRent');
+
+ function setVC(n,state,word,desc){
+  var vc=document.getElementById('vc'+n),
+      b=document.getElementById('b'+n),
+      s=document.getElementById('s'+n),
+      d=document.getElementById('d'+n);
+  vc.classList.remove('on','off','cond');
+  vc.classList.add(state);
+  b.textContent = state==='on' ? '!' : (state==='off' ? '✓' : '∼');
+  s.textContent=word;
+  d.textContent=desc;
+ }
+
+ function render(){
+  var t=selType.value, dep=selDep.value, rent=selRent.value;
+
+  // 1) 신고제: 보증금 6천 초과 OR 월세 30만 초과
+  var mustReport=(dep==='over')||(rent==='over');
+  if(mustReport){
+   setVC(1,'on','신고 대상','계약일로부터 30일 이내 신고 의무. 안 하면 최대 30만 원(거짓신고 100만 원).');
+  } else {
+   setVC(1,'off','의무 아님','금액 기준 미만이라 의무는 아니에요. 그래도 신고하면 확정일자 자동 부여 이점이 있어요.');
+  }
+
+  // 2) 상한제: 갱신일 때만 5% 적용
+  if(t==='renew'){
+   setVC(2,'on','5% 상한 적용','갱신 계약이라 직전 임대료의 5% 이내로만 인상 가능(지자체는 더 낮게 가능).');
+  } else {
+   setVC(2,'off','신규는 미적용','새로 맺는 계약엔 5% 상한이 없어요. 다음 갱신부터 적용됩니다.');
+  }
+
+  // 3) 갱신요구권
+  if(t==='renew'){
+   setVC(3,'cond','조건부 행사 가능','만료 6~2개월 전에 1회 요구 가능(거절 사유 없을 때). 기록 남기는 방식 권장.');
+  } else {
+   setVC(3,'off','이번엔 해당 없음','최초 계약이라 아직. 2년 뒤 갱신 시점에 1회 사용할 수 있어요.');
+  }
+ }
+
+ selType.addEventListener('change',render);
+ selDep.addEventListener('change',render);
+ selRent.addEventListener('change',render);
+
+ document.getElementById('resetBtn').addEventListener('click',function(){
+  selType.value='renew'; selDep.value='over'; selRent.value='none'; render();
+ });
+
+ render();
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>

@@ -1,0 +1,406 @@
+<!-- [콘텐츠_딥칼럼_좋은회사vs좋은주식_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 20건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:13px;color:var(--mut);margin-top:10px;text-align:center;line-height:1.6}
+
+/* hero stat cards */
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:600px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--cardSh);text-align:center;position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--rose),var(--lav));opacity:.85}
+.hstat.g2::before{background:linear-gradient(90deg,var(--gold),#dcc176)}
+.hstat.g3::before{background:linear-gradient(90deg,var(--sage),#6fa392)}
+.hstat .nm{font-size:12.5px;font-weight:800;color:var(--mut)}
+.hstat .big{font-size:clamp(24px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;color:var(--rose);margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.hstat.g2 .big{color:var(--gold)}
+.hstat.g3 .big{color:var(--sage)}
+.hstat .sub{font-size:11.5px;color:var(--mut);margin-top:6px;font-weight:600}
+
+/* 단계 막대 */
+.steps{margin-top:16px;display:grid;gap:11px}
+.step{background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px 14px;box-shadow:var(--cardSh)}
+.step .top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:800;color:var(--ink)}
+.step .top .amt{color:var(--rose);font-variant-numeric:tabular-nums}
+.step .bar{height:14px;border-radius:7px;background:var(--bg2);border:1px solid var(--border);margin-top:8px;overflow:hidden;position:relative}
+.step .fill{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--rose),var(--lav));width:0;transition:width 1.1s var(--ease)}
+.step.hi .fill{background:linear-gradient(90deg,var(--up),#e8867d)}
+.step.mk .fill{background:linear-gradient(90deg,var(--gold),#dcc176)}.step.mk .top .amt{color:var(--gold)}
+.step.lo .fill{background:linear-gradient(90deg,var(--sage),#6fa392)}.step.lo .top .amt{color:var(--sage)}
+.step.dn .fill{background:linear-gradient(90deg,var(--down),#6f97ec)}.step.dn .top .amt{color:var(--down)}
+.step .note{font-size:12px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.5}
+.step .refline{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink2);opacity:.5;border-radius:2px}
+
+/* 두 얼굴 */
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh);border-top:3px solid var(--border)}
+.face.mkt{border-top-color:var(--gold)}
+.face.idio{border-top-color:var(--lav)}
+.face .ft{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;display:inline-block;padding:3px 10px;border-radius:100px}
+.face.mkt .ft{background:var(--gold)}
+.face.idio .ft{background:var(--lav)}
+.face h4{font-size:15.5px;font-weight:800;color:var(--ink);margin-top:10px}
+.face p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.face .ex{font-size:12px;color:var(--mut);font-weight:700;margin-top:9px;border-top:1px dashed var(--border);padding-top:9px}
+
+/* 3가지 이유 카드 */
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:720px){.whygrid{grid-template-columns:1fr}}
+.why{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh);position:relative;overflow:hidden}
+.why::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rose)}
+.why.w2::before{background:var(--gold)}.why.w3::before{background:var(--sage)}
+.why .wn{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--rose)}
+.why.w2 .wn{color:var(--gold)}.why.w3 .wn{color:var(--sage)}
+.why h4{font-size:15px;font-weight:800;color:var(--ink);margin-top:6px}
+.why p{font-size:12.5px;color:var(--ink2);line-height:1.6;margin-top:8px}
+
+/* 계산기 */
+.calc{margin-top:18px}
+.calc .calc-h{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.calc .calc-sub{font-size:13px;color:var(--mut);line-height:1.55;margin-bottom:14px}
+.calc-row{margin-top:16px}
+.calc-row .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.calc-row .lab output{font-size:16px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:7px;border-radius:6px;margin-top:9px;background:linear-gradient(90deg,var(--pinkSoft),var(--pink));outline:none}
+.calc-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:var(--cardSh);cursor:pointer;transition:transform .15s}
+.calc-row input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12)}
+.calc-row input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.calc-eq{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:20px;font-size:15px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.calc-eq b{color:var(--ink)}
+.calc-eq .big{font-size:clamp(22px,5vw,30px);font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.calc-rec{text-align:center;margin-top:12px;font-size:14.5px;font-weight:700;color:var(--ink2)}
+.calc-rec b{color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-verdict{margin-top:14px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:13px 16px;font-size:14px;color:var(--ink2);line-height:1.6;font-weight:600}
+
+/* 비교표 */
+.cmpwrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.cmp{width:100%;border-collapse:collapse;min-width:600px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--cardSh)}
+table.cmp th,table.cmp td{padding:13px 14px;text-align:right;font-size:13.5px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+table.cmp th{background:var(--pinkSoft2);color:var(--ink);font-weight:800;font-size:12.5px;text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp td.nm{font-weight:800;color:var(--ink)}
+table.cmp td.nm small{display:block;font-weight:600;color:var(--mut);font-size:11px}
+table.cmp td.hl{color:var(--rose);font-weight:800}
+.tcap{font-size:12px;color:var(--mut);margin-top:9px;line-height:1.55}
+
+/* navfix canonical */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/contents">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">딥 인사이트 · 좋은 회사 ≠ 좋은 주식</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">좋은 회사를 샀는데, <span class="grad">왜 안 오를까</span></h1>
+  <div class="artmeta reveal"><span>⏱ 9분</span><span>난이도 ★★☆</span><span>딥 인사이트 칼럼</span></div>
+  <p class="artlead reveal">"엔비디아 좋잖아, 코카콜라가 망하겠어?" 다 맞는 말이에요. 그런데 좋은 회사를 안다고 좋은 <b>수익률</b>이 따라오진 않아요. 그 '좋다'는 기대가 이미 <b>가격</b>에 들어가 있거든요. 같은 1달러 이익에 시장이 매기는 값표가 바로 <b>PER</b>이고, 내가 치르는 그 값표가 내 수익률의 절반을 정해요. 엔비디아·코카콜라·버라이즌 실데이터로, 좋은 회사와 좋은 주식이 갈리는 지점을 짚어볼게요.</p>
+
+  <div class="hstats stag reveal">
+    <div class="hstat"><div class="nm">엔비디아 · PER(주가÷주당이익)</div><div class="big"><span class="cf" data-to="34.4" data-dec="1">0</span>배</div><div class="sub">1달러 이익에 약 34달러를 치름</div></div>
+    <div class="hstat g2"><div class="nm">코카콜라 · PER</div><div class="big"><span class="cf" data-to="24.7" data-dec="1">0</span>배</div><div class="sub">같은 1달러 이익에 약 25달러</div></div>
+    <div class="hstat g3"><div class="nm">버라이즌 · PER</div><div class="big"><span class="cf" data-to="11.6" data-dec="1">0</span>배</div><div class="sub">같은 1달러 이익에 약 12달러</div></div>
+  </div>
+  <p class="minnote reveal">출처: 엔비디아·코카콜라·버라이즌 주가·재무지표(UsStockInfo 조회 2026-06-02, 시세 15~20분 지연). PER은 트레일링(최근 12개월 주당이익 기준).</p>
+
+  <p class="art dropcap reveal" style="margin-top:30px">친구가 종목을 묻습니다. 엔비디아는 AI 시대의 곡괭이를 파는 회사고, 코카콜라는 100년을 버틴 브랜드예요. 둘 다 누가 봐도 '좋은 회사'죠. 그런데 좋은 회사를 안다고 좋은 투자가 되는 건 아니에요. 핵심은 '얼마에 사느냐'거든요. 똑같이 한 해 1달러를 버는 회사라도, 시장은 어떤 회사엔 34달러를, 다른 회사엔 12달러를 치르게 해요. 이 '1달러 이익의 값표'가 바로 <b>PER</b>이에요. 좋은 회사일수록 모두가 그 사실을 이미 알고, 그 기대가 값표(PER)에 미리 들어가 있어요. 그래서 좋은 회사가 곧 좋은 주식이 되지 않는, 묘한 함정이 생기죠. 오늘은 이 함정을 세 회사의 실제 숫자로 들여다볼게요.</p>
+
+  <h2 class="reveal">① PER은 '1달러 이익'에 붙은 값표예요</h2>
+  <p class="art reveal">PER(주가수익비율)은 <b>주가 ÷ 주당이익(EPS)</b>이에요. 쉽게 말하면 '회사가 1년에 버는 1달러 이익을, 시장이 몇 달러에 사주느냐'예요. PER 12배는 1달러 이익을 12달러에, PER 34배는 같은 1달러를 34달러에 사는 거죠. 다른 직관도 있어요. 이익이 지금 수준으로 쭉 평평하다고 치면, PER은 '몇 년치 이익을 모아야 산 값을 회수하나'와 같아요. 12배면 약 12년, 34배면 약 34년인 셈이죠.</p>
+  <div class="steps reveal">
+    <div class="step"><div class="top"><span>엔비디아 — 1달러 이익의 값</span><span class="amt">34.4배</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">고성장 기대가 큰 회사. 이익을 회수하는 데 약 34년치(이익 평평 가정)</div></div>
+    <div class="step mk"><div class="top"><span>코카콜라 — 1달러 이익의 값</span><span class="amt">24.7배</span></div><div class="bar"><div class="fill" data-w="72"></div></div><div class="note">느리지만 단단한 우량주. 약 25년치</div></div>
+    <div class="step lo"><div class="top"><span>버라이즌 — 1달러 이익의 값</span><span class="amt">11.6배</span></div><div class="bar"><div class="fill" data-w="33.9"></div></div><div class="note">저성장·고배당 통신주. 약 12년치 — 가장 싼 값표</div></div>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo(2026-06-02). 막대는 엔비디아 PER(34.4배)을 100으로 놓고 비율로 그렸어요. PER은 트레일링 기준.</p>
+  <p class="art reveal">표로 나란히 두면 차이가 더 또렷해요. 같은 '1달러 이익'인데 엔비디아는 버라이즌의 약 3배 값이 붙어 있죠. 회사가 좋아서 비싼 걸까요, 아니면 비싸서 위험한 걸까요? 그 답은 '왜 시장이 다른 값을 매기는지'를 알아야 보여요.</p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>항목</th><th>엔비디아 (NVDA)</th><th>코카콜라 (KO)</th><th>버라이즌 (VZ)</th></tr></thead>
+      <tbody>
+        <tr><td class="nm">현재가</td><td>$224.36</td><td>$78.64</td><td>$47.73</td></tr>
+        <tr><td class="nm">PER <small>트레일링</small></td><td class="hl">34.4배</td><td class="hl">24.7배</td><td class="hl">11.6배</td></tr>
+        <tr><td class="nm">선행 PER <small>forward</small></td><td>17.7배</td><td>22.6배</td><td>9.1배</td></tr>
+        <tr><td class="nm">주당이익 EPS</td><td>$6.53</td><td>$3.18</td><td>$4.10</td></tr>
+        <tr><td class="nm">PEG <small>성장 대비 PER</small></td><td class="hl">0.69</td><td class="hl">4.03</td><td class="hl">0.90</td></tr>
+        <tr><td class="nm">배당수익률</td><td>0.45%</td><td>2.7%</td><td>5.93%</td></tr>
+        <tr><td class="nm">베타 <small>변동성</small></td><td>2.24</td><td>0.36</td><td>0.22</td></tr>
+        <tr><td class="nm">순이익률</td><td>63.0%</td><td>27.8%</td><td>12.5%</td></tr>
+        <tr><td class="nm">시가총액</td><td>5.43조 달러</td><td>0.34조 달러</td><td>0.20조 달러</td></tr>
+        <tr><td class="nm">성격</td><td>고성장·고PER</td><td>우량·중PER</td><td>저성장·고배당</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo(조회 2026-06-02, 시세 15~20분 지연). 주가·시총·밸류는 조회 시점, EPS·이익률은 최근 12개월(TTM), PEG는 PLAY 제공값(애널리스트 성장 추정 기반). 세 종목은 개념 설명용 예시이며 투자 추천이 아닙니다.</p>
+
+  <h2 class="reveal">② 왜 같은 1달러에 다른 값을 매길까</h2>
+  <p class="art reveal">시장이 '1달러 이익'에 값을 매기는 데엔 크게 세 가지가 섞여요. 성장성, 확실성(리스크), 그리고 금리예요. 이 셋이 PER이라는 한 숫자 안에 녹아 있죠.</p>
+  <div class="whygrid reveal stag">
+    <div class="why"><div class="wn">이유 1 · 성장성</div><h4>내년 이익이 더 클까</h4><p>PER은 '오늘 이익'에 붙지만, 시장이 진짜 사는 건 '미래 이익'이에요. 이익이 매년 쑥쑥 클 회사라면, 지금 이익 기준으로는 비싸 보여도 기꺼이 높은 값을 치러요. 엔비디아의 34배엔 '앞으로 더 번다'는 기대가 가득해요.</p></div>
+    <div class="why w2"><div class="wn">이유 2 · 확실성</div><h4>그 이익이 안 흔들릴까</h4><p>같은 이익이라도 들쭉날쭉하면 값이 깎여요. 코카콜라는 불황에도 음료를 팔아 이익이 안정적이라(베타 0.36) 프리미엄을 받죠. 변동성이 큰 회사(엔비디아 베타 2.24)는 그만큼 요구수익률이 높아 PER이 눌리는 힘도 받아요.</p></div>
+    <div class="why w3"><div class="wn">이유 3 · 금리</div><h4>지금 돈의 값이 비쌀까</h4><p>금리가 높으면 '먼 미래의 이익'을 현재로 당겨 평가할 때 더 많이 깎여요(할인율↑). 그래서 금리가 오르면 미래 이익에 기댄 고PER 성장주가 먼저 식고, 금리가 내리면 다시 달궈져요. PER은 금리의 시소를 탑니다.</p></div>
+  </div>
+  <p class="art reveal">정리하면, 높은 PER은 '시장이 이 회사의 미래를 밝게, 또 안정적으로 본다'는 신호예요. 나쁜 게 아니에요. 문제는 그 밝은 기대가 <b>이미 값에 들어가 있다</b>는 데 있어요. 금리·할인율이 PER을 어떻게 흔드는지는 <a href="/col-561d" style="color:var(--rose);font-weight:800;text-decoration:underline">「금리 시소」</a>에서 따로 다뤘어요.</p>
+
+  <h2 class="reveal">③ 함정의 핵심 — 좋은 소식은 '이미 가격에' 있다</h2>
+  <p class="art reveal">엔비디아의 PER을 두 가지로 볼게요. 지금 이익 기준(트레일링)은 34.4배지만, 내년 예상 이익 기준(선행 PER)은 17.7배로 거의 반토막이에요. 왜냐고요? 시장이 엔비디아의 주당이익이 1년 새 $6.53에서 약 $12.7로, <b>거의 두 배</b> 뛸 거라 보고 미리 값을 치렀기 때문이에요.</p>
+  <div class="steps reveal">
+    <div class="step"><div class="top"><span>엔비디아 PER — 지금 이익 기준(트레일링)</span><span class="amt">34.4배</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">최근 12개월 주당이익 $6.53 기준</div></div>
+    <div class="step lo"><div class="top"><span>엔비디아 PER — 내년 예상 이익 기준(선행)</span><span class="amt">17.7배</span></div><div class="bar"><div class="fill" data-w="51.6"></div></div><div class="note">예상 주당이익 약 $12.7 기준 — 이익이 두 배로 뛴다는 기대가 이미 값에 반영됨</div></div>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo(2026-06-02). 막대는 트레일링 PER(34.4배)을 100으로 놓고 선행 PER 비율을 그렸어요. 선행 PER이 낮은 건 '앞으로 이익이 크게 는다'는 기대가 주가에 미리 들어가 있다는 뜻이에요.</p>
+  <p class="art reveal">바로 여기에 함정이 있어요. 엔비디아가 다음 분기에 실적을 잘 내도, 그게 시장이 이미 기대한 만큼이면 주가는 안 움직일 수 있어요. 좋은 소식이 '이미 값에 들어 있으니까'요. 주가가 오르려면 좋은 정도가 아니라 <b>기대를 넘어서야</b> 해요. 반대로 버라이즌은 기대 자체가 낮아서, 그냥 평범하게만 해도 '덜 실망'할 수 있죠. 좋은 회사가 꼭 좋은 주식이 아닌 이유가 이거예요. 회사의 좋음이 아니라, <b>기대와 현실의 차이</b>가 수익률을 만들거든요.</p>
+  <div class="pull reveal">주가는 회사가 좋아서 오르는 게 아니라, 시장이 미리 매긴 기대를 넘어설 때 오른다. 좋은 회사일수록 그 기대의 문턱이 높다.</div>
+
+  <h2 class="reveal">④ 내 수익률은 '세 조각'에서 와요</h2>
+  <p class="art reveal">장기적으로 주식에서 얻는 수익률은 대략 세 조각으로 쪼갤 수 있어요. ㉠회사 이익이 얼마나 컸나(이익 성장), ㉡시장이 그 이익에 매기는 값표가 올랐나 내렸나(PER 재평가), ㉢그동안 받은 배당이에요. 이 셋을 더한 게 내 수익률이죠.</p>
+  <div class="calc-eq reveal" style="margin-top:16px">
+    <span>주가 수익률</span><span>≈</span><span><b>이익 성장</b></span><span>+</span><span><b>PER 재평가</b></span><span>+</span><span><b>배당</b></span>
+  </div>
+  <p class="art reveal">고PER 주식의 위험은 가운데 칸, 'PER 재평가'에 있어요. 이미 PER이 높으면 더 오르긴 어렵고 내려갈(식을) 여지가 크거든요. 이익이 멀쩡히 늘어도 PER이 34배에서 25배로 식으면, 그 빠진 만큼이 수익률을 갉아먹어요. 반대로 저PER·고배당주(버라이즌 배당 5.93%)는 PER이 더 깎일 여지가 작고, 배당이 매년 또박또박 세 번째 조각을 채워줘요. 그래서 '지루한 회사'가 때로 '멋진 회사'보다 나은 성적을 내기도 하죠.</p>
+  <p class="art reveal">물론 엔비디아의 이익 성장(첫 번째 조각)이 워낙 가팔라서, 높은 PER을 감당하고도 남을 수 있어요. 핵심은 어느 쪽이 '정답'이냐가 아니라, 내 수익률이 회사의 좋음 하나가 아니라 이 <b>세 조각의 합</b>에서 온다는 걸 아는 거예요.</p>
+
+  <h2 class="reveal">⑤ 통념 뒤집기 — 성장으로 나누면 순위가 바뀐다</h2>
+  <p class="art reveal">"엔비디아 34배는 너무 비싸, 코카콜라 25배가 합리적이지"라고 느끼기 쉬워요. 그런데 PER을 '이익 성장률'로 나눠보면(이게 <b>PEG</b>예요) 순위가 뒤집혀요. PEG는 '성장 한 단위당 내가 치르는 값'이라, 낮을수록 성장 대비 싸다는 뜻이에요. 막대가 길수록 성장 대비 비싼 거고요.</p>
+  <div class="steps reveal">
+    <div class="step"><div class="top"><span>엔비디아 · PEG</span><span class="amt">0.69</span></div><div class="bar"><div class="fill" data-w="17.2"></div></div><div class="note">PER 34배지만 성장이 워낙 빨라 — 성장 대비론 가장 싼 편</div></div>
+    <div class="step lo"><div class="top"><span>버라이즌 · PEG</span><span class="amt">0.90</span></div><div class="bar"><div class="fill" data-w="22.2"></div></div><div class="note">PER도 낮고 PEG도 1 아래 — 성장 대비도 무난</div></div>
+    <div class="step mk"><div class="top"><span>코카콜라 · PEG</span><span class="amt">4.03</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">PER은 중간인데 성장이 느려 — 성장 대비론 가장 비싼 편</div></div>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo PEG(트레일링, 2026-06-02, 애널리스트 성장 추정 기반). 막대는 코카콜라 PEG(4.03)를 100으로 놓고 그렸어요. PEG는 쓰는 성장률에 따라 값이 크게 달라지니 '대략의 감각'으로만 보세요.</p>
+  <p class="art reveal">놀랍죠. 가장 비싸 보이던 엔비디아가 성장으로 나누면 가장 싸고, 안전해 보이던 코카콜라가 성장 대비론 가장 비싸요. 'PER이 높다=비싸다'는 직관이 틀릴 수 있다는 뜻이에요. 단, PEG도 만능은 아니에요. 성장률 추정이 빗나가면 통째로 흔들리고, 성장은 영원히 이어지지 않거든요. PER·PBR·ROE를 묶어 보는 법은 <a href="/eco-perpbrroe-18bd" style="color:var(--rose);font-weight:800;text-decoration:underline">「PER·PBR·ROE」</a>에서, 회사 통째 값으로 보는 법은 <a href="/eco-ev-f752" style="color:var(--rose);font-weight:800;text-decoration:underline">「기업가치(EV)」</a>에서 이어집니다.</p>
+
+  <h2 class="reveal">⑥ 직접 움직여 보기 — 적정 PER 감각 계산기</h2>
+  <p class="art reveal">왜 고성장 회사가 높은 PER을 정당화하는지, 슬라이더로 느껴볼게요. 단순화하면 적정 PER은 '요구수익률(내가 바라는 연수익)에서 이익성장률을 뺀 격차'에 거꾸로 반응해요. 격차가 좁을수록(성장이 빠를수록) 적정 PER이 가팔라지죠.</p>
+  <div class="panel calc reveal">
+    <div class="calc-h">성장률과 요구수익률만 바꿔보세요</div>
+    <div class="calc-sub">이익이 매년 일정하게 성장하고, 요구수익률(r)로 미래 이익을 현재로 당긴다고 단순 가정한 모델이에요. 적정 PER ≈ 1 ÷ (요구수익률 − 이익성장률). 두 값의 '격차'가 PER을 정해요.</div>
+    <div class="calc-row">
+      <div class="lab"><span>이익성장률 (g · 매년)</span><output id="gOut">4%</output></div>
+      <input id="gIn" type="range" min="0" max="12" step="0.5" value="4" aria-label="이익성장률">
+    </div>
+    <div class="calc-row">
+      <div class="lab"><span>요구수익률 (r · 내가 바라는 연수익)</span><output id="rOut">9%</output></div>
+      <input id="rIn" type="range" min="6" max="14" step="0.5" value="9" aria-label="요구수익률">
+    </div>
+    <div class="calc-eq">
+      <span>요구수익률 <b id="eqR">9%</b></span><span>−</span><span>성장률 <b id="eqG">4%</b></span><span>=</span><span>격차 <b id="eqGap">5.0%p</b></span><span>→</span><span class="big" id="eqPer">PER 20.0배</span>
+    </div>
+    <div class="calc-rec">적정 PER 감각 <b id="recPer">약 20배</b> · 격차 <b id="recGap">5.0%p</b></div>
+    <div class="calc-verdict" id="perVerdict"></div>
+  </div>
+  <p class="minnote reveal">교육용 단순 모델이에요(배당성향·다단계 성장·리스크 차이를 생략). 실제 PER은 성장의 지속성·확실성·금리·심리까지 얽혀 결정되니, 정확한 '정답 PER'이 아니라 '왜 성장이 PER을 끌어올리나'를 느끼는 도구로만 봐주세요.</p>
+
+  <h2 class="reveal">⑦ 그래서 이렇게 봐요</h2>
+  <div class="checks reveal stag">
+    <div class="c"><i>1</i><span><b>'좋은 회사'와 '좋은 가격'을 따로 묻기.</b> 회사가 좋은지(사업·실적)와 지금 값이 적당한지(PER·PEG)는 다른 질문이에요. 둘 다 통과해야 좋은 주식에 가까워져요.</span></div>
+    <div class="c"><i>2</i><span><b>높은 PER엔 '숙제'가 딸려 있어요.</b> 고PER은 시장이 큰 성장을 미리 기대했다는 뜻이라, 그 기대를 넘어서야 주가가 올라요. 기대를 못 넘기면 실적이 좋아도 주가는 식을 수 있어요.</span></div>
+    <div class="c"><i>3</i><span><b>PER만 보지 말고 성장·배당과 함께 보기.</b> PEG로 성장 대비 값을 보고, 수익률의 세 조각(이익 성장·PER 재평가·배당)을 함께 떠올리세요. 싸 보이는 저PER이 함정일 수도, 비싸 보이는 고PER이 합리일 수도 있어요.</span></div>
+  </div>
+
+  <div class="tldr reveal"><div class="h">TL;DR</div><p>좋은 회사라고 다 좋은 주식은 아니에요. 그 '좋음'이 이미 PER(1달러 이익의 값표)에 들어가 있기 때문이죠. 엔비디아 34배·코카콜라 25배·버라이즌 12배는 성장·확실성·금리 기대의 차이예요. 고PER은 좋은 소식이 이미 반영돼 '기대를 넘어서야' 오르는 숙제를 안고, 수익률은 이익 성장·PER 재평가·배당 세 조각의 합에서 와요. 성장으로 나눈 PEG로 보면 가장 비싸 보이던 엔비디아(0.69)가 성장 대비론 가장 싸고, 코카콜라(4.03)가 가장 비싸 — 직관이 뒤집히죠.</p></div>
+
+  <h2 class="reveal">용어 정리</h2>
+  <div class="termgrid reveal stag">
+    <div class="term"><b>PER(주가수익비율)</b><p>주가 ÷ 주당이익(EPS). '1달러 이익을 시장이 몇 달러에 사주나'. 높을수록 큰 성장을 기대받는다는 뜻.</p></div>
+    <div class="term"><b>선행 PER(Forward PER)</b><p>지금 주가 ÷ 내년 예상 주당이익. 트레일링보다 낮으면 '이익이 늘 거란 기대'가 값에 들어가 있다는 신호.</p></div>
+    <div class="term"><b>PEG</b><p>PER ÷ 이익성장률. '성장 한 단위당 치르는 값'. 1 아래면 성장 대비 싸다고 보지만, 쓰는 성장률에 민감해요.</p></div>
+    <div class="term"><b>요구수익률(할인율)</b><p>투자자가 그 위험을 감수하고 바라는 연수익. 높을수록(=금리·리스크↑) 미래 이익을 더 깎아 PER이 눌려요.</p></div>
+  </div>
+
+  <div class="faces reveal" style="margin-top:24px"><div class="face" style="border-top-color:var(--pink)"><span class="ft" style="background:var(--pink)">이어 읽기</span><h4>PER·PBR·ROE 한눈에</h4><p>밸류에이션 3대 지표를 한 세트로 묶어, 싼 주식과 비싼 주식을 가르는 법. <a href="/eco-perpbrroe-18bd" style="color:var(--rose);font-weight:800;text-decoration:underline">「PER·PBR·ROE」</a>로 이어 읽으면 오늘 글이 더 단단해져요.</p></div><div class="face" style="border-top-color:var(--rose)"><span class="ft" style="background:var(--rose)">짝글</span><h4>엔터 빅3, 줄세우는 기준마다 1등이 다르다</h4><p>SM의 PER 11배는 싼 걸까, 성장 기대가 낮은 걸까. <a href="/report-ba95" style="color:var(--rose);font-weight:800;text-decoration:underline">「엔터 빅3 파헤치기」</a>에서 같은 함정을 실제 기업으로 풀었어요.</p></div></div>
+
+  <p class="byline reveal">— 부부연구소 머니레터 · 딥 인사이트 칼럼</p>
+  <div class="discm reveal">본 콘텐츠는 PER·밸류에이션의 개념과 '좋은 회사와 좋은 주식의 차이'를 쉽게 설명하기 위한 <b>교육용 자료</b>이며, 특정 종목의 매수·매도를 권유하지 않습니다. 언급된 기업(엔비디아·코카콜라·버라이즌)은 개념을 설명하기 위한 <b>예시</b>일 뿐 투자 추천이 아닙니다. 주가·PER·PEG·EPS·배당·베타 등 모든 수치는 2026-06-02 조회 시점의 공개 데이터(UsStockInfo, 시세 15~20분 지연)이며, 산정 방식·조회 시점에 따라 달라질 수 있습니다. PEG는 어떤 성장률을 쓰느냐에 따라 값이 크게 달라지고, 적정 PER 계산기는 단순화된 모델이라 실제와 다릅니다. 높은 PER이 늘 위험한 것도, 낮은 PER이 늘 안전한 것도 아니며, 투자의 최종 판단과 책임은 본인에게 있습니다.</div>
+</div></section>
+
+<section class="blk wrap reveal"><div class="art"><div class="cta-band">
+  <h3>'좋은 회사'와 '좋은 가격'을 함께 보는 눈, 매주 같이 길러요</h3>
+  <p>PER 한 줄에 속지 않고, 성장·배당·금리까지 묶어 종목을 읽는 머니레터. 부부연구소가 매주 한 편씩, 쉽게 풀어 보내드려요.</p>
+  <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+  <nav class="ft"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/story">스토리</a><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1">이용약관</a></nav>
+  <p class="ftnote">© 2026 부부연구소. 본 자료는 교육·정보 제공 목적이며 투자 권유가 아닙니다. 수치는 2026-06-02 조회 시점 기준이며 변동될 수 있습니다.</p>
+</div></footer>

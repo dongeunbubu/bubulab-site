@@ -1,0 +1,337 @@
+<!-- [자료실_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 68건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(96px,11vw,152px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(32px,5.6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+/* lock */
+.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
+.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
+.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
+.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
+
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}
+@media(max-width:760px){.rgrid{grid-template-columns:1fr}}
+.tool{display:flex;gap:16px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s;position:relative;overflow:hidden}
+.tool:hover{transform:translateY(-5px);box-shadow:var(--cardHi)}
+.tool .ico{width:54px;height:54px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.tool .ico svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tool .tb{flex:1}
+.tool .badge{font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:100px;display:inline-block}
+.badge.free{background:#E8F4ED;color:#4A8060}.badge.sub{background:var(--pinkSoft);color:var(--rose)}
+.tool h3{font-size:17.5px;font-weight:800;letter-spacing:-.02em;margin:7px 0 5px}
+.tool p{font-size:13px;color:var(--ink2);line-height:1.55}
+.tool .go{margin-top:11px;font-size:13.5px;font-weight:800;color:var(--rose);display:inline-flex;gap:5px;align-items:center}
+.tool .go .ar{transition:transform .3s var(--ease)}.tool:hover .go .ar{transform:translateX(4px)}
+.tool.locked{opacity:.96}
+.tool.locked .ico{filter:saturate(.6)}
+.tool.locked .lockt{position:absolute;top:14px;right:14px;font-size:11px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:4px 10px;box-shadow:var(--cardSh)}
+.cathead2{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:40px}
+.cathead2 .e{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--rose);text-transform:uppercase}
+.cathead2 h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.02em;margin-top:6px}
+.cathead2 .d{font-size:13.5px;color:var(--ink2);margin-top:4px}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+</style>
+<style>
+/* ===surfacing hub=== */
+.hwrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hhero{padding:56px 0 18px;text-align:center}
+.hhero .eyebrow{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--rose);background:var(--pinkSoft);padding:7px 14px;border-radius:100px}
+.hhero h1{font-size:clamp(27px,4.4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.18;margin:16px 0 10px;color:var(--ink)}
+.hhero p{color:var(--ink2);font-size:15.5px;max-width:600px;margin:0 auto;line-height:1.7}
+.gateway{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0 6px}
+.gcard{display:flex;gap:14px;align-items:center;padding:18px 20px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(135deg,#fff,var(--pinkSoft2));text-decoration:none;transition:transform .2s,box-shadow .2s}
+.gcard:hover{transform:translateY(-2px);box-shadow:var(--cardHi)}
+.gcard .gi{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--pinkSoft);flex:none}
+.gcard h3{font-size:16px;font-weight:800;color:var(--ink);margin:0 0 2px}
+.gcard p{font-size:13px;color:var(--mut);margin:0}
+.gcard .ga{margin-left:auto;color:var(--rose);font-weight:800;font-size:18px}
+.rcat{margin:40px 0 0}
+.rcat-h{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+.rcat-h .ce{font-size:20px}
+.rcat-h h2{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0}
+.rcat-h .cn{font-size:12.5px;color:var(--mut);font-weight:700}
+.cnt{font-variant-numeric:tabular-nums}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+.rcard{display:flex;gap:13px;align-items:flex-start;padding:16px 17px;border-radius:16px;border:1px solid var(--border);background:var(--card);text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.rcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none;background:var(--pinkSoft)}
+.rcard.t2 .ic{background:#E8F0EC}.rcard.t3 .ic{background:#F3ECF6}.rcard.t4 .ic{background:#FBF1DC}.rcard.t5 .ic{background:#EAF0FB}
+.rcard h4{font-size:14.5px;font-weight:800;color:var(--ink);margin:0 0 4px;line-height:1.3}
+.rcard p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.55}
+.rbadge{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:100px;margin-bottom:6px;letter-spacing:.02em}
+.rbadge.free{background:#E8F3EE;color:#3F7A66}
+.rbadge.sub{background:var(--pinkSoft);color:var(--rose)}
+.rcard .arr{position:absolute;right:13px;top:16px;color:var(--sand);font-weight:800;transition:color .2s,transform .2s}
+.rcard:hover .arr{color:var(--rose);transform:translateX(3px)}
+.hnote{text-align:center;color:var(--mut);font-size:12.5px;margin:30px auto 0;max-width:640px;line-height:1.7}
+@media(max-width:640px){.gateway{grid-template-columns:1fr}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* resurface extra */
+.rcard.t6 .ic{background:#F3ECF6}
+.rcat-pro{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:22px;padding:clamp(20px,3vw,30px);margin-top:40px}
+.rcat-pro .rcat-h{margin-bottom:6px}
+.rcat-pro .pro-sub{font-size:13px;color:var(--ink2);margin:0 0 14px;line-height:1.6}
+</style>
+<style>/* ===hubwow=== */
+.hhero{position:relative}
+.hhero>*{position:relative;z-index:1}
+.hmesh{position:absolute;top:0;left:calc(50% - 50vw);width:100vw;height:100%;z-index:0;overflow:hidden;pointer-events:none;filter:blur(64px);opacity:.8}
+.hmesh i{position:absolute;border-radius:50%;mix-blend-mode:multiply;animation:hdrift 20s ease-in-out infinite}
+.hmesh .m1{width:38vw;height:38vw;background:#F8D9DE;top:-16%;left:10%;animation-delay:-2s}
+.hmesh .m2{width:32vw;height:32vw;background:#ECE3F2;top:-8%;right:12%;animation-delay:-9s}
+.hmesh .m3{width:28vw;height:28vw;background:#E7F0EA;bottom:-22%;left:40%;animation-delay:-13s}
+@keyframes hdrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(3vw,-2vw) scale(1.08)}66%{transform:translate(-2vw,2vw) scale(.95)}}
+.grad{background-size:220% auto;animation:hgrad 7s ease-in-out infinite}@keyframes hgrad{0%,100%{background-position:0 center}50%{background-position:100% center}}
+.rcard,.gcard{transition:transform .3s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .3s var(--ease)}
+@media(prefers-reduced-motion:reduce){.hmesh{display:none}.grad{animation:none}}
+</style>
+<style>/*wowkit-css*/
+/* ── 스크롤 등장(방향 변형) ── */
+html.js .wv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+html.js .wv.wv-l{transform:translateX(-34px)}
+html.js .wv.wv-r{transform:translateX(34px)}
+html.js .wv.wv-s{transform:scale(.94) translateY(14px)}
+html.js .wv.in{opacity:1;transform:none}
+/* ── 자식 스태거(카드 그리드·리스트) ── */
+html.js .wstag>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+html.js .wstag.in>*{opacity:1;transform:none}
+/* ── 형광펜 밑줄 스윕(키 카피 1~2곳만) ── */
+.whl{background:linear-gradient(transparent 60%,#F8E8EA 60%) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.16,1,.3,1) .18s;border-radius:2px}
+.whl.in{background-size:100% 100%}
+/* ── 섹션 헤더 라인 드로우 ── */
+.wline{position:relative}
+.wline::after{content:"";display:block;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#D67A89,#B85060);margin-top:10px;transition:width .8s cubic-bezier(.16,1,.3,1) .15s}
+.wline.in::after{width:44px}
+.wline.wline-c::after{margin-left:auto;margin-right:auto}
+/* ── 카드 호버 리프트(+은은한 그림자) ── */
+.wlift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}
+.wlift:hover{transform:translateY(-5px);box-shadow:0 18px 40px -18px rgba(62,47,41,.22)}
+.wtilt{transition:transform .25s ease-out}
+/* ── CTA 샤인 스윕(주 CTA 1곳만) ── */
+.wshine{position:relative;overflow:hidden}
+.wshine::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.34),transparent);transform:skewX(-18deg);transition:left .75s ease}
+.wshine:hover::after{left:125%}
+/* ── 모션 최소화: 전부 정적 폴백 ── */
+@media (prefers-reduced-motion:reduce){
+  html.js .wv,html.js .wstag>*{opacity:1!important;transform:none!important;transition:none!important}
+  .whl{background-size:100% 100%!important;transition:none!important}
+  .wline::after{width:44px!important;transition:none!important}
+  .wlift,.wlift:hover{transform:none!important;transition:none!important}
+  .wshine::after{display:none!important}
+}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta wmag wshine" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+<main>
+<section class="hhero hwrap"><div class="hmesh" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div><span class="eyebrow">🧰 부부연구소 자료실</span>
+<h1>돈관리와 재테크, 뾰족하게 공부해봐요</h1>
+<p>우리집 자산관리와 운영, 투자를 도와주는 재테크 도구 <b><span class="cnt" data-to="58">58</span>종</b> — <span class="whl"><b>무료 39종</b></span>으로 3분 진단부터 시작하고, <b>Pro 19종</b>은 프리미엄에서 두 분 맞춤 처방으로 열려요.</p>
+<div class="gateway wv wv-s">
+<a class="gcard" href="/contents"><span class="gi">📘</span><div><h3>경제공부·딥칼럼·부동산 46편</h3><p>개념을 쉽게, 통념은 뒤집기</p></div><span class="ga">→</span></a>
+<a class="gcard" href="/report-hub"><span class="gi">🔥</span><div><h3>기업 파헤치기 레포트 15편</h3><p>반도체·AI전력·플랫폼·엔터까지</p></div><span class="ga">→</span></a>
+</div></section>
+<div class="hwrap">
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">🩺</span><h2 class="wline">진단 — 막연한 불안, 숫자로 바꿔요</h2><span class="cn"><span class="cnt" data-to="4">4</span>종</span></div><div class="rgrid wstag">
+<a class="rcard t1" href="/tool-4a49"><div class="ic">🩺</div><div><span class="rbadge free">🆓 무료</span><h4>부부 재무 건강검진</h4><p>부부 합산 숫자 7개만 넣으면 100점 만점 종합 점수 와 6개 영역 진단, 또래 신혼부부…</p></div><span class="arr">→</span></a>
+<a class="rcard t1" href="/tool-853a"><div class="ic">🩺</div><div><span class="rbadge free">🆓 무료</span><h4>저축률 진단기</h4><p>통장에 얼마가 쌓였는지보다 더 중요한 건 벌어서 얼마를 남기느냐 예요. 우리 집 저축률 을…</p></div><span class="arr">→</span></a>
+<a class="rcard t1" href="/tool-cea3"><div class="ic">🩺</div><div><span class="rbadge free">🆓 무료</span><h4>부부 재무 궁합 테스트</h4><p>12개 질문에 답하면 우리 부부의 돈 스타일 유형과 궁합 점수 , 그리고 다툼을 줄이는 대…</p></div><span class="arr">→</span></a>
+<a class="rcard t1" href="/tool-3dad"><div class="ic">🩺</div><div><span class="rbadge free">🆓 무료</span><h4>투자 성향 진단 → 자산배분 가이드</h4><p>6개 질문에 답하면, 두 분의 투자 기간 과 위험 성향 을 진단해서 주식형·채권형·현금성·…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">🎯</span><h2 class="wline">계획 — '1억 모으기'를 '매달 얼마'로</h2><span class="cn"><span class="cnt" data-to="8">8</span>종</span></div><div class="rgrid wstag">
+<a class="rcard t2" href="/tool-64bb"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>1억 모으기 역산 + 복리 시뮬레이터</h4><p>목표 금액과 기간만 정하면 매달 저축할 금액 을 역산해 드려요. 복리로 굴렸을 때 자산이…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-pro-3a11"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>목표 달성 플래너 Pro</h4><p>'매달 얼마'를 역산하는 건 기본. Pro 에선 물가(인플레이션)·세금·매년 저축 증액·중…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-b7ab"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>우리 부부 5년 머니 로드맵</h4><p>결혼, 신혼집, 출산, 내 집 마련… 큰 돈 쓸 일은 갑자기 한꺼번에 오죠. 앞으로의 라이…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-ea90"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>인플레이션 '진짜 목표금액' 계산기</h4><p>1억만 모으면 돼라고 정해둔 목표. 시간이 흐르면 같은 1억이라도 살 수 있는 것 은 점점…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-a6be"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>청약 가점 계산기</h4><p>민영주택 가점은 84점 만점 이에요. 무주택 기간·부양가족 수·청약통장 기간 세 가지만 맞…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-4a72"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>결혼자금 역산 플래너</h4><p>예식·혼수·신혼여행… 항목별로 목표액을 넣으면, 결혼까지 매달 얼마를 모아야 하는지 를 거…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-2f6a"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>출산·육아 1년 비용</h4><p>애 키우는 데 돈 엄청 든다던데… 막연한 걱정은 숫자로 바꿔야 작아져요. 우리 아기 첫 1…</p></div><span class="arr">→</span></a>
+<a class="rcard t2" href="/tool-af26"><div class="ic">🎯</div><div><span class="rbadge free">🆓 무료</span><h4>달러 적립(환율) 시뮬레이터</h4><p>매달 원화로 미국 ETF(S&amp;P500)를 달러로 분할매수 하면, 우리 집 평가액은…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">💪</span><h2 class="wline">실행·절약 — 새는 돈부터 잡아요</h2><span class="cn"><span class="cnt" data-to="5">5</span>종</span></div><div class="rgrid wstag">
+<a class="rcard t3" href="/tool-dfe4"><div class="ic">💪</div><div><span class="rbadge free">🆓 무료</span><h4>통장 쪼개기 계산기</h4><p>실수령액만 넣으면 생활비·고정비·저축·투자 4개 통장 으로 얼마씩 나눌지 바로 계산해 드려…</p></div><span class="arr">→</span></a>
+<a class="rcard t3" href="/tool-93f4"><div class="ic">💪</div><div><span class="rbadge free">🆓 무료</span><h4>비상금 적정액 계산기</h4><p>갑자기 일이 멈추거나 큰일이 생겨도 흔들리지 않게 막아주는 게 비상금 이에요. 부부 합산…</p></div><span class="arr">→</span></a>
+<a class="rcard t3" href="/tool-1d83"><div class="ic">💪</div><div><span class="rbadge free">🆓 무료</span><h4>구독 누수 점검기</h4><p>구독·통신·보험 같은 고정비는 '자동이체'라 아픈 줄도 모르고 빠져나가요. 우리 부부가 매…</p></div><span class="arr">→</span></a>
+<a class="rcard t3" href="/tool-52-f1dd"><div class="ic">💪</div><div><span class="rbadge free">🆓 무료</span><h4>52주 적금 챌린지 트래커</h4><p>52주 적금 챌린지는 한 주에 한 칸씩 , 1년 동안 꾸준히 모으는 약속이에요. 큰 결심이…</p></div><span class="arr">→</span></a>
+<a class="rcard t3" href="/tool-65dc"><div class="ic">💪</div><div><span class="rbadge free">🆓 무료</span><h4>부부 머니 데이트 대화카드</h4><p>돈 얘기, 꺼내기 어렵죠? 가볍게 한 장 뽑아서 오늘 둘이 나눠볼 질문을 골라드려요. 정답…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">⚖️</span><h2 class="wline">큰 결정 — 감 말고 숫자로 비교해요</h2><span class="cn"><span class="cnt" data-to="11">11</span>종</span></div><div class="rgrid wstag">
+<a class="rcard t4" href="/tool-4d2e"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>전세 vs 매매 vs 월세 계산기</h4><p>전세 끼고 들어갈까, 무리해서 살까, 그냥 월세로 시작할까… 셋 다 장단점이 있어서 머리만…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-vs-3ef9"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>대출 상환 vs 투자, 뭐가 먼저?</h4><p>매달 조금씩 남는 돈, 대출을 더 갚자니 투자가 아깝고, 투자하자니 빚이 마음에 걸리고……</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-vs-489f"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>새 차, 살까 빌릴까? 구입 vs 리스 vs 장기렌트</h4><p>신혼 첫 차 살 때 제일 헷갈리는 질문이죠. 사면 내 자산인데 목돈이 묶이고, 빌리면 편한…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-cbeb"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>연봉 실수령액 계산기</h4><p>계약서 연봉과 실제 손에 쥐는 돈은 달라요. 2026년 4대보험 요율 과 소득세를 반영해…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-a34d"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>연봉협상 세후 역산기</h4><p>연봉 협상의 진짜 질문은 세전 얼마가 아니라 손에 얼마 쥐느냐 예요. 원하는 월 실수령액…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-bc45"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>연말정산 절세 체크리스트</h4><p>연말정산은 '돈을 더 버는' 게 아니라 이미 낸 세금을 돌려받는 일이에요. 연금·월세·청약…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-vs-24fc"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>환헤지 vs 언헤지 비교기</h4><p>미국 ETF·달러 예금처럼 달러 자산 을 살 때, 환율 위험을 '덮을지(환헤지)' '그냥…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-isa-5c34"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>ISA vs 일반계좌 절세 비교기</h4><p>같은 투자라도 계좌만 바꾸면 세금이 달라져요. 비과세·9.9% 분리과세로 우리 부부가 얼마 아끼는지…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-dsr-6e40"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>부부 영끌 한도 (스트레스 DSR)</h4><p>2025년 3단계 스트레스 DSR로 한도가 수천만 원씩 줄었어요. 부부 합산 소득으로 진짜 한도를…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-ac1c"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>전세자금대출 비교 (버팀목·신생아 특례)</h4><p>시중은행 전세대출만 있는 게 아니에요. 무주택·출산 부부라면 세 상품의 예상 자격과 한도를…</p></div><span class="arr">→</span></a>
+<a class="rcard t4" href="/tool-568e"><div class="ic">⚖️</div><div><span class="rbadge free">🆓 무료</span><h4>정책자금대출 비교 (디딤돌·보금자리)</h4><p>무주택·출산 부부라면 디딤돌·신생아 특례·보금자리론을 더 낮은 금리로. 세 상품 자격·한도…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal"><div class="rcat-h"><span class="ce">🏠</span><h2 class="wline">부동산 — 계약 전에 한 번씩 돌려봐요</h2><span class="cn"><span class="cnt" data-to="11">11</span>종</span></div><div class="rgrid wstag">
+<a class="rcard t5" href="/tool-re-4254"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>아파트 실데이터 분석 (헬리오시티)</h4><p>아래는 ‘헬리오시티(송파구 가락동)’ 를 실제 공개데이터로 채워 본 예시예요. 단지 기본정…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-8cfa"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>아파트 분석 리포트 v3.1</h4><p>표본/전수 2경로·전세가율 브리지·보유비용까지 — 예시 데이터로 미리 보는 설계 목업이에요. 실데이터 버전과 같이 보면…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-c0bd"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>단지명 검색 → 실거래 자동 연동 (국토부 OpenAPI 파이프라인)</h4><p>단지명을 넣으면 ① 법정동코드 해소 → ② 단지코드(kapt) 매칭 → ③ 단지 기본정보…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-ac3c"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>입주장 캘린더 (목업)</h4><p>‘입주장’은 한 동네에 입주 물량이 몰리는 시기 예요. 전세 매물이 한꺼번에 쏟아지면 전셋…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-57f2"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>학군·교통 카드</h4><p>단지 좌표를 중심으로 반경 안의 학원 수·교습계열 분포 와 가장 가까운 역·환승 을 합법…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-f1e8"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>배정학교 카드</h4><p>초·중학교는 거리순이 아니라 학구(통학구역) 경계 로 배정돼요. 그래서 더 가까운 학교가…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-c181"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>주택 취득세 간이 계산기</h4><p>집을 살 때 한 번 내는 취득세 를 가액·면적·보유주택수에 따라 어림셈해 봐요. 세율 구조…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-fefa"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>평형 변환기</h4><p>집을 알아볼 때 가장 헷갈리는 게 면적 이에요. 등기·실거래에는 ‘전용 84㎡’, 광고에는…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-6e94"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>중개보수(복비) 계산기</h4><p>매매·전세·월세 거래금액을 넣으면 상한요율·한도액 기준 중개보수 상한을 계산해요. 요율표…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-158a"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>거래량·중위가 타임라인</h4><p>표본 10건 구성이 바뀌면 평균선이 출렁여요. 시장이 아니라 표본이 움직인 함정을 실거래로…</p></div><span class="arr">→</span></a>
+<a class="rcard t5" href="/tool-re-3253"><div class="ic">🏠</div><div><span class="rbadge free">🆓 무료</span><h4>종합부동산세 누진 가늠기</h4><p>공시가격이 1주택 12억·그 외 9억을 넘으면 초과분에 종부세가. 누진 구조를 눈으로 가늠하는…</p></div><span class="arr">→</span></a>
+</div></section>
+<section class="rcat reveal rcat-pro"><div class="rcat-h"><span class="ce">👑</span><h2 class="wline">구독자 심화 (Pro) — 진단 다음은 처방이에요</h2><span class="cn"><span class="cnt" data-to="19">19</span>종</span></div><p class="pro-sub">기본 도구가 '지금'을 보여줬다면, Pro는 부부가 각자 답하고·시나리오를 나누고·미래까지 추적해요. 프리미엄에서 열려요.</p><div class="rgrid wstag">
+<a class="rcard t6" href="/tool-pro-6aa3"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>부부 재무 건강검진 Pro</h4><p>기본 검진이 점수와 레이더 였다면, Pro는 영역별 처방 · 30일 액션플랜 · 미래 점수…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-1d9e"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>부부 머니 궁합 Pro</h4><p>기존 궁합 테스트는 한 사람이 답했죠. 이번엔 두 분이 각자 따로 12문항에 답해요. 그러…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-fbcd"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>부부 자산배분 Pro</h4><p>남편·아내가 각자 6문항 에 답하면, 두 사람의 성향을 나란히 비교 하고 그 가운데값 배분…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-39d5"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>목표 플래너</h4><p>수익률 6% 가정으로 딱 하나만 보는 건 아쉬워요. 보수·기본·공격 세 갈래를 한 번에 깔…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-6b5d"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>복리 스노우볼 Pro</h4><p>매월 같은 돈을 넣어도, 이자가 또 이자를 낳는 복리 위에서는 끝이 전혀 달라져요. 내가…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-cc61"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>비상금 Pro</h4><p>기본 계산기가 '지금 충족률' 을 보여줬다면, Pro는 한 발 더 들어가요. 우리 가구 유…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-fdd1"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>결혼자금 역산 Pro</h4><p>기본 역산에서 한 발 더 — 항목을 꼭/선택 으로 나누고, 양가 분담 비율 과 예상 축의금…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-438b"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>휘발유 vs 전기, 진짜 총비용 Pro</h4><p>차값만 보고 고르면 5년 뒤 통장이 달라져요. 핵심은 차값 + 취득세 + 할부이자 + 연료…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-8138"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>육아 머니 Pro</h4><p>출산 1년만 보면 정부지원이 비용을 거의 덮어줘요. 하지만 진짜 곡선은 그 뒤에 있어요.…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-ec50"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>학령기 교육비 Pro</h4><p>0~7세는 정부지원이 많아 버틸 만해요. 하지만 진짜 큰 산은 그 다음, 학령기 예요. 초…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-fe0e"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>월급 실수령 정밀 모드</h4><p>월급명세서의 소득세는 간이세액표 로 미리 떼는 '예상치'예요. 진짜 세금(결정세액)은 연말…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-d05a"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>부부 합산 실수령 Pro</h4><p>두 사람 급여를 각자 넣으면 합산 월 실수령·공평한 생활비 분담·연말정산 합산까지 한 화면에…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-irp-pro-f6f3"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>연금저축·IRP 세액공제 Pro</h4><p>연금저축 600만·IRP까지 900만원 세액공제. 두 사람 납입액으로 올해 환급액과 남은 한도를…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-240b"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>노후 은퇴자금 Pro</h4><p>은퇴까지 모일 돈과 필요한 돈을 나란히. 몇 살에 바닥나는지 곡선으로 그리고 월 얼마 더 모으면…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-c231"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>은퇴 인출전략 Pro</h4><p>모아둔 목돈을 매년 얼마씩 빼야 평생 안 마를까요? 대표 세 가지 인출전략을 같은 잣대로 굴려…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-1780"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>가드레일 동적 인출 Pro</h4><p>시장이 빠지면 덜 쓰고 오르면 더 쓰는 절충안. 4%룰과 정률 사이, 자산이 줄면 자동으로 허리띠…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-c48a"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>몬테카를로 성공확률 Pro</h4><p>평균은 같아도 운의 순서가 노후를 갈라요. 시장의 운을 수백~천 번 굴려 안 바닥날 확률을…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-8362"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>버킷 전략의 진실 Pro</h4><p>현금 버킷이 정말 더 좋을까요? '버킷'과 '그냥 비중대로 빼기'를 공정하게 비교하면 사실상 무승부…</p></div><span class="arr">→</span></a>
+<a class="rcard t6" href="/tool-pro-9b41"><div class="ic">👑</div><div><span class="rbadge sub">🔒 구독</span><h4>환헤지 반반 비중 Pro</h4><p>환헤지는 0/100 선택이 아니에요. 비중을 올릴수록 변동성은 줄지만 한·미 금리차만큼 비용이 더 빠져요. 확신이 없을 땐 왜 반반인지…</p></div><span class="arr">→</span></a>
+</div></section>
+</div></main>
+<footer><div class="wrap">
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

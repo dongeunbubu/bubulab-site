@@ -1,0 +1,191 @@
+<!-- [도구_실수령액계산기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+/* ===== 2026 rates ===== */
+var NP_RATE=0.0475, HI_RATE=0.03595, LTC_RATE=0.1314, EI_RATE=0.009;
+var NP_CAP=6370000, NP_MIN=400000;     // 국민연금 기준소득월액 상한/하한 (2026 적용)
+var f10=function(x){return Math.floor(x/10)*10;};  // 보험료 10원 미만 절사
+
+function earnedDeduction(g){           // 근로소득공제
+ var d;
+ if(g<=5000000)d=g*0.7;
+ else if(g<=15000000)d=3500000+(g-5000000)*0.4;
+ else if(g<=45000000)d=7500000+(g-15000000)*0.15;
+ else if(g<=100000000)d=12000000+(g-45000000)*0.05;
+ else d=14750000+(g-100000000)*0.02;
+ return Math.min(d,20000000);          // 한도 2,000만
+}
+function progTax(base){                 // 산출세액 (누진공제)
+ var b=base;
+ if(b<=14000000)return b*0.06;
+ if(b<=50000000)return b*0.15-1260000;
+ if(b<=88000000)return b*0.24-5760000;
+ if(b<=150000000)return b*0.35-15440000;
+ if(b<=300000000)return b*0.38-19940000;
+ if(b<=500000000)return b*0.40-25940000;
+ if(b<=1000000000)return b*0.42-35940000;
+ return b*0.45-65940000;
+}
+function laborCredit(gross,g){          // 근로소득세액공제 + 한도
+ var c=gross<=1300000?gross*0.55:(715000+(gross-1300000)*0.30);
+ var lim;
+ if(g<=33000000)lim=740000;
+ else if(g<=70000000)lim=Math.max(660000,740000-(g-33000000)*0.008);
+ else if(g<=120000000)lim=Math.max(500000,660000-(g-70000000)*0.5);
+ else lim=Math.max(200000,500000-(g-120000000)*0.5);
+ return Math.min(c,lim);
+}
+function calcPerson(annual,nonTaxMo,deps){
+ annual=Math.max(0,annual);
+ var taxableY=Math.max(0,annual-nonTaxMo*12);      // 과세 총급여
+ var bo=taxableY/12;                                // 보수월액 (4대보험 기준)
+ var np=f10(Math.min(Math.max(bo,NP_MIN),NP_CAP)*NP_RATE);
+ var hi=f10(bo*HI_RATE);
+ var ltc=f10(hi*LTC_RATE);
+ var ei=f10(bo*EI_RATE);
+ var ins=np+hi+ltc+ei;
+ // 소득세 (연 결정세액 추정)
+ var eInc=taxableY-earnedDeduction(taxableY);       // 근로소득금액
+ var personal=(1+deps)*1500000;                     // 인적공제(본인+부양)
+ var pension=np*12;                                 // 연금보험료공제
+ var special=(hi+ltc+ei)*12;                        // 건강·장기·고용 소득공제
+ var base=Math.max(0,eInc-personal-pension-special);// 과세표준
+ var gross=Math.max(0,progTax(base));
+ var credit=laborCredit(gross,taxableY);
+ var decided=Math.max(0,gross-credit);              // 결정세액(연)
+ var local=Math.round(decided*0.1);                 // 지방소득세(연)
+ var itM=Math.round(decided/12), loM=Math.round(local/12);
+ var grossM=annual/12;
+ var dedM=ins+itM+loM;
+ var takeM=grossM-dedM;
+ return {annual:annual,grossM:grossM,np:np,hi:hi,ltc:ltc,ei:ei,it:itM,lo:loM,
+         dedM:dedM,takeM:takeM,rate:grossM>0?dedM/grossM*100:0};
+}
+
+/* ===== UI ===== */
+var $=function(id){return document.getElementById(id);};
+var mode='solo', deps=0;
+var incA=$('incA'),incAR=$('incAR'),incB=$('incB'),incBR=$('incBR'),nontax=$('nontax');
+function parseNum(el){return Math.max(0,+(el.value.replace(/[^0-9]/g,''))||0);}
+function clampR(r,v){return Math.min(Math.max(v,+r.min),+r.max);}
+
+function compute(animate){
+ var nt=parseNum(nontax);
+ var a=calcPerson(parseNum(incA),nt,deps);
+ var couple=mode==='couple';
+ var b=couple?calcPerson(parseNum(incB),nt,0):null;   // 부양가족은 A(본인)에 귀속
+ // 합산 표시 대상
+ var T={grossM:a.grossM,np:a.np,hi:a.hi,ltc:a.ltc,ei:a.ei,it:a.it,lo:a.lo,dedM:a.dedM,takeM:a.takeM};
+ if(couple){['grossM','np','hi','ltc','ei','it','lo','dedM','takeM'].forEach(function(k){T[k]+=b[k];});}
+ var rate=T.grossM>0?T.dedM/T.grossM*100:0;
+
+ $('heroCap').textContent=couple?'부부 합산 월 실수령액':'월 실수령액';
+ var bt=$('bigTake');
+ if(animate){bt.innerHTML='<span></span><small>원/월</small>';window.countUp(bt.firstChild,T.takeM,950);}
+ else{bt.innerHTML=window.fmtWon(T.takeM)+'<small>원/월</small>';}
+ $('subYear').textContent=window.fmtWon(T.takeM*12)+'원';
+ $('heroSub').innerHTML=couple?'둘이 합쳐 연 실수령 <b>'+window.fmtWon(T.takeM*12)+'원</b>':'연 실수령 <b>'+window.fmtWon(T.takeM*12)+'원</b>';
+
+ // mini cards
+ if(animate){window.countUp($('mYear'),T.takeM*12,900);window.countUp($('mDed'),T.dedM,900);}
+ else{$('mYear').textContent=window.fmtWon(T.takeM*12);$('mDed').textContent=window.fmtWon(T.dedM);}
+ $('mRate').textContent=rate.toFixed(1)+'%';
+
+ // split bar
+ var takePct=T.grossM>0?Math.max(0,T.takeM)/T.grossM*100:0;
+ var dedPct=T.grossM>0?T.dedM/T.grossM*100:0;
+ $('segTake').style.width=takePct+'%';
+ $('segDed').style.width=dedPct+'%';
+ $('segTake').textContent=takePct>14?Math.round(takePct)+'%':'';
+ $('segDed').textContent=dedPct>14?Math.round(dedPct)+'%':'';
+ $('legTake').textContent=takePct.toFixed(0)+'%';
+ $('legDed').textContent=dedPct.toFixed(0)+'%';
+ $('splitSub').textContent='세전 '+window.fmtWon(T.grossM)+'원 기준';
+
+ // breakdown bars (vs 공제합)
+ var items=[['np',T.np],['hi',T.hi],['ltc',T.ltc],['ei',T.ei],['it',T.it],['lo',T.lo]];
+ var maxv=Math.max(1,T.np,T.hi,T.ltc,T.ei,T.it,T.lo);
+ items.forEach(function(it){
+   var bar=$('bar-'+it[0]); if(bar)bar.style.width=(it[1]/maxv*100)+'%';
+   var v=$('v-'+it[0]); if(v){if(animate)window.countUp(v,it[1],850);else v.textContent=window.fmtWon(it[1]);}
+ });
+ if(animate)window.countUp($('v-tot'),T.dedM,850);else $('v-tot').textContent=window.fmtWon(T.dedM);
+ $('breakWho').textContent=couple?'2026년 요율 · 부부 합산 공제 (막대=각 항목 비중)':'2026년 요율 적용 · 막대는 가장 큰 항목 대비 비중';
+
+ // per-person
+ if(couple){
+   $('persons').classList.remove('hidden');
+   if(animate){window.countUp($('pA'),a.takeM,900);window.countUp($('pB'),b.takeM,900);}
+   else{$('pA').textContent=window.fmtWon(a.takeM);$('pB').textContent=window.fmtWon(b.takeM);}
+   $('ppA').textContent='공제율 '+a.rate.toFixed(1)+'%';
+   $('ppB').textContent='공제율 '+b.rate.toFixed(1)+'%';
+ }else{$('persons').classList.add('hidden');}
+}
+
+/* inputs */
+function bindInc(inp,rng){
+ inp.addEventListener('input',function(){var v=parseNum(inp);inp.value=v?v.toLocaleString('ko-KR'):'';rng.value=clampR(rng,v);compute(false);});
+ inp.addEventListener('blur',function(){compute(true);});
+ rng.addEventListener('input',function(){inp.value=(+rng.value).toLocaleString('ko-KR');compute(false);});
+}
+bindInc(incA,incAR);bindInc(incB,incBR);
+nontax.addEventListener('input',function(){var v=parseNum(nontax);nontax.value=v?v.toLocaleString('ko-KR'):'';compute(false);});
+nontax.addEventListener('blur',function(){compute(true);});
+document.querySelectorAll('#chipsA .chip').forEach(function(c){c.addEventListener('click',function(){incA.value=(+c.dataset.v).toLocaleString('ko-KR');incAR.value=clampR(incAR,+c.dataset.v);compute(true);});});
+document.querySelectorAll('#chipsB .chip').forEach(function(c){c.addEventListener('click',function(){incB.value=(+c.dataset.v).toLocaleString('ko-KR');incBR.value=clampR(incBR,+c.dataset.v);compute(true);});});
+
+/* dependents stepper */
+function setDep(n){deps=Math.min(8,Math.max(0,n));$('depV').textContent=deps;compute(true);}
+$('depMinus').addEventListener('click',function(){setDep(deps-1);});
+$('depPlus').addEventListener('click',function(){setDep(deps+1);});
+
+/* mode toggle */
+function setMode(m){
+ mode=m;var couple=m==='couple';
+ $('m-solo').setAttribute('aria-pressed',String(!couple));
+ $('m-couple').setAttribute('aria-pressed',String(couple));
+ $('blockB').classList.toggle('hidden',!couple);
+ $('whoA').textContent=couple?'나':'연봉';
+ $('labA').textContent=couple?'내 세전 연봉':'세전 연봉';
+ $('depHint').textContent=couple?'본인에게 귀속해 계산해요':'배우자·자녀 등 인적공제 대상';
+ compute(true);
+}
+$('m-solo').addEventListener('click',function(){setMode('solo');});
+$('m-couple').addEventListener('click',function(){setMode('couple');});
+
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

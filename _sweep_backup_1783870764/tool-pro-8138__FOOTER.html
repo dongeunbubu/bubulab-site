@@ -1,0 +1,275 @@
+<!-- [도구_육아머니Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){var d=document;d.documentElement.classList.add('js');
+var h=d.getElementById('hdr');if(h)addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>8);},{passive:true});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});},{threshold:.14});
+d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){io.observe(el);});}else{d.querySelectorAll('.reveal,.scene,.stag').forEach(function(el){el.classList.add('in');});}
+d.querySelectorAll('.magnet').forEach(function(b){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.15)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';});b.addEventListener('mouseleave',function(){b.style.transform='';});});
+})();
+window.fmtWon=function(n){return Math.round(n).toLocaleString('ko-KR');};
+window.fmtMan=function(n){return Math.round(n/10000).toLocaleString('ko-KR')+'만';};
+window.countUp=function(el,to,dur,suf,pre){to=+to;dur=dur||900;suf=suf||'';pre=pre||'';var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('ko-KR')+suf;if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);};
+
+var $=function(id){return document.getElementById(id);};
+var LS='bubulab_babyPro_v1';
+/* 정부지원 상수 (만원/월, 가정양육 기준 부모급여) */
+var PARENT={0:100,1:50};
+var CHILD=10;              /* 아동수당 0~7세 */
+var FIRST_FIRST=200, FIRST_SECOND=300, VOUCHER=100; /* 일시 만원 */
+var RATE=0.03;            /* 교육비 적립 연이율 */
+
+var COST=['dInf','eInf','dPre','ePre','dSch','eSch'];
+var DEF={dInf:30,eInf:10,dPre:25,ePre:30,dSch:28,eSch:40,once:460};
+var PRESETS={
+ thrifty:{dInf:30,eInf:5,dPre:22,ePre:12,dSch:25,eSch:20,once:380},
+ standard:{dInf:30,eInf:10,dPre:25,ePre:30,dSch:28,eSch:40,once:460},
+ active:{dInf:32,eInf:18,dPre:28,ePre:55,dSch:30,eSch:70,once:520}
+};
+var gap=0; /* 둘째 터울 (0=없음) */
+
+function parseNum(el){return Math.max(0,+(String(el.value).replace(/[^0-9]/g,''))||0);}
+function clampR(r,v){return Math.min(Math.max(v,+r.min),+r.max);}
+function manToWon(m){return m*10000;}
+function V(){var o={};COST.forEach(function(k){o[k]=parseNum($(k));});o.once=parseNum($('once'));return o;}
+
+/* 한 아이의 특정 나이(연) 비용/지원/순부담 (만원) */
+function dirEdu(v,age){if(age<=2)return [v.dInf,v.eInf];if(age<=5)return [v.dPre,v.ePre];return [v.dSch,v.eSch];}
+function childYear(v,age,isSecond){
+ var de=dirEdu(v,age);
+ var cost=(de[0]+de[1])*12;
+ var sup=((PARENT[age]||0)+CHILD)*12;
+ if(age===0){cost+=v.once;sup+=(isSecond?FIRST_SECOND:FIRST_FIRST)+VOUCHER;}
+ return {cost:cost,support:sup,net:cost-sup};
+}
+
+function compute(animate){
+ var v=V();
+ /* 첫째 0~7세 누계 */
+ var fCost=0,fSup=0;
+ for(var a=0;a<=7;a++){var c=childYear(v,a,false);fCost+=c.cost;fSup+=c.support;}
+ var fNet=fCost-fSup;
+ var avgMo=fNet/96; /* 만원/월 over 8년 */
+
+ /* hero */
+ var bg=$('bigNet');var netWon=manToWon(Math.abs(fNet));
+ if(animate){bg.innerHTML='<span></span><small>원</small>';window.countUp(bg.firstChild,netWon,950);}
+ else{bg.innerHTML=(fNet<0?'-':'')+window.fmtWon(netWon)+'<small>원</small>';}
+ $('heroSub').innerHTML='8년 총비용 <b>'+window.fmtWon(manToWon(fCost))+'원</b> · 정부지원 <b>'+window.fmtWon(manToWon(fSup))+'원</b>';
+
+ var bn=$('banner'),bt=$('bannerTxt'),em=bn.querySelector('.em');
+ if(fNet<=0){
+   bn.className='banner ok';em.textContent='🎉';
+   bt.innerHTML='0~7세 8년 동안 정부지원이 직접 비용보다 <b>'+window.fmtWon(manToWon(-fNet))+'원</b> 더 커요. 알뜰 설계라면 충분히 가능해요.';
+ }else{
+   bn.className='banner warn';em.textContent='📈';
+   bt.innerHTML='0~7세 8년 우리 몫 약 <b>'+window.fmtWon(manToWon(fNet))+'원</b> · 월평균 <b>'+window.fmtWon(manToWon(avgMo))+'원</b>. 지원이 큰 초반에 미리 모아두면 든든해요.';
+ }
+ if(animate){window.countUp($('mCost'),manToWon(fCost),900);window.countUp($('mHelp'),manToWon(fSup),900);window.countUp($('mAvg'),manToWon(Math.abs(avgMo)),900);}
+ else{$('mCost').textContent=window.fmtWon(manToWon(fCost));$('mHelp').textContent=window.fmtWon(manToWon(fSup));$('mAvg').textContent=window.fmtWon(manToWon(Math.abs(avgMo)));}
+
+ /* 합산(둘째 포함) 연도별/누적 */
+ var Y=gap>0?7+gap:7;
+ var perBoth=[],cumBoth=[],cumFirst=[];
+ var accB=0,accF=0,both8=0;
+ for(var y=0;y<=Y;y++){
+   var first=(y<=7)?childYear(v,y,false):{cost:0,support:0,net:0};
+   var second=(gap>0&&y>=gap&&(y-gap)<=7)?childYear(v,y-gap,true):{cost:0,support:0,net:0};
+   var yn=first.net+second.net;
+   accB+=yn;accF+=first.net;
+   perBoth.push(yn);cumBoth.push(accB);cumFirst.push(accF);
+ }
+ /* 둘째 합산 stat */
+ var ts=$('twoStat'),tt=$('twoTxt');
+ if(gap>0){
+   var bothNet=cumBoth[cumBoth.length-1];
+   var extra=bothNet-fNet;
+   ts.classList.add('on');
+   tt.innerHTML='둘째까지 '+gap+'년 터울로 더하면, '+(Y+1)+'년간 합산 우리 몫 <b>'+window.fmtWon(manToWon(bothNet))+'원</b> (둘째 몫 약 +'+window.fmtWon(manToWon(extra))+'원). 터울이 겹치는 해가 가장 빠듯해요.';
+ }else{ts.classList.remove('on');}
+
+ renderCurve(perBoth,cumBoth,cumFirst,Y,gap>0,animate);
+ renderBands(v,animate);
+ computeEdu(animate);
+}
+
+function renderCurve(perBoth,cumBoth,cumFirst,Y,gapOn,animate){
+ var grid=$('curveGrid'),paths=$('curvePaths'),dots=$('curveDots'),axis=$('curveAxis'),area=$('curveArea');
+ grid.innerHTML='';paths.innerHTML='';dots.innerHTML='';axis.innerHTML='';area.setAttribute('d','');
+ var N=Y,X0=66,X1=694,Y0=22,Y1=250;
+ var lo=0,hi=0;cumBoth.forEach(function(x){lo=Math.min(lo,x);hi=Math.max(hi,x);});
+ if(gapOn)cumFirst.forEach(function(x){lo=Math.min(lo,x);hi=Math.max(hi,x);});
+ if(hi===lo){hi+=1;lo-=1;}
+ var span=(hi-lo)||1;hi+=span*0.10;lo-=span*0.10;span=hi-lo;
+ function px(t){return X0+(N>0?t/N:0)*(X1-X0);}
+ function py(x){return Y1-((x-lo)/span)*(Y1-Y0);}
+ var seen={};
+ [hi,(hi+lo)/2,0,lo].forEach(function(x){
+   var key=Math.round(x/100);if(seen[key])return;seen[key]=1;if(x>hi||x<lo)return;
+   var y=py(x),zero=Math.abs(x)<1;
+   grid.innerHTML+='<line x1="'+X0+'" y1="'+y.toFixed(1)+'" x2="'+X1+'" y2="'+y.toFixed(1)+'" stroke="'+(zero?'#D9A6A0':'#EEE0DB')+'" stroke-width="'+(zero?'1.4':'1')+'" stroke-dasharray="'+(zero?'1 0':'2 4')+'"/>';
+   axis.innerHTML+='<text x="'+(X0-9)+'" y="'+(y+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#8A7B72" font-weight="700">'+(zero?'0':window.fmtMan(manToWon(x)))+'</text>';
+ });
+ for(var xt=0;xt<=N;xt++){if(N>9&&xt%2!==0&&xt!==N)continue;axis.innerHTML+='<text x="'+px(xt).toFixed(1)+'" y="'+(Y1+22)+'" text-anchor="middle" font-size="11" fill="#8A7B72" font-weight="700">'+xt+'세</text>';}
+ var yb=py(0);
+ var areaD='M'+px(0).toFixed(1)+' '+py(cumBoth[0]).toFixed(1);
+ for(var i=1;i<=N;i++)areaD+=' L'+px(i).toFixed(1)+' '+py(cumBoth[i]).toFixed(1);
+ areaD+=' L'+px(N).toFixed(1)+' '+yb.toFixed(1)+' L'+px(0).toFixed(1)+' '+yb.toFixed(1)+' Z';
+ area.setAttribute('d',areaD);
+ /* 첫째만 점선 (둘째 시) */
+ if(gapOn){
+   var ddF=cumFirst.map(function(x,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(x).toFixed(1);}).join(' ');
+   var pf=document.createElementNS('http://www.w3.org/2000/svg','path');
+   pf.setAttribute('d',ddF);pf.setAttribute('fill','none');pf.setAttribute('stroke','#C99AA0');pf.setAttribute('stroke-width','2');pf.setAttribute('stroke-dasharray','5 5');pf.setAttribute('stroke-linecap','round');
+   paths.appendChild(pf);
+ }
+ /* 합산 실선 */
+ var dd=cumBoth.map(function(x,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(x).toFixed(1);}).join(' ');
+ var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+ p.setAttribute('d',dd);p.setAttribute('fill','none');p.setAttribute('stroke','#B85060');p.setAttribute('stroke-width','2.8');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
+ paths.appendChild(p);
+ var len=p.getTotalLength?p.getTotalLength():1800;
+ if(animate){p.style.strokeDasharray=len;p.style.strokeDashoffset=len;requestAnimationFrame(function(){p.style.strokeDashoffset=0;});}
+ else{p.style.strokeDasharray='none';p.style.strokeDashoffset=0;}
+ /* 0 돌파 시점 (음수→양수) */
+ var cross=-1;for(var t=1;t<=N;t++){if(cumBoth[t-1]<=0&&cumBoth[t]>0){cross=t;break;}}
+ if(cross>0){var cx=px(cross),cy=py(0);
+   dots.innerHTML+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="5" fill="#fff" stroke="#B85060" stroke-width="2.5"/>';
+   dots.innerHTML+='<text x="'+cx.toFixed(1)+'" y="'+(cy-12).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#B85060">'+cross+'세부터 우리 몫 +</text>';
+ }
+ var ex=px(N),ey=py(cumBoth[N]);
+ dots.innerHTML+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4.5" fill="#B85060"/>';
+ dots.innerHTML+='<text x="'+(ex-6).toFixed(1)+'" y="'+(ey+(cumBoth[N]>(hi+lo)/2?20:-10)).toFixed(1)+'" text-anchor="end" font-size="11.5" font-weight="800" fill="#B85060">'+N+'세 누적 '+(cumBoth[N]>0?'':'여유 ')+window.fmtMan(manToWon(Math.abs(cumBoth[N])))+'</text>';
+ /* 범례 갱신 */
+ $('curveLegend').innerHTML=gapOn
+   ? '<span><i style="background:#B85060"></i>누적 순부담(합산)</span><span><i style="background:#C99AA0"></i>첫째만</span><span><i style="background:#D9A6A0;height:2px"></i>0원 기준선</span>'
+   : '<span><i style="background:#B85060"></i>누적 순부담</span><span><i style="background:#D9A6A0;height:2px"></i>0원 기준선</span>';
+}
+
+function renderBands(v,animate){
+ var bands=[
+  {n:'영아기',sub:'0~2세',ages:[0,1,2]},
+  {n:'유아기',sub:'3~5세 누리과정',ages:[3,4,5]},
+  {n:'학령초',sub:'6~7세',ages:[6,7]}
+ ];
+ var rows=bands.map(function(b){
+   var cost=0,sup=0;b.ages.forEach(function(a){var c=childYear(v,a,false);cost+=c.cost;sup+=c.support;});
+   /* sup=실제 지원합(여유 포함). 막대는 cost를 '덮는 몫'+'우리 몫'으로 분할, 숫자는 참값 순부담(합산=히어로) */
+   var net=cost-sup;
+   return {n:b.n,sub:b.sub,cost:cost,sup:sup,net:net};
+ });
+ var max=1;rows.forEach(function(r){max=Math.max(max,r.cost);});
+ var html='';
+ rows.forEach(function(r){
+   var green=Math.min(r.sup,r.cost),pink=Math.max(0,r.cost-r.sup),scale=r.cost/max*100;
+   var supW=r.cost>0?(green/r.cost*scale):0;
+   var netW=r.cost>0?(pink/r.cost*scale):0;
+   var netTxt=r.net<=0?('여유 '+window.fmtMan(manToWon(-r.net))):window.fmtMan(manToWon(r.net));
+   html+='<div class="bbrow"><span class="bn">'+r.n+'<small>'+r.sub+'</small></span>'
+     +'<div class="bbtrack"><b class="bh" data-w="'+supW.toFixed(2)+'"></b><b class="bc" data-w="'+netW.toFixed(2)+'"></b></div>'
+     +'<span class="bv">'+netTxt+'<small>비용 '+window.fmtMan(manToWon(r.cost))+'</small></span></div>';
+ });
+ $('bandRows').innerHTML=html;
+ requestAnimationFrame(function(){$('bandRows').querySelectorAll('.bbtrack b').forEach(function(b){b.style.width=(animate?b.getAttribute('data-w'):b.getAttribute('data-w'))+'%';});});
+}
+
+function computeEdu(animate){
+ var goal=Math.max(0,parseNum($('eduGoal')));   /* 만원 */
+ var years=Math.max(1,parseNum($('eduYears')));
+ var seed=Math.max(0,parseNum($('eduSeed')));   /* 만원 */
+ var n=years*12;var r=RATE/12;
+ var grow=Math.pow(1+r,n);
+ var fvSeed=seed*grow;
+ var pmt; /* 만원/월 */
+ if(goal<=fvSeed){pmt=0;}
+ else{pmt=(goal-fvSeed)/((grow-1)/r);}
+ var contributed=seed+pmt*n;
+ var interest=Math.max(0,goal-contributed);
+ var noInt=(goal-seed)/n; /* 무이자 비교 */
+
+ if(animate){window.countUp($('eduPmt'),manToWon(pmt),850,'원');}
+ else{$('eduPmt').textContent=window.fmtWon(manToWon(pmt))+'원';}
+ $('eduPmtSub').textContent=goal<=fvSeed?'시드만으로 충분해요':'연 3.0% 예금 가정';
+ if(animate){window.countUp($('eduInt'),manToWon(interest),850,'원');}
+ else{$('eduInt').textContent=window.fmtWon(manToWon(interest))+'원';}
+
+ var dt=new Date();dt.setMonth(dt.getMonth()+n);
+ $('eduDday').textContent=dt.getFullYear()+'.'+('0'+(dt.getMonth()+1)).slice(-2);
+ $('eduDdaySub').textContent='D-'+n+'개월 ('+years+'년)';
+
+ var saved=Math.max(0,noInt-pmt);
+ $('eduNote').innerHTML=goal<=fvSeed
+   ? '이미 모은 시드가 이자만으로 목표에 닿아요. 더 큰 목표로 바꿔보거나, 기간을 줄여도 돼요.'
+   : '매달 <b>'+window.fmtWon(manToWon(pmt))+'원</b>씩 '+years+'년 모으면 목표 '+window.fmtWon(manToWon(goal))+'원에 닿아요. 이자가 없다면 월 '+window.fmtWon(manToWon(noInt))+'원이 필요하니, 복리가 매달 <b>'+window.fmtWon(manToWon(saved))+'원</b>을 대신 모아주는 셈이에요.';
+}
+
+/* inputs */
+function bindBand(k){
+ var inp=$(k),rng=$(k+'R');
+ inp.addEventListener('input',function(){var x=parseNum(inp);inp.value=x?x.toLocaleString('ko-KR'):'';rng.value=clampR(rng,x);clearPreset();compute(false);});
+ inp.addEventListener('blur',function(){compute(true);});
+ rng.addEventListener('input',function(){inp.value=(+rng.value).toLocaleString('ko-KR');clearPreset();compute(false);});
+}
+COST.forEach(bindBand);
+(function(){var inp=$('once');inp.addEventListener('input',function(){var x=parseNum(inp);inp.value=x?x.toLocaleString('ko-KR'):'';clearPreset();compute(false);});inp.addEventListener('blur',function(){compute(true);});})();
+
+/* edu fields */
+['eduGoal','eduYears','eduSeed'].forEach(function(k){
+ var inp=$(k),rng=$(k+'R');
+ inp.addEventListener('input',function(){var x=parseNum(inp);inp.value=x?x.toLocaleString('ko-KR'):'';rng.value=clampR(rng,x);computeEdu(false);});
+ inp.addEventListener('blur',function(){computeEdu(true);});
+ rng.addEventListener('input',function(){inp.value=(+rng.value).toLocaleString('ko-KR');computeEdu(false);});
+});
+
+/* presets */
+function clearPreset(){document.querySelectorAll('#presetRow .preset').forEach(function(p){p.classList.remove('on');});}
+function applyPreset(name){var pr=PRESETS[name];if(!pr)return;COST.forEach(function(k){$(k).value=pr[k].toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),pr[k]);});$('once').value=pr.once.toLocaleString('ko-KR');
+ document.querySelectorAll('#presetRow .preset').forEach(function(p){p.classList.toggle('on',p.dataset.p===name);});compute(true);}
+document.querySelectorAll('#presetRow .preset').forEach(function(p){p.addEventListener('click',function(){applyPreset(p.dataset.p);});});
+
+/* 둘째 터울 */
+document.querySelectorAll('#gapSeg button').forEach(function(b){b.addEventListener('click',function(){gap=+b.dataset.gap;document.querySelectorAll('#gapSeg button').forEach(function(x){x.classList.toggle('on',x===b);});compute(true);});});
+
+/* save / reset */
+function saveLS(){try{var o={};COST.forEach(function(k){o[k]=parseNum($(k));});o.once=parseNum($('once'));o.gap=gap;o.eduGoal=parseNum($('eduGoal'));o.eduYears=parseNum($('eduYears'));o.eduSeed=parseNum($('eduSeed'));localStorage.setItem(LS,JSON.stringify(o));var m=$('saveMsg');m.classList.remove('hidden');setTimeout(function(){m.classList.add('hidden');},2200);}catch(e){}}
+function loadLS(){try{var r=localStorage.getItem(LS);if(!r)return false;var o=JSON.parse(r);if(!o||typeof o!=='object')return false;
+ COST.forEach(function(k){if(o[k]!=null){$(k).value=(+o[k]).toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),+o[k]);}});
+ if(o.once!=null)$('once').value=(+o.once).toLocaleString('ko-KR');
+ if(o.gap!=null){gap=+o.gap;document.querySelectorAll('#gapSeg button').forEach(function(x){x.classList.toggle('on',+x.dataset.gap===gap);});}
+ ['eduGoal','eduYears','eduSeed'].forEach(function(k){if(o[k]!=null){$(k).value=(+o[k]).toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),+o[k]);}});
+ clearPreset();return true;}catch(e){return false;}}
+function resetDef(){COST.forEach(function(k){$(k).value=DEF[k].toLocaleString('ko-KR');$(k+'R').value=clampR($(k+'R'),DEF[k]);});$('once').value=DEF.once.toLocaleString('ko-KR');gap=0;document.querySelectorAll('#gapSeg button').forEach(function(x){x.classList.toggle('on',+x.dataset.gap===0);});
+ $('eduGoal').value='4,000';$('eduGoalR').value=4000;$('eduYears').value='10';$('eduYearsR').value=10;$('eduSeed').value='0';$('eduSeedR').value=0;
+ document.querySelectorAll('#presetRow .preset').forEach(function(p){p.classList.toggle('on',p.dataset.p==='standard');});
+ try{localStorage.removeItem(LS);}catch(e){}compute(true);}
+$('saveBtn').addEventListener('click',saveLS);
+$('resetBtn').addEventListener('click',resetDef);
+
+loadLS();
+compute(true);
+</script>
+<script>/*navmobjs*/
+(function(){
+ var hdr=document.getElementById('hdr'); if(!hdr||hdr.querySelector('.navMobBtn'))return;
+ var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+ var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+ var cta=hdr.querySelector('.cta'); var ch=cta?cta.getAttribute('href'):'#'; var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+ var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
+ (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+ var d=document.createElement('div'); d.className='navDrawer';
+ d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ document.body.appendChild(d);
+ function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+ function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+ btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+ d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

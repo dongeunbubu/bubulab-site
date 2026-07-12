@@ -1,0 +1,580 @@
+<!-- [도구_버킷전략의진실Pro_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 10건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(38px,5vw,64px) 0;position:relative}
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px;align-items:center}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.menu .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.menu .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:760px){.menu a:not(.cta){display:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}#flowLine,#flowCash,#flowEq{transition:none!important}}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17px);line-height:1.72;max-width:730px;margin-top:15px}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:16px}
+.backlink:hover{color:var(--rose)}
+.livechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip b{color:var(--rose);font-variant-numeric:tabular-nums}
+.livechip .ld{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(94,140,127,.18)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--rose);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.panelhd{font-size:clamp(18px,2.3vw,22px);font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.panelsub{font-size:13.5px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.6}
+.calc{margin-top:24px}
+.field{margin-bottom:20px}
+.field>label{font-size:14px;font-weight:800;display:block;margin-bottom:9px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+.incrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.incfield{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.incfield input{border:0;background:transparent;font-family:inherit;font-size:19px;font-weight:800;width:92px;text-align:right;color:var(--ink)}
+.incfield span{font-size:13.5px;color:var(--mut);font-weight:700}
+.incfield:focus-within{border-color:var(--rose)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:130px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.bigv{font-size:17px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums;min-width:74px;text-align:right}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.55}
+.hint b{color:var(--rose)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{border-color:var(--rose);background:var(--pinkSoft2);color:var(--rose)}
+.seg{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px;flex-wrap:wrap}
+.seg button{flex:1;min-width:72px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:9px;padding:9px 8px;cursor:pointer;transition:background .2s,color .2s;line-height:1.3}
+.seg button small{display:block;font-size:10.5px;font-weight:600;color:var(--mut);margin-top:2px}
+.seg button.on{background:#fff;color:var(--rose);box-shadow:var(--cardSh)}
+.seg button.on small{color:var(--rose)}
+.wbox{margin-top:6px;background:linear-gradient(135deg,var(--pinkSoft2),#fff);border:1.5px solid var(--pink);border-radius:16px;padding:18px 20px}
+.wbox .wl{font-size:13px;font-weight:800;color:var(--rose);display:flex;align-items:center;gap:7px}
+.wbox .wrow{display:flex;align-items:center;gap:14px;margin-top:12px}
+.recoband{margin-top:6px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:22px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;transition:background .4s}
+.recoband.good{background:linear-gradient(135deg,#fff,#E9F2EE)}
+.recoband.tie{background:linear-gradient(135deg,#fff,#F3EDF6)}
+.recoband .crown{font-size:34px;line-height:1}
+.recoband .rt{flex:1;min-width:220px}
+.recoband .rt .k{font-size:12.5px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.recoband.good .rt .k{color:var(--sage)}.recoband.tie .rt .k{color:var(--lav)}
+.recoband .rt .g{font-size:clamp(18px,2.4vw,25px);font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.28}
+.recoband .rt p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;max-width:690px}
+.scards2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+@media(max-width:680px){.scards2{grid-template-columns:1fr}}
+.scard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--cardSh);border-top:5px solid var(--border);position:relative}
+.scard.sa{border-top-color:var(--sage)} .scard.sb{border-top-color:var(--mut)}
+.scard .sn{font-size:15.5px;font-weight:800;display:flex;align-items:center;gap:7px;letter-spacing:-.01em;flex-wrap:wrap}
+.scard .sd{font-size:12px;color:var(--mut);font-weight:600;margin-top:5px;line-height:1.5;min-height:34px}
+.scard .sbig{font-size:clamp(20px,2.7vw,26px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:12px;letter-spacing:-.02em;line-height:1.15}
+.scard .sbl{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:2px}
+.sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;border-radius:100px;padding:5px 11px;margin-top:13px}
+.sbadge.ok{background:#E9F2EE;color:var(--sage)} .sbadge.no{background:var(--pinkSoft2);color:var(--rose)}
+.scard .srow{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)}
+.scard .srow b{font-variant-numeric:tabular-nums;color:var(--ink)}
+.chartwrap{margin-top:8px}
+.chartwrap .ch{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chartwrap .ch b{font-size:14px;font-weight:800}
+.chartwrap .ch span{font-size:12.5px;color:var(--mut);font-weight:700}
+.chartbox{position:relative;width:100%}
+#flowChart{width:100%;height:auto;display:block;overflow:visible}
+#flowLine{transition:stroke-dashoffset 1.6s var(--ease)}
+.clegend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--ink2);font-weight:700}
+.clegend span{display:inline-flex;align-items:center;gap:6px}
+.clegend .sw{width:15px;height:10px;border-radius:3px;display:inline-block}
+.clegend .sw.dot{width:10px;height:10px;border-radius:50%}
+.evstrip{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.evpill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;border-radius:100px;padding:6px 12px;border:1px solid var(--border);background:#fff}
+.evpill.protect{color:var(--sage);background:#E9F2EE;border-color:#CFE3DB}
+.evpill.forced{color:var(--up);background:#FCEDEB;border-color:#F3CFCB}
+.evpill.refill{color:var(--lav);background:#F3EDF6;border-color:#E2D3E8}
+.protectbox{margin-top:8px;background:linear-gradient(135deg,#fff,#E9F2EE);border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:26px 24px;text-align:center}
+.protectbox .pn{font-size:13px;font-weight:800;color:var(--sage);letter-spacing:.02em}
+.protectbox .pbig{font-size:clamp(40px,8vw,62px);font-weight:800;color:var(--sage);font-variant-numeric:tabular-nums;line-height:1.05;margin-top:4px;letter-spacing:-.03em}
+.protectbox .pbig small{font-size:.42em;font-weight:800;color:var(--ink2);margin-left:4px}
+.protectbox .psub{font-size:13.5px;color:var(--ink2);font-weight:600;margin-top:8px;line-height:1.62;max-width:560px;margin-left:auto;margin-right:auto}
+.protectbox .psub b{color:var(--sage)}
+.pmini{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:560px){.pmini{grid-template-columns:1fr}}
+.pmini div{background:#fff;border:1px solid var(--border);border-radius:13px;padding:14px;text-align:center}
+.pmini .pmv{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.pmini .pml{font-size:11.5px;color:var(--mut);font-weight:700;margin-top:3px;line-height:1.4}
+.tcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+@media(max-width:680px){.tcards{grid-template-columns:1fr}}
+.tcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.tcard.t1{border-top-color:var(--lav)} .tcard.t2{border-top-color:var(--up)} .tcard.t3{border-top-color:var(--sage)}
+.tcard .th{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;line-height:1.3}
+.tcard .tbig{font-size:clamp(18px,2.6vw,23px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:9px;letter-spacing:-.02em;line-height:1.14}
+.tcard.t1 .tbig{color:var(--lav)} .tcard.t2 .tbig{color:var(--up)} .tcard.t3 .tbig{color:var(--sage)}
+.tcard p{font-size:12px;color:var(--ink2);font-weight:600;line-height:1.55;margin-top:7px}
+.bucket{margin-top:16px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+.bucket h5{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:8px;color:var(--rose)}
+.bucket p{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.7;margin-top:8px}
+.bucket p b{color:var(--rose)}
+.savebox{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px}
+.savebox .sh{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.savebox .ss{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px;line-height:1.5}
+.saverow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saverow input{flex:1;min-width:160px;border:1.5px solid var(--border);background:#fff;border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink)}
+.saverow input:focus{outline:none;border-color:var(--rose)}
+.saverow .btn{padding:11px 18px;font-size:13.5px}
+.savelist{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.saveitem{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 14px}
+.saveitem .si-n{font-weight:800;font-size:13.5px}
+.saveitem .si-m{font-size:11.5px;color:var(--mut);font-weight:600;margin-left:auto;text-align:right;line-height:1.4}
+.saveitem .si-x{cursor:pointer;color:var(--mut);font-weight:800;padding:4px 8px;border-radius:8px;font-size:12px}
+.saveitem .si-x:hover{background:var(--pinkSoft);color:var(--rose)}
+.lock{margin-top:24px;background:linear-gradient(135deg,#2C2230,#43303B);border-radius:20px;padding:clamp(24px,3.4vw,36px);color:#F6ECEA;position:relative;overflow:hidden}
+.lock::before{content:"🔒";position:absolute;top:-14px;right:8px;font-size:104px;opacity:.07}
+.lock .lk{font-size:12px;font-weight:800;letter-spacing:.14em;color:#E7A6B0;text-transform:uppercase}
+.lock h3{font-size:clamp(19px,2.5vw,25px);font-weight:800;margin-top:9px;letter-spacing:-.02em;line-height:1.3}
+.lock p{font-size:13.5px;color:#D8C5C2;margin-top:10px;line-height:1.66;max-width:640px}
+.lkfeat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+@media(max-width:560px){.lkfeat{grid-template-columns:1fr}}
+.lkfeat div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 15px;font-size:12.5px;font-weight:600;color:#EBD9D6;line-height:1.5}
+.lkfeat div b{color:#fff;font-weight:800}
+.lock .btn{margin-top:20px;background:#fff;color:var(--rose)}
+.whygrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+@media(max-width:680px){.whygrid{grid-template-columns:1fr}}
+.whyc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--cardSh)}
+.whyc .wi{font-size:25px;line-height:1}
+.whyc h4{font-size:15px;font-weight:800;margin-top:10px;letter-spacing:-.01em}
+.whyc p{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.7;margin-top:8px}
+.whyc p b{color:var(--rose)}
+details.calcm{margin-top:20px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:4px 18px}
+details.calcm summary{cursor:pointer;font-size:13.5px;font-weight:800;padding:14px 0;list-style:none;display:flex;align-items:center;gap:8px}
+details.calcm summary::-webkit-details-marker{display:none}
+details.calcm summary::before{content:"＋";color:var(--rose);font-weight:800}
+details.calcm[open] summary::before{content:"－"}
+details.calcm .cm-body{font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.75;padding:4px 0 18px}
+details.calcm .cm-body b{color:var(--rose)}
+details.calcm .cm-body code{background:var(--pinkSoft2);color:var(--rose);padding:1px 6px;border-radius:5px;font-size:12px;font-weight:700}
+.disc{margin-top:18px;font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.7;background:var(--pinkSoft2);border-radius:13px;padding:16px 18px}
+.disc b{color:var(--rose)}
+footer{background:#2C2230;color:#C9B8B4;padding:40px 0 54px;margin-top:10px}
+footer .fwrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+footer .flogo{font-weight:800;color:#fff;font-size:16px;display:inline-flex;align-items:center;gap:8px}
+footer .flogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+footer .ftnote{font-size:12px;color:#9C8B87;line-height:1.7;margin-top:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--pinkSoft);color:var(--rose);font-size:12px;font-weight:800;border-radius:100px;padding:6px 13px}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}#hdr .navMobBtn.on span:nth-child(2){opacity:0}#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;overflow:hidden}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<!-- HERO -->
+<section class="blk" style="padding-top:clamp(30px,4vw,52px)">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">버킷 전략의 진실 · PRO</span>
+  <h1 class="tool-h1">현금 버킷, <span class="grad">정말 더 좋을까요?</span><br>우리가 직접 굴려봤어요.</h1>
+  <p class="lead">은퇴 후 <b>'현금 2~3년치를 따로 빼두면 폭락장에 주식을 안 팔고 버틸 수 있다'</b>는 게 현금 버킷 전략이에요. 정말 더 많이 남길까요? <b>같은 자산배분</b>에서 '버킷'과 '그냥 비중대로 빼기'를 공정하게 비교하면 — 수익은 사실상 <b>무승부</b>예요. 오히려 잔잔하거나 좋은 장에선 현금이 발목을 잡아 살짝 손해고, 가장 도움돼야 할 폭락 초반에서도 마법은 없었어요. 버킷의 진짜 가치는 <b>'더 버는 것'이 아니라 '안 팔고 버티는 마음 편함'</b>이에요.</p>
+  <div class="livechips">
+   <span class="livechip"><span class="ld"></span>S&amp;P500 5년 <b>+14.1%/년</b></span>
+   <span class="livechip">美 종합채권 AGG 배당 <b>3.95%</b></span>
+   <span class="livechip">적정 현금버킷 <b>2~3년치</b></span>
+   <span class="livechip">학계 정합 · <b>Estrada 2019</b></span>
+  </div>
+  <a class="backlink" href="/contents">← 자료실의 다른 도구도 보기</a>
+ </div>
+</section>
+
+<!-- INPUT -->
+<section class="blk" id="calc" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">🪣 우리 조건으로 굴려보기</div>
+   <p class="panelsub">목돈·생활비·시장 가정을 넣으면, 같은 배분에서 <b>버킷</b>과 <b>비례 인출</b>을 같은 시장 한 줄기에 통과시켜 비교해요. 숫자는 기기에만 저장돼요.</p>
+
+   <div class="calc">
+    <div class="grid2">
+     <div class="field">
+      <label>① 은퇴 시 굴릴 목돈 <span style="color:var(--mut);font-weight:600">(국민연금 등 별도)</span></label>
+      <div class="incrow">
+       <div class="incfield"><input id="p0" type="text" inputmode="numeric" value="5"><span>억원</span></div>
+      </div>
+      <div class="chips" id="p0chips">
+       <button class="chip" data-v="3">3억</button>
+       <button class="chip on" data-v="5">5억</button>
+       <button class="chip" data-v="7">7억</button>
+       <button class="chip" data-v="10">10억</button>
+      </div>
+     </div>
+     <div class="field">
+      <label>② 월 생활비 <span style="color:var(--mut);font-weight:600">(오늘 물가 기준)</span></label>
+      <div class="incrow">
+       <div class="incfield"><input id="month" type="text" inputmode="numeric" value="180"><span>만원/월</span></div>
+      </div>
+      <div class="chips" id="monthchips">
+       <button class="chip" data-v="150">150만</button>
+       <button class="chip on" data-v="180">180만</button>
+       <button class="chip" data-v="220">220만</button>
+       <button class="chip" data-v="260">260만</button>
+      </div>
+      <p class="hint" id="rateHint">초기 인출률 <b>연 4.3%</b> (목돈 대비)</p>
+     </div>
+    </div>
+
+    <div class="grid2">
+     <div class="field">
+      <label>③ 은퇴 나이</label>
+      <div class="seg" id="retSeg">
+       <button data-v="55">55세</button>
+       <button class="on" data-v="60">60세</button>
+       <button data-v="65">65세</button>
+      </div>
+     </div>
+     <div class="field">
+      <label>④ 기대수명 <span class="bigv" id="lifeV" style="float:right">90세</span></label>
+      <input id="life" type="range" min="80" max="100" step="1" value="90">
+      <p class="hint">은퇴부터 <b id="yrsTxt">30년</b> 동안 굴려요.</p>
+     </div>
+    </div>
+
+    <div class="grid2">
+     <div class="field">
+      <label>⑤ 주식 기대수익률 (연평균)</label>
+      <div class="seg" id="eqSeg">
+       <button data-v="5">보수<small>5%</small></button>
+       <button class="on" data-v="7">기본<small>7%</small></button>
+       <button data-v="9">공격<small>9%</small></button>
+      </div>
+     </div>
+     <div class="field">
+      <label>⑥ 현금(저위험) 이자 (연)</label>
+      <div class="seg" id="crSeg">
+       <button data-v="2.5">예금<small>2.5%</small></button>
+       <button class="on" data-v="3.3">저축銀<small>3.3%</small></button>
+       <button data-v="3.95">채권형<small>3.95%</small></button>
+      </div>
+     </div>
+    </div>
+
+    <div class="grid2">
+     <div class="field">
+      <label>⑦ 물가 상승률 (연)</label>
+      <div class="seg" id="inflSeg">
+       <button data-v="2">낮음<small>2%</small></button>
+       <button class="on" data-v="2.5">보통<small>2.5%</small></button>
+       <button data-v="3">높음<small>3%</small></button>
+      </div>
+     </div>
+     <div class="field">
+      <label>⑧ 시장 변동성 (출렁임)</label>
+      <div class="seg" id="volSeg">
+       <button data-v="8">잔잔<small>±8%</small></button>
+       <button class="on" data-v="13">보통<small>±13%</small></button>
+       <button data-v="18">거침<small>±18%</small></button>
+      </div>
+     </div>
+    </div>
+
+    <div class="field">
+     <label>⑨ 현금 버킷 크기 <span style="color:var(--mut);font-weight:600">— 이 도구의 주인공</span></label>
+     <div class="wbox">
+      <div class="wl">🪣 생활비 몇 년치를 현금으로 따로 빼둘까요?</div>
+      <div class="wrow">
+       <input id="bucket" type="range" min="0" max="5" step="1" value="3">
+       <span class="bigv" id="bucketV">3년치</span>
+      </div>
+      <div class="chips" id="bucketchips">
+       <button class="chip" data-v="0">0년(전부 주식)</button>
+       <button class="chip" data-v="2">2년</button>
+       <button class="chip on" data-v="3">3년</button>
+       <button class="chip" data-v="5">5년</button>
+      </div>
+      <p class="hint">현금에서 생활비를 <b>먼저</b> 빼요(폭락장엔 주식 안 팖). 상승한 해에만 주식을 조금 팔아 현금을 다시 채워요. <b>0년</b>이면 '전부 주식'과 같아요.</p>
+     </div>
+    </div>
+
+    <div class="field" style="margin-bottom:6px">
+     <label>⑩ 시장 순서 <span style="color:var(--mut);font-weight:600">— 같은 수익률을 '어떤 순서'로 만나느냐</span></label>
+     <div class="seg" id="seqSeg">
+      <button data-v="bad">나쁜 초반<small>은퇴 직후 폭락</small></button>
+      <button class="on" data-v="calm">잔잔<small>고르게 출렁</small></button>
+      <button data-v="good">좋은 초반<small>초반 강세</small></button>
+     </div>
+     <p class="hint">👉 <b>'나쁜 초반(은퇴 직후 폭락)'</b>으로 바꿔보세요. 버킷이 막아준다는 <b>바로 그 상황</b>인데… 결과가 통념과 다를 수 있어요.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- RESULT: 버킷 vs 비례 -->
+<section class="blk" id="result" style="padding-top:0">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">정직한 결과</span>
+  <h2 class="tool-h1" style="font-size:clamp(23px,3.4vw,32px)">같은 배분에서, <span class="grad">버킷이 더 남길까요?</span></h2>
+  <p class="lead" style="margin-bottom:22px">현금 비중이 같으니 '현금 드래그'는 양쪽 똑같아요. 차이는 오직 <b>폭락장에 주식을 파느냐 마느냐</b> 하나예요. 그 순수한 효과만 떼어내 봤어요.</p>
+
+  <div class="recoband" id="reco">
+   <div class="crown" id="recoCrown">🤝</div>
+   <div class="rt">
+    <div class="k" id="recoK">이 조건에서는</div>
+    <div class="g" id="recoG">불러오는 중…</div>
+    <p id="recoP"></p>
+   </div>
+  </div>
+
+  <div class="scards2">
+   <div class="scard sa" id="cardBucket">
+    <div class="sn">🪣 현금 버킷</div>
+    <div class="sd">현금에서 먼저 빼고, 폭락장엔 주식 안 팖 · 오른 해에 리필</div>
+    <div class="sbig" id="bkBig">—</div>
+    <div class="sbl" id="bkBl">기대수명 잔액</div>
+    <div class="sbadge ok" id="bkBadge">—</div>
+    <div class="srow"><span>안 판 해(보호)</span><b id="bkProtect">—</b></div>
+    <div class="srow"><span>현금 고갈로 강제 매도</span><b id="bkForced">—</b></div>
+   </div>
+   <div class="scard sb" id="cardProp">
+    <div class="sn">⚖️ 그냥 비례로 빼기</div>
+    <div class="sd">같은 배분 · 매년 현재 비중대로 인출(폭락장에도 주식 일부 매도)</div>
+    <div class="sbig" id="ppBig">—</div>
+    <div class="sbl" id="ppBl">기대수명 잔액</div>
+    <div class="sbadge ok" id="ppBadge">—</div>
+    <div class="srow"><span>특별한 규칙</span><b>없음 (단순)</b></div>
+    <div class="srow"><span>관리 부담</span><b>가장 낮음</b></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- FLOW: 두 버킷 흐름 -->
+<section class="blk" id="flow" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="panel">
+   <div class="panelhd">🌊 두 버킷이 차고 빠지는 흐름</div>
+   <p class="panelsub">아래는 <b>버킷 전략</b>의 자산이 해마다 어떻게 움직이는지예요. 아래쪽 <b style="color:var(--sage)">현금</b>에서 생활비가 빠지고, 위쪽 <b style="color:var(--lav)">주식</b>은 시장 따라 출렁여요.</p>
+   <div class="chartwrap" style="margin-top:18px">
+    <div class="ch"><b>버킷 자산 구성 (은퇴 → 기대수명)</b><span id="flowNote">—</span></div>
+    <div class="chartbox">
+     <svg id="flowChart" viewBox="0 0 720 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="현금·주식 버킷 흐름 그래프"></svg>
+    </div>
+    <div class="clegend">
+     <span><i class="sw" style="background:var(--lav);opacity:.55"></i>주식 버킷</span>
+     <span><i class="sw" style="background:var(--sage);opacity:.6"></i>현금 버킷</span>
+     <span><i class="sw dot" style="background:var(--sage)"></i>🛡️ 보호(폭락장 안 팖)</span>
+     <span><i class="sw dot" style="background:var(--lav)"></i>↻ 리필(오른 해)</span>
+     <span><i class="sw dot" style="background:var(--up)"></i>⚠️ 강제 매도(현금 고갈)</span>
+    </div>
+    <div class="evstrip" id="evstrip"></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- PROTECT: 진짜 혜택 -->
+<section class="blk" id="protect" style="padding-top:0">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">버킷이 진짜 주는 것</span>
+  <h2 class="tool-h1" style="font-size:clamp(23px,3.4vw,32px)">수익이 아니라 <span class="grad">'안 팔아도 됐던 횟수'</span></h2>
+  <p class="lead" style="margin-bottom:22px">버킷이 더 벌어주진 않았지만, 분명 해준 게 있어요 — <b>폭락한 해에 손해 본 주식을 팔지 않고</b> 현금으로 버틴 횟수. 이게 버킷이 주는 진짜 가치예요. 돈이 아니라 <b>마음</b>이요.</p>
+
+  <div class="protectbox">
+   <div class="pn">🛡️ 폭락장에 주식을 안 팔고 버틴 해</div>
+   <div class="pbig"><span id="protectBig">0</span><small>번</small></div>
+   <p class="psub" id="protectSub">현금 버킷 덕분에 손해 난 주식을 <b>억지로 팔지 않아도</b> 됐던 해예요.</p>
+   <div class="pmini">
+    <div><div class="pmv" id="forcedV" style="color:var(--up)">0번</div><div class="pml">현금이 바닥나 어쩔 수 없이 주식을 판 해</div></div>
+    <div><div class="pmv" id="refillV" style="color:var(--lav)">0번</div><div class="pml">시장이 오른 해에 주식을 팔아 현금을 채운 해</div></div>
+   </div>
+  </div>
+
+  <div class="bucket" style="margin-top:18px">
+   <h5>💡 그래서 버킷은 '마법'이 아니라 '습관'이에요</h5>
+   <p id="protectMsg">폭락장에 안 파는 게 마음은 편하지만, <b>오른 해에 리필하느라 회복 중인 주식을 도로 파는</b> 비용이 그 이득을 상쇄해요. 그래서 수익은 무승부가 돼요. 버킷의 값어치는 '못 참고 다 팔아버리는 실수'를 막아주는 데 있어요.</p>
+  </div>
+ </div>
+</section>
+
+<!-- TRADEOFF: 정직한 맞바꿈 -->
+<section class="blk" style="padding-top:0">
+ <div class="wrap reveal">
+  <span class="s-eyebrow">정직한 맞바꿈</span>
+  <h2 class="tool-h1" style="font-size:clamp(23px,3.4vw,32px)">공짜는 없어요 — <span class="grad">버킷은 '보험'</span></h2>
+  <p class="lead" style="margin-bottom:22px">버킷을 쓸지 말지는 '얼마나 더 버나'가 아니라 '얼마나 마음이 편한가'로 정하는 게 정직해요. 세 장면을 같이 봐요.</p>
+
+  <div class="tcards">
+   <div class="tcard t1">
+    <div class="th">🌤️ 잔잔·좋은 장에선</div>
+    <div class="tbig" id="tCalm">—</div>
+    <p>시장이 무난하면 현금이 시장 수익(주식)보다 덜 굴러서, 버킷이 비례보다 <b>살짝 손해</b>예요(현금 드래그).</p>
+   </div>
+   <div class="tcard t2">
+    <div class="th">🌧️ 폭락 초반에도</div>
+    <div class="tbig" id="tBad">—</div>
+    <p>가장 도움돼야 할 '은퇴 직후 폭락'에서도 <b>무승부~소폭</b>. 오른 해 리필이 회복 중 주식을 도로 팔아버리거든요.</p>
+   </div>
+   <div class="tcard t3">
+    <div class="th">🪣 적정 크기는</div>
+    <div class="tbig">2~3년치</div>
+    <p>너무 크면 현금 드래그로 손해, 너무 작으면 폭락장에 무방비. <b>2~3년치</b>가 마음 편함 대비 비용이 가장 적어요.</p>
+   </div>
+  </div>
+
+  <div class="bucket">
+   <h5>🪣 그래서 우리 결론</h5>
+   <p>버킷은 <b>더 버는 마법이 아니라, 폭락장에 안 팔고 버티게 해주는 보험</b>이에요. 보험엔 비용(현금 드래그)이 있고요. "버킷이 무조건 이긴다"는 말은 우리 시뮬이 스스로 반박했어요 — 그래서 우린 <b>정직하게</b> 알려드려요. 진짜 중요한 건 폭락장에 <b>패닉으로 다 팔지 않는 것</b>이고, 버킷은 그걸 자동으로 도와줄 뿐이에요.</p>
+  </div>
+ </div>
+</section>
+
+<!-- SAVE + LOCK -->
+<section class="blk" id="lock" style="padding-top:0">
+ <div class="wrap reveal">
+
+  <div class="savebox">
+   <div class="sh">💾 우리 시나리오 저장</div>
+   <div class="ss">조건을 이름 붙여 저장해요. 기기(브라우저)에만 저장되고 서버로 보내지 않아요.</div>
+   <div class="saverow">
+    <input id="saveName" type="text" placeholder="예: 5억 3년버킷 폭락초반" maxlength="28">
+    <button class="btn btn-rose" id="saveBtn">저장</button>
+   </div>
+   <div class="savelist" id="saveList"></div>
+  </div>
+
+  <div class="lock">
+   <div class="lk">프리미엄 — PRO</div>
+   <h3>버킷을 '진짜 내 계좌'로, 매년 자동으로 점검해 드려요</h3>
+   <p>이 도구는 가정으로 굴려본 교육용이에요. 부부연구소 구독에선 한 걸음 더 들어가요.</p>
+   <div class="lkfeat">
+    <div>🔗 <b>실제 계좌·연금 연동</b>으로 지금 현금/주식 비중 자동 점검</div>
+    <div>👫 <b>부부 합산 버킷</b> — 둘의 현금·주식을 한 화면에서</div>
+    <div>🔔 <b>리필·보충 알림</b> — 오른 해엔 채우고, 현금 떨어지면 콕</div>
+    <div>📊 <b>실제 시장 백테스트</b> — 우리 가정 말고 진짜 과거로 검증</div>
+   </div>
+   <a class="btn" href="/moneyletter-landing">머니레터 구독 미리보기 →</a>
+  </div>
+
+  <div style="margin-top:34px">
+   <span class="s-eyebrow">왜 그래도 버킷을 쓰나</span>
+   <div class="whygrid" style="margin-top:16px">
+    <div class="whyc">
+     <div class="wi">🧘</div>
+     <h4>이유는 '돈'이 아니라 '행동'이에요</h4>
+     <p>학계(Estrada 2019)도 "버킷은 수익이 더 낫진 않고, 가치는 <b>심리적 안심</b>에 있다"고 봐요. 폭락장에 '현금 2년치 있으니 괜찮아' 하며 <b>안 파는 것</b>, 그게 핵심이에요.</p>
+    </div>
+    <div class="whyc">
+     <div class="wi">🤖</div>
+     <h4>'자동화된 규칙'이라 흔들림이 적어요</h4>
+     <p>현금에서 먼저 빼고 오른 해에만 리필하는 규칙은 <b>감정을 끼우지 않아요</b>. 무난한 장에선 살짝 손해지만, '못 참고 다 던지는 진짜 큰 실수'를 막아주는 값으로 보면 충분히 쓸 만해요.</p>
+    </div>
+   </div>
+  </div>
+
+  <details class="calcm">
+   <summary>계산 방법 — 정직하게 공개해요</summary>
+   <div class="cm-body">
+    · <b>공정 비교</b>: 흔한 비교는 '버킷 vs 전부 주식'이라 현금 비중만큼 덜 위험한 게 당연히 섞여요. 우리는 <b>같은 현금:주식 배분</b>에서 '버킷(현금 먼저)'과 '비례 인출(비중대로)'만 비교해, <b>폭락장에 주식을 파느냐 마느냐</b>의 순수 효과만 떼어냈어요.<br>
+    · <b>시장 만들기</b>: 평균이 정확히 입력한 기대수익률이 되는 진동 수익열을 만들고, <b>같은 수익률 묶음의 순서만</b> 바꿔(나쁜 초반/잔잔/좋은 초반) 시퀀스 리스크를 봐요. 난수가 아니라 <code>결정론</code>이라 같은 입력=같은 결과예요.<br>
+    · <b>버킷 규칙</b>: 생활비는 현금에서 먼저(<code>cash≥W</code>면 현금에서, 모자라면 주식 매도=강제). 오른 해(<code>수익률≥0</code>)에 목표 현금(<code>K년치</code>)까지 주식을 팔아 리필. <b>비례</b>는 매년 현재 비중대로 인출.<br>
+    · <b>한계</b>: 단일 가정의 결정론 시뮬이에요. 세금·수수료·실제 수익 분포·리밸런싱 변형은 단순화했어요. 방향(무승부·현금 드래그)은 여러 조합에서 견고했지만, 정확한 금액은 가정에 따라 달라져요.
+   </div>
+  </details>
+
+  <div class="disc">
+   <b>· 이 도구는 투자 권유가 아니에요.</b> 특정 상품·전략을 추천하지 않고, 버킷 전략의 '구조'를 정직하게 보여주는 교육용이에요.<br>
+   <b>· 언론에서 보던 것과 다를 수 있어요.</b> 버킷을 '시퀀스 리스크 방어책'으로 소개하는 기사가 많지만(현금 비중↑=변동성↓는 맞아요), '같은 배분 대비 더 번다'로 읽히면 과장이에요. 우리가 직접 굴려본 정직한 결과를 우선했어요.<br>
+   <b>· 실제 결정 전에는</b> 본인 상황(세금·건강·연금·소득)을 반영해 전문가와 상의하세요. 입력값은 기기에만 저장돼요.
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="fwrap">
+  <div class="flogo"><span class="dot"></span>부부연구소</div>
+  <p class="ftnote">© 2026 부부연구소(동은부부) · 본 계산기는 교육용 참고 자료이며 투자 권유나 수익 보장이 아닙니다. 실제 수익률·세금·물가는 가정과 다를 수 있습니다. 입력값은 외부로 전송되지 않고 사용자의 브라우저에만 저장됩니다.</p>
+ </div>
+</footer>

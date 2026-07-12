@@ -1,0 +1,421 @@
+<!-- [도구_노후은퇴자금Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+
+/* ---------- format helpers (everything in 만원) ---------- */
+function fmtMan(m){ // 만원 -> 읽기 좋은 한국어
+ m=Math.round(m);
+ if(!isFinite(m))return "–";
+ var neg=m<0; m=Math.abs(m);
+ var s;
+ if(m>=10000){
+  var eok=Math.floor(m/10000), rem=m%10000;
+  s=eok+"억"+(rem>0?" "+rem.toLocaleString()+"만":"");
+ } else {
+  s=m.toLocaleString()+"만";
+ }
+ return (neg?"−":"")+s+"원";
+}
+function fmtManShort(m){ // 짧게 (억 단위 소수)
+ m=Math.round(m);
+ if(!isFinite(m))return "–";
+ var neg=m<0; m=Math.abs(m);
+ var s;
+ if(m>=10000){ s=(m/10000).toFixed(m>=100000?0:1).replace(/\.0$/,"")+"억"; }
+ else { s=m.toLocaleString()+"만"; }
+ return (neg?"−":"")+s;
+}
+
+/* ---------- core finance ---------- */
+// accumulation future value at retirement (ordinary annuity, monthly)
+function fvAccum(seed,pmt,iaMonthly,mAcc){
+ var f;
+ if(Math.abs(iaMonthly)<1e-12){ f=seed+pmt*mAcc; }
+ else { var g=Math.pow(1+iaMonthly,mAcc); f=seed*g+pmt*((g-1)/iaMonthly); }
+ return f;
+}
+// PV factor per 1 unit of monthly pmt (for lever inversion)
+function annuityFactor(iaMonthly,mAcc){
+ if(Math.abs(iaMonthly)<1e-12) return mAcc;
+ return (Math.pow(1+iaMonthly,mAcc)-1)/iaMonthly;
+}
+// growing annuity PV at retirement: first withdrawal P1 (end of first retire month), grows by q/mo, discount r/mo, M months
+function pvNeed(P1,q,r,M){
+ if(M<=0||P1<=0) return Math.max(0,0);
+ var x=(1+q)/(1+r);
+ if(Math.abs(r-q)<1e-9){ return P1*M/(1+r); }
+ return P1*(1-Math.pow(x,M))/(r-q);
+}
+
+/* ---------- read inputs ---------- */
+function readState(){
+ var ageNow=clampInt($("inAgeNow").value,25,62,40);
+ var ageRet=clampInt($("inAgeRet").value,50,75,60);
+ var ageEnd=clampInt($("inAgeEnd").value,78,100,90);
+ if(ageRet<=ageNow) ageRet=ageNow+1;
+ if(ageEnd<=ageRet) ageEnd=ageRet+1;
+ var seed=clampNum($("inSeed").value,0,2000000,5000);
+ var pmt=clampNum($("inPmt").value,0,100000,80);
+ var rAcc=segVal("segRacc",6);
+ var rDec=segVal("segRdec",4);
+ var infl=segVal("segInfl",2.5);
+ var spend=clampNum($("inSpend").value,0,100000,298);
+ var pension=clampNum($("inPension").value,0,100000,120);
+ return {ageNow:ageNow,ageRet:ageRet,ageEnd:ageEnd,seed:seed,pmt:pmt,rAcc:rAcc,rDec:rDec,infl:infl,spend:spend,pension:pension};
+}
+function clampInt(v,lo,hi,dflt){ v=parseInt(v,10); if(isNaN(v))v=dflt; return Math.max(lo,Math.min(hi,v)); }
+function clampNum(v,lo,hi,dflt){ v=parseFloat(String(v).replace(/[, ]/g,"")); if(isNaN(v))v=dflt; return Math.max(lo,Math.min(hi,v)); }
+function segVal(id,dflt){ var on=$(id).querySelector("button.on"); return on?parseFloat(on.dataset.v):dflt; }
+
+/* ---------- compute everything ---------- */
+function compute(st){
+ var nAcc=st.ageRet-st.ageNow, mAcc=nAcc*12;
+ var nDec=st.ageEnd-st.ageRet, mDec=nDec*12;
+ var ia=st.rAcc/100/12, id=st.rDec/100/12;
+ var q=Math.pow(1+st.infl/100,1/12)-1;
+ var inflAcc=Math.pow(1+st.infl/100,nAcc);
+ var netToday=Math.max(0,st.spend-st.pension); // 만원/월 (today)
+ var P1=netToday*inflAcc; // 만원/월 at retirement (first withdrawal)
+
+ var have=fvAccum(st.seed,st.pmt,ia,mAcc);
+ var need=pvNeed(P1,q,id,mDec);
+ var gap=need-have; // >0 부족
+
+ // curve: monthly sim using have as starting decumulation balance
+ var sim=simBalance(st.seed,st.pmt,ia,mAcc,P1,q,id,mDec);
+
+ return {st:st,nAcc:nAcc,mAcc:mAcc,nDec:nDec,mDec:mDec,ia:ia,id:id,q:q,
+  netToday:netToday,P1:P1,have:have,need:need,gap:gap,
+  contrib:st.seed+st.pmt*mAcc, sim:sim,
+  annF:annuityFactor(ia,mAcc), inflAcc:inflAcc};
+}
+// returns yearly points, depletion month (-1 none), end balance
+function simBalance(seed,pmt,ia,mAcc,P1,q,id,mDec){
+ var bal=seed, pts=[{m:0,bal:seed}], depl=-1;
+ for(var t=1;t<=mAcc;t++){ bal=bal*(1+ia)+pmt; if(t%12===0)pts.push({m:t,bal:bal}); }
+ var peak=bal;
+ for(var k=1;k<=mDec;k++){
+  var w=P1*Math.pow(1+q,k-1);
+  bal=bal*(1+id)-w;
+  if(bal<=0&&depl<0){ depl=mAcc+k; }
+  if((mAcc+k)%12===0)pts.push({m:mAcc+k,bal:Math.max(bal,0)});
+ }
+ return {pts:pts,deplMonth:depl,endBal:bal,peak:peak};
+}
+
+/* ---------- levers ---------- */
+function leverPmt(R){ // extra monthly pmt to reach need
+ if(R.gap<=0) return 0;
+ if(R.annF<=0) return Infinity;
+ return R.gap/R.annF; // 만원/월
+}
+function leverDelay(R){ // min extra years of work so gap<=0; -1 if none up to age 75
+ var st=R.st;
+ for(var d=1; st.ageRet+d<=75 && d<=R.nDec; d++){
+  var nAcc=R.nAcc+d, mAcc=nAcc*12;
+  var nDec=R.nDec-d, mDec=nDec*12;
+  var inflAcc=Math.pow(1+st.infl/100,nAcc);
+  var P1=R.netToday*inflAcc;
+  var have=fvAccum(st.seed,st.pmt,R.ia,mAcc);
+  var need=pvNeed(P1,R.q,R.id,mDec);
+  if(need-have<=1e-6) return d;
+ }
+ return -1;
+}
+function leverSpend(R){ // max desired monthly spend (today) so have>=need; returns 만원/월 spend (incl pension)
+ if(R.need<=0) return R.st.spend;
+ var ratio=R.have/R.need; // <1 if shortfall
+ var newNet=R.netToday*ratio;
+ return newNet+R.st.pension;
+}
+
+/* ---------- countup ---------- */
+function countUp(el,target,fmt,dur){
+ if(el._raf)cancelAnimationFrame(el._raf);
+ var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var from=el._cv||0; var start=null; dur=reduce?0:(dur||900);
+ if(dur===0){ el._cv=target; el.textContent=fmt(target); return; }
+ function step(ts){ if(start===null)start=ts; var p=Math.min(1,(ts-start)/dur); var e=1-Math.pow(1-p,3);
+  var cur=from+(target-from)*e; el.textContent=fmt(cur); if(p<1){el._raf=requestAnimationFrame(step);}else{el._cv=target;el.textContent=fmt(target);} }
+ el._raf=requestAnimationFrame(step);
+}
+
+/* ---------- render ---------- */
+var booted=false;
+function render(){
+ var st=readState();
+ // sync slider value labels & chips
+ $("vAgeNow").textContent=st.ageNow; $("vAgeRet").textContent=st.ageRet; $("vAgeEnd").textContent=st.ageEnd;
+ syncChips("chAgeRet",st.ageRet); syncChips("chSeed",st.seed); syncChips("chPmt",st.pmt);
+ syncChips("chSpend",st.spend); syncChips("chPension",st.pension);
+
+ var R=compute(st);
+
+ // KPIs
+ countUp($("kpToRet"),R.nAcc,function(v){return Math.round(v)+"년";},700);
+ countUp($("kpDec"),R.nDec,function(v){return Math.round(v)+"년";},700);
+ var deplAge = R.sim.deplMonth>0 ? (st.ageNow+R.sim.deplMonth/12) : null; // deplMonth=오늘나이부터의 누적 개월(적립기간 포함) → 오늘나이+개월/12
+ if(R.gap>0 && deplAge!==null){
+  $("kpDepl").textContent=Math.floor(deplAge)+"세";
+  $("kpDepl").style.color="var(--up)";
+  $("kpDeplS").textContent="이 나이쯤 바닥나요";
+ } else {
+  $("kpDepl").textContent="평생 든든";
+  $("kpDepl").style.color="var(--sage)";
+  $("kpDeplS").textContent=fmtManShort(Math.max(0,R.sim.endBal))+" 남아요";
+ }
+
+ // reco band
+ var rb=$("recoBand"), shortfall=R.gap>0;
+ if(shortfall){
+  rb.classList.remove("good"); $("recoCrown").textContent="⚠️";
+  $("recoK").textContent="지금 계획이면 노후 자금이 모자라요";
+  $("recoG").textContent="은퇴 시 약 "+fmtMan(R.gap)+"이 부족해요";
+  $("recoP").textContent=(deplAge!==null?"이대로면 약 "+Math.floor(deplAge)+"세쯤 노후 자금이 바닥나요. ":"")+"필요한 "+fmtManShort(R.need)+" 중 "+fmtManShort(R.have)+"만 모여요. 아래 세 가지 길로 메울 수 있어요 — 지금 조금만 당겨도 크게 달라져요.";
+ } else {
+  rb.classList.add("good"); $("recoCrown").textContent="🎉";
+  $("recoK").textContent="지금 계획이면 노후가 든든해요";
+  $("recoG").textContent="은퇴 시 약 "+fmtMan(-R.gap)+" 여유가 생겨요";
+  $("recoP").textContent="필요한 "+fmtManShort(R.need)+"보다 "+fmtManShort(R.have)+"이 더 모여, "+st.ageEnd+"세에도 약 "+fmtManShort(Math.max(0,R.sim.endBal))+"이 남아요. 여유분은 더 이른 은퇴나 더 풍족한 생활비로 돌려도 좋아요.";
+ }
+
+ // graded verdict pill (준비율 = 모일 돈/필요액 · 색맹안전: 이모지+라벨+색 3중)
+ var vEl=$("recoVerdict"), pct=R.need>0?Math.round(R.have/R.need*100):100;
+ var vCls,vLab,vIco;
+ if(pct>=100){vCls="v3";vLab="충분";vIco="🎉";}
+ else if(pct>=80){vCls="v2";vLab="양호";vIco="🌱";}
+ else if(pct>=50){vCls="v1";vLab="주의";vIco="📈";}
+ else {vCls="v0";vLab="부족";vIco="🔥";}
+ vEl.className="verdict "+vCls; vEl.textContent=vIco+" "+vLab+" · 준비율 "+pct+"%"; vEl.hidden=false;
+ vEl.setAttribute("aria-label","노후 준비 진단 "+vLab+", 준비율 "+pct+"퍼센트");
+
+ // compare bars
+ var mx=Math.max(R.have,R.need,1);
+ var seedPart=Math.min(R.contrib,R.have); var gainPart=Math.max(0,R.have-R.contrib);
+ setW($("barSeed"),seedPart/mx*100); setW($("barGain"),gainPart/mx*100); setW($("barNeed"),R.need/mx*100);
+ countUp($("barHaveV"),R.have,fmtManShort,1000);
+ countUp($("barNeedV"),R.need,fmtManShort,1000);
+ var gb=$("gapBadge");
+ if(shortfall){ gb.className="gapbadge"; gb.innerHTML="🎯 은퇴 시 <b>"+fmtMan(R.gap)+"</b> 부족 — 필요액의 "+Math.round(R.have/R.need*100)+"%만 준비돼요."; }
+ else { gb.className="gapbadge good"; gb.innerHTML="🎉 은퇴 시 <b>"+fmtMan(-R.gap)+"</b> 여유 — 필요액의 "+Math.round(R.have/Math.max(R.need,1)*100)+"%가 준비돼요."; }
+
+ // 오늘 가치(real) 환산 — 위 두 금액은 '은퇴하는 해'의 미래 물가 기준이라, 오늘 물가로 되돌려 큰 숫자 공포를 덜어줘요
+ var tv=$("todayVal"), inflA=R.inflAcc;
+ if(isFinite(inflA) && inflA>1.01 && R.need>0){
+  var needT=R.need/inflA, haveT=R.have/inflA, yrs=st.ageRet-st.ageNow;
+  tv.hidden=false;
+  tv.innerHTML="🔎 위 금액은 <b class='tvk'>은퇴하는 해("+st.ageRet+"세)의 미래 물가</b> 기준이에요. <b>오늘 물가</b>로 치면 필요한 돈은 약 <b>"+fmtManShort(needT)+"</b>, 모일 돈은 약 <b>"+fmtManShort(haveT)+"</b>예요 — 물가가 "+yrs+"년 동안 숫자를 약 <b>"+inflA.toFixed(1)+"배</b> 키운 것뿐이라, 큰 숫자에 너무 겁먹지 않아도 돼요.";
+ } else { tv.hidden=true; }
+
+ drawChart(R,deplAge);
+
+ // levers
+ if(shortfall){
+  $("leverSub").innerHTML="각각 <b>하나만</b> 썼을 때 필요액을 채우는 크기예요. 셋을 조금씩 섞으면 부담이 훨씬 가벼워져요.";
+  var ep=leverPmt(R);
+  $("levPmt").textContent="+"+fmtMan(ep)+" / 월";
+  $("levPmtP").innerHTML="지금 月 "+fmtManShort(st.pmt)+"원에 <b>"+fmtManShort(ep)+"원</b>을 더해 月 "+fmtManShort(st.pmt+ep)+"원이면 은퇴 시 필요액을 채워요.";
+  var d=leverDelay(R);
+  if(d>0){ $("levDelay").textContent="+"+d+"년 (→ "+(st.ageRet+d)+"세)"; $("levDelayP").innerHTML="은퇴를 <b>"+d+"년</b> 늦춰 "+(st.ageRet+d)+"세에 그만두면, 더 모으고 덜 꺼내 써서 필요액을 넘겨요."; }
+  else { $("levDelay").textContent="혼자선 부족"; $("levDelayP").innerHTML="75세까지 늦춰도 이 길 <b>하나만으론</b> 부족해요 — 다른 길과 함께 써야 해요."; }
+  var ns=leverSpend(R);
+  $("levSpend").textContent=fmtMan(ns)+" / 월";
+  $("levSpendP").innerHTML="희망 생활비를 月 "+fmtManShort(st.spend)+"원에서 <b>"+fmtManShort(ns)+"원</b>으로 낮추면 지금 모일 돈으로 맞아떨어져요.";
+  // diagnosis
+  $("diagBox").innerHTML="💬 <b>읽어주는 진단:</b> 우리 부부는 은퇴 시 <b>"+fmtMan(R.gap)+"</b>이 모자라요. 가장 현실적인 조합은 보통 <b>'월 조금 더 + 은퇴 살짝 늦추기'</b>예요. 예를 들어 月 "+fmtManShort(ep/2)+"원만 더 모으고 은퇴를 1~2년만 늦춰도, 위 세 숫자가 동시에 작아져요. 완벽한 계획보다 <b>오늘 한 가지를 시작</b>하는 게 중요해요.";
+ } else {
+  $("leverSub").innerHTML="지금도 충분해요! 그래도 여유를 어디에 쓸지 미리 정해두면 좋아요.";
+  var earlier=leverDelayEarly(R);
+  $("levPmt").textContent="여유 "+fmtManShort(-R.gap)+"원";
+  $("levPmtP").innerHTML="필요액을 넘는 만큼은 <b>비상 여유</b>로 두거나, 의료비·여행처럼 노후의 즐거움에 배정해도 좋아요.";
+  if(earlier>0){ $("levDelay").textContent="−"+earlier+"년 일찍 가능"; $("levDelayP").innerHTML="원하면 은퇴를 <b>"+earlier+"년</b> 앞당겨 "+(R.st.ageRet-earlier)+"세에 그만둬도 필요액을 채워요."; }
+  else { $("levDelay").textContent="지금 나이 OK"; $("levDelayP").innerHTML="지금 잡은 "+R.st.ageRet+"세 은퇴가 이미 안전해요."; }
+  var up=leverSpend(R);
+  $("levSpend").textContent="月 "+fmtManShort(up)+"원까지";
+  $("levSpendP").innerHTML="생활비를 月 <b>"+fmtManShort(up)+"원</b>까지 올려도 모일 돈으로 감당돼요(지금 "+fmtManShort(st.spend)+"원).";
+  $("diagBox").innerHTML="💬 <b>읽어주는 진단:</b> 지금 계획이면 "+st.ageEnd+"세에도 약 <b>"+fmtManShort(Math.max(0,R.sim.endBal))+"원</b>이 남아요. 여유가 있다는 건 선택지가 많다는 뜻이에요 — 더 이른 은퇴, 더 풍족한 생활, 자녀 지원 중에 <b>부부가 함께 우선순위</b>를 정해 보세요.";
+ }
+
+ if(!booted){ renderSaveList(); booted=true; }
+}
+function leverDelayEarly(R){ // surplus case: how many years earlier still ok
+ var st=R.st;
+ for(var d=1; st.ageRet-d>st.ageNow && d<=20; d++){
+  var nAcc=R.nAcc-d, mAcc=nAcc*12;
+  var nDec=R.nDec+d, mDec=nDec*12;
+  var inflAcc=Math.pow(1+st.infl/100,nAcc);
+  var P1=R.netToday*inflAcc;
+  var have=fvAccum(st.seed,st.pmt,R.ia,mAcc);
+  var need=pvNeed(P1,R.q,R.id,mDec);
+  if(need-have>1e-6) return d-1;
+ }
+ return 0;
+}
+function setW(el,pct){ el.style.width=Math.max(0,Math.min(100,pct))+"%"; }
+
+/* ---------- chart ---------- */
+function drawChart(R,deplAge){
+ var W=720,H=300,padL=46,padR=18,padT=18,padB=34;
+ var st=R.st;
+ var x0=st.ageNow, x1=st.ageEnd, xs=(W-padL-padR)/(x1-x0);
+ var maxBal=R.sim.peak; for(var i=0;i<R.sim.pts.length;i++)maxBal=Math.max(maxBal,R.sim.pts[i].bal);
+ maxBal=maxBal*1.08||1;
+ var ys=(H-padT-padB)/maxBal;
+ function X(age){return padL+(age-x0)*xs;}
+ function Y(bal){return H-padB-Math.max(0,bal)*ys;}
+
+ // grid
+ var grid="";
+ var yb=H-padB;
+ grid+='<line x1="'+padL+'" y1="'+yb+'" x2="'+(W-padR)+'" y2="'+yb+'" stroke="#E0CFC9" stroke-width="1.5"/>';
+ for(var gx=0;gx<=4;gx++){ var age=x0+(x1-x0)*gx/4; var px=X(age);
+  grid+='<line x1="'+px.toFixed(1)+'" y1="'+padT+'" x2="'+px.toFixed(1)+'" y2="'+yb+'" stroke="#F0E2DD" stroke-width="1"/>';
+  grid+='<text x="'+px.toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#8A7B72">'+Math.round(age)+'세</text>';
+ }
+ // retirement vertical guide
+ var rx=X(st.ageRet);
+ grid+='<line x1="'+rx.toFixed(1)+'" y1="'+padT+'" x2="'+rx.toFixed(1)+'" y2="'+yb+'" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="4 4" opacity=".7"/>';
+ grid+='<text x="'+rx.toFixed(1)+'" y="'+(padT+12)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#C9A84C">은퇴 '+st.ageRet+'세</text>';
+ $("curveGrid").innerHTML=grid;
+
+ // path: build from yearly pts
+ var pts=R.sim.pts, d="";
+ for(var j=0;j<pts.length;j++){ var age=x0+pts[j].m/12; var px=X(age),py=Y(pts[j].bal);
+  d+=(j===0?"M":"L")+px.toFixed(1)+" "+py.toFixed(1)+" "; }
+ // area to baseline
+ var lastAge=x0+pts[pts.length-1].m/12;
+ var area=d+"L"+X(lastAge).toFixed(1)+" "+yb.toFixed(1)+" L"+X(x0).toFixed(1)+" "+yb.toFixed(1)+" Z";
+ var paths='<path d="'+area+'" fill="rgba(156,107,168,.10)" stroke="none"/>';
+ paths+='<path id="curveLine" d="'+d.trim()+'" fill="none" stroke="#9C6BA8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
+ $("curvePaths").innerHTML=paths;
+
+ // marks: peak at retirement + end dot
+ var marks="";
+ var pkX=X(st.ageRet), pkY=Y(R.sim.peak);
+ marks+='<circle cx="'+pkX.toFixed(1)+'" cy="'+pkY.toFixed(1)+'" r="5.5" fill="#C9A84C" stroke="#fff" stroke-width="2"/>';
+ if(R.gap>0 && deplAge!==null && deplAge<=st.ageEnd){
+  var dx=X(deplAge), dy=yb;
+  marks+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="5.5" fill="#D8584E" stroke="#fff" stroke-width="2"/>';
+  marks+='<text x="'+Math.min(dx,W-padR-30).toFixed(1)+'" y="'+(dy-11)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#D8584E">'+Math.floor(deplAge)+'세 소진</text>';
+  $("endDotLbl").textContent="자금 소진 지점"; $("endDotLeg").style.background="var(--up)";
+  $("chartCap").textContent="이 나이쯤 0이 돼요";
+ } else {
+  var ex=X(st.ageEnd), ey=Y(Math.max(0,R.sim.endBal));
+  marks+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="5.5" fill="#5E8C7F" stroke="#fff" stroke-width="2"/>';
+  marks+='<text x="'+Math.min(ex,W-padR-20).toFixed(1)+'" y="'+(ey-11)+'" text-anchor="end" font-size="11" font-weight="800" fill="#5E8C7F">'+fmtManShort(Math.max(0,R.sim.endBal))+' 남음</text>';
+  $("endDotLbl").textContent=st.ageEnd+"세 잔액"; $("endDotLeg").style.background="var(--sage)";
+  $("chartCap").textContent="평생 마르지 않아요";
+ }
+ $("curveMarks").innerHTML=marks;
+
+ // draw animation
+ var line=$("curveLine");
+ if(line&&line.getTotalLength){
+  var L=line.getTotalLength();
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  line.style.strokeDasharray=L; line.style.strokeDashoffset=reduce?0:L;
+  if(!reduce){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ line.style.strokeDashoffset=0; }); }); }
+ }
+
+ // 동적 aria-label — 스크린리더가 현재 결과(은퇴 시 모인 돈·소진 나이/잔존·부족/여유)를 그대로 듣도록 (정적 라벨 위에 갱신)
+ var retEl=$("retChart");
+ if(retEl){
+  var aL="노후 자금 잔액 곡선이에요. "+st.ageNow+"세부터 모아 은퇴하는 "+st.ageRet+"세에 약 "+fmtMan(Math.max(0,R.sim.peak))+"이 모여요. ";
+  if(R.gap>0 && deplAge!==null && deplAge<=st.ageEnd){
+   aL+="그 뒤 생활비로 꺼내 쓰며 줄어, 이대로면 약 "+Math.floor(deplAge)+"세에 잔액이 0이 돼 자금이 바닥나요. 은퇴 시점 기준 약 "+fmtMan(R.gap)+"이 모자라요.";
+  } else {
+   aL+="그 뒤 생활비로 꺼내 써도 "+st.ageEnd+"세에 약 "+fmtMan(Math.max(0,R.sim.endBal))+"이 남아 평생 마르지 않아요. 은퇴 시점 기준 약 "+fmtMan(Math.max(0,-R.gap))+"의 여유가 있어요.";
+  }
+  retEl.setAttribute("aria-label",aL);
+ }
+}
+
+/* ---------- localStorage ---------- */
+var LSKEY="bbRetirePlan_v1";
+function loadStore(){ try{var r=localStorage.getItem(LSKEY);return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveStore(a){ try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){} }
+function renderSaveList(){
+ var a=loadStore(), box=$("saveList");
+ if(!a.length){ box.innerHTML='<div class="saveempty">아직 저장한 계획이 없어요. 가정을 바꿔 가며 비교해 보세요.</div>'; return; }
+ var h="";
+ for(var i=0;i<a.length;i++){ var p=a[i];
+  h+='<div class="saveitem"><span class="si-n">'+escapeHtml(p.name)+'</span><span class="si-d">'+p.st.ageRet+'세 은퇴 · 月'+fmtManShort(p.st.pmt)+'</span>'
+   +'<button class="si-load" data-i="'+i+'">불러오기</button><button class="si-del" data-i="'+i+'">삭제</button></div>';
+ }
+ box.innerHTML=h;
+ box.querySelectorAll(".si-load").forEach(function(b){b.addEventListener("click",function(){applyState(a[+b.dataset.i].st);});});
+ box.querySelectorAll(".si-del").forEach(function(b){b.addEventListener("click",function(){var x=loadStore();x.splice(+b.dataset.i,1);saveStore(x);renderSaveList();});});
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function applyState(st){
+ $("inAgeNow").value=st.ageNow; $("inAgeRet").value=st.ageRet; $("inAgeEnd").value=st.ageEnd;
+ $("inSeed").value=st.seed; $("inPmt").value=st.pmt; $("inSpend").value=st.spend; $("inPension").value=st.pension;
+ setSeg("segRacc",st.rAcc); setSeg("segRdec",st.rDec); setSeg("segInfl",st.infl);
+ render();
+ document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function setSeg(id,v){ $(id).querySelectorAll("button").forEach(function(b){ b.classList.toggle("on",parseFloat(b.dataset.v)===parseFloat(v)); }); }
+
+/* ---------- chips/seg wiring ---------- */
+function syncChips(wrapId,val){
+ var w=$(wrapId); if(!w)return;
+ w.querySelectorAll(".chip").forEach(function(c){ c.classList.toggle("on",parseFloat(c.dataset.v)===parseFloat(val)); });
+}
+function wireChips(wrapId,inputId){
+ $(wrapId).querySelectorAll(".chip").forEach(function(c){
+  c.addEventListener("click",function(){ $(inputId).value=c.dataset.v; render(); });
+ });
+}
+
+/* ---------- wire all controls ---------- */
+["inAgeNow","inAgeRet","inAgeEnd","inSeed","inPmt","inSpend","inPension"].forEach(function(id){
+ var el=$(id); if(el) el.addEventListener("input",render);
+});
+wireChips("chAgeRet","inAgeRet");
+wireChips("chSeed","inSeed");
+wireChips("chPmt","inPmt");
+wireChips("chSpend","inSpend");
+wireChips("chPension","inPension");
+["segRacc","segRdec","segInfl"].forEach(function(id){
+ var w=$(id); if(!w)return;
+ w.querySelectorAll("button").forEach(function(b){
+  b.addEventListener("click",function(){ setSeg(id,b.dataset.v); render(); });
+ });
+});
+var _sb=$("saveBtn");
+if(_sb) _sb.addEventListener("click",function(){
+ var nm=($("saveName").value||"").trim()||("내 계획 "+(loadStore().length+1));
+ var a=loadStore(); a.unshift({name:nm,st:readState()}); saveStore(a);
+ $("saveName").value=""; renderSaveList();
+});
+
+render();
+renderSaveList();
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

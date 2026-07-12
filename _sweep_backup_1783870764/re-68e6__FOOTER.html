@@ -1,0 +1,83 @@
+<!-- [콘텐츠_부동산_세금기초_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+ "use strict";
+ var doc=document;
+
+ /* 죽은 크롬 onScroll 제거(개선37): #hd 더미·숨김 readbar 갱신뿐이었음 — 진행바·toTop은 하단 pagedynjs 단독 생성 */
+
+ // reveal (with no-IO fallback)
+ var rev=doc.querySelectorAll('.reveal');
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+   es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  rev.forEach(function(el){ io.observe(el); });
+ } else {
+  rev.forEach(function(el){ el.classList.add('in'); });
+ }
+
+ // self-check gauge
+ var list=doc.getElementById('cklist');
+ var arc=doc.getElementById('garc');
+ var pct=doc.getElementById('gpct');
+ var gtitle=doc.getElementById('gtitle');
+ var gdesc=doc.getElementById('gdesc');
+ var resetBtn=doc.getElementById('resetBtn');
+ var boxes=list?list.querySelectorAll('input[type=checkbox]'):[];
+ var TOTAL=boxes.length;          // 6
+ var CIRC=2*Math.PI*46;           // 289.027...
+ if(arc){ arc.setAttribute('stroke-dasharray',CIRC.toFixed(2)); arc.setAttribute('stroke-dashoffset',CIRC.toFixed(2)); }
+
+ function essentialDone(){
+  var ok=true;
+  boxes.forEach(function(b){ if(b.getAttribute('data-ess')==='1' && !b.checked) ok=false; });
+  return ok;
+ }
+ function render(){
+  var n=0;
+  boxes.forEach(function(b){
+   if(b.checked) n++;
+   var row=b.closest('.ck'); if(row){ if(b.checked) row.classList.add('on'); else row.classList.remove('on'); }
+  });
+  var ratio=TOTAL?(n/TOTAL):0;
+  if(arc){ arc.style.strokeDashoffset=(CIRC*(1-ratio)).toFixed(2); }
+  if(pct){ pct.textContent=n; }
+  var col, t, d;
+  if(n===0){ col='var(--mut)'; t='시작해 볼까요'; d='핵심 요건부터 체크해 보세요.'; }
+  else if(!essentialDone()){ col='var(--warn)'; t='필수 요건 확인 필요'; d='빨간 ‘필수’ 항목이 비어 있어요. 비과세의 기본 조건이에요.'; }
+  else if(n<TOTAL){ col='var(--lav)'; t='기본 요건은 충족'; d='필수 요건은 채웠어요. 남은 항목은 개별 사정 확인용이에요.'; }
+  else { col='var(--safe)'; t='요건 대부분 충족 👍'; d='기본 틀은 갖춰졌어요. 단, 최종 비과세 판정은 세무 상담으로 확인하세요.'; }
+  if(arc){ arc.style.stroke=col; }
+  if(gtitle){ gtitle.style.color=col; gtitle.textContent=t; }
+  if(gdesc){ gdesc.textContent=d; }
+ }
+ boxes.forEach(function(b){ b.addEventListener('change',render); });
+ if(resetBtn){ resetBtn.addEventListener('click',function(){ boxes.forEach(function(b){ b.checked=false; }); render(); }); }
+ render();
+})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>

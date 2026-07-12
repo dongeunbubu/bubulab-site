@@ -1,0 +1,136 @@
+<!-- [구독레포트_우라늄핵연료3사_2026-06] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 4개) -->
+<script>
+(function(){
+ var prog=document.getElementById('prog'),hdr=document.getElementById('hdr'),toTop=document.getElementById('toTop');
+ function onScroll(){
+  var st=window.pageYOffset||document.documentElement.scrollTop;
+  var h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog)prog.style.width=(h>0?(st/h*100):0)+'%';
+  if(hdr)hdr.classList.toggle('scrolled',st>8);
+  if(toTop)toTop.classList.toggle('on',st>520);
+ }
+ window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+ if(toTop)toTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+
+ var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+ function countUp(el){
+  var to=parseFloat(el.getAttribute('data-to'));if(isNaN(to))return;
+  var pre=el.getAttribute('data-pre')||'',suf=el.getAttribute('data-suf')||'';
+  var abs=el.getAttribute('data-abs')==='1';
+  var dec=(Math.abs(to)%1!==0)?1:0;
+  if(reduce){el.textContent=pre+(abs?Math.abs(to):to).toFixed(dec)+suf;return;}
+  var t0=null,dur=1100,from=0;
+  function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);
+   var val=from+(to-from)*e;var show=abs?Math.abs(val):val;
+   el.textContent=pre+show.toFixed(dec)+suf;if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+ }
+
+ var io=new IntersectionObserver(function(es){
+  es.forEach(function(en){
+   if(!en.isIntersecting)return;var t=en.target;
+   t.classList.add('in');
+   t.querySelectorAll('[data-to]').forEach(countUp);
+   t.querySelectorAll('.vbar[data-h]').forEach(function(b){b.style.height=b.getAttribute('data-h')+'%';});
+   t.querySelectorAll('.bt i[data-w]').forEach(function(b){b.style.width=b.getAttribute('data-w')+'%';});
+   io.unobserve(t);
+  });
+ },{threshold:.18});
+
+ document.querySelectorAll('.reveal,.stag,.chartcard,.modelcard').forEach(function(el){io.observe(el);});
+ document.querySelectorAll('.hstat [data-to]').forEach(countUp);
+ document.querySelectorAll('.coin [data-to]').forEach(function(el){setTimeout(function(){countUp(el)},250)});
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*fxkrw*//*fxkrw-v2*/
+(function(){
+  if(document.documentElement.getAttribute('data-fxk'))return;
+  document.documentElement.setAttribute('data-fxk','1');
+  var FALLBACK=1525, rate=FALLBACK, live=false;
+  try{var _c=JSON.parse(sessionStorage.getItem('bblfx')||'0');if(_c&&_c.r&&(Date.now()-_c.t)<43200000){rate=_c.r;live=true;}}catch(e){}
+  function f(x){return x>=100?Math.round(x).toLocaleString('ko-KR'):(Math.round(x*10)/10).toLocaleString('ko-KR');}
+  function fmt(won){
+    if(won>=1e12)return f(won/1e12)+'조원';
+    if(won>=1e8)return f(won/1e8)+'억원';
+    if(won>=1e4)return f(won/1e4)+'만원';
+    return Math.round(won).toLocaleString('ko-KR')+'원';
+  }
+  var MU={'십억':1e9,'백만':1e6,'조':1e12,'억':1e8,'만':1e4,'bn':1e9,'mn':1e6,'B':1e9,'M':1e6,'T':1e12};
+  var RE=/\$([0-9][0-9,]*(?:\.[0-9]+)?)(십억|백만|조|억|만|bn|mn|B|M|T)?/;
+  function mag(str,suf){var n=parseFloat(str.replace(/,/g,''));return n*(suf&&MU[suf]?MU[suf]:1);}
+  function wrap(){
+    var sk={SCRIPT:1,STYLE:1,NOSCRIPT:1,TEXTAREA:1};
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(node){
+      if(!node.nodeValue||node.nodeValue.indexOf('$')<0)return 2;
+      var p=node.parentNode;
+      while(p&&p!==document.body){
+        if(sk[p.nodeName])return 2;
+        var c=p.className?(''+p.className):'';
+        if(c.indexOf('fxk')>=0||c.indexOf('fxbadge')>=0)return 2;
+        p=p.parentNode;
+      }
+      return RE.test(node.nodeValue)?1:2;
+    }});
+    var nodes=[],n;while(n=w.nextNode())nodes.push(n);
+    var G=new RegExp(RE.source,'g');
+    nodes.forEach(function(node){
+      var txt=node.nodeValue, frag=document.createDocumentFragment(), last=0, m; G.lastIndex=0;
+      while(m=G.exec(txt)){
+        frag.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));
+        var usd=mag(m[1],m[2]);
+        var sp=document.createElement('span'); sp.className='fxk'; sp.setAttribute('data-usd',usd);
+        sp.textContent='(약 '+fmt(usd*rate)+')';
+        frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    });
+  }
+  function apply(){
+    var els=document.querySelectorAll('.fxk[data-usd]');
+    for(var i=0;i<els.length;i++){var u=parseFloat(els[i].getAttribute('data-usd'));els[i].textContent='(약 '+fmt(u*rate)+')';}
+    var b=document.getElementById('fxbadge');
+    if(b){b.querySelector('.rt').textContent='$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원';
+          b.querySelector('.lb').textContent=live?'실시간':'기준';}
+  }
+  function badge(){
+    var d=document.createElement('div'); d.id='fxbadge'; d.className='fxbadge';
+    d.innerHTML='<span class="dot"></span><span class="rt">$1 = '+Math.round(rate).toLocaleString('ko-KR')+'원</span><span class="lb">기준</span>';
+    document.body.appendChild(d);
+  }
+  function start(){
+    wrap(); badge();
+    try{fetch('https://api.frankfurter.dev/v1/latest?from=USD&to=KRW')
+      .then(function(r){return r.json();})
+      .then(function(j){if(j&&j.rates&&j.rates.KRW){rate=j.rates.KRW;live=true;apply();try{sessionStorage.setItem('bblfx',JSON.stringify({r:rate,t:Date.now()}))}catch(e){}}})
+      .catch(function(){});}catch(e){}
+  }
+  if(document.readyState!=='loading')start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>

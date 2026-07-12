@@ -1,0 +1,93 @@
+<!-- [구독_완료_웰컴카드_v2] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{--bg:#FDFBF7;--bg2:#FBF3EE;--ink:#3E2F29;--ink2:#5C4B43;--mut:#8A7B72;
+--pink:#D67A89;--pinkSoft:#F8E8EA;--pinkSoft2:#FCEEF1;--border:#EAD7D3;--rose:#B85060;--sage:#5E8C7F;--lav:#9C6BA8;
+--cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+--cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+--lift:0 1px 2px rgba(62,47,41,.04),0 6px 14px rgba(190,80,96,.07),0 22px 48px rgba(190,80,96,.12);
+--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.page{max-width:600px;margin:0 auto;padding:clamp(20px,5vw,44px) clamp(16px,4vw,34px) 48px;min-height:100vh;position:relative;overflow:hidden}
+.page::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(440px 280px at 90% -6%,var(--pinkSoft) 0%,transparent 62%),radial-gradient(380px 240px at -8% 108%,#EAF1EE 0%,transparent 60%)}
+.in0{position:relative;z-index:1}
+.grad{background:linear-gradient(96deg,var(--pink),var(--rose) 58%,var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+html.js .stag>*:nth-child(2){transition-delay:.08s}html.js .stag>*:nth-child(3){transition-delay:.16s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1!important;transform:none!important}}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 26px;border-radius:15px;font-weight:800;font-size:15.5px;border:1.6px solid transparent;cursor:pointer;transition:transform .22s var(--ease),box-shadow .25s,background .2s}
+.btn-primary{background:var(--rose);color:#fff;box-shadow:var(--lift);position:relative;overflow:hidden;will-change:transform}
+.btn-primary span{position:relative;z-index:1}.btn-primary:hover{background:#A03F4D}
+.btn-primary::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .65s}.btn-primary:hover::after{left:140%}
+.btn-ghost{background:rgba(255,255,255,.7);border-color:var(--pink);color:var(--rose)}.btn-ghost:hover{background:#fff}
+.card{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh)}
+.ringed{position:relative}
+.ringed::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(150deg,rgba(214,122,137,.5),transparent 46%,rgba(94,140,127,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s var(--ease);pointer-events:none}
+.ringed:hover::after{opacity:1}
+.foot{text-align:center;color:var(--mut);font-size:11.5px;line-height:1.7;margin-top:26px}
+.kw{font-size:11.5px;font-weight:800;color:var(--rose);letter-spacing:.06em}
+/* 마감/웰컴 공통 */
+.endmark{display:flex;align-items:center;gap:10px;justify-content:center;margin:30px 0 18px;color:var(--sage);font-weight:800;font-size:13.5px}
+.endmark .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border) 40%,var(--border) 60%,transparent)}
+.endmark .chk{width:22px;height:22px;border-radius:7px;background:#EAF1EE;display:flex;align-items:center;justify-content:center}
+.endmark .chk svg{width:13px;height:13px;fill:none;stroke:var(--sage);stroke-width:2.6}
+.hcardx{padding:26px;text-align:center;background:linear-gradient(160deg,#fff,var(--pinkSoft2))}
+.hcardx h1{font-size:clamp(22px,4.4vw,29px);font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-top:6px}
+.hcardx p{color:var(--ink2);font-size:14.5px;margin-top:12px;line-height:1.7}
+.give{margin-top:18px;text-align:left;background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--cardSh)}
+.give .gt{font-size:14px;font-weight:800;margin-bottom:12px}
+.give ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.give li{position:relative;padding-left:26px;font-size:13.7px;color:var(--ink2);line-height:1.55}
+.give li::before{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:6px;background:var(--pinkSoft);display:flex;align-items:center;justify-content:center}
+.give li::after{content:"";position:absolute;left:7px;top:6px;width:5px;height:9px;border:solid var(--rose);border-width:0 2px 2px 0;transform:rotate(42deg)}
+.pricerow{display:flex;align-items:baseline;gap:9px;justify-content:center;margin-top:18px}
+.pricerow .now{font-size:26px;font-weight:800;letter-spacing:-.02em}.pricerow .won{font-size:14px;color:var(--ink2);font-weight:700}.pricerow small{font-size:12.5px;color:var(--mut);font-weight:600}
+.ctas{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.note{font-size:11.5px;color:var(--mut);margin-top:14px;text-align:center;line-height:1.6}
+/* 웰컴 전용 */
+.checkwrap{display:flex;justify-content:center;margin-bottom:6px}
+.checkc{width:74px;height:74px;border-radius:50%;background:linear-gradient(150deg,var(--rose),var(--pink));display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(184,80,96,.28);animation:pop .6s var(--ease) both}
+@keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.checkc svg{width:36px;height:36px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .5s .35s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.subbadge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:100px;padding:6px 14px;margin-top:14px}
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.stepc{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--cardSh);text-align:left;transition:transform .25s var(--ease),box-shadow .25s}
+.stepc:hover{transform:translateY(-3px);box-shadow:var(--cardHi)}
+.stepc .si{flex:none;width:42px;height:42px;border-radius:12px;background:var(--pinkSoft);color:var(--rose);display:flex;align-items:center;justify-content:center}
+.stepc .si svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.stepc h4{font-size:15px;font-weight:800}.stepc p{font-size:13.3px;color:var(--ink2);margin-top:5px;line-height:1.6}.stepc p b{color:var(--ink)}
+.sched{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.sched .pill{font-size:12px;font-weight:800;color:var(--ink2);background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:6px 12px}
+
+a:focus-visible,button:focus-visible{outline:2px solid #B85060;outline-offset:2px;border-radius:6px}
+</style>
+<div class="page"><div class="in0">
+  <div class="brand"><span class="dot"></span>동은부부 머니레터</div>
+
+  <div class="card hcardx reveal ringed" style="margin-top:24px">
+    <div class="checkwrap"><span class="checkc"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span></div>
+    <span class="kw">WELCOME</span>
+    <h1>환영해요!<br><span class="grad">구독이 시작됐어요.</span></h1>
+    <p>이제 두 분의 하루에 매일 머니레터가 도착해요. 같이 천천히, 꾸준히 — 동은부부가 곁에서 함께할게요 :)</p>
+    <div class="subbadge"><span class="dot" style="width:7px;height:7px;background:var(--rose);box-shadow:none"></span>구독자 · 결제가 잘 마무리됐어요</div>
+  </div>
+
+  <div class="steps stag">
+    <div class="stepc reveal"><div class="si"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div><div><h4>첫 레터는 언제 오나요?</h4><p>다음 평일 발행분부터 받아보세요. 발행 시간은 이래요.</p><div class="sched"><span class="pill">저녁 6시 · 한국시장</span><span class="pill">아침 7시 · 미국·세계</span></div></div></div>
+    <div class="stepc reveal"><div class="si"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4z"/><path d="M8 20h8M12 16v4"/></svg></div><div><h4>어디서 어떻게 보나요?</h4><p><b>카카오로 로그인</b> 한 번이면, <b>머니레터 페이지</b>에서 그날의 전체 레터가 열려요. 딥 분석·Why 칼럼까지 한 자리에서요.</p></div></div>
+    <div class="stepc reveal"><div class="si"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div><div><h4>구독자에게 더해지는 것</h4><p>'그래서 내 돈은?' 딥 분석 · Why 인사이트 칼럼 · 내일의 체크포인트 · 구독자 전용 자료까지 매일 곁들여요.</p></div></div>
+  </div>
+
+  <div class="ctas">
+    <a href="#letter" class="btn btn-primary magnet"><span>오늘의 머니레터 보러가기 →</span></a>
+    <a href="#mypage" class="btn btn-ghost">내 구독 관리</a>
+  </div>
+
+  <div class="foot">해지하시면 다음 결제일 전까지 그대로 보실 수 있어요. · © 부부연구소<br>※ 아임웹 적용 시 결제 완료(정기구독) 후 안내 페이지로 연결하세요. (지금은 미리보기)</div>
+</div></div>

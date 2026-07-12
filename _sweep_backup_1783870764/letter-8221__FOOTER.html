@@ -1,0 +1,17 @@
+<!-- [머니레터_마감_구독안내카드_v2] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 2개) -->
+<script>document.documentElement.className+=' js';</script>
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  if(!root.classList.contains('js')) root.classList.add('js');
+  var revs=d.querySelectorAll('.reveal, .stag');
+  if(!('IntersectionObserver' in window)){
+    for(var i=0;i<revs.length;i++){ revs[i].classList.add('in'); }
+    return;
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.target.classList.toggle('in', e.isIntersecting); });
+  }, {threshold:.14, rootMargin:'0px 0px -8% 0px'});
+  for(var j=0;j<revs.length;j++){ io.observe(revs[j]); }
+})();
+</script>

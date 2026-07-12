@@ -1,0 +1,362 @@
+<!-- [도구_궁합Pro_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 11건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:660px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+/* lock */
+.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
+.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
+.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
+.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
+
+.stage{max-width:660px;margin:24px auto 0}
+.screen{display:none}.screen.on{display:block}
+.qbar{height:8px;background:var(--sand);border-radius:100px;overflow:hidden;margin-bottom:6px}
+.qbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--lav));transition:width .4s var(--ease)}
+.qmeta{font-size:12.5px;font-weight:800;color:var(--mut);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.whoChip{font-size:12px;font-weight:800;color:#fff;border-radius:100px;padding:4px 12px}
+.whoChip.a{background:var(--rose)}.whoChip.b{background:var(--lav)}
+.qcard{transition:transform .34s var(--ease),opacity .34s var(--ease)}
+.qcard.out{transform:translateX(-44px);opacity:0}
+.qcard.inr{transform:translateX(44px);opacity:0}
+.qq{font-size:clamp(20px,3vw,26px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin-bottom:18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s var(--ease);box-shadow:var(--cardSh);display:flex;align-items:center;gap:12px}
+.opt:hover{border-color:var(--rose);background:var(--pinkSoft);transform:translateX(4px)}
+.opt .ol{width:24px;height:24px;border-radius:8px;background:var(--bg2);color:var(--rose);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.intro-hero{text-align:center;padding:14px 0 4px}
+.intro-hero .em{font-size:54px}
+.nameRow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px auto 0;max-width:440px;text-align:left}
+.nameRow label{font-size:12px;font-weight:800;color:var(--mut);display:block;margin-bottom:5px}
+.nameRow input{width:100%;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;transition:border-color .18s}
+.nameRow input:focus{outline:none;border-color:var(--rose)}
+.handoff{text-align:center;padding:24px 0}
+.handoff .big{font-size:48px}
+.handoff h2{font-size:clamp(21px,3vw,27px);font-weight:800;letter-spacing:-.02em;margin-top:8px}
+.handoff p{color:var(--ink2);font-size:14.5px;margin-top:10px;line-height:1.65}
+/* result */
+.tcard{text-align:center}
+.match{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px}
+.match .ring{position:relative;width:160px;height:160px}
+.match .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.match .num b{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.match .num span{font-size:12px;color:var(--mut);font-weight:700}
+.match .grade{font-size:14.5px;font-weight:800;color:var(--rose);margin-top:10px}
+.bdown{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.bchip{font-size:12.5px;font-weight:800;color:var(--ink2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:6px 13px}
+.bchip b{color:var(--rose)}
+.combo{font-size:13.5px;font-weight:800;color:var(--lav);margin-top:12px}
+.sech{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--rose);text-transform:uppercase;text-align:left;margin:26px 0 10px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh);padding:16px 16px 14px;text-align:center}
+.pcard .pe{font-size:38px;line-height:1}
+.pcard .who{font-size:12.5px;font-weight:800;margin-top:6px}
+.pcard.a .who{color:var(--rose)}.pcard.b .who{color:var(--lav)}
+.pcard .pn{font-size:14.5px;font-weight:800;letter-spacing:-.02em;margin-top:2px;line-height:1.3;min-height:38px;display:flex;align-items:center;justify-content:center}
+.mini{display:grid;gap:7px;margin-top:10px;text-align:left}
+.mini .mrow{display:grid;grid-template-columns:56px 1fr 26px;align-items:center;gap:8px}
+.mini .mk{font-size:11px;color:var(--mut);font-weight:700}
+.mini .mtrack{height:6px;background:var(--sand);border-radius:100px;overflow:hidden}
+.mini .mtrack i{display:block;height:100%;width:0;border-radius:100px;transition:width .9s var(--ease)}
+.mini .mv{font-size:11.5px;font-weight:800;text-align:right;color:var(--ink2);font-variant-numeric:tabular-nums}
+.axnote{font-size:11px;color:var(--mut);margin-top:8px;text-align:center}
+/* compare */
+.cmp{display:grid;gap:12px}
+.cmprow{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px 15px;transition:background .3s,border-color .3s}
+.cmprow.hot{background:var(--pinkSoft2);border-color:var(--rose)}
+.cmpk{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.cmpk .gp{font-size:11.5px;font-weight:800;color:var(--mut);background:#fff;border:1px solid var(--border);border-radius:100px;padding:2px 9px}
+.cmprow.hot .cmpk .gp{color:var(--rose);border-color:var(--rose)}
+.cmpb{display:grid;grid-template-columns:54px 1fr 40px;align-items:center;gap:9px;margin-top:6px}
+.cmpb .cn{font-size:11.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmpb.a .cn{color:var(--rose)}.cmpb.b .cn{color:var(--lav)}
+.cmptrack{height:9px;background:var(--sand);border-radius:100px;overflow:hidden}
+.cmptrack i{display:block;height:100%;width:0;border-radius:100px;transition:width 1s var(--ease)}
+.cmpb .cv{font-size:12.5px;font-weight:800;text-align:right;color:var(--ink2)}
+/* insight rows */
+.ins{display:grid;gap:12px;text-align:left}
+.ins .row{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.ins .row .h{font-size:13px;font-weight:800;margin-bottom:5px}
+.ins .row.good .h{color:var(--sage)}.ins .row.talk .h{color:var(--lav)}
+.ins .row p{font-size:14px;color:var(--ink2);line-height:1.6}
+.ins .row .qc{font-size:14px;color:var(--ink);line-height:1.55;padding:9px 12px;background:var(--bg2);border-radius:10px;margin-top:8px}
+/* hotspots */
+.hot-list{display:grid;gap:11px;text-align:left}
+.hotc{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.hotc .hq{font-size:14px;font-weight:800;color:var(--ink);line-height:1.4}
+.hotc .ans{display:grid;gap:6px;margin-top:9px}
+.hotc .ans .l{font-size:13px;color:var(--ink2);display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.hotc .ans .l .tag{font-size:11px;font-weight:800;color:#fff;border-radius:6px;padding:2px 7px;flex-shrink:0;margin-top:1px}
+.hotc .ans .l.a .tag{background:var(--rose)}.hotc .ans .l.b .tag{background:var(--lav)}
+.hotc .tip{font-size:13px;color:var(--ink);line-height:1.5;padding:9px 12px;background:var(--pinkSoft2);border-radius:10px;margin-top:10px}
+.racts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.infonote{font-size:12.5px;color:var(--ink2);margin-top:14px;line-height:1.6;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:13px 16px;text-align:left}
+.infonote b{color:var(--rose)}
+@media(max-width:560px){.pair{grid-template-columns:1fr}.cmpb{grid-template-columns:50px 1fr 36px}}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap">
+  <a class="backlink" href="/contents">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">COUPLE TEST PRO · 자료실</span>
+  <h1 class="tool-h1 reveal">우리 둘, <span class="grad">머니 궁합</span>은 진짜 몇 점일까?</h1>
+  <p class="lead reveal">기존 궁합 테스트는 한 사람이 답했죠. 이번엔 <b>두 분이 각자 따로</b> 12문항에 답해요. 그러면 서로의 돈 성향을 나란히 비교하고, <b>어디서 부딪치는지(갈등 핫스팟)</b>와 <b>그 차이를 좁히는 대화법</b>까지 짚어드려요.</p>
+
+  <div class="stage panel reveal">
+    <!-- intro -->
+    <div class="screen on" id="intro">
+      <div class="intro-hero">
+        <div class="em">💞</div>
+        <h2 style="font-size:22px;font-weight:800;margin-top:10px">두 분이 각자, 따로 답해주세요</h2>
+        <p style="color:var(--ink2);font-size:14.5px;margin-top:8px;line-height:1.6">정답은 없어요. 서로의 답을 안 보고 솔직하게 고를수록 결과가 정확해져요.<br>한 분이 12문항을 끝내면, 다른 분 차례로 넘어가요. (각자 약 2분)</p>
+        <div class="nameRow">
+          <div><label for="nA">첫 번째 분</label><input id="nA" type="text" maxlength="6" placeholder="예: 나" value="나"></div>
+          <div><label for="nB">두 번째 분</label><input id="nB" type="text" maxlength="6" placeholder="예: 배우자" value="배우자"></div>
+        </div>
+        <button class="btn btn-rose magnet" id="start" style="margin-top:18px">첫 번째 분부터 시작 →</button>
+      </div>
+      <div class="infonote">📌 한 조사에선 결혼 <b>초기일수록</b> ‘경제관념·돈’을 부부 갈등의 원인으로 꼽는 비율이 더 높게 나타났어요(이투데이 보도, 통계청 부부관계 통계 인용, 2026.4). 그래서 ‘누가 맞다/틀리다’보다 <b>서로 어떻게 다른지</b> 먼저 아는 게 출발점이에요.</div>
+    </div>
+
+    <!-- quiz -->
+    <div class="screen" id="quiz">
+      <div class="qmeta"><span><span id="qnum">1</span> / 12</span><span class="whoChip a" id="whoChip">나</span></div>
+      <div class="qbar"><i id="qfill"></i></div>
+      <div class="qcard" id="qcard" style="margin-top:14px"><div class="qq" id="qq"></div><div class="opts" id="opts"></div></div>
+    </div>
+
+    <!-- handoff -->
+    <div class="screen" id="handoff">
+      <div class="handoff">
+        <div class="big">🤝</div>
+        <h2><span id="hDoneName">나</span>님 완료!</h2>
+        <p>이제 <b id="hNextName">배우자</b>님 차례예요.<br>앞 사람 답이 보이지 않게 기기를 넘겨주세요.</p>
+        <button class="btn btn-rose magnet" id="toB" style="margin-top:18px">두 번째 분 시작 →</button>
+      </div>
+    </div>
+
+    <!-- result -->
+    <div class="screen" id="result">
+      <div class="tcard">
+        <div class="match">
+          <div class="ring" id="ring"><svg aria-hidden="true" viewBox="0 0 160 160" style="width:160px;height:160px"><circle cx="80" cy="80" r="66" fill="none" stroke="var(--sand)" stroke-width="13"/><circle id="ringArc" cx="80" cy="80" r="66" fill="none" stroke="var(--rose)" stroke-width="13" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 80 80)"/></svg><div class="num"><b id="rScore">0</b><span>궁합 점수</span></div></div>
+          <div class="grade" id="rGrade"></div>
+          <div class="bdown">
+            <span class="bchip">성향 정렬도 <b id="bAlign">0%</b></span>
+            <span class="bchip">답변 일치도 <b id="bAgree">0%</b></span>
+          </div>
+          <div class="combo" id="rCombo"></div>
+        </div>
+
+        <div class="sech">두 분의 돈 성향</div>
+        <div class="pair">
+          <div class="pcard a"><div class="pe" id="peA">🧱</div><div class="who" id="whoA">나</div><div class="pn" id="pnA"></div>
+            <div class="mini">
+              <div class="mrow"><span class="mk">저축력</span><div class="mtrack" aria-hidden="true"><i id="mAS" style="background:var(--sage)"></i></div><b class="mv" id="mASv">0</b></div>
+              <div class="mrow"><span class="mk">투자성향</span><div class="mtrack" aria-hidden="true"><i id="mAR" style="background:var(--lav)"></i></div><b class="mv" id="mARv">0</b></div>
+              <div class="mrow"><span class="mk">소통</span><div class="mtrack" aria-hidden="true"><i id="mAK" style="background:var(--rose)"></i></div><b class="mv" id="mAKv">0</b></div>
+            </div>
+          </div>
+          <div class="pcard b"><div class="pe" id="peB">🚀</div><div class="who" id="whoB">배우자</div><div class="pn" id="pnB"></div>
+            <div class="mini">
+              <div class="mrow"><span class="mk">저축력</span><div class="mtrack" aria-hidden="true"><i id="mBS" style="background:var(--sage)"></i></div><b class="mv" id="mBSv">0</b></div>
+              <div class="mrow"><span class="mk">투자성향</span><div class="mtrack" aria-hidden="true"><i id="mBR" style="background:var(--lav)"></i></div><b class="mv" id="mBRv">0</b></div>
+              <div class="mrow"><span class="mk">소통</span><div class="mtrack" aria-hidden="true"><i id="mBK" style="background:var(--rose)"></i></div><b class="mv" id="mBKv">0</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="axnote">막대 숫자는 성향 점수예요 · 0~100, 50이 중간</div>
+
+        <div class="sech">어디서 잘 맞고, 어디서 어긋날까</div>
+        <div class="cmp">
+          <div class="cmprow" id="cmpS">
+            <div class="cmpk">저축력 <span class="gp" id="gpS"></span></div>
+            <div class="cmpb a"><span class="cn" id="cnSA">나</span><div class="cmptrack"><i id="iSA" style="background:var(--rose)"></i></div><span class="cv" id="vSA">0</span></div>
+            <div class="cmpb b"><span class="cn" id="cnSB">배우자</span><div class="cmptrack"><i id="iSB" style="background:var(--lav)"></i></div><span class="cv" id="vSB">0</span></div>
+          </div>
+          <div class="cmprow" id="cmpR">
+            <div class="cmpk">투자 적극성 <span class="gp" id="gpR"></span></div>
+            <div class="cmpb a"><span class="cn" id="cnRA">나</span><div class="cmptrack"><i id="iRA" style="background:var(--rose)"></i></div><span class="cv" id="vRA">0</span></div>
+            <div class="cmpb b"><span class="cn" id="cnRB">배우자</span><div class="cmptrack"><i id="iRB" style="background:var(--lav)"></i></div><span class="cv" id="vRB">0</span></div>
+          </div>
+          <div class="cmprow" id="cmpK">
+            <div class="cmpk">소통 <span class="gp" id="gpK"></span></div>
+            <div class="cmpb a"><span class="cn" id="cnKA">나</span><div class="cmptrack"><i id="iKA" style="background:var(--rose)"></i></div><span class="cv" id="vKA">0</span></div>
+            <div class="cmpb b"><span class="cn" id="cnKB">배우자</span><div class="cmptrack"><i id="iKB" style="background:var(--lav)"></i></div><span class="cv" id="vKB">0</span></div>
+          </div>
+        </div>
+
+        <div class="ins" style="margin-top:14px">
+          <div class="row good"><div class="h">💪 가장 잘 맞는 부분</div><p id="rGood"></p></div>
+          <div class="row talk"><div class="h">💬 이 대화부터 해보세요</div><p id="rTalkLead" style="margin-bottom:6px"></p><div id="rTalk"></div></div>
+        </div>
+
+        <div class="sech">우리가 가장 다르게 답한 질문 (갈등 핫스팟)</div>
+        <div class="hot-list" id="hotList"></div>
+
+        <div class="sech">더 깊이 — 궁합 Pro</div>
+        <div class="lockbox">
+          <div class="lockmask">
+            <div style="display:grid;gap:8px">
+              <div style="font-weight:800;font-size:15px">📅 매달 재테스트 → 궁합 점수 변화 추적</div>
+              <div style="font-size:13.5px;color:var(--ink2)">12문항 전체 항목별 차이 리포트 · 둘의 답이 한 칸씩 가까워지는지 그래프로 · 이번 달 ‘대화 미션’ 카드 · 다음 머니 데이트 D-day 알림</div>
+            </div>
+          </div>
+          <div class="lockover"><span class="lk">🔒 구독회원 전용</span><div style="font-weight:800;font-size:15px;color:var(--ink)">차이를 좁혀가는 과정을 같이 추적해요</div><a class="btn btn-rose magnet" href="/premium">프리미엄으로 모두 열기 →</a></div>
+        </div>
+
+        <div class="racts">
+          <button class="btn btn-ghost" id="again">다시 해보기</button>
+          <button class="btn btn-ghost" id="copy">결과 복사</button>
+          <a class="btn btn-rose magnet" href="/tool-4a49">우리 집 재무 건강검진 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="toolnote" style="font-size:12.5px;color:var(--mut);margin-top:16px;line-height:1.6;background:var(--pinkSoft2);border-radius:12px;padding:13px 16px">💡 재미와 대화를 위한 참고용 테스트예요. 점수는 두 분의 답이 얼마나 가까운지를 보여줄 뿐, 좋고 나쁨을 가르는 게 아니에요. 더 정확한 우리 집 상태는 <b>부부 재무 건강검진</b>으로 확인해보세요.</div>
+</section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

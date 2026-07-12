@@ -35,7 +35,7 @@ html.js .stag>*:nth-child(2){transition-delay:.07s}html.js .stag>*:nth-child(3){
 .topbar::before{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:shim 6s ease-in-out infinite}
 @keyframes shim{0%,60%{left:-30%}100%{left:130%}}
 .topbar span{position:relative;z-index:1}.topbar a{position:relative;z-index:1;background:#fff;color:var(--rose);padding:5px 13px;border-radius:100px;font-weight:800;font-size:12.5px}
-header{position:sticky;top:0;z-index:60;background:rgba(253,251,247,.74);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border)}
+header{position:fixed;top:0;left:0;right:0;z-index:9990;background:rgba(253,251,247,.94);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border);box-shadow:0 2px 14px rgba(62,47,41,.06)}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 .logo{font-weight:800;font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
 .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
@@ -238,7 +238,7 @@ section.blk{padding:clamp(80px,10vw,132px) 0;position:relative}
 .buybar .btn{margin-left:auto;padding:13px 26px;font-size:15px}
 @media(max-width:560px){.buybar .pi .lb{display:none}.buybar .btn{padding:13px 20px}}
 
-footer{background:var(--ink);color:#cdbfb6;font-size:12.5px;padding:38px 0 90px;margin-top:8px}
+footer{background:#F3ECDF;color:#3E2F29;border-top:1px solid rgba(62,47,41,.08)}
 footer .ftlogo{font-weight:800;color:#fff;font-size:15px;margin-bottom:11px;display:flex;align-items:center;gap:8px}
 footer .ftlogo .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
 footer .ft{display:flex;flex-wrap:wrap;gap:7px 22px}footer b{color:#fff}
@@ -301,7 +301,7 @@ footer .law{margin-top:13px;font-size:11.5px;color:#9a8b82;line-height:1.7}
 #hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 #hdr .navMobBtn.on span:nth-child(2){opacity:0}
 #hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer{position:fixed;inset:0;z-index:10000;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 .navDrawer.on{opacity:1;visibility:visible}
 .navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
 .navDrawer.on .pnl{transform:translateX(0)}
@@ -401,16 +401,18 @@ html.js .wstag.in>*{opacity:1;transform:none}
 <style>/* ===a11yAA=== (A레인 Q22) 소형 --mut 캡션 → --ink2: 대비 AA(4.5:1↑) 달성 · :root 토큰 hex 불변(참조만 교체) · 취소선 옛가격(.priceline s/.band .pl s/.buybar .pi .now s)·비활성 리스트마커(.fitcard.no li::before)·장식아이콘 stroke·대형 닫기버튼(.navDrawer .cl=AA-large 통과)·후기 별점(role=img)은 의도적 제외. 소스순서 최후미=동일셀렉터 동일명시도로 승. */
 .crumb,.mock .bar .fn,.mock .mt,.mock .tabs span,.rate a,.pricesub,.trustrow,.revtop .cnt,.rev .meta,.feat .kind,.ptab,.spc .lb,.assetbars .ab span,.rel .tag,.band .pls,.band .note,.buybar .pi .lb,.dnutc .dl,.dcard .dn,.dvnote,#hdr .menu-sub a{color:var(--ink2)}
 </style>
+<div class="bbfw">
 <div class="topbar"><span>매일 아침 7시·저녁 6시, 부부연구소 머니레터가 도착해요</span><a href="/home#letter">오늘의 머니레터 무료로 읽기 →</a></div>
 
 <header id="hdr"><div class="wrap nav">
 <a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
-<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
 <div class="navright">
-<nav class="menu menu-sub"><a href="/story">스토리</a><a href="/library">자료실</a></nav>
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
 <a class="cta wshine" href="/home#subscribe">구독하기</a>
 </div>
 </div></header>
+<div class="bbhdr-spacer" aria-hidden="true"></div>
 
 <section class="hero">
   <div class="wrap">
@@ -609,13 +611,8 @@ html.js .wstag.in>*{opacity:1;transform:none}
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
-    <div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>통신판매업 <b>2026-별내-1152</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
-    <div class="law">디지털 콘텐츠 안내 — 본 키트는 다운로드형 디지털 상품이에요. 콘텐츠가 제공(다운로드·복사)된 이후에는 「전자상거래법」상 청약철회가 제한될 수 있어요. 구매 전 미리보기로 충분히 확인해 주세요.<br>이 키트와 부속 자료는 돈 관리를 돕는 콘텐츠이며 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요. · © 부부연구소</div>
-  </div>
-</footer>
+<footer class="bbft"><div class="bbft-in"><div class="bbft-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div><nav class="bbft-nav"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a><a href="/story">스토리</a><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1">이용약관</a></nav><div class="bbft-info"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>통신판매업 <b>2026-별내-1152</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div><div class="bbft-note">부부연구소는 누군가에게 의지하지 않는 안정적이며 효과적인 돈관리/재테크 구조와 환경을 만드는 도움이 될 수 있기를 지향해요. 재테크는 평생 해야하는 것이기 때문에 단 편의 정보가 아닌 평생 할 수 있는 재테크 지식과 습관을 만들어드리고 싶어요. 모든 콘텐츠에는 특정 종목에 대한 추천이나 권유내용을 포함하지 않는다는 점을 말씀드려요. 머니레터를 포함한 부부연구소에서 전해드리는 모든 정보에 대한 판단과 책임은 독자분들에게 있으며, 건강한 판단으로부터 현명한 가계운영에 도움이 될 수 있기를 진심으로 바래요:) · © 부부연구소</div></div></footer>
+</div>
 
 <div class="buybar" id="buybar" role="region" aria-label="구매 바로가기">
   <div class="in">
@@ -624,3 +621,5 @@ html.js .wstag.in>*{opacity:1;transform:none}
     <a href="#buy" data-cta="buy-kit-bar" class="btn btn-primary magnet"><span>지금 받고 시작하기 →</span></a>
   </div>
 </div>
+
+<style data-bbsweep="1">html{scroll-padding-top:calc(var(--bbhdrH,64px) + 16px);overflow-x:hidden}.bbhdr-spacer{height:var(--bbhdrH,64px)}#hdr{position:fixed;top:44px;left:0;right:0;z-index:9990}.topbar{position:fixed;top:0;left:0;right:0;z-index:9991}.bbfw{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip}.bbft{background:#F3ECDF;color:#3E2F29;font-size:13px;padding:40px 0 46px;margin-top:0;border-top:1px solid rgba(62,47,41,.08);position:relative;z-index:2}.bbft .bbft-in{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}.bbft .bbft-logo{font-weight:800;color:#3E2F29;font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px}.bbft .bbft-logo svg{width:20px;height:20px;display:block;flex:none}.bbft .bbft-nav{display:flex;flex-wrap:wrap;gap:10px 22px;margin-bottom:16px}.bbft .bbft-nav a{color:#3E2F29;font-weight:700;font-size:13.5px;text-decoration:none;transition:color .15s}.bbft .bbft-nav a:hover{color:#B33A4C}.bbft .bbft-info{display:flex;flex-wrap:wrap;gap:6px 20px;color:#6b5b52}.bbft .bbft-info b{color:#3E2F29;font-weight:700}.bbft .bbft-note{margin-top:14px;font-size:12px;color:#8a7b72;line-height:1.62;max-width:920px}</style>

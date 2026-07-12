@@ -1,0 +1,309 @@
+<!-- [도구_머니데이트카드_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 11건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}
+ .flip .inner{transition:none!important}.cardwrap.deal{animation:none!important}.deck.shake{animation:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:660px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+/* intro hook */
+.hook{background:var(--pinkSoft2);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-top:20px;max-width:660px}
+.hook p{font-size:14px;color:var(--ink2);line-height:1.68}
+.hook .src{display:block;margin-top:8px;font-size:11.5px;color:var(--mut)}
+
+/* deck stage */
+.stage{max-width:600px;margin:26px auto 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
+.chip{font-family:inherit;font-size:13px;font-weight:800;color:var(--ink2);background:#fff;border:1.5px solid var(--border);border-radius:100px;padding:8px 15px;cursor:pointer;transition:all .18s var(--ease);box-shadow:var(--cardSh)}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{background:var(--rose);border-color:var(--rose);color:#fff}
+
+.cardwrap{position:relative}
+.cardwrap.deal{animation:deal .42s var(--ease)}
+@keyframes deal{0%{opacity:.25;transform:translateY(16px) scale(.955)}100%{opacity:1;transform:none}}
+.deck{position:relative}
+.deck.shake{animation:shake .5s var(--ease)}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-1.4deg) translateX(-3px)}45%{transform:rotate(1.4deg) translateX(3px)}70%{transform:rotate(-.8deg)}}
+/* ghost cards behind */
+.ghost{position:absolute;inset:0;border-radius:24px;background:#fff;border:1px solid var(--border);box-shadow:var(--cardSh);z-index:0}
+.ghost.g1{transform:rotate(-3.2deg) translateY(6px) scale(.985)}
+.ghost.g2{transform:rotate(3deg) translateY(10px) scale(.97)}
+
+.flip{position:relative;z-index:2;perspective:1400px;cursor:pointer}
+.flip .inner{position:relative;width:100%;min-height:clamp(320px,46vh,392px);transition:transform .62s var(--ease);transform-style:preserve-3d}
+.flip.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;background:linear-gradient(165deg,#fff,var(--pinkSoft2));border:1px solid var(--border);box-shadow:var(--cardHi);padding:clamp(24px,4vw,34px);display:flex;flex-direction:column;border-top:5px solid var(--cc,var(--rose))}
+.face.back{transform:rotateY(180deg);background:linear-gradient(165deg,#fff,var(--bg2))}
+.ctag{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--cc,var(--rose));align-self:flex-start;background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 13px;box-shadow:var(--cardSh)}
+.ctag.muted{color:var(--mut)}
+.heart{position:absolute;top:clamp(18px,3vw,26px);right:clamp(18px,3vw,26px);width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--rose);font-size:20px;line-height:1;cursor:pointer;box-shadow:var(--cardSh);transition:transform .18s var(--ease),background .2s;display:flex;align-items:center;justify-content:center;z-index:3}
+.heart:hover{transform:scale(1.08);background:var(--pinkSoft)}
+.heart.on{background:var(--rose);color:#fff;border-color:var(--rose)}
+.q{font-size:clamp(21px,3.4vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.34;margin:auto 0;color:var(--ink)}
+.qs{font-size:clamp(15px,2.2vw,17px);font-weight:800;color:var(--ink);line-height:1.4;margin-top:14px}
+.note{font-size:clamp(14.5px,2vw,16px);color:var(--ink2);line-height:1.72;margin:14px 0 auto}
+.fliphint{font-size:12.5px;font-weight:700;color:var(--mut);margin-top:16px}
+.face.back .fliphint{color:var(--cc,var(--rose));opacity:.8}
+
+.counter{text-align:center;font-size:13px;color:var(--mut);font-weight:700;margin-top:18px}
+.counter b{color:var(--rose);font-variant-numeric:tabular-nums}
+/* deck progress (함께 펼친 카드) */
+.deckprog{max-width:520px;margin:14px auto 0;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--cardSh);padding:14px 16px}
+.deckprog .pgtop{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:800;color:var(--ink2)}
+.deckprog .pgnum{color:var(--rose);font-variant-numeric:tabular-nums}
+.deckprog .pgreset{border:0;background:transparent;font-family:inherit;font-size:11.5px;font-weight:700;color:var(--mut);cursor:pointer;padding:3px 6px;border-radius:8px;text-decoration:underline;text-underline-offset:2px}
+.deckprog .pgreset:hover{color:var(--rose)}
+.deckprog .pgbar{height:9px;border-radius:100px;background:var(--pinkSoft);overflow:hidden;margin-top:9px}
+.deckprog .pgfill{height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--rose),var(--lav));transition:width .7s var(--ease)}
+.deckprog .pgmsg{font-size:12px;font-weight:700;color:var(--mut);margin-top:9px;line-height:1.55}
+.deckprog .pgmsg b{color:var(--rose)}
+.deckprog.done{border-color:var(--rose);background:linear-gradient(135deg,#fff,var(--pinkSoft2))}
+.deckprog.done .pgmsg{color:var(--rose)}
+@media(prefers-reduced-motion:reduce){.deckprog .pgfill{transition:none}}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+
+/* how to */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.how .step{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh)}
+.how .step .n{width:26px;height:26px;border-radius:8px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.how .step h4{font-size:14.5px;font-weight:800;margin-top:10px}
+.how .step p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:5px}
+@media(max-width:680px){.how{grid-template-columns:1fr}}
+
+/* favorites */
+.favwrap{margin-top:26px}
+.favhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.favhead b{font-size:15.5px;font-weight:800}
+.mini{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--mut);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mini:hover{color:var(--rose)}
+.favlist{display:grid;gap:10px;margin-top:14px}
+.fav{display:flex;align-items:flex-start;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
+.fav .fc{font-size:11px;font-weight:800;color:var(--cc,var(--rose));white-space:nowrap;margin-top:2px}
+.fav .ft2{font-size:14px;color:var(--ink);line-height:1.55;flex:1;font-weight:600}
+.fav .rm{background:none;border:none;color:var(--mut);font-size:18px;cursor:pointer;line-height:1;padding:0 2px}
+.fav .rm:hover{color:var(--up)}
+.favempty{font-size:13px;color:var(--mut);line-height:1.6;margin-top:12px;text-align:center;padding:14px;background:var(--bg);border-radius:13px}
+
+.toolnote{font-size:12.5px;color:var(--mut);margin-top:18px;line-height:1.6;background:var(--pinkSoft2);border-radius:12px;padding:13px 16px}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap">
+  <a class="backlink" href="/contents">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">FREE · 자료실</span>
+  <h1 class="tool-h1 reveal">부부 <span class="grad">머니 데이트</span> 대화카드</h1>
+  <p class="lead reveal">돈 얘기, 꺼내기 어렵죠? 가볍게 한 장 뽑아서 오늘 둘이 나눠볼 질문을 골라드려요. 정답은 없어요. 우리만의 답을 같이 찾는 시간이에요.</p>
+
+  <div class="hook reveal">
+    <p>결혼정보회사 가연이 기혼자에게 물었더니 <b>78%가 "부부싸움을 해봤다"</b>고 답했대요. 1위 이유는 의외로 '돈'이 아니라 생활 패턴이었지만, <b>20대는 경제적 문제를 원인으로 꼽은 비율이 15.3%</b>로 30대(8.4%)보다 훨씬 높았어요,, 그만큼 일찍부터 돈 얘기를 편하게 나눠두는 게 도움이 되는 것 같아요:)
+    <span class="src">출처: 결혼정보회사 가연 설문(기혼자 대상) · 뉴시스·문화일보 2025.3 보도</span></p>
+  </div>
+
+  <div class="stage reveal">
+    <div class="chips" id="chips" role="group" aria-label="대화 주제 고르기">
+      <button class="chip on" data-c="all" aria-pressed="true">전체</button>
+      <button class="chip" data-c="spend" aria-pressed="false">💸 소비 가치관</button>
+      <button class="chip" data-c="goal" aria-pressed="false">🎯 목표·미래</button>
+      <button class="chip" data-c="daily" aria-pressed="false">🏠 일상·살림</button>
+      <button class="chip" data-c="risk" aria-pressed="false">🛡️ 위기·리스크</button>
+      <button class="chip" data-c="dream" aria-pressed="false">💞 꿈·약속</button>
+    </div>
+
+    <div class="cardwrap" id="cardwrap">
+      <div class="deck" id="deck">
+        <div class="ghost g2" aria-hidden="true"></div>
+        <div class="ghost g1" aria-hidden="true"></div>
+        <div class="flip" id="card" role="button" tabindex="0" aria-label="카드 뒤집기 — 동은부부 한마디 보기">
+          <div class="inner">
+            <div class="face front">
+              <span class="ctag" id="fTag"><span id="fEmo">💸</span> <span id="fCat">소비 가치관</span></span>
+              <button class="heart" id="heart" aria-pressed="false" aria-label="이 카드 즐겨찾기에 담기">♡</button>
+              <p class="q" id="fQ">카드를 준비하고 있어요…</p>
+              <div class="fliphint">💬 카드를 탭하면 동은부부 한마디가 나와요</div>
+            </div>
+            <div class="face back">
+              <span class="ctag muted"><span id="bEmo">💸</span> 동은부부 한마디</span>
+              <p class="qs" id="bQ"></p>
+              <p class="note" id="bNote"></p>
+              <div class="fliphint">↩︎ 다시 탭하면 질문으로 돌아가요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="counter">오늘 뽑은 카드 <b id="drawn">0</b>장 · 전체 <b id="total">0</b>장 · 담아둔 카드 <b id="favn">0</b>장</div>
+    <div class="deckprog" id="deckprog">
+      <div class="pgtop"><span>💗 우리가 함께 펼친 카드 <span class="pgnum"><b id="seenN">0</b> / <b id="seenT">0</b></span></span><button class="pgreset" id="pgReset" type="button">진도 초기화</button></div>
+      <div class="pgbar" id="pgbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="덱 진행률"><div class="pgfill" id="pgfill"></div></div>
+      <div class="pgmsg" id="pgmsg" aria-live="polite"></div>
+    </div>
+    <div class="acts">
+      <button class="btn btn-rose magnet" id="next">다음 카드 뽑기 →</button>
+      <button class="btn btn-ghost" id="shuffle">🔀 전체 섞기</button>
+      <button class="btn btn-ghost" id="copy">카드 복사</button>
+    </div>
+
+    <div class="how stag">
+      <div class="step"><div class="n">1</div><h4>편하게 한 장 뽑기</h4><p>커피 한 잔, 산책길, 잠들기 전. 부담 없이 카드 한 장만 뽑아요.</p></div>
+      <div class="step"><div class="n">2</div><h4>둘이 솔직하게 답하기</h4><p>정답을 찾지 말고, 지금 우리 생각을 솔직하게 나눠봐요. 다르면 오히려 좋아요.</p></div>
+      <div class="step"><div class="n">3</div><h4>마음에 들면 ♡로 담기</h4><p>또 얘기하고 싶은 질문은 ♡로 담아두세요. 다음 데이트 때 이어서요:)</p></div>
+    </div>
+
+    <div class="favwrap panel">
+      <div class="favhead"><b>💗 우리가 담아둔 카드</b><button class="mini" id="clearfav" type="button">전체 비우기</button></div>
+      <div class="favlist" id="favlist"></div>
+      <div class="favempty" id="favempty">마음에 드는 질문은 카드의 ♡를 눌러 담아두세요. 담은 목록은 <b>이 기기에만</b> 저장돼요.</div>
+    </div>
+
+    <div class="toolnote">💡 이 카드는 부부의 대화를 돕기 위한 가벼운 도구예요. 투자 권유나 재무 조언이 아니고, 담아둔 카드는 이 기기에만 저장돼요(서버 전송 없음). 더 깊은 진단이 궁금하면 <b><a href="/tool-cea3" style="color:var(--rose);font-weight:800">머니 궁합 테스트</a></b>로 이어가 보세요.</div>
+  </div>
+</section>
+
+<section class="blk wrap" style="padding-top:0">
+  <div class="cta-band reveal">
+    <h3>대화가 시작됐다면, 다음은 '구조'예요</h3>
+    <p>매주 부부가 같이 읽는 머니레터로, 흩어진 돈 얘기를 우리 집 계획으로 바꿔가요. 옆에서 같이 달릴게요.</p>
+    <a class="btn btn-rose magnet" href="/moneyletter-landing">머니레터 살펴보기 →</a>
+  </div>
+</section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

@@ -1,0 +1,482 @@
+<!-- [도구_자동차Pro_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 12건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --teal:#3E8E8E; --slate:#6E7A86;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.optbar i,#fvPaths path,.stkseg,.gauge>i{transition:none!important}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(29px,5vw,49px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:700px;margin-top:15px}
+.probadge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:#fff;background:linear-gradient(100deg,var(--rose),var(--lav));border-radius:100px;padding:4px 11px;letter-spacing:.02em;vertical-align:middle}
+.livechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.livechip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:100px;padding:7px 13px;box-shadow:var(--cardSh)}
+.livechip b{color:var(--rose);font-variant-numeric:tabular-nums}
+.livechip .lcd{width:7px;height:7px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(94,140,127,.16)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:var(--bg);color:var(--ink2);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:560px}
+.cta-band .btn{margin-top:20px}
+/* calc */
+.calc{margin-top:26px}
+.field{margin-bottom:20px}
+.field>label{font-size:14px;font-weight:800;display:block;margin-bottom:9px}
+.incrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.incfield{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.incfield input{border:0;background:transparent;font-family:inherit;font-size:19px;font-weight:800;width:140px;text-align:right;color:var(--ink)}
+.incfield.sm input{width:64px;font-size:17px}
+.incfield span{font-size:13.5px;color:var(--mut);font-weight:700}
+.incfield:focus-within{border-color:var(--rose)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:7px;border-radius:100px;background:var(--sand);outline:none;flex:1;min-width:150px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(184,80,96,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.6}
+.bigv{font-size:18px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums;min-width:64px;text-align:right}
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-size:12px;font-weight:700;color:var(--ink2);background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:var(--rose);color:var(--rose)}
+.chip.on{border-color:var(--rose);background:var(--pinkSoft2);color:var(--rose)}
+/* segmented */
+.seg{display:inline-flex;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px;gap:4px}
+.seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--ink2);background:none;border:0;border-radius:9px;padding:9px 16px;cursor:pointer;transition:background .2s,color .2s}
+.seg button.on{background:var(--rose);color:#fff;box-shadow:0 4px 12px rgba(184,80,96,.22)}
+.subbox{margin-top:14px;background:var(--bg);border:1.5px dashed var(--border);border-radius:14px;padding:16px 16px 6px;display:none}
+.subbox.on{display:block}
+.subgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:620px){.subgrid{grid-template-columns:1fr}}
+.minif label{font-size:12.5px;font-weight:700;color:var(--ink2);display:block;margin-bottom:5px}
+.minif .incfield{padding:8px 12px}
+.minif .incfield input{font-size:16px;width:100%}
+/* two-car cards */
+.cars2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+@media(max-width:760px){.cars2{grid-template-columns:1fr}}
+.carc{background:var(--bg);border:1.5px solid var(--border);border-radius:16px;padding:18px;border-top:4px solid var(--border)}
+.carc.t-a{border-top-color:var(--rose)} .carc.t-b{border-top-color:var(--teal)}
+.carc h4{font-size:15px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.carc .tag{font-size:11px;font-weight:800;color:#fff;border-radius:100px;padding:3px 9px}
+.carc.t-a .tag{background:var(--rose)} .carc.t-b .tag{background:var(--teal)}
+.carc .sub{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px;line-height:1.5}
+.carc .minif{margin-bottom:11px}
+.carc .chips{margin-top:8px}
+.carc .chip{font-size:11.5px;padding:5px 10px}
+/* reco */
+.recoband{margin-top:30px;background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:18px;box-shadow:var(--cardSh);padding:22px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.recoband .crown{font-size:34px;line-height:1}
+.recoband .rt{flex:1;min-width:220px}
+.recoband .rt .k{font-size:13px;font-weight:800;color:var(--rose);letter-spacing:.02em}
+.recoband .rt .g{font-size:clamp(18px,2.5vw,24px);font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.28}
+.recoband .rt p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;max-width:640px}
+/* big out 2 */
+.bigout{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;margin-top:16px}
+@media(max-width:560px){.bigout{grid-template-columns:1fr;}.bigout .vs{display:none}}
+.bocard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.bocard.t-a{border-top-color:var(--rose)} .bocard.t-b{border-top-color:var(--teal)}
+.bocard .bl{font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:6px}
+.bocard .bv{font-size:clamp(22px,3.2vw,30px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:6px;letter-spacing:-.02em}
+.bocard.t-a .bv{color:var(--rose)} .bocard.t-b .bv{color:var(--teal)}
+.bocard .bs{font-size:12px;color:var(--mut);font-weight:600;margin-top:4px}
+.bocard.win{box-shadow:0 0 0 2px var(--pink),var(--cardSh)}
+.vs{display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--mut);font-size:15px}
+.beLine{margin-top:14px;background:var(--pinkSoft2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--ink2);font-weight:600;line-height:1.6}
+.beLine b{color:var(--rose)}
+/* stack bars */
+.stacks{margin-top:26px;display:flex;flex-direction:column;gap:16px}
+.stkrow .sl{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.stkrow .sl .pin{width:11px;height:11px;border-radius:4px}
+.stkrow .sl .tot{margin-left:auto;font-variant-numeric:tabular-nums}
+.stk{height:34px;border-radius:9px;overflow:hidden;display:flex;background:var(--bg);border:1px solid var(--border)}
+.stkseg{height:100%;width:0;transition:width 1s var(--ease);min-width:0}
+.stklegend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:11.5px;color:var(--mut);font-weight:700}
+.stklegend span{display:inline-flex;align-items:center;gap:5px}
+.stklegend .sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;text-align:center;box-shadow:var(--cardSh)}
+.kpi .kl{font-size:12px;font-weight:700;color:var(--mut);line-height:1.4}
+.kpi .kv{font-size:clamp(18px,2.4vw,23px);font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}
+/* chart */
+.chartwrap{margin-top:28px;padding-top:22px;border-top:1px dashed var(--border)}
+.chartwrap .ch{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.chartwrap .ch b{font-size:14px;font-weight:800}
+.chartwrap .ch span{font-size:12.5px;color:var(--mut);font-weight:700}
+.chartbox{position:relative;width:100%}
+#fvChart{width:100%;height:auto;display:block;overflow:visible}
+#fvPaths path{transition:stroke-dashoffset 1.3s var(--ease)}
+.crosslab{font-size:12.5px;color:var(--ink2);font-weight:700;margin-top:10px;background:var(--pinkSoft2);border-radius:12px;padding:11px 15px;line-height:1.6}
+.crosslab b{color:var(--rose)}
+/* mini blocks */
+.minis{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.minis{grid-template-columns:1fr}}
+.minic{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh);border-top:4px solid var(--gold)}
+.minic.t-cut{border-top-color:var(--slate)}
+.minic h5{font-size:14px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.minic .verdict{font-size:15px;font-weight:800;margin:6px 0;line-height:1.35}
+.minic p{font-size:12.5px;color:var(--ink2);line-height:1.6}
+.minic .row{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink2);padding:5px 0;border-bottom:1px dashed var(--border)}
+.minic .row b{font-variant-numeric:tabular-nums}
+.minic .row:last-of-type{border-bottom:0}
+.exslider{margin-top:8px}
+/* save */
+.savebar{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:16px 18px}
+.savebar .sh{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.savebar .sh .btn{margin-left:auto;padding:9px 16px;font-size:13px}
+.savelist{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.saveit{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:9px 13px;font-size:12.5px}
+.saveit .si-n{font-weight:800;color:var(--ink)}
+.saveit .si-d{color:var(--mut);font-weight:600;flex:1;min-width:0;font-variant-numeric:tabular-nums}
+.saveit button{font-family:inherit;font-size:11.5px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink2)}
+.saveit button:hover{border-color:var(--rose);color:var(--rose)}
+.saveempty{font-size:12px;color:var(--mut);font-weight:600;margin-top:10px}
+/* lockbox */
+.lockbox{margin-top:26px;background:linear-gradient(135deg,#fff,var(--pinkSoft));border:1px solid var(--border);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+.lockbox .lk{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:5px 12px}
+.lockbox h4{font-size:clamp(17px,2.3vw,21px);font-weight:800;margin-top:12px;letter-spacing:-.02em}
+.lockbox p{font-size:13.5px;color:var(--ink2);margin-top:8px;max-width:560px;line-height:1.6}
+.lockfeat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+@media(max-width:600px){.lockfeat{grid-template-columns:1fr}}
+.lockfeat .lf{display:flex;gap:9px;align-items:flex-start;background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.lockfeat .lf .ic{font-size:18px;line-height:1.2}
+.lockfeat .lf b{font-size:13px;font-weight:800}
+.lockfeat .lf p{font-size:12px;color:var(--mut);margin-top:2px;font-weight:600}
+.lockbox .btn{margin-top:18px}
+/* why cards */
+.bd{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:680px){.bd{grid-template-columns:1fr}}
+.bdc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--cardSh);border-top:4px solid var(--border)}
+.bdc.t-1{border-top-color:var(--rose)} .bdc.t-2{border-top-color:var(--teal)}
+.bdc h5{font-size:14px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.bdc p{font-size:13px;color:var(--ink2);line-height:1.65}
+.bdc .big{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin:2px 0 6px}
+.toolnote{font-size:12.5px;color:var(--mut);margin-top:18px;line-height:1.65;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.toolnote b{color:var(--ink2)}
+.linkkit{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--rose);font-size:14px}
+
+/* ===navfix=== canonical nav */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease)}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+/* ===pagedyn=== */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}.numin,.fld,.incfield,table{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap">
+  <a class="backlink" href="/contents">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">PRO TOOL · 자료실</span>
+  <h1 class="tool-h1 reveal">휘발유 vs 전기, <span class="grad">진짜 총비용</span> <span class="probadge">PRO</span></h1>
+  <p class="lead reveal">차값만 보고 고르면 5년 뒤 통장이 달라져요. 핵심은 <b>차값 + 취득세 + 할부이자 + 연료/충전비 + 묶인 돈의 기회비용 − 되팔 때 잔존가치</b>, 즉 <b>'N년 총소유비용(TCO)'</b>이에요. 휘발유차와 전기차를 나란히 놓고, <b>얼마나 달려야 전기차가 이득인지</b> 손익분기 주행거리까지 계산하고, <b>현금 vs 할부</b>와 <b>중간에 팔면</b> 어떻게 되는지도 보여드려요.</p>
+  <div class="livechips reveal" id="liveChips">
+    <span class="livechip"><span class="lcd"></span>휘발유 전국평균 <b id="lcGas">2,010</b>원/L</span>
+    <span class="livechip"><span class="lcd"></span>전기 공용충전 <b id="lcEv">320</b>원/kWh</span>
+    <span class="livechip"><span class="lcd"></span>신차 할부금리 <b id="lcLoan">4%</b>대</span>
+    <span class="livechip">오피넷·여신금융협회 <b id="lcDate">2026-06-02</b></span>
+  </div>
+
+  <div class="panel calc reveal">
+    <!-- 공통 입력 -->
+    <div class="field">
+      <label for="kmR">한 해에 얼마나 달려요? <span style="color:var(--mut);font-weight:600">(연 주행거리 · 연료비를 가르는 핵심)</span></label>
+      <div class="incrow">
+        <input id="kmR" type="range" min="5000" max="30000" step="1000" value="15000">
+        <span class="bigv"><span id="kmV">15,000</span>km</span>
+      </div>
+      <div class="chips" id="kmChips">
+        <button class="chip" type="button" data-v="10000">적게 1만</button>
+        <button class="chip on" type="button" data-v="15000">보통 1.5만</button>
+        <button class="chip" type="button" data-v="20000">많이 2만</button>
+        <button class="chip" type="button" data-v="25000">장거리 2.5만</button>
+      </div>
+      <div class="hint">우리나라 승용차 평균은 연 1.3~1.5만 km 정도예요. <b>많이 달릴수록</b> 연료가 싼 전기차가 유리해져요.</div>
+    </div>
+
+    <div class="field">
+      <label for="yrsR">몇 년 타고 비교할까요? <span style="color:var(--mut);font-weight:600">(보유 기간)</span></label>
+      <div class="incrow">
+        <input id="yrsR" type="range" min="1" max="7" step="1" value="5">
+        <span class="bigv"><span id="yrsV">5</span>년</span>
+      </div>
+      <div class="hint" id="yrsHint">오래 탈수록 초기 차값·취득세가 연 단위로 옅어져, 연료비·잔존가치의 영향이 커져요.</div>
+    </div>
+
+    <div class="field">
+      <label for="opR">묶인 돈을 굴렸다면? <span style="color:var(--mut);font-weight:600">(기회수익률 · 연)</span></label>
+      <div class="incrow">
+        <input id="opR" type="range" min="0" max="8" step="0.5" value="4">
+        <span class="bigv"><span id="opV">4.0</span>%</span>
+      </div>
+      <div class="hint">차에 목돈이 묶이면 그 돈으로 벌 수 있었던 수익을 포기해요. 이게 구입의 <b>숨은 비용</b>이에요. 총비용은 보수적으로 <b>결제 방식과 무관하게</b> 차값만큼 묶였다고 보고, 할부엔 <b>이자</b>를 더해요. 그 목돈을 굴려 이자를 상쇄할 수 있는지는 아래 <b>현금 vs 할부</b>에서 정밀 비교해 드려요.</div>
+    </div>
+
+    <!-- 결제 방법 -->
+    <div class="field">
+      <label>어떻게 결제해요? <span style="color:var(--mut);font-weight:600">(두 차에 똑같이 적용 — 공정 비교)</span></label>
+      <div class="seg" id="paySeg" role="tablist">
+        <button type="button" data-v="cash" class="on" role="tab">💵 현금 일시불</button>
+        <button type="button" data-v="loan" role="tab">🧾 할부</button>
+      </div>
+      <div class="subbox" id="loanBox">
+        <div class="subgrid">
+          <div class="minif"><label for="downR">선수금 <b id="downV" style="color:var(--rose)">30%</b></label><input id="downR" type="range" min="0" max="60" step="5" value="30" style="width:100%"></div>
+          <div class="minif"><label for="lmR">할부 기간 <b id="lmV" style="color:var(--rose)">36개월</b></label><input id="lmR" type="range" min="12" max="60" step="6" value="36" style="width:100%"></div>
+          <div class="minif"><label for="lrF">할부 금리 (연)</label><div class="incfield sm"><input id="lrF" type="text" inputmode="decimal" value="4.5"><span>%</span></div>
+            <div class="chips" id="lrChips" style="margin-top:7px">
+              <button class="chip" type="button" data-v="3.9">우대 3.9</button>
+              <button class="chip on" type="button" data-v="4.5">평균 4.5</button>
+              <button class="chip" type="button" data-v="6">높음 6</button>
+            </div>
+          </div>
+        </div>
+        <div class="hint" style="margin-bottom:12px">신차 할부금리는 6개 카드사 평균 <b>4%대</b>예요(여신금융협회, 현금 30%·36개월 기준). 할부 기간은 보유 기간 안으로 두면 비교가 가장 깔끔해요.</div>
+      </div>
+    </div>
+
+    <!-- 두 차 입력 -->
+    <div class="field" style="margin-bottom:8px"><label>두 차, 우리 조건으로 <span style="color:var(--mut);font-weight:600">(견적서·실구매가로 바꿔보세요 · 전기차는 보조금 반영 실구매가)</span></label></div>
+    <div class="cars2">
+      <!-- 차 A 휘발유 -->
+      <div class="carc t-a">
+        <h4><span class="tag">🚗 차 A · 휘발유</span></h4>
+        <div class="sub">기름값이 비싸도 <b>차값·취득세가 낮은</b> 편이에요.</div>
+        <div class="minif"><label for="aPr">차값 (실구매가)</label><div class="incfield"><input id="aPr" type="text" inputmode="numeric" value="35,000,000"><span>원</span></div></div>
+        <div class="minif"><label for="aAc">취득세율</label><div class="incfield sm"><input id="aAc" type="text" inputmode="decimal" value="7.0"><span>%</span></div><div class="hint" style="margin-top:5px">일반 승용 7%, 경차 4%.</div></div>
+        <div class="minif"><label for="aEf">연비</label><div class="incfield sm"><input id="aEf" type="text" inputmode="decimal" value="12.0"><span>km/L</span></div></div>
+        <div class="minif"><label for="aMt">연 유지비 (보험·세금·정비)</label><div class="incfield"><input id="aMt" type="text" inputmode="numeric" value="2,000,000"><span>원/년</span></div></div>
+        <div class="minif"><label for="aRs"><span id="aYr">5</span>년 뒤 잔존가치 <b id="aRsV" style="color:var(--rose)">40%</b></label><input id="aRs" type="range" min="20" max="80" step="1" value="40" style="width:100%"></div>
+      </div>
+      <!-- 차 B 전기 -->
+      <div class="carc t-b">
+        <h4><span class="tag">⚡ 차 B · 전기</span></h4>
+        <div class="sub">충전이 싸지만 <b>차값이 높고</b> 잔존가치는 보수적으로.</div>
+        <div class="minif"><label for="bPr">차값 (보조금 반영 실구매가)</label><div class="incfield"><input id="bPr" type="text" inputmode="numeric" value="48,000,000"><span>원</span></div></div>
+        <div class="minif"><label for="bAc">취득세율 (감면 반영)</label><div class="incfield sm"><input id="bAc" type="text" inputmode="decimal" value="3.9"><span>%</span></div><div class="hint" style="margin-top:5px">전기차는 취득세 140만 한도 감면이 있어 낮춰 넣어요.</div></div>
+        <div class="minif"><label for="bEf">전비</label><div class="incfield sm"><input id="bEf" type="text" inputmode="decimal" value="5.0"><span>km/kWh</span></div></div>
+        <div class="minif"><label for="bMt">연 유지비 (보험·세금·정비)</label><div class="incfield"><input id="bMt" type="text" inputmode="numeric" value="1,200,000"><span>원/년</span></div></div>
+        <div class="minif"><label for="bRs"><span id="bYr">5</span>년 뒤 잔존가치 <b id="bRsV" style="color:var(--teal)">35%</b></label><input id="bRs" type="range" min="20" max="80" step="1" value="35" style="width:100%"></div>
+      </div>
+    </div>
+
+    <!-- 연료 단가 -->
+    <div class="field" style="margin-top:18px">
+      <label>연료·충전 단가 <span style="color:var(--mut);font-weight:600">(오늘 시세, 직접 바꿔도 돼요)</span></label>
+      <div class="incrow">
+        <div class="minif" style="margin:0"><label for="gasF">🚗 휘발유</label><div class="incfield sm"><input id="gasF" type="text" inputmode="numeric" value="2,010"><span>원/L</span></div></div>
+        <div class="minif" style="margin:0"><label for="evF">⚡ 전기 충전</label><div class="incfield sm"><input id="evF" type="text" inputmode="numeric" value="320"><span>원/kWh</span></div></div>
+      </div>
+      <div class="hint">집 완속 충전(심야)은 더 싸고, 공용 급속은 더 비싸요. 휘발유는 오피넷 전국 평균, 전기는 공용 충전 평균을 기본값으로 넣었어요.</div>
+    </div>
+
+    <!-- 추천 배너 -->
+    <div class="recoband">
+      <div class="crown" id="recoCrown" aria-hidden="true">🚗</div>
+      <div class="rt">
+        <div class="k" id="recoK">계산 중…</div>
+        <div class="g" id="recoG"></div>
+        <p id="recoP"></p>
+      </div>
+    </div>
+
+    <!-- 빅아웃 2 -->
+    <div class="bigout" id="bigout"></div>
+    <div class="beLine" id="beLine"></div>
+
+    <!-- 비용 분해 스택 -->
+    <div class="stacks">
+      <div class="ch" style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:14px">🧱 무엇으로 이 총비용이 되었나 (<span id="stkYr">5</span>년 누적 분해)</b></div>
+      <div class="stkrow"><div class="sl"><span class="pin" style="background:var(--rose)"></span>🚗 휘발유 <span class="tot" id="stkATot">·</span></div><div class="stk" id="stackA"></div></div>
+      <div class="stkrow"><div class="sl"><span class="pin" style="background:var(--teal)"></span>⚡ 전기 <span class="tot" id="stkBTot">·</span></div><div class="stk" id="stackB"></div></div>
+      <div class="stklegend" id="stkLegend"></div>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpis" id="kpis"></div>
+
+    <!-- 누적 곡선 -->
+    <div class="chartwrap">
+      <div class="ch"><b>📈 해가 갈수록 쌓이는 총소유비용</b><span id="chSpan">0~5년</span></div>
+      <div class="chartbox">
+        <svg id="fvChart" viewBox="0 0 720 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="휘발유차와 전기차의 연차별 누적 총소유비용 곡선">
+          <g id="fvGrid"></g>
+          <g id="fvPaths" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="fvDots"></g>
+          <g id="fvAxis"></g>
+        </svg>
+      </div>
+      <div class="crosslab" id="crossLab"></div>
+    </div>
+
+    <!-- 미니: 현금 vs 할부 / 중도해지 -->
+    <div class="minis">
+      <div class="minic" id="financeMini">
+        <h5>💵 현금 vs 🧾 할부, 뭐가 이득?</h5>
+        <div class="verdict" id="finVerdict">·</div>
+        <div class="row"><span>할부로 내는 총이자 (명목)</span><b id="finInt">·</b></div>
+        <div class="row"><span>분할 납부의 시간가치 효과</span><b id="finOpp">·</b></div>
+        <div class="row"><span>순효과 (할부 − 현금, 현재가치)</span><b id="finNet">·</b></div>
+        <p id="finP" style="margin-top:8px"></p>
+      </div>
+      <div class="minic t-cut" id="cutMini">
+        <h5>✂️ 중간에 팔거나 해지하면?</h5>
+        <div class="exslider"><label style="font-size:12.5px;font-weight:700;color:var(--ink2);display:block;margin-bottom:5px"><span id="exYrLbl">3</span>년차에 처분한다면 (<span id="exCar">싼 쪽</span>)</label><input id="exR" type="range" min="1" max="5" step="1" value="3" style="width:100%"></div>
+        <div class="row"><span>되팔아 회수하는 잔존가치</span><b id="cutResid" style="color:var(--sage)">·</b></div>
+        <div class="row"><span>남은 할부 잔액 (있다면)</span><b id="cutBal">·</b></div>
+        <p id="cutP" style="margin-top:8px"></p>
+      </div>
+    </div>
+
+    <!-- 저장 -->
+    <div class="savebar">
+      <div class="sh">💾 이 비교 저장 <span style="color:var(--mut);font-weight:600;font-size:12px">(기기에만 저장, 최대 8개)</span><button class="btn btn-rose" type="button" id="saveBtn">＋ 지금 비교 저장</button></div>
+      <div class="savelist" id="savedList"></div>
+      <div class="saveempty" id="saveEmpty">아직 저장한 비교가 없어요. 조건을 바꿔가며 우리 차 후보들을 모아 비교해 보세요.</div>
+    </div>
+
+    <!-- 락박스 -->
+    <div class="lockbox">
+      <span class="lk">🔒 구독 회원 전용 · 곧 열려요</span>
+      <h4>우리 부부 차 후보, 같이 추적하는 '카 머니 보드'</h4>
+      <p>지금 비교는 기기에만 남아요. 구독 회원이 되면 두 사람이 모은 차 후보를 한 보드에서 함께 보고, 시세·금리가 바뀌면 자동으로 다시 계산해 드려요.</p>
+      <div class="lockfeat">
+        <div class="lf"><span class="ic">📡</span><div><b>실시간 시세 연동</b><p>휘발유·충전요금·할부금리가 바뀌면 총비용 자동 갱신</p></div></div>
+        <div class="lf"><span class="ic">👫</span><div><b>부부 공동 후보함</b><p>각자 찜한 차를 한 보드에서 나란히 비교·투표</p></div></div>
+        <div class="lf"><span class="ic">🔔</span><div><b>구입 타이밍 알림</b><p>금리 인하·연식 변경 등 살 만한 시점을 콕</p></div></div>
+        <div class="lf"><span class="ic">🧾</span><div><b>할부·리스 견적 정리</b><p>받은 견적서를 넣으면 진짜 부담 순으로 정렬</p></div></div>
+      </div>
+      <a class="btn btn-rose" href="/premium">프리미엄으로 모두 열기 →</a>
+    </div>
+
+    <!-- 왜 카드 -->
+    <div class="bd" id="bd"></div>
+
+    <div class="toolnote">💡 <b>이 계산의 약속(가정)</b> — 두 차 모두 <b>N년 총소유비용(낮을수록 이득)</b>으로 비교해요. <b>총비용 = (차값 − 잔존가치) + 취득세 + 할부이자 + 연 유지비 + 연료/충전비 + 묶인 돈의 기회비용.</b> 잔존가치는 차값 기준 직선 감가로 단순화했고, 할부는 원리금균등(만기 내 완납 가정)으로 이자를 계산해요. 연료비는 <b>연 주행거리 ÷ 연비(전비) × 단가</b>이며 단가는 기간 내 고정으로 봤어요(물가·시세 변동 미반영). 보조금·취득세 감면은 차값·취득세율에 직접 반영해 넣어 주세요. <b>중도해지 위약금</b>은 구입(할부)의 잔존가치 회수·할부 잔액만 다루며, 리스·장기렌트의 위약금(보통 잔여 회차의 일부)은 아래 ‘리스·렌트’ 도구를 참고하세요. 휘발유 전국 평균 2,010원/L·전기 공용충전 약 320원/kWh(오피넷·전기신문 2026-06-02), 신차 할부금리 평균 4%대(여신금융협회 2026-05-31) 실데이터예요. <b>실제 견적·세제·시세는 차종·지역·상품마다 다르니</b> 방향을 잡는 <b>참고용</b>으로만 봐주세요. <a class="linkkit" href="/tool-vs-489f">구입 vs 리스 vs 장기렌트도 비교 →</a></div>
+  </div>
+</section>
+
+<section class="blk wrap" style="padding-top:0">
+  <div class="cta-band reveal">
+    <h3>큰 지출일수록, '얼마'보다 '어떻게'가 통장을 가릅니다.</h3>
+    <p>차 한 대에도 연료·할부·되팔 때 값에 따라 수백만 원이 갈려요. 매일 머니레터로 금리·유가 흐름을 함께 읽고, 우리 집 큰 결정들을 차근차근 정리해 가요.</p>
+    <a class="btn btn-rose magnet" href="/premium">프리미엄으로 모두 열기 →</a>
+  </div>
+</section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 특정 차종·금융사 가입이나 투자 권유가 아니에요. 잔존가치·기회비용·할부이자·연료비·세금은 단순화한 가정으로 실제 견적과 다를 수 있고, 결과는 입력값에 따라 크게 달라져요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>

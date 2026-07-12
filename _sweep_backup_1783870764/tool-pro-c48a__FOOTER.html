@@ -1,0 +1,289 @@
+<!-- [도구_몬테카를로성공확률Pro_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+/* ===== 몬테카를로 엔진 (node로 14/14 ASSERT 검증된 코드) ===== */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function buildPaths(N,years,mean,vol,seed){
+ var rng=mulberry32(seed>>>0),paths=[],i,t,u,v,z,mult;
+ for(i=0;i<N;i++){var row=[];for(t=0;t<years;t++){
+  u=rng();while(u<=1e-12)u=rng(); v=rng();
+  z=Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  mult=1+(mean+vol*z); if(mult<0.05)mult=0.05;
+  row.push(mult);
+ } paths.push(row);} return paths;
+}
+function simPath(P0,mults,rate0,infl,strat,band){
+ var bal=P0,w=P0*rate0,years=mults.length,t,draw,cur,traj=[bal];
+ for(t=0;t<years;t++){
+  if(strat==='prop'){ draw=bal*rate0; }
+  else if(strat==='four'){ draw=w; }
+  else { if(t>0){ w=w*(1+infl);
+    cur=(bal>0?w/bal:99);
+    if(cur>rate0*(1+band)) w=w*0.90;
+    else if(cur<rate0*(1-band)) w=w*1.10;
+   } draw=w; }
+  if(draw>=bal){ traj.push(0); for(var k=t+1;k<years;k++)traj.push(0);
+   return {survived:false,depYear:t,endBal:0,traj:traj}; }
+  bal=(bal-draw)*mults[t]; traj.push(bal);
+  if(strat==='four') w=w*(1+infl);
+ }
+ return {survived:true,depYear:-1,endBal:bal,traj:traj};
+}
+function pct(sorted,p){ if(!sorted.length)return 0; var idx=(sorted.length-1)*p,lo=Math.floor(idx),hi=Math.ceil(idx);
+ if(lo===hi)return sorted[lo]; return sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo); }
+function runMC(o){
+ var paths=buildPaths(o.N,o.years,o.mean,o.vol,o.seed),out={};
+ ['four','prop','guard'].forEach(function(s){
+  var surv=0,depAges=[],ends=[],trajs=[],i,r;
+  for(i=0;i<o.N;i++){ r=simPath(o.P0,paths[i],o.rate0,o.infl,s,o.band);
+   if(r.survived){surv++; ends.push(r.endBal);} else {depAges.push(o.retire+r.depYear);}
+   trajs.push(r.traj);
+  }
+  var bands={p10:[],p25:[],p50:[],p75:[],p90:[]},t;
+  for(t=0;t<=o.years;t++){ var col=[]; for(i=0;i<o.N;i++)col.push(trajs[i][t]); col.sort(function(a,b){return a-b;});
+   bands.p10.push(pct(col,.10));bands.p25.push(pct(col,.25));bands.p50.push(pct(col,.50));bands.p75.push(pct(col,.75));bands.p90.push(pct(col,.90)); }
+  depAges.sort(function(a,b){return a-b;}); ends.sort(function(a,b){return a-b;});
+  out[s]={succ:surv/o.N*100, medDep:depAges.length?Math.round(pct(depAges,.5)):null, medEnd:ends.length?pct(ends,.5):0, bands:bands};
+ });
+ return out;
+}
+/* 처방용: 경로를 한 번만 만들고 인출률만 바꿔 4%룰 성공률 스캔 */
+function maxRateForTarget(o,target){
+ var paths=buildPaths(o.N,o.years,o.mean,o.vol,o.seed),rr,i,surv,best=0;
+ for(rr=70;rr>=20;rr--){ surv=0; var r=rr/1000;
+  for(i=0;i<o.N;i++){ if(simPath(o.P0,paths[i],r,o.infl,'four',o.band).survived)surv++; }
+  if(surv/o.N*100>=target){ best=r; break; }
+ } return best;
+}
+function succFour(o){ var paths=buildPaths(o.N,o.years,o.mean,o.vol,o.seed),surv=0,i;
+ for(i=0;i<o.N;i++){ if(simPath(o.P0,paths[i],o.rate0,o.infl,'four',o.band).survived)surv++; } return surv/o.N*100; }
+
+/* ===== 상태 ===== */
+var SEED=12345, LSKEY='bbMonteCarloPro_v1';
+var ST={p0:5,retire:60,life:90,mean:7,vol:12,infl:2.5,rate0:4.5,strat:'four',band:20,N:500};
+var STRAT_NAME={four:'4%룰',prop:'정률',guard:'가드레일'};
+
+function readP0(){ var x=parseFloat((document.getElementById('p0').value||'').replace(/[^0-9.]/g,'')); return (isFinite(x)&&x>=0)?x:0; }
+function curOpts(){ return {N:ST.N,years:Math.max(1,ST.life-ST.retire),retire:ST.retire,P0:ST.p0*10000,mean:ST.mean/100,vol:ST.vol/100,infl:ST.infl/100,rate0:ST.rate0/100,band:ST.band/100,seed:SEED}; }
+
+/* 포맷: 만원 → 억/만원 */
+function fmtEok(man){ if(man<=0)return'0원'; if(man>=10000){ var e=man/10000; return (e>=10?e.toFixed(1):e.toFixed(2))+'억'; } return Math.round(man).toLocaleString()+'만원'; }
+function fmtMan(man){ return Math.round(man).toLocaleString()+'만원'; }
+
+/* 카운트업 */
+function countUp(el,to,suf,dec){ suf=suf||''; dec=dec||0; var from=0,t0=null,dur=900;
+ function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-p,3),val=from+(to-from)*e;
+  el.textContent=(dec?val.toFixed(dec):Math.round(val).toLocaleString())+suf; if(p<1)requestAnimationFrame(step); }
+ requestAnimationFrame(step); }
+
+/* ===== 렌더 ===== */
+var lastRes=null;
+function recalc(){
+ ST.p0=readP0();
+ var o=curOpts(), res=runMC(o); lastRes=res;
+ var sel=res[ST.strat], succ=sel.succ;
+
+ /* 게이지 */
+ var ring=document.getElementById('gring'), C=2*Math.PI*52;
+ ring.setAttribute('stroke-dasharray',C.toFixed(1));
+ ring.setAttribute('stroke-dashoffset',(C*(1-succ/100)).toFixed(1));
+ var col = succ>=85?'var(--sage)' : (succ>=70?'var(--gold)':'var(--up)');
+ ring.setAttribute('stroke', succ>=85?'#5E8C7F':(succ>=70?'#C9A84C':'#D8584E'));
+ countUp(document.getElementById('succV'),Math.round(succ),'%');
+ var rb=document.getElementById('recoband'); rb.className='recoband '+(succ>=85?'ok':(succ>=70?'warn':''));
+ var kEl=document.getElementById('recoK'), gEl=document.getElementById('recoG'), pEl=document.getElementById('recoP');
+ var sn=STRAT_NAME[ST.strat];
+ if(succ>=85){ kEl.textContent='✅ 비교적 안정권'; kEl.style.color='var(--sage)';
+  gEl.innerHTML=sn+'로 빼 쓰면, 100번 중 약 <b>'+Math.round(succ)+'번</b>은 '+ST.life+'세까지 버텨요';
+  pEl.textContent='지금 가정이라면 노후 자금이 시장 운에 크게 흔들리지 않아요. 다만 성공확률이 곧 합격은 아니에요 — 너무 적게 쓰느라 정작 건강할 때 못 누리고 있지는 않은지, 조금 더 써도 되는지도 함께 보세요.'; }
+ else if(succ>=70){ kEl.textContent='⚠️ 주의 구간'; kEl.style.color='#9A7E26';
+  gEl.innerHTML=sn+'로 빼 쓰면, 100번 중 약 <b>'+Math.round(succ)+'번</b>은 '+ST.life+'세까지 버텨요';
+  pEl.textContent='나머지는 도중에 바닥났다는 뜻이에요. 평균 수익률이 충분해 보여도, 은퇴 초반에 시장이 크게 빠지는 나쁜 순서를 만나면 회복하기 전에 자산이 줄어요. 아래 처방으로 확률을 끌어올려 보세요.'; }
+ else { kEl.textContent='🚨 위험 구간'; kEl.style.color='var(--up)';
+  gEl.innerHTML=sn+'로 빼 쓰면, 100번 중 약 <b>'+Math.round(succ)+'번</b>만 '+ST.life+'세까지 버텨요';
+  pEl.textContent='절반 가까이가 도중에 바닥난다는 신호예요. 인출률을 낮추거나, 변동성을 줄이거나(채권 비중↑), 은퇴를 조금 미루는 조정이 필요해요. 아래 처방을 참고하세요.'; }
+
+ /* KPI */
+ document.getElementById('kSucc').textContent=Math.round(succ)+'%';
+ document.getElementById('kSucc').style.color=col;
+ document.getElementById('kSuccS').textContent=ST.N+'번 중 약 '+Math.round(ST.N*succ/100)+'번 끝까지 버팀';
+ document.getElementById('kDep').textContent = sel.medDep!=null ? sel.medDep+'세' : '—';
+ document.getElementById('kDepS').textContent = sel.medDep!=null ? '실패한 경로의 절반은 이 나이 전후로 소진' : '실패 경로가 없어요(성공확률 100%)';
+ document.getElementById('kEnd').textContent = fmtEok(sel.medEnd);
+
+ /* 전략 비교 막대 (최대 100%) */
+ setBar('bFour','vFour',res.four.succ); setBar('bProp','vProp',res.prop.succ); setBar('bGuard','vGuard',res.guard.succ);
+
+ /* 부채꼴 차트 */
+ document.getElementById('fanTit').textContent='📊 잔액 부채꼴 — '+sn+' (운이 좋을 때 vs 나쁠 때)';
+ drawFan(sel.bands, ST.retire, ST.life);
+ var lastT=o.years, p10=sel.bands.p10[lastT], p50=sel.bands.p50[lastT], p90=sel.bands.p90[lastT];
+ document.getElementById('dpLow').textContent = p10<=1 ? '거의 소진' : fmtEok(p10);
+ document.getElementById('dpLow').style.color = p10<=1 ? 'var(--up)' : 'var(--ink)';
+ document.getElementById('dpMid').textContent = fmtEok(p50);
+ document.getElementById('dpHigh').textContent = fmtEok(p90);
+ /* 부채꼴 차트 동적 aria-label (스크린리더용 · 실제 결과값 반영) */
+ var fanEl=document.getElementById('fanChart');
+ if(fanEl){ var lowTxt = p10<=1 ? '거의 소진(자금이 바닥)' : fmtEok(p10);
+  fanEl.setAttribute('aria-label','은퇴 후 '+ST.retire+'세부터 '+ST.life+'세까지 '+sn+' 방식으로 빼 썼을 때 나이별 잔액 분포 부채꼴 차트. 끝까지 버틸 성공확률 약 '+Math.round(succ)+'%. '+ST.life+'세 시점 끝 잔액은 운이 나쁜 하위 10%일 때 '+lowTxt+', 가운데값 '+fmtEok(p50)+', 운이 좋은 상위 10%일 때 '+fmtEok(p90)+'이에요. 부채꼴이 아래로 0(빨간 점선)에 닿는 경로가 자금이 바닥난 경우예요.'); }
+
+ /* 변동성의 힘 */
+ document.getElementById('vfMean').textContent=ST.mean+'%';
+ document.getElementById('vfRate').textContent=ST.rate0+'%';
+ var v8=succFour(Object.assign({},o,{vol:0.08})), v12=succFour(Object.assign({},o,{vol:0.12})), v16=succFour(Object.assign({},o,{vol:0.16}));
+ setBar('bV8','vV8',v8); setBar('bV12','vV12',v12); setBar('bV16','vV16',v16);
+ var gap=Math.round(v8-v16);
+ document.getElementById('vfGap').textContent=gap+'%p';
+ document.getElementById('vfHint').innerHTML='평균 수익률이 똑같아도, 변동성이 ±8%에서 ±16%로 커지면 성공확률이 <b>'+gap+'%p</b> 차이 나요('+Math.round(v8)+'% → '+Math.round(v16)+'%). 출렁임이 클수록 나쁜 순서를 만났을 때 손해가 회복하기 어렵거든요. 노후가 가까울수록 평균을 좇기보다 변동성을 낮추는(채권 비중을 늘리는) 게 중요할 수 있는 이유예요.';
+
+ renderRx(res, o);
+ chipNs();
+ syncInputHints();
+}
+function setBar(barId,valId,succ){ var b=document.getElementById(barId); b.style.width=Math.max(0,Math.min(100,succ))+'%';
+ document.getElementById(valId).textContent=Math.round(succ)+'%'; }
+
+function chipNs(){ document.getElementById('chipN').textContent=ST.N+'회'; }
+function syncInputHints(){
+ document.getElementById('lifeV').textContent=ST.life+'세';
+ document.getElementById('nYears').textContent=Math.max(1,ST.life-ST.retire)+'년';
+ document.getElementById('rateV').textContent=ST.rate0+'%';
+ var wman=ST.p0*10000*ST.rate0/100;
+ document.getElementById('firstW').textContent=fmtMan(wman)+'/년';
+ document.getElementById('firstWm').textContent=fmtMan(wman/12);
+}
+
+/* 부채꼴 SVG */
+function drawFan(bands, retire, life){
+ var W=760,H=320,padL=52,padR=14,padT=14,padB=26, years=bands.p10.length-1;
+ var x0=padL, x1=W-padR, y0=padT, y1=H-padB;
+ var maxY=0,i; for(i=0;i<bands.p90.length;i++) maxY=Math.max(maxY,bands.p90[i]); maxY=Math.max(maxY,1);
+ maxY*=1.05;
+ function X(t){ return x0+(x1-x0)*(t/years); }
+ function Y(v){ return y1-(y1-y0)*(v/maxY); }
+ /* grid + y labels */
+ var g='',lab='',steps=4,k;
+ for(k=0;k<=steps;k++){ var vy=maxY*k/steps, yy=Y(vy);
+  g+='<line x1="'+x0+'" y1="'+yy.toFixed(1)+'" x2="'+x1+'" y2="'+yy.toFixed(1)+'" stroke="#EAD7D3" stroke-width="1"/>';
+  lab+='<text x="'+(x0-7)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="10.5" fill="#8A7B72" font-weight="700">'+fmtEokShort(vy)+'</text>';
+ }
+ /* x labels: retire, mid, life */
+ var ages=[retire, Math.round((retire+life)/2), life], tpos=[0,years/2,years];
+ for(k=0;k<3;k++){ lab+='<text x="'+X(tpos[k]).toFixed(1)+'" y="'+(y1+18)+'" text-anchor="middle" font-size="10.5" fill="#8A7B72" font-weight="700">'+ages[k]+'세</text>'; }
+ document.getElementById('fanGrid').innerHTML=g;
+ document.getElementById('fanLabels').innerHTML=lab;
+ /* band paths */
+ document.getElementById('bandOuter').setAttribute('d', areaPath(bands.p90,bands.p10,X,Y));
+ document.getElementById('bandInner').setAttribute('d', areaPath(bands.p75,bands.p25,X,Y));
+ /* median line */
+ var d=''; for(i=0;i<bands.p50.length;i++){ d+=(i===0?'M':'L')+X(i).toFixed(1)+' '+Y(bands.p50[i]).toFixed(1)+' '; }
+ var ml=document.getElementById('medLine'); ml.setAttribute('d',d.trim());
+ try{ var L=ml.getTotalLength(); ml.style.strokeDasharray=L; ml.style.strokeDashoffset=L; ml.getBoundingClientRect(); ml.style.strokeDashoffset='0'; }catch(e){ ml.style.strokeDasharray='none'; }
+ /* zero line */
+ var zl=document.getElementById('zeroLine'); zl.setAttribute('x1',x0);zl.setAttribute('x2',x1);zl.setAttribute('y1',Y(0));zl.setAttribute('y2',Y(0));
+}
+function areaPath(top,bottom,X,Y){ var d='',i; for(i=0;i<top.length;i++){ d+=(i===0?'M':'L')+X(i).toFixed(1)+' '+Y(top[i]).toFixed(1)+' '; }
+ for(i=bottom.length-1;i>=0;i--){ d+='L'+X(i).toFixed(1)+' '+Y(bottom[i]).toFixed(1)+' '; } return d+'Z'; }
+function fmtEokShort(man){ if(man>=10000)return (man/10000).toFixed(man>=100000?0:1)+'억'; if(man<=0)return'0'; return Math.round(man).toLocaleString(); }
+
+/* 처방 */
+function renderRx(res, o){
+ var succ=res[ST.strat].succ, target=90, diag=document.getElementById('diagBox'), list=document.getElementById('rxList'), html='';
+ if(succ>=target){
+  diag.innerHTML='지금 가정의 성공확률은 <b>'+Math.round(succ)+'%</b>로 이미 목표(90%)를 넘었어요. 여기서는 "어떻게 더 안전하게"보다 "조금 더 누려도 되는지"를 같이 보면 좋아요.';
+  var mr=maxRateForTarget(o,target);
+  html+=rxRow('🎈','조금 더 써도 괜찮을지 보기','지금보다 첫 인출률을 올려도 90% 성공을 지킬 여지가 있어요. <b>약 '+(mr*100).toFixed(1)+'%</b>까지는 90%를 유지해요(현재 '+ST.rate0+'%). 단 한 번에 크게 올리기보다, 매년 점검하며 조금씩.');
+  html+=rxRow('🛟','가드레일로 여유 만들기','시장이 좋은 해엔 조금 더 쓰고 나쁜 해엔 덜 쓰는 가드레일이면, 같은 안전도로도 평균 생활비를 끌어올릴 수 있어요(현재 가드레일 성공확률 '+Math.round(res.guard.succ)+'%).');
+ } else {
+  var mr=maxRateForTarget(o,target);
+  diag.innerHTML='지금 성공확률은 <b>'+Math.round(succ)+'%</b>예요. 목표 90%까지 <b>'+Math.max(0,Math.round(target-succ))+'%p</b> 부족해요. 아래 중 하나만 적용해도 꽤 올라가요.';
+  if(mr>0){ html+=rxRow('✂️','첫 인출률 낮추기','첫 인출률을 <b>약 '+(mr*100).toFixed(1)+'%</b>로 낮추면 같은 시장에서 성공확률이 90%로 올라가요(현재 '+ST.rate0+'%). 월 인출은 '+fmtMan(o.P0*ST.rate0/100/12)+' → 약 '+fmtMan(o.P0*mr/12)+'.'); }
+  else { html+=rxRow('✂️','첫 인출률 낮추기','지금 가정에선 3% 안팎까지 낮춰도 90%에 닿기 빠듯해요. 인출률만으로는 부족하니 아래 처방을 함께 보세요.'); }
+  var loVol=succFour(Object.assign({},o,{vol:Math.max(0.06,o.vol-0.04)}));
+  html+=rxRow('🌊','변동성 낮추기 (채권 비중↑)','변동성을 ±'+ST.vol+'% → ±'+Math.max(6,ST.vol-4)+'%로 줄이면(채권 비중을 늘리면) 성공확률이 약 <b>'+Math.round(loVol)+'%</b>로 올라가요. 노후가 가까울수록 평균보다 출렁임 관리가 중요해요.');
+  var delay=succFour(Object.assign({},o,{years:Math.max(1,o.years-3)}));
+  html+=rxRow('⏳','은퇴 3년 미루기','은퇴를 3년 미뤄 빼 쓰는 기간을 '+o.years+'년 → '+(o.years-3)+'년으로 줄이면 성공확률이 약 <b>'+Math.round(delay)+'%</b>로 올라가요(목돈을 더 모으면 효과는 더 커져요).');
+  if(ST.strat!=='guard') html+=rxRow('🛟','가드레일로 바꾸기','나쁜 해에 자동으로 덜 쓰는 가드레일 방식이면 성공확률이 <b>'+Math.round(res.guard.succ)+'%</b>예요(같은 목돈·인출률 기준). 생활비가 다소 출렁이는 대신 더 오래 버텨요.');
+ }
+ list.innerHTML=html;
+}
+function rxRow(ic,t,p){ return '<div class="rx"><div class="ic">'+ic+'</div><div class="tx"><b>'+t+'</b><p>'+p+'</p></div></div>'; }
+
+/* ===== 입력 바인딩 ===== */
+function bindSeg(id,key,parse){ var box=document.getElementById(id); box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return;
+ [].forEach.call(box.querySelectorAll('button'),function(x){x.classList.remove('on');}); b.classList.add('on');
+ ST[key]=parse(b.dataset.v); recalc(); }); }
+bindSeg('segRet','retire',function(v){return parseInt(v,10);});
+bindSeg('segMean','mean',function(v){return parseFloat(v);});
+bindSeg('segVol','vol',function(v){return parseFloat(v);});
+bindSeg('segInfl','infl',function(v){return parseFloat(v);});
+bindSeg('segStrat','strat',function(v){return v;});
+bindSeg('segBand','band',function(v){return parseFloat(v);});
+bindSeg('segN','N',function(v){return parseInt(v,10);});
+
+document.getElementById('chP0').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return;
+ [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.remove('on');}); b.classList.add('on');
+ document.getElementById('p0').value=b.dataset.v; ST.p0=parseFloat(b.dataset.v); recalc(); });
+document.getElementById('p0').addEventListener('input',function(){ [].forEach.call(document.querySelectorAll('#chP0 button'),function(x){x.classList.remove('on');});
+ ST.p0=readP0(); clearTimeout(window._t); window._t=setTimeout(recalc,260); });
+document.getElementById('life').addEventListener('input',function(){ ST.life=parseInt(this.value,10);
+ document.getElementById('lifeV').textContent=ST.life+'세'; document.getElementById('nYears').textContent=Math.max(1,ST.life-ST.retire)+'년';
+ clearTimeout(window._t2); window._t2=setTimeout(recalc,200); });
+document.getElementById('rate0').addEventListener('input',function(){ ST.rate0=parseFloat(this.value);
+ document.getElementById('rateV').textContent=ST.rate0+'%'; syncInputHints();
+ clearTimeout(window._t3); window._t3=setTimeout(recalc,200); });
+
+/* ===== localStorage ===== */
+function loadStore(){ try{var r=localStorage.getItem(LSKEY); return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveStore(a){ try{localStorage.setItem(LSKEY,JSON.stringify(a.slice(0,8)));}catch(e){} }
+function renderSaves(){ var a=loadStore(), box=document.getElementById('saveList'); if(!a.length){ box.innerHTML='<div class="hint">저장된 가정이 아직 없어요. 마음에 드는 시나리오를 저장해 비교해 보세요.</div>'; return; }
+ box.innerHTML=a.map(function(s,i){ return '<div class="saveItem"><b>'+s.p0+'억·'+s.retire+'→'+s.life+'세</b>'+
+  '<span class="sm">평균 '+s.mean+'%·변동 ±'+s.vol+'%·인출 '+s.rate0+'%·'+STRAT_NAME[s.strat]+' → 성공 '+s.succ+'%</span>'+
+  '<button data-i="'+i+'" class="ld">불러오기</button><button data-i="'+i+'" class="del">삭제</button></div>'; }).join('');
+ [].forEach.call(box.querySelectorAll('button.ld'),function(btn){ btn.onclick=function(){ applySave(a[+this.dataset.i]); }; });
+ [].forEach.call(box.querySelectorAll('button.del'),function(btn){ btn.onclick=function(){ var arr=loadStore(); arr.splice(+this.dataset.i,1); saveStore(arr); renderSaves(); }; });
+}
+function applySave(s){
+ ST.p0=s.p0; ST.retire=s.retire; ST.life=s.life; ST.mean=s.mean; ST.vol=s.vol; ST.infl=s.infl; ST.rate0=s.rate0; ST.strat=s.strat; ST.band=s.band; ST.N=s.N;
+ document.getElementById('p0').value=s.p0; document.getElementById('life').value=s.life; document.getElementById('rate0').value=s.rate0;
+ segOn('segRet',s.retire); segOn('segMean',s.mean); segOn('segVol',s.vol); segOn('segInfl',s.infl); segOn('segStrat',s.strat); segOn('segBand',s.band); segOn('segN',s.N);
+ [].forEach.call(document.querySelectorAll('#chP0 button'),function(x){ x.classList.toggle('on', parseFloat(x.dataset.v)===s.p0); });
+ recalc(); document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+function segOn(id,val){ [].forEach.call(document.querySelectorAll('#'+id+' button'),function(x){ x.classList.toggle('on', x.dataset.v==String(val)); }); }
+document.getElementById('btnSave').onclick=function(){ var a=loadStore();
+ a.unshift({p0:ST.p0,retire:ST.retire,life:ST.life,mean:ST.mean,vol:ST.vol,infl:ST.infl,rate0:ST.rate0,strat:ST.strat,band:ST.band,N:ST.N,succ:Math.round(lastRes[ST.strat].succ)});
+ saveStore(a); renderSaves(); };
+document.getElementById('btnClear').onclick=function(){ if(confirm('저장된 가정을 모두 지울까요?')){ saveStore([]); renderSaves(); } };
+
+/* ===== 스크롤 리빌 + 헤더 ===== */
+var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} }); },{threshold:.12});
+[].forEach.call(document.querySelectorAll('.reveal'),function(el){io.observe(el);});
+window.addEventListener('scroll',function(){ document.getElementById('hdr').classList.toggle('scrolled',window.scrollY>10); });
+
+/* ===== init ===== */
+recalc(); renderSaves();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'\uad6c\ub3c5\ud558\uae30').trim():'\uad6c\ub3c5\ud558\uae30';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','\ub9e8 \uc704\ub85c');btn.innerHTML='<svg viewBox=\"0 0 24 24\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

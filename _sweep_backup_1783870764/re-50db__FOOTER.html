@@ -1,0 +1,172 @@
+<!-- [콘텐츠_부동산_용어사전_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>
+(function(){
+ "use strict";
+ var doc=document;
+
+ /* 죽은 크롬 onScroll 제거(개선36): #hd 더미·숨김 readbar 갱신뿐이었음 — 진행바·toTop은 하단 pagedynjs 단독 생성 */
+
+ // reveal (with no-IO fallback)
+ var rev=doc.querySelectorAll('.reveal');
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+   es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.10,rootMargin:'0px 0px -6% 0px'});
+  rev.forEach(function(el){ io.observe(el); });
+ } else { rev.forEach(function(el){ el.classList.add('in'); }); }
+
+ // category meta: [label, color]
+ var CATS={
+  area:['면적·시세','#B85060'],
+  lease:['전세·임대차','#4E8576'],
+  right:['등기·권리','#8E61A0'],
+  tax:['세금','#B5851C'],
+  loan:['대출·금융','#5B7DB1'],
+  sub:['청약','#D67A89'],
+  market:['시장·정책','#C2724B']
+ };
+
+ // term data: t=용어, a=약어/원어, c=분류, s=한줄정의, d=풀이, link=관련칼럼, src=출처배지 문구(선택·실재 법령/기관만), dl='ex'면 🟡 예시·시점변동 배지(기본 🟢 공식)
+ var TERMS=[
+  {t:'전용면적',a:'專用',c:'area',s:'현관 안쪽, 우리 집만 쓰는 실내 공간',d:'거실·방·주방·화장실 등 세대가 단독으로 쓰는 면적. 분양가·재산세·종부세의 기준이 돼요.'},
+  {t:'공급면적',a:'분양면적',c:'area',s:'전용면적 + 주거공용면적',d:'복도·계단·엘리베이터 같은 같은 동 공용까지 더한 면적. 흔히 말하는 “34평”이 이 기준이에요.'},
+  {t:'공용면적',a:'共用',c:'area',s:'여러 세대가 함께 쓰는 공간',d:'같은 동이 쓰는 주거공용(복도·계단)과 단지가 쓰는 기타공용(관리·주차)으로 나뉘어요.'},
+  {t:'계약면적',a:'契約',c:'area',s:'공급면적 + 기타공용면적',d:'주차장·관리사무소 등 단지 공용까지 모두 더한 가장 넓은 기준. 오피스텔 분양에서 주로 써요.'},
+  {t:'서비스면적',a:'발코니',c:'area',s:'면적에 안 잡히는 덤 공간',d:'발코니처럼 전용·공급면적에 포함되지 않는 공간. 확장하면 실사용 면적이 늘어나요.'},
+  {t:'전용률',a:'',c:'area',s:'공급면적 대비 전용면적 비율',d:'높을수록 실속이 커요. 아파트는 보통 70~80%대, 오피스텔은 50%대가 많아요.'},
+  {t:'평',a:'3.3㎡',c:'area',s:'면적 관습 단위, 1평 ≈ 3.3058㎡',d:'법적 단위는 ㎡지만 일상에선 평을 많이 써요. 전용 84㎡가 대략 25.7평(보통 “34평형”).'},
+  {t:'평단가',a:'3.3㎡당 가격',c:'area',s:'가격을 평수로 나눈 단가',d:'서로 다른 평형·단지를 비교할 때 쓰는 기준. 같은 단지라도 층·향에 따라 차이가 커요.'},
+  {t:'호가',a:'',c:'area',s:'집주인이 팔겠다고 부르는 값',d:'실제 거래가 아니라 희망 가격. 실거래가와 차이가 클 수 있어 둘을 꼭 함께 봐야 해요.'},
+  {t:'실거래가',a:'',c:'area',s:'실제 계약돼 신고된 가격',d:'국토교통부 실거래가 공개시스템에서 누구나 조회 가능. 시세 판단의 기준점이에요.'},
+  {t:'갭',a:'매매가-전세가',c:'area',s:'매매가에서 전세보증금을 뺀 금액',d:'전세를 끼고 집을 살 때 실제로 필요한 내 돈의 크기. 갭이 작을수록 적은 돈으로 매수 가능하지만 위험도 커요.'},
+
+  {t:'전세',a:'',c:'lease',s:'보증금만 맡기고 월세 없이 사는 임대',d:'계약이 끝나면 보증금을 그대로 돌려받아요. 한국 특유의 제도로, 보증금 반환 안전이 가장 중요해요.'},
+  {t:'월세',a:'',c:'lease',s:'보증금 + 매달 임대료',d:'보증금이 작은 대신 매달 임대료를 내요. 보증금이 클수록 월세가 낮아지는 구조.'},
+  {t:'반전세',a:'보증부월세',c:'lease',s:'전세와 월세의 중간 형태',d:'큰 보증금에 적은 월세를 더한 방식. 전세 물량이 줄면 흔해지는 형태예요.'},
+  {t:'전세가율',a:'',c:'lease',s:'매매가 대비 전세가 비율',d:'높을수록 갭이 작아요. 다만 너무 높으면 집값이 조금만 내려도 보증금이 위태로운 “깡통전세” 신호일 수 있어요.',link:'전세 안전 체크'},
+  {t:'깡통전세',a:'',c:'lease',s:'집값보다 빚+보증금이 더 큰 위험 상태',d:'집이 경매로 넘어가면 보증금을 다 못 돌려받을 수 있어요. 계약 전 등기부의 선순위 채권을 꼭 확인.',link:'전세 안전 체크'},
+  {t:'전세보증금 반환보증',a:'HUG·HF·SGI',c:'lease',s:'보증금을 못 받을 때 기관이 대신 반환',d:'보증료를 내고 가입하면 집주인이 보증금을 안 줘도 보증기관이 먼저 돌려줘요. 전세 안전의 핵심 장치.',link:'전세 안전 체크',src:'출처 주택도시보증공사(HUG)·한국주택금융공사(HF)·SGI서울보증 — 가입 요건·보증료는 기관별 상이 · 2026-06 기준'},
+  {t:'묵시적 갱신',a:'',c:'lease',s:'아무 말 없이 자동으로 연장된 계약',d:'계약 만료 전 일정 기간 양쪽 다 통보가 없으면 같은 조건으로 연장돼요. 이때 세입자는 비교적 자유롭게 나갈 수 있어요.'},
+  {t:'임대차 3법',a:'',c:'lease',s:'계약갱신요구권·전월세상한제·신고제',d:'세입자 보호를 위한 3가지 제도 묶음. 갱신권·인상률·신고 의무로 구성돼요.',link:'임대차 3법'},
+  {t:'계약갱신요구권',a:'',c:'lease',s:'세입자가 2년 더 살겠다고 요구할 권리',d:'1회 행사할 수 있어 최대 4년(2+2) 거주 가능. 집주인의 실거주 등 예외 사유가 있어요.',link:'임대차 3법',src:'출처 주택임대차보호법 제6조의3 — 갱신요구 1회·최대 4년(2+2)'},
+  {t:'전월세상한제',a:'',c:'lease',s:'갱신 때 임대료 인상 상한 5%',d:'계약갱신요구권으로 연장할 때 보증금·월세를 5% 넘게 못 올려요(지자체가 더 낮게 정할 수 있음).',link:'임대차 3법',src:'출처 주택임대차보호법 제7조 — 갱신 시 증액 상한 5%(지자체 하향 가능)'},
+
+  {t:'등기부등본',a:'등기사항전부증명서',c:'right',s:'부동산의 신분증',d:'표제부(어떤 부동산인지)·갑구(소유권)·을구(소유권 외 권리)로 구성. 인터넷등기소에서 누구나 열람 가능.',link:'전세 안전 체크'},
+  {t:'표제부',a:'',c:'right',s:'부동산의 기본 정보란',d:'소재지·면적·구조 등 “이 부동산이 무엇인지”를 적어 둔 부분이에요.'},
+  {t:'갑구',a:'',c:'right',s:'소유권에 관한 사항',d:'현재·과거 소유자, 가압류·압류·경매개시 같은 소유권 제한이 기록돼요. 진짜 주인이 누구인지 확인.',link:'전세 안전 체크'},
+  {t:'을구',a:'',c:'right',s:'소유권 외 권리에 관한 사항',d:'근저당권·전세권·지상권 등. 빚이 얼마나 잡혀 있는지(선순위)를 보는 핵심 칸이에요.',link:'전세 안전 체크'},
+  {t:'근저당권',a:'',c:'right',s:'집을 담보로 잡힌 빚',d:'주로 은행 대출. 채권최고액으로 표시되며, 내 전세보다 앞선(선순위) 근저당이 크면 위험 신호.',link:'전세 안전 체크'},
+  {t:'전입신고',a:'',c:'right',s:'이사한 집으로 주소를 옮기는 신고',d:'주민센터·정부24에서 가능. 확정일자와 함께 보증금을 지키는 대항력·우선변제권의 출발점이에요.',link:'전세 안전 체크'},
+  {t:'확정일자',a:'',c:'right',s:'계약서에 공적으로 찍는 날짜 도장',d:'주민센터·등기소·온라인에서 받아요. 우선변제권(먼저 돌려받을 순위)을 만드는 핵심 절차.',link:'전세 안전 체크'},
+  {t:'대항력',a:'',c:'right',s:'집주인이 바뀌어도 계약을 주장할 힘',d:'전입신고 + 실제 거주(점유)를 갖추면 그 다음 날 0시부터 생겨요. 새 주인에게도 임차권을 주장할 수 있어요.',link:'전세 안전 체크',src:'출처 주택임대차보호법 — 전입신고+점유 다음 날 0시부터 효력'},
+  {t:'우선변제권',a:'',c:'right',s:'경매 때 보증금을 먼저 받을 순위',d:'대항력 + 확정일자가 있으면 후순위 채권자보다 먼저 배당받아요. 순위 날짜가 빠를수록 유리.',link:'전세 안전 체크'},
+  {t:'최우선변제권',a:'소액임차인',c:'right',s:'소액 보증금 일부를 가장 먼저 보호',d:'지역별 기준 금액 이하 보증금은 일정액을 다른 채권보다 최우선으로 돌려받아요. 확정일자 없어도 적용.',link:'전세 안전 체크'},
+
+  {t:'취득세',a:'',c:'tax',s:'집을 “살 때” 내는 세금',d:'가격·주택 수에 따라 1주택은 1~3%, 다주택·법인은 중과될 수 있어요. 잔금일 기준으로 신고·납부.',link:'세금 기초',src:'출처 지방세법 제11조(주택 유상취득 1~3%) — 다주택·법인 중과 등 세율은 2026-06 기준'},
+  {t:'재산세',a:'',c:'tax',s:'집을 “가질 때” 매년 내는 보유세',d:'매년 6월 1일 소유자에게 부과돼요. 그래서 6월 1일 직전 거래는 누가 세금을 낼지 신경 써야 해요.',link:'세금 기초'},
+  {t:'종합부동산세',a:'종부세',c:'tax',s:'고가·다주택 보유에 더 매기는 세금',d:'공시가격 합산이 일정 기준을 넘으면 재산세와 별도로 부과. 과세 기준일도 6월 1일이에요.',link:'세금 기초',src:'출처 종합부동산세법·국세청 — 과세기준일 매년 6월 1일 · 공제·세율은 2026-06 기준'},
+  {t:'양도소득세',a:'양도세',c:'tax',s:'집을 “팔아 차익”이 났을 때 내는 세금',d:'양도가에서 취득가·비용을 뺀 차익에 과세. 보유·거주 기간, 주택 수에 따라 세율이 크게 달라져요.',link:'세금 기초'},
+  {t:'1세대 1주택 비과세',a:'',c:'tax',s:'요건을 채운 1주택은 양도세 면제',d:'보통 2년 보유(취득 당시 조정대상지역은 2년 거주), 양도가 12억 이하면 비과세. 세부 요건은 사례별로 확인.',link:'세금 기초',src:'출처 소득세법·국세청 — 양도가 12억 이하 등 요건은 2026-06 기준'},
+  {t:'공시가격',a:'',c:'tax',s:'정부가 매기는 부동산 기준가격',d:'재산세·종부세·건강보험료 등 각종 부과의 기준. 실거래가보다 낮게 책정되는 경우가 많아요.',link:'세금 기초'},
+  {t:'장기보유특별공제',a:'장특공',c:'tax',s:'오래 보유·거주할수록 깎아 주는 공제',d:'양도차익에서 보유·거주 연수에 따라 일정 비율을 빼줘요. 1주택은 공제율이 더 커요.',link:'세금 기초'},
+
+  {t:'LTV',a:'담보인정비율',c:'loan',s:'집값 대비 빌릴 수 있는 비율',d:'집값이 5억이고 LTV 70%면 최대 3.5억까지. 규제지역·생애최초 여부에 따라 한도가 달라져요.',link:'대출 기초',dl:'ex',src:'70%는 이해용 예시 — 실제 한도는 금융위원회·은행업감독규정 기준, 지역·차주별로 달라요 · 2026-06 기준'},
+  {t:'DTI',a:'총부채상환비율',c:'loan',s:'소득 대비 “주담대 원리금+기타대출 이자” 비율',d:'연소득에서 갚을 돈이 차지하는 비중으로 한도를 제한. DSR보다 느슨한 옛 기준이에요.',link:'대출 기초'},
+  {t:'DSR',a:'총부채원리금상환비율',c:'loan',s:'소득 대비 “모든 대출 원리금” 비율',d:'주담대뿐 아니라 신용·자동차 대출까지 합산. 보통 은행권 40%, 2금융권 50%를 넘기 어려워요.',link:'대출 기초',src:'출처 금융위원회·은행업감독규정 — 차주단위 DSR 은행권 40%·2금융권 50% · 2026-06 기준'},
+  {t:'스트레스 DSR',a:'',c:'loan',s:'미래 금리 상승을 가정해 한도를 더 조이는 규제',d:'가산(스트레스) 금리를 얹어 한도를 계산해요. 3단계가 2025년 7월 1일 시행, 스트레스금리 1.50% 적용.',link:'대출 기초',src:'출처 금융위원회 보도자료 — 3단계 2025-07-01 시행·스트레스금리 1.50% · 2026-06 기준'},
+  {t:'원리금균등상환',a:'',c:'loan',s:'매달 같은 금액(원금+이자)을 갚는 방식',d:'초반엔 이자 비중이 크고 갈수록 원금 비중이 커져요. 매달 부담이 일정해 계획이 쉬워요.',link:'대출 기초'},
+  {t:'거치기간',a:'',c:'loan',s:'원금은 미루고 이자만 내는 기간',d:'당장 부담은 작지만 원금이 안 줄어요. 거치 끝나면 상환액이 확 늘어 주의가 필요해요.',link:'대출 기초'},
+  {t:'중도상환수수료',a:'',c:'loan',s:'만기 전에 갚으면 무는 수수료',d:'보통 3년 안에 갚을 때 잔액·기간에 비례해 부과. 갈아타기(대환) 전에 꼭 계산해 봐야 해요.',link:'대출 기초'},
+  {t:'정책 모기지',a:'디딤돌·보금자리론',c:'loan',s:'정부가 지원하는 저금리 주택대출',d:'소득·집값 요건을 맞춘 실수요자에게 낮은 고정금리를 제공. 전세자금은 버팀목 대출이 대표적이에요.',link:'대출 기초'},
+
+  {t:'주택청약종합저축',a:'청약통장',c:'sub',s:'청약의 자격과 가점을 쌓는 기본 통장',d:'국민·민영주택 모두 청약 가능. 가입 기간·납입 횟수·예치금이 당첨 자격과 가점에 영향을 줘요.',link:'청약 기초'},
+  {t:'가점제',a:'',c:'sub',s:'점수가 높은 순으로 당첨자를 뽑는 방식',d:'무주택기간(최대 32)+부양가족수(최대 35)+청약통장 가입기간(최대 17) = 84점 만점.',link:'청약 기초',src:'출처 주택공급에 관한 규칙·청약홈 — 84점 만점(무주택 32·부양가족 35·가입기간 17)'},
+  {t:'추첨제',a:'',c:'sub',s:'가점과 무관하게 무작위로 뽑는 방식',d:'가점이 낮은 젊은 층·1인 가구에 유리. 단지·면적에 따라 가점제와 추첨제 비율이 정해져요.',link:'청약 기초'},
+  {t:'특별공급',a:'특공',c:'sub',s:'정책 대상에게 우선 배정하는 물량',d:'신혼부부·생애최초·다자녀·노부모 부양 등. 일반공급과 경쟁이 분리돼 기회가 넓어요.',link:'청약 기초'},
+  {t:'국민주택',a:'',c:'sub',s:'국가·LH 등이 공급하는 전용 85㎡ 이하 주택',d:'무주택·청약저축 요건이 까다로운 대신 분양가가 상대적으로 낮아요. 민영주택과 자격 기준이 달라요.',link:'청약 기초'},
+  {t:'전매제한',a:'',c:'sub',s:'당첨·취득 후 일정 기간 되팔기 금지',d:'단기 차익 거래를 막는 장치. 지역·주택 유형에 따라 기간이 달라요.'},
+  {t:'분양가상한제',a:'',c:'sub',s:'분양가를 일정 기준 이하로 묶는 제도',d:'택지비+건축비 기준으로 상한을 둬 분양가를 낮춰요. 대신 전매제한·실거주 의무가 따라붙기도 해요.'},
+
+  {t:'조정대상지역',a:'규제지역',c:'market',s:'과열을 막으려 규제를 강화한 지역',d:'대출(LTV·DSR)·세금(취득·양도)·전매 등에서 더 엄격한 규칙이 적용돼요. 정부가 지정·해제해요.',src:'출처 주택법·국토교통부 — 지정·해제 현황은 수시 변동 · 2026-06 기준'},
+  {t:'투기과열지구',a:'',c:'market',s:'규제 강도가 더 센 과열지역',d:'조정대상지역보다 한층 강한 대출·청약·전매 규제. 시장 과열 정도에 따라 지정돼요.'},
+  {t:'입주장',a:'',c:'market',s:'새 아파트가 한꺼번에 입주하는 시기',d:'전세 물량이 몰려 일시적으로 전세가가 내려가는 경향. 잔금·전세 일정이 겹쳐 매물이 쏟아져요.'},
+  {t:'미분양',a:'',c:'market',s:'분양했는데 안 팔리고 남은 물량',d:'수요 대비 공급이 많거나 가격·입지가 안 맞을 때 발생. 지역 시장 분위기를 보는 지표예요.'},
+  {t:'재건축·재개발',a:'정비사업',c:'market',s:'낡은 곳을 새로 짓는 도시 정비',d:'재건축은 낡은 아파트를 헐고 다시, 재개발은 기반시설이 낙후된 구역 전체를 정비. 절차가 길고 변수가 많아요.'},
+  {t:'분양권·입주권',a:'',c:'market',s:'완공 전 새 아파트에 들어갈 권리',d:'분양권은 청약 당첨으로, 입주권은 재건축·재개발 조합원 자격으로 생겨요. 세금·전매 규칙이 일반 주택과 달라요.'},
+  {t:'갭투자',a:'',c:'market',s:'전세를 끼고 적은 돈으로 집을 사는 방식',d:'매매가와 전세가의 차이(갭)만큼만 내 돈을 넣어요. 집값 하락·역전세·금리 상승 때 위험이 크게 불어나요.'}
+ ];
+
+ var listEl=doc.getElementById('glist');
+ var countEl=doc.getElementById('gcount');
+ var tabsEl=doc.getElementById('gtabs');
+ var searchEl=doc.getElementById('gsearch');
+ var curCat='all';
+
+ function cardHTML(o){
+  var meta=CATS[o.c]||['기타','#B85060'];
+  var color=meta[1], label=meta[0];
+  var abbr=o.a?('<span class="gabbr">'+o.a+'</span>'):'';
+  var tag=o.link?('<span class="gtag">📎 '+o.link+'</span>'):'';
+  var src=o.src?('<span class="datalabel '+(o.dl==='ex'?'dl-ex':'dl-real')+'">'+(o.dl==='ex'?'🟡 ':'🟢 ')+o.src+'</span>'):''; /* 출처배지 표준(.datalabel) — src 있는 용어만 추가 렌더(additive) */
+  return '<article class="gcard" data-c="'+o.c+'" style="--gc:'+color+'">'
+   +'<div class="gtop"><span class="gcat" style="background:'+color+'">'+label+'</span></div>'
+   +'<h3 class="gterm">'+o.t+abbr+'</h3>'
+   +'<p class="gdef">'+o.s+'</p>'
+   +'<p class="gdesc">'+o.d+'</p>'+tag+src
+   +'</article>';
+ }
+
+ function apply(){
+  var q=(searchEl.value||'').trim().toLowerCase();
+  var html='', n=0;
+  for(var i=0;i<TERMS.length;i++){
+   var o=TERMS[i];
+   var okCat=(curCat==='all'||o.c===curCat);
+   if(!okCat) continue;
+   var hay=(o.t+' '+(o.a||'')+' '+o.s+' '+o.d).toLowerCase();
+   if(q && hay.indexOf(q)<0) continue;
+   html+=cardHTML(o); n++;
+  }
+  listEl.innerHTML = n ? html : '<p class="gempty">검색 결과가 없어요. 다른 단어로 찾아보세요 🙂</p>';
+  if(countEl) countEl.textContent=n;
+ }
+
+ if(tabsEl){
+  tabsEl.addEventListener('click',function(e){
+   var b=e.target.closest('.tab'); if(!b) return;
+   curCat=b.getAttribute('data-cat');
+   var tabs=tabsEl.querySelectorAll('.tab');
+   for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('cur',tabs[i]===b); }
+   apply();
+  });
+ }
+ if(searchEl){ searchEl.addEventListener('input',apply); }
+ apply();
+
+ /* toTop 중복 생성 블록 제거(개선35) — 하단 pagedynjs가 scrollprog+toTop 단독 생성 */
+})();
+</script>
+<script>/*navmobjs*/
+(function(){var hdr=document.getElementById('hdr');if(!hdr||hdr.querySelector('.navMobBtn'))return;
+var as=[].slice.call(hdr.querySelectorAll('.menu a'));
+var links=as.map(function(a){return '<a href="'+a.getAttribute('href')+'"'+(a.classList.contains('cur')?' class="cur"':'')+'>'+(a.textContent||'').trim()+'</a>';}).join('');
+var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct=cta?(cta.textContent||'구독하기').trim():'구독하기';
+var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','메뉴 열기');btn.innerHTML='<span></span><span></span><span></span>';
+(hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
+var d=document.createElement('div');d.className='navDrawer';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+document.body.appendChild(d);
+function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
+function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
+btn.addEventListener('click',function(){d.classList.contains('on')?cl():op();});
+d.addEventListener('click',function(e){var t=e.target;if(t===d||t.classList.contains('cl')||t.tagName==='A')cl();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cl();});})();
+</script>
+<script>/*pagedynjs*/
+(function(){var d=document;if(d.querySelector('.scrollprog'))return;
+var bar=d.createElement('div');bar.className='scrollprog';d.body.appendChild(bar);
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>

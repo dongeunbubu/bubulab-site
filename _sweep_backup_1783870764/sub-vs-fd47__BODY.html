@@ -1,0 +1,311 @@
+<!-- [구독_가치카드_무료vs유료_v2] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 0건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+/* ===== 라이트 토큰 (0원웰컴 v2 · 마감카드 v2 계승 · bubulab 팔레트) ===== */
+:root{
+  --bg:#FDFBF7; --bg2:#FBF3EE; --bg3:#F7EDE7; --card:#FFFFFF;
+  --ink:#3E2F29; --ink2:#5C4B43; --mut:#766962;
+  --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8;
+  --border:#EAD7D3; --hair:#F1E3DE;
+  --rose:#B85060; --roseText:#A03F4D; --roseDeep:#8E3344; --lav:#9C6BA8;
+  --sage:#5E8C7F; --sageDeep:#3F6B5E; --sageSoft:#EAF1EE; --sageBd:#D4E6DF;
+  --heroA:#A23E4C; --heroB:#7E2E3C;
+  --off:#8A7E76;
+  --sheetSh:0 0 60px rgba(62,47,41,.10);
+  --sh-sm:0 1px 2px rgba(62,47,41,.04),0 3px 10px rgba(184,80,96,.055);
+  --sh:0 2px 5px rgba(62,47,41,.04),0 12px 30px rgba(184,80,96,.10);
+  --sh-lg:0 6px 14px rgba(184,80,96,.12),0 22px 50px rgba(184,80,96,.20);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+.sheet{position:relative;max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:var(--sheetSh)}
+a{color:inherit}
+img,svg{max-width:100%}
+.ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.f{fill:currentColor;stroke:none}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* 반복형 리빌(toggle) · no-JS면 그대로 보임 */
+.reveal{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1!important;transform:none!important}}
+
+/* ── 히어로 ── */
+.top{position:relative;background:linear-gradient(160deg,var(--heroA),var(--heroB));color:#fff;text-align:center;padding:32px 22px 30px;overflow:hidden}
+.top::before{content:"";position:absolute;inset:0;background:radial-gradient(130% 70% at 50% -25%,rgba(255,255,255,.14),rgba(255,255,255,0) 55%);pointer-events:none}
+.top>*{position:relative;z-index:1}
+.top .brand{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:11px;letter-spacing:.16em;color:#fff;background:rgba(20,10,12,.26);border:1px solid rgba(255,255,255,.46);border-radius:100px;padding:5px 13px}
+.top .brand .ic{width:13px;height:13px}
+.top h1{font-size:24px;font-weight:800;line-height:1.34;margin-top:14px;letter-spacing:-.01em;word-break:keep-all}
+.top .sub{font-size:13.5px;font-weight:600;color:#fff;margin-top:11px;line-height:1.62;opacity:.97;word-break:keep-all}
+
+/* ── 인트로 + 면책 ── */
+.intro{padding:22px 22px 2px;font-size:14.5px;color:var(--ink2);line-height:1.78;word-break:keep-all}
+.intro b{color:var(--ink);font-weight:800}
+.disc{background:var(--pinkSoft2);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.64;color:var(--ink2);margin:14px 0 0;display:flex;gap:8px;align-items:flex-start}
+.disc .ic{flex:none;color:var(--roseText);margin-top:2px}
+.disc b{color:var(--ink);font-weight:800}
+
+/* ── 섹션 공통 ── */
+.sec{padding:8px 22px 4px}
+.divider{display:flex;align-items:center;gap:11px;color:var(--mut);font-size:11px;font-weight:800;letter-spacing:.14em;margin:30px 22px 4px}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--border))}
+.divider::before{background:linear-gradient(90deg,var(--border),transparent)}
+.sec h2{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.4;margin:6px 0 3px;word-break:keep-all}
+.sec .lead{font-size:13px;color:var(--mut);font-weight:600;line-height:1.6;word-break:keep-all}
+
+/* ── 비교 표 ── */
+.cmpwrap{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--sh-sm);overflow:hidden}
+table.cmp{width:100%;border-collapse:collapse;font-size:13px}
+table.cmp thead th{font-size:11.5px;font-weight:800;color:var(--ink2);background:var(--bg3);padding:11px 8px;letter-spacing:.01em;border-bottom:1px solid var(--border)}
+table.cmp thead th.c{text-align:center;width:64px}
+table.cmp thead th.paid{color:var(--roseText)}
+table.cmp tbody th{text-align:left;font-weight:700;color:var(--ink2);padding:11px 10px;font-size:12.5px;line-height:1.45;word-break:keep-all;border-bottom:1px solid var(--hair);vertical-align:middle}
+table.cmp tbody td{text-align:center;padding:11px 6px;border-bottom:1px solid var(--hair);vertical-align:middle}
+table.cmp tbody tr:last-child th,table.cmp tbody tr:last-child td{border-bottom:0}
+table.cmp tbody td.paidcol{background:var(--pinkSoft2)}
+.yes{color:var(--sageDeep);width:19px;height:19px}
+.no{color:var(--off);width:15px;height:15px}
+.partial{font-size:11px;font-weight:800;color:var(--mut)}
+.cmpfoot{font-size:11.5px;color:var(--mut);font-weight:600;line-height:1.55;margin-top:9px;display:flex;gap:7px;align-items:flex-start}
+.cmpfoot .ic{flex:none;color:var(--sageDeep);margin-top:1px}
+
+/* ── 가격(왜 9,900원) ── */
+.price{margin-top:14px;background:linear-gradient(135deg,var(--pinkSoft),var(--card) 58%,var(--sand));border:1px solid var(--border);border-radius:18px;padding:22px 20px 20px;text-align:center;box-shadow:var(--sh)}
+.price .pk{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--roseText)}
+.price .amt{font-size:34px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums;line-height:1.1}
+.price .amt .won{font-size:18px;font-weight:800}
+.price .amt .per{font-size:14px;font-weight:700;color:var(--mut)}
+.price .daily{font-size:13px;color:var(--ink2);font-weight:700;margin-top:7px}
+.price .daily b{color:var(--roseText);font-weight:800;font-variant-numeric:tabular-nums}
+.why{margin-top:16px;display:flex;flex-direction:column;gap:10px;text-align:left}
+.why .row{display:flex;gap:11px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px 13px;box-shadow:var(--sh-sm)}
+.why .row .ico{flex:none;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--pinkSoft);color:var(--roseText)}
+.why .row .ico .ic{width:18px;height:18px}
+.why .row .tx{font-size:12.8px;color:var(--ink2);line-height:1.6;word-break:keep-all}
+.why .row .tx b{color:var(--ink);font-weight:800}
+
+/* ── 안심(시작 간단) ── */
+.calm{margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.calm .c{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 11px;text-align:center;box-shadow:var(--sh-sm)}
+.calm .c .ico{width:36px;height:36px;border-radius:50%;background:var(--sageSoft);color:var(--sageDeep);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;border:1px solid var(--sageBd)}
+.calm .c .ico .ic{width:18px;height:18px}
+.calm .c .h{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.35;word-break:keep-all}
+.calm .c .d{font-size:11px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:4px;word-break:keep-all}
+
+/* ── CTA ── */
+.cta{margin:18px 22px 2px;background:linear-gradient(135deg,var(--pinkSoft),var(--card) 55%,var(--sand));border:1px solid var(--border);border-radius:20px;padding:24px 22px;text-align:center;box-shadow:var(--sh-lg)}
+.cta h3{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.4;word-break:keep-all}
+.cta p{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.6;word-break:keep-all}
+.cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:54px;margin-top:16px;padding:0 28px;background:linear-gradient(135deg,var(--roseText),var(--roseDeep));color:#fff;font-size:15px;font-weight:800;text-decoration:none;border-radius:100px;box-shadow:var(--sh);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.cta .btn:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.cta .btn:focus-visible{outline:3px solid var(--roseText);outline-offset:3px}
+.cta .btn .ic{width:17px;height:17px}
+.cta .alt{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:8px;font-size:13px;font-weight:700;color:var(--roseText);text-decoration:underline;text-underline-offset:3px}
+.cta .alt:hover{color:var(--roseDeep)}
+.cta .alt:focus-visible{outline:2px solid var(--roseText);outline-offset:3px;border-radius:6px}
+
+footer{text-align:center;font-size:11.5px;color:var(--mut);padding:24px 22px 30px;line-height:1.7;word-break:keep-all}
+footer .fb{font-weight:800;color:var(--roseText);letter-spacing:.04em}
+
+/* ── AA 자가검증 패널(검토용 · 발송본엔 빼도 됨) ── */
+.aapanel{padding:6px 22px 8px}
+.aapanel details{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--sh-sm);overflow:hidden}
+.aapanel summary{cursor:pointer;list-style:none;padding:13px 15px;font-size:12px;font-weight:800;color:var(--ink2);display:flex;align-items:center;gap:8px;min-height:44px}
+.aapanel summary::-webkit-details-marker{display:none}
+.aapanel summary .ic{width:15px;height:15px;color:var(--sageDeep)}
+.aapanel .body{padding:0 15px 15px;font-size:11.5px;color:var(--ink2);line-height:1.62}
+.aatable{width:100%;border-collapse:collapse;margin-top:6px;font-size:11px}
+.aatable th,.aatable td{padding:6px 7px;border-bottom:1px solid var(--hair);text-align:left}
+.aatable th{color:var(--mut);font-weight:800;letter-spacing:.02em}
+.aatable td.r{text-align:right;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@media (max-width:430px){
+  .top h1{font-size:22px}
+  .price .amt{font-size:30px}
+  .calm{gap:8px}
+  .calm .c{padding:12px 8px}
+  .calm .c .d{font-size:10.5px}
+  table.cmp thead th.c{width:54px}
+  table.cmp tbody th{font-size:12px;padding:10px 8px}
+}
+</style>
+<!-- SVG 스프라이트(아이콘) · 자바스크립트 없이도 렌더 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-letter" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M4 9h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h2.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c-.5 1 .5 1.6 0 2.6M12 3c-.5 1 .5 1.6 0 2.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.4A3.9 3.9 0 0 1 12 7a3.9 3.9 0 0 1 7 3.2c0 5-7 9.4-7 9.4z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<main class="sheet">
+
+  <!-- 히어로 -->
+  <header class="top">
+    <span class="brand"><svg class="ic" aria-hidden="true"><use href="#i-letter"/></svg> 동은부부 머니레터</span>
+    <h1>구독, 살짝 망설여지죠?<br>무엇이 0원이고 무엇이 구독인지<br>솔직하게 보여드릴게요</h1>
+    <p class="sub">0원으로도 충분히 좋아요,, 더 깊이 보고 싶어질 때만 구독하시면 돼요</p>
+  </header>
+
+  <!-- 인트로 + 면책 -->
+  <section class="intro reveal">
+    <p>매일 시장이 끝나면, 무슨 일이 있었는지 정리해서 보내드려요. 그 요약과 경제뉴스는 <b>누구나 0원</b>으로 받아보실 수 있어요. “왜 이렇게 움직였을까”까지 같이 깊게 파고드는 부분만 구독으로 두었어요.</p>
+    <div class="disc">
+      <svg class="ic" aria-hidden="true"><use href="#i-info"/></svg>
+      <span>머니레터는 시장을 <b>이해하도록 돕는 정보·교육 콘텐츠</b>예요. 특정 종목을 사거나 팔라는 투자 권유가 아니에요. 최종 판단과 책임은 늘 본인에게 있어요.</span>
+    </div>
+  </section>
+
+  <!-- 0원 vs 구독 비교 -->
+  <div class="divider">0원 VS 구독</div>
+  <section class="sec reveal">
+    <h2>무엇이 0원이고, 무엇이 구독일까요?</h2>
+    <p class="lead">경계를 흐리지 않을게요. 한눈에 비교해보세요.</p>
+    <div class="cmpwrap">
+      <table class="cmp">
+        <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">0원과 구독에서 제공되는 항목 비교표</caption>
+        <thead>
+          <tr>
+            <th scope="col">항목</th>
+            <th scope="col" class="c">0원</th>
+            <th scope="col" class="c paid">구독</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">매일 시장 요약 (코스피·환율·미국지수·코인)</th>
+            <td><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">매일 경제뉴스·세계이슈 큐레이션</th>
+            <td><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">딥 분석 — “왜 이렇게 움직였나” 깊게 보기</th>
+            <td><svg class="ic no" role="img" aria-label="미포함"><use href="#i-minus"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">Why 인사이트 칼럼</th>
+            <td><svg class="ic no" role="img" aria-label="미포함"><use href="#i-minus"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">내일 체크포인트 (무엇을 볼지)</th>
+            <td><svg class="ic no" role="img" aria-label="미포함"><use href="#i-minus"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">관심 종목 흐름 짚어보기 (참고용)</th>
+            <td><svg class="ic no" role="img" aria-label="미포함"><use href="#i-minus"/></svg></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="포함"><use href="#i-check"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">정보글 라이브러리 (돈 모으기·지키기·불리기)</th>
+            <td><span class="partial">일부</span></td>
+            <td class="paidcol"><svg class="ic f yes" role="img" aria-label="전체"><use href="#i-check"/></svg></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cmpfoot"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> 0원만 받아보셔도 매일의 시장 흐름은 충분히 따라가실 수 있어요. 구독은 “한 걸음 더 깊이”가 필요할 때예요.</p>
+  </section>
+
+  <!-- 왜 9,900원 -->
+  <div class="divider">왜 9,900원일까요?</div>
+  <section class="sec reveal">
+    <h2>한 달에 커피 두 잔 값으로, 매일 시장을 같이 봐요</h2>
+    <p class="lead">금액보다 “꾸준함”이 더 큰 가치라고 믿어요.</p>
+    <div class="price">
+      <div class="pk">동은부부 머니레터 구독</div>
+      <div class="amt"><span class="won">월</span> 9,900<span class="won">원</span> <span class="per">/ 자동결제</span></div>
+      <div class="daily">하루로 치면 <b>약 330원</b>이에요</div>
+    </div>
+    <div class="why">
+      <div class="row reveal">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-coffee"/></svg></span>
+        <span class="tx"><b>하루 약 330원</b>, 커피 한 잔보다 적은 금액이에요. 이 돈으로 매일 시장을 옆에서 같이 읽어드려요.</span>
+      </div>
+      <div class="row reveal">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></span>
+        <span class="tx"><b>저녁 6시·아침 7시</b>, 하루 두 번이에요. 한국시장이 끝나면 저녁에, 미국·세계는 다음 날 아침에 정리해드려요. 직접 다 찾아보지 않으셔도 돼요.</span>
+      </div>
+      <div class="row reveal">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
+        <span class="tx">솔직히, <b>하루아침에 부자 되는 비법은 안 팔아요.</b> 대신 시장을 꾸준히 같이 보는 습관을 드려요. 천천히, 단단하게요:)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 안심(시작 간단) -->
+  <div class="divider">시작은 이렇게 간단해요</div>
+  <section class="sec reveal">
+    <div class="calm">
+      <div class="c">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>
+        <div class="h">카카오 로그인 한 번</div>
+        <div class="d">강의 듣던 분이면 같은 계정 그대로예요</div>
+      </div>
+      <div class="c">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+        <div class="h">월 단위 구독</div>
+        <div class="d">맞지 않으면 다음 달에 안 이어가셔도 돼요</div>
+      </div>
+      <div class="c">
+        <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg></span>
+        <div class="h">혼자가 아니에요</div>
+        <div class="d">어려운 건 그 자리에서 쉽게 풀어드려요</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <h3>오늘부터, 시장 읽는 습관 같이 만들어볼까요?</h3>
+    <!-- Q68(B) 일관성 신뢰문: 결정지점에 '첫 7일 100% 환불' 1구절 추가(SSOT §2.1·홈 모범문안 정합·원문 .md 보존) -->
+    <p>먼저 0원으로 받아보다가, 더 깊이 보고 싶어지면 그때 구독해도 늦지 않아요. 약정 없이 언제든 한 번에 해지할 수 있고, 첫 7일 안엔 100% 환불해드려요. 숨은 비용도 없어요.</p>
+    <a class="btn" href="#subscribe">구독하고 더 깊이 보기 <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a class="alt" href="#letter">먼저 0원으로 받아볼게요</a>
+  </section>
+
+  <footer>
+    <span class="fb">동은부부 머니레터</span><br>
+    제공되는 모든 내용은 정보·교육 목적이며, 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요.
+  </footer>
+
+  <!-- AA 자가검증(검토 참고용 · 실제 발송본엔 빼도 됩니다) -->
+  <div class="aapanel reveal">
+    <details>
+      <summary><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg> 디자인 자가검증 (대비·정직성) 펼쳐보기</summary>
+      <div class="body">
+        <p>주요 텍스트·버튼 색의 명도대비(WCAG AA)와 정직성 체크예요. 6/1 결정에 따라 <b>라이트 단독</b>이고, 다크 토큰·테마 토글은 뺐어요.</p>
+        <table class="aatable">
+          <thead><tr><th>요소</th><th>색 / 배경</th><th class="r">대비</th></tr></thead>
+          <tbody>
+            <tr><td>본문</td><td>#5C4B43 / 흰색</td><td class="r">7.7:1</td></tr>
+            <tr><td>약한 텍스트</td><td>#766962 / 흰색</td><td class="r">5.0:1</td></tr>
+            <tr><td>포인트(구독·링크)</td><td>#A03F4D / 흰색</td><td class="r">6.0:1</td></tr>
+            <tr><td>그라데이션 위 포인트</td><td>#A03F4D / 분홍·모래</td><td class="r">5.0:1+</td></tr>
+            <tr><td>CTA 버튼 글자</td><td>흰색 / #A03F4D~#8E3344</td><td class="r">6.0:1+</td></tr>
+            <tr><td>히어로 글자</td><td>흰색 / #A23E4C~#7E2E3C</td><td class="r">5.9:1+</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px">정직성: 가격(월 9,900원·하루 약 330원)·발행시각(저녁 6시·아침 7시)·0원/구독 경계는 전체설계서 확정값이에요. 투자 권유 표현 0 · 면책 2곳 · 과장/압박 어휘 0 · 카운트다운·한정수량 0 · 이모지 0(전부 인라인 SVG). 포함=체크모양+세이지 / 미포함=마이너스모양+중립색이라 색을 못 봐도 모양으로 구분돼요. <code>#subscribe</code>·<code>#letter</code>는 붙일 때 실제 주소로 연결하는 자리표시자예요(0원 레터로 들어온 분도 여기서 천천히 비교하시도록 압박은 뺐어요).</p>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<!-- 아임웹에서는 이 스크립트를 FOOTER(닫는 body 직전)에 넣으세요. (차트 라이브러리 불필요) -->

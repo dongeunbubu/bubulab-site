@@ -1,0 +1,431 @@
+<!-- [콘텐츠_딥칼럼_컨센서스게임_2026-06] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 18건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(56px,7vw,96px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+
+.art{max-width:760px;margin:0 auto}
+.artmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);font-weight:700;margin-top:14px}
+.artmeta span{display:inline-flex;align-items:center;gap:6px}
+.artlead{font-size:clamp(16px,1.9vw,19px);color:var(--ink2);line-height:1.75;margin-top:16px;font-weight:600}
+.art h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.02em;margin:40px 0 12px;line-height:1.3}
+.art h2::before{content:"";display:block;width:34px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:14px}
+.art p{font-size:15.5px;color:var(--ink2);line-height:1.9;margin-top:14px}
+.art p b{color:var(--ink);font-weight:700}
+.dropcap::first-letter{font-size:52px;font-weight:800;color:var(--rose);float:left;line-height:.86;margin:6px 10px 0 0}
+.pull{border-left:4px solid var(--rose);background:var(--pinkSoft2);border-radius:0 14px 14px 0;padding:18px 22px;margin:24px 0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.5}
+.termgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.termgrid{grid-template-columns:1fr}}
+.term{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--cardSh)}
+.term b{font-size:14px;font-weight:800;color:var(--rose)}.term p{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:5px}
+.checks{display:grid;gap:9px;margin-top:14px}
+.checks .c{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 15px;box-shadow:var(--cardSh);font-size:14px;color:var(--ink2);line-height:1.5}
+.checks .c i{width:20px;height:20px;border-radius:6px;background:var(--pinkSoft);color:var(--rose);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tldr{background:linear-gradient(135deg,#fff,var(--bg));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:28px;box-shadow:var(--cardSh)}
+.tldr .h{font-size:12px;font-weight:800;color:var(--rose);letter-spacing:.08em}.tldr p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-top:7px}
+.byline{font-size:13.5px;color:var(--mut);font-weight:700;margin-top:26px;text-align:right}
+.discm{font-size:12px;color:var(--mut);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:24px;line-height:1.6}
+.minnote{font-size:13px;color:var(--mut);margin-top:10px;text-align:center;line-height:1.6}
+
+/* hero stat cards */
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+@media(max-width:600px){.hstats{grid-template-columns:1fr}}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--cardSh);text-align:center;position:relative;overflow:hidden}
+.hstat::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--rose),var(--lav));opacity:.85}
+.hstat.g2::before{background:linear-gradient(90deg,var(--down),#6f97ec)}
+.hstat.g3::before{background:linear-gradient(90deg,var(--up),#e8867d)}
+.hstat .nm{font-size:12.5px;font-weight:800;color:var(--mut)}
+.hstat .big{font-size:clamp(24px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;color:var(--rose);margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.hstat.g2 .big{color:var(--down)}
+.hstat.g3 .big{color:var(--up)}
+.hstat .sub{font-size:11.5px;color:var(--mut);margin-top:6px;font-weight:600}
+
+/* 단계 막대 */
+.steps{margin-top:16px;display:grid;gap:11px}
+.step{background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px 14px;box-shadow:var(--cardSh)}
+.step .top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:800;color:var(--ink)}
+.step .top .amt{color:var(--rose);font-variant-numeric:tabular-nums}
+.step .bar{height:14px;border-radius:7px;background:var(--bg2);border:1px solid var(--border);margin-top:8px;overflow:hidden;position:relative}
+.step .fill{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--rose),var(--lav));width:0;transition:width 1.1s var(--ease)}
+.step.hi .fill{background:linear-gradient(90deg,var(--up),#e8867d)}
+.step.mk .fill{background:linear-gradient(90deg,var(--gold),#dcc176)}.step.mk .top .amt{color:var(--gold)}
+.step.lo .fill{background:linear-gradient(90deg,var(--sage),#6fa392)}.step.lo .top .amt{color:var(--sage)}
+.step.dn .fill{background:linear-gradient(90deg,var(--down),#6f97ec)}.step.dn .top .amt{color:var(--down)}
+.step.hi .top .amt{color:var(--up)}
+.step .note{font-size:12px;color:var(--mut);font-weight:600;margin-top:7px;line-height:1.5}
+.step .refline{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink2);opacity:.5;border-radius:2px}
+
+/* 두 얼굴 */
+.faces{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.faces{grid-template-columns:1fr}}
+.face{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;box-shadow:var(--cardSh);border-top:3px solid var(--border)}
+.face.mkt{border-top-color:var(--gold)}
+.face.idio{border-top-color:var(--lav)}
+.face .ft{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;display:inline-block;padding:3px 10px;border-radius:100px}
+.face.mkt .ft{background:var(--gold)}
+.face.idio .ft{background:var(--lav)}
+.face h4{font-size:15.5px;font-weight:800;color:var(--ink);margin-top:10px}
+.face p{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:7px}
+.face .ex{font-size:12px;color:var(--mut);font-weight:700;margin-top:9px;border-top:1px dashed var(--border);padding-top:9px}
+
+/* 계산기 */
+.calc{margin-top:18px}
+.calc .calc-h{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.calc .calc-sub{font-size:13px;color:var(--mut);line-height:1.55;margin-bottom:14px}
+.calc-row{margin-top:16px}
+.calc-row .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.calc-row .lab output{font-size:16px;font-weight:800;color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:7px;border-radius:6px;margin-top:9px;background:linear-gradient(90deg,var(--pinkSoft),var(--pink));outline:none}
+.calc-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);box-shadow:var(--cardSh);cursor:pointer;transition:transform .15s}
+.calc-row input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12)}
+.calc-row input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--rose);cursor:pointer}
+.calc-eq{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--pinkSoft2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:20px;font-size:15px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.calc-eq b{color:var(--ink)}
+.calc-eq .big{font-size:clamp(22px,5vw,30px);font-weight:800;color:var(--rose);letter-spacing:-.02em}
+.calc-rec{text-align:center;margin-top:12px;font-size:14.5px;font-weight:700;color:var(--ink2)}
+.calc-rec b{color:var(--rose);font-variant-numeric:tabular-nums}
+.calc-verdict{margin-top:14px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:13px 16px;font-size:14px;color:var(--ink2);line-height:1.6;font-weight:600}
+
+/* 비교표 */
+.cmpwrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.cmp{width:100%;border-collapse:collapse;min-width:560px;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--cardSh)}
+table.cmp th,table.cmp td{padding:13px 14px;text-align:right;font-size:13.5px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+table.cmp th{background:var(--pinkSoft2);color:var(--ink);font-weight:800;font-size:12.5px;text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp td.nm{font-weight:800;color:var(--ink)}
+table.cmp td.nm small{display:block;font-weight:600;color:var(--mut);font-size:11px}
+table.cmp td.hl{color:var(--rose);font-weight:800}
+table.cmp td.posv{color:var(--up);font-weight:800}
+table.cmp td.negv{color:var(--down);font-weight:800}
+.tcap{font-size:12px;color:var(--mut);margin-top:9px;line-height:1.55}
+
+/* navfix canonical */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===consensus=== guidance segmented */
+.gseg{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.gbtn{flex:1;min-width:96px;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 10px;cursor:pointer;transition:background .18s,color .18s,border-color .18s,box-shadow .18s}
+.gbtn:hover{border-color:var(--pink);color:var(--rose)}
+.gbtn.on{background:var(--rose);color:#fff;border-color:var(--rose);box-shadow:0 8px 18px rgba(184,80,96,.22)}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/*===fxkrw===*/
+.fxk{font-weight:600;font-size:.8em;color:#A85A6A;opacity:.92;white-space:nowrap;margin-left:4px;letter-spacing:-.01em;vertical-align:baseline}
+td .fxk,th .fxk,.stat .fxk,.kpi .fxk,.v .fxk{display:block;margin:2px 0 0;font-size:.86em}
+.fxbadge{position:fixed;left:18px;bottom:20px;z-index:1100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #EAD9DD;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#9A3F50;box-shadow:0 8px 24px rgba(160,80,96,.18);display:flex;gap:8px;align-items:center;cursor:default;line-height:1}
+.fxbadge .dot{width:8px;height:8px;border-radius:50%;background:#3FB27A;box-shadow:0 0 0 4px rgba(63,178,122,.16);animation:fxpulse 2s infinite}
+.fxbadge .lb{font-size:11px;font-weight:700;color:#B98A93;background:#F7ECEF;padding:2px 7px;border-radius:999px}
+@keyframes fxpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.55}}
+@media(max-width:560px){.fxbadge{left:12px;bottom:14px;font-size:12px;padding:7px 12px}.fxk{font-size:.82em}}
+@media print{.fxbadge{display:none}}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/*wowkit2-sda — 미애니 제목 스크롤 라이즈(순수 CSS·지원 브라우저만)*/
+@supports (animation-timeline: view()){
+  @media not (prefers-reduced-motion: reduce){
+    h2:not([class]){animation:wsdaRise .7s cubic-bezier(.16,1,.3,1) backwards;animation-timeline:view();animation-range:entry 0% entry 65%}
+    @keyframes wsdaRise{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="blk wrap"><div class="art">
+  <a class="backlink" href="/contents">← 자료실</a>
+  <span class="s-eyebrow reveal" style="margin-top:8px">딥 인사이트 · 주가는 '기대'를 산다</span>
+  <h1 class="tool-h1 reveal" style="font-size:clamp(26px,4.4vw,40px)">소문에 사서, <span class="grad">뉴스에 판다</span></h1>
+  <div class="artmeta reveal"><span>⏱ 9분</span><span>난이도 ★★☆</span><span>딥 인사이트 칼럼</span></div>
+  <p class="artlead reveal">회사가 역대급 실적을 내놨는데 주가는 오히려 빠져요. 드물지 않은 일이에요. 주가는 '<b>잘했나</b>'에 반응하는 게 아니라 '<b>기대(컨센서스)를 넘었나</b>'에 반응하거든요. 기대는 이미 주가에 들어가 있어서, 실적이 그 기대를 못 넘으면 좋은 숫자에도 주가가 빠져요. 이게 '<b>소문에 사서 뉴스에 판다</b>'의 진짜 의미예요. 실데이터로 풀어볼게요.</p>
+
+  <div class="hstats stag reveal">
+    <div class="hstat g2"><div class="nm">줌스케일러, 호실적 다음 날</div><div class="big">−<span class="cf" data-to="32" data-dec="0">0</span>%</div><div class="sub">매출 +25%·영업이익률 신기록인데 (5/27)</div></div>
+    <div class="hstat g3"><div class="nm">크라우드스트라이크 직전 분기</div><div class="big">+<span class="cf" data-to="51" data-dec="0">0</span>%</div><div class="sub">EPS가 예상을 이만큼 이겼는데도…</div></div>
+    <div class="hstat"><div class="nm">시장이 미리 베팅한 발표일 변동폭</div><div class="big">±<span class="cf" data-to="8.8" data-dec="1">0</span>%</div><div class="sub">CRWD 6/3(미국) 발표 임박</div></div>
+  </div>
+  <p class="minnote reveal">출처: UsStockInfo 조회 2026-06-03(미 6/2 장중·시세 15분 지연). 줌스케일러(ZS) FY26 3분기 실적·가이던스는 2026-05-26 발표·외신 보도. 크라우드스트라이크(CRWD) 직전 분기 어닝 서프라이즈·발표일 예상 변동폭은 외신·시장 추정치예요. 색은 한국식(상승·플러스 빨강, 하락·마이너스 파랑).</p>
+
+  <p class="art dropcap reveal" style="margin-top:30px">2026년 5월 26일, 클라우드 보안 회사 줌스케일러가 분기 실적을 발표했어요. 매출 +25%, 영업이익률은 분기 사상 최고. 시장 예상도 넘겼죠. 그런데 다음 날, 주가가 하루 만에 약 −32% 무너졌어요. <b>실적이 나빴냐고요? 정반대예요.</b> 시장이 그동안 이 회사에 매겨둔 '기대'가 워낙 컸는데, 그 기대가 살짝 식자 값이 통째로 빠진 거예요. 주식시장에는 오래된 격언이 있어요 — "<b>소문에 사서, 뉴스에 판다</b>(Buy the rumor, sell the news)." 오늘은 이 말이 왜 시장의 멀쩡한 작동 방식인지, 실제 숫자로 들여다볼게요.</p>
+
+  <h2 class="reveal">① 주가는 '잘했나'가 아니라 '기대를 넘었나'에 반응해요</h2>
+  <p class="art reveal">핵심부터요. 어떤 회사가 실적을 발표할 때, 시장에는 이미 '<b>이 정도는 하겠지</b>' 하는 평균 예상치가 있어요. 애널리스트들의 전망을 모은 이 숫자를 <b>컨센서스(consensus·시장 기대치)</b>라고 불러요. 그리고 주가에는 이 기대가 <b>미리 반영</b>돼 있어요. 그래서 실제 발표가 나오면, 주가는 숫자의 <b>절대 수준</b>이 아니라 <b>기대와의 차이</b>에 반응해요.</p>
+  <p class="art reveal">같은 'EPS(주당순이익) 1.00달러'라도 시장 기대가 얼마였느냐에 따라 주가 반응이 정반대가 돼요.</p>
+  <div class="steps reveal">
+    <div class="step hi"><div class="top"><span>실제 EPS $1.00 · 기대는 $0.80였다</span><span class="amt">서프라이즈 +25%</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">기대를 넘김 → 보통 주가에 호재 ('어닝 서프라이즈')</div></div>
+    <div class="step mk"><div class="top"><span>실제 EPS $1.00 · 기대도 $1.00였다</span><span class="amt">서프라이즈 0%</span></div><div class="bar"><div class="fill" data-w="50"></div></div><div class="note">예상대로(인라인) → 새 정보가 없어 무덤덤하거나 차익 실현</div></div>
+    <div class="step dn"><div class="top"><span>실제 EPS $1.00 · 기대는 $1.20였다</span><span class="amt">서프라이즈 −17%</span></div><div class="bar"><div class="fill" data-w="26"></div></div><div class="note">기대에 못 미침('미스') → 같은 $1.00인데 주가엔 악재</div></div>
+  </div>
+  <p class="tcap reveal">서프라이즈(%) = (실제 − 기대) ÷ 기대 × 100. 막대는 '기대 대비 성적' 느낌을 보여주는 도식(절대 수치 아님). 숫자(실제 $1.00)는 셋 다 똑같지만 기대가 달라 반응이 갈려요. 상승은 빨강, 하락은 파랑.</p>
+  <div class="pull reveal">시장은 '얼마나 잘했나'가 아니라 '얼마나 기대를 넘었나'에 돈을 건다. 기대는 이미 주가에 들어가 있으니까.</div>
+
+  <h2 class="reveal">② 두 개의 시계 — '지난 분기'와 '앞으로'</h2>
+  <p class="art reveal">실적 발표에는 사실 두 가지 정보가 같이 나와요. 하나는 <b>지난 분기 성적표</b>(이미 끝난 과거), 다른 하나는 <b>가이던스(guidance)</b> — 회사가 직접 제시하는 다음 분기·올해 전망(미래)이에요. 주가가 진짜 크게 움직이는 건 보통 두 번째, <b>가이던스</b> 쪽이에요.</p>
+  <div class="faces reveal">
+    <div class="face mkt"><span class="ft">과거</span><h4>어닝 서프라이즈</h4><p>지난 분기 실제 실적이 컨센서스를 넘었는지(+)·못 미쳤는지(−). 이미 벌어진 일이라, 시장이 어느 정도 짐작하고 미리 반영해 둔 경우가 많아요.</p><p class="ex">예: CRWD 직전 분기 EPS $1.12 vs 예상 $0.74 → 약 +51%</p></div>
+    <div class="face idio"><span class="ft">미래</span><h4>가이던스</h4><p>회사가 제시하는 앞으로의 전망. 시장의 기대치(컨센서스)를 <b>다시 세팅</b>해요. 가이던스가 기대보다 낮으면, 지난 분기가 아무리 좋아도 주가는 빠질 수 있어요.</p><p class="ex">예: ZS 분기는 호실적인데 내년 성장 +16~17%로 감속 예고 → −32%</p></div>
+  </div>
+  <p class="art reveal">그래서 '<b>호실적 + 가이던스 쇼크</b>'라는, 얼핏 모순처럼 보이는 조합이 자주 나와요. 과거 시험(지난 분기)은 잘 봤는데, 다음 시험 목표(가이던스)를 스스로 낮춰 부른 셈이라 시장이 실망하는 거죠.</p>
+
+  <h2 class="reveal">③ 실제 사건 — 줌스케일러: 합격인데 추락</h2>
+  <p class="art reveal">앞의 이야기를 그대로 보여준 사건이에요. 줌스케일러의 FY26 3분기는 <b>나쁜 실적이 아니었어요</b>. 그런데 같이 나온 '앞으로의 그림'이 흔들리자 주가가 무너졌죠.</p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>줌스케일러(ZS) · FY26 3분기</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="nm">분기 매출 <small>전년 동기 대비</small></td><td class="posv">약 8.5억 달러 · +25%</td></tr>
+        <tr><td class="nm">영업이익률 <small>그 분기</small></td><td class="posv">23% (분기 신기록)</td></tr>
+        <tr><td class="nm">잉여현금 마진 <small>가이던스</small></td><td class="negv">26.5~27% → 22.8~23.3% 하향</td></tr>
+        <tr><td class="nm">내년(FY27) 예상 성장 <small>가이던스</small></td><td class="negv">+16~17%로 감속</td></tr>
+        <tr><td class="nm">발표 다음 날 주가 <small>2026-05-27</small></td><td class="negv">약 −32%</td></tr>
+        <tr><td class="nm">24시간 안에 목표가 하향</td><td class="negv">증권사 18곳</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">출처: 줌스케일러 FY26 3분기 실적 발표(2026-05-26 장 마감 후)·외신 보도(Motley Fool 5/28, Reuters 집계). 주가는 발표 다음 거래일 낙폭이에요. 현재가는 $143(미 6/2 장중·15분 지연, 그날도 약 −8% 추가 하락). 수치는 보도·발표 기준이라 회사 공시 원문과 표기가 다를 수 있어요.</p>
+  <div class="pull reveal">분기는 이겼지만, 미래(가이던스)에서 졌다. 시장이 사들였던 건 '계속 빠르게 큰다'는 이야기였으니까.</div>
+
+  <h2 class="reveal">④ 라이브 셋업 — 크라우드스트라이크는 '완벽'에 값이 매겨져 있어요</h2>
+  <p class="art reveal">반대 사례도 봐요. 같은 보안 업종의 크라우드스트라이크(CRWD)는 한국시간 <b>6월 4일 새벽</b>(미국 6/3 장 마감 후) 실적을 발표했어요(이 글은 그 직전에 쓴 '라이브 셋업'이라, 발표 결과는 아래 📍 후일담에서 짚어요). 이 회사는 직전 분기에 EPS가 예상($0.74)을 무려 <b>약 +51%</b> 넘기는($1.12) '서프라이즈'를 냈고, 주가는 1년에 +60% 올라 <b>52주 신고가 바로 아래</b>까지 왔어요. 문제는, 그래서 <b>기대가 끝까지 차올랐다</b>는 거예요.</p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>실적 임박 보안 3사</th><th>CRWD</th><th>PANW</th><th>ZS</th></tr></thead>
+      <tbody>
+        <tr><td class="nm">현재가 <small>미 6/2·15분 지연</small></td><td class="hl">$759</td><td>$294</td><td>$143</td></tr>
+        <tr><td class="nm">52주 위치</td><td>신고가 −3%</td><td>신고가 −3%</td><td>고점 대비 −58%</td></tr>
+        <tr><td class="nm">선행 PER</td><td>123배</td><td>74배</td><td>31배</td></tr>
+        <tr><td class="nm">애널 평균 목표가</td><td>$564</td><td>$234</td><td>$195</td></tr>
+        <tr><td class="nm">목표가 vs 현재가</td><td class="negv">−26%</td><td class="negv">−20%</td><td class="posv">+37%</td></tr>
+        <tr><td class="nm">최근 1년 주가</td><td class="posv">+60%</td><td class="posv">+52%</td><td class="negv">−47%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo 조회 2026-06-03(미 6/2 장중·15분 지연). '목표가 vs 현재가' = 애널리스트 평균 목표가 ÷ 현재가 − 1. 색은 한국식(상승 여력 빨강, 하락 파랑) — 파랑은 주가가 이미 평균 목표가를 넘어선(상승 여력이 마이너스인) 상태예요.</p>
+  <p class="art reveal">표에서 가장 이상한 칸은 CRWD의 '<b>목표가 vs 현재가 −26%</b>'예요. 애널리스트들의 <b>평균 목표가($564)가 현재가($759)보다 26% 낮은데도</b> 주가는 신고가 부근이에요. 시장이 '<b>이번에도 또 기대를 넘길 것</b>'에 베팅하고 있다는 뜻이죠. 이렇게 기대가 가득 차 있으면, 회사가 잘해도(서프라이즈 +) 그 '잘함'이 이미 가격에 들어가 있어서 안 오르거나, 가이던스가 조금만 약해도 줌스케일러처럼 크게 빠질 수 있어요. 시장은 이미 발표일 하루에 <b>±8.8%</b> 움직임을 옵션 가격에 반영해 뒀어요.</p>
+  <div class="pull reveal">목표가가 현재가보다 낮은데도 신고가 부근 — 좋은 회사라서가 아니라, '또 이긴다'는 기대까지 미리 사둔 자리.</div>
+
+  <p class="art reveal" style="margin-top:26px"><b>📍 발표 후일담 (2026-06-08 업데이트)</b> — 이 글을 쓰던 6/3, CRWD는 '또 이긴다'는 기대가 끝까지 차오른 자리였어요. 그리고 한국시간 6월 4일 새벽, 실적이 나왔죠. 전개는 이 글이 말한 그대로였어요. 분기 매출은 <b>+25.6%</b>로 잘 나왔는데, 구독잔액(빌링)이 매출만큼 못 늘며 '성장이 식는다'는 신호가 켜졌어요. 그러자 발표 직전 종가에서 이틀 만에 <b>약 −10%</b>. 시장이 미리 베팅했던 하루 ±8.8%를 넘는 낙폭이었죠. 빌링 같은 선행지표 이야기는 <a href="/eco-rpo-6696" style="color:var(--rose);font-weight:800;text-decoration:underline">「빌링과 RPO」</a>에서 더 풀어뒀어요.</p>
+  <div class="cmpwrap reveal">
+    <table class="cmp">
+      <thead><tr><th>CRWD · 발표 전후 종가</th><th>주가</th><th>발표 직전 대비</th></tr></thead>
+      <tbody>
+        <tr><td class="nm">6/3 발표 직전 <small>미 종가</small></td><td>$747.61</td><td>—</td></tr>
+        <tr><td class="nm">6/4 발표 첫날</td><td>$719.09</td><td class="negv">−3.8%</td></tr>
+        <tr><td class="nm">6/5 이틀째</td><td class="hl">$671.02</td><td class="negv">−10.2%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap reveal">출처: UsStockInfo 일봉 재확인(2026-06-08 조회). $747.61(6/3 발표 직전 종가) → $719.09(6/4) → $671.02(6/5) = 발표 직전 대비 −10.2%. 매출 +25.6%는 PLAY 재확인, 빌링 +17.7%로 매출 증가율을 밑돈 '역전'은 SEC 8-K 기준(자매편 「빌링과 RPO」 교차확인). 호실적에도 선행지표 감속에 주가가 빠진 — 본문 ④ '완벽에 값이 매겨진 주식'이 실제로 펼쳐진 사례예요. 설명용이며 투자 권유가 아니에요.</p>
+
+  <h2 class="reveal">⑤ 왜 '소문에 사서 뉴스에 판다'일까</h2>
+  <p class="art reveal">두 가지 힘이 같이 작동해요. 첫째, <b>선반영</b>. 좋은 소식이 예상되면 사람들은 발표 전에 미리 사둬요. 그래서 막상 발표가 '예상대로' 나오면 새로 살 이유가 사라지고, 미리 사둔 사람들이 차익을 실현해요. 둘째, <b>불확실성 해소</b>. 발표 전까지는 '잘 나올까?'라는 긴장이 주가를 받쳐주는데, 사실이 확인되는 순간 그 긴장이 풀리며 매도가 나와요. 좋은 뉴스인데도 파는 거죠.</p>
+  <div class="steps reveal">
+    <div class="step hi"><div class="top"><span>소문 단계 — 기대가 주가에 쌓임</span><span class="amt">미리 매수</span></div><div class="bar"><div class="fill" data-w="100"></div></div><div class="note">'이번 실적 좋을 것 같다' → 발표 전부터 주가가 오름(선반영)</div></div>
+    <div class="step dn"><div class="top"><span>뉴스 단계 — 사실 확인</span><span class="amt">차익 실현</span></div><div class="bar"><div class="fill" data-w="62"></div></div><div class="note">기대가 사실이 되는 순간, 더 살 이유·긴장이 사라져 매도 출회</div></div>
+  </div>
+  <p class="tcap reveal">막대는 단계 흐름을 보여주는 도식이에요(실제 수치 아님). '소문에 사서 뉴스에 판다'는 늘 맞는 법칙이 아니라, 기대가 과하게 쌓였을 때 잘 나타나는 경향이에요.</p>
+
+  <h2 class="reveal">⑥ 직접 해보기 — 어닝 서프라이즈 계산기</h2>
+  <p class="art reveal">예상 EPS(컨센서스)와 실제 EPS를 움직여 <b>서프라이즈(%)</b>를 만들어 보고, 회사가 제시한 <b>가이던스</b>(미래 전망)를 골라보세요. 주가가 왜 '서프라이즈 +'에도 빠질 수 있는지 한눈에 보여요.</p>
+  <div class="panel calc reveal">
+    <div class="calc-h">어닝 서프라이즈 &amp; 가이던스 시뮬레이터</div>
+    <div class="calc-sub">서프라이즈(%) = (실제 EPS − 예상 EPS) ÷ 예상 EPS × 100. 주가는 이 '과거 성적'과 '미래 가이던스'의 조합에 반응해요.</div>
+    <div class="calc-row">
+      <label class="lab" for="estIn">예상 EPS (컨센서스) <output id="estOut">$0.88</output></label>
+      <input type="range" id="estIn" min="0.20" max="2.00" step="0.01" value="0.88">
+    </div>
+    <div class="calc-row">
+      <label class="lab" for="actIn">실제 EPS (발표) <output id="actOut">$1.12</output></label>
+      <input type="range" id="actIn" min="0.20" max="2.00" step="0.01" value="1.12">
+    </div>
+    <div class="calc-row">
+      <span class="lab" style="display:block;margin-bottom:9px">가이던스 (미래 전망)</span>
+      <div class="gseg" role="group" aria-label="가이던스 선택">
+        <button type="button" class="gbtn" data-g="up">상향 ↑</button>
+        <button type="button" class="gbtn" data-g="keep">유지 →</button>
+        <button type="button" class="gbtn on" data-g="down">하향 ↓</button>
+      </div>
+    </div>
+    <div class="calc-eq">
+      <span><b>서프라이즈</b></span><span>=</span><span class="big" id="surpOut">+27.3%</span>
+    </div>
+    <div class="calc-verdict" id="surpVerdict">…</div>
+    <p class="minnote" style="margin-top:12px">교육용 단순 모델이에요. 실제 주가 반응은 서프라이즈·가이던스 외에도 매출·구독잔액(빌링)·시장 상황·이미 반영된 기대(선반영) 등 수많은 변수로 달라져요. 특정 종목의 등락을 예측하지 않아요.</p>
+  </div>
+
+  <h2 class="reveal">⑦ 그래서, 어떻게 봐야 할까</h2>
+  <p class="art reveal">'실적이 좋으면 주가도 오른다'는 절반만 맞아요. 정확히는 '<b>기대를 넘으면</b> 오른다'예요. 그래서 실적 시즌엔 숫자 자체보다 <b>세 가지</b>를 같이 봐야 해요.</p>
+  <div class="checks reveal">
+    <div class="c"><i>1</i><span><b>컨센서스(기대치)부터 확인</b> — 실제 숫자만 보지 말고 '시장이 뭘 기대했나'를 먼저 봐요. 같은 숫자도 기대보다 높았는지 낮았는지가 주가를 가르거든요.</span></div>
+    <div class="c"><i>2</i><span><b>과거(분기)보다 미래(가이던스)</b> — 주가는 보통 지난 성적표보다 회사가 제시한 앞으로의 전망에 더 크게 반응해요. '호실적 + 가이던스 쇼크' 조합을 조심해요.</span></div>
+    <div class="c"><i>3</i><span><b>기대가 얼마나 차 있나</b> — 신고가 부근·높은 선행 PER·평균 목표가를 이미 넘어선 주식은 '완벽'에 값이 매겨져 있어, 잘해도 안 오르고 살짝 흔들리면 크게 빠질 수 있어요.</span></div>
+  </div>
+
+  <div class="tldr reveal">
+    <div class="h">TL;DR</div>
+    <p>주가는 '얼마나 잘했나'가 아니라 '얼마나 기대(컨센서스)를 넘었나'에 반응해요. 기대는 이미 주가에 들어가 있어서, 호실적도 가이던스가 약하면 빠지고(줌스케일러 −32%), 기대가 가득 찬 주식(크라우드스트라이크)은 잘해도 안 오를 수 있어요. '소문에 사서 뉴스에 판다'는 이 구조를 한 줄로 말한 거예요.</p>
+  </div>
+
+  <h2 class="reveal">용어 정리</h2>
+  <div class="termgrid reveal">
+    <div class="term"><b>컨센서스(Consensus)</b><p>애널리스트들의 전망을 모은 시장 평균 기대치. 주가에 미리 반영돼 있어요.</p></div>
+    <div class="term"><b>어닝 서프라이즈</b><p>실제 실적이 컨센서스를 넘은(+)·못 미친(−) 정도. (실제−예상)÷예상.</p></div>
+    <div class="term"><b>가이던스(Guidance)</b><p>회사가 직접 제시하는 다음 분기·올해 전망. 시장 기대치를 다시 세팅해요.</p></div>
+    <div class="term"><b>선반영</b><p>예상되는 호재·악재가 발표 전에 미리 주가에 반영돼 있는 상태. '뉴스에 판다'의 원인이에요.</p></div>
+  </div>
+
+  <h2 class="reveal">이어 읽으면 좋아요</h2>
+  <div class="termgrid reveal">
+    <a class="term" href="/col-5fa2"><b>실적 좋았는데 왜 −32%? — 리레이팅 공포 →</b><p>주가=이익×멀티플. 기대(멀티플)가 깎이면 호실적도 못 막아요. 이 글의 짝이에요.</p></a>
+    <a class="term" href="/col-vs-a208"><b>좋은 회사 ≠ 좋은 주식 →</b><p>'좋음'은 이미 가격에 들어가 있어요. 기대를 넘어서야 오른다는 같은 원리예요.</p></a>
+  </div>
+
+  <p class="discm reveal">이 글은 투자 권유가 아니라 교육용 정보예요. 등장하는 종목(ZS·CRWD·PANW)은 개념을 설명하기 위한 예시이고, 매수·매도 추천이 아니에요. 모든 수치는 조회 시점(2026-06-03, 미 6/2 기준·시세 15분 지연) 기준이라 달라질 수 있고, 실적 발표 전후로 크게 변동해요. 투자 판단과 책임은 본인에게 있어요.</p>
+  <p class="byline reveal">— 부부연구소 드림</p>
+</div></section>
+
+<section class="blk wrap reveal"><div class="art"><div class="cta-band">
+  <h3>숫자 너머의 '기대'까지 읽는 눈, 매주 같이 길러요</h3>
+  <p>컨센서스·서프라이즈·가이던스로 실적을 읽고, 기대가 얼마나 차 있는지까지 묶어 종목을 보는 머니레터. 부부연구소가 매주 한 편씩 쉽게 풀어 보내드려요.</p>
+  <a class="btn btn-rose" href="/home#subscribe">머니레터 무료 구독하기</a>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+  <nav class="ft"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/story">스토리</a><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1">이용약관</a></nav>
+  <p class="ftnote">© 2026 부부연구소. 본 자료는 교육·정보 제공 목적이며 투자 권유가 아닙니다. 수치는 2026-06-03 조회 시점 기준이며 변동될 수 있습니다.</p>
+</div></footer>

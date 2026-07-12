@@ -1,0 +1,84 @@
+<!-- [도구_부동산_중개보수계산기_v1] FOOTER = 페이지별 푸터 HTML에 붙여넣기 (스크립트 3개) -->
+<script>/*brokercalc*/
+(function(){
+var $=function(id){return document.getElementById(id);};
+var BR={
+ sale:[{u:5e7,r:.006,c:25e4,lb:'<5천'},{u:2e8,r:.005,c:8e5,lb:'~2억'},{u:9e8,r:.004,c:null,lb:'~9억'},{u:12e8,r:.005,c:null,lb:'~12억'},{u:15e8,r:.006,c:null,lb:'~15억'},{u:Infinity,r:.007,c:null,lb:'15억+'}],
+ rent:[{u:5e7,r:.005,c:2e5,lb:'<5천'},{u:1e8,r:.004,c:3e5,lb:'~1억'},{u:6e8,r:.003,c:null,lb:'~6억'},{u:12e8,r:.004,c:null,lb:'~12억'},{u:15e8,r:.005,c:null,lb:'~15억'},{u:Infinity,r:.006,c:null,lb:'15억+'}]
+};
+var FLAT={offi:{sale:.005,rent:.004},etc:{sale:.009,rent:.009}};
+var st={prop:'house',deal:'sale'};
+function num(id){var v=parseFloat(($(id).value||'').replace(/,/g,''));return Math.max(0,isFinite(v)?v:0);}
+function fmtMan(n){var man=Math.round(n/1e4*10)/10;if(man>=1e4){var eok=Math.floor(man/1e4),rest=Math.round(man%1e4);return eok+'억'+(rest?' '+rest.toLocaleString('ko-KR')+'만':'')+'원';}return man.toLocaleString('ko-KR')+'만원';}
+function fmtWon(n){return Math.floor(n).toLocaleString('ko-KR')+'원';}
+function pct(r){return (Math.round(r*1e4)/100)+'%';}
+function compute(){
+ var amt,dep=0,mo=0,conv=false;
+ if(st.deal==='wolse'){dep=num('inDep')*1e4;mo=num('inMo')*1e4;amt=dep+mo*100;if(amt<5e7){amt=dep+mo*70;conv=true;}}
+ else{amt=num('inAmt')*1e4;}
+ var isSale=(st.deal==='sale'),key=isSale?'sale':'rent';
+ var rate,cap=null,bi=-1;
+ if(st.prop==='house'){var arr=BR[key];for(var i=0;i<arr.length;i++){if(amt<arr[i].u){rate=arr[i].r;cap=arr[i].c;bi=i;break;}}}
+ else if(st.prop==='offi'){rate=FLAT.offi[key];}
+ else{rate=FLAT.etc[key];}
+ var raw=Math.floor(+(amt*rate).toFixed(2)),fee=raw,capped=false;
+ if(cap!==null&&fee>cap){fee=cap;capped=true;}
+ return{amt:amt,dep:dep,mo:mo,conv:conv,rate:rate,cap:cap,raw:raw,fee:fee,capped:capped,bi:bi,key:key,isSale:isSale};
+}
+function ladderRender(key){
+ var bar=$('lbar');bar.innerHTML='';
+ BR[key].forEach(function(b,i){var d=document.createElement('div');d.className='cell';d.setAttribute('data-i',i);d.innerHTML='<span class="ru">'+pct(b.r)+'</span><span class="rb">'+b.lb+(b.c?'·한도':'')+'</span>';bar.appendChild(d);});
+}
+function render(){
+ var r=compute();
+ $('outFee').textContent=r.amt>0?fmtMan(r.fee):'—';
+ $('outFeeWon').textContent=r.amt>0?'('+fmtWon(r.fee)+')':'';
+ $('capBadge').className='capbadge'+(r.capped?' show':'');
+ var propLb={house:'주택',offi:'오피스텔(85㎡↓·설비)',etc:'그 외(토지·상가 등)'}[st.prop];
+ var dealLb={sale:'매매·교환',jeonse:'전세',wolse:'월세'}[st.deal];
+ $('outRate').innerHTML=propLb+' · '+dealLb+' → 상한요율 <b>'+pct(r.rate)+'</b>'+(r.cap?' · 한도액 <b>'+fmtMan(r.cap)+'</b>':'')+(st.prop==='etc'?' <span style="color:var(--mut)">(법정 최고한도 — 실제는 중개사무소 게시 요율)</span>':'');
+ var t='';
+ if(st.deal==='wolse'){t='환산 거래금액 = 보증금 '+fmtMan(r.dep)+' + 월세 '+fmtMan(r.mo)+' × '+(r.conv?'<b>70</b> (합산 5천만 미만 → ×70 재환산)':'<b>100</b>')+' = <b>'+fmtMan(r.amt)+'</b><br>';}
+ else{t='거래금액 <b>'+fmtMan(r.amt)+'</b><br>';}
+ t+='상한 = '+fmtMan(r.amt)+' × '+pct(r.rate)+' = '+fmtMan(r.raw)+(r.capped?' → 한도액 <b>'+fmtMan(r.cap)+'</b> 적용':'')+' → <b>'+fmtMan(r.fee)+'</b>';
+ $('outTrace').innerHTML=t;
+ var rows=document.querySelectorAll('#tbHouse tr');
+ rows.forEach(function(tr){tr.className=(st.prop==='house'&&tr.getAttribute('data-b')===r.key+'-'+r.bi)?'hl':'';});
+ var fr={offi:'offi-'+r.key,etc:'etc-all'}[st.prop]||'';
+ document.querySelectorAll('#tbEtc tr').forEach(function(tr){tr.className=(tr.getAttribute('data-f')===fr)?'hl':'';});
+ if(st.prop==='house'){$('ladder').style.display='';$('ladderLb').textContent='주택 · '+(r.isSale?'매매':'임대차')+' 요율 사다리 (내 구간 하이라이트)';ladderRender(r.key);document.querySelectorAll('#lbar .cell').forEach(function(c){c.className='cell'+((+c.getAttribute('data-i')===r.bi)?' on':'');});}
+ else{$('ladder').style.display='none';}
+}
+function segBind(segId,prop){
+ $(segId).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+  st[prop]=b.getAttribute('data-v');
+  $('fldAmt').style.display=(st.deal==='wolse')?'none':'';
+  $('fldWolse').style.display=(st.deal==='wolse')?'grid':'none';
+  render();});
+}
+segBind('segProp','prop');segBind('segDeal','deal');
+['inAmt','inDep','inMo'].forEach(function(id){$(id).addEventListener('input',render);});
+var EX={jeonse35:{prop:'house',deal:'jeonse',amt:35000},sale6:{prop:'house',deal:'sale',amt:60000},wolse1060:{prop:'house',deal:'wolse',dep:1000,mo:60},offi2:{prop:'offi',deal:'jeonse',amt:20000}};
+$('chips').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var ex=EX[b.getAttribute('data-ex')];if(!ex)return;
+ st.prop=ex.prop;st.deal=ex.deal;
+ document.querySelectorAll('#segProp button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-v')===ex.prop);});
+ document.querySelectorAll('#segDeal button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-v')===ex.deal);});
+ if(ex.deal==='wolse'){$('inDep').value=ex.dep;$('inMo').value=ex.mo;}else{$('inAmt').value=ex.amt;}
+ $('fldAmt').style.display=(ex.deal==='wolse')?'none':'';
+ $('fldWolse').style.display=(ex.deal==='wolse')?'grid':'none';
+ render();});
+render();
+})();
+</script>
+<script>/*chrome*/
+(function(){var d=document,hdr=d.getElementById('hdr'),bar=d.getElementById('readbar');
+var btn=d.createElement('button');btn.type='button';btn.className='toTop';btn.setAttribute('aria-label','맨 위로');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';d.body.appendChild(btn);
+function upd(){var h=d.documentElement;var sc=h.scrollTop||d.body.scrollTop||0;var mx=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(Math.min(sc/mx,1)*100)+'%';btn.classList.toggle('on',sc>400);hdr.classList.toggle('scrolled',sc>10);}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd,{passive:true});upd();
+btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();
+</script>
+<script>/*revealfix*/
+(function(){var rev=[].slice.call(document.querySelectorAll('.reveal'));if(!rev.length)return;
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.10,rootMargin:'0px 0px -6% 0px'});rev.forEach(function(el){io.observe(el);});}else{rev.forEach(function(el){el.classList.add('in');});}})();
+</script>

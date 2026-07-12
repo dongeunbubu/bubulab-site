@@ -1,0 +1,359 @@
+<!-- [스토리_우리이야기_v1] BODY = 전체너비 코드위젯에 붙여넣기 · 내부링크 11건 슬러그 치환 · v3(2026-06-11) -->
+<style>
+:root{
+ --bg:#FDFBF7; --bg2:#FBF3EE; --card:#fff;
+ --ink:#3E2F29; --ink2:#5C4B43; --mut:#8A7B72;
+ --pink:#D67A89; --pinkSoft:#F8E8EA; --pinkSoft2:#FCEEF1; --sand:#F0DED8; --border:#EAD7D3;
+ --rose:#B85060; --sage:#5E8C7F; --lav:#9C6BA8; --gold:#C9A84C;
+ --up:#D8584E; --down:#4A7DE8;
+ --cardSh:0 1px 2px rgba(62,47,41,.04),0 4px 10px rgba(190,80,96,.05),0 14px 30px rgba(190,80,96,.07);
+ --cardHi:0 2px 4px rgba(62,47,41,.05),0 12px 24px rgba(190,80,96,.10),0 28px 56px rgba(190,80,96,.15);
+ --r:22px; --maxw:1080px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg2);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.blk{padding:clamp(46px,6vw,76px) 0;position:relative}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.scrolled{border-color:var(--border);box-shadow:0 4px 20px rgba(190,80,96,.06)}
+.nav{display:flex;align-items:center;gap:18px;padding:12px 0}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px var(--pinkSoft)}
+.menu{margin-left:auto;display:flex;gap:3px}
+.menu a{font-size:14px;font-weight:600;color:var(--ink2);padding:8px 12px;border-radius:10px;transition:background .2s,color .2s}
+.menu a:hover{background:var(--pinkSoft);color:var(--rose)}
+.menu a.cur{color:var(--rose);font-weight:800}
+.nav .cta{background:var(--rose);color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s,background .2s}
+.nav .cta:hover{background:#A03F4D;transform:translateY(-1px);box-shadow:var(--cardHi)}
+@media(max-width:820px){.menu{display:none}}
+/* anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.scene{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.scene.sl{transform:translateX(-44px)}.scene.sr{transform:translateX(44px)}.scene.su{transform:scale(.93)}
+.scene.in{opacity:1;transform:none}
+.stag>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stag.in>*{opacity:1;transform:none}
+.stag.in>*:nth-child(2){transition-delay:.08s}.stag.in>*:nth-child(3){transition-delay:.16s}
+.stag.in>*:nth-child(4){transition-delay:.24s}.stag.in>*:nth-child(5){transition-delay:.32s}.stag.in>*:nth-child(6){transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.reveal,.scene,.stag>*{opacity:1!important;transform:none!important;transition:none}}
+/* hero */
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.s-eyebrow::before{content:"";width:22px;height:1.5px;background:linear-gradient(90deg,var(--rose),transparent)}
+.tool-h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:14px}
+.grad{background:linear-gradient(100deg,var(--rose),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink2);font-size:clamp(15px,1.7vw,17.5px);line-height:1.72;max-width:640px;margin-top:15px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:14.5px;padding:13px 22px;border-radius:13px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 10px 24px rgba(184,80,96,.26)}
+.btn-rose:hover{box-shadow:0 14px 30px rgba(184,80,96,.34);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--cardSh)}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);padding:clamp(22px,3vw,32px)}
+.backlink{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--mut);margin-top:10px}
+.backlink:hover{color:var(--rose)}
+/* footer */
+footer{background:#fff;border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{padding-top:30px;padding-bottom:34px}
+.ftlogo{font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.ftlogo .dot{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.ft{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.ftnote{margin-top:12px;font-size:12px;color:var(--mut);line-height:1.6}
+/* subscribe band */
+.cta-band{background:linear-gradient(135deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:24px;padding:clamp(30px,4vw,46px);text-align:center;box-shadow:var(--cardSh)}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.cta-band p{color:var(--ink2);font-size:14.5px;margin:11px auto 0;max-width:520px}
+.cta-band .btn{margin-top:20px}
+/* lock */
+.lockbox{position:relative;border:1px dashed var(--rose);border-radius:18px;padding:24px;background:var(--pinkSoft2);overflow:hidden}
+.lockbox .lockmask{filter:blur(5px);opacity:.6;pointer-events:none;user-select:none}
+.lockover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:linear-gradient(180deg,rgba(252,238,241,.5),rgba(252,238,241,.86))}
+.lockover .lk{font-size:13px;font-weight:800;color:var(--rose);background:#fff;border:1px solid var(--border);border-radius:100px;padding:6px 14px;box-shadow:var(--cardSh)}
+
+.shero{padding:clamp(40px,6vw,72px) 0 clamp(52px,6vw,84px);text-align:center}
+.shero .quote{font-size:clamp(26px,4.6vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.22;max-width:760px;margin:16px auto 0}
+.shero .lead{margin:18px auto 0;text-align:center}
+.sbnd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,22px);max-width:980px;margin:clamp(34px,5vw,52px) auto 0}
+@media(max-width:620px){.sbnd{grid-template-columns:1fr;gap:12px}}
+.sbx{position:relative;min-width:0;text-align:center;padding:clamp(22px,3vw,32px) clamp(12px,2vw,18px);background:linear-gradient(162deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:20px;box-shadow:var(--cardSh);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.sbx:hover{transform:translateY(-5px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.sbx .sbic{width:46px;height:46px;margin:0 auto 15px;border-radius:15px;display:grid;place-items:center;background:radial-gradient(circle at 32% 26%,#fff,var(--pinkSoft));border:1px solid var(--border);box-shadow:0 6px 15px rgba(184,80,96,.10);transition:transform .35s var(--ease)}
+.sbx:hover .sbic{transform:translateY(-2px) scale(1.06)}
+.sbx .sbic svg{width:24px;height:24px;fill:none;stroke:var(--rose);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.sbx b{font-size:clamp(30px,4.2vw,40px);font-weight:800;letter-spacing:-.03em;color:var(--rose);font-variant-numeric:tabular-nums;display:block;line-height:1}
+.sbx b .sbu{font-size:.46em;font-weight:800;margin-left:2px;letter-spacing:.01em}
+.sbx .sbk{font-size:clamp(12.5px,1.4vw,13.5px);color:var(--ink2);font-weight:700;margin:12px auto 0;line-height:1.5;max-width:230px}
+.chap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,46px);align-items:center;margin-top:clamp(40px,6vw,72px)}
+@media(max-width:780px){.chap{grid-template-columns:1fr;gap:22px}}
+.chap .fig{aspect-ratio:4/3;border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;box-shadow:var(--cardHi)}
+.chap .fig .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.85);font-size:13px;font-weight:700;letter-spacing:.04em}
+.chap .fig .cap{position:relative;z-index:1;margin:14px;background:rgba(62,47,41,.42);backdrop-filter:blur(3px);color:#fff;font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:100px}
+.chap.alt .txt{order:2}.chap.alt .fig{order:1}
+@media(max-width:780px){.chap.alt .txt,.chap.alt .fig{order:0}}
+.chap .cno{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--rose);text-transform:uppercase}
+.chap h2{font-size:clamp(22px,3.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:10px 0 0}
+.chap p{font-size:15.5px;color:var(--ink2);line-height:1.8;margin-top:14px}
+.chap p b{color:var(--ink);background:linear-gradient(transparent 62%,var(--pinkSoft) 0)}
+.tlsec{margin-top:clamp(48px,7vw,84px)}
+.tl{position:relative;margin:26px auto 0;padding-left:8px;border-left:2px solid var(--border);max-width:680px}
+.tl .ti{position:relative;padding:0 0 26px 26px}
+.tl .ti::before{content:"";position:absolute;left:-9px;top:3px;width:15px;height:15px;border-radius:50%;background:var(--rose);border:3px solid #fff;box-shadow:0 0 0 2px var(--pinkSoft)}
+.tl .ti .y{font-weight:800;color:var(--rose);font-size:13px}
+.tl .ti .x{font-size:16px;font-weight:800;margin-top:1px;letter-spacing:-.01em}
+.tl .ti .d{font-size:14px;color:var(--ink2);margin-top:3px;line-height:1.6}
+.sectit{text-align:center}
+.sectit .e{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose);text-transform:uppercase}
+.sectit h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;letter-spacing:-.03em;margin-top:8px}
+
+/* ===storyviz=== 자산 성장 곡선 + 원칙 */
+.growthcard{background:#fff;border:1px solid var(--border);border-radius:24px;padding:clamp(24px,3.4vw,38px);box-shadow:var(--cardHi);margin-top:24px}
+.gtop{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.gtop .glab{font-size:13px;color:var(--mut);font-weight:700}
+.gtop .gbig{font-size:clamp(40px,6.4vw,62px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--rose);font-variant-numeric:tabular-nums;margin-top:4px}
+.gtop .gpill{font-size:12.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:100px;padding:9px 16px;align-self:center}
+.gchart{width:100%;height:auto;display:block;margin-top:16px;overflow:visible}
+.gline{fill:none;stroke:var(--rose);stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:780;stroke-dashoffset:780;transition:stroke-dashoffset 1.8s var(--ease)}
+.growthcard.drawn .gline{stroke-dashoffset:0}
+.garea{opacity:0;transition:opacity 1.1s var(--ease) .35s}
+.growthcard.drawn .garea{opacity:1}
+.gdot{fill:#fff;stroke:var(--rose);stroke-width:3;opacity:0;transition:opacity .55s var(--ease)}
+.growthcard.drawn .gdot.d1{opacity:1;transition-delay:.25s}
+.growthcard.drawn .gdot.d2{opacity:1;transition-delay:1s}
+.growthcard.drawn .gdot.d3{opacity:1;transition-delay:1.6s}
+.gaxis{font-size:11px;font-weight:700;fill:var(--mut)}
+.gval{font-weight:800;fill:var(--rose);font-variant-numeric:tabular-nums;opacity:0;transition:opacity .55s var(--ease)}
+.gval.v1{font-size:12.5px}.gval.v3{font-size:15.5px}
+.growthcard.drawn .gval.v1{opacity:1;transition-delay:.45s}
+.growthcard.drawn .gval.v3{opacity:1;transition-delay:1.7s}
+.gnote{font-size:11.5px;color:var(--mut);margin-top:15px;line-height:1.55}
+.prins{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:720px){.prins{grid-template-columns:1fr}}
+.prin{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--cardSh);transition:transform .3s var(--ease),box-shadow .3s}
+.prin:hover{transform:translateY(-4px);box-shadow:var(--cardHi)}
+.prin .pn{font-size:13px;font-weight:800;color:var(--rose);letter-spacing:.1em}
+.prin h4{font-size:16px;font-weight:800;margin:8px 0 5px;letter-spacing:-.01em}
+.prin p{font-size:13.5px;color:var(--ink2);line-height:1.62}
+.prinlink{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-weight:800;font-size:14px;color:var(--rose)}
+
+/* ===navfix=== canonical nav (overrides toolgen) */
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .menu{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--ink2);margin:0}
+#hdr .menu a{position:relative;padding:4px 0;border-radius:0;background:none}
+#hdr .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--pink);border-radius:2px;transition:right .3s var(--ease,cubic-bezier(.16,1,.3,1))}
+#hdr .menu a:hover{color:var(--pink);background:none}
+#hdr .menu a:hover::after{right:0}
+#hdr .menu a.cur{color:var(--ink);font-weight:600}
+#hdr .menu a.cur::after{right:0}
+#hdr .menu-main{justify-self:center}
+#hdr .navright{justify-self:end;display:flex;align-items:center;gap:18px}
+#hdr .menu-sub{gap:16px}
+#hdr .menu-sub a{font-size:13px;color:var(--mut);font-weight:600}
+#hdr .menu-sub a:hover{color:var(--pink)}
+#hdr .menu-sub a.cur{color:var(--ink)}
+@media(max-width:940px){#hdr .menu{display:none}}
+
+/* ===navmob=== mobile GNB drawer */
+#hdr .navMobBtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;border:0;background:none;cursor:pointer;padding:0;margin-left:4px}
+#hdr .navMobBtn span{display:block;width:22px;height:2px;margin:0 auto;background:var(--ink,#3E2F29);border-radius:2px;transition:.25s}
+#hdr .navMobBtn.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#hdr .navMobBtn.on span:nth-child(2){opacity:0}
+#hdr .navMobBtn.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navDrawer{position:fixed;inset:0;z-index:1200;background:rgba(40,30,28,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.navDrawer.on{opacity:1;visibility:visible}
+.navDrawer .pnl{position:absolute;top:0;right:0;height:100%;width:min(80vw,330px);background:var(--bg,#FDFBF7);box-shadow:-12px 0 44px rgba(40,30,28,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:18px 22px 26px}
+.navDrawer.on .pnl{transform:translateX(0)}
+.navDrawer .cl{align-self:flex-end;width:38px;height:38px;border:0;background:none;font-size:27px;line-height:1;color:var(--mut,#8A7B72);cursor:pointer}
+.navDrawer .dlogo{font-weight:800;font-size:17px;color:var(--ink,#3E2F29);margin:-26px 2px 16px;display:flex;align-items:center;gap:8px}
+.navDrawer .dlogo i{width:10px;height:10px;border-radius:50%;background:var(--pink,#D67A89);display:block}
+.navDrawer .dn{display:flex;flex-direction:column;gap:2px}
+.navDrawer .dn a{font-size:16.5px;font-weight:700;color:var(--ink,#3E2F29);text-decoration:none;padding:13px 10px;border-radius:11px;transition:background .15s,color .15s}
+.navDrawer .dn a:hover,.navDrawer .dn a.cur{background:var(--pinkSoft,#F8E8EA);color:var(--rose,#B85060)}
+.navDrawer .dcta{margin-top:auto;text-align:center;background:var(--rose,#B85060);color:#fff;font-weight:800;font-size:15.5px;padding:15px;border-radius:100px;text-decoration:none}
+@media(max-width:940px){#hdr .navMobBtn{display:flex}#hdr .menu{display:none}#hdr .cta{display:none}}
+</style>
+<style>/* ===pagedyn=== universal dynamics */
+.scrollprog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink,#D67A89),var(--rose,#B85060));z-index:2000;transition:width .12s linear;border-radius:0 2px 2px 0;pointer-events:none}
+.toTop{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--rose,#B85060);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(184,80,96,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .2s;z-index:1100}
+.toTop.on{opacity:1;visibility:visible;transform:none}
+.toTop:hover{background:#A03F4D;transform:translateY(-2px)}
+.toTop svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.toTop{right:14px;bottom:14px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.scrollprog{transition:none}}
+</style>
+<style>/* ===ofix=== mobile overflow guard */
+html{overflow-x:hidden}
+.navDrawer{overflow:hidden}
+@media(max-width:600px){.numin,.fld,.incfield,.rtable,table{max-width:100%}}
+</style>
+<style>/* ===seo=== a11y focus */:focus-visible{outline:2.5px solid #B85060;outline-offset:2px;border-radius:3px}:focus:not(:focus-visible){outline:none}</style>
+<style>/* ===cntfix=== 카운트업 숫자는 부모 통계 스타일 상속(작은-span 충돌 차단) */.cnt{font-size:inherit!important;font-weight:inherit!important;color:inherit!important;display:inline!important;letter-spacing:inherit!important;margin:0!important;line-height:inherit!important;vertical-align:baseline!important}</style>
+<style>/* ===storywow=== 스토리 몰입 보강 */
+.shero{position:relative}
+.shero>*{position:relative;z-index:1}
+.smesh{position:absolute;top:-30px;left:calc(50% - 50vw);width:100vw;height:135%;z-index:0;overflow:hidden;pointer-events:none;filter:blur(66px);opacity:.8}
+.smesh i{position:absolute;border-radius:50%;mix-blend-mode:multiply;animation:sdrift 20s ease-in-out infinite}
+.smesh .m1{width:38vw;height:38vw;background:#F8D9DE;top:-14%;left:8%;animation-delay:-2s}
+.smesh .m2{width:32vw;height:32vw;background:#ECE3F2;top:-6%;right:10%;animation-delay:-9s}
+.smesh .m3{width:30vw;height:30vw;background:#E7F0EA;bottom:-26%;left:36%;animation-delay:-13s}
+@keyframes sdrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(3vw,-2vw) scale(1.08)}66%{transform:translate(-2vw,2vw) scale(.95)}}
+.grad{background-size:220% auto;animation:sgrad 7s ease-in-out infinite}
+@keyframes sgrad{0%,100%{background-position:0 center}50%{background-position:100% center}}
+.chap .fig{will-change:transform}
+.chap .fig .figimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .55s var(--ease)}
+.chap .fig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,30,28,.05) 0,transparent 38%,transparent 56%,rgba(40,30,28,.40));z-index:1;pointer-events:none}
+.chap .fig .cap{z-index:2}
+/* stat 카드 아이콘 hover는 위 .num / .nic 규칙에서 처리 */
+@media(prefers-reduced-motion:reduce){.smesh{display:none}.grad{animation:none}.chap .fig .figimg{transition:none}}
+</style>
+<style>/* ===prinwow=== 원칙 3카드 hover 글로우+리프트(홈 #why 카드 동적언어 일관·죽어있던 transition 활성화·additive) */
+.prin{position:relative;overflow:hidden}
+.prin>*{position:relative;z-index:1}
+.prin::before{content:"";position:absolute;top:-28px;left:-28px;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle,rgba(214,122,137,.16),transparent 68%);opacity:0;transform:scale(.55);transition:opacity .45s var(--ease),transform .45s var(--ease);pointer-events:none;z-index:0}
+.prin:hover{transform:translateY(-5px);box-shadow:var(--cardHi);border-color:var(--pink)}
+.prin:hover::before{opacity:1;transform:scale(1)}
+.prin .pn{display:inline-block;transition:transform .3s var(--ease)}
+.prin:hover .pn{transform:translateY(-2px)}
+@media(prefers-reduced-motion:reduce){.prin::before{display:none}.prin:hover{transform:none}.prin .pn{transition:none}}
+</style>
+<style>/*wowkit-css*/
+/* ── 스크롤 등장(방향 변형) ── */
+html.js .wv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+html.js .wv.wv-l{transform:translateX(-34px)}
+html.js .wv.wv-r{transform:translateX(34px)}
+html.js .wv.wv-s{transform:scale(.94) translateY(14px)}
+html.js .wv.in{opacity:1;transform:none}
+/* ── 자식 스태거(카드 그리드·리스트) ── */
+html.js .wstag>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+html.js .wstag.in>*{opacity:1;transform:none}
+/* ── 형광펜 밑줄 스윕(키 카피 1~2곳만) ── */
+.whl{background:linear-gradient(transparent 60%,#F8E8EA 60%) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.16,1,.3,1) .18s;border-radius:2px}
+.whl.in{background-size:100% 100%}
+/* ── 섹션 헤더 라인 드로우 ── */
+.wline{position:relative}
+.wline::after{content:"";display:block;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#D67A89,#B85060);margin-top:10px;transition:width .8s cubic-bezier(.16,1,.3,1) .15s}
+.wline.in::after{width:44px}
+.wline.wline-c::after{margin-left:auto;margin-right:auto}
+/* ── 카드 호버 리프트(+은은한 그림자) ── */
+.wlift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}
+.wlift:hover{transform:translateY(-5px);box-shadow:0 18px 40px -18px rgba(62,47,41,.22)}
+.wtilt{transition:transform .25s ease-out}
+/* ── CTA 샤인 스윕(주 CTA 1곳만) ── */
+.wshine{position:relative;overflow:hidden}
+.wshine::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.34),transparent);transform:skewX(-18deg);transition:left .75s ease}
+.wshine:hover::after{left:125%}
+/* ── 모션 최소화: 전부 정적 폴백 ── */
+@media (prefers-reduced-motion:reduce){
+  html.js .wv,html.js .wstag>*{opacity:1!important;transform:none!important;transition:none!important}
+  .whl{background-size:100% 100%!important;transition:none!important}
+  .wline::after{width:44px!important;transition:none!important}
+  .wlift,.wlift:hover{transform:none!important;transition:none!important}
+  .wshine::after{display:none!important}
+}
+</style>
+<style>/*wowkit2 — 페이지 전환(View Transitions)·점진향상·미지원브라우저 무해*/
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:wvtOut .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:wvtIn .32s cubic-bezier(.16,1,.3,1) both}
+@keyframes wvtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes wvtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+</style>
+<style>/* ===storystat=== S01 결과어 카드 + KNOWHOW 문단 리듬(additive) */
+.sbx{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sbeye{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--rose)}
+.sbx .sbline{font-size:clamp(15px,1.85vw,18px);font-weight:800;letter-spacing:-.02em;line-height:1.5;color:var(--ink);max-width:15em;margin:0 auto;word-break:keep-all}
+.prin p + p{margin-top:10px}
+</style>
+<header id="hdr"><div class="wrap nav">
+<a class="logo" href="/home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</a>
+<nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+<div class="navright">
+<nav class="menu menu-sub"><a href="/story" class="cur">스토리</a></nav>
+<a class="cta" href="/home#subscribe">구독하기</a>
+</div>
+</div></header>
+
+<section class="shero wrap">
+  <div class="smesh" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div>
+  <span class="s-eyebrow reveal" style="justify-content:center">OUR STORY</span>
+  <div class="quote reveal">“부부합산 월 500만원, <span class="grad">곰팡이가 자라나는 반지하 단칸방에서 <br>신혼 생활을 시작했어요.</span>”</div>
+  <p class="lead reveal">반지하 단칸방. 부부합산 월 500만원을 받으며 매일 새벽 1시에 퇴근하던 스타트업 직장인 부부가 3년 만에 서울핵심지 내집마련과 자녀의 미래, 부부의 노후까지 대비할 수 있게 되었어요.</p>
+  <p class="lead reveal" style="margin-top:10px">이제는 연봉 이상의 월급을 만들며 새로운 부부의 꿈을 그려가고 있어요. 우리 부부가 짧은 시간 치열하게 바꾸고 변화하며 현실로 만들어왔던 것들을 조금 부끄럽지만 정리해보려고 해요.</p>
+  <div class="sbeye reveal" style="text-align:center;margin-top:clamp(34px,5vw,52px)">우리가 얻은 것</div>
+  <div class="sbnd stag" style="margin-top:16px">
+    <div class="sbx"><span class="sbic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="sbline">돈 걱정 없는 삶</div></div>
+    <div class="sbx"><span class="sbic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></span><div class="sbline">나의 진짜 꿈을 고민하고 실천할 수 있는 여유</div></div>
+    <div class="sbx"><span class="sbic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 15.5 4 9.5C4 6.5 6.5 4.5 9 4.5C10.5 4.5 12 5.5 12 5.5C12 5.5 13.5 4.5 15 4.5C17.5 4.5 20 6.5 20 9.5C20 15.5 12 21 12 21Z"/></svg></span><div class="sbline">사랑하는 가족과 아낌없이 사랑을 표현할 수 있는 저녁</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 1</div><h2>매일 하얀 버섯이 피어나던 반지하 단칸방에서 시작한 신혼생활</h2><p>매일 바닥에서 하얗게 버섯이 피어나 아침, 저녁 닦아줘야 하는 반지하 단칸방에서 저희의 신혼 생활을 시작했어요. 밤낮 주말없이 스타트업에서 일을 하는 부부의 삶에 여유는 없었죠.</p><p>쉴틈없이 일했지만 사회초년기의 부부에게 쥐어지는 500만원이라는 돈은 현재의 삶을 바꾸고 미래를 계획하기에 너무나 부족한 돈이었어요. 뱃속에서 무럭무럭 자라고 있는 아이를 위해서라도 우리는 <b>모든 걸 바꿔야 했어요</b>.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8899A,#C75E70)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/hero_couple.jpg" alt="신혼을 시작한 동은부부" loading="lazy"><span class="cap">신혼생활의 시작</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 2</div><h2>될 수 밖에 없도록, 돈 공부에 올인</h2><p>물 사먹는 것도 아까워 끓여먹고, 짜장, 카레, 김치찌개를 한 주씩 번갈아가며 만들어 먹으면서 최소한의 생활비로 오로지 영양만 겨우 맞춘 생활을 이어갔어요. 조금이라도 돈을 덜쓰며 투자재원으로 활용하고 싶었기 때문이에요.</p><p>퇴근을 언제 하더라도 <b>새벽 4시-5시까지 돈 공부</b>를 하며 우리의 계획과 전략에 맞춰 꾸준히 실천했어요.</p><p>주말마다 부부워크숍을 하며 목표를 세우고 과정을 정비하며 돈 대화를 했어요. 그렇게 추상적이었던 우리의 목표가 구체화되고, 조금씩 목표에 가까워질 수 있게 되었어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#86B6A8,#5E8C7F)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/study.jpg" alt="함께 책을 보며 돈 공부를 하는 동은부부" loading="lazy"><span class="cap">매일 함께했던 돈 공부</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 3</div><h2>중요한건 의지가 아니라 ‘구조’와 ‘환경’이었어요</h2><p>우리의 목표가 계획대로 흘러간다면 무조건 성취할 수밖에 없도록 세밀하게 전략을 세우고 무조건 실천할 수 밖에 없는 <b>구조와 환경</b>을 만들었어요. 의지는 설득과 타협으로 쉽게 무너질 수 있다는 것을 알기에 우리가 절약하고 투자하고 행동할 수 밖에 없도록 구조와 환경, 습관을 만들어 실천했어요.</p><p>투자자산을 현명하게 투자하기 위해서는 지금까지 진행하던 돈관리에 최소한의 에너지를 들이는 것이 중요했기에 자동으로 돈이 관리되고 불어나도록 구조를 만들어 관리했어요. 그렇게 아낀 에너지는 모두 투자자산과 특정 상품의 리스크를 따져보고 가치평가하며 비교하고 저평가를 추려내는데 사용할 수 있었고 좋은 투자 결과를 얻을 수 있었어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#DDA1AE,#B85060)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_family.jpg" alt="집에서 함께한 동은부부 가족" loading="lazy"><span class="cap">돈관리와 재테크</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 4</div><h2>더 큰 수익과 현금흐름을 만드는 투자</h2><p>돈 공부를 치열하게 하면서 내가 의미있게 효과적으로 투자할 수 있는 투자자산이 세상에는 정말 많다는 것을 알게 되었어요. 시장 상황이 좋든, 좋지 않든 내 자산은 상승할 수 있도록 구조를 만들었고, 더 안전하게, 더 높은 수익을 기대하며 자산을 불려갈 수 있었어요.</p><p>이제 남은건 투자재원을 늘리는 것. 바로 수입을 늘리는 것이었어요.</p><p>정말 세상에 존재하는 모든 온라인 부수입을 모두 시도해보고 공부하며 경험을 쌓았던 것 같아요.</p><p>그렇게 나와 맞고 맞지 않는 부업이 무엇인지 알게 되었고, 정착하여 정말 미친듯이 몰입하고 학습하면서 세밀한 디테일 하나까지 체화할 수 있는 다양한 경험을 쌓았어요. 그렇게 <b>연봉 이상의 월급</b>을 만들며 투자할 수 있는 환경을 만들 수 있었어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#E8C9A8,#C99C6A)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/closing_sunset.jpg" alt="노을 진 한강의 동은부부" loading="lazy"><span class="cap">자산 상승을 위한 기반 마련</span></div></div><div class="chap scene sl"><div class="txt"><div class="cno">CHAPTER 5</div><h2>내 집 마련, 자녀의 미래와 노후 대비까지</h2><p>그렇게 부부가 쉼 없이 매일 새벽을 달리며 치열하게 달려온 것 같아요. 꾸준히 절약을 유지하고 수입을 늘려가며 투자자산으로 돈을 바꾸며 쉼 없이 가치평가와 자산을 리밸런싱하면서 자산을 키워왔어요.</p><p>그렇게 <b>3년만에 자산을 10배 이상</b> 성장시킬 수 있었고, 서울 핵심지에 내집마련과 자녀 미래대비, 부부의 노후 대비를 할 수 있게 되었어요.</p><p>중간에 말씀드리지 않은 과정에도 사실 정말 많은 일들이 있었던 것 같아요. 신생아와 육아가방을 매일 들처엎고 근처 동사무소에서 기저귀를 갈아주며 서울의 임장을 적어도 100번이상 다녀왔던 것 같아요.</p><p>모유수유를 하면서 콘텐츠를 만들고, 아이를 재우고부터 저희의 일은 시작되었었죠. 힘들지 않았다면 거짓말이지만 서로가 함께 하기에 모든 것들이 재밌었던 것 같아요.</p></div><div class="fig" style="background:linear-gradient(150deg,#D98AA0,#B85060)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/brand_heart.jpg" alt="억새밭에서 하트를 만드는 동은부부 가족" loading="lazy"><span class="cap">꾸준한 실천</span></div></div><div class="chap alt scene sr"><div class="txt"><div class="cno">CHAPTER 6</div><h2>부부가 함께, 더 깊이있는 사랑을 실천할 수 있는 삶</h2><p>돈 공부를 하고 실천하면서 저희가 느낀게 있어요.</p><p>‘부부가 함께 해야하는 것.’ 그리고 ‘함께 할 수록 더 좋은 것.’이라는 거였어요.</p><p>돈 대화를 하면서 서로를 더욱 깊이 알아가고, 공동의 목표를 향해 달리는 과정에서 서로를 더 잘 이해할 수 있게 돼요. 그리고 성찰하고 변화하게 되는 것 같아요.</p><p>부부의 역사에서 그런 순간들이 빠르게 찾아올수록 부부는 <b>더 큰 목표와 꿈</b>을 가질 수 있다고 생각해요.</p><p>서로 다른 환경에서 살던 각자 부족함을 가지고 살던 타인이 만나 하나의 멋진 목표를 이룬다는 건 정말 가슴이 벅차는 설레이는 일 같아요. 저희는 그 목표가 만약 돈이라면 정말 누구든 그 목표를 이룰 수 있다고 생각해요.</p><p>모든 것에서 많이 부족한 저희 부부도 했는걸요. 만약 그 과정이 힘들다면 함께 했으면 좋겠어요.</p><p>고민과 문제의 과정에서 함께 고민하며 현실적인 도움이 될 수 있었으면 좋겠어요.</p></div><div class="fig" style="background:linear-gradient(150deg,#9DBBD0,#5E80A8)"><img class="figimg" src="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/img/momkid_vertical.jpg" alt="아이와 함께한 동은부부 가족" loading="lazy" style="object-position:center 26%"><span class="cap">사랑을 더 깊이 실천할 수 있는 삶</span></div></div>
+</section>
+
+<section class="blk wrap" id="growth">
+  <div class="sectit reveal"><span class="e">CURVE</span><h2>특별한 한 방이 아니라, <span class="grad">꾸준함이었어요.</span></h2></div>
+  <p class="wv" style="text-align:center;color:var(--ink2);font-size:clamp(14px,1.6vw,15.5px);line-height:1.7;max-width:640px;margin:10px auto 0">나의 목표를 성공할 수밖에 없는 ‘구조’와 ‘환경’으로 만들고 꾸준히 실천했어요. 처음에 더디게 오르던 자산이 하나씩 부족했던 것들이 채워지며 수직 상승하게 되었어요.</p>
+  <div class="growthcard reveal scene su" id="growthcard">
+    <div class="gtop">
+      <div><div class="glab">3년 동안 함께 불린 자산</div><div class="gbig"><span id="gmult">1</span>배 이상</div></div>
+      <div class="gpill">반지하 단칸방 월세→ 서울핵심지 내집마련</div>
+    </div>
+    <svg class="gchart" viewBox="0 0 600 250" role="img" aria-label="자산 성장 곡선: 시작 시점 1배에서 3년간 꾸준히 원칙을 지켜 약 10배 이상으로 가파르게 오른 흐름이에요. 흐름을 보여드리는 예시 시각화예요.">
+      <defs><linearGradient id="gareaG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#B85060" stop-opacity="0.20"/><stop offset="1" stop-color="#B85060" stop-opacity="0"/>
+      </linearGradient></defs>
+      <line x1="55" y1="200" x2="575" y2="200" stroke="#EAD7D3" stroke-width="1"/>
+      <path class="garea" fill="url(#gareaG)" d="M55,200 L127,194.3 199,184.9 272,171.7 344,152.8 416,124.4 488,86.7 560,30 L560,200 Z"/>
+      <polyline class="gline" points="55,200 127,194.3 199,184.9 272,171.7 344,152.8 416,124.4 488,86.7 560,30"/>
+      <circle class="gdot d1" cx="55" cy="200" r="6"/>
+      <circle class="gdot d2" cx="272" cy="171.7" r="6"/>
+      <circle class="gdot d3" cx="560" cy="30" r="7.5"/>
+      <text class="gaxis" x="55" y="220" text-anchor="start">시작(1년차)</text>
+      <text class="gaxis" x="272" y="220" text-anchor="middle">구조 완성</text>
+      <text class="gaxis" x="565" y="220" text-anchor="end">내집마련 · 자녀 미래 준비<tspan x="565" dy="16">· 부부 노후 대비</tspan></text>
+      <text class="gval v1" x="62" y="189" text-anchor="start">1배</text>
+      <text class="gval v3" x="560" y="16" text-anchor="end">10배</text>
+    </svg>
+    <div class="gnote">※ 살면서 경제공부를 한 적이 없기에 누구나 처음 돈공부는 어색하고 귀찮고 힘든게 있지만 앞으로의 생존을 위해 꼭 필요한 공부라고 생각해요. 생존을 넘어 부부가 더 깊이 사랑할 수 있는 환경을 얻을 수 있구요. 정확한 월별 금액이 아니라 ‘흐름’을 보여드리려는 그래프이고, 같은 결과를 보장하지는 않아요.</div>
+  </div>
+
+  <div class="sectit reveal" style="margin-top:clamp(40px,6vw,68px)"><span class="e">KNOWHOW</span><h2>중요한 건 의지가 아니라, <span class="grad">목표를 성공할 수 밖에 없도록 만드는 ‘구조’와 ‘환경’이에요</span></h2></div>
+  <div class="prins stag">
+    <div class="prin reveal"><span class="pn">01</span><h4>돈 모으기</h4><p>부부의 현재 상황을 명확히 직시하고 앞으로의 목표를 디테일하게 설정하고 계획을 세워야 해요. 정말 이렇게까지 한다고 싶을 정도로 네, 그렇게까지 하셔야 해요.</p><p>그리고 그에 맞게 행동하셔야 되구요. 자세한 디테일을 몰라 막막하시죠.</p><p>이게 왜 필요한지 모든 과정 하나하나 다 알려드릴게요. 걱정마세요.</p></div>
+    <div class="prin reveal"><span class="pn">02</span><h4>돈 지키기</h4><p>물가상승률 이상의 수익만 보던 옛날의 사고방식은 잊으셔야 해요.</p><p>투자자산의 상승과 환율에 따른 원화 가치 하락까지 더해 돈의 가치가 떨어지는 속도보다 더 높은 수익률을 얻어야만 내 소중한 돈을 지킬 수 있는 시대에 우리는 살고 <span style="word-break:keep-all">있답니다,,ㅎㅎ</span></p><p>돈관리와 재테크 모두 에너지 낭비 없이 자동으로 불려질 수 있는 구조를 만드는 법 모두 알려드릴게요.</p></div>
+    <div class="prin reveal"><span class="pn">03</span><h4>돈 불리기</h4><p>나의 수입의 파이를 키워 자산 증식의 속도를 높이는 일이에요.</p><p>온라인 세상에 존재하는 거의 모든 부업을 깊이있게 해본 것 같아요.</p><p>나한테 맞는 부업을 찾고 그 부업에서 어떤게 중요한지 모든 노하우를 알려드릴게요.</p></div>
+  </div>
+  <div style="text-align:center;margin-top:22px" class="reveal"><a class="prinlink" href="/contents">모든 콘텐츠 보러가기→</a></div>
+</section>
+
+<section class="blk wrap tlsec">
+  <div class="sectit reveal"><span class="e">TIMELINE</span><h2>반지하 단칸방에서 서울핵심지 내집마련까지</h2></div>
+  <div class="tl stag wstag">
+    <div class="ti"><div class="y">신혼 시작</div><div class="x">반지하 단칸방에서 신혼 출발</div><div class="d">부부합산 월 500만원, 곰팡이가 피는 반지하 단칸방. 여유는 없었지만 모든 걸 바꾸기로 했어요.</div></div>
+    <div class="ti"><div class="y">신혼 1년차</div><div class="x">돈 공부에 올인, ‘구조’와 ‘환경’ 만들기</div><div class="d">퇴근 후 새벽까지 공부하고 주말엔 부부워크숍. 절약과 투자가 자동으로 되는 구조를 세웠어요.</div></div>
+    <div class="ti"><div class="y">신혼 2년차</div><div class="x">투자와 부수입으로 확장</div><div class="d">시장이 어떻든 자산이 오르는 구조 위에서, 온라인 부수입까지 늘려 투자재원을 키웠어요.</div></div>
+    <div class="ti"><div class="y">신혼 3년차</div><div class="x">서울 핵심지 내집마련·미래 대비</div><div class="d">자산을 10배 이상 키우고, 자녀의 미래와 부부의 노후까지 준비할 수 있게 됐어요.</div></div>
+    <div class="ti"><div class="y">현재</div><div class="x">연봉 이상의 월급, 새로운 꿈</div><div class="d">이제는 연봉 이상의 월급을 만들며, 부부가 함께 새로운 꿈을 그려가고 있어요.</div></div>
+  </div>
+</section>
+
+<section class="blk wrap" style="padding-top:0">
+  <div class="cta-band reveal">
+    <h3>이제 당신의 이야기를 시작해보세요.</h3>
+    <p>모두가 저희처럼 돈 걱정 없는 삶을 만들어갈 수 있다고 생각해요. 저희가 과정에서 겪으실 수 있는 시행착오를 줄이고 도움이 될 수 있었으면 좋겠어요:)</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+      <a class="btn btn-rose wmag wshine" href="/contents">모든 콘텐츠 보러가기→</a>
+      <a class="btn btn-ghost" href="/premium">프리미엄 안내 →</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+<div class="ftlogo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
+<div class="ft"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div>
+<div class="ftnote">자료실 도구는 일반적인 재무 정보를 돕기 위한 참고용이며, 투자 권유가 아니에요. 입력값은 기기에만 저장되고 서버로 전송되지 않아요. 최종 판단과 책임은 본인에게 있습니다. · © 부부연구소</div>
+</div></footer>
