@@ -1,4 +1,3 @@
-<!-- [부부의_여정_지도] contents-hub FOOTER = 페이지 푸터 HTML · 여정 인터랙션(길 그리기·노드 스태거·팝오버·필터·드로어) · 바닐라 · 카운트업 없음 · 2026-07-12 -->
 <script>
 (function(){
  var d=document, w=window;
@@ -151,5 +150,42 @@
   w.addEventListener('scroll',upd,{passive:true}); w.addEventListener('resize',upd,{passive:true}); upd();
   top.addEventListener('click',function(){ w.scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
  })();
+
+ /* [T18] 바람 인터랙션(줄기 잎·꽃) + 구간별 낙하 파티클 IO 게이팅 — jm- 접두, 전역 오염 없음 */
+ (function(){
+  var falls=[].slice.call(scope.querySelectorAll('.jm-fall'));
+  if(falls.length && !reduce && ('IntersectionObserver' in w)){
+   var fio=new IntersectionObserver(function(es){es.forEach(function(en){
+    en.target.classList.toggle('jm-run', en.isIntersecting); });},{threshold:0.02});
+   falls.forEach(function(f){ fio.observe(f); });
+  }
+  if(reduce||coarse) return;
+  var wind=[].slice.call(scope.querySelectorAll('.jm-windel'));
+  if(!wind.length) return;
+  wind.forEach(function(el){ el._jmph=Math.random()*6.283; el._jmst=0.55+Math.random()*0.95; });
+  var target=0,cur=0,lastX=null,lastT=0,running=false,vis=true;
+  var mapEl=d.getElementById('jmMap');
+  function jnow(){ return (w.performance&&w.performance.now)?w.performance.now():Date.now(); }
+  function jtick(){
+   cur+=(target-cur)*0.06; target*=0.93;
+   var tt=jnow()/1000;
+   for(var i=0;i<wind.length;i++){ var el=wind[i];
+    var ang=cur*9*el._jmst + Math.sin(tt*1.15+el._jmph)*1.7*el._jmst;
+    el.style.transform='rotate('+ang.toFixed(2)+'deg)'; }
+   if(vis){ w.requestAnimationFrame(jtick); } else { running=false; }
+  }
+  function jstart(){ if(running||!vis)return; running=true; w.requestAnimationFrame(jtick); }
+  if(('IntersectionObserver' in w) && mapEl){
+   var mio=new IntersectionObserver(function(es){ vis=es[0].isIntersecting; if(vis) jstart(); },{threshold:0});
+   mio.observe(mapEl);
+  }
+  w.addEventListener('mousemove',function(e){
+   var t=jnow();
+   if(lastX!=null){ var dt=Math.max(t-lastT,16); var vx=(e.clientX-lastX)/dt; var v=vx*2.2; target=v<-1?-1:(v>1?1:v); }
+   lastX=e.clientX; lastT=t; jstart();
+  },{passive:true});
+  jstart();
+ })();
+
 })();
 </script>
