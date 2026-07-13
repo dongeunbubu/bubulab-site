@@ -10,5 +10,11 @@
     "edition": "pulse",
     "title": "SOX 반도체 지수 +3.06%",
     "source": "fetch_facts"
+  },
+  {
+    "ts": "2026-07-13T21:55:50.152549+09:00",
+    "edition": "pulse",
+    "title": "한중일 증시 약세: KOSPI -8.95%, KOSDAQ -4.55% | BTC, ETH도 낙폭",
+    "source": "market data"
   }
 ]
