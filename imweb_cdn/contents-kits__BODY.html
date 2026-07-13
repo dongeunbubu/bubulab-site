@@ -1,4 +1,3 @@
-<!-- [contents-kits] BODY = 전체너비 코드위젯 · 키트 탐색(자료실) · contents_index.json 하이드레이션(rawcdn main·cb) · 실패 시 인라인 스냅샷/정적카드 폴백 · 단계별 워크북 · 클래스 kx- 접두사 · 2026-07-11 -->
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
@@ -430,6 +429,57 @@ a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
  .kx-ringfg,.kx-stemgrow,.cxw-counter-bar{transition:none!important}
  .cxw-step.on{animation:none!important}
 }
+
+/* ===== [merge] kit 흡수 밴드 · kx- 접두 · cx 토큰 승계 ===== */
+.kx-mband{position:relative;padding:clamp(30px,4.5vw,52px) 0;border-top:1px solid var(--border)}
+.kx-mbandin{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
+.kx-mhead{max-width:640px;margin:0 auto 22px;text-align:center}
+.kx-meyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--rose);background:var(--pinkSoft);border:1px solid var(--border);border-radius:999px;padding:6px 13px}
+.kx-mh2{font-size:clamp(20px,3vw,27px);font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.32;margin-top:12px}
+.kx-mh2 small{font-size:12px;color:var(--mut);font-weight:700}
+.kx-mdesc{font-size:14.5px;color:var(--ink2);font-weight:600;line-height:1.66;margin-top:10px}
+.kx-pick{display:grid;grid-template-columns:.85fr 1.4fr;gap:clamp(16px,3vw,30px);align-items:stretch;max-width:960px;margin:0 auto;background:linear-gradient(150deg,#fff,var(--pinkSoft2));border:1px solid var(--border);border-radius:var(--cx-r);box-shadow:var(--sh1);overflow:hidden}
+.kx-pickfig{position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,var(--pink),var(--rose));color:#fff;min-height:180px;padding:24px}
+.kx-pickfig svg{width:74px;height:74px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.95}
+.kx-pickrib{position:absolute;top:14px;left:14px;font-size:11px;font-weight:800;color:var(--deep);background:#fff;border-radius:999px;padding:5px 11px;box-shadow:var(--sh1)}
+.kx-pickbody{padding:clamp(20px,3vw,28px)}
+.kx-picktag{display:inline-block;font-size:11.5px;font-weight:800;color:var(--rose);background:var(--pinkSoft);border-radius:999px;padding:5px 12px}
+.kx-pickh3{font-size:clamp(18px,2.3vw,22px);font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.3;margin-top:12px}
+.kx-picklead{font-size:14.5px;color:var(--ink2);font-weight:600;line-height:1.68;margin-top:10px}
+.kx-picklead b{color:var(--rose);font-weight:800}
+.kx-pickfeat{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.kx-pickfeat li{position:relative;padding-left:24px;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.5}
+.kx-pickfeat li::before{content:"";position:absolute;left:2px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--sage);box-shadow:inset 0 0 0 2px #fff}
+.kx-pickcta{display:inline-flex;align-items:center;gap:7px;margin-top:18px;min-height:48px;padding:13px 24px;border-radius:14px;background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;font-size:15px;font-weight:800;box-shadow:0 14px 30px -12px rgba(179,58,76,.55);transition:transform .3s var(--ease2)}
+.kx-pickcta:hover{transform:translateY(-2px)}
+.kx-pickcta i{font-style:normal;transition:transform .25s}
+.kx-pickcta:hover i{transform:translateX(4px)}
+.kx-pickuse{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:960px;margin:18px auto 0}
+.kx-ustep{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
+.kx-ustep b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--pinkSoft);color:var(--rose);font-size:13px;font-weight:900}
+.kx-ustep h4{font-size:14px;font-weight:800;color:var(--ink);margin-top:9px}
+.kx-ustep p{font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.55;margin-top:5px}
+.kx-vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:var(--maxw);margin:0 auto}
+.kx-vcard{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--sh1);display:flex;flex-direction:column}
+.kx-vstars{color:var(--gold);font-size:14px;letter-spacing:2px}
+.kx-vtxt{font-size:13.5px;color:var(--ink2);font-weight:600;line-height:1.66;margin-top:10px;flex:1}
+.kx-vwho{display:flex;align-items:center;gap:10px;margin-top:15px}
+.kx-vav{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;color:#fff;font-size:14px;font-weight:800;flex:none}
+.kx-vnm{font-size:13px;font-weight:800;color:var(--ink);display:flex;flex-direction:column}
+.kx-vnm small{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:1px}
+.kx-mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:var(--maxw);margin:0 auto}
+.kx-mcard{display:block;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--sh1);transition:transform .3s var(--ease2),box-shadow .3s}
+.kx-mcard:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.kx-mico{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:13px;color:#fff}
+.kx-mico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.kx-mcard h4{font-size:15.5px;font-weight:900;color:var(--ink);margin-top:14px}
+.kx-mcard p{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.6;margin-top:8px}
+.kx-mkicker{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:13px;font-weight:800;color:var(--rose)}
+.kx-mkicker i{font-style:normal;transition:transform .25s}
+.kx-mcard:hover .kx-mkicker i{transform:translateX(4px)}
+.kx-msub{text-align:center;margin-top:22px}
+.kx-msub a{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;font-weight:800;color:var(--rose);border-bottom:2px solid var(--pinkSoft);padding-bottom:3px}
+@media(max-width:760px){.kx-pick{grid-template-columns:1fr}.kx-pickfig{min-height:130px}.kx-pickuse{grid-template-columns:1fr}.kx-vgrid,.kx-mgrid{grid-template-columns:1fr}}
 </style>
 <div class="bbfw">
 <div class="topbar">
@@ -439,7 +489,7 @@ a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
 <header id="hdr">
   <div class="wrap nav">
     <div class="logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div>
-    <nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents" class="cur">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
+    <nav class="menu menu-main"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/contents-kits" class="cur">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a></nav>
     <div class="navright">
       <nav class="menu menu-sub"><a href="/story">스토리</a></nav>
       <a href="/home#subscribe" class="cta">구독하기</a>
@@ -465,6 +515,36 @@ a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
    <div class="kx-flow"><span class="kx-fstep free"><b>00</b> 프롤로그 · 무료</span><span class="kx-fstep free"><b>01</b> 맛보기</span><span class="kx-fstep"><b>02~</b> 순차 워크북</span><span class="kx-fstep">완주 · 다음으로</span></div>
   </div></div>
  </section>
+ <section class="kx-mband" aria-label="대표 키트">
+ <div class="kx-mbandin">
+  <div class="kx-mhead">
+   <span class="kx-meyebrow">✦ 먼저 만나는 키트</span>
+   <h2 class="kx-mh2">처음이라면, 이 키트부터</h2>
+   <p class="kx-mdesc">동은부부가 실제로 쓰는 통장 구조를 그대로 옮겼어요.</p>
+  </div>
+  <div class="kx-pick">
+   <div class="kx-pickfig"><span class="kx-pickrib">동은부부 픽</span><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.2"/><path d="M3 10.5h18"/><circle cx="16.5" cy="14.6" r="1.25"/></svg></div>
+   <div class="kx-pickbody">
+    <span class="kx-picktag">전자책 · 엑셀 시트</span>
+    <h3 class="kx-pickh3">신혼부부 통장 쪼개기 가계부 키트</h3>
+    <p class="kx-picklead">'이번 달 우리 얼마 썼지?'가 <b>한 파일에서</b> 끝나요.</p>
+    <p class="kx-picklead">월급이 들어오면 자동으로 나뉘는 시트에 공동 예산·고정비·비상금까지 담았어요.</p>
+    <ul class="kx-pickfeat">
+     <li>공동 예산·고정비·비상금을 한 번에 합산하는 시트</li>
+     <li>통장 쪼개기 구조를 그대로 옮긴 분배 템플릿</li>
+     <li>처음 쓰는 부부를 위한 작성 가이드 포함</li>
+     <li>구글시트·엑셀 함께 제공 — 모바일·PC 어디서나</li>
+    </ul>
+    <a class="kx-pickcta" href="/kit-842c">자세히 보기 <i aria-hidden="true">→</i></a>
+   </div>
+  </div>
+  <div class="kx-pickuse">
+   <div class="kx-ustep"><b>1</b><h4>받기</h4><p>결제하면 파일을 바로 받아요. 회원가입 없이도 가능해요.</p></div>
+   <div class="kx-ustep"><b>2</b><h4>함께 펴기</h4><p>구글시트·엑셀을 열어 부부가 같이 채워요.</p></div>
+   <div class="kx-ustep"><b>3</b><h4>오늘부터</h4><p>가이드대로 숫자만 넣으면 이번 달 가계부가 완성돼요.</p></div>
+  </div>
+ </div>
+</section>
  <div class="kx-controls">
   <div class="kx-ctin">
    <div class="kx-search"><input id="kxSearch" type="search" autocomplete="off" placeholder="제목·태그로 찾아보기" aria-label="키트 검색"></div>
@@ -479,6 +559,35 @@ a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
   <div class="kx-grid" id="kxList"><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🚀</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">9단계 워크북</span></span></span><span class="kx-h3">월급 밖 수익 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>월급만으론 부족한데 투자 재원(부수입)을 못 만들겠어요.</span><span class="kx-hook">월급 밖에서 흐르는 또 하나의 파이프라인을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">공모주</span><span class="kx-tag">부업</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌙</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">7단계 워크북</span></span></span><span class="kx-h3">배당·현금흐름 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>잠자는 동안 돈이 들어오게 하고 싶은데 세금이 걱정돼요.</span><span class="kx-hook">잠자는 동안에도 자라는 두 번째 월급을 함께 설계해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">수익화</span><span class="kx-tag">배당</span><span class="kx-tag">절세</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗝️</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">10단계 워크북</span></span></span><span class="kx-h3">내집마련 로드맵 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>내집마련이 막연하고 뭐부터 할지 모르겠어요.</span><span class="kx-hook">막연했던 내집마련을 한 걸음씩 캘린더로 바꿔드려요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부동산</span><span class="kx-tag">내집마련</span><span class="kx-tag">청약</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🛟</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bud" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBud"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">절세계좌 3형제 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>절세계좌 좋다는데 뭐가 다른지, 언제 써야 할지 모르겠어요.</span><span class="kx-hook">버는 것만큼 지키는 법 — 절세계좌 삼형제를 우리 편으로 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">절세</span><span class="kx-tag">계좌</span><span class="kx-tag">연금</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧩</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">9단계 워크북</span></span></span><span class="kx-h3">부부 포트폴리오 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>남의 포트폴리오는 많은데 우리 상황엔 안 맞아요.</span><span class="kx-hook">남의 정답 말고, 우리 가족 상황에 꼭 맞는 배분을 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">포트폴리오</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🌱</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-bloom" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxBloom"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">투자 첫걸음 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>투자가 무섭고 뭘 사야 할지 모르겠어요.</span><span class="kx-hook">투자가 무섭던 우리가 첫 매수 버튼을 누르기까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">투자</span><span class="kx-tag">첫걸음</span><span class="kx-tag">분산</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🏦</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">6단계 워크북</span></span></span><span class="kx-h3">모이는 구조 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>모으고 싶은데 구조가 없어 흐지부지돼요.</span><span class="kx-hook">의지가 아니라 구조로, 종잣돈이 저절로 모이게 만들어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">적금</span><span class="kx-tag">구조</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🔦</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">7단계 워크북</span></span></span><span class="kx-h3">새는 돈 점검 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>분명 아끼는데 돈이 안 남아요.</span><span class="kx-hook">분명 아끼는데 안 남는다면, 새는 곳부터 함께 막아봐요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">절약</span><span class="kx-tag">진단</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🧭</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">8단계 워크북</span></span></span><span class="kx-h3">만다라트 목표 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>목표가 흐릿해서 돈이 안 모여요.</span><span class="kx-hook">둘의 목표가 겹쳐 하나의 구조가 될 때까지 함께해요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">목돈</span><span class="kx-tag">목표설계</span><span class="kx-tag">부부대화</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div><div class="kx-tile kx-soon kx-rv" data-type="kit"><span class="kx-side" aria-hidden="true"></span><span class="kx-top"><span class="kx-thumb">🗣️</span><span class="kx-topmeta"><span class="kx-stageic kx-stage-seed" aria-hidden="true"><svg class="kx-nm" viewBox="0 0 48 48" aria-hidden="true"><use href="#cxSeed"></use></svg></span><span class="kx-steps">10단계 워크북</span></span></span><span class="kx-h3">머니토크 키트</span><span class="kx-problem"><span class="kx-plabel">이런 고민, 있으셨죠</span>돈 얘기만 나오면 어색하거나 다툼이 돼요.</span><span class="kx-hook">돈 얘기가 다툼이 아니라 대화가 될 때까지, 열 걸음을 함께 걸어요.</span><span class="kx-badges"><span class="kx-b kx-b-sell">개별 판매</span><span class="kx-b kx-b-soon">곧 만나요</span></span><span class="kx-tags"><span class="kx-tag">부부대화</span><span class="kx-tag">목돈</span><span class="kx-tag">첫걸음</span></span><span class="kx-cta">무료 프롤로그 · 곧 만나요</span></div></div>
   <div class="kx-empty" id="kxEmpty" hidden><div class="ei">🔎</div><div class="et">그 조건의 키트는 아직 없어요</div><div class="ed">다른 주제로 둘러봐도 좋아요.</div></div>
  </main>
+ <section class="kx-mband" aria-label="후기">
+ <div class="kx-mbandin">
+  <div class="kx-mhead">
+   <span class="kx-meyebrow">★ 먼저 써본 부부들</span>
+   <h2 class="kx-mh2">먼저 써본 부부들의 한마디 <small>(예시)</small></h2>
+   <p class="kx-mdesc">실제 후기가 쌓이면 이 자리에 그대로 보여드릴게요.</p>
+  </div>
+  <div class="kx-vgrid">
+   <div class="kx-vcard"><div class="kx-vstars">★★★★★</div><p class="kx-vtxt">결제하자마자 받아서 그날 저녁에 가계부를 채웠어요. 숫자만 넣으면 끝이라 편했어요.</p><div class="kx-vwho"><span class="kx-vav" style="background:var(--rose)">김</span><span class="kx-vnm">김OO<small>결혼 1년차</small></span></div></div>
+   <div class="kx-vcard"><div class="kx-vstars">★★★★★</div><p class="kx-vtxt">통장 쪼개기를 시트로 보니 확 이해됐어요. 둘이 같이 채우니 돈 얘기가 자연스러워졌고요.</p><div class="kx-vwho"><span class="kx-vav" style="background:var(--sage)">이</span><span class="kx-vnm">이OO<small>예비부부</small></span></div></div>
+   <div class="kx-vcard"><div class="kx-vstars">★★★★☆</div><p class="kx-vtxt">엑셀이랑 구글시트 둘 다 줘서 폰으로도 편했어요. 가이드도 친절했고요.</p><div class="kx-vwho"><span class="kx-vav" style="background:var(--lav)">박</span><span class="kx-vnm">박OO<small>결혼 2년차</small></span></div></div>
+  </div>
+ </div>
+</section>
+ <section class="kx-mband" aria-label="함께 보면 좋아요">
+ <div class="kx-mbandin">
+  <div class="kx-mhead">
+   <span class="kx-meyebrow">✦ 함께 보면 좋아요</span>
+   <h2 class="kx-mh2">함께 두면 더 잘 굴러가요</h2>
+   <p class="kx-mdesc">키트는 거들 뿐, 시작은 오늘 한 줄이에요. 머니레터를 중심으로 도구와 강의가 서로를 거들어요.</p>
+  </div>
+  <div class="kx-mgrid">
+   <a class="kx-mcard" href="/letter-evening"><div class="kx-mico" style="background:linear-gradient(150deg,#E8899A,#C75E70)"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.6 6.6 12 13l8.4-6.4"/></svg></div><h4>매일 머니레터</h4><p>아침·저녁으로 시장과 인사이트를 부부의 언어로 정리해 드려요.</p><span class="kx-mkicker">오늘의 머니레터 <i aria-hidden="true">→</i></span></a>
+   <a class="kx-mcard" href="/goods-9972"><div class="kx-mico" style="background:linear-gradient(150deg,#D98AA0,#B85060)"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="14.5" height="18" rx="2"/><path d="M4 8h14.5"/><path d="M8 13h7M8 16.5h5"/></svg></div><h4>머니 굿즈</h4><p>눈에 보이는 곳에 두면 습관이 되는 다이어리·플래너예요.</p><span class="kx-mkicker">굿즈 보기 <i aria-hidden="true">→</i></span></a>
+   <a class="kx-mcard" href="/class-b779"><div class="kx-mico" style="background:linear-gradient(150deg,#A982B5,#7E5790)"><svg viewBox="0 0 24 24"><path d="M12 4l9.5 5L12 14 2.5 9 12 4z"/><path d="M6 11v4.2c0 1.6 2.7 3 6 3s6-1.4 6-3V11"/></svg></div><h4>재테크 클래스</h4><p>둘이 같이 들어 끝까지 가는 입문 과정이에요.</p><span class="kx-mkicker">강의 보기 <i aria-hidden="true">→</i></span></a>
+  </div>
+  <div class="kx-msub"><a href="/home#subscribe">함께 시작하기 <i aria-hidden="true">→</i></a></div>
+ </div>
+</section>
  <section class="kx-band" aria-label="프리미엄 안내">
   <div class="kx-bandin">
    <div class="kx-bk">Premium</div>
@@ -488,9 +597,9 @@ a.kx-node:hover{background:rgba(255,255,255,.65);transform:translateX(3px)}
    <div class="kx-note">*프리미엄 회원은 키트 특별 이벤트로 만나요.</div>
   </div>
  </section>
- <footer class="bbft"><div class="bbft-in"><div class="bbft-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div><nav class="bbft-nav"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/kit-bcaf">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a><a href="/story">스토리</a><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1">이용약관</a></nav><div class="bbft-info"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>통신판매업 <b>2026-별내-1152</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div><div class="bbft-note">부부연구소는 누군가에게 의지하지 않는 안정적이며 효과적인 돈관리/재테크 구조와 환경을 만드는 도움이 될 수 있기를 지향해요. 재테크는 평생 해야하는 것이기 때문에 단 편의 정보가 아닌 평생 할 수 있는 재테크 지식과 습관을 만들어드리고 싶어요. 모든 콘텐츠에는 특정 종목에 대한 추천이나 권유내용을 포함하지 않는다는 점을 말씀드려요. 머니레터를 포함한 부부연구소에서 전해드리는 모든 정보에 대한 판단과 책임은 독자분들에게 있으며, 건강한 판단으로부터 현명한 가계운영에 도움이 될 수 있기를 진심으로 바래요:) · © 부부연구소</div></div></footer>
+ <footer class="bbft"><div class="bbft-in"><div class="bbft-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M11.05 3.5 4.2 9.1A2.4 2.4 0 0 0 3.3 11v8.1A1.9 1.9 0 0 0 5.2 21h13.6a1.9 1.9 0 0 0 1.9-1.9V11a2.4 2.4 0 0 0-.9-1.9L12.95 3.5a1.5 1.5 0 0 0-1.9 0Z" fill="#B33A4C"/><path d="M11.45 4.05 5.2 9.2" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".85" stroke-linecap="round"/><path d="M9.9 21v-4.7a2.1 2.1 0 0 1 2.1-2.1 2.1 2.1 0 0 1 2.1 2.1V21Z" fill="#F7E6E2"/><path d="M 16.4 7.243 l -0.189 -0.172 C 15.542 6.464 15.1 6.064 15.1 5.572 15.1 5.172 15.415 4.857 15.815 4.857 c 0.226 0.0 0.443 0.105 0.585 0.272 C 16.542 4.963 16.759 4.857 16.985 4.857 17.385 4.857 17.7 5.172 17.7 5.572 c 0.0 0.491 -0.442 0.892 -1.112 1.5 L 16.4 7.243 z" fill="#C9A84C"/></svg>부부연구소</div><nav class="bbft-nav"><a href="/moneyletter-landing">머니레터</a><a href="/contents">콘텐츠</a><a href="/contents-kits">키트</a><a href="/goods-9972">굿즈</a><a href="/class-b779">강의</a><a href="/story">스토리</a><a href="/privacy-v1">개인정보처리방침</a><a href="/terms-v1">이용약관</a></nav><div class="bbft-info"><span>상호명 <b>부부연구소</b></span><span>대표 <b>김동엽</b></span><span>사업자등록번호 <b>387-52-00871</b></span><span>통신판매업 <b>2026-별내-1152</b></span><span>이메일 <b>dongeunbubu@gmail.com</b></span></div><div class="bbft-note">부부연구소는 누군가에게 의지하지 않는 안정적이며 효과적인 돈관리/재테크 구조와 환경을 만드는 도움이 될 수 있기를 지향해요. 재테크는 평생 해야하는 것이기 때문에 단 편의 정보가 아닌 평생 할 수 있는 재테크 지식과 습관을 만들어드리고 싶어요. 모든 콘텐츠에는 특정 종목에 대한 추천이나 권유내용을 포함하지 않는다는 점을 말씀드려요. 머니레터를 포함한 부부연구소에서 전해드리는 모든 정보에 대한 판단과 책임은 독자분들에게 있으며, 건강한 판단으로부터 현명한 가계운영에 도움이 될 수 있기를 진심으로 바래요:) · © 부부연구소</div></div></footer>
 </div>
- </div><!-- /kxExplore -->
+ </div>
  <section id="kxHub" class="kx-view" hidden aria-label="키트 허브"></section>
  <section id="kxStep" class="kx-view" hidden aria-label="키트 단계"></section>
  <div class="kx-toast" id="kxToast" role="status" aria-live="polite" hidden></div>
