@@ -16,5 +16,11 @@
     "edition": "pulse",
     "title": "한중일 증시 약세: KOSPI -8.95%, KOSDAQ -4.55% | BTC, ETH도 낙폭",
     "source": "market data"
+  },
+  {
+    "ts": "2026-07-15T21:54:45.097346+09:00",
+    "edition": "pulse",
+    "title": "CPI 호조에 반도체 랠리 재개: KOSPI +6.24%, KOSDAQ +5.8%, SOX +2.54%",
+    "source": "fetch_facts"
   }
 ]
