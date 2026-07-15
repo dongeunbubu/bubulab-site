@@ -283,7 +283,7 @@ var cta=hdr.querySelector('.cta');var ch=cta?cta.getAttribute('href'):'#';var ct
 var btn=document.createElement('button');btn.type='button';btn.className='navMobBtn';btn.setAttribute('aria-label','\uba54\ub274 \uc5f4\uae30');btn.innerHTML='<span></span><span></span><span></span>';
 (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
 var d=document.createElement('div');d.className='navDrawer';
-d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><div class="dlogo"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+d.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="\ub2eb\uae30">\u00d7</button><a class="dlogo" href="/" aria-label="홈으로"><i></i>\ubd80\ubd80\uc5f0\uad6c\uc18c</a><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
 document.body.appendChild(d);
 function op(){d.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
 function cl(){d.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}

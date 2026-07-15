@@ -53,7 +53,7 @@ W.addEventListener('input',upd);upd();})();
  var btn=document.createElement('button'); btn.type='button'; btn.className='navMobBtn'; btn.setAttribute('aria-label','메뉴 열기'); btn.innerHTML='<span></span><span></span><span></span>';
  (hdr.querySelector('.navright')||hdr.querySelector('.nav')||hdr).appendChild(btn);
  var dr=document.createElement('div'); dr.className='navDrawer';
- dr.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><div class="dlogo"><i></i>부부연구소</div><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
+ dr.innerHTML='<div class="pnl"><button class="cl" type="button" aria-label="닫기">×</button><a class="dlogo" href="/" aria-label="홈으로"><i></i>부부연구소</a><nav class="dn">'+links+'</nav><a class="dcta" href="'+ch+'">'+ct+'</a></div>';
  document.body.appendChild(dr);
  function op(){dr.classList.add('on');btn.classList.add('on');document.body.style.overflow='hidden';}
  function cl(){dr.classList.remove('on');btn.classList.remove('on');document.body.style.overflow='';}
