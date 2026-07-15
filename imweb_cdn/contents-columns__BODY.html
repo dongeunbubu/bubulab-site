@@ -43,7 +43,7 @@
 .topbar a:hover{transform:translateY(-1px)}
 #hdr{position:fixed;top:0;left:0;right:0;z-index:9990;background:rgba(253,251,247,.94);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid #EAD7D3;box-shadow:0 2px 14px rgba(62,47,41,.06)}
 #hdr .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(22px,4.5vw,40px)}
-#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 0;gap:16px}
+#hdr .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;align-content:center;padding:12px 0;gap:16px}#hdr .nav{row-gap:0}#hdr .nav::before,#hdr .nav::after{content:none}
 #hdr .nav>*{min-width:0}
 #hdr .logo{justify-self:start;font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;color:#3E2F29;white-space:nowrap}
 #hdr .logo .dot{width:11px;height:11px;border-radius:50%;background:#D67A89;box-shadow:0 0 0 4px #F8E8EA}
