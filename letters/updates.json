@@ -22,5 +22,11 @@
     "edition": "pulse",
     "title": "CPI 호조에 반도체 랠리 재개: KOSPI +6.24%, KOSDAQ +5.8%, SOX +2.54%",
     "source": "fetch_facts"
+  },
+  {
+    "ts": "2026-07-16T12:54:52.064319+00:00",
+    "edition": "pulse",
+    "title": "SOX 지수 -2.08%",
+    "source": "fetch_facts"
   }
 ]
