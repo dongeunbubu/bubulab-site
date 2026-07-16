@@ -131,7 +131,7 @@
   }catch(e){}}
   applyLetter(MONEYLETTER);
   if(LETTER_JSON_URL){fetch(LETTER_JSON_URL).then(function(r){return r.json();}).then(function(d){applyLetter(d);
-    var nd=q('ndate');if(nd&&d.generated_at)nd.textContent='최근 갱신 '+d.generated_at+' · 매일 아침 7시·저녁 6시 자동 발행돼요.';}).catch(function(){});}
+    var nd=q('ndate');if(nd&&d.generated_at)nd.textContent='최근 갱신 '+d.generated_at+' · 매일 아침 7시·저녁 6시에 정리해드려요.';}).catch(function(){});}
 
   var hdr=document.getElementById('hdr');
   addEventListener('scroll',function(){hdr.classList.toggle('scrolled',scrollY>10);},{passive:true});
