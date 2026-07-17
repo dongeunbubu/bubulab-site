@@ -1092,8 +1092,9 @@
  var tp=d.getElementById('cxtop');
  addEventListener('scroll',function(){
   if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);
-  if(!progTick){progTick=true;requestAnimationFrame(function(){progTick=false;updateProg();});}
+  if(!progTick){progTick=true;var _pr=function(){progTick=false;updateProg();};requestAnimationFrame(_pr);setTimeout(_pr,120);}
  },{passive:true});
+ d.addEventListener('visibilitychange',function(){if(!d.hidden)updateProg();});
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 })();
 
