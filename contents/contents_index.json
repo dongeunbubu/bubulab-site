@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-15T10:00:00",
+ "updated": "2026-07-18T09:00:00",
  "count": 31,
  "items": [
   {
@@ -32,7 +32,17 @@
    },
    "sub": "물가상승률의 조용한 습격",
    "read": 4,
-   "zone": "keep"
+   "zone": "keep",
+   "free": true,
+   "pages": 52,
+   "chapters": 6,
+   "basis_date": "2026-07",
+   "next_review": "2026-10",
+   "pair": "booktool-portfolio",
+   "related": [
+    "bookcol-04",
+    "bookcol-13"
+   ]
   },
   {
    "slug": "bookcol-02",
@@ -124,7 +134,14 @@
      "kit-investstart"
     ]
    },
-   "zone": "keep"
+   "zone": "keep",
+   "free": true,
+   "pages": 50,
+   "chapters": 5,
+   "pair": "bookcol-05",
+   "related": [
+    "bookcol-01"
+   ]
   },
   {
    "slug": "bookcol-05",
@@ -244,7 +261,14 @@
      "kit-taxsaver"
     ]
    },
-   "zone": "keep"
+   "zone": "keep",
+   "pages": 54,
+   "chapters": 7,
+   "basis_date": "2026-07",
+   "next_review": "2026-10",
+   "related": [
+    "bookcol-09"
+   ]
   },
   {
    "slug": "bookcol-09",
@@ -396,7 +420,12 @@
      "kit-moneytalk"
     ]
    },
-   "zone": "gather"
+   "zone": "gather",
+   "free": true,
+   "pair": "booktool-couplecheck",
+   "related": [
+    "bookcol-02"
+   ]
   },
   {
    "slug": "booktool-mandala",
@@ -525,7 +554,12 @@
      "kit-homebuy"
     ]
    },
-   "zone": "keep"
+   "zone": "keep",
+   "pair": "bookcol-11",
+   "related": [
+    "bookcol-05",
+    "bookcol-06"
+   ]
   },
   {
    "slug": "booktool-taxaccount",
@@ -977,5 +1011,6 @@
   "부동산": 2,
   "세금": 5,
   "주식": 2
- }
+ },
+ "schema": "v2"
 }
