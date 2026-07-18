@@ -1493,7 +1493,14 @@
  function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);else if(slug==='booktool-flexcost')wireFlex(el);else if(slug==='booktool-portfolio')wirePort(el);else if(slug==='booktool-taxaccount')wireTax(el);else if(slug==='booktool-valuation')wireVal(el);else if(slug==='booktool-couplecheck')wireCouple(el);else if(slug==='booktool-youthchoice'){try{CXW.mount(el);}catch(_e){}}}
 
  /* ================= FREE1 · 무료 단독 페이지 경량 부트 — 라우터·탐색기 제외, 인라인 조각 즉시 init, 엔드 모듈은 인덱스 fetch 렌더 ================= */
- function updateProg(){}
+ /* FREE1 진행바: contents updateProg 이식 — 라우터 분기 제거, 리더 상시 on */
+ var progTick=false;
+ function updateProg(){
+  var bar=d.getElementById('cxProgBar'),pg=d.getElementById('cxProg');if(!bar||!pg)return;
+  pg.classList.add('on');
+  var doc=d.documentElement,st=doc.scrollTop||d.body.scrollTop||0,h=(doc.scrollHeight-doc.clientHeight)||1;
+  bar.style.width=Math.min(100,Math.max(0,st/h*100)).toFixed(2)+'%';
+ }
  var FREE=(function(){var el=d.getElementById('cxReader');return el?{rd:el,slug:el.getAttribute('data-free-slug')||''}:null;})();
  try{[].slice.call(d.querySelectorAll('meta[property^="og:"],meta[name="description"]')||[]).forEach(function(mt){if(d.head&&mt.parentNode!==d.head)d.head.appendChild(mt);});}catch(e){}
  function freeLinks(root){if(!root||!root.querySelectorAll)return;[].slice.call(root.querySelectorAll('a[href^="#"]')).forEach(function(a){var h=a.getAttribute('href')||'';if(h.length<2||h.indexOf('@')>=0)return;a.setAttribute('href','/contents'+h);});}
@@ -1508,6 +1515,7 @@
   reveal(body,'.cx-sc');reveal(FREE.rd,'.cx-rv');
   freeLinks(FREE.rd);
   freeEnd();
+  updateProg();
  }
  if(snap&&snap.length)useData(snap);
  freeBoot();
@@ -1516,9 +1524,11 @@
   fetch(LEG_RAW+'?cb='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){var it=(j&&j.items)||j;if(it&&it.length){useLegacy(it);freeEnd();}}).catch(function(){});
  }
  var tp=d.getElementById('cxtop');
- if(tp){
-  addEventListener('scroll',function(){tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);},{passive:true});
-  tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
- }
+ addEventListener('scroll',function(){
+  if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);
+  if(!progTick){progTick=true;var _pr=function(){progTick=false;updateProg();};requestAnimationFrame(_pr);setTimeout(_pr,120);}
+ },{passive:true});
+ d.addEventListener('visibilitychange',function(){if(!d.hidden)updateProg();});
+ if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 
 })();
