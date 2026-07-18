@@ -861,6 +861,28 @@
    if(isNaN(dv))dv=mn;
    var outLab=attr(el,'data-out-label','결과'), outUnit=attr(el,'data-out-unit',''), fmt=attr(el,'data-format','num'), outKey=attr(el,'data-out-key','');
    var note=attr(el,'data-note',''), cap=attr(el,'data-caption','');
+   /* CXWFIX6: 배선 폴백 — data-calc가 CXW.calc에 없고 CXW.sim에 있으면 sim 어댑터로 실행.
+      data-args를 sim.fields 순서대로 매핑('$'=슬라이더 값, 부족분·null은 def), run() 결과 primary에서 숫자 추출.
+      data-out-label/data-out-unit 미지정 시 sim primary 라벨(+유형 옵션 '○○ 기준')·값 꼬리 단위를 자동 채움. */
+   if(typeof fn!=='function'&&fnName&&CXW.sim&&CXW.sim[fnName]&&typeof CXW.sim[fnName].run==='function'){
+    (function(){
+     var sim=CXW.sim[fnName], flds=sim.fields||[];
+     function vmap(args){var v={};flds.forEach(function(f,i){var x=(i<args.length&&args[i]!=null&&args[i]!=='')?args[i]:f.def;v[f.k]=x;});return v;}
+     function pnum(s){var n=parseFloat(String(s==null?'':s).replace(/[^0-9.\-]/g,''));return isNaN(n)?null:n;}
+     fn=function(){var r=sim.run(vmap([].slice.call(arguments)));if(r&&r.primary){var n=pnum(r.primary.value);return n==null?r.primary.value:n;}return r;};
+     try{
+      var v0=vmap(argsT.map(function(a){return a==='$'?dv:a;})), r0=sim.run(v0);
+      if(r0&&r0.primary){
+       if(el.getAttribute('data-out-label')==null){
+        outLab=String(r0.primary.label||outLab);
+        var tf=null;flds.forEach(function(f){if(!tf&&f.options&&f.options.length)tf=f;});
+        if(tf){var ol='';tf.options.forEach(function(o){if(o.v===v0[tf.k])ol=String(o.label||'').split(' (')[0];});if(ol)outLab+=' · '+ol+' 기준';}
+       }
+       if(el.getAttribute('data-out-unit')==null){var mu=String(r0.primary.value==null?'':r0.primary.value).match(/([^\d.,\s]+)\s*$/);if(mu)outUnit=mu[1];}
+      }
+     }catch(e){}
+    })();
+   } /* /CXWFIX6 */
    function fmtOut(v){if(v==null||isNaN(v))return '—';if(fmt==='won')return fmtWon(Math.round(v));if(fmt==='pct')return String(Math.round(v*10)/10);return fmtNum(v);}
    function calc(val){
     if(typeof fn!=='function')return val;
