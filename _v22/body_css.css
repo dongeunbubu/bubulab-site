@@ -1,0 +1,47 @@
+/* ===== CXW v2.2 시각화 애니메이션 레이어: mini-chart 진입 애니(JS 구동) + stat-hero + line-trend ===== */
+/* mini-chart: rect width / stroke-dasharray / count-up 은 JS(rAF)가 구동 — CSS 전환 없음(리플로우 억제) */
+.cxw-ev.cxw-anim{opacity:0;transform:translateY(12px);transition:opacity .6s var(--cx-ease),transform .6s var(--cx-ease)}
+.cxw-ev.cxw-anim.cx-in{opacity:1;transform:none}
+
+/* stat-hero (.cxw-sh) — 큰 숫자 + 맥락 + 옵션 스파크라인 */
+.cxw-sh{margin:22px 0 6px;padding:clamp(18px,3vw,26px);border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);background:linear-gradient(160deg,#fff,var(--cx-pinkSoft2));box-shadow:var(--cx-sh);position:relative;overflow:hidden}
+.cxw-sh-cap{display:flex;align-items:center;font-size:12.5px;font-weight:800;color:var(--cx-rose);margin-bottom:12px;line-height:1.5}
+.cxw-sh-cap::before{content:"";display:inline-block;width:24px;height:2px;margin-right:8px;border-radius:2px;background:linear-gradient(90deg,var(--cx-rose),transparent)}
+.cxw-sh-main{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px 14px}
+.cxw-sh-num{display:inline-flex;align-items:baseline;font-variant-numeric:tabular-nums;letter-spacing:-.03em;line-height:1}
+.cxw-sh-pre{font-size:clamp(20px,3vw,26px);font-weight:800;color:var(--cx-deep);margin-right:2px}
+.cxw-sh-v{font-size:clamp(38px,7vw,62px);font-weight:900;color:var(--cx-rose);line-height:.98}
+.cxw-sh-suf{font-size:clamp(16px,2.4vw,22px);font-weight:800;color:var(--cx-deep);margin-left:3px}
+.cxw-sh-delta{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--cx-bg2);color:var(--cx-ink2)}
+.cxw-sh-up{background:#EAF1EE;color:var(--cx-sage)}
+.cxw-sh-down{background:var(--cx-pinkSoft);color:var(--cx-rose)}
+.cxw-sh-flat{background:#F1EAF4;color:var(--cx-lav)}
+.cxw-sh-ctx{font-size:13.5px;font-weight:700;color:var(--cx-ink2);line-height:1.6;margin-top:10px;max-width:54ch}
+.cxw-sh-spark{margin-top:16px}
+.cxw-sh-ssvg{display:block;width:100%;height:clamp(40px,9vw,54px)}
+.cxw-sh-area{fill:var(--cx-rose);opacity:.10}
+.cxw-sh-line{fill:none;stroke:var(--cx-rose);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cxw-sh-note{font-size:12px;color:var(--cx-mut);font-weight:600;margin-top:12px;line-height:1.6}
+
+/* line-trend (.cxw-lt) — 시계열 꺾은선, 2계열 비교, 점 호버 툴팁 */
+.cxw-lt{margin:22px 0 6px;padding:clamp(16px,2.6vw,22px);border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);background:linear-gradient(162deg,#fff,var(--cx-pinkSoft2));box-shadow:var(--cx-sh)}
+.cxw-lt-cap{display:flex;align-items:center;font-size:12.5px;font-weight:800;color:var(--cx-rose);margin-bottom:10px;line-height:1.5}
+.cxw-lt-cap::before{content:"";display:inline-block;width:24px;height:2px;margin-right:8px;border-radius:2px;background:linear-gradient(90deg,var(--cx-rose),transparent)}
+.cxw-lt-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:8px}
+.cxw-lt-lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--cx-ink2)}
+.cxw-lt-sw{width:16px;height:4px;border-radius:2px;flex:none}
+.cxw-lt-plot{position:relative}
+.cxw-lt-svg{display:block;width:100%;height:auto;overflow:visible}
+.cxw-lt-grid{stroke:var(--cx-border);stroke-width:1}
+.cxw-lt-yl{fill:var(--cx-mut);font-size:9px;font-weight:700}
+.cxw-lt-xl{fill:var(--cx-mut);font-size:9.5px;font-weight:700}
+.cxw-lt-line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.cxw-lt-dot{cursor:pointer;transition:opacity .4s var(--cx-ease)}
+.cxw-lt-dot:hover{r:4.6}
+.cxw-lt-dot:focus-visible{outline:2px solid var(--cx-rose);outline-offset:2px}
+.cxw-lt.cxw-anim .cxw-lt-dot{opacity:0}
+.cxw-lt.cxw-anim.cx-in .cxw-lt-dot{opacity:1;transition:opacity .5s var(--cx-ease) .5s}
+.cxw-lt-tip{position:absolute;left:0;top:0;transform:translate(-50%,-132%);background:var(--cx-ink);color:#fff;font-size:11.5px;font-weight:700;padding:6px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;box-shadow:var(--cx-shi);z-index:5}
+.cxw-lt-tip b{font-weight:800;color:#fff}
+.cxw-lt-note{font-size:12px;color:var(--cx-mut);font-weight:600;margin-top:12px;line-height:1.6}
+/* ===== /CXW v2.2 시각화 애니메이션 레이어 ===== */

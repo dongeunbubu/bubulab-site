@@ -1,4 +1,5 @@
-<script>
+
+
 
 (function(){
  var W=document.getElementById('cxRoot');if(!W)return;if(window.__cxhub)return;window.__cxhub=1;
@@ -1446,8 +1447,10 @@
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 })();
 
-</script>
-<script>
+
+
+
+
 
 (function(){
  var d=document, w=window;
@@ -1636,8 +1639,13 @@
 
 })();
 
-</script>
-<script>
+
+
+
+
 (function(){var d=document;var btn=d.querySelector('#hdr .navMobBtn'),dr=d.querySelector('.navDrawer');if(!btn||!dr)return;function op(){dr.classList.add('on');btn.classList.add('on');btn.setAttribute('aria-expanded','true');dr.setAttribute('aria-hidden','false');d.body.style.overflow='hidden';}function cl(){dr.classList.remove('on');btn.classList.remove('on');btn.setAttribute('aria-expanded','false');dr.setAttribute('aria-hidden','true');d.body.style.overflow='';}btn.addEventListener('click',function(){dr.classList.contains('on')?cl():op();});dr.addEventListener('click',function(e){var t=e.target;if(t===dr||(t.classList&&t.classList.contains('cl'))||t.tagName==='A')cl();});d.addEventListener('keydown',function(e){if(e.key==='Escape'||e.keyCode===27)cl();});})();
-</script>
-<script>/*bb-hdrsync*/(function(){var r=document.documentElement,tb=document.querySelector(".topbar"),hd=document.getElementById("hdr")||document.getElementById("jmhdr");if(!hd)return;function s(){var th=tb?tb.offsetHeight:0,hh=hd.offsetHeight||0;if(tb){hd.style.top=th+"px";}r.style.setProperty("--bbhdrH",(th+hh)+"px");}s();addEventListener("resize",s);addEventListener("load",s);if(document.readyState!=="loading")s();else document.addEventListener("DOMContentLoaded",s);})();</script>
+
+
+
+/*bb-hdrsync*/(function(){var r=document.documentElement,tb=document.querySelector(".topbar"),hd=document.getElementById("hdr")||document.getElementById("jmhdr");if(!hd)return;function s(){var th=tb?tb.offsetHeight:0,hh=hd.offsetHeight||0;if(tb){hd.style.top=th+"px";}r.style.setProperty("--bbhdrH",(th+hh)+"px");}s();addEventListener("resize",s);addEventListener("load",s);if(document.readyState!=="loading")s();else document.addEventListener("DOMContentLoaded",s);})();
+

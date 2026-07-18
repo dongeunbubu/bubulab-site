@@ -1,4 +1,4 @@
-<script>
+
 
 (function(){
  var W=document.getElementById('cxRoot');if(!W)return;if(window.__cxhub)return;window.__cxhub=1;
@@ -752,41 +752,8 @@
   function attr(el,a,dv){var v=el.getAttribute(a);return v==null?dv:v;}
   function fmtNum(n){n=Math.round((parseFloat(n)||0)*100)/100;return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
   var MCPAL=['#B33A4C','#5E8C7F','#C9A84C','#9C6BA8','#D67A89','#7C243B','#7FB08A','#E08696'];
-  /* __SMK_H0__ v2.2 시각화 애니메이션 공용 헬퍼 (cx- 접두, prefers-reduced-motion 존중) */
-  var LTPAL=['#B33A4C','#5E8C7F','#C9A84C','#9C6BA8'];
-  function commaInt(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
-  function cxOnce(el,cb){
-   if(rm||!('IntersectionObserver'in window)){cb(true);return;}
-   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){io.unobserve(el);cb(false);}});},{threshold:.32,rootMargin:'0px 0px -7% 0px'});
-   io.observe(el);
-  }
-  function tween(dur,delay,onframe,onend){
-   if(rm||!('requestAnimationFrame'in window)){onframe(1);if(onend)onend();return;}
-   var t0=null;dur=Math.max(1,dur);delay=delay||0;
-   function step(ts){if(t0===null)t0=ts;var e=ts-t0-delay;if(e<0){requestAnimationFrame(step);return;}var p=e/dur;if(p>1)p=1;onframe(easeOut(p));if(p<1)requestAnimationFrame(step);else if(onend)onend();}
-   requestAnimationFrame(step);
-  }
-  function cxReveal(el){
-   if(rm||!('IntersectionObserver'in window)){el.classList.add('cx-in');return;}
-   el.classList.add('cxw-anim');
-   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('cx-in');io.unobserve(en.target);}});},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
-   io.observe(el);
-  }
-  function shSpark(a){
-   var W=240,H=48,px=3,py=7,n=a.length,i;
-   var mn=Math.min.apply(null,a),mx=Math.max.apply(null,a);if(mx===mn)mx=mn+1;
-   function X(i){return n<2?W/2:px+i*(W-2*px)/(n-1);}
-   function Y(v){return py+(1-(v-mn)/(mx-mn))*(H-2*py);}
-   var d='',pts=[];
-   for(i=0;i<n;i++){var x=X(i),y=Y(a[i]);pts.push([x,y]);d+=(i?' L':'M')+x.toFixed(2)+' '+y.toFixed(2);}
-   var area=d+' L'+X(n-1).toFixed(2)+' '+(H-py).toFixed(2)+' L'+X(0).toFixed(2)+' '+(H-py).toFixed(2)+' Z';
-   var len=0;for(i=1;i<n;i++){var dx=pts[i][0]-pts[i-1][0],dy=pts[i][1]-pts[i-1][1];len+=Math.sqrt(dx*dx+dy*dy);}
-   return {line:d,area:area,len:len||W,W:W,H:H};
-  }
-  function pathLen(pts){var l=0;for(var i=1;i<pts.length;i++){var dx=pts[i][0]-pts[i-1][0],dy=pts[i][1]-pts[i-1][1];l+=Math.sqrt(dx*dx+dy*dy);}return l;}
-  /* __SMK_H1__ */
 
-  /* ---- ① mini-chart: bar(가로 비교)·stack(구성 분해)·donut — 외부 라이브러리 없이 SVG + 진입 애니(IO 1회, reduced-motion 즉시 최종) ---- */
+  /* ---- ① mini-chart: bar(가로 비교)·stack(구성 분해)·donut — 외부 라이브러리 없이 SVG ---- */
   W2['mini-chart']=function(el){
    if(el.getAttribute('data-cx-mc')==='1')return; el.setAttribute('data-cx-mc','1');
    var type=String(attr(el,'data-type','bar')||'bar').toLowerCase();
@@ -797,46 +764,29 @@
    var total=items.reduce(function(s,it){return s+Math.max(0,it.value);},0)||1;
    var max=items.reduce(function(m,it){return Math.max(m,it.value);},0)||1;
    var aria=type+' 차트: '+items.map(function(it){return it.label+' '+fmtNum(it.value)+unit;}).join(', ');
-   var anim=!rm&&('IntersectionObserver'in window);
    var body='';
    if(type==='donut'){
     var C=2*Math.PI*15.9155, off=0, arcs='';
     items.forEach(function(it){var len=Math.max(0,it.value)/total*C;
-     arcs+='<circle class="cxw-mc-arc" cx="21" cy="21" r="15.9155" fill="transparent" stroke="'+it.color+'" stroke-width="6" stroke-dasharray="'+(anim?('0 '+C.toFixed(3)):(len.toFixed(3)+' '+(C-len).toFixed(3)))+'" data-len="'+len.toFixed(3)+'" stroke-dashoffset="'+(-off).toFixed(3)+'" transform="rotate(-90 21 21)"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></circle>';
+     arcs+='<circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="'+it.color+'" stroke-width="6" stroke-dasharray="'+len.toFixed(3)+' '+(C-len).toFixed(3)+'" stroke-dashoffset="'+(-off).toFixed(3)+'" transform="rotate(-90 21 21)"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></circle>';
      off+=len;});
     var legend=items.map(function(it){var pct=Math.round(Math.max(0,it.value)/total*100);return '<span class="cxw-mc-lg"><span class="cxw-mc-sw" style="background:'+it.color+'"></span>'+esc(it.label)+' · '+pct+'%</span>';}).join('');
-    body='<div class="cxw-mc-donut"><svg class="cxw-mc-dsvg" viewBox="0 0 42 42" role="img" aria-label="'+esc(aria)+'"><circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="var(--cx-border)" stroke-width="6"></circle>'+arcs+'<text class="cxw-mc-dc" data-mcto="'+total+'" x="21" y="21" text-anchor="middle" dominant-baseline="central">'+esc((anim?'0':fmtNum(total))+unit)+'</text><text class="cxw-mc-dl" x="21" y="27" text-anchor="middle">'+esc(attr(el,'data-center','합계'))+'</text></svg><div class="cxw-mc-legend">'+legend+'</div></div>';
+    body='<div class="cxw-mc-donut"><svg class="cxw-mc-dsvg" viewBox="0 0 42 42" role="img" aria-label="'+esc(aria)+'"><circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="var(--cx-border)" stroke-width="6"></circle>'+arcs+'<text class="cxw-mc-dc" x="21" y="21" text-anchor="middle" dominant-baseline="central">'+esc(fmtNum(total)+unit)+'</text><text class="cxw-mc-dl" x="21" y="27" text-anchor="middle">'+esc(attr(el,'data-center','합계'))+'</text></svg><div class="cxw-mc-legend">'+legend+'</div></div>';
    } else if(type==='stack'){
     var x=0, segs='';
-    items.forEach(function(it){var w=Math.max(0,it.value)/total*100;segs+='<rect x="'+x.toFixed(3)+'" y="0" width="'+(anim?'0':w.toFixed(3))+'" data-w="'+w.toFixed(3)+'" height="26" fill="'+it.color+'"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></rect>';x+=w;});
+    items.forEach(function(it){var w=Math.max(0,it.value)/total*100;segs+='<rect x="'+x.toFixed(3)+'" y="0" width="'+w.toFixed(3)+'" height="26" fill="'+it.color+'"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></rect>';x+=w;});
     var legend2=items.map(function(it){var pct=Math.round(Math.max(0,it.value)/total*100);return '<span class="cxw-mc-lg"><span class="cxw-mc-sw" style="background:'+it.color+'"></span>'+esc(it.label)+' · '+pct+'%</span>';}).join('');
     body='<div class="cxw-mc-stack"><svg class="cxw-mc-stackbar" viewBox="0 0 100 26" preserveAspectRatio="none" role="img" aria-label="'+esc(aria)+'">'+segs+'</svg></div><div class="cxw-mc-legend">'+legend2+'</div>';
    } else {
     var rows=items.map(function(it){var w=Math.max(1,it.value/max*100);
-     return '<div class="cxw-mc-row"><span class="cxw-mc-lab">'+esc(it.label)+'</span><span class="cxw-mc-tr"><svg class="cxw-mc-svg" viewBox="0 0 100 15" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="0" width="'+(anim?'0':w.toFixed(2))+'" data-w="'+w.toFixed(2)+'" height="15" fill="'+it.color+'"></rect></svg></span><span class="cxw-mc-val" data-mcto="'+it.value+'">'+esc((anim?'0':fmtNum(it.value))+unit)+'</span></div>';}).join('');
+     return '<div class="cxw-mc-row"><span class="cxw-mc-lab">'+esc(it.label)+'</span><span class="cxw-mc-tr"><svg class="cxw-mc-svg" viewBox="0 0 100 15" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="0" width="'+w.toFixed(2)+'" height="15" fill="'+it.color+'"></rect></svg></span><span class="cxw-mc-val">'+esc(fmtNum(it.value)+unit)+'</span></div>';}).join('');
     body='<div class="cxw-mc-rows" role="img" aria-label="'+esc(aria)+'">'+rows+'</div>';
    }
    if(el.className.indexOf('cxw-mc')<0)el.className=('cxw-mc '+el.className).replace(/\s+$/,'');
    el.innerHTML=(cap?'<div class="cxw-mc-cap">'+esc(cap)+'</div>':'')+body+(note?'<div class="cxw-mc-note">'+esc(note)+'</div>':'');
-   if(!anim)return;
-   cxOnce(el,function(imm){
-    if(imm)return;
-    if(type==='bar'){
-     var rects=el.querySelectorAll('.cxw-mc-svg rect'),vals=el.querySelectorAll('.cxw-mc-val');
-     [].forEach.call(rects,function(r,i){var tw=parseFloat(r.getAttribute('data-w'))||0,v=vals[i],tv=v?(parseFloat(v.getAttribute('data-mcto'))||0):0;
-      tween(720,i*90,function(k){r.setAttribute('width',(tw*k).toFixed(2));if(v)v.textContent=commaInt(tv*k)+unit;},function(){r.setAttribute('width',tw.toFixed(2));if(v)v.textContent=fmtNum(tv)+unit;});});
-    } else if(type==='stack'){
-     [].forEach.call(el.querySelectorAll('.cxw-mc-stackbar rect'),function(r,i){var tw=parseFloat(r.getAttribute('data-w'))||0;tween(430,i*150,function(k){r.setAttribute('width',(tw*k).toFixed(3));},function(){r.setAttribute('width',tw.toFixed(3));});});
-    } else {
-     var Cc=2*Math.PI*15.9155,dc=el.querySelector('.cxw-mc-dc'),tot=dc?(parseFloat(dc.getAttribute('data-mcto'))||0):0,acc=0;
-     [].forEach.call(el.querySelectorAll('.cxw-mc-arc'),function(c){var len=parseFloat(c.getAttribute('data-len'))||0,startFrac=acc/Cc;acc+=len;
-      tween(Math.max(260,len/Cc*900),startFrac*760,function(k){var cur=len*k;c.setAttribute('stroke-dasharray',cur.toFixed(3)+' '+(Cc-cur).toFixed(3));},function(){c.setAttribute('stroke-dasharray',len.toFixed(3)+' '+(Cc-len).toFixed(3));});});
-     if(dc)tween(760,0,function(k){dc.textContent=commaInt(tot*k)+unit;},function(){dc.textContent=fmtNum(tot)+unit;});
-    }
-   });
   };
 
-  /* ---- ② evidence-card: 뉴스·발표 헤드라인(신문 스크랩 결, 홈 팔레트) + 등장 애니(살짝 슬라이드+페이드, IO 1회) ---- */
+  /* ---- ② evidence-card: 뉴스·발표 헤드라인(신문 스크랩 결, 홈 팔레트) ---- */
   W2['evidence-card']=function(el){
    if(el.getAttribute('data-cx-ev')==='1')return; el.setAttribute('data-cx-ev','1');
    var kind=attr(el,'data-kind','발표'), title=attr(el,'data-title',''), src=attr(el,'data-source','');
@@ -848,7 +798,6 @@
    if(el.className.indexOf('cxw-ev')<0)el.className=('cxw-ev '+el.className).replace(/\s+$/,'');
    if(href){el.innerHTML='<a class="cxw-ev-card" href="'+esc(href)+'" target="_blank" rel="noopener">'+inner+'</a>';}
    else{el.innerHTML='<div class="cxw-ev-card">'+inner+'</div>';}
-   cxReveal(el);
   };
 
   /* ---- ③ slider-calc: 슬라이더 즉시 계산 — CXW.calc 레지스트리 재사용 ---- */
@@ -887,97 +836,6 @@
    if(rg)rg.addEventListener('input',function(){var v=parseFloat(rg.value);if(isNaN(v))return;paint(v);});
    try{CXW.enhanceExports&&CXW.enhanceExports(el);}catch(e){}
   };
-
-  /* __SMK_SH0__ ④ stat-hero: 큰 숫자 1개 + 맥락 한 줄 + 옵션 미니 스파크라인(홈 팔레트 · 숫자 count-up · 선 그리기, 챕터 사이 삽입용) */
-  W2['stat-hero']=function(el){
-   if(el.getAttribute('data-cx-shx')==='1')return; el.setAttribute('data-cx-shx','1');
-   var vraw=attr(el,'data-value',null);
-   if(vraw==null||vraw===''){el.style.display='none';return;}
-   var val=parseFloat(String(vraw).replace(/,/g,''))||0;
-   var pre=attr(el,'data-prefix',''), suf=attr(el,'data-suffix',attr(el,'data-unit',''));
-   var ctx=attr(el,'data-label',attr(el,'data-context','')), cap=attr(el,'data-caption',''), note=attr(el,'data-note','');
-   var delta=attr(el,'data-delta',''), trend=String(attr(el,'data-trend','')||'').toLowerCase();
-   var dur=parseFloat(attr(el,'data-dur','820'))||820; if(dur<600)dur=600; if(dur>900)dur=900;
-   var series=J(el,'data-series'); if(!(series&&series.length>1))series=null;
-   var anim=!rm&&('IntersectionObserver'in window);
-   var tcls=trend==='up'?'cxw-sh-up':(trend==='down'?'cxw-sh-down':(trend==='flat'?'cxw-sh-flat':''));
-   var sd=series?shSpark(series):null;
-   var sparkHTML=sd?('<div class="cxw-sh-spark"><svg class="cxw-sh-ssvg" viewBox="0 0 '+sd.W+' '+sd.H+'" preserveAspectRatio="none" aria-hidden="true"><path class="cxw-sh-area" d="'+sd.area+'"></path><path class="cxw-sh-line" d="'+sd.line+'"></path></svg></div>'):'';
-   if(el.className.indexOf('cxw-sh')<0)el.className=('cxw-sh '+el.className).replace(/\s+$/,'');
-   el.innerHTML=(cap?'<div class="cxw-sh-cap">'+esc(cap)+'</div>':'')
-    +'<div class="cxw-sh-main"><span class="cxw-sh-num">'+(pre?'<span class="cxw-sh-pre">'+esc(pre)+'</span>':'')+'<b class="cxw-sh-v" data-mcto="'+val+'">'+esc(anim?'0':fmtNum(val))+'</b>'+(suf?'<span class="cxw-sh-suf">'+esc(suf)+'</span>':'')+'</span>'+(delta?'<span class="cxw-sh-delta '+tcls+'">'+esc(delta)+'</span>':'')+'</div>'
-    +(ctx?'<div class="cxw-sh-ctx">'+esc(ctx)+'</div>':'')
-    +sparkHTML
-    +(note?'<div class="cxw-sh-note">'+esc(note)+'</div>':'');
-   var vEl=el.querySelector('.cxw-sh-v'), lineEl=el.querySelector('.cxw-sh-line');
-   if(anim&&lineEl&&sd){lineEl.style.strokeDasharray=sd.len.toFixed(2)+' '+sd.len.toFixed(2);lineEl.style.strokeDashoffset=sd.len.toFixed(2);}
-   cxOnce(el,function(imm){
-    if(vEl){if(imm)vEl.textContent=fmtNum(val);else tween(dur,0,function(k){vEl.textContent=commaInt(val*k);},function(){vEl.textContent=fmtNum(val);});}
-    if(lineEl&&sd){if(imm){lineEl.style.strokeDashoffset='0';}else{tween(780,140,function(k){lineEl.style.strokeDashoffset=(sd.len*(1-k)).toFixed(2);},function(){lineEl.style.strokeDashoffset='0';});}}
-   });
-  };
-  /* __SMK_SH1__ */
-
-  /* __SMK_LT0__ ⑤ line-trend: 시계열 꺾은선(연도 라벨 · 점 호버 툴팁 · 선 그리기 애니 · 2계열 비교 예: 기준금리 vs 적금금리), 외부 라이브러리 없이 SVG */
-  W2['line-trend']=function(el){
-   if(el.getAttribute('data-cx-lt')==='1')return; el.setAttribute('data-cx-lt','1');
-   var xs=J(el,'data-x')||[];
-   var rawS=J(el,'data-series');
-   var series=[];
-   if(rawS&&rawS.length&&typeof rawS[0]==='object'&&!(rawS[0] instanceof Array)){
-    series=rawS.map(function(s,i){return {name:String(s.name==null?('계열'+(i+1)):s.name),color:(s.color||LTPAL[i%LTPAL.length]),values:(s.values||s.data||[]).map(function(v){return parseFloat(v)||0;})};});
-   } else if(rawS&&rawS.length){
-    series=[{name:attr(el,'data-name','계열'),color:LTPAL[0],values:rawS.map(function(v){return parseFloat(v)||0;})}];
-   }
-   if(!series.length||!xs.length){el.style.display='none';return;}
-   var unit=attr(el,'data-unit',''), cap=attr(el,'data-caption',''), note=attr(el,'data-note','');
-   var nx=xs.length, allv=[];
-   series.forEach(function(s){s.values.forEach(function(v){allv.push(v);});});
-   var dmin=attr(el,'data-min',null), dmax=attr(el,'data-max',null);
-   var ymin=(dmin!=null&&dmin!=='')?parseFloat(dmin):Math.min.apply(null,allv);
-   var ymax=(dmax!=null&&dmax!=='')?parseFloat(dmax):Math.max.apply(null,allv);
-   if(ymax===ymin){ymax=ymin+1;}
-   var vpad=(ymax-ymin)*0.12;ymin-=vpad;ymax+=vpad;
-   var W=520,H=250,ml=38,mr=12,mt=14,mb=28;
-   function X(i){return nx<2?ml+(W-ml-mr)/2:ml+i*(W-ml-mr)/(nx-1);}
-   function Y(v){return mt+(1-(v-ymin)/(ymax-ymin))*(H-mt-mb);}
-   var anim=!rm&&('IntersectionObserver'in window);
-   var grid='',GN=4,gi;
-   for(gi=0;gi<=GN;gi++){var gv=ymin+(ymax-ymin)*gi/GN,gy=Y(gv);
-    grid+='<line class="cxw-lt-grid" x1="'+ml+'" y1="'+gy.toFixed(1)+'" x2="'+(W-mr)+'" y2="'+gy.toFixed(1)+'"></line>';
-    grid+='<text class="cxw-lt-yl" x="'+(ml-5)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end">'+esc(fmtNum(Math.round(gv*10)/10)+unit)+'</text>';}
-   var xlab='';xs.forEach(function(xl,i){xlab+='<text class="cxw-lt-xl" x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+esc(String(xl))+'</text>';});
-   var lines='',dots='',lens=[];
-   series.forEach(function(s,si){var d='',pts=[],i;
-    for(i=0;i<nx;i++){var v=(s.values[i]==null?0:s.values[i]),x=X(i),y=Y(v);pts.push([x,y]);d+=(i?' L':'M')+x.toFixed(2)+' '+y.toFixed(2);}
-    lens.push(pathLen(pts));
-    lines+='<path class="cxw-lt-line" data-si="'+si+'" d="'+d+'" stroke="'+s.color+'"></path>';
-    for(i=0;i<nx;i++){var vv=(s.values[i]==null?0:s.values[i]);
-     dots+='<circle class="cxw-lt-dot" tabindex="0" role="img" cx="'+X(i).toFixed(2)+'" cy="'+Y(vv).toFixed(2)+'" r="3.4" fill="'+s.color+'" data-name="'+esc(s.name)+'" data-xl="'+esc(String(xs[i]))+'" data-vl="'+esc(fmtNum(vv)+unit)+'" aria-label="'+esc(s.name+' '+xs[i]+' '+fmtNum(vv)+unit)+'"></circle>';}
-   });
-   var legend=series.length>1?('<div class="cxw-lt-legend">'+series.map(function(s){return '<span class="cxw-lt-lg"><span class="cxw-lt-sw" style="background:'+s.color+'"></span>'+esc(s.name)+'</span>';}).join('')+'</div>'):'';
-   var aria='꺾은선 그래프: '+series.map(function(s){return s.name;}).join(' 대 ')+', '+xs[0]+'~'+xs[nx-1];
-   if(el.className.indexOf('cxw-lt')<0)el.className=('cxw-lt '+(anim?'cxw-anim ':'')+el.className).replace(/\s+$/,'');
-   el.innerHTML=(cap?'<div class="cxw-lt-cap">'+esc(cap)+'</div>':'')+legend
-    +'<div class="cxw-lt-plot"><svg class="cxw-lt-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(aria)+'">'+grid+xlab+lines+dots+'</svg><div class="cxw-lt-tip" role="status" aria-live="polite" hidden></div></div>'
-    +(note?'<div class="cxw-lt-note">'+esc(note)+'</div>':'');
-   var plot=el.querySelector('.cxw-lt-plot'), tip=el.querySelector('.cxw-lt-tip'), lineEls=el.querySelectorAll('.cxw-lt-line');
-   if(anim){[].forEach.call(lineEls,function(p,si){var L=lens[si]||W;p.style.strokeDasharray=L.toFixed(2)+' '+L.toFixed(2);p.style.strokeDashoffset=L.toFixed(2);});}
-   function showTip(dot){if(!tip||!plot)return;tip.innerHTML='<b>'+dot.getAttribute('data-name')+'</b> '+dot.getAttribute('data-xl')+' · '+dot.getAttribute('data-vl');tip.hidden=false;
-    try{var pr=plot.getBoundingClientRect(),dr=dot.getBoundingClientRect();tip.style.left=(dr.left-pr.left+dr.width/2)+'px';tip.style.top=(dr.top-pr.top)+'px';}catch(e){}}
-   function hideTip(){if(tip)tip.hidden=true;}
-   if(plot){
-    plot.addEventListener('mouseover',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('cxw-lt-dot'))showTip(t);});
-    plot.addEventListener('mouseout',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('cxw-lt-dot'))hideTip();});
-    plot.addEventListener('focusin',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('cxw-lt-dot'))showTip(t);});
-    plot.addEventListener('focusout',hideTip);
-   }
-   cxOnce(el,function(imm){
-    el.classList.add('cx-in');
-    [].forEach.call(lineEls,function(p,si){var L=lens[si]||W;if(imm){p.style.strokeDashoffset='0';}else{tween(860,si*240,function(k){p.style.strokeDashoffset=(L*(1-k)).toFixed(2);},function(){p.style.strokeDashoffset='0';});}});
-   });
-  };
-  /* __SMK_LT1__ */
 
   /* ---- 우측 스티키 레일(.cx-rrail) — 기존 목차 상태 재사용, ≥1400px는 CSS가 표시 게이트 ---- */
   var RS={obs:null,onScroll:null,terms:[]};
@@ -1446,198 +1304,3 @@
  if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 })();
 
-</script>
-<script>
-
-(function(){
- var d=document, w=window;
- var scope=d.querySelector('.jm-scope'); if(!scope) return;
- var mq=function(q){return w.matchMedia?w.matchMedia(q).matches:false;};
- var reduce=mq('(prefers-reduced-motion: reduce)');
- var coarse=mq('(pointer: coarse)');
-
- var hdr=d.getElementById('jmhdr');
- if(hdr){w.addEventListener('scroll',function(){hdr.classList.toggle('jm-scrolled', w.scrollY>8);},{passive:true});}
-
- (function(){
-  var btn=hdr&&hdr.querySelector('.jm-navbtn'); if(!btn) return;
-  var main=hdr.querySelector('.jm-menu-main'), sub=hdr.querySelector('.jm-menu-sub');
-  var links=''; [main,sub].forEach(function(nav){ if(!nav) return;
-   [].slice.call(nav.querySelectorAll('a')).forEach(function(a){
-    links+='<a href="'+a.getAttribute('href')+'">'+(a.textContent||'').trim()+'</a>'; }); });
-  var dr=d.createElement('div'); dr.className='jm-drawer';
-  dr.innerHTML='<div class="jm-dpnl"><button class="jm-dclose" type="button" aria-label="닫기">×</button>'
-   +'<div class="jm-dlogo"><i></i>부부연구소</div><nav class="jm-dnav">'+links+'</nav>'
-   +'<a class="jm-dcta" href="/home#subscribe">구독하기</a></div>';
-  d.body.appendChild(dr);
-  function open(){dr.classList.add('jm-on');btn.classList.add('jm-on');d.body.style.overflow='hidden';}
-  function close(){dr.classList.remove('jm-on');btn.classList.remove('jm-on');d.body.style.overflow='';}
-  btn.addEventListener('click',function(){dr.classList.contains('jm-on')?close():open();});
-  dr.addEventListener('click',function(e){var t=e.target;
-   if(t===dr||t.classList.contains('jm-dclose')||t.tagName==='A')close();});
-  d.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
- })();
-
- var revs=[].slice.call(scope.querySelectorAll('.jm-reveal,.jm-zlabel,.jm-mark'));
- var nodes=[].slice.call(scope.querySelectorAll('.jm-node'));
- if(reduce||!('IntersectionObserver' in w)){
-  revs.forEach(function(e){e.classList.add('jm-in');}); nodes.forEach(function(e){e.classList.add('jm-in');});
- } else {
-  var io=new IntersectionObserver(function(es){es.forEach(function(en){
-   if(en.isIntersecting){en.target.classList.add('jm-in');io.unobserve(en.target);}});},
-   {threshold:.16,rootMargin:'0px 0px -8% 0px'});
-  revs.forEach(function(e){io.observe(e);});
-  var nio=new IntersectionObserver(function(es){es.forEach(function(en){
-   if(en.isIntersecting){en.target.classList.add('jm-in');nio.unobserve(en.target);}});},
-   {threshold:.2,rootMargin:'0px 0px -6% 0px'});
-  nodes.forEach(function(e){nio.observe(e);});
- }
-
- (function(){
-  var KEY='bbf_hub_bloom', seen={};
-  try{ seen=JSON.parse(w.localStorage.getItem(KEY)||'{}')||{}; }catch(e){ seen={}; }
-  nodes.forEach(function(n){
-   var slug=n.getAttribute('data-slug');
-   if(slug&&seen[slug]) n.classList.add('jm-visited');
-   n.addEventListener('click',function(){
-    if(!slug) return; seen[slug]=1; n.classList.add('jm-visited');
-    try{ w.localStorage.setItem(KEY, JSON.stringify(seen)); }catch(e){}
-   });
-  });
- })();
-
- var draw=scope.querySelector('.jm-draw');
- var map=d.getElementById('jmMap');
- if(draw&&map&&!reduce){
-  var L=0; try{L=draw.getTotalLength();}catch(e){L=0;}
-  if(L){draw.style.strokeDasharray=L; draw.style.strokeDashoffset=L;
-   var ticking=false;
-   function drawUpd(){ ticking=false;
-    var r=map.getBoundingClientRect(), vh=w.innerHeight||d.documentElement.clientHeight;
-    var p=(vh*0.82 - r.top)/(r.height*0.78); p=p<0?0:(p>1?1:p);
-    draw.style.strokeDashoffset=(L*(1-p)).toFixed(1);
-   }
-   w.addEventListener('scroll',function(){if(!ticking){ticking=true;w.requestAnimationFrame(drawUpd);}},{passive:true});
-   w.addEventListener('resize',drawUpd,{passive:true}); drawUpd();
-  }
- } else if(draw){ draw.style.strokeDashoffset=0; }
-
- var pop=d.getElementById('jmPop');
- if(pop&&map){
-  var meta=d.getElementById('jmPopMeta'), pt=d.getElementById('jmPopTitle'),
-      ph=d.getElementById('jmPopHook'), pf=d.getElementById('jmPopFoot');
-  var hideT=null, curNode=null;
-  function badges(node){
-   var tk=node.getAttribute('data-tk'), t=node.getAttribute('data-t');
-   var s='<span class="jm-lt jm-pt-'+tk+'">'+t+'</span>';
-   var st=node.getAttribute('data-stage'), sm={seed:'🌱 새싹',bud:'🌸 봉오리',bloom:'🌺 만개'};
-   if(st&&sm[st]) s+='<span class="jm-b jm-b-stage">'+sm[st]+'</span>';
-   s+= node.getAttribute('data-prem')==='1'
-     ? '<span class="jm-b jm-b-prem">🔒 프리미엄</span>' : '<span class="jm-b jm-b-free">🆓 무료</span>';
-   if(node.getAttribute('data-live')!=='1') s+='<span class="jm-b jm-b-soon">곧 만나요</span>';
-   return s;
-  }
-  function fill(node){
-   meta.innerHTML=badges(node);
-   pt.textContent=node.getAttribute('data-title')||'';
-   ph.textContent=node.getAttribute('data-hook')||'';
-   if(node.getAttribute('data-live')==='1'){
-    var href=node.getAttribute('href')||'#';
-    pf.innerHTML='<a class="jm-pgo" href="'+href+'">열어보기 <span class="jm-ar">→</span></a>';
-   } else { pf.innerHTML='<div class="jm-psoon">곧 준비해서 만나러 올게요 🌱</div>'; }
-  }
-  function place(node){
-   var top=node.offsetTop, left=node.offsetLeft, below=(top < map.clientHeight*0.16);
-   pop.classList.toggle('jm-below', below);
-   var pw=pop.offsetWidth, ph2=pop.offsetHeight;
-   var x=left, y=below ? (top+46+ph2/2) : (top-46-ph2/2);
-   var minX=pw/2+6, maxX=map.clientWidth-pw/2-6;
-   if(x<minX)x=minX; if(x>maxX)x=maxX;
-   pop.style.left=x+'px'; pop.style.top=y+'px'; pop.style.transform='translate(-50%,-50%)';
-  }
-  function show(node){ if(hideT){clearTimeout(hideT);hideT=null;} curNode=node; fill(node); pop.classList.add('jm-show'); place(node); }
-  function hide(){ pop.classList.remove('jm-show'); curNode=null; }
-  function hideSoon(){ hideT=setTimeout(hide,140); }
-  nodes.forEach(function(node){
-   if(!coarse){
-    node.addEventListener('mouseenter',function(){show(node);});
-    node.addEventListener('mouseleave',hideSoon);
-    node.addEventListener('focus',function(){show(node);});
-    node.addEventListener('blur',hideSoon);
-   } else {
-    node.addEventListener('click',function(e){
-     var live=node.getAttribute('data-live')==='1';
-     if(curNode===node){ if(live){ return; } hide(); return; }
-     e.preventDefault(); show(node);
-    });
-   }
-  });
-  pop.addEventListener('mouseenter',function(){if(hideT){clearTimeout(hideT);hideT=null;}});
-  pop.addEventListener('mouseleave',hideSoon);
-  d.addEventListener('click',function(e){ if(coarse&&curNode&&!map.contains(e.target)) hide(); });
-  w.addEventListener('scroll',function(){ if(curNode) place(curNode); },{passive:true});
- }
-
- var chips=d.getElementById('jmChips');
- if(chips&&map){
-  chips.addEventListener('click',function(e){
-   var b=e.target.closest('.jm-chip'); if(!b||!chips.contains(b)) return;
-   [].slice.call(chips.querySelectorAll('.jm-chip')).forEach(function(x){
-    x.classList.remove('jm-on'); x.setAttribute('aria-pressed','false'); });
-   b.classList.add('jm-on'); b.setAttribute('aria-pressed','true');
-   var f=b.getAttribute('data-f')||'all';
-   map.classList.remove('jm-f-column','jm-f-tool','jm-f-kit');
-   if(f!=='all') map.classList.add('jm-f-'+f);
-  });
- }
-
-/* [T18] 바람 인터랙션(줄기 잎·꽃) + 구간별 낙하 파티클 IO 게이팅 — jm- 접두, 전역 오염 없음 */
- (function(){
-  var falls=[].slice.call(scope.querySelectorAll('.jm-fall'));
-  if(falls.length && !reduce && ('IntersectionObserver' in w)){
-   var fio=new IntersectionObserver(function(es){es.forEach(function(en){
-    en.target.classList.toggle('jm-run', en.isIntersecting); });},{threshold:0.02});
-   falls.forEach(function(f){ fio.observe(f); });
-  }
-  if(reduce||coarse) return;
-  var wind=[].slice.call(scope.querySelectorAll('.jm-windel'));
-  if(!wind.length) return;
-  wind.forEach(function(el){ el._jmph=Math.random()*6.283; el._jmst=0.55+Math.random()*0.95; });
-  if('IntersectionObserver' in w){
-   var gio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){var el=en.target,k=(parseInt(el.getAttribute('data-i'),10)||0)%7;setTimeout(function(){el.classList.add('jm-grew');},k*95);gio.unobserve(el);}});},{threshold:0.08,rootMargin:'0px 0px -6% 0px'});
-   wind.forEach(function(el){gio.observe(el);});
-  }else{ wind.forEach(function(el){el.classList.add('jm-grew');}); }
-  (function(){var nodes=[].slice.call(scope.querySelectorAll('.jm-node'));if(!nodes.length)return;
-   nodes.forEach(function(nd){nd.addEventListener('mouseenter',function(){var ny=(parseFloat(nd.style.top||'0')/100)*4150;for(var i=0;i<wind.length;i++){var el=wind[i];if(!el.classList.contains('jm-grew'))continue;var wy=parseFloat(el.getAttribute('data-y'))||0;if(Math.abs(wy-ny)<300){el.classList.remove('jm-react');void el.offsetWidth;el.classList.add('jm-react');(function(e){setTimeout(function(){e.classList.remove('jm-react');},1000);})(el);}}target=(Math.random()<0.5?-1:1)*0.5;jstart();},{passive:true});});
-  })();
-  var target=0,cur=0,lastX=null,lastT=0,running=false,vis=true;
-  var mapEl=d.getElementById('jmMap');
-  function jnow(){ return (w.performance&&w.performance.now)?w.performance.now():Date.now(); }
-  function jtick(){
-   cur+=(target-cur)*0.06; target*=0.93;
-   var tt=jnow()/1000;
-   for(var i=0;i<wind.length;i++){ var el=wind[i];
-    var ang=cur*12*el._jmst + Math.sin(tt*1.05+el._jmph)*2.6*el._jmst;
-    el.style.transform='rotate('+ang.toFixed(2)+'deg)'; }
-   if(vis){ w.requestAnimationFrame(jtick); } else { running=false; }
-  }
-  function jstart(){ if(running||!vis)return; running=true; w.requestAnimationFrame(jtick); }
-  if(('IntersectionObserver' in w) && mapEl){
-   var mio=new IntersectionObserver(function(es){ vis=es[0].isIntersecting; if(vis) jstart(); },{threshold:0});
-   mio.observe(mapEl);
-  }
-  w.addEventListener('mousemove',function(e){
-   var t=jnow();
-   if(lastX!=null){ var dt=Math.max(t-lastT,16); var vx=(e.clientX-lastX)/dt; var v=vx*2.2; target=v<-1?-1:(v>1?1:v); }
-   lastX=e.clientX; lastT=t; jstart();
-  },{passive:true});
-  jstart();
- })();
-
-})();
-
-</script>
-<script>
-(function(){var d=document;var btn=d.querySelector('#hdr .navMobBtn'),dr=d.querySelector('.navDrawer');if(!btn||!dr)return;function op(){dr.classList.add('on');btn.classList.add('on');btn.setAttribute('aria-expanded','true');dr.setAttribute('aria-hidden','false');d.body.style.overflow='hidden';}function cl(){dr.classList.remove('on');btn.classList.remove('on');btn.setAttribute('aria-expanded','false');dr.setAttribute('aria-hidden','true');d.body.style.overflow='';}btn.addEventListener('click',function(){dr.classList.contains('on')?cl():op();});dr.addEventListener('click',function(e){var t=e.target;if(t===dr||(t.classList&&t.classList.contains('cl'))||t.tagName==='A')cl();});d.addEventListener('keydown',function(e){if(e.key==='Escape'||e.keyCode===27)cl();});})();
-</script>
-<script>/*bb-hdrsync*/(function(){var r=document.documentElement,tb=document.querySelector(".topbar"),hd=document.getElementById("hdr")||document.getElementById("jmhdr");if(!hd)return;function s(){var th=tb?tb.offsetHeight:0,hh=hd.offsetHeight||0;if(tb){hd.style.top=th+"px";}r.style.setProperty("--bbhdrH",(th+hh)+"px");}s();addEventListener("resize",s);addEventListener("load",s);if(document.readyState!=="loading")s();else document.addEventListener("DOMContentLoaded",s);})();</script>

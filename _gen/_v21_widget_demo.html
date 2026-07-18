@@ -1,0 +1,238 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CX v2.1 위젯 데모</title><style>:root{--cx-bg:#FDFBF7;--cx-bg2:#FBF3EE;--cx-card:#fff;--cx-ink:#3E2F29;--cx-ink2:#5C4B43;--cx-mut:#8A7B72;--cx-border:#EAD7D3;--cx-rose:#B33A4C;--cx-rose2:#B85060;--cx-deep:#7C243B;--cx-pink:#D67A89;--cx-pinkSoft:#F8E8EA;--cx-pinkSoft2:#FCEEF1;--cx-sage:#5E8C7F;--cx-gold:#C9A84C;--cx-lav:#9C6BA8;--cx-r:22px;--cx-r-sm:14px;--cx-sh:0 1px 2px rgba(62,47,41,.04),0 6px 16px rgba(179,58,76,.06),0 18px 40px rgba(179,58,76,.07);--cx-shi:0 2px 6px rgba(62,47,41,.06),0 14px 30px rgba(179,58,76,.12);--cx-ease:cubic-bezier(.16,1,.3,1)}
+body{background:var(--cx-bg);font-family:Pretendard,-apple-system,system-ui,sans-serif;color:var(--cx-ink);max-width:720px;margin:0 auto;padding:30px 22px;line-height:1.7}
+h1{font-size:22px}h2{font-size:16px;margin:30px 0 6px;color:var(--cx-deep)}
+
+/* ==================================================================
+   CX v2.1 · 홈(home) 디자인 DNA 스킨 레이어 + 우측 스티키 레일 + 신규 위젯 3종
+   회귀 없이 기존 클래스 위에 덧입히는 스킨(모든 신규 셀렉터 cx-/cxw- 접두).
+   가져온 홈 DNA: (a)로즈→투명 아이브로우 라인  (b)로즈 그라디언트 배지(챕터 No)
+   (c)흰카드+연보더+부드러운 그림자+호버 리프트  (d)연분홍·크림 교차 밴드
+   (e)로즈→딥 그라디언트 프라이머리 버튼(135deg)  (f)핑크소프트 라디얼 밴드
+   ================================================================== */
+
+/* (a) 홈 s-eyebrow::before — 로즈→투명 라인 프리픽스 */
+.cx-rd-eyebrow::before,.cx-x-tag::before,.cx-rd-band .cx-bk::before,.cxw-cap::before,.cx-viz-cap::before,.cx-rrail-h::before{
+ content:"";display:inline-block;width:26px;height:2px;margin-right:9px;vertical-align:middle;border-radius:2px;
+ background:linear-gradient(90deg,var(--cx-rose),transparent)}
+.cx-x-tag,.cx-rd-band .cx-bk{display:inline-flex;align-items:center}
+
+/* (b) 챕터 No. → 홈 로즈 그라디언트 배지(필) */
+.cx-rd-kno{background:linear-gradient(135deg,var(--cx-rose),var(--cx-deep));color:#fff;padding:3px 11px;border-radius:999px;box-shadow:0 6px 14px -6px rgba(179,58,76,.5);letter-spacing:.02em;line-height:1.7}
+
+/* (c) 위젯 카드 결 통일 + 호버 리프트(표시형 카드에만) */
+.cxw-ev-card,.cxw-mc,.cxw-sum,.cxw-tlh,.cx-viz{transition:transform .3s var(--cx-ease),box-shadow .3s var(--cx-ease)}
+.cxw-ev-card:hover,.cxw-mc:hover,.cx-viz:hover{transform:translateY(-3px);box-shadow:var(--cx-shi)}
+
+/* (d) 챕터 연분홍·크림 교차 밴드(데스크톱, 라이트모드 제외) */
+@media(min-width:721px){
+ .cx-reader:not(.cx-lite) .cx-ch{padding:clamp(8px,1.4vw,16px) clamp(16px,2.2vw,26px);border-radius:var(--cx-r);margin:clamp(10px,1.8vw,20px) 0;transition:background .4s var(--cx-ease)}
+ .cx-reader:not(.cx-lite) .cx-ch:nth-of-type(odd){background:linear-gradient(168deg,var(--cx-pinkSoft2) 0,transparent 62%)}
+ .cx-reader:not(.cx-lite) .cx-ch:nth-of-type(even){background:linear-gradient(168deg,var(--cx-bg2) 0,transparent 62%)}
+}
+
+/* (e/f) 밴드·버튼은 기존 .cx-cta(135deg rose→deep)·.cx-rd-band 라디얼이 이미 홈 결 — 스킨 유지 */
+
+/* =================== 우측 스티키 레일 (.cx-rrail) — ≥1400px =================== */
+.cx-rrail{display:none;position:fixed;top:100px;left:calc(50vw + 372px);width:min(302px,calc(50vw - 398px));right:auto;
+ max-height:calc(100vh - 128px);flex-direction:column;gap:12px;z-index:39;pointer-events:auto}
+@media(min-width:1400px){#cxReader.cx-has-rrail .cx-rrail{display:flex}}
+.cx-rrail-card{background:linear-gradient(160deg,#fff,var(--cx-pinkSoft2));border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);box-shadow:var(--cx-sh);padding:15px 16px}
+.cx-rrail-h{display:flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--cx-rose);text-transform:uppercase;margin-bottom:10px}
+.cx-rrail-key{background:linear-gradient(160deg,#fff,var(--cx-pinkSoft))}
+.cx-rrail-kn{font-size:clamp(20px,2vw,26px);font-weight:900;color:var(--cx-deep);letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums}
+.cx-rrail-kt{font-size:13px;font-weight:800;color:var(--cx-ink);line-height:1.42;margin-top:2px}
+.cx-rrail-kd{font-size:12px;font-weight:600;color:var(--cx-ink2);line-height:1.55;margin-top:7px}
+.cx-rrail-terms{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.cx-rrail-tlist{list-style:none;margin:0;padding:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.cx-rrail-term{display:block;width:100%;text-align:left;border:1px solid var(--cx-border);background:#fff;border-radius:10px;padding:8px 11px;cursor:pointer;font:inherit;transition:border-color .2s,transform .15s,background .2s}
+.cx-rrail-term:hover{border-color:var(--cx-pink);background:var(--cx-pinkSoft2);transform:translateX(2px)}
+.cx-rrail-term b{display:block;font-size:12.5px;font-weight:800;color:var(--cx-rose);letter-spacing:-.01em}
+.cx-rrail-term span{display:block;font-size:11.5px;font-weight:600;color:var(--cx-mut);line-height:1.5;margin-top:2px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cx-rrail-empty{font-size:12px;font-weight:600;color:var(--cx-mut);line-height:1.55}
+.cx-rrail-pin{background:linear-gradient(160deg,#fff,var(--cx-pinkSoft2));border:1px solid var(--cx-border);border-left:3px solid var(--cx-rose);border-radius:var(--cx-r-sm);box-shadow:var(--cx-sh);padding:13px 15px;display:none}
+.cx-rrail-pin.on{display:block;animation:cxRailIn .4s var(--cx-ease)}
+.cx-rrail-pl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--cx-rose);text-transform:uppercase}
+.cx-rrail-pv{font-size:clamp(17px,1.8vw,22px);font-weight:900;color:var(--cx-deep);letter-spacing:-.02em;margin-top:4px;font-variant-numeric:tabular-nums;line-height:1.2}
+.cx-rrail-ps{font-size:11.5px;font-weight:700;color:var(--cx-mut);margin-top:4px}
+.cx-rrail-cta{margin-top:auto;display:flex;flex-direction:column;gap:5px;text-align:left;padding:14px 16px;border-radius:var(--cx-r-sm);background:linear-gradient(135deg,var(--cx-rose),var(--cx-deep));color:#fff;box-shadow:0 14px 30px -12px rgba(179,58,76,.6);transition:transform .3s var(--cx-ease),box-shadow .3s}
+.cx-rrail-cta:hover{transform:translateY(-2px);box-shadow:0 20px 40px -12px rgba(179,58,76,.66)}
+.cx-rrail-cta .cx-rrail-ck{font-size:10.5px;font-weight:800;letter-spacing:.06em;opacity:.85;text-transform:uppercase}
+.cx-rrail-cta .cx-rrail-ct{font-size:14px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+.cx-rrail-cta .cx-rrail-cx{font-style:normal;transition:transform .25s}
+.cx-rrail-cta:hover .cx-rrail-cx{transform:translateX(4px)}
+@keyframes cxRailIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* =================== 신규 위젯 ① mini-chart (.cxw-mc) =================== */
+.cxw-mc{margin:18px 0 4px;padding:clamp(16px,2.6vw,22px);border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);background:linear-gradient(162deg,#fff,var(--cx-pinkSoft2));box-shadow:var(--cx-sh)}
+.cxw-mc-cap{display:flex;align-items:center;font-size:12.5px;font-weight:800;color:var(--cx-rose);margin-bottom:14px;line-height:1.5}
+.cxw-mc-cap::before{content:"";display:inline-block;width:24px;height:2px;margin-right:8px;border-radius:2px;background:linear-gradient(90deg,var(--cx-rose),transparent)}
+.cxw-mc-rows{display:flex;flex-direction:column;gap:11px}
+.cxw-mc-row{display:grid;grid-template-columns:minmax(66px,26%) 1fr auto;align-items:center;gap:10px}
+.cxw-mc-lab{font-size:12.5px;font-weight:700;color:var(--cx-ink2);line-height:1.35}
+.cxw-mc-tr{position:relative;height:15px;border-radius:999px;background:var(--cx-bg2);overflow:hidden;border:1px solid var(--cx-border)}
+.cxw-mc-svg{display:block;width:100%;height:15px}
+.cxw-mc-val{font-size:12.5px;font-weight:900;color:var(--cx-deep);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cxw-mc-stack{margin:2px 0 4px}
+.cxw-mc-stackbar{width:100%;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--cx-border);display:block}
+.cxw-mc-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:12px}
+.cxw-mc-lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--cx-ink2)}
+.cxw-mc-sw{width:11px;height:11px;border-radius:3px;flex:none}
+.cxw-mc-donut{display:flex;align-items:center;gap:clamp(14px,3vw,26px);flex-wrap:wrap}
+.cxw-mc-dsvg{width:clamp(120px,34%,158px);height:auto;flex:none}
+.cxw-mc-dc{font-size:6.8px;font-weight:900;fill:var(--cx-deep)}
+.cxw-mc-dl{font-size:3.2px;font-weight:700;fill:var(--cx-mut)}
+.cxw-mc-note{font-size:12px;color:var(--cx-mut);font-weight:600;margin-top:11px;line-height:1.6}
+
+/* =================== 신규 위젯 ② evidence-card (.cxw-ev) =================== */
+.cxw-ev{margin:18px 0 4px}
+.cxw-ev-card{position:relative;display:block;border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);overflow:hidden;box-shadow:var(--cx-sh);
+ background:linear-gradient(158deg,#fff,#FFFCFB),repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(179,58,76,.03) 27px,rgba(179,58,76,.03) 28px);text-decoration:none}
+.cxw-ev-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--cx-rose),var(--cx-deep))}
+a.cxw-ev-card:hover{transform:translateY(-3px);box-shadow:var(--cx-shi);border-color:var(--cx-pink)}
+.cxw-ev-in{padding:16px 18px 16px 20px}
+.cxw-ev-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.cxw-ev-kind{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.02em}
+.cxw-ev-k-announce{background:var(--cx-pinkSoft);color:var(--cx-rose)}
+.cxw-ev-k-press{background:#EAF1EE;color:var(--cx-sage)}
+.cxw-ev-k-screen{background:#F1EAF4;color:var(--cx-lav)}
+.cxw-ev-src{font-size:11.5px;font-weight:700;color:var(--cx-mut)}
+.cxw-ev-src b{font-weight:800;color:var(--cx-ink2)}
+.cxw-ev-date{font-size:11px;font-weight:700;color:var(--cx-mut);margin-left:auto}
+.cxw-ev-title{font-size:clamp(15px,2vw,17.5px);font-weight:900;color:var(--cx-ink);letter-spacing:-.02em;line-height:1.4}
+.cxw-ev-note{font-size:12.5px;font-weight:600;color:var(--cx-ink2);line-height:1.6;margin-top:8px}
+.cxw-ev-img{display:block;width:100%;height:auto;margin-top:12px;border-radius:10px;border:1px solid var(--cx-border)}
+.cxw-ev-arr{font-style:normal;color:var(--cx-rose);font-weight:900;margin-left:5px}
+
+/* =================== 신규 위젯 ③ slider-calc (.cxw-slc) =================== */
+.cxw-slc{margin:18px 0 4px;padding:clamp(18px,3vw,24px);border:1px solid var(--cx-border);border-radius:var(--cx-r-sm);background:linear-gradient(162deg,#fff,var(--cx-pinkSoft2));box-shadow:var(--cx-sh)}
+.cxw-slc-cap{display:flex;align-items:center;font-size:12.5px;font-weight:800;color:var(--cx-rose);margin-bottom:12px;line-height:1.5}
+.cxw-slc-cap::before{content:"";display:inline-block;width:24px;height:2px;margin-right:8px;border-radius:2px;background:linear-gradient(90deg,var(--cx-rose),transparent)}
+.cxw-slc-out{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:13px 16px;border-radius:12px;background:linear-gradient(160deg,#FFF7F4,var(--cx-pinkSoft2));border:1px solid var(--cx-border);margin-bottom:15px}
+.cxw-slc-ol{font-size:12.5px;font-weight:800;color:var(--cx-ink2)}
+.cxw-slc-ov{font-size:clamp(20px,3.2vw,28px);font-weight:900;color:var(--cx-rose);letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cxw-slc-ov em{font-style:normal;font-size:.56em;font-weight:800;color:var(--cx-mut);margin-left:3px}
+.cxw-slc-lab{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:700;color:var(--cx-ink2);margin-bottom:2px}
+.cxw-slc-lv{font-weight:900;color:var(--cx-deep)}
+.cxw-slc-range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:var(--cx-border);margin:12px 0 6px;cursor:pointer}
+.cxw-slc-range::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--cx-rose);border:3px solid #fff;box-shadow:var(--cx-sh);cursor:pointer;margin-top:-10px}
+.cxw-slc-range::-moz-range-thumb{width:26px;height:26px;border:3px solid #fff;border-radius:50%;background:var(--cx-rose);cursor:pointer}
+.cxw-slc-range:focus-visible{outline:2.5px solid var(--cx-rose);outline-offset:4px}
+.cxw-slc-scale{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--cx-mut)}
+.cxw-slc-note{font-size:12px;color:var(--cx-mut);font-weight:600;margin-top:11px;line-height:1.6}
+.cxw-slc-pop{animation:cxPop .34s var(--cx-ease)}
+
+/* =================== 마이크로 피드백(피드백 2) — transform만 =================== */
+@keyframes cxPop{0%{transform:scale(1)}42%{transform:scale(1.16)}100%{transform:scale(1)}}
+.cxw-sum-box.cx-pop{animation:cxPop .32s var(--cx-ease)}
+.cx-dtprog{display:flex;gap:6px;margin-top:10px}
+.cx-dtprog i{width:7px;height:7px;border-radius:50%;background:var(--cx-border);transition:transform .28s var(--cx-ease),background .28s}
+.cx-dtprog i.on{background:linear-gradient(135deg,var(--cx-rose),var(--cx-deep));transform:scale(1.18)}
+.cx-term-flash{animation:cxFlash 1s var(--cx-ease)}
+@keyframes cxFlash{0%,100%{background-color:transparent}30%{background-color:var(--cx-pinkSoft)}}
+
+@media(max-width:720px){.cxw-mc-row{grid-template-columns:minmax(60px,32%) 1fr auto}}
+@media(prefers-reduced-motion:reduce){
+ .cxw-ev-card,.cxw-mc,.cx-viz,.cx-rrail-cta,.cx-rrail-term,.cx-ch,.cxw-slc-ov{transition:none!important}
+ .cxw-sum-box.cx-pop,.cxw-slc-pop,.cx-dtprog i,.cx-rrail-pin.on,.cx-term-flash{animation:none!important}
+}
+</style></head><body>
+<h1>CX v2.1 신규 위젯 데모(스모크)</h1>
+<h2>① mini-chart · bar</h2>
+<div data-cx-w="mini-chart" data-type="bar" data-caption="가구 월 지출 비교(만원)" data-unit="만원"
+  data-items='[{"label":"고정비","value":120},{"label":"변동비","value":78},{"label":"저축","value":52}]'></div>
+<h2>① mini-chart · stack</h2>
+<div data-cx-w="mini-chart" data-type="stack" data-caption="수입 구성" data-unit="만원"
+  data-items='[{"label":"근로","value":300},{"label":"부수입","value":80},{"label":"배당","value":20}]'></div>
+<h2>① mini-chart · donut</h2>
+<div data-cx-w="mini-chart" data-type="donut" data-center="자산" data-caption="자산 배분" data-unit="%"
+  data-items='[{"label":"예금","value":40},{"label":"주식","value":35},{"label":"연금","value":25}]'></div>
+<h2>② evidence-card</h2>
+<div data-cx-w="evidence-card" data-kind="보도" data-title="가계 저축률 3년 만에 반등" data-source="한국은행" data-date="2026.06" data-note="실질소득 개선이 배경으로 분석됩니다." data-href="https://example.com"></div>
+<h2>③ slider-calc(계산 레지스트리 재사용)</h2>
+<div data-cx-w="slider-calc" data-calc="futureValue" data-args='[0,"$",5,10]' data-label="매달 저축" data-min="0" data-max="200" data-step="5" data-def="30" data-unit="만원" data-out-label="10년 뒤 예상 잔고(연 5%)" data-format="won" data-out-unit="원" data-caption="슬라이더를 움직이면 즉시 갱신"></div>
+<script>
+var d=document, rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+function esc(s){return String(s==null?'':s).replace(/[&<>\"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}
+function fmtWon(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+var CXW={w:{},calc:{futureValue:function(p0,m,r,y){r=r/100/12;var n=Math.round(y*12);return p0*Math.pow(1+r,n)+(r>0?m*((Math.pow(1+r,n)-1)/r):m*n);}},enhanceExports:function(){}};
+var W2=CXW.w;
+W2['mini-chart']=function(el){
+   if(el.getAttribute('data-cx-mc')==='1')return; el.setAttribute('data-cx-mc','1');
+   var type=String(attr(el,'data-type','bar')||'bar').toLowerCase();
+   var items=J(el,'data-items')||[];
+   var cap=attr(el,'data-caption',''), note=attr(el,'data-note',''), unit=attr(el,'data-unit','');
+   if(!items.length){el.style.display='none';return;}
+   items=items.map(function(it,i){return {label:String(it.label==null?'':it.label),value:(parseFloat(it.value)||0),color:(it.color||MCPAL[i%MCPAL.length])};});
+   var total=items.reduce(function(s,it){return s+Math.max(0,it.value);},0)||1;
+   var max=items.reduce(function(m,it){return Math.max(m,it.value);},0)||1;
+   var aria=type+' 차트: '+items.map(function(it){return it.label+' '+fmtNum(it.value)+unit;}).join(', ');
+   var body='';
+   if(type==='donut'){
+    var C=2*Math.PI*15.9155, off=0, arcs='';
+    items.forEach(function(it){var len=Math.max(0,it.value)/total*C;
+     arcs+='<circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="'+it.color+'" stroke-width="6" stroke-dasharray="'+len.toFixed(3)+' '+(C-len).toFixed(3)+'" stroke-dashoffset="'+(-off).toFixed(3)+'" transform="rotate(-90 21 21)"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></circle>';
+     off+=len;});
+    var legend=items.map(function(it){var pct=Math.round(Math.max(0,it.value)/total*100);return '<span class="cxw-mc-lg"><span class="cxw-mc-sw" style="background:'+it.color+'"></span>'+esc(it.label)+' · '+pct+'%</span>';}).join('');
+    body='<div class="cxw-mc-donut"><svg class="cxw-mc-dsvg" viewBox="0 0 42 42" role="img" aria-label="'+esc(aria)+'"><circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="var(--cx-border)" stroke-width="6"></circle>'+arcs+'<text class="cxw-mc-dc" x="21" y="21" text-anchor="middle" dominant-baseline="central">'+esc(fmtNum(total)+unit)+'</text><text class="cxw-mc-dl" x="21" y="27" text-anchor="middle">'+esc(attr(el,'data-center','합계'))+'</text></svg><div class="cxw-mc-legend">'+legend+'</div></div>';
+   } else if(type==='stack'){
+    var x=0, segs='';
+    items.forEach(function(it){var w=Math.max(0,it.value)/total*100;segs+='<rect x="'+x.toFixed(3)+'" y="0" width="'+w.toFixed(3)+'" height="26" fill="'+it.color+'"><title>'+esc(it.label+' '+fmtNum(it.value)+unit)+'</title></rect>';x+=w;});
+    var legend2=items.map(function(it){var pct=Math.round(Math.max(0,it.value)/total*100);return '<span class="cxw-mc-lg"><span class="cxw-mc-sw" style="background:'+it.color+'"></span>'+esc(it.label)+' · '+pct+'%</span>';}).join('');
+    body='<div class="cxw-mc-stack"><svg class="cxw-mc-stackbar" viewBox="0 0 100 26" preserveAspectRatio="none" role="img" aria-label="'+esc(aria)+'">'+segs+'</svg></div><div class="cxw-mc-legend">'+legend2+'</div>';
+   } else {
+    var rows=items.map(function(it){var w=Math.max(1,it.value/max*100);
+     return '<div class="cxw-mc-row"><span class="cxw-mc-lab">'+esc(it.label)+'</span><span class="cxw-mc-tr"><svg class="cxw-mc-svg" viewBox="0 0 100 15" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="0" width="'+w.toFixed(2)+'" height="15" fill="'+it.color+'"></rect></svg></span><span class="cxw-mc-val">'+esc(fmtNum(it.value)+unit)+'</span></div>';}).join('');
+    body='<div class="cxw-mc-rows" role="img" aria-label="'+esc(aria)+'">'+rows+'</div>';
+   }
+   if(el.className.indexOf('cxw-mc')<0)el.className=('cxw-mc '+el.className).replace(/\s+$/,'');
+   el.innerHTML=(cap?'<div class="cxw-mc-cap">'+esc(cap)+'</div>':'')+body+(note?'<div class="cxw-mc-note">'+esc(note)+'</div>':'');
+  };
+W2['evidence-card']=function(el){
+   if(el.getAttribute('data-cx-ev')==='1')return; el.setAttribute('data-cx-ev','1');
+   var kind=attr(el,'data-kind','발표'), title=attr(el,'data-title',''), src=attr(el,'data-source','');
+   var date=attr(el,'data-date',''), note=attr(el,'data-note',''), img=attr(el,'data-img',''), href=attr(el,'data-href','');
+   if(!title){el.style.display='none';return;}
+   var kmap={'발표':['cxw-ev-k-announce','📢'],'보도':['cxw-ev-k-press','📰'],'화면':['cxw-ev-k-screen','🖥️']};
+   var km=kmap[kind]||kmap['발표'];
+   var inner='<div class="cxw-ev-in"><div class="cxw-ev-top"><span class="cxw-ev-kind '+km[0]+'">'+km[1]+' '+esc(kind)+'</span>'+(src?'<span class="cxw-ev-src">'+esc(src)+'</span>':'')+(date?'<span class="cxw-ev-date">'+esc(date)+'</span>':'')+'</div><div class="cxw-ev-title">'+esc(title)+(href?'<i class="cxw-ev-arr" aria-hidden="true">↗</i>':'')+'</div>'+(note?'<div class="cxw-ev-note">'+esc(note)+'</div>':'')+(img?'<img class="cxw-ev-img" loading="lazy" decoding="async" src="'+esc(img)+'" alt="'+esc(title)+'">':'')+'</div>';
+   if(el.className.indexOf('cxw-ev')<0)el.className=('cxw-ev '+el.className).replace(/\s+$/,'');
+   if(href){el.innerHTML='<a class="cxw-ev-card" href="'+esc(href)+'" target="_blank" rel="noopener">'+inner+'</a>';}
+   else{el.innerHTML='<div class="cxw-ev-card">'+inner+'</div>';}
+  };
+W2['slider-calc']=function(el){
+   if(el.getAttribute('data-cx-slc')==='1')return; el.setAttribute('data-cx-slc','1');
+   var fnName=attr(el,'data-calc',''), fn=CXW.calc&&CXW.calc[fnName];
+   var argsT=J(el,'data-args'); if(!argsT||!argsT.length)argsT=['$'];
+   var lab=attr(el,'data-label','값'), unit=attr(el,'data-unit','');
+   var mn=parseFloat(attr(el,'data-min','0')), mx=parseFloat(attr(el,'data-max','100')), st=parseFloat(attr(el,'data-step','1')), dv=parseFloat(attr(el,'data-def',''));
+   if(isNaN(dv))dv=mn;
+   var outLab=attr(el,'data-out-label','결과'), outUnit=attr(el,'data-out-unit',''), fmt=attr(el,'data-format','num'), outKey=attr(el,'data-out-key','');
+   var note=attr(el,'data-note',''), cap=attr(el,'data-caption','');
+   function fmtOut(v){if(v==null||isNaN(v))return '—';if(fmt==='won')return fmtWon(Math.round(v));if(fmt==='pct')return String(Math.round(v*10)/10);return fmtNum(v);}
+   function calc(val){
+    if(typeof fn!=='function')return val;
+    var args=argsT.map(function(a){return a==='$'?val:a;});
+    var r; try{r=fn.apply(null,args);}catch(e){r=null;}
+    if(r&&typeof r==='object'){var keys=Object.keys(r);r=(outKey&&r[outKey]!=null)?r[outKey]:(r.value!=null?r.value:(keys.length?r[keys[0]]:null));}
+    return r;
+   }
+   function ovHTML(v){return esc(String(fmtOut(calc(v))))+(outUnit?'<em>'+esc(outUnit)+'</em>':'');}
+   function tpl(v){
+    return '<div class="cxw-slc-out" data-cx-export data-export-title="'+esc(outLab)+'"><span class="cxw-slc-ol">'+esc(outLab)+'</span><b class="cxw-slc-ov" data-slc-ov>'+ovHTML(v)+'</b></div>'
+     +'<div class="cxw-slc-lab"><span>'+esc(lab)+'</span><span class="cxw-slc-lv" data-slc-lv>'+esc(fmtNum(v)+unit)+'</span></div>'
+     +'<input type="range" class="cxw-slc-range" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+v+'" aria-label="'+esc(lab)+'">'
+     +'<div class="cxw-slc-scale"><span>'+esc(fmtNum(mn)+unit)+'</span><span>'+esc(fmtNum(mx)+unit)+'</span></div>';
+   }
+   if(el.className.indexOf('cxw-slc')<0)el.className=('cxw-slc '+el.className).replace(/\s+$/,'');
+   el.innerHTML=(cap?'<div class="cxw-slc-cap">'+esc(cap)+'</div>':'')+tpl(dv)+(note?'<div class="cxw-slc-note">'+esc(note)+'</div>':'');
+   var ov=el.querySelector('[data-slc-ov]'), lv=el.querySelector('[data-slc-lv]'), rg=el.querySelector('.cxw-slc-range');
+   function paint(v){
+    if(lv)lv.textContent=fmtNum(v)+unit;
+    if(ov){ov.innerHTML=ovHTML(v); if(!rm){ov.classList.remove('cxw-slc-pop');void ov.offsetWidth;ov.classList.add('cxw-slc-pop');}}
+    try{el.dispatchEvent(new CustomEvent('cx:calc',{bubbles:true,detail:{label:outLab,value:(fmtOut(calc(v))+(outUnit||''))}}));}catch(e){}
+   }
+   if(rg)rg.addEventListener('input',function(){var v=parseFloat(rg.value);if(isNaN(v))return;paint(v);});
+   try{CXW.enhanceExports&&CXW.enhanceExports(el);}catch(e){}
+  };
+[].slice.call(d.querySelectorAll('[data-cx-w]')).forEach(function(el){var fn=W2[el.getAttribute('data-cx-w')];if(fn)try{fn(el);}catch(e){console.error(e);}});
+</script></body></html>
