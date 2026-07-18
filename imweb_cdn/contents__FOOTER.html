@@ -492,13 +492,23 @@
    var ar=el.getAttribute('data-aspect')||'16/10';
    var idx=0;
    function badges(s){return (s.badges||[]).map(function(b,i){return '<span class="cxw-sg-badge" style="left:'+(b.x||0)+'%;top:'+(b.y||0)+'%">'+(b.label!=null?esc(b.label):(i+1))+'</span>';}).join('');}
+   var note=el.getAttribute('data-caption')||'';
+   function capHtml(s){
+    if(s.title||s.desc||s.click){
+     return (s.title?'<div class="cxw-sg-capt" style="font-weight:800;color:var(--cx-ink,#3E2F29)">'+esc(s.title)+'</div>':'')
+      +(s.desc?'<div class="cxw-sg-capd">'+esc(s.desc)+'</div>':'')
+      +(s.click?'<div class="cxw-sg-capc" style="font-size:12.5px;line-height:1.6;margin-top:6px;color:var(--cx-mut,#8A7B72)"><b style="font-weight:800;color:var(--cx-rose2,#B85060)">클릭:</b> '+esc(s.click)+'</div>':'');
+    }
+    return s.cap?esc(s.cap):'';
+   }
    function render(){
     var s=steps[idx]||{};
     var dots=steps.map(function(_,i){return '<span class="cxw-sg-dot'+(i===idx?' on':'')+'"></span>';}).join('');
     el.innerHTML='<div class="cxw-sg-head"><span class="cxw-sg-n">STEP '+(idx+1)+' / '+steps.length+'</span><span class="cxw-sg-dots">'+dots+'</span></div>'
-     +'<div class="cxw-sg-stage" style="aspect-ratio:'+ar+'">'+(s.img?lazyImg(s.img,s.cap,'cxw-sg-img'):'<div class="cxw-sg-noimg">이미지 준비 중</div>')+badges(s)+'</div>'
-     +'<div class="cxw-sg-cap">'+(s.cap?esc(s.cap):'')+'</div>'
-     +'<div class="cxw-sg-nav"><button type="button" class="cxw-sg-prev" data-sg="prev"'+(idx===0?' disabled':'')+'>← 이전</button><button type="button" class="cxw-sg-next" data-sg="next"'+(idx>=steps.length-1?' disabled':'')+'>다음 →</button></div>';
+     +'<div class="cxw-sg-stage" style="aspect-ratio:'+ar+'">'+(s.img?lazyImg(s.img,s.alt||s.title||s.cap,'cxw-sg-img'):'<div class="cxw-sg-noimg">이미지 준비 중</div>')+badges(s)+'</div>'
+     +'<div class="cxw-sg-cap">'+capHtml(s)+'</div>'
+     +'<div class="cxw-sg-nav"><button type="button" class="cxw-sg-prev" data-sg="prev"'+(idx===0?' disabled':'')+'>← 이전</button><button type="button" class="cxw-sg-next" data-sg="next"'+(idx>=steps.length-1?' disabled':'')+'>다음 →</button></div>'
+     +(note?'<div class="cxw-sg-note" style="font-size:12.5px;line-height:1.6;color:var(--cx-mut,#8A7B72);margin-top:10px">'+esc(note)+'</div>':'');
    }
    el.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-sg]'):null;if(!b)return;var k=b.getAttribute('data-sg');if(k==='next'&&idx<steps.length-1)idx++;else if(k==='prev'&&idx>0)idx--;render();});
    render();
@@ -520,7 +530,8 @@
   W2['timeline-h']=function(el){
    var ev=J(el,'data-events')||[];if(!ev.length)return;
    var items=ev.map(function(e){return '<li class="cxw-tlh-item"><span class="cxw-tlh-dot" aria-hidden="true"></span><div class="cxw-tlh-date">'+esc(e.date||'')+'</div><div class="cxw-tlh-t">'+esc(e.title||'')+'</div>'+(e.desc?'<div class="cxw-tlh-d">'+esc(e.desc)+'</div>':'')+'</li>';}).join('');
-   el.innerHTML='<div class="cxw-tlh-scroll"><ol class="cxw-tlh-track">'+items+'</ol></div>';
+   var cap=el.getAttribute('data-caption')||'';
+   el.innerHTML='<div class="cxw-tlh-scroll"><ol class="cxw-tlh-track">'+items+'</ol></div>'+(cap?'<div class="cxw-tlh-cap" style="font-size:12.5px;line-height:1.6;color:var(--cx-mut,#8A7B72);margin-top:8px">'+esc(cap)+'</div>':'');
   };
 
   /* summary-card: 요약·체크리스트 카드 */
