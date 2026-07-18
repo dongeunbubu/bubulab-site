@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """무료 단독 페이지 생성기 (파일럿: bookcol-youthchoice)
-사용법:  python3 build_free_page.py bookcol-youthchoice
+사용법:  python3 build_free_page.py bookcol-youthchoice [--url youth-savings]
 산출  :  imweb_cdn/free-<이름>__BODY.html · free-<이름>__FOOTER.html
 구성  :  BODY = 홈 정본 헤더(콘텐츠 허브 정본 재사용) + OG 메타 + 리더 CSS 내장
               + 조각 인라인(#cxRdBody) + 엔드 모듈 슬롯(#cxEnd) + 베이지 푸터(.bbft)
@@ -48,7 +48,7 @@ def pick_style(blocks, needle):
             return b
     raise SystemExit('style block not found: ' + needle)
 
-def build(slug):
+def build(slug, url_slug=None):
     hub  = read(os.path.join(CDN, 'contents__BODY.html'))
     foot = read(os.path.join(CDN, 'contents__FOOTER.html'))
     idx  = json.load(open(os.path.join(ROOT, 'contents', 'contents_index.json'), encoding='utf-8'))
@@ -57,6 +57,7 @@ def build(slug):
     if not item:
         raise SystemExit('index에 슬러그가 없어요: ' + slug)
     page = 'free-' + slug.split('-', 1)[1]
+    url = url_slug or page
 
     frag = read(os.path.join(ROOT, 'contents', 'columns', slug + '.html'))
     frag = re.sub(r'<!--.*?-->', '', frag, flags=re.S)
@@ -89,12 +90,13 @@ def build(slug):
         '<meta property="og:type" content="article">',
         '<meta property="og:title" content="%s">' % esc(og_title),
         '<meta property="og:description" content="%s">' % esc(og_desc),
-        '<meta property="og:url" content="%s/%s">' % (SITE, page),
+        '<meta property="og:url" content="%s/%s">' % (SITE, url),
         '<meta property="og:image" content="%s/og/%s.png">' % (SITE, page),
         '<meta property="og:image:width" content="1200">',
         '<meta property="og:image:height" content="630">',
         '<meta property="og:site_name" content="부부연구소">',
         '<meta name="description" content="%s">' % esc(og_desc),
+        '<link rel="canonical" href="%s/%s">' % (SITE, url),
     ])
 
     mins = item.get('read') or max(3, round(item.get('pages', 3) * 1.1))
@@ -127,6 +129,7 @@ def build(slug):
         st_navmob, st_cxx,
         header,
         '<div class="cx-page" id="cxRoot">',
+        '<div class="cx-prog" id="cxProg" aria-hidden="true"><span id="cxProgBar"></span></div>',
         st_cxv2,
         reader,
         footer_mk,
@@ -153,7 +156,14 @@ def build(slug):
     return page, item, body, footer_out
 
 LIGHT_BOOT = """/* ================= FREE1 · 무료 단독 페이지 경량 부트 — 라우터·탐색기 제외, 인라인 조각 즉시 init, 엔드 모듈은 인덱스 fetch 렌더 ================= */
- function updateProg(){}
+ /* FREE1 진행바: contents updateProg 이식 — 라우터 분기 제거, 리더 상시 on */
+ var progTick=false;
+ function updateProg(){
+  var bar=d.getElementById('cxProgBar'),pg=d.getElementById('cxProg');if(!bar||!pg)return;
+  pg.classList.add('on');
+  var doc=d.documentElement,st=doc.scrollTop||d.body.scrollTop||0,h=(doc.scrollHeight-doc.clientHeight)||1;
+  bar.style.width=Math.min(100,Math.max(0,st/h*100)).toFixed(2)+'%';
+ }
  var FREE=(function(){var el=d.getElementById('cxReader');return el?{rd:el,slug:el.getAttribute('data-free-slug')||''}:null;})();
  try{[].slice.call(d.querySelectorAll('meta[property^="og:"],meta[name="description"]')||[]).forEach(function(mt){if(d.head&&mt.parentNode!==d.head)d.head.appendChild(mt);});}catch(e){}
  function freeLinks(root){if(!root||!root.querySelectorAll)return;[].slice.call(root.querySelectorAll('a[href^="#"]')).forEach(function(a){var h=a.getAttribute('href')||'';if(h.length<2||h.indexOf('@')>=0)return;a.setAttribute('href','/contents'+h);});}
@@ -168,6 +178,7 @@ LIGHT_BOOT = """/* ================= FREE1 · 무료 단독 페이지 경량 부
   reveal(body,'.cx-sc');reveal(FREE.rd,'.cx-rv');
   freeLinks(FREE.rd);
   freeEnd();
+  updateProg();
  }
  if(snap&&snap.length)useData(snap);
  freeBoot();
@@ -176,10 +187,12 @@ LIGHT_BOOT = """/* ================= FREE1 · 무료 단독 페이지 경량 부
   fetch(LEG_RAW+'?cb='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){var it=(j&&j.items)||j;if(it&&it.length){useLegacy(it);freeEnd();}}).catch(function(){});
  }
  var tp=d.getElementById('cxtop');
- if(tp){
-  addEventListener('scroll',function(){tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);},{passive:true});
-  tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
- }
+ addEventListener('scroll',function(){
+  if(tp)tp.classList.toggle('on',(d.documentElement.scrollTop||d.body.scrollTop||0)>600);
+  if(!progTick){progTick=true;var _pr=function(){progTick=false;updateProg();};requestAnimationFrame(_pr);setTimeout(_pr,120);}
+ },{passive:true});
+ d.addEventListener('visibilitychange',function(){if(!d.hidden)updateProg();});
+ if(tp)tp.addEventListener('click',function(){scrollTo({top:0,behavior:rm?'auto':'smooth'});});
 """
 
 # ---------- 게이트 ----------
@@ -268,10 +281,33 @@ def gate_smoke(body_path, footer_path, slug):
         print('  [SMOKE] FAIL\n' + (r.stderr or '')[:800])
     return r.returncode == 0
 
+def gate_url(body, url):
+    og  = '<meta property="og:url" content="%s/%s">' % (SITE, url)
+    can = '<link rel="canonical" href="%s/%s">' % (SITE, url)
+    hit = og in body and can in body
+    print('  [BODY] og:url+canonical /%s: %s' % (url, 'PASS' if hit else 'FAIL'))
+    return hit
+
+def gate_prog(body, footer):
+    hits = ('id="cxProg"' in body, 'id="cxProgBar"' in body,
+            "getElementById('cxProgBar')" in footer,
+            'function updateProg(){}' not in footer)
+    ok = all(hits)
+    print('  [진행바] 마크업+updateProg 실장: %s' % ('PASS' if ok else 'FAIL ' + repr(hits)))
+    return ok
+
 def main():
-    slug = sys.argv[1] if len(sys.argv) > 1 else 'bookcol-youthchoice'
-    page, item, body, footer = build(slug)
-    page2, _, body2, footer2 = build(slug)
+    args = sys.argv[1:]
+    url_slug = None
+    if '--url' in args:
+        i = args.index('--url')
+        if i + 1 >= len(args):
+            raise SystemExit('--url 뒤에 슬러그가 필요해요')
+        url_slug = args[i + 1]
+        del args[i:i + 2]
+    slug = args[0] if args else 'bookcol-youthchoice'
+    page, item, body, footer = build(slug, url_slug)
+    page2, _, body2, footer2 = build(slug, url_slug)
     idem = (body == body2 and footer == footer2)
 
     bp = os.path.join(CDN, page + '__BODY.html')
@@ -289,6 +325,8 @@ def main():
     ok &= gate_markers(body)
     w_ok, names = gate_widget_coverage(body, footer)
     ok &= w_ok
+    ok &= gate_url(body, url_slug or page)
+    ok &= gate_prog(body, footer)
     ok &= gate_node(fp)
     ok &= gate_smoke(bp, fp, slug)
     print('  [멱등] 2회 빌드 동일: %s' % ('PASS' if idem else 'FAIL'))
