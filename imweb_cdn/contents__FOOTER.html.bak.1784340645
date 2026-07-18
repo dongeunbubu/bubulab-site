@@ -9,7 +9,7 @@
  var PREMIUM_URL='/premium';
  var KIT_PAGE='/contents-kits';
  var TOOL_BASE='https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/tools/';
- var TOOL_FRAGS={'booktool-mandala':1,'booktool-savingrule':1,'booktool-finincome':1,'booktool-flexcost':1,'booktool-portfolio':1,'booktool-taxaccount':1,'booktool-valuation':1,'booktool-couplecheck':1,'booktool-youthchoice':1};
+ var TOOL_FRAGS={'booktool-mandala':1,'booktool-savingrule':1,'booktool-finincome':1,'booktool-flexcost':1,'booktool-portfolio':1,'booktool-taxaccount':1,'booktool-valuation':1,'booktool-couplecheck':1};
  var TYPES=["column","tool"];
  var FILT_KEY='bbf_contents_filter';var _flt=(function(){try{return JSON.parse(localStorage.getItem(FILT_KEY)||'{}')||{};}catch(e){return {};}})();var ST={q:'',theme:(_flt.theme||'all'),func:(_flt.func||'all'),f:'all',s:'new'},DATA=[],ALL=[],_route='';
  function saveFilt(){try{localStorage.setItem(FILT_KEY,JSON.stringify({theme:ST.theme,func:ST.func}));}catch(e){}}
@@ -412,16 +412,6 @@
     ],
     formula:'실질가치 = 금액 / (1+물가상승률)^년',
     run:function(v){var c=CXW.calc.erode(v.amt*10000,v.inf/100,v.y);return {primary:{label:v.y+'년 뒤 실질 구매력',value:fmtWon(roundk(c.worth))+'원'},lines:[{label:'사라진 구매력',value:fmtWon(roundk(c.lost))+'원'},{label:'남는 비율',value:Math.round(c.fillPct)+'%'}]};}
-   },
-   mirae_maturity:{
-    title:'청년미래적금 3년 뒤 예상액',
-    fields:[
-     {k:'monthly',label:'월 납입액',unit:'만원',min:5,max:50,step:5,def:50},
-     {k:'type',label:'유형',options:[{v:'prime',label:'우대형 (기여금 12%)'},{v:'general',label:'일반형 (기여금 6%)'},{v:'taxfree',label:'비과세 단독 (기여금 0%)'}],def:'prime'}
-    ],
-    formula:'원금 = 월납입 × 36 · 기여금 = 원금 × 기여율(우대 0.12 / 일반 0.06 / 비과세 0) · 이자(비과세) = 원금 × 0.08 × (221/144) + 기여금 × 0.08 × (25/24) · 예상수령액 = 원금 + 기여금 + 이자',
-    calib:'F1 보정 계수 — 원금이자 221/144(원금 1,800만→221만), 기여금이자 25/24(기여금/12). 매트릭스 1-A#16 재현 검산: 우대 2,255 · 일반 2,138 (오차 0), 비과세 2,021.',
-    run:function(v){var P=v.monthly*36;var gr={prime:0.12,general:0.06,taxfree:0}[v.type];if(gr==null)gr=0;var grant=Math.round(P*gr);var intr=Math.round(P*0.08*221/144+grant*0.08*25/24);var total=P+grant+intr;return {primary:{label:'3년 뒤 예상 수령액',value:'약 '+total.toLocaleString()+'만원'},lines:[{label:'내가 넣은 원금',value:P.toLocaleString()+'만원'},{label:'정부기여금',value:'+ '+grant.toLocaleString()+'만원'},{label:'예상 이자 (비과세·연 8% 가정)',value:'+ '+intr.toLocaleString()+'만원'}]};}
    }
   };
   CXW.sim=SIM;
@@ -720,11 +710,11 @@
    var name=el.getAttribute('data-calc'), reg=CXW.sim&&CXW.sim[name];
    if(!reg)return;
    var vals={};reg.fields.forEach(function(f){vals[f.k]=f.def;});
-   function fieldHTML(f){if(f.options&&f.options.length){var opts=f.options.map(function(o){return '<option value="'+esc(o.v)+'"'+(String(o.v)===String(f.def)?' selected':'')+'>'+esc(o.label)+'</option>';}).join('');return '<label class="cxw-sim-f"><span class="cxw-sim-fl">'+esc(f.label)+'</span><span class="cxw-sim-fin"><select class="cxw-sim-sel" data-k="'+esc(f.k)+'">'+opts+'</select></span></label>';}return '<label class="cxw-sim-f"><span class="cxw-sim-fl">'+esc(f.label)+'</span><span class="cxw-sim-fin"><input type="number" inputmode="decimal" class="cxw-sim-in" data-k="'+f.k+'" value="'+f.def+'" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'"><span class="cxw-sim-u">'+esc(f.unit||'')+'</span></span></label>';}
+   function fieldHTML(f){return '<label class="cxw-sim-f"><span class="cxw-sim-fl">'+esc(f.label)+'</span><span class="cxw-sim-fin"><input type="number" inputmode="decimal" class="cxw-sim-in" data-k="'+f.k+'" value="'+f.def+'" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'"><span class="cxw-sim-u">'+esc(f.unit||'')+'</span></span></label>';}
    function resultHTML(){var r=reg.run(vals);var lines=(r.lines||[]).map(function(l){return '<div class="cxw-sim-line"><span>'+esc(l.label)+'</span><b>'+esc(l.value)+'</b></div>';}).join('');return '<div class="cxw-sim-primary"><span class="cxw-sim-pl">'+esc(r.primary.label)+'</span><b class="cxw-sim-pv">'+esc(r.primary.value)+'</b></div>'+lines;}
    function paint(){var out=el.querySelector('.cxw-sim-out');if(out)out.innerHTML=resultHTML();}
    el.innerHTML='<div class="cxw-sim" data-cx-export data-export-title="'+esc(reg.title||'시뮬레이터')+'"><div class="cxw-sim-h">'+esc(reg.title||'')+'</div><div class="cxw-sim-form">'+reg.fields.map(fieldHTML).join('')+'</div><div class="cxw-sim-out">'+resultHTML()+'</div>'+(reg.formula?'<details class="cxw-sim-formula"><summary>계산식 보기</summary><code>'+esc(reg.formula)+'</code></details>':'')+'</div>';
-   el.addEventListener('input',function(e){var _s=e.target&&e.target.closest?e.target.closest('.cxw-sim-sel'):null;if(_s){vals[_s.getAttribute('data-k')]=_s.value;paint();return;}var i=e.target.closest?e.target.closest('.cxw-sim-in'):null;if(!i)return;var k=i.getAttribute('data-k'),f=null;reg.fields.forEach(function(x){if(x.k===k)f=x;});var v=parseFloat(i.value);if(isNaN(v))return;if(f){if(v<f.min)v=f.min;if(v>f.max)v=f.max;}vals[k]=v;paint();});el.addEventListener('change',function(e){var s=e.target&&e.target.closest?e.target.closest('.cxw-sim-sel'):null;if(s){vals[s.getAttribute('data-k')]=s.value;paint();}});
+   el.addEventListener('input',function(e){var i=e.target.closest?e.target.closest('.cxw-sim-in'):null;if(!i)return;var k=i.getAttribute('data-k'),f=null;reg.fields.forEach(function(x){if(x.k===k)f=x;});var v=parseFloat(i.value);if(isNaN(v))return;if(f){if(v<f.min)v=f.min;if(v>f.max)v=f.max;}vals[k]=v;paint();});
    try{CXW.enhanceExports&&CXW.enhanceExports(el);}catch(_e){}
   };
  })();
@@ -1042,7 +1032,7 @@
   });
   x8Restore(root,a);
  }
- function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);else if(slug==='booktool-flexcost')wireFlex(el);else if(slug==='booktool-portfolio')wirePort(el);else if(slug==='booktool-taxaccount')wireTax(el);else if(slug==='booktool-valuation')wireVal(el);else if(slug==='booktool-couplecheck')wireCouple(el);else if(slug==='booktool-youthchoice'){try{CXW.mount(el);}catch(_e){}}}
+ function wireTool(slug,el){if(slug==='booktool-mandala')wireMandala(el);else if(slug==='booktool-savingrule')wireSaving(el);else if(slug==='booktool-finincome')wireFin(el);else if(slug==='booktool-flexcost')wireFlex(el);else if(slug==='booktool-portfolio')wirePort(el);else if(slug==='booktool-taxaccount')wireTax(el);else if(slug==='booktool-valuation')wireVal(el);else if(slug==='booktool-couplecheck')wireCouple(el);}
 
  /* ================= 라우터 ================= */
  function parseHash(){var h=(location.hash||'').replace(/^#/,'').trim();var at=h.indexOf('@');var s=at>=0?h.slice(0,at):h;return h?{mode:'reader',slug:s,anchor:(at>=0?h.slice(at+1):'')}:{mode:'explore'};}

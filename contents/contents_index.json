@@ -1,6 +1,6 @@
 {
- "updated": "2026-07-18T09:00:00",
- "count": 31,
+ "updated": "2026-07-18T12:00:00",
+ "count": 33,
  "items": [
   {
    "slug": "bookcol-01",
@@ -428,6 +428,47 @@
    ]
   },
   {
+   "slug": "bookcol-youthchoice",
+   "type": "column",
+   "no": 14,
+   "title": "청년도약계좌 vs 청년미래적금, 우리 부부의 답은",
+   "hook": "도약계좌를 지킬까 미래적금으로 갈아탈까 — 결혼했다고 막히던 문이 이번엔 다시 열렸어요.",
+   "cat": "청년적금",
+   "theme": "재테크",
+   "func": "칼럼",
+   "tags": [
+    "청년적금",
+    "청년도약계좌",
+    "갈아타기",
+    "부부"
+   ],
+   "premium": false,
+   "chapter": "파일럿 N06 · 청년적금",
+   "date": "2026-07-18",
+   "status": "live",
+   "thumb": "🪙",
+   "free_preview": "전문 공개",
+   "connect": {
+    "tools": [
+     "booktool-youthchoice"
+    ],
+    "kits": []
+   },
+   "sub": "6개월 공백 뒤, 갈아타기의 순서",
+   "read": 18,
+   "zone": "gather",
+   "free": true,
+   "pages": 68,
+   "chapters": 10,
+   "basis_date": "2026-07",
+   "next_review": "2026-10",
+   "pair": "booktool-youthchoice",
+   "related": [
+    "booktool-youthchoice",
+    "bookcol-13"
+   ]
+  },
+  {
    "slug": "booktool-mandala",
    "type": "tool",
    "no": 1,
@@ -679,6 +720,42 @@
     ]
    },
    "zone": "gather"
+  },
+  {
+   "slug": "booktool-youthchoice",
+   "type": "tool",
+   "no": 9,
+   "title": "청년적금 갈아타기 진단기",
+   "hook": "도약계좌를 지킬지 미래적금으로 갈아탈지 — 질문 몇 개로 내 자리를 찾고 3년 뒤 받을 돈까지 그려봐요.",
+   "cat": "청년적금",
+   "theme": "재테크",
+   "func": "도구",
+   "tags": [
+    "청년적금",
+    "진단",
+    "시뮬레이션",
+    "부부"
+   ],
+   "premium": false,
+   "chapter": "파일럿 N06 · 청년적금",
+   "date": "2026-07-18",
+   "status": "live",
+   "thumb": "🧭",
+   "free_preview": "진단·계산 무료",
+   "connect": {
+    "columns": [
+     "bookcol-youthchoice"
+    ],
+    "kits": []
+   },
+   "zone": "gather",
+   "free": true,
+   "pair": "bookcol-youthchoice",
+   "basis_date": "2026-07",
+   "next_review": "2026-10",
+   "related": [
+    "bookcol-youthchoice"
+   ]
   },
   {
    "slug": "kit-moneytalk",
@@ -1006,7 +1083,7 @@
   }
  ],
  "by_theme": {
-  "재테크": 13,
+  "재테크": 15,
   "돈관리": 9,
   "부동산": 2,
   "세금": 5,
