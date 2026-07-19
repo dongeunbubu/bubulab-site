@@ -147,3 +147,17 @@ term-chip, timeline-h, summary-card, related-rail, sim-frame
 
 ### 공용 헬퍼(cx- 접두, FOOTER)
 `commaInt`(콤마 정수), `cxOnce`(IO 1회+reduced-motion 즉시), `tween`(rAF+easeOut), `cxReveal`(슬라이드·페이드), `shSpark`(스파크라인 경로), `pathLen`(경로 길이). 모두 `rm`(prefers-reduced-motion) 분기 내장.
+
+---
+
+## 픽토그램 도표 균형 체크리스트 (컨센서스 v1.9 C3·D1 — 2026-07-19)
+
+`cx-fig-*` 아이콘형 도표(faq·cases·steps·route류) 제작·수정 시 전 항목 준수. visual_qa.py 검사 #8(회전 텍스트)이 게이트로 검출.
+
+- **세로 회전 라벨 금지(D1)**: SVG `transform="rotate(...)"` ±60°~120°(누적 포함)·`writing-mode:vertical-*` 텍스트는 결함. 세로 축 라벨이 필요해지면 레이아웃 자체를 가로 흐름(카드 가로 배열 + 수평 화살표 + 수평 라벨)으로 재설계.
+- **아이콘 크기 비율**: 픽토그램 아이콘은 **64px급**(원형 배지 지름 64±4px, 내부 글리프 43~56px). 질문·라벨 텍스트(12.5~14.5px)의 4~5배 높이 확보 — 44px 이하는 텍스트에 묻혀 픽토그램 역할을 못 함.
+- **수직 스택 정렬**: 각 칼럼/카드는 [아이콘(수평 중앙) → **16px 간격** → 텍스트(수평 중앙, `text-anchor="middle"`)] 순 수직 스택. 아이콘 중심 x와 텍스트 anchor x 일치(±2px). 아이콘 좌측 + 텍스트 우측의 혼합 배치에서 텍스트가 아이콘 영역을 침범하는 패턴 금지.
+- **킥커 분리**: "자주 나오는 세 가지" 같은 상단 라벨은 **카드(rect) 밖 상단 좌측**에 별도 배치 — 카드 내부에 두면 첫 칼럼 아이콘과 겹치거나 비정렬로 보임.
+- **간격 균등**: N분할 칼럼은 컨테이너 폭/N 중심점에 배치(구분선은 경계 x). 카드 내 아이콘 상단 여백 ≥20px, 마지막 텍스트 하단 여백 ≥20px, 카드 간 간격 12~16px 균일.
+- **확대는 중첩 g로**: 아이콘 확대·이동은 중첩 `<g transform="translate(cx cy) scale(s) translate(-ox -oy)">` 사용. 이때 진입 애니 CSS는 **`svg>g`(직계)로 한정**해 내부 transform 속성을 CSS transform이 덮어쓰지 않게 함(중첩 g에 bare `g{...}` 셀렉터 적용 금지).
+- **수치·라벨 잘림 0**: 재배치 후에도 viewBox 여유 패딩(우측 라벨 포함) 의무 — visual_qa.py 검사 #7(SVG 텍스트 잘림)과 세트로 확인.

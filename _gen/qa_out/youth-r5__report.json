@@ -1,0 +1,399 @@
+{
+ "url": "file:///tmp/bbfb2/_gen/qa_out/_youth_local.html",
+ "label": "youth-r5",
+ "ts": 1784454943,
+ "viewports": {
+  "desktop": {
+   "viewport": {
+    "w": 1920,
+    "h": 1080
+   },
+   "scroll": {
+    "x": 0,
+    "y": 0
+   },
+   "page": {
+    "scrollWidth": 1920,
+    "clientWidth": 1920,
+    "docHeight": 36721
+   },
+   "headerBottom": 119,
+   "counts": {
+    "overlap": 0,
+    "overflow": 0,
+    "brokenImg": 0,
+    "lowContrast": 0,
+    "stickyCut": 0,
+    "collapsed": 0,
+    "svgTextClip": 0,
+    "rotatedText": 0
+   },
+   "overlaps": [],
+   "overflow": {
+    "page": 0,
+    "elements": []
+   },
+   "brokenImg": [],
+   "lowContrast": [],
+   "stickyCut": [],
+   "collapsed": [],
+   "svgTextClip": [],
+   "rotatedText": [],
+   "viewport_name": "desktop",
+   "screenshot": "youth-r5__desktop.png"
+  },
+  "mobile": {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "scroll": {
+    "x": 0,
+    "y": 0
+   },
+   "page": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "docHeight": 50283
+   },
+   "headerBottom": 131,
+   "counts": {
+    "overlap": 0,
+    "overflow": 28,
+    "brokenImg": 0,
+    "lowContrast": 0,
+    "stickyCut": 0,
+    "collapsed": 0,
+    "svgTextClip": 0,
+    "rotatedText": 0
+   },
+   "overlaps": [],
+   "overflow": {
+    "page": 0,
+    "elements": [
+     {
+      "sel": "li.cxw-tlh-item",
+      "over": 414,
+      "box": {
+       "x": 614,
+       "y": 9505.96875,
+       "w": 190,
+       "h": 179.625,
+       "right": 804,
+       "bottom": 9685.59375,
+       "top": 9505.96875,
+       "vpBottom": 9685.59375
+      }
+     },
+     {
+      "sel": "li.cxw-tlh-item",
+      "over": 414,
+      "box": {
+       "x": 614,
+       "y": 32669.6875,
+       "w": 190,
+       "h": 138.03125,
+       "right": 804,
+       "bottom": 32807.71875,
+       "top": 32669.6875,
+       "vpBottom": 32807.71875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-date",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 9505.96875,
+       "w": 158,
+       "h": 24,
+       "right": 788,
+       "bottom": 9529.96875,
+       "top": 9505.96875,
+       "vpBottom": 9529.96875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-t",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 9551.96875,
+       "w": 158,
+       "h": 24.640625,
+       "right": 788,
+       "bottom": 9576.609375,
+       "top": 9551.96875,
+       "vpBottom": 9576.609375
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-d",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 9581.609375,
+       "w": 158,
+       "h": 103.984375,
+       "right": 788,
+       "bottom": 9685.59375,
+       "top": 9581.609375,
+       "vpBottom": 9685.59375
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-date",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 32669.6875,
+       "w": 158,
+       "h": 24,
+       "right": 788,
+       "bottom": 32693.6875,
+       "top": 32669.6875,
+       "vpBottom": 32693.6875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-t",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 32715.6875,
+       "w": 158,
+       "h": 24.640625,
+       "right": 788,
+       "bottom": 32740.328125,
+       "top": 32715.6875,
+       "vpBottom": 32740.328125
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-d",
+      "over": 398,
+      "box": {
+       "x": 630,
+       "y": 32745.328125,
+       "w": 158,
+       "h": 62.390625,
+       "right": 788,
+       "bottom": 32807.71875,
+       "top": 32745.328125,
+       "vpBottom": 32807.71875
+      }
+     },
+     {
+      "sel": "span.cxw-tlh-dot",
+      "over": 253,
+      "box": {
+       "x": 630,
+       "y": 9533.96875,
+       "w": 13,
+       "h": 13,
+       "right": 643,
+       "bottom": 9546.96875,
+       "top": 9533.96875,
+       "vpBottom": 9546.96875
+      }
+     },
+     {
+      "sel": "span.cxw-tlh-dot",
+      "over": 253,
+      "box": {
+       "x": 630,
+       "y": 32697.6875,
+       "w": 13,
+       "h": 13,
+       "right": 643,
+       "bottom": 32710.6875,
+       "top": 32697.6875,
+       "vpBottom": 32710.6875
+      }
+     },
+     {
+      "sel": "li.cxw-tlh-item",
+      "over": 224,
+      "box": {
+       "x": 424,
+       "y": 9505.96875,
+       "w": 190,
+       "h": 179.625,
+       "right": 614,
+       "bottom": 9685.59375,
+       "top": 9505.96875,
+       "vpBottom": 9685.59375
+      }
+     },
+     {
+      "sel": "li.cxw-tlh-item",
+      "over": 224,
+      "box": {
+       "x": 424,
+       "y": 32669.6875,
+       "w": 190,
+       "h": 138.03125,
+       "right": 614,
+       "bottom": 32807.71875,
+       "top": 32669.6875,
+       "vpBottom": 32807.71875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-date",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 9505.96875,
+       "w": 158,
+       "h": 24,
+       "right": 598,
+       "bottom": 9529.96875,
+       "top": 9505.96875,
+       "vpBottom": 9529.96875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-t",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 9551.96875,
+       "w": 158,
+       "h": 24.640625,
+       "right": 598,
+       "bottom": 9576.609375,
+       "top": 9551.96875,
+       "vpBottom": 9576.609375
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-d",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 9581.609375,
+       "w": 158,
+       "h": 83.1875,
+       "right": 598,
+       "bottom": 9664.796875,
+       "top": 9581.609375,
+       "vpBottom": 9664.796875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-date",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 32669.6875,
+       "w": 158,
+       "h": 24,
+       "right": 598,
+       "bottom": 32693.6875,
+       "top": 32669.6875,
+       "vpBottom": 32693.6875
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-t",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 32715.6875,
+       "w": 158,
+       "h": 24.640625,
+       "right": 598,
+       "bottom": 32740.328125,
+       "top": 32715.6875,
+       "vpBottom": 32740.328125
+      }
+     },
+     {
+      "sel": "div.cxw-tlh-d",
+      "over": 208,
+      "box": {
+       "x": 440,
+       "y": 32745.328125,
+       "w": 158,
+       "h": 41.59375,
+       "right": 598,
+       "bottom": 32786.921875,
+       "top": 32745.328125,
+       "vpBottom": 32786.921875
+      }
+     },
+     {
+      "sel": "span.cxw-tlh-dot",
+      "over": 63,
+      "box": {
+       "x": 440,
+       "y": 9533.96875,
+       "w": 13,
+       "h": 13,
+       "right": 453,
+       "bottom": 9546.96875,
+       "top": 9533.96875,
+       "vpBottom": 9546.96875
+      }
+     },
+     {
+      "sel": "span.cxw-tlh-dot",
+      "over": 63,
+      "box": {
+       "x": 440,
+       "y": 32697.6875,
+       "w": 13,
+       "h": 13,
+       "right": 453,
+       "bottom": 32710.6875,
+       "top": 32697.6875,
+       "vpBottom": 32710.6875
+      }
+     }
+    ]
+   },
+   "brokenImg": [],
+   "lowContrast": [],
+   "stickyCut": [],
+   "collapsed": [],
+   "svgTextClip": [],
+   "rotatedText": [],
+   "viewport_name": "mobile",
+   "screenshot": "youth-r5__mobile.png"
+  }
+ },
+ "total": {
+  "overlap": 0,
+  "overflow": 28,
+  "brokenImg": 0,
+  "lowContrast": 0,
+  "stickyCut": 0,
+  "collapsed": 0,
+  "svgTextClip": 0,
+  "rotatedText": 0
+ },
+ "note": "probe pipeline identical to visual_qa.py (waits/content-visibility/autoscroll/PROBE import); screenshots captured in separate passes due to 45s sandbox call limit. mobile overflow entries are all .cxw-tlh-* inside the intentional overflow-x:auto scroller (page overflow 0), same as r4 baseline.",
+ "measured": {
+  "desktop": {
+   "chapterGap": 104,
+   "heroToFirstEdge": 74,
+   "heroToFirstVisual": 96,
+   "bodyToEndEdge": 104,
+   "bodyToEndVisual": 144,
+   "widget": 40,
+   "fig": 40,
+   "quickPad": "20px 24px"
+  },
+  "mobile": {
+   "chapterGap": 64,
+   "heroToFirstEdge": 42,
+   "heroToFirstVisual": 56,
+   "bodyToEndEdge": 56,
+   "bodyToEndVisual": 80,
+   "widget": 40,
+   "fig": 40,
+   "quickPad": "20px 24px"
+  }
+ }
+}

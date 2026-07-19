@@ -1,0 +1,124 @@
+<style>
+.txyc-app{--yc-bg:#FDFBF7;--yc-paper:#FFF;--yc-ink:#2C201B;--yc-ink2:#57453D;--yc-mut:#877468;--yc-rose:#B33A4C;--yc-deep:#7C243B;--yc-gold:#C9A84C;--yc-soft:#FCEEF1;--yc-soft2:#F8E3E7;--yc-border:#ECDAD5;--yc-bstrong:#E4C8C2;--yc-sh:0 6px 18px -12px rgba(124,36,59,.4);font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--yc-ink);line-height:1.72;word-break:keep-all;max-width:940px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,26px) 44px}
+.txyc-app *{box-sizing:border-box}
+.txyc-head{text-align:center;margin-bottom:clamp(16px,2.6vw,24px)}
+.txyc-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.11em;color:#fff;background:linear-gradient(135deg,var(--yc-rose),var(--yc-deep));border-radius:999px;padding:6px 14px}
+.txyc-h1{font-size:clamp(23px,4.2vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1.16;margin:13px 0 0}
+.txyc-lead{font-size:clamp(14px,1.9vw,16px);color:var(--yc-ink2);font-weight:600;line-height:1.62;margin:11px auto 0;max-width:640px}
+.txyc-intro{border:1px solid var(--yc-border);border-radius:18px;background:var(--yc-paper);box-shadow:var(--yc-sh);padding:clamp(17px,2.6vw,26px);margin-top:clamp(16px,2.6vw,22px)}
+.txyc-intro p{margin:0 0 12px;font-size:14.5px;color:var(--yc-ink2);font-weight:500;line-height:1.78}
+.txyc-intro p:last-of-type{margin-bottom:0}
+.txyc-intro b{color:var(--yc-ink);font-weight:800}
+.txyc-basis{display:flex;flex-wrap:wrap;gap:7px 12px;align-items:center;margin-top:15px;padding-top:14px;border-top:1px dashed var(--yc-bstrong);font-size:12px;font-weight:700;color:var(--yc-mut)}
+.txyc-basis .txyc-bchip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--yc-deep);background:var(--yc-soft);border:1px solid var(--yc-bstrong);border-radius:999px;padding:4px 10px}
+.txyc-sec{margin-top:clamp(22px,3.4vw,34px)}
+.txyc-sec-h{margin-bottom:14px}
+.txyc-sec-n{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--yc-rose);text-transform:uppercase}
+.txyc-sec-t{font-size:clamp(18px,2.7vw,23px);font-weight:900;letter-spacing:-.03em;line-height:1.24;margin:5px 0 0}
+.txyc-sec-d{font-size:13.5px;color:var(--yc-ink2);font-weight:600;line-height:1.66;margin:7px 0 0}
+.txyc-card{border:1px solid var(--yc-bstrong);border-radius:18px;background:linear-gradient(162deg,#fff,var(--yc-soft));box-shadow:var(--yc-sh);padding:clamp(16px,2.4vw,22px)}
+.txyc-card-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.txyc-card-t{font-size:15px;font-weight:900;letter-spacing:-.02em;color:var(--yc-ink)}
+.txyc-card-tag{font-size:11px;font-weight:800;color:var(--yc-mut)}
+.txyc-rt{margin-top:12px;display:grid;gap:9px}
+.txyc-rt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--yc-border);border-radius:13px;background:var(--yc-paper);padding:11px 14px}
+.txyc-rt-row.txyc-rt-hi{border-color:var(--yc-bstrong);background:linear-gradient(150deg,#fff,var(--yc-soft2))}
+.txyc-rt-l{min-width:0}
+.txyc-rt-type{font-size:13.5px;font-weight:800;color:var(--yc-ink);line-height:1.3}
+.txyc-rt-break{display:block;font-size:11px;font-weight:600;color:var(--yc-mut);margin-top:3px;line-height:1.45}
+.txyc-rt-val{font-size:clamp(16px,3.2vw,20px);font-weight:900;letter-spacing:-.03em;color:var(--yc-deep);white-space:nowrap;font-variant-numeric:tabular-nums}
+.txyc-order{display:flex;gap:10px;margin-top:13px;border-radius:13px;padding:12px 14px;background:linear-gradient(160deg,#FBF3E7,#FDF9F2);border:1px solid #EAD9B6;font-size:12.5px;font-weight:600;line-height:1.62;color:#5C4A2A}
+.txyc-order b{font-weight:800;color:#5C4A2A}
+.txyc-card-cap{font-size:11.5px;color:var(--yc-mut);font-weight:600;line-height:1.6;margin-top:12px}
+.txyc-pair{border-top:1px solid var(--yc-border);margin-top:clamp(26px,4vw,38px);padding-top:clamp(18px,2.6vw,24px)}
+.txyc-pairlink{display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;border:1px solid var(--yc-bstrong);border-radius:16px;background:linear-gradient(135deg,var(--yc-soft),#fff);padding:15px 18px;box-shadow:var(--yc-sh);transition:transform .16s,border-color .2s}
+.txyc-pairlink:hover{transform:translateY(-2px);border-color:var(--yc-rose)}
+.txyc-pl-l{min-width:0}
+.txyc-pl-k{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--yc-rose);text-transform:uppercase}
+.txyc-pl-t{display:block;font-size:14.5px;font-weight:800;color:var(--yc-ink);line-height:1.4;margin-top:3px}
+.txyc-pl-ar{font-size:19px;font-weight:900;color:var(--yc-rose);flex:none}
+.txyc-note{margin-top:16px;font-size:11.5px;color:var(--yc-mut);font-weight:600;line-height:1.64}
+@media(max-width:560px){.txyc-rt-row{flex-direction:column;align-items:flex-start;gap:5px}.txyc-rt-val{align-self:flex-end}}
+@media(prefers-reduced-motion:reduce){.txyc-app *{transition:none!important}}
+</style>
+<div class="txyc-app">
+  <div class="txyc-head">
+    <div class="txyc-kick">청년적금 갈림길</div>
+    <h1 class="txyc-h1">청년적금 갈아타기 진단기</h1>
+    <p class="txyc-lead">청년도약계좌를 지킬지, 청년미래적금으로 갈아탈지, 새로 시작할지 — 내 상황부터 짚고, 3년 뒤 받을 돈까지 그려보는 도구예요.</p>
+  </div>
+
+  <div class="txyc-intro">
+    <p>청년도약계좌를 그대로 둘지, 청년미래적금으로 갈아탈지, 아니면 이제 막 새로 시작할지. 같은 제도를 앞에 두고도 손에 쥐는 답이 사람마다 갈리는 대목이에요. 지금 도약계좌를 붓고 있는지, 내 소득이 어느 칸인지, 결혼해 부부가 됐는지에 따라 유리한 쪽이 달라지거든요. 말로만 들으면 내 경우가 어디인지 헷갈리기 쉬운데, 이 진단기는 그 갈림길에서 여러분이 지금 어디에 서 있는지부터 질문 몇 개로 함께 짚어드려요.</p>
+    <p>위쪽 진단표에서 답을 따라가면, 내 경우가 <b>도약계좌를 지키는 쪽</b>인지 <b>갈아타기를 검토할 쪽</b>인지, 새로 가입한다면 우대형·일반형·비과세 중 어느 칸인지가 결론 카드로 정리돼요. 예전에는 결혼하면 부부 소득을 합쳐 따지느라 막히던 분이 많았는데, 이제 두 사람만의 가구라면 소득 문턱을 올려주는 2인가구 특례도 흐름 안에 넣어뒀고요. 카드마다 오늘 당장 뭘 하면 되는지, 다음 행동 한 줄이 함께 붙어요.</p>
+    <p>아래 계산기에서는 유형과 매달 넣을 돈만 고르면, 3년 뒤 통장에 대략 얼마가 찍힐지를 내 원금·정부기여금·이자로 나눠 보여드려요. 큰 숫자에 휘둘리지 않게 한 겹씩 벗겨보는 거예요. 흔히 들리는 연 19%가 은행이 주는 이자가 아니라 기여금과 세금 감면까지 합쳐 환산한 값이라는 것도, 이렇게 갈라 보면 자연스럽게 눈에 들어와요. 창구에서 실제로 받는 이자는 잘해야 연 7~8%대이고, 나머지는 정부가 보태주는 몫이에요. 3년이라는 기간도, 매달 넣을 수 있는 돈의 한도도 유형마다 다르다 보니, 수익률(%)이 높다고 해서 곧 손에 쥐는 목돈이 큰 것도 아니고요.</p>
+    <p>한 가지만 미리 일러둘게요. 여기 담긴 소득 문턱과 기여금 비율, 일정은 모두 2026년 7월 기준이에요. 이번 갈아타기 문은 2026년 여름 첫 가입 기간에만 잠깐 열리고, 다음 모집은 2026년 12월쯤으로 잠정 예정이라 정확한 날짜와 조건은 다시 안내가 나올 때 확인해보셔야 해요. 자격을 따질 때 보는 소득도 올해가 아니라 지난해 것이라는 점만 기억해두시면 헤맬 일이 줄어요.</p>
+    <p>제도가 자주 바뀌는 데다 이자는 은행 우대조건에 따라 움직이니, 이 진단은 방향을 잡는 용도로만 봐주세요. 내가 실제로 자격이 되는지와 정확한 예상액은 공식 사전진단 페이지에서 한 번 더 맞춰보셔야 하고요. 특정 상품이나 은행을 권하는 게 아니라, 여러분이 내 자리를 찾는 걸 옆에서 돕는 도구예요. 오늘 이 한 칸을 확인해두는 것만으로도 다음 걸음이 한결 가벼워지니, 부담 없이 눌러봐 주세요.</p>
+    <div class="txyc-basis"><span>정책·수치는 분기마다 다시 확인해요</span><span>정확한 자격·금액은 fill4young.kinfa.or.kr</span></div>
+  </div>
+
+  <section class="txyc-sec">
+    <div class="txyc-sec-h">
+      <span class="txyc-sec-n">STEP 1 · 진단</span>
+      <h3 class="txyc-sec-t">내 갈림길부터 찾아봐요</h3>
+      <p class="txyc-sec-d">질문 몇 개에 답하면 내 자리가 나와요. 결론 카드에는 오늘 할 다음 행동이 한 줄로 붙어요.</p>
+    </div>
+    <div class="cxw" data-cx-w="decision-tree"
+      data-tree='{"start":"q1","nodes":{"q1":{"q":"지금 청년도약계좌에 가입해 붓고 계신가요?","opts":[{"label":"네, 붓고 있어요","to":"q2"},{"label":"아니요, 아직이에요","to":"q3"}]},"q2":{"q":"만기가 1년 안팎으로 얼마 안 남았거나, 매달 70만원을 끝까지 넣을 여력이 되나요?","opts":[{"label":"그런 편이에요","to":"r_keep"},{"label":"만기가 많이 남았고 70만원은 부담돼요","to":"q2b"}]},"q2b":{"q":"우대형(총급여 3,600만원 이하 등)에 들거나, 3년 안에 목돈 쓸 일이 있나요?","opts":[{"label":"해당돼요","to":"r_switch"},{"label":"잘 모르겠어요","to":"r_check"}]},"q3":{"q":"지금 소득 상황은 어느 쪽에 가까운가요?","opts":[{"label":"직장이 있고 연봉이 잡혀요","to":"q4"},{"label":"군 복무 중이거나 아직 소득이 없어요","to":"r_military"}]},"q4":{"q":"배우자와 둘로만 이뤄진 가구(신혼 포함)인가요?","opts":[{"label":"네, 부부 2인가구예요","to":"q5"},{"label":"아니요(미혼이거나 다른 가구예요)","to":"q6"}]},"q5":{"q":"본인 총급여(연봉)는 어느 구간인가요?","opts":[{"label":"3,600만원 이하","to":"r_couple_prime"},{"label":"3,600만 초과 ~ 6,000만원 이하","to":"r_couple_general"},{"label":"6,000만 초과 ~ 7,500만원 이하","to":"r_couple_high"},{"label":"7,500만원 초과","to":"r_out"}]},"q6":{"q":"본인 총급여(연봉)는 어느 구간인가요?","opts":[{"label":"3,600만원 이하","to":"r_prime"},{"label":"3,600만 초과 ~ 6,000만원 이하","to":"r_general"},{"label":"6,000만 초과 ~ 7,500만원 이하","to":"r_taxfree"},{"label":"7,500만원 초과","to":"r_out"}]}},"results":{"r_keep":{"badge":"이런 경우엔","title":"지금은 도약계좌를 지키는 쪽","desc":"만기가 가깝거나 월 70만원 여력이 되면, 이미 쌓은 기여금·우대금리와 큰 원금 한도 덕분에 유지가 대체로 유리해요. 갈아타면 3년을 새로 세고 한도도 50만원으로 줄어요. <b>다음 행동:</b> 남은 만기와 이미 받은 혜택부터 확인하고, 조급하게 해지 버튼을 누르지 않기."},"r_switch":{"badge":"이런 경우엔","title":"갈아타기를 검토해볼 만해요","desc":"만기가 많이 남았고 우대형에 들거나 3년 안에 목돈이 필요하면 3년짜리가 맞을 수 있어요. <b>다음 행동:</b> 미래적금을 먼저 열고 나서 도약계좌를 해지하는 순서를 지키고, 사전진단으로 예상액을 먼저 맞춰보기.","cta":"사전진단 해보기","href":"https://fill4young.kinfa.or.kr"},"r_check":{"badge":"이런 경우엔","title":"확인부터 하고 정해요","desc":"조건이 헷갈릴 땐 성급한 해지가 가장 위험해요. <b>다음 행동:</b> 사전진단으로 내 예상 수령액을 먼저 맞춰본 뒤 유지·갈아타기를 정하기.","cta":"사전진단 해보기","href":"https://fill4young.kinfa.or.kr"},"r_military":{"badge":"이런 경우엔","title":"지금은 가입할 수 있어요","desc":"병(兵) 급여만 있어도 소득으로 인정돼 가입돼요. 복무기간은 나이 계산에서 빠지고요. <b>다음 행동:</b> 전역 뒤 소득 공백기엔 막히니, 자격이 살아 있는 지금 챙겨두기."},"r_couple_prime":{"badge":"이런 경우엔","title":"2인가구 특례 + 우대형 후보","desc":"부부 2인가구는 우대형 소득 문턱이 150%에서 200%로 올라가요. 총급여 3,600만원 이하면 기여금 12% 우대형 후보라, 결혼 뒤 막혔던 분도 다시 가능성이 열려요. <b>다음 행동:</b> 가구소득 기준이라 사전진단으로 꼭 확인하기.","cta":"사전진단 해보기","href":"https://fill4young.kinfa.or.kr"},"r_couple_general":{"badge":"이런 경우엔","title":"2인가구 특례 + 일반형","desc":"일반형 소득 문턱이 200%에서 250%로 올라가, 예전엔 부부합산으로 막히던 분도 들어올 자리가 생겨요. 기여금 6%에 비과세까지 함께 받아요. <b>다음 행동:</b> 두 사람만의 가구인지 확인하고 사전진단 돌려보기.","cta":"사전진단 해보기","href":"https://fill4young.kinfa.or.kr"},"r_couple_high":{"badge":"이런 경우엔","title":"2인가구라면 가능성이 남아요","desc":"본인 총급여가 6,000만원을 넘어 7,500만원까지면 정부기여금 없이 비과세만 받는 구간이에요. 자격 화면의 표를 보면 이 구간도 일반형으로 묶여, 맞벌이 2인가구는 가구 중위소득 250%까지 봐주거든요. 부부 합산이 그 안이면 문이 열려요. <b>다음 행동:</b> 판정은 가구소득 기준이니 어림짐작 대신 사전진단으로 확인하기.","cta":"사전진단 해보기","href":"https://fill4young.kinfa.or.kr"},"r_prime":{"badge":"이런 경우엔","title":"우대형 후보예요","desc":"총급여 3,600만원 이하면서 중소기업 재직·신규취업 등 요건에 맞으면 기여금 12% 우대형이에요. 같은 원금에 정부가 얹는 돈이 일반형의 두 배예요. <b>다음 행동:</b> 우대형 재직 요건과 이직 계획이 겹치지 않는지 미리 확인하기."},"r_general":{"badge":"이런 경우엔","title":"일반형이에요","desc":"총급여 6,000만원 이하면 기여금 6%에 비과세를 받아요. 자유적립이라 매달 50만원을 다 못 채워도 괜찮아요. <b>다음 행동:</b> 아래 계산기로 내 월 납입 기준 예상액부터 그려보기."},"r_taxfree":{"badge":"이런 경우엔","title":"비과세 혜택만 받는 구간","desc":"총급여 6,000만 초과~7,500만원 이하면 정부기여금은 없지만 이자 비과세는 받아요. 일반 적금보다는 낫지만 최종 금액은 앞 구간보다 작아요. <b>다음 행동:</b> 기여금이 빠진 만큼의 차이를 계산기로 확인하고 기대치 맞추기."},"r_out":{"badge":"이런 경우엔","title":"이 상품 대상은 아니에요","desc":"총급여 7,500만원을 넘으면 가입 대상이 아니에요. <b>다음 행동:</b> ISA(개인종합자산관리계좌)나 연금계좌 같은 다른 절세 그릇을 먼저 살펴보기."}}}'></div>
+  <div class="cxw" data-cx-w="evidence-card" data-kind="공식 화면" data-href="https://fill4young.kinfa.or.kr/yfs/main" data-title="가입자격 요건 화면 — 2인가구 완화표" data-source="서민금융진흥원" data-date="2026-07" data-img="https://raw.githubusercontent.com/dongeunbubu/bubulab-site/main/contents/images/youthchoice/step03.webp" data-alt="청년미래적금 가입자격 요건 화면 — 맞벌이 2인가구 기준중위소득 완화표" data-note="나이·개인소득·가구 요건을 한자리에서 확인해요. 부부 2인가구는 소득 문턱을 일반형 250%·우대형 200%로 올려주는 완화표를 꼭 봐요."></div>
+  </section>
+
+  <section class="txyc-sec">
+    <div class="txyc-sec-h">
+      <span class="txyc-sec-n">STEP 2 · 시뮬레이션</span>
+      <h3 class="txyc-sec-t">3년 뒤 통장에 찍히는 숫자</h3>
+      <p class="txyc-sec-d">유형과 매달 넣을 돈만 고르면, 만기 예상액을 원금·정부기여금·이자로 나눠 보여드려요.</p>
+    </div>
+    <div class="cxw" data-cx-w="sim-frame" data-calc="mirae_maturity"></div>
+  </section>
+
+  <section class="txyc-sec">
+    <div class="txyc-card" data-cx-export data-export-title="청년적금 유형별 3년 예상액">
+      <div class="txyc-card-h">
+        <span class="txyc-card-t">유형별 3년 뒤 예상 수령액</span>
+        <span class="txyc-card-tag">월 50만원 · 36개월 · 연 8% 가정</span>
+      </div>
+      <div class="txyc-rt">
+        <div class="txyc-rt-row txyc-rt-hi">
+          <div class="txyc-rt-l"><span class="txyc-rt-type">우대형 (기여금 12%)</span><span class="txyc-rt-break">원금 1,800 + 정부기여금 216 + 이자 240</span></div>
+          <span class="txyc-rt-val">약 2,256만원</span>
+        </div>
+        <div class="txyc-rt-row">
+          <div class="txyc-rt-l"><span class="txyc-rt-type">일반형 (기여금 6%)</span><span class="txyc-rt-break">원금 1,800 + 정부기여금 108 + 이자 231</span></div>
+          <span class="txyc-rt-val">약 2,139만원</span>
+        </div>
+        <div class="txyc-rt-row">
+          <div class="txyc-rt-l"><span class="txyc-rt-type">비과세 단독 (기여금 0%)</span><span class="txyc-rt-break">원금 1,800 + 이자 222 (기여금 없음)</span></div>
+          <span class="txyc-rt-val">약 2,022만원</span>
+        </div>
+      </div>
+      <div class="txyc-order"><b>갈아타기라면 순서가 생명이에요.</b> 청년미래적금을 먼저 개설한 뒤에 청년도약계좌를 해지해요. 거꾸로 하면 갈아타기 자격 자체가 사라지고, 되돌려달라고 해도 받아주지 않아요.</div>
+      <p class="txyc-card-cap">이자는 최고 수준인 연 8%를 가정한 예시라, 은행 우대조건을 다 못 채우면 더 낮아져요. 매달 넣는 돈을 바꾼 값은 위 계산기에서 바로 확인할 수 있어요. 정확한 금액은 사전진단 페이지(fill4young.kinfa.or.kr)에서 맞춰보셔야 해요.</p>
+    </div>
+  </section>
+
+  <section class="txyc-sec">
+    <div class="txyc-sec-h">
+      <span class="txyc-sec-n">STEP 3 · 오늘 할 일</span>
+      <h3 class="txyc-sec-t">내 경우 한 줄만 체크해요</h3>
+      <p class="txyc-sec-d">전부 하실 필요 없어요. 지금 내게 해당하는 줄 하나만 찾아, 그 한 줄부터 오늘 해두시면 충분해요.</p>
+    </div>
+    <div class="cxw" data-cx-w="summary-card" data-title="오늘의 체크리스트 — 내 경우 한 줄" data-check="1" data-key="col-mirae-sum"
+      data-points='["도약계좌 보유 중 — 남은 만기와 월 70만원 부담 여부부터 확인해요","갈아탈 생각이면 — 미래적금 개설을 끝낸 뒤에 도약계좌 해지, 순서 절대 엄수","새로 가입 — 내 연봉이 3,600·6,000·7,500만원 중 어느 선인지부터 확인해요","부부라면 — 두 사람만의 가구인지 확인(소득 문턱 250%·200%로 상향)","군 복무 중 — 자격이 살아 있을 때 신청, 전역 뒤 소득 공백기 주의","소상공인 — 소상공인확인서 발급에 일주일쯤, 마감 전 미리 준비","공통 — 다음 모집(2026년 12월 잠정)의 날짜·조건은 안내가 나오면 다시 확인"]'></div>
+  </section>
+
+  <div class="txyc-pair">
+    <a class="txyc-pairlink" href="#bookcol-youthchoice">
+      <span class="txyc-pl-l"><span class="txyc-pl-k">짝꿍 칼럼</span><span class="txyc-pl-t">청년도약계좌 vs 청년미래적금 — 케이스별로 더 깊이 읽기</span></span>
+      <span class="txyc-pl-ar" aria-hidden="true">→</span>
+    </a>
+    <div class="cxw" data-cx-w="related-rail" data-title="이 도구와 함께 보면 좋아요" data-related='["bookcol-youthchoice"]'></div>
+  </div>
+
+  <p class="txyc-note">이 도구는 교육용 진단이에요. 담긴 수치·일정은 2026년 7월 기준이며 제도 변경과 은행 우대조건에 따라 달라질 수 있어요. 특정 상품·종목을 추천하지 않으며, 실제 자격과 정확한 예상액은 공식 사전진단 페이지에서 확인해보셔야 해요. 체크 상태는 이 브라우저에만 저장돼요.</p>
+</div>

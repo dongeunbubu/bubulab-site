@@ -1,0 +1,97 @@
+{
+  "url": "file:///tmp/bbfb2/contents/columns/bookcol-youthchoice.html",
+  "label": "colv3",
+  "ts": 1784454970,
+  "viewports": {
+    "desktop": {
+      "viewport": {
+        "w": 1920,
+        "h": 1080
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      },
+      "page": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "docHeight": 14778
+      },
+      "headerBottom": 0,
+      "counts": {
+        "overlap": 0,
+        "overflow": 0,
+        "brokenImg": 0,
+        "lowContrast": 0,
+        "stickyCut": 0,
+        "collapsed": 0,
+        "svgTextClip": 0,
+        "rotatedText": 0
+      },
+      "overlaps": [],
+      "overflow": {
+        "page": 0,
+        "elements": []
+      },
+      "brokenImg": [],
+      "lowContrast": [],
+      "stickyCut": [],
+      "collapsed": [],
+      "svgTextClip": [],
+      "rotatedText": [],
+      "viewport_name": "desktop",
+      "screenshot": "colv3__desktop.png",
+      "annotated": "colv3__desktop__annotated.png"
+    },
+    "mobile": {
+      "viewport": {
+        "w": 980,
+        "h": 2121
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      },
+      "page": {
+        "scrollWidth": 980,
+        "clientWidth": 980,
+        "docHeight": 19033
+      },
+      "headerBottom": 0,
+      "counts": {
+        "overlap": 0,
+        "overflow": 0,
+        "brokenImg": 0,
+        "lowContrast": 0,
+        "stickyCut": 0,
+        "collapsed": 0,
+        "svgTextClip": 0,
+        "rotatedText": 0
+      },
+      "overlaps": [],
+      "overflow": {
+        "page": 0,
+        "elements": []
+      },
+      "brokenImg": [],
+      "lowContrast": [],
+      "stickyCut": [],
+      "collapsed": [],
+      "svgTextClip": [],
+      "rotatedText": [],
+      "viewport_name": "mobile",
+      "screenshot": "colv3__mobile.png",
+      "annotated": "colv3__mobile__annotated.png"
+    }
+  },
+  "total": {
+    "overlap": 0,
+    "overflow": 0,
+    "brokenImg": 0,
+    "lowContrast": 0,
+    "stickyCut": 0,
+    "collapsed": 0,
+    "svgTextClip": 0,
+    "rotatedText": 0
+  }
+}

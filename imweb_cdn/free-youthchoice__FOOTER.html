@@ -1003,15 +1003,16 @@
    var ymax=(dmax!=null&&dmax!=='')?parseFloat(dmax):Math.max.apply(null,allv);
    if(ymax===ymin){ymax=ymin+1;}
    var vpad=(ymax-ymin)*0.12;ymin-=vpad;ymax+=vpad;
-   var W=520,H=250,ml=38,mr=12,mt=14,mb=28;
+   var W=520,H=250,ml=42,mr=20,mt=14,mb=30;
    function X(i){return nx<2?ml+(W-ml-mr)/2:ml+i*(W-ml-mr)/(nx-1);}
    function Y(v){return mt+(1-(v-ymin)/(ymax-ymin))*(H-mt-mb);}
    var anim=!rm&&('IntersectionObserver'in window);
+   function ltYAxis(v,u){var a=Math.abs(v);if((u===''||u==='원')&&a>=1e4){if(a>=1e8){return (Math.round(v/1e7)/10)+'억';}return (a>=1e5?Math.round(v/1e4):Math.round(v/1e3)/10)+'만';}return fmtNum(Math.round(v*10)/10)+u;}
    var grid='',GN=4,gi;
    for(gi=0;gi<=GN;gi++){var gv=ymin+(ymax-ymin)*gi/GN,gy=Y(gv);
     grid+='<line class="cxw-lt-grid" x1="'+ml+'" y1="'+gy.toFixed(1)+'" x2="'+(W-mr)+'" y2="'+gy.toFixed(1)+'"></line>';
-    grid+='<text class="cxw-lt-yl" x="'+(ml-5)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end">'+esc(fmtNum(Math.round(gv*10)/10)+unit)+'</text>';}
-   var xlab='';xs.forEach(function(xl,i){xlab+='<text class="cxw-lt-xl" x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+esc(String(xl))+'</text>';});
+    grid+='<text class="cxw-lt-yl" x="'+(ml-5)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end">'+esc(ltYAxis(gv,unit))+'</text>';}
+   var xlab='';xs.forEach(function(xl,i){var _ax=(i===0?'start':(i===nx-1?'end':'middle'));xlab+='<text class="cxw-lt-xl" x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="'+_ax+'">'+esc(String(xl))+'</text>';});
    var lines='',dots='',lens=[];
    series.forEach(function(s,si){var d='',pts=[],i;
     for(i=0;i<nx;i++){var v=(s.values[i]==null?0:s.values[i]),x=X(i),y=Y(v);pts.push([x,y]);d+=(i?' L':'M')+x.toFixed(2)+' '+y.toFixed(2);}

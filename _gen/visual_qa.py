@@ -8,6 +8,9 @@
   3) 이미지 깨짐   — <img> naturalWidth===0
   4) 대비 미달 후보 — WCAG 대비비 < 임계(대형 3.0 / 본문 4.5)
   5) sticky 잘림   — position sticky/fixed 요소가 뷰포트 밖 또는 고정 헤더 뒤로 잘림
+  6) 내용 높이 0 붕괴 — 텍스트 있는 컨테이너가 height<3 (모바일 미표시 등)
+  7) SVG 텍스트 잘림 — <svg> 내 <text> bbox가 svg viewport(경계) 밖(우/하/좌/상)이면 결함
+  8) 회전 텍스트   — svg text·HTML 요소의 rotate ±60°~120°(세로 라벨)·writing-mode:vertical → 결함 (컨센서스 D1)
 산출: <out>/<label>__<vp>.png · <label>__<vp>__annotated.png · <label>__report.json
 사용: python3 visual_qa.py <url|file> [--label NAME] [--out DIR] [--viewports desktop,mobile]
 종료: 리포트 생성 성공=0 (결함은 데이터로 기록 · 실행 실패만 비0)
@@ -244,13 +247,84 @@ PROBE = r"""
     }
   });
 
+  // ---- 7) SVG 텍스트 잘림 — <svg> 내 <text> bbox가 svg viewport(경계) 밖(우/하/좌/상) ----
+  const svgTextClip = [];
+  [].slice.call(document.querySelectorAll('svg')).forEach(svg=>{
+    if(!vis(svg)) return;
+    const sr = svg.getBoundingClientRect();
+    if(sr.width<8||sr.height<8) return;
+    const texts = [].slice.call(svg.querySelectorAll('text'));
+    for(let ti=0; ti<texts.length; ti++){
+      const t = texts[ti];
+      const tt = (t.textContent||'').trim(); if(tt.length<1) continue;
+      const cs = getComputedStyle(t);
+      if(cs.visibility==='hidden'||cs.display==='none'||parseFloat(cs.opacity||'1')<0.06) continue;
+      let r; try{ r=t.getBoundingClientRect(); }catch(e){ continue; }
+      if(r.width<1||r.height<1) continue;
+      const TOL=1.0, over={};
+      if(r.right  > sr.right +TOL) over.right  = +(r.right -sr.right ).toFixed(1);
+      if(r.bottom > sr.bottom+TOL) over.bottom = +(r.bottom-sr.bottom).toFixed(1);
+      if(r.left   < sr.left  -TOL) over.left   = +(sr.left -r.left  ).toFixed(1);
+      if(r.top    < sr.top   -TOL) over.top    = +(sr.top  -r.top   ).toFixed(1);
+      if(Object.keys(over).length){
+        svgTextClip.push({svg:pathOf(svg), text:tt.slice(0,24), over:over, box:abox(r)});
+      }
+      if(svgTextClip.length>=40) break;
+    }
+  });
+
+  // ---- 8) 회전 텍스트(세로 라벨) — rotate ±60°~120° 또는 writing-mode:vertical = 가독 결함 (컨센서스 D1) ----
+  const rotatedText = [];
+  const angNorm = (a)=>{ let x=((a%180)+180)%180; return x; };
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const matAng = (tr)=>{ if(!tr||tr==='none') return 0;
+    const m = tr.match(/^matrix\(([^)]+)\)/); if(!m) return 0;
+    const p = m[1].split(',').map(parseFloat);
+    return Math.atan2(p[1],p[0])*180/Math.PI; };
+  const ancAttrRot = (n)=>{ let sum=0;
+    while(n && n.namespaceURI===SVGNS && n.tagName && n.tagName.toLowerCase()!=='svg'){
+      const ta = n.getAttribute && n.getAttribute('transform');
+      if(ta){ const re=/rotate\(\s*(-?\d+(?:\.\d+)?)/g; let m; while((m=re.exec(ta))) sum+=parseFloat(m[1]); }
+      n = n.parentElement;
+    } return sum; };
+  // (a) SVG text/tspan — 자체 computed transform(속성+CSS) + 조상 g rotate 누적
+  [].slice.call(document.querySelectorAll('svg text')).forEach(t=>{
+    if(rotatedText.length>=30) return;
+    const tt=(t.textContent||'').trim(); if(tt.length<2) return;
+    const host=t.ownerSVGElement; if(!host || !vis(host)) return;
+    const cs=getComputedStyle(t);
+    if(cs.visibility==='hidden'||cs.display==='none') return;
+    const a = matAng(cs.transform) + ancAttrRot(t.parentElement);
+    const na = angNorm(a);
+    if(na>=60 && na<=120){
+      let b=null; try{ b=abox(t.getBoundingClientRect()); }catch(e){}
+      rotatedText.push({kind:'svg-rotate', angle:+a.toFixed(1), sel:pathOf(host), text:tt.slice(0,30), box:b});
+    }
+  });
+  // (b) HTML — writing-mode 세로쓰기 · CSS transform rotate(자기 요소 기준)
+  for (const el of all){
+    if(rotatedText.length>=30) break;
+    if(el.namespaceURI===SVGNS) continue; // svg 내부는 (a)에서 처리
+    const txt=(el.textContent||'').trim(); if(txt.length<2) continue;
+    if(!vis(el)) continue;
+    const cs=getComputedStyle(el);
+    const wm=cs.writingMode||'';
+    if(/vertical|sideways/.test(wm)){
+      rotatedText.push({kind:'writing-mode:'+wm, angle:90, sel:pathOf(el), text:txt.slice(0,30), box:abox(el.getBoundingClientRect())});
+      continue;
+    }
+    const a = matAng(cs.transform); const na = angNorm(a);
+    if(na>=60 && na<=120)
+      rotatedText.push({kind:'css-rotate', angle:+a.toFixed(1), sel:pathOf(el), text:txt.slice(0,30), box:abox(el.getBoundingClientRect())});
+  }
+
   return {
     viewport:{w:VW,h:VH}, scroll:{x:SX,y:SY},
     page:{scrollWidth:de.scrollWidth, clientWidth:de.clientWidth, docHeight:de.scrollHeight},
     headerBottom:Math.round(headerBottom),
-    counts:{overlap:overlaps.length, overflow:overflowEls.length, brokenImg:broken.length, lowContrast:lowc.length, stickyCut:stickyCut.length, collapsed:collapsed.length},
+    counts:{overlap:overlaps.length, overflow:overflowEls.length, brokenImg:broken.length, lowContrast:lowc.length, stickyCut:stickyCut.length, collapsed:collapsed.length, svgTextClip:svgTextClip.length, rotatedText:rotatedText.length},
     overlaps:overlaps.slice(0,40), overflow:{page:+pageOverflow.toFixed(1), elements:overflowEls.slice(0,20)},
-    brokenImg:broken.slice(0,40), lowContrast:lowc.slice(0,40), stickyCut:stickyCut.slice(0,30), collapsed:collapsed.slice(0,25)
+    brokenImg:broken.slice(0,40), lowContrast:lowc.slice(0,40), stickyCut:stickyCut.slice(0,30), collapsed:collapsed.slice(0,25), svgTextClip:svgTextClip.slice(0,30), rotatedText:rotatedText.slice(0,30)
   };
 })()
 """
@@ -260,7 +334,7 @@ ANNOTATE = r"""
   const wrap = document.createElement('div');
   wrap.id='__qa_overlay__';
   wrap.style.cssText='position:absolute;left:0;top:0;width:0;height:0;z-index:2147483000;pointer-events:none';
-  const COL = {overlap:'#e53935', overflow:'#8e24aa', brokenImg:'#00897b', lowContrast:'#fb8c00', stickyCut:'#3949ab', collapsed:'#d81b60'};
+  const COL = {overlap:'#e53935', overflow:'#8e24aa', brokenImg:'#00897b', lowContrast:'#fb8c00', stickyCut:'#3949ab', collapsed:'#d81b60', svgTextClip:'#00acc1', rotatedText:'#6d4c41'};
   const mk = (b,color,label) => {
     if(!b||!isFinite(b.x)) return;
     const d = document.createElement('div');
@@ -277,6 +351,8 @@ ANNOTATE = r"""
   (defects.lowContrast||[]).forEach((o,i)=>mk(o.box,COL.lowContrast,'대비 '+o.ratio));
   (defects.stickyCut||[]).forEach((o,i)=>mk(o.box,COL.stickyCut,'sticky잘림'));
   (defects.collapsed||[]).forEach((o,i)=>mk(o.box,COL.collapsed,'높이붕괴 '+o.height+'px'));
+  (defects.svgTextClip||[]).forEach((o,i)=>mk(o.box,COL.svgTextClip,'SVG잘림'));
+  (defects.rotatedText||[]).forEach((o,i)=>mk(o.box,COL.rotatedText,'회전 '+o.angle+'°'));
   document.body.appendChild(wrap);
   return true;
 }
@@ -358,7 +434,7 @@ def main():
         browser.close()
 
     # 요약
-    tot = {'overlap':0,'overflow':0,'brokenImg':0,'lowContrast':0,'stickyCut':0,'collapsed':0}
+    tot = {'overlap':0,'overflow':0,'brokenImg':0,'lowContrast':0,'stickyCut':0,'collapsed':0,'svgTextClip':0,'rotatedText':0}
     for name, d in report['viewports'].items():
         c = d.get('counts') or {}
         for k in tot: tot[k]+=c.get(k,0)
@@ -373,7 +449,7 @@ def main():
         print('  [%s %dx%d] 겹침%d · 오버플로%d(page %+.0f) · 이미지깨짐%d · 대비후보%d · sticky잘림%d · headerBottom=%dpx'
               % (name, d['viewport']['w'], d['viewport']['h'], c['overlap'], c['overflow'],
                  d['overflow']['page'], c['brokenImg'], c['lowContrast'], c['stickyCut'], d.get('headerBottom',0))
-              + ' · 붕괴%d' % c.get('collapsed',0))
+              + ' · 붕괴%d · SVG잘림%d · 회전텍스트%d' % (c.get('collapsed',0), c.get('svgTextClip',0), c.get('rotatedText',0)))
     print('  합계:', tot)
     return 0
 
