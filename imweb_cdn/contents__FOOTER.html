@@ -700,6 +700,7 @@
     var node=hd;
     while(node){var nextIsHead=(node!==hd)&&(node.nodeType===1&&(node.tagName==='H2'||node.getAttribute&&node.getAttribute('data-ch')!=null));if(nextIsHead)break;var mv=node;node=node.nextSibling;sec.appendChild(mv);}
     chs.push({id:id,alias:alias,n:n,title:(hd.textContent||('챕터 '+n)).trim(),el:sec});
+    if((hd.tagName==='H2'||(hd.classList&&hd.classList.contains('cx-rd-h2')))&&!(hd.querySelector&&hd.querySelector('.cx-ch-no'))){var _bno=doc.createElement('span');_bno.className='cx-ch-no';_bno.setAttribute('aria-hidden','true');_bno.textContent=(n<10?'0':'')+n;hd.insertBefore(_bno,hd.firstChild);}
    });
    chs.forEach(function(c,i){if(i>1)c.el.classList.add('cx-ch-lazy');});
    return chs;
@@ -743,6 +744,8 @@
     var reader=body.closest?body.closest('.cx-reader'):(doc.getElementById('cxReader'));
     state.reader=reader||doc.getElementById('cxReader');
     if(litemq()&&state.reader)state.reader.classList.add('cx-lite');else if(state.reader)state.reader.classList.remove('cx-lite');
+    /* __QA_CV_GUARD0__ 모바일 본문 붕괴 폴백(#1): 리더 상위(imweb 래퍼 포함) content-visibility:auto 사이즈-컨테인먼트가 오프스크린 스킵으로 본문을 0x0 연쇄붕괴시키는 것을 중화 — auto만 visible로(의도적 hidden 불변), 모바일 한정 */
+    try{if(litemq()&&state.reader){var _cvn=state.reader;while(_cvn&&_cvn!==doc.body){if((getComputedStyle(_cvn).contentVisibility||'')==='auto'){_cvn.style.contentVisibility='visible';_cvn.style.containIntrinsicSize='auto';}_cvn=_cvn.parentElement;}}}catch(_cve){}
     var chs=wrapChapters(body);state.chs=chs;
     if(chs.length>=2){buildTOC(state.reader,chs);if(state.reader)state.reader.classList.add('cx-has-toc');}
     else if(state.reader)state.reader.classList.remove('cx-has-toc');
@@ -1080,9 +1083,10 @@
    key.innerHTML='<div class="cx-rrail-h">지금 챕터</div>'+(k.num?'<div class="cx-rrail-kn">'+esc(k.num)+'</div>':'')+(k.title?'<div class="cx-rrail-kt">'+esc(k.title)+'</div>':'')+(k.line?'<div class="cx-rrail-kd">'+esc(k.line)+'</div>':'');
    RS.terms=collectTerms(sec);
    if(list){
-    if(RS.terms.length)list.innerHTML=RS.terms.map(function(t,i){return '<li><button type="button" class="cx-rrail-term" data-ti="'+i+'"><b>'+esc(t.term)+'</b>'+(t.def?'<span>'+esc(t.def)+'</span>':'')+'</button></li>';}).join('');
-    else list.innerHTML='<li class="cx-rrail-empty">이 챕터에는 용어 칩이 없어요.</li>';
+    if(RS.terms.length){list.innerHTML=RS.terms.slice(0,6).map(function(t,i){return '<li><button type="button" class="cx-rrail-term" data-ti="'+i+'"><b>'+esc(t.term)+'</b>'+(t.def?'<span>'+esc(t.def)+'</span>':'')+'</button></li>';}).join('');}
+    else{list.innerHTML='';}
    }
+   var termsCard=host.querySelector('.cx-rrail-terms');if(termsCard)termsCard.hidden=!RS.terms.length;
   }
   function pinCalc(host,label,value){var pin=host.querySelector('.cx-rrail-pin');if(!pin||value==null)return;pin.innerHTML='<div class="cx-rrail-pl">내 계산 결과</div><div class="cx-rrail-pv">'+esc(String(value))+'</div>'+(label?'<div class="cx-rrail-ps">'+esc(String(label))+'</div>':'');pin.classList.add('on');}
   function ctaHTML(it){
@@ -1099,7 +1103,7 @@
    var old=host.querySelector('.cx-rrail');if(old&&old.parentNode)old.parentNode.removeChild(old);
    var rail=doc.createElement('aside');rail.className='cx-rrail';rail.setAttribute('aria-label','읽기 도우미');
    rail.innerHTML='<div class="cx-rrail-card cx-rrail-key"></div>'
-    +'<div class="cx-rrail-card cx-rrail-terms"><div class="cx-rrail-h">용어 미니 사전</div><ul class="cx-rrail-tlist"></ul></div>'
+    +'<div class="cx-rrail-card cx-rrail-terms"><div class="cx-rrail-h">용어 정리</div><ul class="cx-rrail-tlist"></ul></div>'
     +'<div class="cx-rrail-pin" aria-live="polite"></div>'
     +ctaHTML(it);
    host.appendChild(rail);host.classList.add('cx-has-rrail');

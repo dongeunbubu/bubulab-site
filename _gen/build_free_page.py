@@ -244,6 +244,10 @@ def gate_markers(body):
         '본문 슬롯': 'id="cxRdBody"',
         '엔드 모듈 슬롯': 'id="cxEnd"',
         '인덱스 스냅샷': 'id="cxSnap"',
+        '리더 상단 여백(#1)': '#cxReader{padding-top',
+        '헤더-인식 sticky(#1)': '--cx-stick',
+        '챕터 번호 배지(#3)': '.cx-ch-no{',
+        '용어 카드 빈상태 숨김(#2)': '.cx-rrail-terms[hidden]{display:none}',
     }
     ok = True
     for k, v in need.items():

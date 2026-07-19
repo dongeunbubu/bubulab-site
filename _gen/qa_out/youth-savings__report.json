@@ -1,0 +1,1261 @@
+{
+  "url": "https://bubulab.co.kr/youth-savings",
+  "label": "youth-savings",
+  "ts": 1784434073,
+  "viewports": {
+    "desktop": {
+      "viewport": {
+        "w": 1920,
+        "h": 1080
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      },
+      "page": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "docHeight": 30408
+      },
+      "headerBottom": 114,
+      "counts": {
+        "overlap": 7,
+        "overflow": 0,
+        "brokenImg": 0,
+        "lowContrast": 16,
+        "stickyCut": 0,
+        "collapsed": 1
+      },
+      "overlaps": [
+        {
+          "box": {
+            "x": 1559,
+            "y": 1020.109375,
+            "w": 54.375,
+            "h": 13.515625
+          },
+          "ratio": 0.9,
+          "a": {
+            "sel": "b",
+            "tag": "b",
+            "text": "정부기여금"
+          },
+          "b": {
+            "sel": "span.cx-rrail-ct",
+            "tag": "span",
+            "text": "청년적금 갈아타기 진단기"
+          }
+        },
+        {
+          "box": {
+            "x": 606.921875,
+            "y": 15301.703125,
+            "w": 69,
+            "h": 9.1875
+          },
+          "ratio": 0.61,
+          "a": {
+            "sel": "code",
+            "tag": "code",
+            "text": "원금 = 월납입 × 36 · 기여금 = 원금 × 기여율(우대 0.12 /"
+          },
+          "b": {
+            "sel": "button.cxw-exp-btn",
+            "tag": "button",
+            "text": "이미지로 저장"
+          }
+        },
+        {
+          "box": {
+            "x": 729.921875,
+            "y": 15301.703125,
+            "w": 63,
+            "h": 9.1875
+          },
+          "ratio": 0.61,
+          "a": {
+            "sel": "code",
+            "tag": "code",
+            "text": "원금 = 월납입 × 36 · 기여금 = 원금 × 기여율(우대 0.12 /"
+          },
+          "b": {
+            "sel": "button.cxw-exp-btn",
+            "tag": "button",
+            "text": "PDF로 저장"
+          }
+        },
+        {
+          "box": {
+            "x": 1559,
+            "y": 998.265625,
+            "w": 28.15625,
+            "h": 9.359375
+          },
+          "ratio": 0.49,
+          "a": {
+            "sel": "span",
+            "tag": "span",
+            "text": "원래 붙는 세금을 면제해주는 혜택이에요. 이 상품은 이자소득세 15.4%"
+          },
+          "b": {
+            "sel": "span.cx-rrail-ck",
+            "tag": "span",
+            "text": "페어 도구"
+          }
+        },
+        {
+          "box": {
+            "x": 1559,
+            "y": 372.625,
+            "w": 21.75,
+            "h": 6.25
+          },
+          "ratio": 0.42,
+          "a": {
+            "sel": "span",
+            "tag": "span",
+            "text": "매달 정해진 돈을 꾸준히 넣어 만기에 원금과 이자를 함께 돌려받는 저축이"
+          },
+          "b": {
+            "sel": "b",
+            "tag": "b",
+            "text": "예금"
+          }
+        },
+        {
+          "box": {
+            "x": 588.921875,
+            "y": 15301.703125,
+            "w": 13,
+            "h": 9.1875
+          },
+          "ratio": 0.61,
+          "a": {
+            "sel": "code",
+            "tag": "code",
+            "text": "원금 = 월납입 × 36 · 기여금 = 원금 × 기여율(우대 0.12 /"
+          },
+          "b": {
+            "sel": "span",
+            "tag": "span",
+            "text": "🖼️"
+          }
+        },
+        {
+          "box": {
+            "x": 711.921875,
+            "y": 15301.703125,
+            "w": 13,
+            "h": 9.1875
+          },
+          "ratio": 0.61,
+          "a": {
+            "sel": "code",
+            "tag": "code",
+            "text": "원금 = 월납입 × 36 · 기여금 = 원금 × 기여율(우대 0.12 /"
+          },
+          "b": {
+            "sel": "span",
+            "tag": "span",
+            "text": "📄"
+          }
+        }
+      ],
+      "overflow": {
+        "page": 0,
+        "elements": []
+      },
+      "brokenImg": [],
+      "lowContrast": [
+        {
+          "sel": "a",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 13,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "스토리",
+          "box": {
+            "x": 1228.875,
+            "y": 65.9375,
+            "w": 32.53125,
+            "h": 30.09375,
+            "right": 1261.40625,
+            "bottom": 96.03125,
+            "top": 65.9375,
+            "vpBottom": 96.03125
+          }
+        },
+        {
+          "sel": "span.cx-rd-time",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 12.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "📖 약 18분 · 전문 무료 공개",
+          "box": {
+            "x": 1285.875,
+            "y": 133.84375,
+            "w": 134.125,
+            "h": 21.25,
+            "right": 1420,
+            "bottom": 155.09375,
+            "top": 133.84375,
+            "vpBottom": 155.09375
+          }
+        },
+        {
+          "sel": "span.cx-rd-cat",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "· 청년적금",
+          "box": {
+            "x": 634.921875,
+            "y": 232.75,
+            "w": 46.046875,
+            "h": 20.390625,
+            "right": 680.96875,
+            "bottom": 253.140625,
+            "top": 232.75,
+            "vpBottom": 253.140625
+          }
+        },
+        {
+          "sel": "span.cx-b.cx-b-free",
+          "ratio": 4.42,
+          "threshold": 4.5,
+          "fontPx": 10.5,
+          "fg": [
+            63,
+            122,
+            102
+          ],
+          "bg": [
+            232,
+            243,
+            238
+          ],
+          "text": "🆓 무료",
+          "box": {
+            "x": 689.96875,
+            "y": 231.515625,
+            "w": 48.421875,
+            "h": 22.84375,
+            "right": 738.390625,
+            "bottom": 254.359375,
+            "top": 231.515625,
+            "vpBottom": 254.359375
+          }
+        },
+        {
+          "sel": "span",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "정확한 자격·금액은 fill4young.kinfa.or.kr에서 확인해요",
+          "box": {
+            "x": 500,
+            "y": 524.875,
+            "w": 266.609375,
+            "h": 20.390625,
+            "right": 766.609375,
+            "bottom": 545.265625,
+            "top": 524.875,
+            "vpBottom": 545.265625
+          }
+        },
+        {
+          "sel": "p.cx-figcap",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 12.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "청년도약계좌는 2025년 12월 말 신규가입을 닫았고, 청년미래적금은 2",
+          "box": {
+            "x": 604,
+            "y": 955.984375,
+            "w": 712,
+            "h": 40,
+            "right": 1316,
+            "bottom": 995.984375,
+            "top": 955.984375,
+            "vpBottom": 995.984375
+          }
+        },
+        {
+          "sel": "span.cxw-sim-u",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "만원",
+          "box": {
+            "x": 922.3125,
+            "y": 14986.296875,
+            "w": 19.6875,
+            "h": 20.390625,
+            "right": 942,
+            "bottom": 15006.6875,
+            "top": 14986.296875,
+            "vpBottom": 15006.6875
+          }
+        },
+        {
+          "sel": "summary",
+          "ratio": 4.07,
+          "threshold": 4.5,
+          "fontPx": 12.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "계산식 보기",
+          "box": {
+            "x": 547,
+            "y": 15236.453125,
+            "w": 826,
+            "h": 21.25,
+            "right": 1373,
+            "bottom": 15257.703125,
+            "top": 15236.453125,
+            "vpBottom": 15257.703125
+          }
+        },
+        {
+          "sel": "span.cxw-rr-hook",
+          "ratio": 4.07,
+          "threshold": 4.5,
+          "fontPx": 12.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "도약계좌를 지킬지 미래적금으로 갈아탈지 — 질문 몇 개로 내 자리를 찾고",
+          "box": {
+            "x": 541,
+            "y": 28909.46875,
+            "w": 180,
+            "h": 38.75,
+            "right": 721,
+            "bottom": 28948.21875,
+            "top": 28909.46875,
+            "vpBottom": 28948.21875
+          }
+        },
+        {
+          "sel": "span.cxw-rr-b.cxw-rr-free",
+          "ratio": 3.79,
+          "threshold": 4.5,
+          "fontPx": 10.5,
+          "fg": [
+            94,
+            140,
+            127
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "🆓 무료",
+          "box": {
+            "x": 541,
+            "y": 28961.21875,
+            "w": 45.375,
+            "h": 17,
+            "right": 586.375,
+            "bottom": 28978.21875,
+            "top": 28961.21875,
+            "vpBottom": 28978.21875
+          }
+        },
+        {
+          "sel": "span.cx-em-ch",
+          "ratio": 4.07,
+          "threshold": 4.5,
+          "fontPx": 12.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "도약계좌를 지킬지 미래적금으로 갈아탈지 — 질문 몇 개로 내 자리를 찾고",
+          "box": {
+            "x": 550.84375,
+            "y": 29305.71875,
+            "w": 326.78125,
+            "h": 37.5,
+            "right": 877.625,
+            "bottom": 29343.21875,
+            "top": 29305.71875,
+            "vpBottom": 29343.21875
+          }
+        },
+        {
+          "sel": "span.cx-em-free",
+          "ratio": 3.31,
+          "threshold": 4.5,
+          "fontPx": 10.5,
+          "fg": [
+            94,
+            140,
+            127
+          ],
+          "bg": [
+            234,
+            241,
+            238
+          ],
+          "text": "🆓 무료",
+          "box": {
+            "x": 889.625,
+            "y": 29286.15625,
+            "w": 47.375,
+            "h": 23.84375,
+            "right": 937,
+            "bottom": 29310,
+            "top": 29286.15625,
+            "vpBottom": 29310
+          }
+        },
+        {
+          "sel": "div.cx-em-nav-h",
+          "ratio": 3.94,
+          "threshold": 4.5,
+          "fontPx": 11.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            253,
+            251,
+            247
+          ],
+          "text": "칼럼 이동",
+          "box": {
+            "x": 500,
+            "y": 30030,
+            "w": 920,
+            "h": 19.546875,
+            "right": 1420,
+            "bottom": 30049.546875,
+            "top": 30030,
+            "vpBottom": 30049.546875
+          }
+        },
+        {
+          "sel": "span.cx-pn-k",
+          "ratio": 4.07,
+          "threshold": 4.5,
+          "fontPx": 11.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "← 이전 칼럼",
+          "box": {
+            "x": 519,
+            "y": 30070.546875,
+            "w": 416,
+            "h": 19.546875,
+            "right": 935,
+            "bottom": 30090.09375,
+            "top": 30070.546875,
+            "vpBottom": 30090.09375
+          }
+        },
+        {
+          "sel": "div.cx-toc-h",
+          "ratio": 4.07,
+          "threshold": 4.5,
+          "fontPx": 11.5,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "목차",
+          "box": {
+            "x": 223,
+            "y": 117,
+            "w": 154,
+            "h": 19.546875,
+            "right": 377,
+            "bottom": 136.546875,
+            "top": 117,
+            "vpBottom": 136.546875
+          }
+        },
+        {
+          "sel": "div.bbft-note",
+          "ratio": 3.47,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            138,
+            123,
+            114
+          ],
+          "bg": [
+            243,
+            236,
+            223
+          ],
+          "text": "부부연구소는 누군가에게 의지하지 않는 안정적이며 효과적인 돈관리/재테크 ",
+          "box": {
+            "x": 440,
+            "y": 30298.875,
+            "w": 920,
+            "h": 58.3125,
+            "right": 1360,
+            "bottom": 30357.1875,
+            "top": 30298.875,
+            "vpBottom": 30357.1875
+          }
+        }
+      ],
+      "stickyCut": [],
+      "collapsed": [
+        {
+          "sel": "main",
+          "textLen": 1014,
+          "height": 0,
+          "width": 0,
+          "text": "FREE · PDF 3종 · 이메일만 입력 저희가 직접 쓰는 무료 PDF 3종,바로 받",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        }
+      ],
+      "viewport_name": "desktop",
+      "screenshot": "youth-savings__desktop.png",
+      "annotated": "youth-savings__desktop__annotated.png"
+    },
+    "mobile": {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      },
+      "page": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "docHeight": 2698
+      },
+      "headerBottom": 0,
+      "counts": {
+        "overlap": 0,
+        "overflow": 0,
+        "brokenImg": 0,
+        "lowContrast": 6,
+        "stickyCut": 0,
+        "collapsed": 145
+      },
+      "overlaps": [],
+      "overflow": {
+        "page": 0,
+        "elements": []
+      },
+      "brokenImg": [],
+      "lowContrast": [
+        {
+          "sel": "span",
+          "ratio": 2.85,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            153,
+            153,
+            153
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "PDF 4페이지",
+          "box": {
+            "x": 44,
+            "y": 626.625,
+            "w": 62.734375,
+            "h": 20.390625,
+            "right": 106.734375,
+            "bottom": 647.015625,
+            "top": 626.625,
+            "vpBottom": 647.015625
+          }
+        },
+        {
+          "sel": "span.free-card-tag.tag-bu",
+          "ratio": 3.25,
+          "threshold": 4.5,
+          "fontPx": 11,
+          "fg": [
+            234,
+            88,
+            12
+          ],
+          "bg": [
+            255,
+            243,
+            224
+          ],
+          "text": "돈 불리기",
+          "box": {
+            "x": 44,
+            "y": 1286.453125,
+            "w": 62.203125,
+            "h": 26.6875,
+            "right": 106.203125,
+            "bottom": 1313.140625,
+            "top": 1286.453125,
+            "vpBottom": 1313.140625
+          }
+        },
+        {
+          "sel": "button#freeBtn.free-btn-primary",
+          "ratio": 3.92,
+          "threshold": 4.5,
+          "fontPx": 16,
+          "fg": [
+            255,
+            255,
+            255
+          ],
+          "bg": [
+            180,
+            110,
+            100
+          ],
+          "text": "무료 PDF 3종 받기",
+          "box": {
+            "x": 40,
+            "y": 1826.546875,
+            "w": 310,
+            "h": 59.1875,
+            "right": 350,
+            "bottom": 1885.734375,
+            "top": 1826.546875,
+            "vpBottom": 1885.734375
+          }
+        },
+        {
+          "sel": "p.micro",
+          "ratio": 2.85,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            153,
+            153,
+            153
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "입력한 이메일로 즉시 발송돼요 · 스팸함도 확인해 주세요",
+          "box": {
+            "x": 40,
+            "y": 1897.734375,
+            "w": 310,
+            "h": 20.390625,
+            "right": 350,
+            "bottom": 1918.125,
+            "top": 1897.734375,
+            "vpBottom": 1918.125
+          }
+        },
+        {
+          "sel": "p",
+          "ratio": 2.85,
+          "threshold": 4.5,
+          "fontPx": 13,
+          "fg": [
+            153,
+            153,
+            153
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "동은부부가 2022년부터 직접 쓰고 검증한 자료예요.무료 PDF를 받으시",
+          "box": {
+            "x": 20,
+            "y": 2093.3125,
+            "w": 350,
+            "h": 66.28125,
+            "right": 370,
+            "bottom": 2159.59375,
+            "top": 2093.3125,
+            "vpBottom": 2159.59375
+          }
+        },
+        {
+          "sel": "a",
+          "ratio": 3.92,
+          "threshold": 4.5,
+          "fontPx": 12,
+          "fg": [
+            180,
+            110,
+            100
+          ],
+          "bg": [
+            255,
+            255,
+            255
+          ],
+          "text": "홈으로 돌아가기",
+          "box": {
+            "x": 189.8125,
+            "y": 2547.578125,
+            "w": 71.734375,
+            "h": 14,
+            "right": 261.546875,
+            "bottom": 2561.578125,
+            "top": 2547.578125,
+            "vpBottom": 2561.578125
+          }
+        }
+      ],
+      "stickyCut": [],
+      "collapsed": [
+        {
+          "sel": "main",
+          "textLen": 54852,
+          "height": 0,
+          "width": 0,
+          "text": "매일 아침 7시·저녁 6시, 그날의 재테크 이슈와 데이터를 정리해드려요. 오늘의 머니레",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "section#cxReader.cx-reader.cx-has-rrail",
+          "textLen": 39048,
+          "height": 0,
+          "width": 0,
+          "text": "← 칼럼 전체📖 약 18분 · 전문 무료 공개 칼럼 No.14· 청년적금🆓 무료청년",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "div#cxRdBody.cx-rd-body",
+          "textLen": 37985,
+          "height": 0,
+          "width": 0,
+          "text": "정확한 자격·금액은 fill4young.kinfa.or.kr에서 확인해요 지난겨울, 큰",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 154,
+          "height": 0,
+          "width": 0,
+          "text": "새해엔 청년도약계좌 하나 시작해보자, 미뤄둔 숙제 같던 걸 드디어 하려던 참이었죠. 그",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 200,
+          "height": 0,
+          "width": 0,
+          "text": "후속 상품이 나온다는데, 그게 청년미래적금이고 출시는 2026년 6월 22일이라고만 적",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 169,
+          "height": 0,
+          "width": 0,
+          "text": "반년이면 짧다면 짧지만, 이제 막 목돈을 모아보자 마음먹은 분에게는 김이 확 새는 시간",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 177,
+          "height": 0,
+          "width": 0,
+          "text": "새 상품이 생겼다고 기존 계좌가 나빠지는 게 아니라, 각자의 만기를 향해 그냥 계속 굴",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 207,
+          "height": 0,
+          "width": 0,
+          "text": "먼저 청년미래적금을 새로 신청해 심사를 통과하고, 계좌를 연 다음, 그러고 나서야 기존",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 161,
+          "height": 0,
+          "width": 0,
+          "text": "버튼 하나 누르는 순서가 몇 년 치 혜택을 가르는 셈이거든요. 그래서 이건 손이 먼저 ",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "section#cx-ch-1.cx-ch",
+          "textLen": 6085,
+          "height": 0,
+          "width": 0,
+          "text": "낯선 단어 몇 개의 뜻만 잡으면 나머지가 쉬워져요 앞 이야기를 읽는 동안 적금이며 기여",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 227,
+          "height": 0,
+          "width": 0,
+          "text": "앞 이야기를 읽는 동안 적금이며 기여금이며 낯선 말이 제법 스쳐 지나갔을 텐데요. 본론",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 237,
+          "height": 0,
+          "width": 0,
+          "text": "적금은 매달 정해진 돈을 꾸준히 넣어, 만기가 되면 그동안 부은 원금과 이자를 함께 돌",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 264,
+          "height": 0,
+          "width": 0,
+          "text": "이 상품은 만기가 3년이니, 3년 동안 부은 원금 위에 이자와 기여금이 얹혀 만기에 한",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 281,
+          "height": 0,
+          "width": 0,
+          "text": "참, 이 글에서 '청년'이라고 하면 대체로 만 19세에서 34세 사이를 가리켜요. 나이",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 241,
+          "height": 0,
+          "width": 0,
+          "text": "금리가 연 5%라면 1년을 맡길 때 원금의 5%만큼 이자가 붙는다는 뜻이니, 이 숫자가",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 284,
+          "height": 0,
+          "width": 0,
+          "text": "이자가 붙는 방식은 크게 두 갈래로 나뉘는데, 여기가 은근히 헷갈리는 대목이에요. 하나",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 273,
+          "height": 0,
+          "width": 0,
+          "text": "복리는 오를수록 계단 높이가 조금씩 높아지는 것과 비슷해서, 짧은 기간엔 둘의 차이가 ",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 269,
+          "height": 0,
+          "width": 0,
+          "text": "보통 이자의 15.4%가 자동으로 빠져나가는데, 힘들게 불린 이자에서 적잖은 몫이 세금",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 184,
+          "height": 0,
+          "width": 0,
+          "text": "숫자로 옮겨보면 더 또렷해져요. 이자로 100만원이 생겼다면 보통은 15만 4천원을 세",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 220,
+          "height": 0,
+          "width": 0,
+          "text": "그 대신 은행 이자만으로는 닿기 어려운 정부기여금과 비과세를 얹어주는 거라, 잠깐의 불",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 221,
+          "height": 0,
+          "width": 0,
+          "text": "그래서 얼마를 넣느냐만큼이나 끝까지 지킬 수 있느냐가 중요한 상품이에요. 이 상품의 진",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 222,
+          "height": 0,
+          "width": 0,
+          "text": "기여금은 내가 넣는 만큼 비례해서 얹어주는 '매칭' 방식이라, 많이 넣을수록 얹히는 돈",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 256,
+          "height": 0,
+          "width": 0,
+          "text": "직장에 다니는 분은 한 해 받은 월급을 합친 '총급여'로 보고, 사업이나 프리랜서로 버",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 193,
+          "height": 0,
+          "width": 0,
+          "text": "앞 세대 상품을 손봐 다음 상품이 나오는 식으로, 이름을 바꿔가며 계보가 이어졌거든요.",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        },
+        {
+          "sel": "p.cx-rd-p",
+          "textLen": 179,
+          "height": 0,
+          "width": 0,
+          "text": "도약계좌는 2025년 12월 말로 새 가입을 닫았어요. 그로부터 반년 남짓 지난 202",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "right": 0,
+            "bottom": 0,
+            "top": 0,
+            "vpBottom": 0
+          }
+        }
+      ],
+      "viewport_name": "mobile",
+      "screenshot": "youth-savings__mobile.png",
+      "annotated": "youth-savings__mobile__annotated.png"
+    }
+  },
+  "total": {
+    "overlap": 7,
+    "overflow": 0,
+    "brokenImg": 0,
+    "lowContrast": 22,
+    "stickyCut": 0,
+    "collapsed": 146
+  }
+}
