@@ -1,68 +1,68 @@
 {
- "updated": "2026-07-19T17:03:32",
+ "updated": "2026-07-21T12:39:23",
  "note": "머니레터 기간전환 차트용 시계열(공개소스 실 일별종가; 창작·보간 없음)",
  "symbols": [
   {
    "symbol": "BTC",
    "file": "BTC.json",
-   "bytes": 9325,
-   "points": 374,
+   "bytes": 9348,
+   "points": 375,
    "start": "2025-07-10",
-   "end": "2026-07-19",
+   "end": "2026-07-21",
    "source": "coingecko(market_chart 365d daily)"
   },
   {
    "symbol": "KOSDAQ",
    "file": "KOSDAQ.json",
-   "bytes": 2914,
-   "points": 115,
+   "bytes": 2935,
+   "points": 116,
    "start": "2026-01-27",
-   "end": "2026-07-16",
+   "end": "2026-07-21",
    "source": "naver(m.stock domestic dayCandle)"
   },
   {
    "symbol": "KOSPI",
    "file": "KOSPI.json",
-   "bytes": 2934,
-   "points": 115,
+   "bytes": 2956,
+   "points": 116,
    "start": "2026-01-27",
-   "end": "2026-07-16",
+   "end": "2026-07-21",
    "source": "naver(m.stock domestic dayCandle)"
   },
   {
    "symbol": "NASDAQ",
    "file": "NASDAQ.json",
-   "bytes": 3078,
-   "points": 116,
+   "bytes": 3102,
+   "points": 117,
    "start": "2026-01-29",
-   "end": "2026-07-17",
+   "end": "2026-07-20",
    "source": "naver(api.stock foreign .IXIC dayCandle)"
   },
   {
    "symbol": "SP500",
    "file": "SP500.json",
-   "bytes": 2960,
-   "points": 116,
+   "bytes": 2983,
+   "points": 117,
    "start": "2026-01-29",
-   "end": "2026-07-17",
+   "end": "2026-07-20",
    "source": "naver(api.stock foreign .INX dayCandle)"
   },
   {
    "symbol": "USDKRW",
    "file": "USDKRW.json",
-   "bytes": 29676,
-   "points": 1286,
+   "bytes": 29699,
+   "points": 1287,
    "start": "2021-07-09",
-   "end": "2026-07-17",
+   "end": "2026-07-20",
    "source": "frankfurter(ECB timeseries)"
   },
   {
    "symbol": "VIX",
    "file": "VIX.json",
-   "bytes": 2731,
-   "points": 116,
+   "bytes": 2752,
+   "points": 117,
    "start": "2026-02-05",
-   "end": "2026-07-17",
+   "end": "2026-07-20",
    "source": "naver(api.stock foreign .VIX dayCandle)"
   }
  ]
