@@ -28,5 +28,11 @@
     "edition": "pulse",
     "title": "SOX 지수 -2.08%",
     "source": "fetch_facts"
+  },
+  {
+    "ts": "2026-07-23T06:54:26+09:00",
+    "edition": "pulse",
+    "title": "SOX 반도체 지수 +5.21%",
+    "source": "fetch_facts"
   }
 ]
