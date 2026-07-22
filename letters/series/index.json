@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-22T10:37:09",
+ "updated": "2026-07-22T17:02:48",
  "note": "머니레터 기간전환 차트용 시계열(공개소스 실 일별종가; 창작·보간 없음)",
  "symbols": [
   {
@@ -23,7 +23,7 @@
   {
    "symbol": "KOSPI",
    "file": "KOSPI.json",
-   "bytes": 2980,
+   "bytes": 2979,
    "points": 117,
    "start": "2026-01-27",
    "end": "2026-07-22",
@@ -59,10 +59,10 @@
   {
    "symbol": "VIX",
    "file": "VIX.json",
-   "bytes": 2773,
-   "points": 118,
+   "bytes": 2794,
+   "points": 119,
    "start": "2026-02-05",
-   "end": "2026-07-21",
+   "end": "2026-07-22",
    "source": "naver(api.stock foreign .VIX dayCandle)"
   }
  ]
